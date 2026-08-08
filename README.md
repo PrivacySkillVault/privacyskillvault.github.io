@@ -1,2 +1,1 @@
-# psv-main
-Privacy Skill Vault - Main Website
+Main website landing portal for Privacy Skill Vault (Astro Framework).
