@@ -1,0 +1,947 @@
+/* ==========================================================================
+   PRIVACY SKILL VAULT — DESIGN SYSTEM MASTER STYLESHEET
+   Platform Reference Implementation: learn-vault
+   Visual Direction: Hybrid (Technical Documentation + Cyber Operations)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. PSV DESIGN TOKENS (CSS Custom Properties)
+   ========================================================================== */
+
+:root {
+  /* Typography Stacks (Privacy-First: Zero External Font Calls) */
+  --psv-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --psv-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  /* Spacing Scale */
+  --psv-space-1: 4px;
+  --psv-space-2: 8px;
+  --psv-space-3: 12px;
+  --psv-space-4: 16px;
+  --psv-space-6: 24px;
+  --psv-space-8: 32px;
+  --psv-space-12: 48px;
+  --psv-space-16: 64px;
+
+  /* Radii & Transitions */
+  --psv-radius-sm: 4px;
+  --psv-radius-md: 8px;
+  --psv-radius-lg: 12px;
+  --psv-transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+
+  /* Semantic Tokens (Shared) */
+  --psv-success: #059669;
+  --psv-warning: #D97706;
+  --psv-danger:  #DC2626;
+  --psv-info:    #2563EB;
+}
+
+/* --------------------------------------------------------------------------
+   Theme: Light Mode
+   -------------------------------------------------------------------------- */
+[data-md-color-scheme="default"] {
+  --psv-bg:               #F7F9FC;
+  --psv-surface:          #FFFFFF;
+  --psv-surface-elevated: #F0F4F9;
+  --psv-border:           #D9E1EC;
+  --psv-text:             #0F172A;
+  --psv-text-muted:       #5B667A;
+  --psv-primary:          #1D4ED8;
+  --psv-primary-hover:    #1E40AF;
+  --psv-accent:           #0891B2;
+  --psv-accent-subtle:    rgba(8, 145, 178, 0.08);
+  --psv-code-bg:          #EDF2F7;
+  --psv-code-text:        #0F172A;
+  --psv-shadow:           0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --psv-shadow-elevated:  0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+
+  /* Material Core Overrides */
+  --md-default-bg-color:          var(--psv-bg);
+  --md-default-fg-color:          var(--psv-text);
+  --md-default-fg-color--light:   var(--psv-text-muted);
+  --md-default-fg-color--lighter: rgba(91, 102, 122, 0.6);
+  --md-primary-fg-color:          var(--psv-surface);
+  --md-primary-bg-color:          var(--psv-text);
+  --md-accent-fg-color:           var(--psv-primary);
+  --md-typeset-color:             var(--psv-text);
+  --md-typeset-a-color:           var(--psv-primary);
+
+  /* Code Blocks */
+  --md-code-bg-color:             var(--psv-code-bg);
+  --md-code-fg-color:             var(--psv-code-text);
+
+  /* Admonitions */
+  --psv-admonition-bg:            var(--psv-surface);
+  --psv-admonition-border:        var(--psv-border);
+}
+
+/* --------------------------------------------------------------------------
+   Theme: Dark Mode (Primary PSV Identity: Deep Navy + Electric Blue + Cyan)
+   -------------------------------------------------------------------------- */
+[data-md-color-scheme="slate"] {
+  --psv-bg:               #070B14;
+  --psv-surface:          #0B1220;
+  --psv-surface-elevated: #111A2B;
+  --psv-border:           #1B263A;
+  --psv-text:             #E8EEF8;
+  --psv-text-muted:       #9AA8BC;
+  --psv-primary:          #3B82F6;
+  --psv-primary-hover:    #60A5FA;
+  --psv-accent:           #22D3EE;
+  --psv-accent-subtle:    rgba(34, 211, 238, 0.08);
+  --psv-code-bg:          #080E1A;
+  --psv-code-text:        #E2E8F0;
+  --psv-shadow:           0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.2);
+  --psv-shadow-elevated:  0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+
+  /* Semantic Dark Overrides */
+  --psv-success:          #34D399;
+  --psv-warning:          #F59E0B;
+  --psv-danger:           #F87171;
+  --psv-info:             #60A5FA;
+
+  /* Material Core Overrides */
+  --md-default-bg-color:          var(--psv-bg);
+  --md-default-fg-color:          var(--psv-text);
+  --md-default-fg-color--light:   var(--psv-text-muted);
+  --md-default-fg-color--lighter: rgba(154, 168, 188, 0.4);
+  --md-primary-fg-color:          var(--psv-surface);
+  --md-primary-bg-color:          var(--psv-text);
+  --md-accent-fg-color:           var(--psv-accent);
+  --md-typeset-color:             var(--psv-text);
+  --md-typeset-a-color:           var(--psv-primary);
+
+  /* Code Blocks */
+  --md-code-bg-color:             var(--psv-code-bg);
+  --md-code-fg-color:             var(--psv-code-text);
+
+  /* Admonitions */
+  --psv-admonition-bg:            var(--psv-surface);
+  --psv-admonition-border:        var(--psv-border);
+}
+
+/* ==========================================================================
+   2. TYPOGRAPHY & BASE STYLES
+   ========================================================================== */
+
+body, input {
+  font-family: var(--psv-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, kbd, pre {
+  font-family: var(--psv-font-mono) !important;
+}
+
+/* Retain Material's default body font size; enforce readable line spacing */
+.md-typeset {
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  color: var(--psv-text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: var(--psv-space-6);
+}
+
+.md-typeset h2 {
+  color: var(--psv-text);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin-top: var(--psv-space-8);
+  margin-bottom: var(--psv-space-4);
+  border-bottom: 1px solid var(--psv-border);
+  padding-bottom: var(--psv-space-2);
+}
+
+.md-typeset h3 {
+  color: var(--psv-text);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin-top: var(--psv-space-6);
+  margin-bottom: var(--psv-space-2);
+}
+
+.md-typeset h4 {
+  color: var(--psv-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: var(--psv-space-4);
+  margin-bottom: var(--psv-space-2);
+}
+
+.md-typeset p,
+.md-typeset ul,
+.md-typeset ol {
+  margin-bottom: var(--psv-space-4);
+}
+
+.md-typeset hr {
+  border-bottom: 1px solid var(--psv-border);
+  margin: var(--psv-space-8) 0;
+}
+
+/* ==========================================================================
+   3. HEADER, TABS & NAVIGATION
+   ========================================================================== */
+
+/* Main Header */
+.md-header {
+  background-color: var(--psv-surface) !important;
+  color: var(--psv-text) !important;
+  border-bottom: 1px solid var(--psv-border);
+  box-shadow: none;
+}
+
+.md-header__topic {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--psv-text) !important;
+}
+
+.md-header__button {
+  color: var(--psv-text-muted) !important;
+  transition: var(--psv-transition);
+}
+
+.md-header__button:hover {
+  color: var(--psv-accent) !important;
+}
+
+/* Navigation Tabs (Top Horizontal Bar) */
+.md-tabs {
+  background-color: var(--psv-surface) !important;
+  border-bottom: 1px solid var(--psv-border);
+}
+
+.md-tabs__link {
+  color: var(--psv-text-muted) !important;
+  font-weight: 500;
+  opacity: 1 !important;
+  transition: var(--psv-transition);
+}
+
+.md-tabs__link:hover {
+  color: var(--psv-accent) !important;
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: var(--psv-primary) !important;
+  font-weight: 600;
+  border-bottom: 2px solid var(--psv-primary);
+}
+
+/* Sidebar Navigation */
+.md-sidebar--primary {
+  background-color: var(--psv-bg);
+}
+
+.md-nav__title {
+  color: var(--psv-text) !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.md-nav__link {
+  color: var(--psv-text-muted);
+  transition: var(--psv-transition);
+  border-radius: var(--psv-radius-sm);
+  padding: var(--psv-space-1) var(--psv-space-2);
+}
+
+.md-nav__link:hover {
+  color: var(--psv-accent);
+  background-color: var(--psv-accent-subtle);
+}
+
+.md-nav__item--active > .md-nav__link {
+  color: var(--psv-primary) !important;
+  font-weight: 600;
+  background-color: var(--psv-surface-elevated);
+}
+
+/* Table of Contents (Right Sidebar) */
+.md-sidebar--secondary .md-nav__link--active {
+  color: var(--psv-primary) !important;
+  border-left: 2px solid var(--psv-primary);
+  padding-left: var(--psv-space-2);
+}
+
+/* ==========================================================================
+   4. LINKS & BUTTONS
+   ========================================================================== */
+
+.md-typeset a {
+  color: var(--psv-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--psv-transition);
+}
+
+.md-typeset a:hover {
+  color: var(--psv-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Material Button Overrides */
+.md-typeset .md-button {
+  font-weight: 600;
+  border-radius: var(--psv-radius-md);
+  padding: 0.5em 1.25em;
+  transition: var(--psv-transition);
+  border: 1px solid var(--psv-border);
+}
+
+.md-typeset .md-button--primary {
+  background-color: var(--psv-primary);
+  color: #FFFFFF !important;
+  border-color: var(--psv-primary);
+}
+
+.md-typeset .md-button--primary:hover {
+  background-color: var(--psv-primary-hover);
+  border-color: var(--psv-primary-hover);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.25);
+}
+
+.md-typeset .md-button:not(.md-button--primary) {
+  background-color: var(--psv-surface);
+  color: var(--psv-text);
+}
+
+.md-typeset .md-button:not(.md-button--primary):hover {
+  border-color: var(--psv-accent);
+  color: var(--psv-accent);
+  background-color: var(--psv-surface-elevated);
+}
+
+/* ==========================================================================
+   5. SEARCH
+   ========================================================================== */
+
+.md-search__inner {
+  background-color: var(--psv-surface-elevated);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-md);
+}
+
+.md-search__form {
+  background-color: transparent;
+}
+
+.md-search__input {
+  color: var(--psv-text) !important;
+}
+
+.md-search__input::placeholder {
+  color: var(--psv-text-muted);
+}
+
+.md-search-result__meta {
+  background-color: var(--psv-surface-elevated);
+  color: var(--psv-text-muted);
+  border-bottom: 1px solid var(--psv-border);
+}
+
+.md-search-result__item {
+  border-bottom: 1px solid var(--psv-border);
+}
+
+.md-search-result__link:hover,
+.md-search-result__link:focus {
+  background-color: var(--psv-accent-subtle);
+}
+
+/* ==========================================================================
+   6. CODE BLOCKS & INLINE CODE
+   ========================================================================== */
+
+/* Inline code chips */
+.md-typeset code {
+  background-color: var(--psv-code-bg);
+  color: var(--psv-code-text);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-sm);
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  font-weight: 500;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Fenced code block wrapper */
+.md-typeset pre > code {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  line-height: 1.6;
+}
+
+.highlighttable,
+.highlight {
+  background-color: var(--psv-code-bg);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-md);
+  margin-bottom: var(--psv-space-4);
+  box-shadow: var(--psv-shadow);
+}
+
+.md-clipboard {
+  color: var(--psv-text-muted);
+  transition: var(--psv-transition);
+}
+
+.md-clipboard:hover {
+  color: var(--psv-accent);
+}
+
+/* ==========================================================================
+   7. ADMONITIONS (Material Selectors + Custom Security Admonition)
+   ========================================================================== */
+
+.md-typeset .admonition,
+.md-typeset details {
+  background-color: var(--psv-admonition-bg);
+  border: 1px solid var(--psv-admonition-border);
+  border-left: 4px solid var(--psv-border);
+  border-radius: var(--psv-radius-md);
+  box-shadow: var(--psv-shadow);
+  margin-bottom: var(--psv-space-4);
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-bottom: 1px solid transparent;
+  padding: var(--psv-space-2) var(--psv-space-3);
+}
+
+/* Note */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-left-color: var(--psv-text-muted);
+}
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset details.note > summary {
+  background-color: rgba(91, 102, 122, 0.06);
+}
+
+/* Info (Blue) */
+.md-typeset .admonition.info,
+.md-typeset details.info {
+  border-left-color: var(--psv-info);
+}
+.md-typeset .admonition.info > .admonition-title,
+.md-typeset details.info > summary {
+  background-color: rgba(37, 99, 235, 0.08);
+}
+
+/* Tip / Success (Green) */
+.md-typeset .admonition.tip,
+.md-typeset details.tip,
+.md-typeset .admonition.success,
+.md-typeset details.success {
+  border-left-color: var(--psv-success);
+}
+.md-typeset .admonition.tip > .admonition-title,
+.md-typeset details.tip > summary,
+.md-typeset .admonition.success > .admonition-title,
+.md-typeset details.success > summary {
+  background-color: rgba(5, 150, 105, 0.08);
+}
+
+/* Warning (Amber) */
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-left-color: var(--psv-warning);
+}
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset details.warning > summary {
+  background-color: rgba(217, 119, 6, 0.08);
+}
+
+/* Danger (Red) */
+.md-typeset .admonition.danger,
+.md-typeset details.danger {
+  border-left-color: var(--psv-danger);
+}
+.md-typeset .admonition.danger > .admonition-title,
+.md-typeset details.danger > summary {
+  background-color: rgba(220, 38, 38, 0.08);
+}
+
+/* Custom Security Directive (Cyan Accent) */
+.md-typeset .admonition.security,
+.md-typeset details.security {
+  border-left-color: var(--psv-accent);
+}
+.md-typeset .admonition.security > .admonition-title,
+.md-typeset details.security > summary {
+  background-color: var(--psv-accent-subtle);
+  color: var(--psv-accent);
+}
+
+/* ==========================================================================
+   8. TABLES
+   ========================================================================== */
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-md);
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: var(--psv-space-6);
+  background-color: var(--psv-surface);
+  box-shadow: var(--psv-shadow);
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--psv-surface-elevated);
+  color: var(--psv-text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--psv-border);
+  padding: var(--psv-space-2) var(--psv-space-3);
+  text-align: left;
+}
+
+.md-typeset table:not([class]) td {
+  border-bottom: 1px solid var(--psv-border);
+  padding: var(--psv-space-2) var(--psv-space-3);
+}
+
+.md-typeset table:not([class]) tr:last-child td {
+  border-bottom: none;
+}
+
+.md-typeset table:not([class]) tbody tr:hover {
+  background-color: var(--psv-surface-elevated);
+}
+
+/* ==========================================================================
+   9. CARD PRIMITIVES
+   ========================================================================== */
+
+.psv-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--psv-space-4);
+  margin: var(--psv-space-6) 0;
+}
+
+.psv-card {
+  background-color: var(--psv-surface);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-lg);
+  padding: var(--psv-space-6);
+  box-shadow: var(--psv-shadow);
+  transition: var(--psv-transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.psv-card:hover {
+  border-color: var(--psv-accent);
+  box-shadow: var(--psv-shadow-elevated);
+  transform: translateY(-1px);
+}
+
+.psv-card__title {
+  font-weight: 600;
+  color: var(--psv-text);
+  margin-top: 0;
+  margin-bottom: var(--psv-space-2);
+}
+
+.psv-card__body {
+  color: var(--psv-text-muted);
+  flex-grow: 1;
+  margin-bottom: var(--psv-space-4);
+  line-height: 1.6;
+}
+
+.psv-card__meta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--psv-accent);
+}
+
+/* ==========================================================================
+   10. FOCUS STATES & ACCESSIBILITY
+   ========================================================================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.md-nav__link:focus-visible,
+.md-button:focus-visible {
+  outline: 2px solid var(--psv-accent) !important;
+  outline-offset: 2px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .psv-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   11. RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media screen and (max-width: 76.1875em) {
+  .md-nav--primary .md-nav__title {
+    background-color: var(--psv-surface);
+    color: var(--psv-text) !important;
+  }
+}
+
+@media screen and (max-width: 45em) {
+  .psv-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   12. PHASE 5B REFINEMENT: GLOBAL HEADER, NAVIGATION & SIDEBAR SUPPRESSION
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Sidebar Removal & Canvas Centering
+   -------------------------------------------------------------------------- */
+/* Hide Left Sidebar Drawer and Right Table-of-Contents Sidebar */
+.md-sidebar--primary,
+.md-sidebar--secondary {
+  display: none !important;
+  width: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Re-center documentation body within clean readable constraints */
+.md-main__inner {
+  margin: 0 auto !important;
+  max-width: 960px !important;
+  padding: var(--psv-space-6) var(--psv-space-4) !important;
+}
+
+.md-content {
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* --------------------------------------------------------------------------
+   Header Customization & Search Removal
+   -------------------------------------------------------------------------- */
+/* Suppress visible search container and repo link from the global header */
+.md-search,
+.md-header__source {
+  display: none !important;
+}
+
+/* Header Container Layout */
+.md-header__inner {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 var(--psv-space-4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* Brand Display: Logo + Site Name strictly "Privacy Skill Vault" */
+.md-header__button.md-logo {
+  margin-right: var(--psv-space-2) !important;
+  padding: 0 !important;
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 28px !important;
+  width: 28px !important;
+}
+
+.md-header__topic:first-child {
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  letter-spacing: -0.015em !important;
+  color: var(--psv-text) !important;
+}
+
+/* Hide secondary topic trail (e.g. "Privacy Skill Vault — Learn") */
+.md-header__topic + .md-header__topic {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Top Navigation Tabs (Desktop Header Menu Integration)
+   -------------------------------------------------------------------------- */
+.md-tabs {
+  background-color: transparent !important;
+  border-bottom: none !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.md-tabs__list {
+  display: flex !important;
+  gap: var(--psv-space-2) !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.md-tabs__item {
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.md-tabs__link {
+  font-family: var(--psv-font-sans) !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  color: var(--psv-text-muted) !important;
+  padding: var(--psv-space-1) var(--psv-space-3) !important;
+  border-radius: var(--psv-radius-sm) !important;
+  border-bottom: none !important;
+  opacity: 1 !important;
+  transition: var(--psv-transition) !important;
+}
+
+.md-tabs__link:hover {
+  color: var(--psv-accent) !important;
+  background-color: var(--psv-accent-subtle) !important;
+}
+
+/* Active Menu Item State */
+.md-tabs__item--active .md-tabs__link {
+  color: var(--psv-primary) !important;
+  font-weight: 600 !important;
+  background-color: var(--psv-surface-elevated) !important;
+  border: 1px solid var(--psv-border) !important;
+}
+
+/* Theme Toggle Positioning */
+.md-header__option {
+  margin-left: var(--psv-space-3) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile & Tablet Responsive Adaptations
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 76.1875em) {
+  /* On mobile/tablet, wrap tabs cleanly below header brand without clipping */
+  .md-tabs {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    background-color: var(--psv-surface) !important;
+    border-bottom: 1px solid var(--psv-border) !important;
+    padding: var(--psv-space-2) var(--psv-space-4) !important;
+  }
+
+  .md-tabs__list {
+    justify-content: flex-start !important;
+  }
+
+  .md-header__topic:first-child {
+    font-size: 0.95rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   12. PHASE 5B: GLOBAL BRANDING, HEADER & SIDEBAR REMOVAL
+   ========================================================================== */
+
+.md-sidebar--primary,
+.md-sidebar--secondary {
+  display: none !important;
+  width: 0 !important;
+  visibility: hidden !important;
+}
+
+.md-main__inner {
+  margin: 0 auto !important;
+  max-width: 960px !important;
+  padding: var(--psv-space-8) var(--psv-space-4) !important;
+}
+
+.md-content {
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.md-tabs {
+  display: none !important;
+}
+
+.md-header {
+  background-color: var(--psv-surface) !important;
+  border-bottom: 1px solid var(--psv-border);
+  box-shadow: none !important;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.md-header__inner {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 var(--psv-space-4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 64px;
+}
+
+.md-header__button.md-logo {
+  margin-right: var(--psv-space-2) !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+.md-header__button.md-logo img {
+  height: 32px !important;
+  width: auto !important;
+  max-width: 160px;
+  object-fit: contain;
+}
+
+.psv-brand-title {
+  font-family: var(--psv-font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--psv-text);
+  white-space: nowrap;
+}
+
+.md-header__title {
+  margin-left: 0 !important;
+}
+
+.md-header__topic {
+  display: none !important;
+}
+
+.psv-global-nav {
+  margin-left: auto;
+  margin-right: var(--psv-space-4);
+}
+
+.psv-global-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--psv-space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.psv-global-nav__item {
+  display: flex;
+  align-items: center;
+}
+
+.psv-global-nav__link {
+  font-family: var(--psv-font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--psv-primary);
+  padding: var(--psv-space-1) var(--psv-space-3);
+  border-radius: var(--psv-radius-sm);
+  text-decoration: none !important;
+  transition: var(--psv-transition);
+  white-space: nowrap;
+}
+
+.psv-global-nav__link:hover {
+  color: var(--psv-accent);
+  background-color: transparent;
+}
+
+.psv-global-nav__link--active {
+  color: var(--psv-primary) !important;
+  font-weight: 600;
+}
+
+.psv-mobile-menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--psv-text);
+  cursor: pointer;
+  padding: var(--psv-space-2);
+  border-radius: var(--psv-radius-sm);
+}
+
+.psv-mobile-menu-toggle:focus-visible {
+  outline: 2px solid var(--psv-accent) !important;
+  outline-offset: 2px !important;
+}
+
+@media screen and (max-width: 860px) {
+  .psv-mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    margin-left: var(--psv-space-2);
+  }
+
+  .psv-global-nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background-color: var(--psv-surface);
+    border-bottom: 1px solid var(--psv-border);
+    padding: var(--psv-space-4);
+    box-shadow: var(--psv-shadow-elevated);
+  }
+
+  .psv-global-nav--open {
+    display: block;
+  }
+
+  .psv-global-nav__list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--psv-space-2);
+  }
+
+  .psv-global-nav__link {
+    display: block;
+    width: 100%;
+    padding: var(--psv-space-2) var(--psv-space-3);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Footer Suppression (Phase 5B Refinement)
+   -------------------------------------------------------------------------- */
+/* Suppress Material footer bar and attribution */
+.md-footer {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
