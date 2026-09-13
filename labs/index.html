@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Cybersecurity and Privacy Documentation">
+        <meta name="description" content="Defensive Operations, Threat Analysis & Security Testing">
       
       
         <meta name="author" content="Privacy Skill Vault">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#labs" class="md-skip">
+        <a href="#virtual-security-lab-architecture-complete-setup-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -94,14 +94,19 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="header.title">
+
+    <!-- Left: Brand Logo & Title -->
     <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
       <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault Logo">
     </a>
+
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <span class="psv-brand-title">Privacy Skill Vault</span>
       </div>
     </div>
+
+    <!-- Right: Static Six-Page Global Navigation -->
     <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
       <ul class="psv-global-nav__list">
         <li class="psv-global-nav__item">
@@ -124,6 +129,8 @@
         </li>
       </ul>
     </nav>
+
+    <!-- Native Theme Switch -->
     
       
         <form class="md-header__option" data-md-component="palette">
@@ -151,6 +158,8 @@
 </form>
       
     
+
+    <!-- Accessible Mobile Navigation Toggle -->
     <button
       type="button"
       class="psv-mobile-menu-toggle"
@@ -177,6 +186,7 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
+
   </nav>
 </header>
     
@@ -281,6 +291,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -297,6 +325,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab-network-architecture-subnet-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Network Architecture &amp; Subnet Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-lab-setup-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step by Step Lab Setup Guide
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-stack-key-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Stack &amp; Key Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downloadable-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Downloadable Configurations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-your-own-cybersecurity-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Your Own Cybersecurity Lab
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -403,6 +505,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab-network-architecture-subnet-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Network Architecture &amp; Subnet Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-by-step-lab-setup-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step by Step Lab Setup Guide
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-stack-key-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab Stack &amp; Key Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downloadable-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Downloadable Configurations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-your-own-cybersecurity-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Your Own Cybersecurity Lab
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -418,8 +583,210 @@
 
 
 
-<h1 id="labs">Labs<a class="headerlink" href="#labs" title="Permanent link">&para;</a></h1>
-<p>Labs Vault</p>
+<h1 id="virtual-security-lab-architecture-complete-setup-guide">Virtual Security Lab Architecture &amp; Complete Setup Guide<a class="headerlink" href="#virtual-security-lab-architecture-complete-setup-guide" title="Permanent link">&para;</a></h1>
+<p>A comprehensive, ground-up guide to building an isolated, dual-purpose SOC (Defensive) and Pentesting (Offensive) lab environment. From hypervisor deployment to telemetry pipelines and target node configurations.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--psv-space-4); margin-bottom: var(--psv-space-8);">
+  <div class="psv-card">
+    <strong style="color: var(--psv-text); display: block;">Hands-on Lab</strong>
+    <span style="color: var(--psv-text-muted); font-size: 0.75rem;">Real-world simulations</span>
+  </div>
+  <div class="psv-card">
+    <strong style="color: var(--psv-text); display: block;">SOC + Pentest</strong>
+    <span style="color: var(--psv-text-muted); font-size: 0.75rem;">Dual purpose environment</span>
+  </div>
+  <div class="psv-card">
+    <strong style="color: var(--psv-text); display: block;">End-to-end Guide</strong>
+    <span style="color: var(--psv-text-muted); font-size: 0.75rem;">From setup to detection</span>
+  </div>
+  <div class="psv-card">
+    <strong style="color: var(--psv-text); display: block;">Fully Isolated</strong>
+    <span style="color: var(--psv-text-muted); font-size: 0.75rem;">Safe &amp; controlled testing</span>
+  </div>
+</div>
+
+<hr />
+<h2 id="lab-network-architecture-subnet-mapping">Lab Network Architecture &amp; Subnet Mapping<a class="headerlink" href="#lab-network-architecture-subnet-mapping" title="Permanent link">&para;</a></h2>
+<p>Multi-segmented, isolated environment for safe offensive testing and defensive monitoring.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--psv-space-6); align-items: start; margin-bottom: var(--psv-space-8);">
+
+  <div class="psv-card">
+    <h3 style="font-size: 1rem; margin-top: 0; margin-bottom: var(--psv-space-2);">Lab Network Architecture</h3>
+    <p style="font-size: 0.75rem; color: var(--psv-text-muted); margin-bottom: var(--psv-space-4);">Multi-segmented, isolated environment for safe offensive testing and defensive monitoring.</p>
+
+    <div style="background: #050C21; padding: 1rem; border-radius: var(--psv-radius-md); border: 1px solid var(--psv-border); overflow-x: auto;">
+      <svg viewBox="0 0 500 220" style="width: 100%; min-width: 400px; height: auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <rect x="200" y="15" width="100" height="32" rx="5" fill="#0B1736" stroke="#38BDF8" stroke-width="1.5"/>
+        <text x="250" y="35" fill="#FFFFFF" text-anchor="middle" font-size="10" font-weight="bold">pfSense Router</text>
+
+        <line x1="250" y1="47" x2="90" y2="105" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3"/>
+        <line x1="250" y1="47" x2="250" y2="105" stroke="#10B981" stroke-width="1.5"/>
+        <line x1="250" y1="47" x2="410" y2="105" stroke="#EF4444" stroke-width="1.5"/>
+
+        <rect x="20" y="105" width="140" height="70" rx="5" fill="#050C21" stroke="#38BDF8" stroke-width="1"/>
+        <text x="90" y="125" fill="#38BDF8" text-anchor="middle" font-size="10" font-weight="bold">SOC Segment</text>
+        <text x="90" y="145" fill="#94A3B8" text-anchor="middle" font-size="9">10.0.20.0/24</text>
+        <text x="90" y="160" fill="#64748B" text-anchor="middle" font-size="8">SIEM / Suricata IDS</text>
+
+        <rect x="180" y="105" width="140" height="70" rx="5" fill="#050C21" stroke="#10B981" stroke-width="1"/>
+        <text x="250" y="125" fill="#10B981" text-anchor="middle" font-size="10" font-weight="bold">Target Endpoints</text>
+        <text x="250" y="145" fill="#94A3B8" text-anchor="middle" font-size="9">10.0.30.0/24</text>
+        <text x="250" y="160" fill="#64748B" text-anchor="middle" font-size="8">Win AD DC / Win 11 / Linux</text>
+
+        <rect x="340" y="105" width="140" height="70" rx="5" fill="#050C21" stroke="#EF4444" stroke-width="1"/>
+        <text x="410" y="125" fill="#EF4444" text-anchor="middle" font-size="10" font-weight="bold">Attack Segment</text>
+        <text x="410" y="145" fill="#94A3B8" text-anchor="middle" font-size="9">10.0.40.0/24</text>
+        <text x="410" y="160" fill="#64748B" text-anchor="middle" font-size="8">Kali Linux / Commando VM</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="psv-card">
+    <h3 style="font-size: 1rem; margin-top: 0; margin-bottom: var(--psv-space-2);">Lab Subnet Mapping</h3>
+
+    | Network Segment | Subnet / VLAN | Purpose |
+    | :--- | :--- | :--- |
+    | **WAN / Gateway** | `192.168.1.0/24` | Internet Egress |
+    | **DMZ / Perimeter** | `10.0.10.0/24` | Public Services |
+    | **Internal LAN / SOC** | `10.0.20.0/24` | Security Operations |
+    | **Target Endpoints** | `10.0.30.0/24` | Victim Nodes |
+    | **Attack Segment** | `10.0.40.0/24` | Isolated Testing |
+
+    <h4 style="font-size: 0.875rem; color: var(--psv-text); margin-top: var(--psv-space-4); margin-bottom: var(--psv-space-2);">Key Objectives</h4>
+    <ul>
+      <li>Isolate attack traffic from SOC infrastructure</li>
+      <li>Monitor all target network telemetry</li>
+      <li>Practice real-world detection &amp; response</li>
+      <li>Stay fully offline or controlled egress</li>
+    </ul>
+  </div>
+
+</div>
+
+<hr />
+<h2 id="step-by-step-lab-setup-guide">Step by Step Lab Setup Guide<a class="headerlink" href="#step-by-step-lab-setup-guide" title="Permanent link">&para;</a></h2>
+<div style="display: flex; flex-direction: column; gap: var(--psv-space-4); margin-bottom: var(--psv-space-8);">
+
+  <div class="psv-card">
+    <h3 style="font-size: 1rem; color: var(--psv-accent); margin-top: 0; margin-bottom: var(--psv-space-2);">
+      01. Phase 1: Hypervisor &amp; Virtual Network Core
+    </h3>
+    <p style="font-size: 0.8rem; color: var(--psv-text-muted); margin-bottom: var(--psv-space-4);">
+      Build the foundation – VMware Workstation Pro, network segmentation, and pfSense firewall routing.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--psv-space-4); font-size: 0.8rem; color: var(--psv-text-muted);">
+      <div>
+        <strong style="color: var(--psv-text); display: block; margin-bottom: var(--psv-space-2);">VMware Workstation Pro Setup:</strong>
+        <ul>
+          <li>Install VMware Workstation Pro</li>
+          <li>Configure VMnet0, VMnet1, VMnet2, VMnet3</li>
+          <li>Disable VMware DHCP for isolated segments</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color: var(--psv-text); display: block; margin-bottom: var(--psv-space-2);">pfSense Firewall Installation &amp; Interfaces:</strong>
+        <ul style="font-family: var(--psv-font-mono);">
+          <li>em0 -> WAN (DHCP)</li>
+          <li>em1 -> LAN (10.0.20.1/24)</li>
+          <li>em2 -> OPT1 (10.0.30.1/24)</li>
+          <li>em3 -> OPT2 (10.0.40.1/24)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="psv-card">
+    <h3 style="font-size: 1rem; color: var(--psv-accent); margin-top: 0; margin-bottom: var(--psv-space-2);">
+      02. Phase 2: Defensive Telemetry &amp; SOC Infrastructure
+    </h3>
+    <p style="font-size: 0.8rem; color: var(--psv-text-muted); margin: 0;">
+      Deploy Suricata IDS, Elastic/Wazuh SIEM, and configure log ingestion pipelines.
+    </p>
+  </div>
+
+  <div class="psv-card">
+    <h3 style="font-size: 1rem; color: var(--psv-accent); margin-top: 0; margin-bottom: var(--psv-space-2);">
+      03. Phase 3: Monitored Target Endpoints
+    </h3>
+    <p style="font-size: 0.8rem; color: var(--psv-text-muted); margin: 0;">
+      Setup Windows AD/Windows 11 and Linux endpoints with Sysmon, Auditd, and agent shipping.
+    </p>
+  </div>
+
+  <div class="psv-card">
+    <h3 style="font-size: 1rem; color: var(--psv-accent); margin-top: 0; margin-bottom: var(--psv-space-2);">
+      04. Phase 4: Isolated Offensive Testing Node
+    </h3>
+    <p style="font-size: 0.8rem; color: var(--psv-text-muted); margin: 0;">
+      Deploy Kali Linux and validate attacks to verify end-to-end detection.
+    </p>
+  </div>
+
+</div>
+
+<hr />
+<h2 id="lab-stack-key-components">Lab Stack &amp; Key Components<a class="headerlink" href="#lab-stack-key-components" title="Permanent link">&para;</a></h2>
+<p>Technologies and tools powering the complete lab environment:</p>
+<div class="psv-card-grid">
+  <div class="psv-card">
+    <h3 class="psv-card__title">VMware Workstation Pro</h3>
+    <p class="psv-card__body">Virtualization platform for multi-segment lab deployment.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">pfSense</h3>
+    <p class="psv-card__body">Network routing, segmentation and traffic control.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">Elastic Stack</h3>
+    <p class="psv-card__body">Centralized log collection, search and visualization.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">Wazuh</h3>
+    <p class="psv-card__body">Open-source SIEM for threat detection and monitoring.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">Suricata</h3>
+    <p class="psv-card__body">Network intrusion detection and traffic analysis.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">Sysmon</h3>
+    <p class="psv-card__body">Deep Windows process and event monitoring.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">Filebeat / Winlogbeat</h3>
+    <p class="psv-card__body">Log shipping to SIEM backend.</p>
+  </div>
+  <div class="psv-card">
+    <h3 class="psv-card__title">Kali Linux</h3>
+    <p class="psv-card__body">Offensive security testing and attack simulation.</p>
+  </div>
+</div>
+
+<hr />
+<h2 id="downloadable-configurations">Downloadable Configurations<a class="headerlink" href="#downloadable-configurations" title="Permanent link">&para;</a></h2>
+<p>Ready-to-use configuration files for quick setup:</p>
+<div class="psv-card-grid">
+  <div class="psv-card">
+    <code style="font-weight: 700; color: var(--psv-text); display: block; margin-bottom: 4px;">sysmonconfig.xml</code>
+    <span style="font-size: 0.75rem; color: var(--psv-text-muted);">Windows Endpoint</span>
+  </div>
+  <div class="psv-card">
+    <code style="font-weight: 700; color: var(--psv-text); display: block; margin-bottom: 4px;">suricata.yaml</code>
+    <span style="font-size: 0.75rem; color: var(--psv-text-muted);">Network IDS</span>
+  </div>
+  <div class="psv-card">
+    <code style="font-weight: 700; color: var(--psv-text); display: block; margin-bottom: 4px;">audit.rules</code>
+    <span style="font-size: 0.75rem; color: var(--psv-text-muted);">Linux Endpoint</span>
+  </div>
+  <div class="psv-card">
+    <code style="font-weight: 700; color: var(--psv-text); display: block; margin-bottom: 4px;">filebeat.yml</code>
+    <span style="font-size: 0.75rem; color: var(--psv-text-muted);">Log Shipping</span>
+  </div>
+</div>
+
+<hr />
+<h2 id="build-your-own-cybersecurity-lab">Build Your Own Cybersecurity Lab<a class="headerlink" href="#build-your-own-cybersecurity-lab" title="Permanent link">&para;</a></h2>
+<p>Follow the complete guide, customize for your needs, and start hands-on security testing.</p>
+<p><a class="md-button md-button--primary" href="https://labs.privacyskillvault.com/">Explore the Labs Vault →</a></p>
 
 
 

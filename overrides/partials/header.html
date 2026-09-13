@@ -1,13 +1,18 @@
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header.title') }}">
+
+    <!-- Left: Brand Logo & Title -->
     <a href="{{ config.site_url | default(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}">
       <img src="{{ config.theme.logo | url }}" alt="{{ config.site_name }} Logo">
     </a>
+
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <span class="psv-brand-title">{{ config.site_name }}</span>
       </div>
     </div>
+
+    <!-- Right: Static Six-Page Global Navigation -->
     <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
       <ul class="psv-global-nav__list">
         <li class="psv-global-nav__item">
@@ -30,11 +35,15 @@
         </li>
       </ul>
     </nav>
+
+    <!-- Native Theme Switch -->
     {% if config.theme.palette %}
       {% if not config.theme.palette is mapping %}
         {% include "partials/palette.html" %}
       {% endif %}
     {% endif %}
+
+    <!-- Accessible Mobile Navigation Toggle -->
     <button
       type="button"
       class="psv-mobile-menu-toggle"
@@ -61,5 +70,6 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
+
   </nav>
 </header>

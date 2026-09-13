@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Cybersecurity and Privacy Documentation">
+        <meta name="description" content="Defensive Operations, Threat Analysis & Security Testing">
       
       
         <meta name="author" content="Privacy Skill Vault">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tools" class="md-skip">
+        <a href="#tactical-security-tools-quick-references" class="md-skip">
           Skip to content
         </a>
       
@@ -94,14 +94,19 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="header.title">
+
+    <!-- Left: Brand Logo & Title -->
     <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
       <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault Logo">
     </a>
+
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
         <span class="psv-brand-title">Privacy Skill Vault</span>
       </div>
     </div>
+
+    <!-- Right: Static Six-Page Global Navigation -->
     <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
       <ul class="psv-global-nav__list">
         <li class="psv-global-nav__item">
@@ -124,6 +129,8 @@
         </li>
       </ul>
     </nav>
+
+    <!-- Native Theme Switch -->
     
       
         <form class="md-header__option" data-md-component="palette">
@@ -151,6 +158,8 @@
 </form>
       
     
+
+    <!-- Accessible Mobile Navigation Toggle -->
     <button
       type="button"
       class="psv-mobile-menu-toggle"
@@ -177,6 +186,7 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
+
   </nav>
 </header>
     
@@ -335,6 +345,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -351,6 +379,125 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tool-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Categories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tactical-code-snippets-detection-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tactical Code Snippets &amp; Detection Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tactical Code Snippets &amp; Detection Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tool-1-log-parser-ioc-extractor-log_parserpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 1: Log Parser &amp; IOC Extractor (log_parser.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-2-sigma-rule-suspicious-powershell-parent-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 2: Sigma Rule — Suspicious PowerShell Parent Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-cheatsheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference Cheatsheets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference Cheatsheets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cheat-sheet-a-essential-windows-event-ids-for-soc-analysts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat Sheet A: Essential Windows Event IDs for SOC Analysts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheat-sheet-b-high-value-wireshark-tshark-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat Sheet B: High-Value Wireshark / TShark Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operational-maintenance-notice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operational Maintenance Notice
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -403,6 +550,114 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tool-categories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Categories
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tactical-code-snippets-detection-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tactical Code Snippets &amp; Detection Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tactical Code Snippets &amp; Detection Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tool-1-log-parser-ioc-extractor-log_parserpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 1: Log Parser &amp; IOC Extractor (log_parser.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-2-sigma-rule-suspicious-powershell-parent-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool 2: Sigma Rule — Suspicious PowerShell Parent Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-cheatsheets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference Cheatsheets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference Cheatsheets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cheat-sheet-a-essential-windows-event-ids-for-soc-analysts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat Sheet A: Essential Windows Event IDs for SOC Analysts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheat-sheet-b-high-value-wireshark-tshark-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cheat Sheet B: High-Value Wireshark / TShark Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operational-maintenance-notice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operational Maintenance Notice
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -418,8 +673,213 @@
 
 
 
-<h1 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">&para;</a></h1>
-<p>Tools Vault</p>
+<h1 id="tactical-security-tools-quick-references">Tactical Security Tools &amp; Quick References<a class="headerlink" href="#tactical-security-tools-quick-references" title="Permanent link">&para;</a></h1>
+<p>A collection of custom log parsers, detection rules (Sigma/YARA), and operational cheat sheets built for threat hunting, telemetry analysis, and incident response.</p>
+<hr />
+<h2 id="tool-categories">Tool Categories<a class="headerlink" href="#tool-categories" title="Permanent link">&para;</a></h2>
+<div class="psv-card-grid">
+  <div class="psv-card">
+    <h2 style="font-size: 1rem; margin-top: 0; margin-bottom: var(--psv-space-2);">1. Custom Utility Scripts</h2>
+    <p class="psv-card__body">
+      Python and Bash automation scripts for parsing raw log formats, extracting IOCs, and enriching telemetry against threat feeds.
+    </p>
+    <strong style="color: var(--psv-text); font-size: 0.75rem; display: block; margin-bottom: var(--psv-space-2);">Featured Utilities:</strong>
+    <ul>
+      <li>Log field extractors</li>
+      <li>PCAP header parsers</li>
+      <li>Automated geohash / IP lookup tools</li>
+    </ul>
+  </div>
+
+  <div class="psv-card">
+    <h2 style="font-size: 1rem; margin-top: 0; margin-bottom: var(--psv-space-2);">2. Detection Rule Sets</h2>
+    <p class="psv-card__body">
+      Pre-compiled YARA and Sigma rules for identifying adversary techniques across Windows Event Logs, Linux Auditd, and WAF traffic.
+    </p>
+    <strong style="color: var(--psv-text); font-size: 0.75rem; display: block; margin-bottom: var(--psv-space-2);">Featured Rules:</strong>
+    <ul>
+      <li>Unsigned process execution</li>
+      <li>Obfuscated command-line detection</li>
+      <li>Credential stuffing behavioral signatures</li>
+    </ul>
+  </div>
+
+  <div class="psv-card">
+    <h2 style="font-size: 1rem; margin-top: 0; margin-bottom: var(--psv-space-2);">3. Operational Cheatsheets</h2>
+    <p class="psv-card__body">
+      High-value reference guides for day-to-day SOC triage, network packet analysis, and forensic artifact locations.
+    </p>
+    <strong style="color: var(--psv-text); font-size: 0.75rem; display: block; margin-bottom: var(--psv-space-2);">Featured References:</strong>
+    <ul>
+      <li>Essential Windows Event IDs</li>
+      <li>Wireshark display filters</li>
+      <li>tshark command-line syntax</li>
+    </ul>
+  </div>
+</div>
+
+<hr />
+<h2 id="tactical-code-snippets-detection-rules">Tactical Code Snippets &amp; Detection Rules<a class="headerlink" href="#tactical-code-snippets-detection-rules" title="Permanent link">&para;</a></h2>
+<h3 id="tool-1-log-parser-ioc-extractor-log_parserpy">Tool 1: Log Parser &amp; IOC Extractor (<code>log_parser.py</code>)<a class="headerlink" href="#tool-1-log-parser-ioc-extractor-log_parserpy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Category:</strong> Python Utility</li>
+<li><strong>Target:</strong> Web / WAF Logs</li>
+<li><strong>Use Case:</strong> IOC Extraction</li>
+</ul>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">extract_iocs</span><span class="p">(</span><span class="n">log_line</span><span class="p">):</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">ips</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\b(?:\d{1,3}\.)</span><span class="si">{3}</span><span class="s1">\d{1,3}\b'</span><span class="p">,</span> <span class="n">log_line</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">urls</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'https?://[^\s]+'</span><span class="p">,</span> <span class="n">log_line</span><span class="p">)</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">hashes</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\b[a-fA-F0-9]{32,64}\b'</span><span class="p">,</span> <span class="n">log_line</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="s2">"ips"</span><span class="p">:</span> <span class="n">ips</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="s2">"urls"</span><span class="p">:</span> <span class="n">urls</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="s2">"hashes"</span><span class="p">:</span> <span class="n">hashes</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="p">}</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="k">def</span><span class="w"> </span><span class="nf">parse_log_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>                <span class="n">iocs</span> <span class="o">=</span> <span class="n">extract_iocs</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">iocs</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>                    <span class="nb">print</span><span class="p">(</span><span class="n">iocs</span><span class="p">)</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error reading log file: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">"Usage: python3 log_parser.py &lt;path_to_log_file&gt;"</span><span class="p">)</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>        <span class="n">parse_log_file</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></code></pre></div>
+<h3 id="tool-2-sigma-rule-suspicious-powershell-parent-process">Tool 2: Sigma Rule — Suspicious PowerShell Parent Process<a class="headerlink" href="#tool-2-sigma-rule-suspicious-powershell-parent-process" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Category:</strong> Sigma Rule</li>
+<li><strong>Target:</strong> Windows Event 4688 / Sysmon 1</li>
+<li><strong>Status:</strong> Active</li>
+</ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Suspicious PowerShell Child Process Execution</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">f38a29a1-7e82-4c22-b98a-112233445566</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">experimental</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Detects powershell.exe being spawned by unexpected parent processes like Microsoft Office, MSHTA, or WMI.</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Privacy Skill Vault</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nt">logsource</span><span class="p">:</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">process_creation</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">product</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nt">detection</span><span class="p">:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">selection</span><span class="p">:</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="nt">Image|endswith</span><span class="p">:</span><span class="w"> </span><span class="s">'\powershell.exe'</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="nt">ParentImage|endswith</span><span class="p">:</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'\winword.exe'</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'\excel.exe'</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'\mshta.exe'</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'\wmiprvse.exe'</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="nt">falsepositives</span><span class="p">:</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Custom administrative automation scripts (verify parent path)</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="nt">tags</span><span class="p">:</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.execution</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.t1059.001</span>
+</span></code></pre></div>
+<h2 id="quick-reference-cheatsheets">Quick Reference Cheatsheets<a class="headerlink" href="#quick-reference-cheatsheets" title="Permanent link">&para;</a></h2>
+<p>High-frequency operational metrics and filter syntaxes for quick lookup.</p>
+<h3 id="cheat-sheet-a-essential-windows-event-ids-for-soc-analysts">Cheat Sheet A: Essential Windows Event IDs for SOC Analysts<a class="headerlink" href="#cheat-sheet-a-essential-windows-event-ids-for-soc-analysts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Event ID</strong></th>
+<th><strong>Provider / Log Source</strong></th>
+<th><strong>Description &amp; Triage Focus</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>4624</strong></td>
+<td>Security</td>
+<td>Successful Logon (Check Logon Type 3 for Network, 10 for RDP)</td>
+</tr>
+<tr>
+<td><strong>4625</strong></td>
+<td>Security</td>
+<td>Failed Logon Attempt (Brute-force / Credential Stuffing indicator)</td>
+</tr>
+<tr>
+<td><strong>4688</strong></td>
+<td>Security</td>
+<td>New Process Created (Inspect command line flags and parent process)</td>
+</tr>
+<tr>
+<td><strong>4720</strong></td>
+<td>Security</td>
+<td>A user account was created (Check for unauthorized privilege escalation)</td>
+</tr>
+<tr>
+<td><strong>4104</strong></td>
+<td>PowerShell / Operational</td>
+<td>Script Block Logging (Contains raw, un-obfuscated script code)</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Sysmon</td>
+<td>Process Creation (Includes File Hashes, Parent Command Line, User)</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Sysmon</td>
+<td>Network Connection (Binds process ID to destination IP and Port)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cheat-sheet-b-high-value-wireshark-tshark-filters">Cheat Sheet B: High-Value Wireshark / TShark Filters<a class="headerlink" href="#cheat-sheet-b-high-value-wireshark-tshark-filters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Analysis Objective</strong></th>
+<th><strong>Wireshark Display Filter Syntax</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HTTP POST Data (Form Submissions)</strong></td>
+<td><code>http.request.method == "POST"</code></td>
+</tr>
+<tr>
+<td><strong>DNS Queries for Suspicious Domains</strong></td>
+<td><code>dns.flags.response == 0 and dns.qry.name contains "xyz"</code></td>
+</tr>
+<tr>
+<td><strong>SYN Flood / Port Scan Traffic</strong></td>
+<td><code>tcp.flags.syn == 1 and tcp.flags.ack == 0</code></td>
+</tr>
+<tr>
+<td><strong>Cleartext Credentials (Basic Auth)</strong></td>
+<td><code>http.authorization contains "Basic"</code></td>
+</tr>
+<tr>
+<td><strong>TLS Client Hello (JA3 Extraction)</strong></td>
+<td><code>tls.handshake.type == 1</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="operational-maintenance-notice">Operational Maintenance Notice<a class="headerlink" href="#operational-maintenance-notice" title="Permanent link">&para;</a></h2>
+<div class="psv-card">
+  <h3 style="margin-top: 0;">Help Expand the Tools Vault</h3>
+  <p class="psv-card__body">
+    Contribute useful scripts, detection rules, operational references, and other security tooling that can help make the vault more useful for practical security work.
+  </p>
+  <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--psv-space-4);">
+    <a href="#" class="md-button">Contribute Tools</a>
+    <a href="#" class="md-button">Request a Tool</a>
+  </div>
+</div>
+
+<p><a class="md-button md-button--primary" href="https://tools.privacyskillvault.com/">Explore the Tools Vault →</a></p>
 
 
 
