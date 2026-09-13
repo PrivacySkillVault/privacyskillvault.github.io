@@ -1,19 +1,13 @@
-# -----------------------------------------------------------------------------
-# Privacy Skill Vault - Learn Platform Configuration
-# Reference Implementation: learn-vault (Phase 5B Refined)
-# -----------------------------------------------------------------------------
-
 site_name: "Privacy Skill Vault"
 site_url: "https://privacyskillvault.com/"
-site_description: "Cybersecurity and Privacy Documentation"
+site_description: "Defensive Operations, Threat Analysis & Security Testing"
 site_author: "Privacy Skill Vault"
 
-# Theme Configuration
 theme:
   name: material
   custom_dir: docs/overrides
-  logo: assets/branding/PSV-colored.png
   language: en
+  logo: assets/branding/PSV-colored.png
   favicon: assets/branding/favicon.ico
   palette:
     # Light Mode
@@ -39,11 +33,9 @@ theme:
     - content.code.copy
     - content.action.view
 
-# Custom Styling Layer (PSV Design System + Phase 5B Navigation)
 extra_css:
   - stylesheets/extra.css
 
-# Markdown Extensions
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -67,7 +59,6 @@ markdown_extensions:
   - toc:
       permalink: true
 
-# Navigation Architecture (Phase 5B Exact 5-Item Navigation)
 nav:
   - "Home": "index.md"
   - "Learn": "learn/index.md"
