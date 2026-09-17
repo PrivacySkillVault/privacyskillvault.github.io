@@ -12,12 +12,12 @@
   overflow-x: hidden;
   margin-top: calc(-1 * var(--psv-space-8, 32px)) !important;
   margin-bottom: calc(-1 * var(--psv-space-8, 32px)) !important;
-  padding: 3.5rem 1.5rem 5rem 1.5rem;
+  padding: 3.5rem 1.5rem 2rem 1.5rem;
 
 }
 
 .psv-home__container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   box-sizing: border-box;
 }
@@ -25,10 +25,10 @@
 /* Hero Section */
 .psv-home__hero {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1.1fr;
   gap: 3rem;
   align-items: center;
-  margin-bottom: 5rem;
+  margin-bottom: 1.5rem;
 }
 
 .psv-home__hero-content {
@@ -176,7 +176,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.75rem;
-  margin-bottom: 5rem;
+  margin-bottom: 1.5rem;
 }
 
 .psv-home__focus-card {
@@ -256,7 +256,7 @@
   border: 1px solid rgba(56, 189, 248, 0.25);
   border-radius: 14px;
   padding: 2.25rem;
-  margin-bottom: 5rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -350,7 +350,7 @@
   grid-template-columns: 1fr 1px 1.4fr;
   gap: 2.5rem;
   align-items: center;
-  margin-bottom: 5rem;
+  margin-bottom: 1.5rem;
 }
 
 .psv-home__methodology-divider {
@@ -402,7 +402,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.75rem;
-  margin-bottom: 5rem;
+  margin-bottom: 0;
 }
 
 .psv-home__report-card {
@@ -474,92 +474,143 @@
 
 /* Footer */
 .psv-home__footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 2.5rem 0 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem 0 0 0;
+  margin: 2rem 0 0 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  line-height: 1;
   color: #64748B;
+  text-align: bottom;
 }
 
 .psv-home__footer-nav {
-  display: flex;
-  gap: 1.5rem;
+  display: none !important;
 }
 
-.psv-home__footer-nav a {
-  color: #94A3B8 !important;
-  text-decoration: none !important;
-  transition: color 0.15s;
-}
+/* --------------------------------------------------------------------------
+   SIMULATED SECURITY EVENT MONITOR
+   -------------------------------------------------------------------------- */
 
-.psv-home__footer-nav a:hover {
-  color: #38BDF8 !important;
-}
-
-/* Streaming Simulated SOC Telemetry Widget */
 .psv-home__stream-box {
-  height: 220px;
-  overflow-y: auto;
+  height: 350px;
+  overflow: hidden;
+  padding: 0.65rem 0.75rem;
+  box-sizing: border-box;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.75rem;
-  line-height: 1.65;
-  padding: 0.5rem 0.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.28) transparent;
 }
 
 .psv-home__stream-box::-webkit-scrollbar {
   width: 5px;
 }
 
+.psv-home__stream-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .psv-home__stream-box::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.3);
+  background: rgba(56, 189, 248, 0.28);
   border-radius: 4px;
 }
 
 .psv-home__stream-entry {
-  display: grid;
-  grid-template-columns: 80px 100px 1fr;
-  gap: 0.75rem;
-  align-items: baseline;
-  padding: 0.2rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  flex: 0 0 auto !important;
+  min-height: 0;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 0.55rem;
+  border: 1px solid rgba(56, 189, 248, 0.10);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.psv-home__stream-row1 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.25rem;
 }
 
 .psv-home__stream-time {
   color: #64748B;
+  font-size: 0.63rem;
+  white-space: nowrap;
 }
 
-.psv-home__stream-source {
+.psv-home__stream-severity {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.45px;
+}
+
+.psv-home__stream-severity--high {
+  color: #F87171;
+  background: rgba(248, 113, 113, 0.10);
+  border: 1px solid rgba(248, 113, 113, 0.20);
+}
+
+.psv-home__stream-severity--medium {
+  color: #FBBF24;
+  background: rgba(251, 191, 36, 0.10);
+  border: 1px solid rgba(251, 191, 36, 0.20);
+}
+
+.psv-home__stream-severity--low {
+  color: #34D399;
+  background: rgba(52, 211, 153, 0.10);
+  border: 1px solid rgba(52, 211, 153, 0.20);
+}
+
+.psv-home__stream-alert {
+  color: #E2E8F0;
+  font-size: 0.69rem;
   font-weight: 700;
-  font-size: 0.7rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  line-height: 1.35;
+  margin-bottom: 0.22rem;
 }
 
-.psv-home__stream-source--sysmon { color: #38BDF8; }
-.psv-home__stream-source--suricata { color: #F59E0B; }
-.psv-home__stream-source--auth { color: #10B981; }
-.psv-home__stream-source--wazuh { color: #A855F7; }
-.psv-home__stream-source--elastic { color: #EF4444; }
-.psv-home__stream-source--zeek { color: #2DD4BF; }
-.psv-home__stream-source--misp { color: #F472B6; }
+.psv-home__stream-row2 {
+  color: #94A3B8;
+  font-size: 0.61rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-.psv-home__stream-msg {
-  color: #CBD5E1;
-  word-break: break-word;
+.psv-home__stream-row3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.22rem;
+  color: #64748B;
+  font-size: 0.58rem;
+}
+
+.psv-home__stream-technique {
+  color: #38BDF8;
+}
+
+.psv-home__stream-risk {
+  color: #E2E8F0;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 /* Responsive Rules */
 @media (max-width: 960px) {
   .psv-home__hero {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3rem;
   }
   .psv-home__focus-grid,
   .psv-home__reports-grid {
@@ -607,13 +658,8 @@
             <span style="background: #10B981;"></span>
           </div>
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981; box-shadow: 0 0 6px #10B981;"></span>
-            <span style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.675rem; color: #38BDF8; font-weight: 700; letter-spacing: 0.5px;">SOC EVENT STREAM — SIMULATED</span>
+            <span style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.675rem; color: #38BDF8; font-weight: 700; letter-spacing: 0.5px;">SIMULATED SECURITY EVENT MONITOR</span>
           </div>
-        </div>
-        <div style="padding: 0.75rem 1.25rem 0.25rem 1.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.7rem; color: #64748B; border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between;">
-          <span>CLOCK: <strong id="psv-live-clock" style="color: #94A3B8;">--:--:--</strong></span>
-          <span>DATE: <strong id="psv-live-date" style="color: #94A3B8;">----/--/--</strong></span>
         </div>
         <div class="psv-home__hero-visual-body">
           <div id="psv-soc-stream" class="psv-home__stream-box" aria-live="polite">
@@ -887,161 +933,342 @@ flowchart TD
 <!-- 6. FOOTER -->
 <footer class="psv-home__footer">
   <div>Copyright © 2026 Privacy Skill Vault. All rights reserved.</div>
-  <nav class="psv-home__footer-nav">
-    <a href="index.html">Home</a>
-    <a href="learn/">Learn</a>
-    <a href="labs/">Labs</a>
-    <a href="investigations/">Investigations</a>
-    <a href="tools/">Tools</a>
-    <a href="blog/">Blog</a>
-  </nav>
 </footer>
 
   <script>
-  (function () {
-    function initializePSVHomeTelemetry() {
-      const root = document.querySelector(".psv-home");
-      if (!root) return;
+(function () {
+  function initializePSVHomeTelemetry() {
+    const root = document.querySelector(".psv-home");
+    if (!root) return;
 
-      const clock = root.querySelector("#psv-live-clock");
-      const date = root.querySelector("#psv-live-date");
-      const stream = root.querySelector("#psv-soc-stream");
+    const stream = root.querySelector("#psv-soc-stream");
+    if (!stream) return;
 
-      if (!clock || !date || !stream) return;
+    window.psvHomeTelemetryInitialized =
+      window.psvHomeTelemetryInitialized || {
+        timer: null,
+        root: null
+      };
 
-      window.psvHomeTelemetryInitialized =
-        window.psvHomeTelemetryInitialized || {
-          timer: null,
-          clockTimer: null,
-          root: null
-        };
+    const state = window.psvHomeTelemetryInitialized;
 
-      const state = window.psvHomeTelemetryInitialized;
-
-      if (state.timer) {
-        clearInterval(state.timer);
-        state.timer = null;
-      }
-
-      if (state.clockTimer) {
-        clearInterval(state.clockTimer);
-        state.clockTimer = null;
-      }
-
-      state.root = root;
-
-      const events = [
-        ["SYSmon", "Process creation observed on endpoint"],
-        ["Suricata", "Network signature matched controlled test traffic"],
-        ["AUTH", "Windows authentication event received"],
-        ["Wazuh", "Endpoint integrity event processed"],
-        ["Elastic", "Security event indexed for correlation"],
-        ["Zeek", "Network connection metadata received"],
-        ["MISP", "Threat intelligence enrichment available"],
-        ["SYSmon", "PowerShell activity observed in lab telemetry"],
-        ["AUTH", "Account logon activity received"]
-      ];
-
-      function timestamp() {
-        return new Date().toLocaleTimeString([], {
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        });
-      }
-
-      function updateClock() {
-        const now = new Date();
-
-        clock.textContent = now.toLocaleTimeString([], {
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        });
-
-        date.textContent = now.toLocaleDateString([], {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit"
-        });
-      }
-
-      function sourceClass(source) {
-        return source.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      }
-
-      function appendEvent(index) {
-        const [source, message] = events[index % events.length];
-
-        const entry = document.createElement("div");
-        entry.className = "psv-home__stream-entry";
-
-        const time = document.createElement("span");
-        time.className = "psv-home__stream-time";
-        time.textContent = timestamp();
-
-        const sourceElement = document.createElement("span");
-        sourceElement.className =
-          "psv-home__stream-source psv-home__stream-source--" +
-          sourceClass(source);
-        sourceElement.textContent = source;
-
-        const messageElement = document.createElement("span");
-        messageElement.className = "psv-home__stream-msg";
-        messageElement.textContent = message;
-
-        entry.appendChild(time);
-        entry.appendChild(sourceElement);
-        entry.appendChild(messageElement);
-
-        stream.appendChild(entry);
-
-        while (stream.children.length > 25) {
-          stream.removeChild(stream.firstElementChild);
-        }
-
-        stream.scrollTop = stream.scrollHeight;
-      }
-
-      stream.innerHTML = "";
-
-      // Exactly 9 initial simulated events.
-      for (let i = 0; i < 9; i += 1) {
-        appendEvent(i);
-      }
-
-      updateClock();
-
-      state.clockTimer = setInterval(updateClock, 1000);
-
-      let eventIndex = 9;
-      state.timer = setInterval(function () {
-        appendEvent(eventIndex);
-        eventIndex += 1;
-      }, 2800);
+    if (state.timer) {
+      clearInterval(state.timer);
+      state.timer = null;
     }
 
-    // Initial page load.
-    if (document.readyState === "loading") {
-      document.addEventListener(
-        "DOMContentLoaded",
-        initializePSVHomeTelemetry,
-        { once: true }
-      );
-    } else {
-      initializePSVHomeTelemetry();
-    }
+    state.root = root;
 
-    // Support Material for MkDocs instant navigation without creating
-    // duplicate timers.
-    if (typeof document$ !== "undefined") {
-      document$.subscribe(function () {
-        initializePSVHomeTelemetry();
+    const events = [
+      {
+        severity: "HIGH",
+        alert: "Suspicious PowerShell Execution",
+        asset: "CORP-WKSTN01",
+        user: "CORP\\jdoe",
+        source: "SYSMON",
+        technique: "Execution / T1059.001",
+        risk: 82
+      },
+      {
+        severity: "MEDIUM",
+        alert: "Multiple Failed Logons",
+        asset: "CORP-DC01",
+        user: "CORP\\svc_backup",
+        source: "WINDOWS",
+        technique: "Credential Access / T1110",
+        risk: 61
+      },
+      {
+        severity: "HIGH",
+        alert: "Encoded PowerShell Command",
+        asset: "CORP-WKSTN07",
+        user: "CORP\\analyst",
+        source: "SYSMON",
+        technique: "Execution / T1059.001",
+        risk: 76
+      },
+      {
+        severity: "MEDIUM",
+        alert: "Potential Lateral Movement",
+        asset: "CORP-SRV02",
+        user: "CORP\\admin",
+        source: "WAZUH",
+        technique: "Lateral Movement / T1021",
+        risk: 68
+      },
+      {
+        severity: "LOW",
+        alert: "Endpoint Integrity Change",
+        asset: "CORP-WKSTN12",
+        user: "SYSTEM",
+        source: "WAZUH",
+        technique: "Defense Evasion / T1562",
+        risk: 34
+      },
+      {
+        severity: "HIGH",
+        alert: "Suspicious Process Creation",
+        asset: "CORP-WKSTN04",
+        user: "CORP\\user01",
+        source: "SYSMON",
+        technique: "Execution / T1106",
+        risk: 79
+      },
+      {
+        severity: "MEDIUM",
+        alert: "Outbound Connection to Known IOC",
+        asset: "LAB-SENSOR01",
+        user: "N/A",
+        source: "SURICATA",
+        technique: "Command & Control / T1071",
+        risk: 73
+      },
+      {
+        severity: "LOW",
+        alert: "DNS Query to Suspicious Domain",
+        asset: "CORP-WKSTN09",
+        user: "CORP\\user02",
+        source: "ZEEK",
+        technique: "Command & Control / T1071.004",
+        risk: 42
+      },
+      {
+        severity: "HIGH",
+        alert: "Privilege Escalation Detected",
+        asset: "CORP-SRV04",
+        user: "CORP\\svc_app",
+        source: "ELASTIC",
+        technique: "Privilege Escalation / T1548",
+        risk: 87
+      },
+      {
+        severity: "MEDIUM",
+        alert: "New Service Creation",
+        asset: "CORP-WKSTN15",
+        user: "CORP\\admin",
+        source: "WINDOWS",
+        technique: "Persistence / T1543.003",
+        risk: 64
+      },
+      {
+        severity: "HIGH",
+        alert: "Suspicious Scheduled Task",
+        asset: "CORP-WKSTN06",
+        user: "CORP\\jdoe",
+        source: "SYSMON",
+        technique: "Persistence / T1053.005",
+        risk: 78
+      },
+      {
+        severity: "MEDIUM",
+        alert: "Unusual Administrative Activity",
+        asset: "CORP-DC02",
+        user: "CORP\\administrator",
+        source: "WINDOWS",
+        technique: "Privilege Escalation / T1078",
+        risk: 66
+      },
+      {
+        severity: "LOW",
+        alert: "Threat Intelligence Match",
+        asset: "LAB-ENDPOINT03",
+        user: "N/A",
+        source: "ELASTIC",
+        technique: "Discovery / T1087",
+        risk: 29
+      },
+      {
+        severity: "HIGH",
+        alert: "Remote Service Execution",
+        asset: "CORP-SRV03",
+        user: "CORP\\admin",
+        source: "WAZUH",
+        technique: "Lateral Movement / T1021",
+        risk: 84
+      },
+      {
+        severity: "MEDIUM",
+        alert: "Unusual Windows Logon",
+        asset: "CORP-DC01",
+        user: "CORP\\svc_backup",
+        source: "WINDOWS",
+        technique: "Credential Access / T1078",
+        risk: 59
+      },
+      {
+        severity: "HIGH",
+        alert: "Credential Access Pattern",
+        asset: "CORP-WKSTN03",
+        user: "CORP\\user03",
+        source: "ELASTIC",
+        technique: "Credential Access / T1003",
+        risk: 81
+      },
+      {
+        severity: "MEDIUM",
+        alert: "Abnormal Network Connection",
+        asset: "LAB-SENSOR02",
+        user: "N/A",
+        source: "SURICATA",
+        technique: "Command & Control / T1095",
+        risk: 63
+      },
+      {
+        severity: "LOW",
+        alert: "Endpoint Discovery Activity",
+        asset: "CORP-WKSTN11",
+        user: "CORP\\user04",
+        source: "SYSMON",
+        technique: "Discovery / T1082",
+        risk: 37
+      }
+    ];
+
+    function timestamp() {
+      const now = new Date();
+
+      const date = [
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0"),
+        String(now.getFullYear())
+      ].join("/");
+
+      const time = now.toLocaleTimeString([], {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
       });
+
+      const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+
+      return date + " " + time + "." + milliseconds;
     }
-  })();
-  </script>
+
+    function severityClass(severity) {
+      return severity.toLowerCase();
+    }
+
+    function createEvent(event) {
+      const entry = document.createElement("div");
+      entry.className = "psv-home__stream-entry psv-home__stream-entry--new";
+
+      const row1 = document.createElement("div");
+      row1.className = "psv-home__stream-row1";
+
+      const time = document.createElement("span");
+      time.className = "psv-home__stream-time";
+      time.textContent = timestamp();
+
+      const severity = document.createElement("span");
+      severity.className =
+        "psv-home__stream-severity psv-home__stream-severity--" +
+        severityClass(event.severity);
+      severity.textContent = event.severity;
+
+      row1.appendChild(time);
+      row1.appendChild(severity);
+
+      const alert = document.createElement("div");
+      alert.className = "psv-home__stream-alert";
+      alert.textContent = event.alert;
+
+      const row2 = document.createElement("div");
+      row2.className = "psv-home__stream-row2";
+
+      const assetUser = document.createElement("span");
+      assetUser.textContent = event.asset + " · " + event.user;
+
+      const source = document.createElement("span");
+      source.className = "psv-home__stream-source";
+      source.textContent = event.source;
+
+      row2.appendChild(assetUser);
+      row2.appendChild(source);
+
+      const row3 = document.createElement("div");
+      row3.className = "psv-home__stream-row3";
+
+      const technique = document.createElement("span");
+      technique.className = "psv-home__stream-technique";
+      technique.textContent = event.technique;
+
+      const risk = document.createElement("span");
+      risk.className = "psv-home__stream-risk";
+      risk.textContent = "RISK SCORE " + event.risk;
+
+      row3.appendChild(technique);
+      row3.appendChild(risk);
+
+      entry.appendChild(row1);
+      entry.appendChild(alert);
+      entry.appendChild(row2);
+      entry.appendChild(row3);
+
+      return entry;
+    }
+
+    function addEvent(event) {
+      const entry = createEvent(event);
+
+      // Newest event always appears first.
+      stream.prepend(entry);
+
+      // Keep the queue bounded.
+      while (stream.children.length > 12) {
+        stream.removeChild(stream.lastElementChild);
+      }
+
+      // Remove the entrance class after the animation completes.
+      window.setTimeout(function () {
+        entry.classList.remove("psv-home__stream-entry--new");
+      }, 450);
+    }
+
+    stream.innerHTML = "";
+
+    // Initial queue: newest event at the top.
+    const initialEvents = events.slice(0, 4);
+
+    initialEvents.forEach(function (event) {
+      addEvent(event);
+    });
+
+    let lastEventIndex = -1;
+
+    function getNextEvent() {
+      let nextIndex;
+
+      do {
+        nextIndex = Math.floor(Math.random() * events.length);
+      } while (events.length > 1 && nextIndex === lastEventIndex);
+
+      lastEventIndex = nextIndex;
+      return events[nextIndex];
+    }
+
+    state.timer = setInterval(function () {
+      addEvent(getNextEvent());
+    }, 3200);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializePSVHomeTelemetry,
+      { once: true }
+    );
+  } else {
+    initializePSVHomeTelemetry();
+  }
+
+  if (typeof document$ !== "undefined") {
+    document$.subscribe(function () {
+      initializePSVHomeTelemetry();
+    });
+  }
+})();
+</script>
+
 
 </div>

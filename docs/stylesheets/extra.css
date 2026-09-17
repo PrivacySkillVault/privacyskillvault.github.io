@@ -195,7 +195,7 @@ code, kbd, pre {
 .md-header {
   background-color: var(--psv-surface) !important;
   color: var(--psv-text) !important;
-  border-bottom: 1px solid var(--psv-border);
+  border-bottom: none;
   box-shadow: none;
 }
 
@@ -217,7 +217,7 @@ code, kbd, pre {
 /* Navigation Tabs (Top Horizontal Bar) */
 .md-tabs {
   background-color: var(--psv-surface) !important;
-  border-bottom: 1px solid var(--psv-border);
+  border-bottom: none;
 }
 
 .md-tabs__link {
@@ -872,6 +872,7 @@ input:focus-visible,
   text-decoration: none !important;
   transition: var(--psv-transition);
   white-space: nowrap;
+  position: relative;
 }
 
 .psv-global-nav__link:hover {
@@ -880,8 +881,20 @@ input:focus-visible,
 }
 
 .psv-global-nav__link--active {
-  color: var(--psv-primary) !important;
+  border-bottom: none;
+  color: var(--psv-accent) !important;
   font-weight: 600;
+}
+
+.psv-global-nav__link--active::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 70%;
+    height: 1px;
+    background: var(--psv-accent);
+    transform: translateX(-50%);
 }
 
 .psv-mobile-menu-toggle {
@@ -983,7 +996,7 @@ body:has(.psv-home) .md-content__inner {
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 3.5rem 1.5rem 6rem 1.5rem;
+  padding: 2.5rem 1.5rem 0rem 1.5rem;
   box-sizing: border-box;
 }
 
@@ -993,7 +1006,7 @@ body:has(.psv-home) .md-content__inner {
   grid-template-columns: 1.1fr 0.9fr;
   gap: 3.5rem;
   align-items: center;
-  margin-bottom: 5.5rem;
+  margin-bottom: 1rem;
 }
 
 .psv-home__hero-content {
@@ -1039,7 +1052,7 @@ body:has(.psv-home) .md-content__inner {
 }
 
 .psv-home__hero-desc {
-  font-size: 1.05rem;
+  font-size: 1.00rem;
   line-height: 1.65;
   margin-bottom: 2.25rem !important;
   max-width: 580px;
@@ -1189,7 +1202,7 @@ body:has(.psv-home) .md-content__inner {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-bottom: 5.5rem;
+  margin-bottom: 1rem;
 }
 
 .psv-home__focus-card {
@@ -1279,7 +1292,7 @@ body:has(.psv-home) .md-content__inner {
 .psv-home__arch-panel {
   border-radius: 14px;
   padding: 2.75rem;
-  margin-bottom: 5.5rem;
+  margin-bottom: 1rem;
 }
 
 [data-md-color-scheme="default"] .psv-home__arch-panel {
@@ -1416,7 +1429,7 @@ body:has(.psv-home) .md-content__inner {
   grid-template-columns: 1fr 1px 1.4fr;
   gap: 3rem;
   align-items: center;
-  margin-bottom: 5.5rem;
+  margin-bottom: 1rem;
 }
 
 [data-md-color-scheme="default"] .psv-home__methodology {
@@ -1489,7 +1502,7 @@ body:has(.psv-home) .md-content__inner {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-bottom: 5.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .psv-home__report-card {
@@ -1590,97 +1603,21 @@ body:has(.psv-home) .md-content__inner {
 
 /* 7. Footer */
 .psv-home__footer {
-  padding: 3rem 0 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.75rem 0 0.5rem 0;
+  margin: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  font-size: 0.775rem;
-}
-
-[data-md-color-scheme="default"] .psv-home__footer {
-  border-top: 1px solid #E2E8F0;
+  font-size: 0.7rem;
+  line-height: 1.4;
   color: #64748B;
-}
-
-[data-md-color-scheme="slate"] .psv-home__footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: #64748B;
+  text-align: center;
 }
 
 .psv-home__footer-nav {
-  display: flex;
-  gap: 1.75rem;
+  display: none !important;
 }
-
-.psv-home__footer-nav a {
-  text-decoration: none !important;
-  transition: color 0.15s;
-}
-
-[data-md-color-scheme="default"] .psv-home__footer-nav a { color: #475569 !important; }
-[data-md-color-scheme="default"] .psv-home__footer-nav a:hover { color: #2563EB !important; }
-
-[data-md-color-scheme="slate"] .psv-home__footer-nav a { color: #94A3B8 !important; }
-[data-md-color-scheme="slate"] .psv-home__footer-nav a:hover { color: #38BDF8 !important; }
-
-/* 8. Streaming Simulated SOC Telemetry Widget */
-.psv-home__stream-box {
-  height: 220px;
-  overflow-y: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.75rem;
-  line-height: 1.65;
-  padding: 0.5rem 0.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.psv-home__stream-box::-webkit-scrollbar {
-  width: 5px;
-}
-
-.psv-home__stream-box::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.3);
-  border-radius: 4px;
-}
-
-.psv-home__stream-entry {
-  display: grid;
-  grid-template-columns: 80px 100px 1fr;
-  gap: 0.75rem;
-  align-items: baseline;
-  padding: 0.2rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.psv-home__stream-time {
-  color: #64748B;
-}
-
-.psv-home__stream-source {
-  font-weight: 700;
-  font-size: 0.7rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.psv-home__stream-source--sysmon { color: #38BDF8; }
-.psv-home__stream-source--suricata { color: #F59E0B; }
-.psv-home__stream-source--auth { color: #10B981; }
-.psv-home__stream-source--wazuh { color: #A855F7; }
-.psv-home__stream-source--elastic { color: #EF4444; }
-.psv-home__stream-source--zeek { color: #2DD4BF; }
-.psv-home__stream-source--misp { color: #F472B6; }
-
-.psv-home__stream-msg {
-  word-break: break-word;
-}
-
-[data-md-color-scheme="default"] .psv-home__stream-msg { color: #334155; }
-[data-md-color-scheme="slate"] .psv-home__stream-msg { color: #CBD5E1; }
 
 /* 9. Responsive Rules */
 @media (max-width: 960px) {
@@ -1698,5 +1635,174 @@ body:has(.psv-home) .md-content__inner {
   }
   .psv-home__methodology-divider {
     display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   PSV HOME — SOC EVENT STREAM FINAL CARD LAYOUT
+   Overrides the legacy telemetry grid without changing the homepage layout.
+   -------------------------------------------------------------------------- */
+
+.psv-home__stream-box {
+  overflow: hidden;
+  padding: 0.65rem 0.75rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.psv-home__stream-entry {
+  display: block !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.45rem 0.65rem !important;
+  margin: 0 !important;
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.018);
+  overflow: hidden;
+}
+
+.psv-home__stream-row1 {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin: 0 0 0.2rem 0;
+  min-width: 0;
+}
+
+.psv-home__stream-time {
+  flex: 0 0 auto;
+  color: #64748B !important;
+  font-size: 0.62rem !important;
+  white-space: nowrap;
+}
+
+.psv-home__stream-severity {
+  flex: 0 0 auto;
+  display: inline-flex !important;
+  align-items: center;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-size: 0.56rem !important;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.psv-home__stream-alert {
+  display: block;
+  width: 100%;
+  margin: 0 0 0.15rem 0;
+  color: #E8EEF8 !important;
+  font-size: 0.69rem !important;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.psv-home__stream-row2 {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0 0 0.15rem 0;
+  color: #94A8C2 !important;
+  font-size: 0.6rem !important;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.psv-home__stream-row3 {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.psv-home__stream-technique {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #38BDF8 !important;
+  font-size: 0.59rem !important;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.psv-home__stream-risk {
+  flex: 0 0 auto;
+  color: #CBD5E1 !important;
+  font-size: 0.59rem !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+[data-md-color-scheme="default"] .psv-home__stream-entry {
+  background: rgba(15, 23, 42, 0.025);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+[data-md-color-scheme="default"] .psv-home__stream-alert {
+  color: #0F172A !important;
+}
+
+[data-md-color-scheme="default"] .psv-home__stream-row2 {
+  color: #64748B !important;
+}
+
+[data-md-color-scheme="default"] .psv-home__stream-risk {
+  color: #475569 !important;
+}
+
+@media (max-width: 960px) {
+  .psv-home__stream-box {
+    height: 240px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   PSV HOME — SOC STREAM CARD HEIGHT FIX
+   Prevent flexbox from vertically compressing individual event cards.
+   -------------------------------------------------------------------------- */
+
+.psv-home__stream-entry {
+  flex: 0 0 auto !important;
+  min-height: 0;
+}
+
+/* --------------------------------------------------------------------------
+   PSV HOME — SOC STREAM NEW EVENT ANIMATION
+   -------------------------------------------------------------------------- */
+
+@keyframes psvTelemetryEntryIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.psv-home__stream-entry--new {
+  animation: psvTelemetryEntryIn 450ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psv-home__stream-entry--new {
+    animation: none;
   }
 }
