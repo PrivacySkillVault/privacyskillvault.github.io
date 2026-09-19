@@ -636,15 +636,12 @@ input:focus-visible,
 
 /* Re-center documentation body within clean readable constraints */
 .md-main__inner {
-  width: 100% !important;
-  max-width: 1240px !important;
   margin: 0 auto !important;
+  max-width: 960px !important;
   padding: var(--psv-space-6) var(--psv-space-4) !important;
-  box-sizing: border-box;
 }
 
 .md-content {
-  width: 100% !important;
   max-width: 100% !important;
   margin: 0 auto !important;
 }
@@ -782,15 +779,12 @@ input:focus-visible,
 }
 
 .md-main__inner {
-  width: 100% !important;
-  max-width: 1240px !important;
   margin: 0 auto !important;
+  max-width: 960px !important;
   padding: var(--psv-space-8) var(--psv-space-4) !important;
-  box-sizing: border-box;
 }
 
 .md-content {
-  width: 100% !important;
   max-width: 100% !important;
   margin: 0 auto !important;
 }
@@ -1929,4 +1923,60 @@ body:has(.psv-home) .md-content__inner {
   .psv-home__stream-entry--new {
     animation: none;
   }
+}
+
+
+/* PSV Home — Light Theme Mermaid Label Fix */
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid .nodeLabel,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid .nodeLabel * {
+  color: #FFFFFF !important;
+}
+
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid .edgeLabel,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid .edgeLabel * {
+  color: #0F172A !important;
+}
+
+
+/* PSV Home — Light Theme Mermaid SVG Text Fix */
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg .nodeLabel,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg .label,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg text {
+  fill: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+
+/* PSV Home — Light Theme Mermaid ForeignObject Label Fix */
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .nodeLabel,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .nodeLabel *,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .label,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .label * {
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
+}
+
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .edgeLabel,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .edgeLabel * {
+  color: #0F172A !important;
+  fill: #0F172A !important;
+}
+
+
+/* PSV Home — Light Theme Mermaid ForeignObject Content Fix */
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject * {
+  color: #FFFFFF !important;
+}
+
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .edgeLabel,
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid svg foreignObject .edgeLabel * {
+  color: #0F172A !important;
+}
+
+/* PSV Home — Mermaid Light Theme Label Color */
+[data-md-color-scheme="default"] .psv-home__mermaid-wrap .mermaid {
+  --md-mermaid-label-fg-color: #FFFFFF;
+}\n\n\n\n\n\n\n\n/* PSV Home — Mermaid Light Theme Label Color */
+[data-md-color-scheme="default"] {
+  --md-mermaid-label-fg-color: #0F172A;
 }
