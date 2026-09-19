@@ -65,10 +65,10 @@
 
 .psv-home__hero-desc {
   color: #94A3B8 !important;
-  font-size: 1rem;
-  line-height: 1.65;
-  margin-bottom: 2rem !important;
-  max-width: 540px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  margin: 0 0 0.75rem 0 !important;
+  max-width: 580px;
 }
 
 .psv-home__hero-actions {
@@ -189,6 +189,13 @@
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
+.psv-home__focus-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
 .psv-home__focus-card:hover {
   transform: translateY(-2px);
   border-color: rgba(56, 189, 248, 0.35);
@@ -215,7 +222,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
 }
 
 .psv-home__focus-card--blue .psv-home__focus-icon {
@@ -397,6 +404,583 @@
   color: #E2E8F0 !important;
 }
 
+/* Method Section */
+.psv-home__method-section {
+  margin: 3rem 0;
+}
+
+.psv-home__method-section .psv-home__section-header {
+  margin-bottom: 1.75rem;
+}
+
+.psv-home__method-section .psv-home__section-title {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem !important;
+}
+
+.psv-home__method-section .psv-home__section-subtitle {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  max-width: 680px;
+  margin: 0 auto !important;
+}
+
+.psv-home__method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.psv-home__method-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #D9E1EC;
+  background: #FFFFFF;
+}
+
+.psv-home__method-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: rgba(29, 78, 216, 0.08);
+  color: #1D4ED8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.psv-home__method-card h3 {
+  font-size: 0.98rem;
+  line-height: 1.35;
+  margin: 0 0 0.65rem 0 !important;
+}
+
+.psv-home__method-card p {
+  color: #5B667A !important;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 0 !important;
+}
+
+.psv-home__method-note {
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #D9E1EC;
+  background: #F0F4F9;
+}
+
+.psv-home__method-note-label {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: #1D4ED8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.psv-home__method-note p {
+  color: #5B667A !important;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 0 0 0.65rem 0 !important;
+}
+
+.psv-home__method-note p:last-child {
+  margin-bottom: 0 !important;
+}
+
+[data-md-color-scheme="slate"] .psv-home__method-card {
+  background: #0B1220;
+  border-color: #1B263A;
+}
+
+[data-md-color-scheme="slate"] .psv-home__method-icon {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60A5FA;
+}
+
+[data-md-color-scheme="slate"] .psv-home__method-card p {
+  color: #9AA8BC !important;
+}
+
+[data-md-color-scheme="slate"] .psv-home__method-note {
+  background: #111A2B;
+  border-color: #1B263A;
+}
+
+[data-md-color-scheme="slate"] .psv-home__method-note-label {
+  color: #22D3EE;
+}
+
+[data-md-color-scheme="slate"] .psv-home__method-note p {
+  color: #9AA8BC !important;
+}
+
+/* Informational Section Text */
+.psv-home__content-section .psv-home__content-body {
+  color: #5B667A;
+}
+
+.psv-home__content-section .psv-home__content-body p {
+  color: #5B667A !important;
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+[data-md-color-scheme="slate"] .psv-home__content-section .psv-home__content-body {
+  color: #9AA8BC;
+}
+
+[data-md-color-scheme="slate"] .psv-home__content-section .psv-home__content-body p {
+  color: #9AA8BC !important;
+}
+
+/* Accuracy Section */
+.psv-home__accuracy-section {
+  margin: 3rem 0;
+}
+
+.psv-home__accuracy-section .psv-home__section-header {
+  margin-bottom: 1.75rem;
+}
+
+.psv-home__accuracy-section .psv-home__section-title {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem !important;
+}
+
+.psv-home__accuracy-section .psv-home__section-subtitle {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  max-width: 680px;
+  margin: 0 auto !important;
+}
+
+.psv-home__accuracy-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.psv-home__accuracy-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #D9E1EC;
+  background: #FFFFFF;
+}
+
+.psv-home__accuracy-label {
+  display: block;
+  margin-bottom: 1rem;
+  color: #1D4ED8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.psv-home__accuracy-card p {
+  color: #5B667A !important;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 0 0 0.8rem 0 !important;
+}
+
+.psv-home__accuracy-card p:last-child {
+  margin-bottom: 0 !important;
+}
+
+[data-md-color-scheme="slate"] .psv-home__accuracy-card {
+  background: #0B1220;
+  border-color: #1B263A;
+}
+
+[data-md-color-scheme="slate"] .psv-home__accuracy-label {
+  color: #22D3EE;
+}
+
+[data-md-color-scheme="slate"] .psv-home__accuracy-card p {
+  color: #9AA8BC !important;
+}
+
+
+/* Working Knowledge Base */
+.psv-home__knowledge-section {
+  margin: 4rem 0;
+  padding: 3rem 0;
+  border-top: 1px solid #D9E1EC;
+  border-bottom: 1px solid #D9E1EC;
+}
+
+.psv-home__knowledge-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.psv-home__knowledge-label,
+.psv-home__explore-label {
+  display: block;
+  margin-bottom: 0.9rem;
+  color: #1D4ED8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.psv-home__knowledge-intro h2 {
+  margin: 0 !important;
+  color: #0F172A;
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.psv-home__knowledge-intro h2 span {
+  display: block;
+  color: #1D4ED8;
+}
+
+.psv-home__knowledge-lead {
+  margin: 1.25rem 0 0 !important;
+  color: #5B667A !important;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.psv-home__knowledge-body {
+  padding-top: 0.15rem;
+}
+
+.psv-home__knowledge-body p {
+  margin: 0 0 1.1rem !important;
+  color: #5B667A !important;
+  font-size: 0.84rem;
+  line-height: 1.75;
+}
+
+.psv-home__knowledge-note {
+  margin: 1.5rem 0;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid #1D4ED8;
+  background: #F0F4F9;
+  border-radius: 0 8px 8px 0;
+}
+
+.psv-home__knowledge-note strong {
+  color: #0F172A;
+  font-size: 0.86rem;
+}
+
+
+/* Start Exploring */
+.psv-home__explore-section {
+  margin: 4rem 0 2rem;
+}
+
+.psv-home__explore-panel {
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 3rem;
+  border-radius: 16px;
+  border: 1px solid #D9E1EC;
+  background:
+    linear-gradient(135deg, #F0F4F9 0%, #FFFFFF 55%, #EEF5FF 100%);
+}
+
+.psv-home__explore-intro {
+  margin: 0 0 0.8rem !important;
+  color: #5B667A !important;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.psv-home__explore-copy p {
+  max-width: 700px;
+  margin: 0 0 0.8rem !important;
+  color: #5B667A !important;
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+.psv-home__explore-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.psv-home__explore-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.35rem;
+  border: 1px solid #1D4ED8;
+  border-radius: 9px;
+  background: #1D4ED8;
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.psv-home__explore-button:hover {
+  background: #1E40AF;
+  border-color: #1E40AF;
+  transform: translateY(-1px);
+}
+
+.psv-home__explore-button span {
+  font-size: 1rem;
+}
+
+
+/* Light Mode Modal Label */
+.psv-home__explore-modal .psv-home__explore-menu-label {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: #1D4ED8;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* Start Exploring Modal */
+body.psv-home__modal-open {
+  overflow: hidden;
+}
+
+.psv-home__explore-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(7, 11, 20, 0.68);
+  backdrop-filter: blur(5px);
+}
+
+.psv-home__explore-modal--open {
+  display: flex;
+}
+
+.psv-home__explore-modal-inner {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding: 2rem;
+  border: 1px solid #D9E1EC;
+  border-radius: 16px;
+  background: #FFFFFF;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.psv-home__explore-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #D9E1EC;
+  border-radius: 50%;
+  background: #F7F9FC;
+  color: #5B667A;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.psv-home__explore-modal-close:hover {
+  background: #F0F4F9;
+  color: #0F172A;
+}
+
+.psv-home__explore-modal-header {
+  padding-right: 3rem;
+  margin-bottom: 1.25rem;
+}
+
+.psv-home__explore-modal-header h2 {
+  margin: 0 !important;
+  color: #0F172A;
+  font-size: 1.35rem;
+}
+
+.psv-home__explore-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.psv-home__explore-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 90px;
+  padding: 1rem;
+  border: 1px solid #D9E1EC;
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: inherit !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+}
+
+.psv-home__explore-option:hover {
+  border-color: #1D4ED8;
+  background: #F7F9FC;
+  transform: translateY(-1px);
+}
+
+.psv-home__explore-option strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #0F172A;
+  font-size: 0.88rem;
+}
+
+.psv-home__explore-option span {
+  display: block;
+  color: #5B667A;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.psv-home__explore-option .psv-home__explore-option-arrow {
+  flex-shrink: 0;
+  color: #1D4ED8;
+  font-size: 1rem;
+}
+
+
+/* Dark Mode */
+[data-md-color-scheme="slate"] .psv-home__knowledge-section {
+  border-color: #1B263A;
+}
+
+[data-md-color-scheme="slate"] .psv-home__knowledge-label,
+[data-md-color-scheme="slate"] .psv-home__explore-label {
+  color: #22D3EE;
+}
+
+[data-md-color-scheme="slate"] .psv-home__knowledge-intro h2 {
+  color: #E8EEF8;
+}
+
+[data-md-color-scheme="slate"] .psv-home__knowledge-intro h2 span {
+  color: #60A5FA;
+}
+
+[data-md-color-scheme="slate"] .psv-home__knowledge-lead,
+[data-md-color-scheme="slate"] .psv-home__knowledge-body p {
+  color: #9AA8BC !important;
+}
+
+[data-md-color-scheme="slate"] .psv-home__knowledge-note {
+  background: #111A2B;
+  border-color: #60A5FA;
+}
+
+[data-md-color-scheme="slate"] .psv-home__knowledge-note strong {
+  color: #E8EEF8;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-panel {
+  border-color: #1B263A;
+  background:
+    linear-gradient(135deg, #111A2B 0%, #0B1220 55%, #0C1930 100%);
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-intro {
+  color: #9AA8BC !important;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-copy p {
+  color: #9AA8BC !important;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-button {
+  background: #3B82F6;
+  border-color: #3B82F6;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-button:hover {
+  background: #60A5FA;
+  border-color: #60A5FA;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-modal-inner {
+  background: #0B1220;
+  border-color: #1B263A;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-modal-close {
+  background: #111A2B;
+  border-color: #1B263A;
+  color: #9AA8BC;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-modal-close:hover {
+  background: #1B263A;
+  color: #E8EEF8;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-modal-header h2 {
+  color: #E8EEF8;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-option {
+  background: #0B1220;
+  border-color: #1B263A;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-option:hover {
+  background: #111A2B;
+  border-color: #3B82F6;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-option strong {
+  color: #E8EEF8;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-option span {
+  color: #9AA8BC;
+}
+
+[data-md-color-scheme="slate"] .psv-home__explore-option .psv-home__explore-option-arrow {
+  color: #60A5FA;
+}
+
+
+/* Responsive */
+@media (max-width: 800px) {
+  .psv-home__knowledge-layout,
+  .psv-home__explore-panel {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .psv-home__explore-action {
+    justify-content: flex-start;
+  }
+
+  .psv-home__explore-options {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Reports Grid */
 .psv-home__reports-grid {
   display: grid;
@@ -495,7 +1079,7 @@
    -------------------------------------------------------------------------- */
 
 .psv-home__stream-box {
-  height: 350px;
+  height: 280px;
   overflow: hidden;
   padding: 0.65rem 0.75rem;
   box-sizing: border-box;
@@ -522,8 +1106,8 @@
 .psv-home__stream-entry {
   flex: 0 0 auto !important;
   min-height: 0;
-  padding: 0.65rem 0.75rem;
-  margin-bottom: 0.55rem;
+  padding: 0.50rem 0.65rem;
+  margin-bottom: 0.40rem;
   border: 1px solid rgba(56, 189, 248, 0.10);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.018);
@@ -624,6 +1208,322 @@
     display: none;
   }
 }
+
+.psv-home__gradient-text {
+  color: #2A4DD0 !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+
+/* FINAL RESPONSIVE POLISH */
+
+@media (min-width: 961px) {
+
+  /* Latest Investigations & Lab Reports */
+  .psv-home__reports-section {
+    padding-top: 1.25rem;
+  }
+
+  .psv-home__reports-grid {
+    margin-top: 0.75rem;
+  }
+
+  /* Start Exploring */
+  .psv-home__explore-section {
+    margin-top: 3.5rem;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   Desktop spacing refinement
+   --------------------------------------------------------- */
+
+@media (min-width: 961px) {
+
+  .psv-home {
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .psv-home__hero {
+    margin-bottom: 3.25rem;
+  }
+
+  .psv-home__why {
+    margin-bottom: 3.75rem;
+  }
+
+  .psv-home__reports-grid {
+    margin-bottom: 3.5rem;
+  }
+
+  .psv-home__explore-section {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .psv-home__explore-panel {
+    padding: 2.75rem 3rem;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   Tablet
+   --------------------------------------------------------- */
+
+@media (max-width: 960px) {
+
+  .psv-home {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .psv-home__hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2.75rem;
+  }
+
+  .psv-home__hero-content {
+    max-width: 720px;
+  }
+
+  .psv-home__hero-visual {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .psv-home__why {
+    margin-bottom: 3rem;
+  }
+
+  .psv-home__explore-panel {
+    gap: 2rem;
+    padding: 2.25rem;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .psv-home {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .psv-home__container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+
+  /* Hero */
+
+  .psv-home__hero {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .psv-home__hero-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .psv-home__hero-desc {
+    max-width: 100%;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .psv-home__hero-visual {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .psv-home__hero-visual-body {
+    overflow-x: auto;
+  }
+
+
+  /* Why I Built This */
+
+  .psv-home__why {
+    margin-bottom: 2.75rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .psv-home__why-intro {
+    margin-bottom: 1.25rem;
+  }
+
+  .psv-home__why-content {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+
+  /* General section spacing */
+
+  .psv-home__section-title {
+    font-size: 1.3rem;
+  }
+
+  .psv-home__section-subtitle {
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+
+
+  /* Find / content cards */
+
+  .psv-home__find-grid,
+  .psv-home__focus-grid,
+  .psv-home__cards-grid {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+
+  /* Generic three-column homepage grids */
+
+  .psv-home__find-grid > *,
+  .psv-home__focus-grid > *,
+  .psv-home__cards-grid > * {
+    width: 100%;
+  }
+
+
+  /* Latest reports */
+
+  .psv-home__reports-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+
+  /* Start Exploring */
+
+  .psv-home__explore-section {
+    margin: 2.75rem 0 1.25rem;
+  }
+
+  .psv-home__explore-panel {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.75rem 1.35rem;
+    border-radius: 12px;
+  }
+
+  .psv-home__explore-copy {
+    min-width: 0;
+  }
+
+  .psv-home__explore-copy p {
+    font-size: 0.8rem;
+    line-height: 1.65;
+  }
+
+  .psv-home__explore-action {
+    justify-content: flex-start;
+  }
+
+  .psv-home__explore-button {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+
+  /* Explore modal */
+
+  .psv-home__explore-modal {
+    padding: 0.75rem;
+  }
+
+  .psv-home__explore-modal-inner {
+    width: 100%;
+    max-height: calc(100vh - 1.5rem);
+    padding: 1.35rem;
+    border-radius: 12px;
+  }
+
+  .psv-home__explore-modal-header {
+    padding-right: 2.5rem;
+  }
+
+  .psv-home__explore-modal-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .psv-home__explore-options {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .psv-home__explore-option {
+    min-height: 76px;
+    padding: 0.85rem;
+  }
+
+
+  /* Smaller mobile spacing */
+
+  .psv-home__reports-grid {
+    margin-top: 1.5rem;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   Small phones
+   --------------------------------------------------------- */
+
+@media (max-width: 420px) {
+
+  .psv-home {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .psv-home__hero-title {
+    font-size: 1.6rem;
+  }
+
+  .psv-home__hero-desc {
+    font-size: 0.8rem;
+  }
+
+  .psv-home__why {
+    padding: 1.25rem 1rem;
+  }
+
+  .psv-home__explore-panel {
+    padding: 1.5rem 1.1rem;
+  }
+
+  .psv-home__explore-button {
+    font-size: 0.8rem;
+  }
+}
+
 </style>
 
 <div class="psv-home">
@@ -632,21 +1532,20 @@
     <!-- 1. HERO SECTION -->
     <section class="psv-home__hero">
       <div class="psv-home__hero-content">
-        <span class="psv-home__eyebrow">PRACTICAL SECURITY • OPERATIONAL INSIGHTS</span>
+        <span class="psv-home__eyebrow">Learn. Test. Investigate. Document.</span>
         <h1 class="psv-home__hero-title">
-          Defensive Operations, Threat Analysis &amp; <span class="psv-home__gradient-text">Security Testing</span>
+          Privacy <span class="psv-home__gradient-text">Skill Vault</span>
         </h1>
         <p class="psv-home__hero-desc">
-          Documenting real-world SIEM workflows, fraud detection, and lab-based security experimentation. Focused on understanding why security controls fail, how alerts behave, and how systems perform under operational analysis.
+          Privacy Skill Vault is a personal technical knowledge base built from the things I learn, test, investigate, troubleshoot, and document over time.
         </p>
-        <div class="psv-home__hero-actions">
-          <a href="investigations/" class="psv-home__btn-primary">
-            Explore Investigations →
-          </a>
-          <a href="labs/" class="psv-home__btn-secondary">
-            View Lab Setups →
-          </a>
-        </div>
+        <p class="psv-home__hero-desc">
+          It is not intended to be a definitive cybersecurity reference, and it is not presented as one.
+        </p>
+        <p class="psv-home__hero-desc">
+          The goal is to keep useful technical notes, document findings and problem-solving, and create a record of things that are worth revisiting.
+        </p>
+
       </div>
 
       <!-- CLIENT-SIDE SIMULATED SOC EVENT STREAM WIDGET -->
@@ -669,217 +1568,155 @@
       </div>
     </section>
 
-    <!-- 2. FOCUS AREAS -->
-    <section>
-      <div class="psv-home__section-header">
-        <h2 class="psv-home__section-title">Focus Areas</h2>
-        <p class="psv-home__section-subtitle">Core areas I work on and document through real-world analysis and lab testing.</p>
-      </div>
+    <!-- 2. WHY I BUILT THIS -->
+<section class="psv-home__why">
+  <div class="psv-home__why-label">
+    <h2>Why I built this</h2>
 
-      <div class="psv-home__focus-grid">
-        <div class="psv-home__focus-card psv-home__focus-card--blue">
-          <div class="psv-home__focus-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h3>SOC &amp; Alert Triage</h3>
-          <p>Deep-dives into event correlation, false-positive reduction, and mapping alert workflows against attack vectors. Focused on raw log telemetry across Windows Security Events, Auditd, and Sysmon.</p>
-        </div>
-
-        <div class="psv-home__focus-card psv-home__focus-card--purple">
-          <div class="psv-home__focus-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m3.44-2.04l.053-.054A13.916 13.916 0 0016 11c0-2.222-.519-4.32-1.442-6.182M8.5 7.5c.343-1.2.98-2.28 1.838-3.17M12 2a10 10 0 1010 10A10 10 0 0012 2z"/></svg>
-          </div>
-          <h3>Fraud &amp; Anomaly Detection</h3>
-          <p>Investigating account abuse patterns, operational anomalies, velocity spikes, and risk scoring logic to identify suspicious activity across application and transaction workflows.</p>
-        </div>
-
-        <div class="psv-home__focus-card psv-home__focus-card--teal">
-          <div class="psv-home__focus-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31L4.15 19.3A2 2 0 005.86 22h12.28a2 2 0 001.71-2.7L14 9.31V2"/></svg>
-          </div>
-          <h3>Lab Experimentation</h3>
-          <p>Building isolated lab environments (pfSense, Suricata, Elastic) to test network visibility, evaluate firewall rules, and observe real-time detection triggers.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. INTEGRATED SECURITY LAB ARCHITECTURE -->
-    <section class="psv-home__arch-panel">
-      <div class="psv-home__topology-header">
-        <div>
-          <h2 style="font-size: 1.45rem; font-weight: 700; color: #FFFFFF; margin: 0 0 0.5rem 0;">Integrated Security Lab Architecture</h2>
-          <p style="color: #94A3B8; font-size: 0.85rem; margin: 0; max-width: 600px; line-height: 1.5;">
-            Logical capability architecture derived from the 30-phase security laboratory curriculum, illustrating telemetry collection, security operations, and operational resilience.
-          </p>
-        </div>
-      </div>
-
-      <!-- Security Lifecycle Strip -->
-      <div class="psv-home__lifecycle">
-        <span class="psv-home__lifecycle-label">Security Lifecycle:</span>
-        <div class="psv-home__lifecycle-steps">
-          <span>Build</span>
-          <span class="psv-home__lifecycle-sep">→</span>
-          <span>Attack</span>
-          <span class="psv-home__lifecycle-sep">→</span>
-          <span>Detect</span>
-          <span class="psv-home__lifecycle-sep">→</span>
-          <span>Investigate</span>
-          <span class="psv-home__lifecycle-sep">→</span>
-          <span>Respond</span>
-          <span class="psv-home__lifecycle-sep">→</span>
-          <span>Validate</span>
-          <span class="psv-home__lifecycle-sep">→</span>
-          <span>Operate</span>
-        </div>
-      </div>
-
-      <!-- Logical Architecture Mermaid Diagram -->
-      <div class="psv-home__mermaid-wrap">
-```mermaid
-flowchart TD
-    subgraph S1["1. Virtual Lab Foundation"]
-        VLP["Virtual Lab Platform\n(VMware / Hypervisor / Virtual Networks)"]
-        FW["Network Control\n(pfSense Firewall Router)"]
-        VLP --> FW
-    end
-
-    subgraph S2["2. Operational Environments & Controlled Activity"]
-        ENT["Enterprise Environment\n(Active Directory / Windows / Linux)"]
-        OFF["Offensive Simulation\n(Kali Linux / Penetration Testing Nodes)"]
-        FW --> ENT
-        FW --> OFF
-        OFF -->|Controlled Lab Activity| ENV["Integrated Security Environment"]
-        ENT --> ENV
-    end
-
-    subgraph S3["3. Security Visibility & Telemetry"]
-        ET["Endpoint Telemetry\n(Sysmon / Auditd / Wazuh Agent)"]
-        NT["Network Telemetry\n(Suricata IDS / Zeek)"]
-        ENV -->|Host Activity| ET
-        ENV -->|Network Traffic| NT
-    end
-
-    subgraph S4["4. Data & Log Pipeline"]
-        PIPE["Log Collection & Forwarding\n(Filebeat / Winlogbeat / Logstash)"]
-        ET --> PIPE
-        NT --> PIPE
-    end
-
-    subgraph S5["5. Security Analytics & Detection"]
-        ES["Elastic SIEM\n(Central Correlation & Analytics)"]
-        WZ["Wazuh Manager & Security Platform\n(Host Analysis & EDR Management)"]
-        PIPE --> ES
-        PIPE --> WZ
-    end
-
-    subgraph S6["6. SOC Operations"]
-        TH["TheHive\n(Case & Incident Management)"]
-        MISP["MISP\n(Threat Intelligence Platform)"]
-        SH["Shuffle\n(Security Workflow Automation)"]
-
-        ES --> TH
-        WZ --> TH
-        ES --> MISP
-        WZ --> MISP
-        TH <--> SH
-        MISP <--> SH
-    end
-
-    subgraph S7["7. Analysis & Investigation"]
-        ACT["Detection Engineering / Incident Investigation / Threat Hunting"]
-        TH --> ACT
-        MISP --> ACT
-        SH --> ACT
-    end
-
-    subgraph S8["8. Resilience & Operational Validation"]
-        OPS["Monitoring, Backup & Disaster Recovery"]
-        CAP["Enterprise Validation & Operations"]
-        ACT --> OPS
-        OPS --> CAP
-    end
-
-    classDef foundation fill:#0B1736,stroke:#2563EB,stroke-width:1.5px,color:#FFFFFF;
-    classDef operational fill:#080E1A,stroke:#38BDF8,stroke-width:1px,color:#E2E8F0;
-    classDef analytics fill:#050C21,stroke:#3B82F6,stroke-width:1.5px,color:#FFFFFF;
-    classDef soc fill:#080E1A,stroke:#A855F7,stroke-width:1px,color:#E2E8F0;
-
-    class VLP,FW foundation;
-    class ENT,OFF,ENV,ET,NT,PIPE operational;
-    class ES,WZ analytics;
-    class TH,MISP,SH,ACT,OPS,CAP soc;
-
+    <div class="psv-home__why-intro">
+      I use it to keep the things I find useful, along with the notes,
+      findings, examples, and lessons that I want to be able to come back
+      to later.
+    </div>
   </div>
 
-  <p style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.6; margin: 0 0 1.5rem 0;">
-    Privacy Skill Vault Labs are built as an integrated security environment rather than a collection of isolated tutorials. The environment progresses from virtualization and enterprise infrastructure into security telemetry, offensive simulation, detection, investigation, threat intelligence, automation, resilience, and operational validation.
-  </p>
+  <div class="psv-home__why-content">
+    <p>
+      I come across useful things while working, troubleshooting, testing
+      tools, reading documentation, researching, or simply trying to
+      understand how something works.
+    </p>
 
-  <!-- Architecture Layer Breakdown Cards -->
-  <div class="psv-home__layer-grid">
-    <div class="psv-home__layer-card">
-      <h4>Foundation</h4>
-      <p>Provides the virtualization, storage and networking platform on which the lab operates.</p>
-    </div>
-    <div class="psv-home__layer-card">
-      <h4>Enterprise</h4>
-      <p>Provides the systems and services that generate realistic authentication, process, network and operational activity.</p>
-    </div>
-    <div class="psv-home__layer-card">
-      <h4>Visibility</h4>
-      <p>Collects endpoint and network telemetry using the project's monitoring and logging components.</p>
-    </div>
-    <div class="psv-home__layer-card">
-      <h4>Security Operations</h4>
-      <p>Turns telemetry into detections, investigations, threat hunting and SOC workflows.</p>
-    </div>
-    <div class="psv-home__layer-card">
-      <h4>Offensive Simulation</h4>
-      <p>Produces controlled security activity that can be observed and detected.</p>
-    </div>
-    <div class="psv-home__layer-card">
-      <h4>Intelligence &amp; Automation</h4>
-      <p>Enriches security operations and automates selected workflows.</p>
-    </div>
-    <div class="psv-home__layer-card">
-      <h4>Resilience</h4>
-      <p>Monitors the environment and provides backup, recovery and operational validation.</p>
-    </div>
+    <p>
+      The difficult part is remembering all of it. Something can make
+      perfect sense when I read it, only to become difficult to find or
+      remember later. Different sources can also explain the same topic
+      differently, and what works in one environment may not always work
+      in another.
+    </p>
+
+    <p>
+      Some of the content comes from things I have worked with directly.
+      Other parts come from research, documentation, experiments,
+      investigations, or information gathered from different sources.
+    </p>
+
+    <p class="psv-home__why-note">
+      The goal is not to present everything here as something I discovered
+      myself. It is simply a place to keep what I learn, document useful
+      findings, and make them easier to understand and refer back to.
+    </p>
   </div>
 </section>
 
-<!-- 4. OPERATIONAL METHODOLOGY -->
-<section class="psv-home__methodology">
-  <div>
-    <h2 class="psv-home__methodology-title">Why Hands-On<br/>Lab Testing Matters</h2>
-    <p class="psv-home__methodology-sub">Bridging the gap between theoretical security concepts and messy operational reality.</p>
-  </div>
-
-  <div class="psv-home__methodology-divider"></div>
-
-  <div class="psv-home__methodology-content">
-    <p style="margin-top: 0;">Much of cybersecurity content focuses heavily on theoretical concepts or simplified demonstrations that rarely reflect production environments. Real-world analysis is unpredictable:</p>
-    <ul class="psv-home__checklist">
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Alerts can be extremely noisy and prone to false positives.
-      </li>
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Logs are often incomplete, unparsed, or misconfigured.
-      </li>
-      <li>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Security tools behave differently depending on network architecture and logging depth.
-      </li>
-    </ul>
-    <p style="margin-bottom: 0;">The goal of Privacy Skill Vault is not just to showcase clean, successful outcomes, but to document why configurations break, how alerts fire under stress, and how issues are systematically identified through structured analysis.</p>
-  </div>
-</section>
-
-<!-- 5. RECENT TECHNICAL WRITE-UPS -->
+<!-- 3. WHAT YOU WILL FIND HERE -->
 <section>
+  <div class="psv-home__section-header">
+    <h2 class="psv-home__section-title">What You'll Find Here</h2>
+    <p class="psv-home__section-subtitle">
+      Privacy Skill Vault brings together the things I learn, investigate, test, and find useful across cybersecurity and technology.
+    </p>
+  </div>
+
+  <div class="psv-home__focus-grid">
+
+    <div class="psv-home__focus-card psv-home__focus-card--blue">
+      <div class="psv-home__focus-header">
+      <div class="psv-home__focus-icon">
+        <span aria-hidden="true">🔎</span>
+      </div>
+      <h3>Investigations</h3>
+      </div>
+      <p>
+        Real-world security investigations and technical problems that require more than a quick fix.
+      </p>
+      <p>
+        These pages document the problem, what was investigated, the evidence and observations along the way, and the findings where they can be established.
+      </p>
+    </div>
+
+    <div class="psv-home__focus-card psv-home__focus-card--purple">
+      <div class="psv-home__focus-header">
+      <div class="psv-home__focus-icon">
+        <span aria-hidden="true">🧪</span>
+      </div>
+      <h3>Labs &amp; Testing</h3>
+      </div>
+      <p>
+        Hands-on work exploring security technologies, configurations, attack techniques, and defensive approaches.
+      </p>
+      <p>
+        The labs cover both offensive and defensive security, with practical testing used to understand how things actually behave rather than relying only on theory.
+      </p>
+    </div>
+
+    <div class="psv-home__focus-card psv-home__focus-card--teal">
+      <div class="psv-home__focus-header">
+      <div class="psv-home__focus-icon">
+        <span aria-hidden="true">🛠️</span>
+      </div>
+      <h3>Tools</h3>
+      </div>
+      <p>
+        A collection of security tools and practical utilities that are useful for investigation, analysis, testing, and day-to-day security work.
+      </p>
+      <p>
+        Where possible, the focus is on what a tool does, how it can be used, and what its results actually tell you.
+      </p>
+    </div>
+
+    <div class="psv-home__focus-card psv-home__focus-card--blue">
+      <div class="psv-home__focus-header">
+      <div class="psv-home__focus-icon">
+        <span aria-hidden="true">📚</span>
+      </div>
+      <h3>Learning</h3>
+      </div>
+      <p>
+        Practical learning material covering areas such as SOC operations, penetration testing, cyber fraud, security concepts, and the technologies behind them.
+      </p>
+      <p>
+        The aim is to turn useful information into something that is easier to understand, practice, and return to later.
+      </p>
+    </div>
+
+    <div class="psv-home__focus-card psv-home__focus-card--purple">
+      <div class="psv-home__focus-header">
+      <div class="psv-home__focus-icon">
+        <span aria-hidden="true">📝</span>
+      </div>
+      <h3>Blog</h3>
+      </div>
+      <p>
+        A place for security research, observations, technical write-ups, and topics that are worth exploring in more detail.
+      </p>
+      <p>
+        Not every post is meant to be a definitive answer. Some are simply the result of looking into a question and documenting what was found.
+      </p>
+    </div>
+
+    <div class="psv-home__focus-card psv-home__focus-card--teal">
+      <div class="psv-home__focus-header">
+      <div class="psv-home__focus-icon">
+        <span aria-hidden="true">💡</span>
+      </div>
+      <h3>Findings &amp; Lessons</h3>
+      </div>
+      <p>
+        Small details, unexpected behaviour, mistakes, limitations, and useful observations that are easy to overlook but worth remembering.
+      </p>
+      <p>
+        Sometimes the most useful outcome is not a major discovery, but simply understanding why something happened or correcting an assumption.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- 4. RECENT TECHNICAL WRITE-UPS -->
+<section class="psv-home__reports-section">
   <div class="psv-home__section-header">
     <h2 class="psv-home__section-title">Latest Investigations &amp; Lab Reports</h2>
     <p class="psv-home__section-subtitle">Explore recent breakdowns of alert investigations, detection engineering notes, and security lab guides.</p>
@@ -930,7 +1767,124 @@ flowchart TD
   </div>
 </section>
 
-<!-- 6. FOOTER -->
+
+<!-- 8. START EXPLORING -->
+<section class="psv-home__explore-section">
+
+  <div class="psv-home__explore-panel">
+
+    <div class="psv-home__explore-copy">
+      <span class="psv-home__explore-label">START EXPLORING</span>
+
+      <p class="psv-home__explore-intro">
+        There is no particular order to follow.
+      </p>
+
+      <p>
+        You can start with an investigation, browse through the technical
+        notes, explore privacy and security topics, or simply see what has
+        been added recently.
+      </p>
+
+      <p>
+        If you find something useful, use it. If something doesn't look right,
+        question it. And if something here gives you a useful starting point
+        for your own investigation, then it is serving its purpose.
+      </p>
+    </div>
+
+    <div class="psv-home__explore-action">
+      <button
+        type="button"
+        class="psv-home__explore-button"
+        onclick="document.getElementById('psv-explore-modal').classList.add('psv-home__explore-modal--open'); document.body.classList.add('psv-home__modal-open');"
+        aria-haspopup="dialog"
+      >
+        Start Exploring <span>→</span>
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- START EXPLORING MODAL -->
+<div
+  id="psv-explore-modal"
+  class="psv-home__explore-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="psv-explore-modal-title"
+  onclick="if(event.target === this){this.classList.remove('psv-home__explore-modal--open'); document.body.classList.remove('psv-home__modal-open');}"
+>
+
+  <div class="psv-home__explore-modal-inner">
+
+    <button
+      type="button"
+      class="psv-home__explore-modal-close"
+      aria-label="Close"
+      onclick="document.getElementById('psv-explore-modal').classList.remove('psv-home__explore-modal--open'); document.body.classList.remove('psv-home__modal-open');"
+    >
+      ×
+    </button>
+
+    <div class="psv-home__explore-modal-header">
+      <span class="psv-home__explore-menu-label">START EXPLORING</span>
+
+      <h2 id="psv-explore-modal-title">Choose an area to explore.</h2>
+    </div>
+
+    <div class="psv-home__explore-options">
+
+      <a href="https://learn.privacyskillvault.com/" class="psv-home__explore-option">
+        <div>
+          <strong>Learn</strong>
+          <span>Cybersecurity fundamentals and learning notes</span>
+        </div>
+        <span class="psv-home__explore-option-arrow">→</span>
+      </a>
+
+      <a href="https://labs.privacyskillvault.com/" class="psv-home__explore-option">
+        <div>
+          <strong>Labs</strong>
+          <span>Hands-on testing and security lab work</span>
+        </div>
+        <span class="psv-home__explore-option-arrow">→</span>
+      </a>
+
+      <a href="https://investigations.privacyskillvault.com/" class="psv-home__explore-option">
+        <div>
+          <strong>Investigations</strong>
+          <span>Technical investigations and case studies</span>
+        </div>
+        <span class="psv-home__explore-option-arrow">→</span>
+      </a>
+
+      <a href="https://tools.privacyskillvault.com/" class="psv-home__explore-option">
+        <div>
+          <strong>Tools</strong>
+          <span>Security tools and practical guides</span>
+        </div>
+        <span class="psv-home__explore-option-arrow">→</span>
+      </a>
+
+      <a href="https://blog.privacyskillvault.com/" class="psv-home__explore-option">
+        <div>
+          <strong>Blog</strong>
+          <span>Articles, notes and recent additions</span>
+        </div>
+        <span class="psv-home__explore-option-arrow">→</span>
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- 9. FOOTER -->
 <footer class="psv-home__footer">
   <div>Copyright © 2026 Privacy Skill Vault. All rights reserved.</div>
 </footer>

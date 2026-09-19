@@ -23,6 +23,153 @@ A comprehensive, ground-up guide to building an isolated, dual-purpose SOC (Defe
 
 ---
 
+<!-- INTEGRATED SECURITY LAB ARCHITECTURE -->
+<section class="psv-home__arch-panel">
+  <div class="psv-home__topology-header">
+    <div>
+      <h2 style="font-size: 1.45rem; font-weight: 700; color: #FFFFFF; margin: 0 0 0.5rem 0;">Integrated Security Lab Architecture</h2>
+      <p style="color: #94A3B8; font-size: 0.85rem; margin: 0; max-width: 600px; line-height: 1.5;">
+        Logical capability architecture derived from the 30-phase security laboratory curriculum, illustrating telemetry collection, security operations, and operational resilience.
+      </p>
+    </div>
+  </div>
+
+  <!-- Security Lifecycle Strip -->
+  <div class="psv-home__lifecycle">
+    <span class="psv-home__lifecycle-label">Security Lifecycle:</span>
+    <div class="psv-home__lifecycle-steps">
+      <span>Build</span>
+      <span class="psv-home__lifecycle-sep">→</span>
+      <span>Attack</span>
+      <span class="psv-home__lifecycle-sep">→</span>
+      <span>Detect</span>
+      <span class="psv-home__lifecycle-sep">→</span>
+      <span>Investigate</span>
+      <span class="psv-home__lifecycle-sep">→</span>
+      <span>Respond</span>
+      <span class="psv-home__lifecycle-sep">→</span>
+      <span>Validate</span>
+      <span class="psv-home__lifecycle-sep">→</span>
+      <span>Operate</span>
+    </div>
+  </div>
+
+  <!-- Logical Architecture Mermaid Diagram -->
+  <div class="psv-home__mermaid-wrap" markdown="1">
+```mermaid
+flowchart TD
+subgraph S1["1. Virtual Lab Foundation"]
+    VLP["Virtual Lab Platform\n(VMware / Hypervisor / Virtual Networks)"]
+    FW["Network Control\n(pfSense Firewall Router)"]
+    VLP --> FW
+end
+
+subgraph S2["2. Operational Environments & Controlled Activity"]
+    ENT["Enterprise Environment\n(Active Directory / Windows / Linux)"]
+    OFF["Offensive Simulation\n(Kali Linux / Penetration Testing Nodes)"]
+    FW --> ENT
+    FW --> OFF
+    OFF -->|Controlled Lab Activity| ENV["Integrated Security Environment"]
+    ENT --> ENV
+end
+
+subgraph S3["3. Security Visibility & Telemetry"]
+    ET["Endpoint Telemetry\n(Sysmon / Auditd / Wazuh Agent)"]
+    NT["Network Telemetry\n(Suricata IDS / Zeek)"]
+    ENV -->|Host Activity| ET
+    ENV -->|Network Traffic| NT
+end
+
+subgraph S4["4. Data & Log Pipeline"]
+    PIPE["Log Collection & Forwarding\n(Filebeat / Winlogbeat / Logstash)"]
+    ET --> PIPE
+    NT --> PIPE
+end
+
+subgraph S5["5. Security Analytics & Detection"]
+    ES["Elastic SIEM\n(Central Correlation & Analytics)"]
+    WZ["Wazuh Manager & Security Platform\n(Host Analysis & EDR Management)"]
+    PIPE --> ES
+    PIPE --> WZ
+end
+
+subgraph S6["6. SOC Operations"]
+    TH["TheHive\n(Case & Incident Management)"]
+    MISP["MISP\n(Threat Intelligence Platform)"]
+    SH["Shuffle\n(Security Workflow Automation)"]
+
+    ES --> TH
+    WZ --> TH
+    ES --> MISP
+    WZ --> MISP
+    TH <--> SH
+    MISP <--> SH
+end
+
+subgraph S7["7. Analysis & Investigation"]
+    ACT["Detection Engineering / Incident Investigation / Threat Hunting"]
+    TH --> ACT
+    MISP --> ACT
+    SH --> ACT
+end
+
+subgraph S8["8. Resilience & Operational Validation"]
+    OPS["Monitoring, Backup & Disaster Recovery"]
+    CAP["Enterprise Validation & Operations"]
+    ACT --> OPS
+    OPS --> CAP
+end
+
+classDef foundation fill:#0B1736,stroke:#2563EB,stroke-width:1.5px,color:#FFFFFF;
+classDef operational fill:#080E1A,stroke:#38BDF8,stroke-width:1px,color:#E2E8F0;
+classDef analytics fill:#050C21,stroke:#3B82F6,stroke-width:1.5px,color:#FFFFFF;
+classDef soc fill:#080E1A,stroke:#A855F7,stroke-width:1px,color:#E2E8F0;
+
+class VLP,FW foundation;
+class ENT,OFF,ENV,ET,NT,PIPE operational;
+class ES,WZ analytics;
+class TH,MISP,SH,ACT,OPS,CAP soc;
+```
+
+  </div>
+
+  <p style="color: #CBD5E1; font-size: 0.85rem; line-height: 1.6; margin: 0 0 1.5rem 0;">
+Privacy Skill Vault Labs are built as an integrated security environment rather than a collection of isolated tutorials. The environment progresses from virtualization and enterprise infrastructure into security telemetry, offensive simulation, detection, investigation, threat intelligence, automation, resilience, and operational validation.
+  </p>
+
+  <!-- Architecture Layer Breakdown Cards -->
+  <div class="psv-home__layer-grid">
+<div class="psv-home__layer-card">
+  <h4>Foundation</h4>
+  <p>Provides the virtualization, storage and networking platform on which the lab operates.</p>
+</div>
+<div class="psv-home__layer-card">
+  <h4>Enterprise</h4>
+  <p>Provides the systems and services that generate realistic authentication, process, network and operational activity.</p>
+</div>
+<div class="psv-home__layer-card">
+  <h4>Visibility</h4>
+  <p>Collects endpoint and network telemetry using the project's monitoring and logging components.</p>
+</div>
+<div class="psv-home__layer-card">
+  <h4>Security Operations</h4>
+  <p>Turns telemetry into detections, investigations, threat hunting and SOC workflows.</p>
+</div>
+<div class="psv-home__layer-card">
+  <h4>Offensive Simulation</h4>
+  <p>Produces controlled security activity that can be observed and detected.</p>
+</div>
+<div class="psv-home__layer-card">
+  <h4>Intelligence &amp; Automation</h4>
+  <p>Enriches security operations and automates selected workflows.</p>
+</div>
+<div class="psv-home__layer-card">
+  <h4>Resilience</h4>
+  <p>Monitors the environment and provides backup, recovery and operational validation.</p>
+</div>
+  </div>
+</section>
+
 ## Lab Network Architecture &amp; Subnet Mapping
 
 Multi-segmented, isolated environment for safe offensive testing and defensive monitoring.
