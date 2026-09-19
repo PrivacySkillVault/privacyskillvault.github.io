@@ -1934,3 +1934,1181 @@ body:has(.psv-home) .md-content__inner {
     animation: none;
   }
 }
+
+/* =========================================================
+   PSV LEARN PAGE
+   ========================================================= */
+
+.psv-learn-page {
+  color: var(--psv-text);
+}
+
+
+/* ---------------------------------------------------------
+   CONTAINER
+   --------------------------------------------------------- */
+
+.psv-learn-container {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+
+/* ---------------------------------------------------------
+   HERO
+   --------------------------------------------------------- */
+
+.psv-learn-hero {
+  padding: 76px 0 74px;
+}
+
+.psv-learn-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  gap: 72px;
+  align-items: center;
+}
+
+.psv-learn-hero-content {
+  max-width: 650px;
+}
+
+.psv-learn-eyebrow,
+.psv-learn-section-kicker {
+  margin-bottom: 12px;
+  color: var(--psv-primary);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.psv-learn-hero-content h1 {
+  margin: 0 0 22px;
+  color: var(--psv-text);
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.psv-learn-hero-lead {
+  max-width: 650px;
+  margin: 0 0 18px;
+  color: var(--psv-text);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 500;
+}
+
+.psv-learn-hero-copy {
+  max-width: 650px;
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+
+/* ---------------------------------------------------------
+   LEARNING MAP
+   --------------------------------------------------------- */
+
+.psv-learning-map {
+  padding: 28px;
+  background: var(--psv-surface);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-lg);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
+}
+
+.psv-learning-map-label {
+  margin-bottom: 20px;
+  color: var(--psv-text-muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.psv-learning-map-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.psv-learning-map-node {
+  position: relative;
+  min-height: 88px;
+  padding: 18px;
+  background: var(--psv-bg);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.psv-learning-map-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--psv-primary);
+}
+
+.psv-learning-map-number {
+  color: var(--psv-primary);
+  font-size: 0.68rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.psv-learning-map-title {
+  color: var(--psv-text);
+  font-size: 0.95rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.psv-learning-map-note {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--psv-border);
+  color: var(--psv-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+
+/* ---------------------------------------------------------
+   GENERAL SECTIONS
+   --------------------------------------------------------- */
+
+.psv-learn-section {
+  padding: 68px 0;
+}
+
+.psv-learn-section-header {
+  max-width: 800px;
+  margin-bottom: 30px;
+}
+
+.psv-learn-section-header h2 {
+  margin: 0 0 10px;
+  color: var(--psv-text);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.psv-learn-section-header p {
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+
+/* ---------------------------------------------------------
+   LEARNING AREA GRID
+   --------------------------------------------------------- */
+
+.psv-learning-area-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.psv-learning-area-card {
+  position: relative;
+  min-height: 265px;
+  padding: 28px;
+  background: var(--psv-surface);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.psv-learning-area-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--psv-primary);
+  opacity: 0.75;
+}
+
+.psv-learning-area-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(31, 111, 235, 0.55);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
+}
+
+.psv-learning-area-top {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.psv-learning-area-number {
+  color: var(--psv-primary);
+  font-size: 0.7rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.psv-learning-area-title {
+  color: var(--psv-text);
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+
+/* ---------------------------------------------------------
+   TOPIC TAGS
+   --------------------------------------------------------- */
+
+.psv-learning-area-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.psv-learning-area-topics span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  padding: 4px 8px;
+  background: rgba(31, 111, 235, 0.055);
+  border: 1px solid rgba(31, 111, 235, 0.12);
+  border-radius: 5px;
+  color: var(--psv-text-muted);
+  font-size: 0.76rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   DESCRIPTION
+   --------------------------------------------------------- */
+
+.psv-learning-area-description {
+  position: relative;
+  max-width: 650px;
+  margin: 0;
+  padding-left: 13px;
+  color: var(--psv-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.psv-learning-area-description::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 3px;
+  height: calc(100% - 4px);
+  min-height: 24px;
+  border-radius: 3px;
+  background: var(--psv-primary);
+  opacity: 0.55;
+}
+
+
+/* ---------------------------------------------------------
+   AREA LINKS
+   --------------------------------------------------------- */
+
+.psv-learning-area-link {
+  margin-top: auto;
+  padding-top: 22px;
+  color: var(--psv-primary);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.psv-learning-area-link span {
+  display: inline-block;
+  margin-left: 3px;
+  transition: transform 0.2s ease;
+}
+
+.psv-learning-area-link:hover {
+  color: var(--psv-primary);
+  text-decoration: none;
+}
+
+.psv-learning-area-link:hover span {
+  transform: translateX(3px);
+}
+
+
+/* ---------------------------------------------------------
+   MATERIAL / LEARNING METHOD
+   --------------------------------------------------------- */
+
+.psv-learn-method-section {
+  padding-top: 74px;
+}
+
+.psv-learning-method {
+  padding: 30px;
+  background: var(--psv-surface);
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-lg);
+}
+
+.psv-learning-method-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  align-items: center;
+}
+
+.psv-learning-method-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.psv-learning-method-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(31, 111, 235, 0.25);
+  border-radius: 50%;
+  color: var(--psv-primary);
+  font-size: 0.65rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.psv-learning-method-item h3 {
+  margin: 0 0 7px;
+  color: var(--psv-text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.psv-learning-method-item p {
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.psv-learning-method-connector {
+  position: relative;
+  height: 1px;
+  background: var(--psv-border);
+}
+
+.psv-learning-method-connector::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: -2px;
+  transform: translateY(-50%);
+  padding-left: 7px;
+  background: var(--psv-surface);
+  color: var(--psv-primary);
+  font-size: 0.8rem;
+}
+
+.psv-learning-method-line {
+  height: 28px;
+  margin: 0 14px 0 14px;
+  border-left: 1px solid var(--psv-border);
+}
+
+.psv-learning-method-bottom {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 50px;
+}
+
+
+/* ---------------------------------------------------------
+   CTA
+   --------------------------------------------------------- */
+
+.psv-learn-cta-section {
+  padding: 72px 0 88px;
+}
+
+.psv-learn-cta {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 50px;
+  align-items: center;
+  padding: 42px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--psv-surface),
+      rgba(31, 111, 235, 0.045)
+    );
+  border: 1px solid var(--psv-border);
+  border-radius: var(--psv-radius-lg);
+  overflow: hidden;
+}
+
+.psv-learn-cta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--psv-primary);
+}
+
+.psv-learn-cta-content {
+  max-width: 760px;
+}
+
+.psv-learn-cta-content h2 {
+  margin: 0 0 20px;
+  color: var(--psv-text);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.psv-learn-cta-content p {
+  margin: 0 0 10px;
+  color: var(--psv-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.psv-learn-cta-content .psv-learn-cta-lead {
+  margin-bottom: 16px;
+  color: var(--psv-text);
+}
+
+.psv-learn-cta-action {
+  flex-shrink: 0;
+}
+
+.psv-learn-cta-button {
+  margin: 0;
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   HIDE AUTOMATIC MKDOCS PAGE TITLE
+   --------------------------------------------------------- */
+
+.md-content__inner:has(.psv-learn-page) > h1:first-child {
+  display: none;
+}
+
+
+/* ---------------------------------------------------------
+   DARK MODE REFINEMENTS
+   --------------------------------------------------------- */
+
+[data-md-color-scheme="slate"] .psv-learning-map,
+[data-md-color-scheme="slate"] .psv-learning-area-card,
+[data-md-color-scheme="slate"] .psv-learning-method,
+[data-md-color-scheme="slate"] .psv-learn-cta {
+  box-shadow: none;
+}
+
+[data-md-color-scheme="slate"] .psv-learning-area-topics span {
+  background: rgba(31, 111, 235, 0.09);
+  border-color: rgba(31, 111, 235, 0.18);
+}
+
+[data-md-color-scheme="slate"] .psv-learn-cta {
+  background:
+    linear-gradient(
+      135deg,
+      var(--psv-surface),
+      rgba(31, 111, 235, 0.07)
+    );
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 950px) {
+
+  .psv-learn-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .psv-learning-map {
+    max-width: 620px;
+  }
+
+  .psv-learning-method-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .psv-learning-method-connector {
+    width: 100%;
+  }
+
+  .psv-learning-method-bottom {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .psv-learning-method-line {
+    height: 24px;
+  }
+
+  .psv-learn-cta {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .psv-learn-container {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .psv-learn-hero {
+    padding: 54px 0 58px;
+  }
+
+  .psv-learn-hero-content h1 {
+    font-size: 1.7rem;
+  }
+
+  .psv-learn-section {
+    padding: 56px 0;
+  }
+
+  .psv-learning-area-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .psv-learning-area-card {
+    min-height: 0;
+    padding: 24px;
+  }
+
+  .psv-learning-map {
+    padding: 22px;
+  }
+
+  .psv-learning-map-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .psv-learning-method {
+    padding: 24px;
+  }
+
+  .psv-learning-method-connector {
+    display: none;
+  }
+
+  .psv-learning-method-line {
+    height: 20px;
+  }
+
+  .psv-learn-cta-section {
+    padding: 58px 0 70px;
+  }
+
+  .psv-learn-cta {
+    padding: 30px 24px;
+  }
+
+  .psv-learn-cta-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .psv-learning-area-topics span {
+    white-space: normal;
+  }
+
+}
+
+/* PSV LEARN PAGE */
+
+.psv-learn-page {
+  --learn-max-width: 1180px;
+  --learn-gap: 48px;
+  width: 100%;
+}
+
+.psv-learn-page * {
+  box-sizing: border-box;
+}
+
+.psv-learn-page a {
+  text-decoration: none;
+}
+
+.psv-learn-gateway,
+.psv-learn-areas,
+.psv-learn-method-section,
+.psv-learn-enter {
+  width: min(var(--learn-max-width), calc(100% - 48px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* ------------------------------------------------------------
+   HERO / GATEWAY
+   ------------------------------------------------------------ */
+
+.psv-learn-gateway {
+  padding: 76px 0 88px;
+}
+
+.psv-learn-gateway-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
+  gap: 90px;
+  align-items: center;
+}
+
+.psv-learn-intro {
+  max-width: 650px;
+}
+
+.psv-learn-eyebrow,
+.psv-learn-section-kicker {
+  margin-bottom: 12px;
+  color: var(--psv-primary);
+  font-size: 0.70rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.psv-learn-intro h1 {
+  margin: 0 0 26px;
+  max-width: 620px;
+  font-size: 2.45rem;
+  line-height: 1.10;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.psv-learn-intro-lead {
+  max-width: 620px;
+  margin: 0 0 18px;
+  color: var(--psv-text);
+  font-size: 1rem;
+  line-height: 1.70;
+}
+
+.psv-learn-intro-copy {
+  max-width: 600px;
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.75;
+}
+
+
+/* ------------------------------------------------------------
+   HERO INDEX
+   ------------------------------------------------------------ */
+
+.psv-learn-gateway-index {
+  position: relative;
+  padding-left: 28px;
+  border-left: 1px solid var(--psv-border);
+}
+
+.psv-learn-index-label {
+  margin-bottom: 20px;
+  color: var(--psv-text-muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.psv-learn-index-item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 24px;
+  align-items: center;
+  min-height: 72px;
+  border-top: 1px solid var(--psv-border);
+  transition:
+    padding-left 180ms ease,
+    border-color 180ms ease;
+}
+
+.psv-learn-index-item:last-of-type {
+  border-bottom: 1px solid var(--psv-border);
+}
+
+.psv-learn-index-item:hover {
+  padding-left: 8px;
+}
+
+.psv-learn-index-number {
+  color: var(--psv-primary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.psv-learn-index-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.psv-learn-index-content strong {
+  color: var(--psv-text);
+  font-size: 0.95rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.psv-learn-index-content small {
+  color: var(--psv-text-muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.psv-learn-index-arrow {
+  color: var(--psv-primary);
+  font-size: 1rem;
+  text-align: right;
+  transition: transform 180ms ease;
+}
+
+.psv-learn-index-item:hover .psv-learn-index-arrow {
+  transform: translateX(4px);
+}
+
+.psv-learn-index-note {
+  margin-top: 18px;
+  color: var(--psv-text-muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+
+/* ------------------------------------------------------------
+   SECTION HEADINGS
+   ------------------------------------------------------------ */
+
+.psv-learn-section-heading {
+  max-width: 700px;
+  margin-bottom: 34px;
+}
+
+.psv-learn-section-heading h2 {
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--psv-border);
+  color: var(--psv-text);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.psv-learn-section-heading p {
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+
+/* ------------------------------------------------------------
+   LEARNING DESTINATIONS
+   ------------------------------------------------------------ */
+
+.psv-learn-areas {
+  padding-bottom: 88px;
+}
+
+.psv-learn-destinations {
+  border-top: 1px solid var(--psv-border);
+}
+
+.psv-learn-destination {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 26px;
+  padding: 38px 0;
+  border-bottom: 1px solid var(--psv-border);
+  transition: padding-left 180ms ease;
+}
+
+.psv-learn-destination:hover {
+  padding-left: 10px;
+}
+
+.psv-learn-destination-number {
+  padding-top: 5px;
+  color: var(--psv-primary);
+  font-size: 0.70rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+}
+
+.psv-learn-destination-main {
+  min-width: 0;
+}
+
+.psv-learn-destination-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+
+.psv-learn-destination-heading h3 {
+  margin: 0;
+  color: var(--psv-text);
+  font-size: 1.15rem;
+  line-height: 1.35;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.psv-learn-destination-arrow {
+  flex-shrink: 0;
+  color: var(--psv-primary);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.psv-learn-destination-arrow span {
+  display: inline-block;
+  margin-left: 5px;
+  transition: transform 180ms ease;
+}
+
+.psv-learn-destination:hover .psv-learn-destination-arrow span {
+  transform: translateX(4px);
+}
+
+.psv-learn-destination-description {
+  max-width: 680px;
+  margin: 0 0 18px;
+  color: var(--psv-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.psv-learn-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.psv-learn-topics span {
+  padding: 4px 8px;
+  border: 1px solid var(--psv-border);
+  border-radius: 4px;
+  color: var(--psv-text-muted);
+  background: transparent;
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+
+/* ------------------------------------------------------------
+   HOW THE WORK IS BUILT
+   ------------------------------------------------------------ */
+
+.psv-learn-method-section {
+  padding-bottom: 82px;
+}
+
+.psv-learn-method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--psv-border);
+  border-bottom: 1px solid var(--psv-border);
+}
+
+.psv-learn-method-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 14px;
+  min-height: 150px;
+  padding: 26px 28px 28px 0;
+}
+
+.psv-learn-method-item:nth-child(n + 4) {
+  border-top: 1px solid var(--psv-border);
+}
+
+.psv-learn-method-item:not(:nth-child(3n + 1)) {
+  padding-left: 28px;
+  border-left: 1px solid var(--psv-border);
+}
+
+.psv-learn-method-number {
+  padding-top: 2px;
+  color: var(--psv-primary);
+  font-size: 0.64rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.psv-learn-method-item h3 {
+  margin: 0 0 8px;
+  color: var(--psv-text);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.psv-learn-method-item p {
+  max-width: 300px;
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.74rem;
+  line-height: 1.65;
+}
+
+/* ------------------------------------------------------------
+   ENTER LEARNING VAULT
+   ------------------------------------------------------------ */
+
+.psv-learn-enter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 70px;
+  align-items: center;
+  padding: 42px 0 70px;
+  border-top: 1px solid var(--psv-border);
+}
+
+.psv-learn-enter-content {
+  max-width: 700px;
+}
+
+.psv-learn-enter-content h2 {
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--psv-border);
+  color: var(--psv-text);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.psv-learn-enter-content p {
+  max-width: 650px;
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.psv-learn-enter-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 17px;
+  border: 1px solid var(--psv-primary);
+  border-radius: 5px;
+  color: #ffffff !important;
+  background: var(--psv-primary);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.psv-learn-enter-button:hover {
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(31, 111, 235, 0.20);
+}
+
+.psv-learn-enter-button span {
+  transition: transform 180ms ease;
+}
+
+.psv-learn-enter-button:hover span {
+  transform: translateX(3px);
+}
+
+/* ------------------------------------------------------------
+   DARK MODE
+   ------------------------------------------------------------ */
+
+[data-md-color-scheme="slate"] .psv-learn-index-item:hover,
+[data-md-color-scheme="slate"] .psv-learn-destination:hover {
+  border-color: rgba(31, 111, 235, 0.45);
+}
+
+[data-md-color-scheme="slate"] .psv-learn-topics span {
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------ */
+
+@media screen and (max-width: 950px) {
+
+  .psv-learn-gateway-grid {
+    grid-template-columns: 1fr;
+    gap: 54px;
+  }
+
+  .psv-learn-gateway-index {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .psv-learn-method-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .psv-learn-method-item:nth-child(3n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .psv-learn-method-item:nth-child(2n) {
+    padding-left: 28px;
+    border-left: 1px solid var(--psv-border);
+  }
+
+  .psv-learn-method-item:nth-child(n + 3) {
+    border-top: 1px solid var(--psv-border);
+  }
+
+
+}
+
+
+@media screen and (max-width: 700px) {
+
+  .psv-learn-gateway,
+  .psv-learn-areas,
+  .psv-learn-method-section,
+  .psv-learn-enter {
+    width: min(100% - 32px, var(--learn-max-width));
+  }
+
+  .psv-learn-gateway {
+    padding: 58px 0 78px;
+  }
+
+  .psv-learn-intro h1 {
+    font-size: 2rem;
+  }
+
+  .psv-learn-intro-lead {
+    font-size: 0.92rem;
+  }
+
+  .psv-learn-destination {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 14px;
+    padding: 30px 0;
+  }
+
+  .psv-learn-destination-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .psv-learn-destination-heading h3 {
+    font-size: 1rem;
+  }
+
+  .psv-learn-method-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .psv-learn-method-item,
+  .psv-learn-method-item:nth-child(2n) {
+    min-height: 0;
+    padding: 22px 0;
+    border-left: 0;
+  }
+
+  .psv-learn-method-item:nth-child(n + 2) {
+    border-top: 1px solid var(--psv-border);
+  }
+
+  .psv-learn-enter {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 40px 0 60px;
+  }
+
+  .psv-learn-enter-button {
+    justify-self: start;
+  }
+
+}
+
+@media screen and (max-width: 430px) {
+
+  .psv-learn-index-item {
+    grid-template-columns: 34px minmax(0, 1fr) 20px;
+  }
+
+}
+
+
+/* END PSV LEARN PAGE */
+
