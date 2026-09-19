@@ -1256,8 +1256,12 @@ body:has(.psv-home) .md-content__inner {
   color: #475569;
 }
 
+[data-md-color-scheme="default"] .psv-home__why-content p {
+  color: #475569 !important;
+}
+
 [data-md-color-scheme="default"] .psv-home__why-note {
-  color: #334155;
+  color: #334155 !important;
   border-top-color: #E2E8F0;
 }
 
