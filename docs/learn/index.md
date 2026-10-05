@@ -24,50 +24,12 @@
     </div>
 
 
-    <div class="psv-learn-gateway-index">
-
-      <div class="psv-learn-index-label">LEARNING AREAS</div>
-
-      <a href="#fundamentals" class="psv-learn-index-item">
-        <span class="psv-learn-index-number">01</span>
-        <span class="psv-learn-index-content">
-          <strong>Fundamentals</strong>
-          <small>Technical foundations</small>
-        </span>
-        <span class="psv-learn-index-arrow">→</span>
-      </a>
-
-      <a href="#soc" class="psv-learn-index-item">
-        <span class="psv-learn-index-number">02</span>
-        <span class="psv-learn-index-content">
-          <strong>SOC</strong>
-          <small>Security operations</small>
-        </span>
-        <span class="psv-learn-index-arrow">→</span>
-      </a>
-
-      <a href="#pentest" class="psv-learn-index-item">
-        <span class="psv-learn-index-number">03</span>
-        <span class="psv-learn-index-content">
-          <strong>Pentest</strong>
-          <small>Offensive testing</small>
-        </span>
-        <span class="psv-learn-index-arrow">→</span>
-      </a>
-
-      <a href="#cyber-fraud" class="psv-learn-index-item">
-        <span class="psv-learn-index-number">04</span>
-        <span class="psv-learn-index-content">
-          <strong>Cyber Fraud</strong>
-          <small>Fraud investigation</small>
-        </span>
-        <span class="psv-learn-index-arrow">→</span>
-      </a>
-
-      <div class="psv-learn-index-note">
-        Connected areas of learning — not a fixed sequence.
-      </div>
-
+    <div class="psv-learn-gateway-visual">
+      <img
+        src="../assets/learn/learn-hero.png"
+        alt="Cybersecurity learning areas"
+        loading="eager"
+      >
     </div>
 
   </div>
