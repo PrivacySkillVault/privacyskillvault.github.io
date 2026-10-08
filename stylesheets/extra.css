@@ -4394,3 +4394,50 @@ body:has(.psv-home) .md-content__inner {
   .psv-labs-hero__visual { overflow-x: auto; }
   .psv-labs-reference-visual { min-width: 700px; }
 }
+
+
+/* ==========================================================================
+   PSV LABS — REFERENCE HERO LIGHT VISUAL CORRECTION
+   Keep the original diagram; restore its intended light, colorful treatment.
+   ========================================================================== */
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-background {
+  fill: #F8FBFF !important;
+  stroke: rgba(29, 78, 216, .20) !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-grid {
+  color: #1D4ED8;
+  opacity: .16 !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-card .card {
+  fill: rgba(255,255,255,.96) !important;
+  stroke: rgba(29,78,216,.30) !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-card .card.investigation {
+  fill: rgba(250,247,255,.98) !important;
+  stroke: rgba(139,92,246,.52) !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-card .card.response {
+  fill: rgba(246,253,252,.98) !important;
+  stroke: rgba(20,184,166,.55) !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-detection .server-body {
+  fill: #E8F1FF !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-detection .server-top {
+  fill: #FFFFFF !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-detection .server-bottom {
+  fill: rgba(14,165,233,.10) !important;
+}
+
+[data-md-color-scheme="default"] .psv-labs-reference-visual .psv-reference-detection .detection-platform {
+  fill: rgba(34,211,238,.10) !important;
+}
