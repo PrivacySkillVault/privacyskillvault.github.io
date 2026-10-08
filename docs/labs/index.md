@@ -24,558 +24,67 @@
   </div>
 
           <div class="psv-labs-hero__visual">
-
-    <svg
-      class="psv-labs-reference-visual"
-      viewBox="0 0 820 420"
-      role="img"
-      aria-label="Privacy Skill Vault laboratory workflow from build and testing through telemetry, detection, investigation and response"
-    >
-
-      <defs>
-
-        <pattern
-          id="psvReferenceGrid"
-          width="24"
-          height="24"
-          patternUnits="userSpaceOnUse"
-        >
-          <path
-            d="M24 0H0V24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width=".6"
-            opacity=".08"
-          />
-        </pattern>
-
-        <linearGradient
-          id="psvBlueBase"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="#DDEBFF" stop-opacity=".55"/>
-        </linearGradient>
-
-        <linearGradient
-          id="psvCyanBase"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="#D9FFFF" stop-opacity=".55"/>
-        </linearGradient>
-
-        <linearGradient
-          id="psvPurpleBase"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="#EEE2FF" stop-opacity=".6"/>
-        </linearGradient>
-
-        <filter
-          id="psvReferenceGlow"
-          x="-80%"
-          y="-80%"
-          width="260%"
-          height="260%"
-        >
-          <feGaussianBlur stdDeviation="8"/>
-        </filter>
-
-        <filter
-          id="psvReferenceSoftGlow"
-          x="-80%"
-          y="-80%"
-          width="260%"
-          height="260%"
-        >
-          <feGaussianBlur stdDeviation="3"/>
-        </filter>
-
-      </defs>
-
-
-      <!-- =================================================
-           BACKGROUND GRID
-           ================================================= -->
-
-      <rect
-        x="8"
-        y="8"
-        width="804"
-        height="404"
-        rx="10"
-        class="psv-reference-background"
-      />
-
-      <rect
-        x="8"
-        y="8"
-        width="804"
-        height="404"
-        rx="10"
-        class="psv-reference-grid"
-      />
-
-
-      <!-- =================================================
-           BUILD / TEST
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="22"
-          y="55"
-          width="142"
-          height="155"
-          rx="9"
-          class="card"
-        />
-
-        <text x="38" y="79" class="card-label">
-          BUILD / TEST
-        </text>
-
-        <line
-          x1="38"
-          y1="89"
-          x2="148"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="57" y="116" class="item">
-          Windows
-        </text>
-
-        <text x="57" y="143" class="item">
-          Linux
-        </text>
-
-        <text x="57" y="170" class="item">
-          Kali
-        </text>
-
-        <circle cx="43" cy="112" r="3" class="item-dot"/>
-        <circle cx="43" cy="139" r="3" class="item-dot"/>
-        <circle cx="43" cy="166" r="3" class="item-dot"/>
-
-        <text x="38" y="193" class="item-sub">
-          enterprise · attack
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           TELEMETRY
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="183"
-          y="55"
-          width="142"
-          height="155"
-          rx="9"
-          class="card"
-        />
-
-        <text x="199" y="79" class="card-label">
-          TELEMETRY
-        </text>
-
-        <line
-          x1="199"
-          y1="89"
-          x2="309"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="218" y="116" class="item">
-          Sysmon
-        </text>
-
-        <text x="218" y="143" class="item">
-          Auditd
-        </text>
-
-        <text x="218" y="170" class="item">
-          Suricata
-        </text>
-
-        <text x="218" y="197" class="item">
-          Zeek
-        </text>
-
-        <circle cx="204" cy="112" r="3" class="item-dot"/>
-        <circle cx="204" cy="139" r="3" class="item-dot"/>
-        <circle cx="204" cy="166" r="3" class="item-dot"/>
-        <circle cx="204" cy="193" r="3" class="item-dot"/>
-
-      </g>
-
-
-      <!-- =================================================
-           FLOW 1
-           ================================================= -->
-
-      <path
-        d="M164 132 H183"
-        class="reference-arrow-line"
-      />
-
-      <path
-        d="M176 126 L184 132 L176 138"
-        class="reference-arrow"
-      />
-
-
-      <!-- =================================================
-           DETECTION CORE
-           ================================================= -->
-
-      <g class="psv-reference-detection">
-
-        <!-- glow -->
-
-        <ellipse
-          cx="409"
-          cy="181"
-          rx="82"
-          ry="22"
-          class="detection-glow"
-        />
-
-        <!-- upper rings -->
-
-        <ellipse
-          cx="409"
-          cy="75"
-          rx="51"
-          ry="13"
-          class="detection-ring"
-        />
-
-        <ellipse
-          cx="409"
-          cy="84"
-          rx="51"
-          ry="13"
-          class="detection-ring secondary"
-        />
-
-        <!-- cylinder -->
-
-        <ellipse
-          cx="409"
-          cy="102"
-          rx="45"
-          ry="14"
-          class="server-top"
-        />
-
-        <rect
-          x="364"
-          y="102"
-          width="90"
-          height="78"
-          class="server-body"
-        />
-
-        <ellipse
-          cx="409"
-          cy="180"
-          rx="45"
-          ry="14"
-          class="server-bottom"
-        />
-
-        <!-- server layers -->
-
-        <ellipse
-          cx="409"
-          cy="120"
-          rx="42"
-          ry="12"
-          class="server-line"
-        />
-
-        <ellipse
-          cx="409"
-          cy="145"
-          rx="42"
-          ry="12"
-          class="server-line"
-        />
-
-        <ellipse
-          cx="409"
-          cy="169"
-          rx="42"
-          ry="12"
-          class="server-line"
-        />
-
-        <!-- lights -->
-
-        <circle cx="386" cy="120" r="2.5" class="server-light"/>
-        <circle cx="397" cy="120" r="2.5" class="server-light"/>
-        <circle cx="408" cy="120" r="2.5" class="server-light"/>
-        <circle cx="419" cy="120" r="2.5" class="server-light"/>
-        <circle cx="430" cy="120" r="2.5" class="server-light"/>
-
-        <circle cx="386" cy="145" r="2.5" class="server-light"/>
-        <circle cx="397" cy="145" r="2.5" class="server-light"/>
-        <circle cx="408" cy="145" r="2.5" class="server-light"/>
-        <circle cx="419" cy="145" r="2.5" class="server-light"/>
-        <circle cx="430" cy="145" r="2.5" class="server-light"/>
-
-        <!-- platform -->
-
-        <ellipse
-          cx="409"
-          cy="190"
-          rx="70"
-          ry="15"
-          class="detection-platform-glow"
-        />
-
-        <ellipse
-          cx="409"
-          cy="188"
-          rx="66"
-          ry="13"
-          class="detection-platform"
-        />
-
-        <text
-          x="409"
-          y="219"
-          text-anchor="middle"
-          class="detection-label"
-        >
-          DETECTION
-        </text>
-
-        <text
-          x="409"
-          y="235"
-          text-anchor="middle"
-          class="detection-sub"
-        >
-          Elastic · Wazuh
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           FLOW 2
-           ================================================= -->
-
-      <path
-        d="M325 132 H355"
-        class="reference-arrow-line"
-      />
-
-      <path
-        d="M348 126 L356 132 L348 138"
-        class="reference-arrow"
-      />
-
-
-      <!-- =================================================
-           INVESTIGATION
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="493"
-          y="55"
-          width="142"
-          height="155"
-          rx="9"
-          class="card investigation"
-        />
-
-        <text x="509" y="79" class="card-label">
-          INVESTIGATE
-        </text>
-
-        <line
-          x1="509"
-          y1="89"
-          x2="619"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="528" y="124" class="item">
-          TheHive
-        </text>
-
-        <text x="528" y="160" class="item">
-          MISP
-        </text>
-
-        <circle cx="514" cy="120" r="3" class="investigation-dot"/>
-        <circle cx="514" cy="156" r="3" class="investigation-dot"/>
-
-        <text x="509" y="193" class="item-sub">
-          evidence · intelligence
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           FLOW 3
-           ================================================= -->
-
-      <path
-        d="M635 132 H665"
-        class="reference-arrow-line"
-      />
-
-      <path
-        d="M658 126 L666 132 L658 138"
-        class="reference-arrow"
-      />
-
-
-      <!-- =================================================
-           RESPONSE
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="675"
-          y="55"
-          width="120"
-          height="155"
-          rx="9"
-          class="card response"
-        />
-
-        <text x="691" y="79" class="card-label">
-          RESPOND
-        </text>
-
-        <line
-          x1="691"
-          y1="89"
-          x2="779"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="706" y="120" class="response-item">
-          ✓ Evidence
-        </text>
-
-        <text x="706" y="151" class="response-item">
-          ✓ Response
-        </text>
-
-        <text x="706" y="182" class="response-item">
-          ✓ Validate
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           LOWER LIFECYCLE
-           ================================================= -->
-
-      <path
-        d="M96 238
-           C96 275 96 287 135 287
-           H190"
-        class="lifecycle-line"
-      />
-
-      <path
-        d="M724 238
-           C724 275 724 287 685 287
-           H630"
-        class="lifecycle-line"
-      />
-
-      <path
-        d="M190 281 L198 287 L190 293"
-        class="lifecycle-arrow"
-      />
-
-      <path
-        d="M630 281 L622 287 L630 293"
-        class="lifecycle-arrow"
-      />
-
-      <text
-        x="410"
-        y="291"
-        text-anchor="middle"
-        class="lifecycle-text"
-      >
-        BUILD → TEST → OBSERVE → INVESTIGATE → RESPOND → VALIDATE
-      </text>
-
-
-      <!-- =================================================
-           SMALL TECHNICAL MARKERS
-           ================================================= -->
-
-      <circle cx="35" cy="335" r="2" class="marker"/>
-      <circle cx="47" cy="335" r="2" class="marker"/>
-      <circle cx="59" cy="335" r="2" class="marker"/>
-
-      <line
-        x1="72"
-        y1="335"
-        x2="748"
-        y2="335"
-        class="technical-line"
-      />
-
-      <text
-        x="35"
-        y="356"
-        class="technical-text"
-      >
-        SECURITY LAB / CONTROLLED ENVIRONMENT
-      </text>
-
-      <text
-        x="785"
-        y="356"
-        text-anchor="end"
-        class="technical-text"
-      >
-        PSV
-      </text>
-
-    </svg>
-
+  <div class="psv-labs-ops-console" role="img" aria-label="Lab Operations workflow showing build, attack, detect, investigate, respond and validate">
+    <div class="psv-labs-ops-console__top">
+      <span class="psv-labs-ops-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="psv-labs-ops-console__title">LAB OPERATIONS</span>
+      <span class="psv-labs-ops-console__status">CONTROLLED ENVIRONMENT</span>
+    </div>
+
+    <div class="psv-labs-ops-console__body">
+      <div class="psv-labs-ops-track" aria-hidden="true"></div>
+
+      <div class="psv-labs-ops-step">
+        <span class="psv-labs-ops-step__num">01</span>
+        <span class="psv-labs-ops-step__icon">▣</span>
+        <strong>BUILD</strong>
+        <small>Infrastructure</small>
+      </div>
+
+      <div class="psv-labs-ops-step">
+        <span class="psv-labs-ops-step__num">02</span>
+        <span class="psv-labs-ops-step__icon">⌁</span>
+        <strong>ATTACK</strong>
+        <small>Simulation</small>
+      </div>
+
+      <div class="psv-labs-ops-step psv-labs-ops-step--active">
+        <span class="psv-labs-ops-step__num">03</span>
+        <span class="psv-labs-ops-step__icon">⌕</span>
+        <strong>DETECT</strong>
+        <small>Telemetry</small>
+      </div>
+
+      <div class="psv-labs-ops-step">
+        <span class="psv-labs-ops-step__num">04</span>
+        <span class="psv-labs-ops-step__icon">◌</span>
+        <strong>INVESTIGATE</strong>
+        <small>Evidence</small>
+      </div>
+
+      <div class="psv-labs-ops-step">
+        <span class="psv-labs-ops-step__num">05</span>
+        <span class="psv-labs-ops-step__icon">↗</span>
+        <strong>RESPOND</strong>
+        <small>Action</small>
+      </div>
+
+      <div class="psv-labs-ops-step">
+        <span class="psv-labs-ops-step__num">06</span>
+        <span class="psv-labs-ops-step__icon">✓</span>
+        <strong>VALIDATE</strong>
+        <small>Repeat</small>
+      </div>
+    </div>
+
+    <div class="psv-labs-ops-console__footer">
+      <span>SIMULATE</span>
+      <span>OBSERVE</span>
+      <span>INVESTIGATE</span>
+      <span>VALIDATE</span>
+    </div>
   </div>
-
-</section>
+</div></section>
 
 
 <!-- =====================================================
