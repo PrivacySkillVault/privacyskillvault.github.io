@@ -3232,3 +3232,287 @@ body:has(.psv-home) .md-content__inner {
 
 /* END PSV LEARN PAGE */
 
+
+
+/* ==========================================================================
+   PSV LABS — HERO / LAB OPERATIONS VISUAL
+   Scoped to the Labs page. Keeps the existing global blue tokens unchanged.
+   ========================================================================== */
+
+.psv-labs-page {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+.psv-labs-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(520px, 1.18fr);
+  gap: 36px;
+  align-items: stretch;
+  padding: 76px 0 88px;
+}
+
+.psv-labs-hero__main {
+  align-self: center;
+  max-width: 620px;
+}
+
+.psv-labs-eyebrow,
+.psv-labs-label {
+  color: var(--psv-primary);
+  font-size: .70rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.psv-labs-hero__main h1 {
+  margin: 0 0 24px;
+  color: var(--psv-text);
+  font-size: 2.65rem;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -.035em;
+}
+
+.psv-labs-heading-accent {
+  color: var(--psv-primary);
+}
+
+.psv-labs-hero__lead {
+  max-width: 610px;
+  margin: 0 0 18px;
+  color: var(--psv-text);
+  font-size: .98rem;
+  line-height: 1.7;
+}
+
+.psv-labs-hero__support {
+  max-width: 600px;
+  margin: 0;
+  color: var(--psv-text-muted);
+  font-size: .82rem;
+  line-height: 1.75;
+}
+
+.psv-labs-hero__visual {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 32px;
+  border-left: 1px solid var(--psv-border);
+}
+
+.psv-labs-ops-console {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--psv-border);
+  border-radius: 10px;
+  background: var(--psv-surface);
+  box-shadow: var(--psv-shadow);
+}
+
+.psv-labs-ops-console__top,
+.psv-labs-ops-console__footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--psv-border);
+  font-family: var(--psv-font-mono);
+  font-size: .61rem;
+  letter-spacing: .08em;
+}
+
+.psv-labs-ops-console__title {
+  color: var(--psv-primary);
+  font-weight: 700;
+}
+
+.psv-labs-ops-console__status {
+  margin-left: auto;
+  color: var(--psv-text-muted);
+  font-size: .54rem;
+}
+
+.psv-labs-ops-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.psv-labs-ops-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--psv-border);
+}
+
+.psv-labs-ops-console__body {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  padding: 38px 16px 34px;
+}
+
+.psv-labs-ops-track {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 86px;
+  height: 1px;
+  background: color-mix(in srgb, var(--psv-primary) 35%, var(--psv-border));
+}
+
+.psv-labs-ops-track::after {
+  content: "→";
+  position: absolute;
+  right: -4px;
+  top: -9px;
+  color: var(--psv-primary);
+  font-size: .8rem;
+}
+
+.psv-labs-ops-step {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 14px 9px 12px;
+  border: 1px solid var(--psv-border);
+  border-radius: 7px;
+  background: var(--psv-surface);
+  text-align: center;
+}
+
+.psv-labs-ops-step--active {
+  border-color: color-mix(in srgb, var(--psv-primary) 58%, var(--psv-border));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--psv-primary) 12%, transparent);
+}
+
+.psv-labs-ops-step__num,
+.psv-labs-ops-step__icon,
+.psv-labs-ops-step strong,
+.psv-labs-ops-step small {
+  display: block;
+}
+
+.psv-labs-ops-step__num {
+  margin-bottom: 9px;
+  color: var(--psv-text-muted);
+  font-family: var(--psv-font-mono);
+  font-size: .53rem;
+  letter-spacing: .08em;
+}
+
+.psv-labs-ops-step__icon {
+  margin-bottom: 10px;
+  color: var(--psv-primary);
+  font-family: var(--psv-font-mono);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.psv-labs-ops-step strong {
+  overflow-wrap: anywhere;
+  color: var(--psv-text);
+  font-size: .64rem;
+  line-height: 1.35;
+  letter-spacing: .045em;
+}
+
+.psv-labs-ops-step small {
+  margin-top: 5px;
+  color: var(--psv-text-muted);
+  font-size: .56rem;
+  line-height: 1.4;
+}
+
+.psv-labs-ops-console__footer {
+  justify-content: center;
+  gap: 20px;
+  min-height: 36px;
+  border-top: 1px solid var(--psv-border);
+  border-bottom: 0;
+  color: var(--psv-text-muted);
+}
+
+.psv-labs-ops-console__footer span:not(:last-child)::after {
+  content: "·";
+  margin-left: 20px;
+  color: var(--psv-primary);
+}
+
+@media (max-width: 1050px) {
+  .psv-labs-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .psv-labs-hero__main {
+    max-width: 760px;
+  }
+
+  .psv-labs-hero__visual {
+    padding: 32px 0 0;
+    border-top: 1px solid var(--psv-border);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .psv-labs-page {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .psv-labs-hero {
+    padding: 58px 0 70px;
+    gap: 38px;
+  }
+
+  .psv-labs-hero__main h1 {
+    font-size: 2.05rem;
+  }
+
+  .psv-labs-ops-console__body {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .psv-labs-ops-track {
+    display: none;
+  }
+
+  .psv-labs-ops-console__footer {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 14px;
+    gap: 8px 14px;
+  }
+
+  .psv-labs-ops-console__footer span:not(:last-child)::after {
+    margin-left: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  .psv-labs-ops-console__top {
+    padding: 0 12px;
+  }
+
+  .psv-labs-ops-console__status {
+    display: none;
+  }
+
+  .psv-labs-ops-console__body {
+    padding: 24px 10px;
+    gap: 6px;
+  }
+
+  .psv-labs-ops-step {
+    padding: 12px 5px 10px;
+  }
+
+  .psv-labs-ops-console__footer {
+    justify-content: flex-start;
+  }
+}
