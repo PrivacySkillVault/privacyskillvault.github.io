@@ -4165,3 +4165,232 @@ body:has(.psv-home) .md-content__inner {
     font-size: .47rem;
   }
 }
+
+
+/* ==========================================================================
+   PSV LABS — ORIGINAL REFERENCE HERO VISUAL
+   Restored from the original Labs visual composition.
+   ========================================================================== */
+
+.psv-labs-hero__visual {
+  min-height: 440px;
+  width: 100%;
+  padding-left: 24px;
+  box-sizing: border-box;
+  border-left: 1px solid var(--psv-border);
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  overflow: visible;
+}
+
+.psv-labs-reference-visual {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  min-width: 0;
+  overflow: visible;
+}
+
+.psv-reference-background {
+  fill: var(--psv-surface);
+  stroke: color-mix(in srgb, var(--psv-primary) 22%, var(--psv-border));
+  stroke-width: 1.2;
+}
+
+.psv-reference-grid { opacity: .9; }
+
+.psv-reference-card .card {
+  fill: color-mix(in srgb, var(--psv-bg) 72%, var(--psv-surface));
+  stroke: color-mix(in srgb, var(--psv-primary) 38%, var(--psv-border));
+  stroke-width: 1.25;
+}
+
+.psv-reference-card .card.investigation {
+  stroke: rgba(139, 92, 246, .58);
+  filter: drop-shadow(0 0 5px rgba(139, 92, 246, .12));
+}
+
+.psv-reference-card .card.response {
+  stroke: rgba(20, 184, 166, .62);
+  filter: drop-shadow(0 0 5px rgba(20, 184, 166, .12));
+}
+
+.psv-reference-card .card-label {
+  fill: var(--psv-primary);
+  font-family: var(--psv-font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.psv-reference-card .card-line {
+  stroke: var(--psv-border);
+  stroke-width: 1;
+}
+
+.psv-reference-card .item {
+  fill: var(--psv-text);
+  font-family: var(--psv-font-sans);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.psv-reference-card .item-sub {
+  fill: var(--psv-text-muted);
+  font-family: var(--psv-font-sans);
+  font-size: 6.5px;
+}
+
+.psv-reference-card .item-dot { fill: var(--psv-primary); }
+.psv-reference-card .investigation-dot { fill: #8B5CF6; }
+
+.psv-reference-card .response-item {
+  fill: var(--psv-text);
+  font-family: var(--psv-font-sans);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.psv-reference-arrow-line {
+  stroke: var(--psv-primary);
+  stroke-width: 2;
+  opacity: .9;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--psv-primary) 40%, transparent));
+}
+
+.psv-reference-arrow { fill: var(--psv-primary); opacity: 1; }
+
+.psv-reference-detection .detection-glow {
+  fill: #22D3EE;
+  opacity: .24;
+  filter: url(#psvReferenceGlow);
+}
+
+.psv-reference-detection .detection-ring {
+  fill: none;
+  stroke: #60A5FA;
+  stroke-width: 1.4;
+  opacity: .72;
+}
+
+.psv-reference-detection .detection-ring.secondary { opacity: .38; }
+
+.psv-reference-detection .server-top {
+  fill: url(#psvBlueBase);
+  stroke: #60A5FA;
+  stroke-width: 1.4;
+}
+
+.psv-reference-detection .server-body {
+  fill: #172554;
+  stroke: #60A5FA;
+  stroke-width: 1.4;
+  filter: drop-shadow(0 0 7px rgba(34, 211, 238, .18));
+}
+
+.psv-reference-detection .server-bottom {
+  fill: #0EA5E9;
+  fill-opacity: .12;
+  stroke: #22D3EE;
+  stroke-width: 1;
+}
+
+.psv-reference-detection .server-line {
+  fill: none;
+  stroke: #60A5FA;
+  stroke-width: .7;
+  opacity: .65;
+}
+
+.psv-reference-detection .server-light {
+  fill: #60A5FA;
+  filter: drop-shadow(0 0 3px rgba(96, 165, 250, .55));
+}
+
+.psv-reference-detection .detection-platform-glow {
+  fill: #22D3EE;
+  opacity: .15;
+  filter: url(#psvReferenceSoftGlow);
+}
+
+.psv-reference-detection .detection-platform {
+  fill: url(#psvCyanBase);
+  fill-opacity: .15;
+  stroke: #22D3EE;
+  stroke-width: 1.4;
+}
+
+.psv-reference-detection .detection-label {
+  fill: var(--psv-primary);
+  font-family: var(--psv-font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.psv-reference-detection .detection-sub {
+  fill: var(--psv-text-muted);
+  font-family: var(--psv-font-sans);
+  font-size: 7.5px;
+}
+
+.lifecycle-line {
+  fill: none;
+  stroke: var(--psv-primary);
+  stroke-width: 1.4;
+  stroke-dasharray: 4 5;
+  opacity: .78;
+}
+
+.lifecycle-arrow { fill: var(--psv-primary); opacity: 1; }
+
+.lifecycle-text {
+  fill: var(--psv-primary);
+  font-family: var(--psv-font-mono);
+  font-size: 7.5px;
+  font-weight: 650;
+  letter-spacing: .06em;
+}
+
+.marker { fill: var(--psv-primary); opacity: .55; }
+
+.technical-line {
+  stroke: var(--psv-border);
+  stroke-width: 1;
+  opacity: .5;
+}
+
+.technical-text {
+  fill: var(--psv-text-muted);
+  font-family: var(--psv-font-mono);
+  font-size: 5px;
+  letter-spacing: .08em;
+}
+
+[data-md-color-scheme="default"] .psv-reference-card .card { fill: rgba(255,255,255,.88); }
+[data-md-color-scheme="default"] .psv-reference-detection .server-body { fill: #E8F1FF; }
+[data-md-color-scheme="default"] .psv-reference-detection .server-top { fill: #F8FBFF; }
+[data-md-color-scheme="slate"] .psv-reference-card .card { fill: rgba(8,15,30,.88); }
+[data-md-color-scheme="slate"] .psv-reference-detection .server-body { fill: #07152E; }
+
+@media (max-width: 1100px) {
+  .psv-labs-hero__visual { padding-left: 20px; }
+  .psv-labs-reference-visual { max-width: 700px; }
+}
+
+@media (max-width: 900px) {
+  .psv-labs-hero__visual {
+    border-left: 0;
+    border-top: 1px solid var(--psv-border);
+    padding: 32px 0 0;
+    min-height: 0;
+  }
+  .psv-labs-reference-visual { max-width: 820px; }
+}
+
+@media (max-width: 600px) {
+  .psv-labs-hero__visual { overflow-x: auto; }
+  .psv-labs-reference-visual { min-width: 700px; }
+}
