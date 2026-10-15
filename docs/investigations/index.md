@@ -112,7 +112,7 @@ In-depth write-ups, detection engineering notes, and operational analysis.
 
 <div class="psv-investigation-reports">
 
-  <article class="psv-investigation-report" data-category="siem">
+  <div class="psv-investigation-report" data-category="siem">
     <div class="psv-investigation-report__meta">
       <span class="psv-investigation-id">INV-023</span>
       <span class="psv-investigation-category">SIEM Analysis</span>
@@ -123,9 +123,9 @@ In-depth write-ups, detection engineering notes, and operational analysis.
       <span>May 18, 2026 · 12 min read</span>
       <a href="https://investigations.privacyskillvault.com/">Read Investigation →</a>
     </div>
-  </article>
+  </div>
 
-  <article class="psv-investigation-report" data-category="network">
+  <div class="psv-investigation-report" data-category="network">
     <div class="psv-investigation-report__meta">
       <span class="psv-investigation-id">INV-022</span>
       <span class="psv-investigation-category">Network &amp; PCAP</span>
@@ -136,9 +136,9 @@ In-depth write-ups, detection engineering notes, and operational analysis.
       <span>May 16, 2026 · 15 min read</span>
       <a href="https://investigations.privacyskillvault.com/">Read Investigation →</a>
     </div>
-  </article>
+  </div>
 
-  <article class="psv-investigation-report" data-category="endpoint">
+  <div class="psv-investigation-report" data-category="endpoint">
     <div class="psv-investigation-report__meta">
       <span class="psv-investigation-id">INV-021</span>
       <span class="psv-investigation-category">Endpoint Telemetry</span>
@@ -149,7 +149,7 @@ In-depth write-ups, detection engineering notes, and operational analysis.
       <span>May 12, 2026 · 14 min read</span>
       <a href="https://investigations.privacyskillvault.com/">Read Investigation →</a>
     </div>
-  </article>
+  </div>
 
 </div>
 
