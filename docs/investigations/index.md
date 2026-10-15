@@ -1,4 +1,3 @@
-cat <<'EOF' > docs/investigations/index.md
 # Operational Investigations & Threat Triage
 
 Structured walkthroughs of alert triage, raw log correlation, and forensic analysis across simulated threat scenarios. Documenting investigation methodologies, detection logic, and false-positive reduction.
@@ -103,6 +102,63 @@ Invoke-Expression $data
 
 </div>
 
-[Explore the Investigations Vault →](https://investigations.privacyskillvault.com/){ .md-button .md-button--primary }
 
-EOF
+
+---
+
+## All Investigation Reports
+
+In-depth write-ups, detection engineering notes, and operational analysis.
+
+<div class="psv-investigation-reports">
+
+  <article class="psv-investigation-report" data-category="siem">
+    <div class="psv-investigation-report__meta">
+      <span class="psv-investigation-id">INV-023</span>
+      <span class="psv-investigation-category">SIEM Analysis</span>
+    </div>
+    <h3>Analyzing Privilege Escalation via Token Manipulation</h3>
+    <p>Examining Windows Event ID 4672 and process access rights during unauthorized token impersonation attempts.</p>
+    <div class="psv-investigation-report__footer">
+      <span>May 18, 2026 · 12 min read</span>
+      <a href="https://investigations.privacyskillvault.com/">Read Investigation →</a>
+    </div>
+  </article>
+
+  <article class="psv-investigation-report" data-category="network">
+    <div class="psv-investigation-report__meta">
+      <span class="psv-investigation-id">INV-022</span>
+      <span class="psv-investigation-category">Network &amp; PCAP</span>
+    </div>
+    <h3>Detecting Beaconing Traffic Using Suricata &amp; Zeek Logs</h3>
+    <p>Identifying periodic outbound connections and domain generation patterns from compromised hosts in a controlled lab.</p>
+    <div class="psv-investigation-report__footer">
+      <span>May 16, 2026 · 15 min read</span>
+      <a href="https://investigations.privacyskillvault.com/">Read Investigation →</a>
+    </div>
+  </article>
+
+  <article class="psv-investigation-report" data-category="endpoint">
+    <div class="psv-investigation-report__meta">
+      <span class="psv-investigation-id">INV-021</span>
+      <span class="psv-investigation-category">Endpoint Telemetry</span>
+    </div>
+    <h3>Malicious DLL Sideloading via Unsigned Service Execution</h3>
+    <p>Investigating DLL search order hijacking and service persistence using Sysmon and Windows Event Logs.</p>
+    <div class="psv-investigation-report__footer">
+      <span>May 12, 2026 · 14 min read</span>
+      <a href="https://investigations.privacyskillvault.com/">Read Investigation →</a>
+    </div>
+  </article>
+
+</div>
+
+<section class="psv-investigations-cta">
+  <div>
+    <p class="psv-investigations-cta__eyebrow">CONTINUE THE INVESTIGATION</p>
+    <h2>Explore the Investigations Vault</h2>
+    <p>Open the full collection of investigation notes and technical walkthroughs.</p>
+  </div>
+  <a class="md-button md-button--primary" href="https://investigations.privacyskillvault.com/" target="_blank" rel="noopener">Open Investigations Vault →</a>
+</section>
+
