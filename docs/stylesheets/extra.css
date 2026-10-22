@@ -4564,3 +4564,82 @@ body:has(.psv-home) .md-content__inner {
   .psv-investigation-reports { grid-template-columns: minmax(0, 1fr); }
   .psv-investigations-cta { align-items: flex-start; flex-direction: column; padding: 22px; }
 }
+
+
+/* Review improvements: honest status labels, category clarity and accessible motion. */
+.psv-learn-destination-status {
+  display: inline-flex;
+  align-items: center;
+  color: var(--psv-text-muted);
+  border: 1px dashed var(--psv-border);
+  border-radius: var(--psv-radius-sm);
+  padding: 5px 9px;
+  font-size: .72rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.psv-filter-note {
+  margin: -10px 0 var(--psv-space-6) !important;
+  color: var(--psv-text-muted);
+  font-size: .8rem;
+}
+
+.psv-investigation-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--psv-space-2);
+  margin: var(--psv-space-4) 0 var(--psv-space-2);
+}
+
+.psv-investigation-filter-list .md-button {
+  margin: 0;
+  pointer-events: none;
+  cursor: default;
+  opacity: .9;
+}
+
+.psv-home__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--psv-space-3);
+  margin-top: var(--psv-space-3);
+}
+
+.psv-home__hero-actions a:focus-visible,
+.psv-learn-destination-arrow:focus-visible,
+.md-typeset a:focus-visible,
+.md-header__button:focus-visible,
+.md-nav__link:focus-visible {
+  outline: 3px solid var(--psv-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .psv-home__hero-actions {
+    align-items: stretch;
+  }
+
+  .psv-home__hero-actions a {
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .psv-investigation-filter-list .md-button {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

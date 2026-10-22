@@ -2,13 +2,16 @@
 
 Structured walkthroughs of alert triage, raw log correlation, and forensic analysis across simulated threat scenarios. Documenting investigation methodologies, detection logic, and false-positive reduction.
 
-<div style="display: flex; gap: var(--psv-space-2); flex-wrap: wrap; margin-top: var(--psv-space-4); margin-bottom: var(--psv-space-6);">
-  <span class="md-button md-button--primary" style="font-size: 0.75rem; padding: 4px 12px;">All</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">SIEM &amp; Log Analysis</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">Network &amp; PCAP</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">Endpoint Telemetry</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">False Positives</span>
+!!! info "Scenario and evidence note"
+    The featured PowerShell case uses the documentation-only address `192.0.2.45` (TEST-NET-1). Treat it as an illustrative training scenario, not evidence of a real incident. Adapt the workflow to validated telemetry in an authorized environment.
+
+<div class="psv-investigation-filter-list" aria-label="Investigation categories">
+  <span class="md-button md-button--primary">All investigations</span>
+  <span class="md-button">SIEM &amp; Log Analysis</span>
+  <span class="md-button">Network &amp; PCAP</span>
+  <span class="md-button">Endpoint Telemetry</span>
 </div>
+<p class="psv-filter-note">Category labels are descriptive. Open a report to explore its investigation details.</p>
 
 ---
 
