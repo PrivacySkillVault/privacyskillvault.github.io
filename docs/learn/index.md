@@ -63,9 +63,7 @@
 
         <div class="psv-learn-destination-heading">
           <h3>Fundamentals</h3>
-          <a href="#" class="psv-learn-destination-arrow">
-            Explore <span>→</span>
-          </a>
+          <span class="psv-learn-destination-status">Category guide in progress</span>
         </div>
 
         <p class="psv-learn-destination-description">
@@ -96,9 +94,7 @@
 
         <div class="psv-learn-destination-heading">
           <h3>SOC</h3>
-          <a href="#" class="psv-learn-destination-arrow">
-            Explore <span>→</span>
-          </a>
+          <span class="psv-learn-destination-status">Category guide in progress</span>
         </div>
 
         <p class="psv-learn-destination-description">
@@ -127,9 +123,7 @@
 
         <div class="psv-learn-destination-heading">
           <h3>Pentest</h3>
-          <a href="#" class="psv-learn-destination-arrow">
-            Explore <span>→</span>
-          </a>
+          <span class="psv-learn-destination-status">Category guide in progress</span>
         </div>
 
         <p class="psv-learn-destination-description">
@@ -157,9 +151,7 @@
 
         <div class="psv-learn-destination-heading">
           <h3>Cyber Fraud</h3>
-          <a href="#" class="psv-learn-destination-arrow">
-            Explore <span>→</span>
-          </a>
+          <span class="psv-learn-destination-status">Category guide in progress</span>
         </div>
 
         <p class="psv-learn-destination-description">
