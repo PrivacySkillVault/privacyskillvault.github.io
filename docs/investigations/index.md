@@ -2,6 +2,9 @@
 
 Structured walkthroughs of alert triage, raw log correlation, and forensic analysis across simulated threat scenarios. Documenting investigation methodologies, detection logic, and false-positive reduction.
 
+!!! info "Scenario and evidence note"
+    The featured PowerShell case uses the documentation-only address `192.0.2.45` (TEST-NET-1). Treat it as an illustrative training scenario, not evidence of a real incident. Adapt the workflow to validated telemetry in an authorized environment.
+
 <div class="psv-investigation-filter-list" aria-label="Investigation categories">
   <span class="md-button md-button--primary">All investigations</span>
   <span class="md-button">SIEM &amp; Log Analysis</span>
