@@ -437,7 +437,12 @@
   
 </li>
         
-      </ul>
+        <li class="md-nav__item">
+    <a href="../about/" class="md-nav__link md-nav__link--about">
+      <span class="md-ellipsis">About</span>
+    </a>
+  </li>
+</ul>
     </nav>
   
 </li>
@@ -577,13 +582,14 @@
 
 <h1 id="operational-investigations-threat-triage">Operational Investigations &amp; Threat Triage<a class="headerlink" href="#operational-investigations-threat-triage" title="Permanent link">&para;</a></h1>
 <p>Structured walkthroughs of alert triage, raw log correlation, and forensic analysis across simulated threat scenarios. Documenting investigation methodologies, detection logic, and false-positive reduction.</p>
-<div style="display: flex; gap: var(--psv-space-2); flex-wrap: wrap; margin-top: var(--psv-space-4); margin-bottom: var(--psv-space-6);">
-  <span class="md-button md-button--primary" style="font-size: 0.75rem; padding: 4px 12px;">All</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">SIEM &amp; Log Analysis</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">Network &amp; PCAP</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">Endpoint Telemetry</span>
-  <span class="md-button" style="font-size: 0.75rem; padding: 4px 12px;">False Positives</span>
+<div class="admonition info"><p class="admonition-title">Scenario and evidence note</p><p>The featured PowerShell case uses the documentation-only address <code>192.0.2.45</code> (TEST-NET-1). Treat it as an illustrative training scenario, not evidence of a real incident. Adapt the workflow to validated telemetry in an authorized environment.</p></div>
+<div class="psv-investigation-filter-list" aria-label="Investigation categories">
+  <span class="md-button md-button--primary">All investigations</span>
+  <span class="md-button">SIEM &amp; Log Analysis</span>
+  <span class="md-button">Network &amp; PCAP</span>
+  <span class="md-button">Endpoint Telemetry</span>
 </div>
+<p class="psv-filter-note">Category labels are descriptive. Open a report to explore its investigation details.</p>
 
 <hr />
 <h2 id="featured-case-study-id-inv-024">Featured Case Study — ID: INV-024<a class="headerlink" href="#featured-case-study-id-inv-024" title="Permanent link">&para;</a></h2>
