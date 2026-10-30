@@ -6,23 +6,23 @@
 
 On Windows PowerShell:
 
-\`\`\`powershell
+```powershell
 Get-ComputerInfo | Select-Object CsName, WindowsProductName, WindowsVersion, OsArchitecture, CsTotalPhysicalMemory
 Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors, VirtualizationFirmwareEnabled, SecondLevelAddressTranslationExtensions
 Get-Volume | Select-Object DriveLetter, FileSystemLabel, Size, SizeRemaining
 systeminfo.exe
-\`\`\`
+```
 
 On Mac Terminal:
 
-\`\`\`bash
+```bash
 uname -m
 system_profiler SPHardwareDataType
 df -h /
 sysctl hw.memsize
-\`\`\`
+```
 
-Expected Apple-silicon architecture: \`arm64\`. Record exact chip, RAM, macOS version and free storage.
+Expected Apple-silicon architecture: `arm64`. Record exact chip, RAM, macOS version and free storage.
 
 For Hyper-V, confirm supported Windows edition, CPU SLAT, firmware virtualisation and DEP. Hyper-V is not available as a client feature on every Windows edition; if Windows Home is installed, use a supported alternative such as VMware Workstation.
 

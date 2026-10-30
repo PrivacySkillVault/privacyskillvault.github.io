@@ -20,16 +20,16 @@ sudo bash ./wazuh-install.sh -a
 ```
 
 2. Run the assistant on the fresh server.
-4. Save the generated dashboard credentials and certificates securely.
-5. Confirm services:
+3. Save the generated dashboard credentials and certificates securely.
+4. Confirm services:
 
-\`\`\`bash
+```bash
 sudo systemctl status wazuh-manager --no-pager
 sudo systemctl status wazuh-indexer --no-pager
 sudo systemctl status wazuh-dashboard --no-pager
-\`\`\`
+```
 
-6. Access the dashboard over the management network using HTTPS and the generated trust material. Do not permanently disable certificate validation.
+5. Access the dashboard over the management network using HTTPS and the generated trust material. Do not permanently disable certificate validation.
 
 ## 3. Enrol Windows endpoint
 

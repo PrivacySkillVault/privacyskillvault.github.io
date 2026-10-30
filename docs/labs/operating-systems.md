@@ -12,28 +12,28 @@ This creates the Windows and Linux endpoints used by the SIEM and SOC labs. Use 
 4. Set a static address such as 10.10.30.10/24. Configure a gateway only if the lab router exists.
 5. Rename and reboot:
 
-\`\`\`powershell
+```powershell
 Rename-Computer -NewName "PSV-DC01" -Restart
-\`\`\`
+```
 
 6. Install AD DS and DNS, then create the private lab forest:
 
-\`\`\`powershell
+```powershell
 Install-WindowsFeature AD-Domain-Services,DNS -IncludeManagementTools
 Install-ADDSForest -DomainName "lab.psv.test" -DomainNetbiosName "PSVLAB" -InstallDNS
-\`\`\`
+```
 
 Follow the prompts and set a unique Directory Services Restore Mode password. The server reboots after promotion. Use the reserved .test namespace, not a domain you do not own.
 
 7. Verify:
 
-\`\`\`powershell
+```powershell
 Get-ADDomain
 Get-ADForest
 Get-Service NTDS,DNS
 dcdiag /v
 nslookup -type=SRV _ldap._tcp.dc._msdcs.lab.psv.test
-\`\`\`
+```
 
 8. Create synthetic lab OUs/users only. Do not use real employee identities. Keep domain-controller DNS pointed to itself; configure DNS forwarders only if update access is required.
 
@@ -45,16 +45,16 @@ nslookup -type=SRV _ldap._tcp.dc._msdcs.lab.psv.test
 4. Set DNS to 10.10.30.10. Verify the domain controller resolves.
 5. Join the lab domain:
 
-\`\`\`powershell
+```powershell
 Add-Computer -DomainName "lab.psv.test" -Credential (Get-Credential) -Restart
-\`\`\`
+```
 
 Use a delegated join account rather than Domain Admin for routine joining. Verify after reboot:
 
-\`\`\`powershell
+```powershell
 systeminfo | findstr /B /C:"Domain"
 nltest /dsgetdc:lab.psv.test
-\`\`\`
+```
 
 If joining fails, investigate DNS, time skew, routing, firewall policy and join permissions; do not disable security controls as a shortcut.
 
@@ -78,7 +78,7 @@ Do not apply this test GPO to production systems. Audit policy changes should be
 
 Download the matching architecture ISO from Ubuntu and verify its published SHA-256 checksum. Create a VM with 2 vCPU, 2–4 GB RAM, 40–60 GB disk, and the appropriate SERVER or ENDPOINT NIC. Install a named non-root user; enable OpenSSH only if needed.
 
-\`\`\`bash
+```bash
 sudo apt update && sudo apt full-upgrade -y
 sudo reboot
 uname -m
@@ -87,17 +87,17 @@ lsblk -f
 ip -br address
 ip route
 systemctl --failed
-\`\`\`
+```
 
 Expected architecture: x86_64 on Windows PC; aarch64 on Apple Silicon Mac.
 
 Optional audit telemetry:
 
-\`\`\`bash
+```bash
 sudo apt install -y auditd audispd-plugins
 sudo systemctl enable --now auditd
 sudo auditctl -s
-\`\`\`
+```
 
 Add only the audit rules needed for the exercise and measure event volume before forwarding.
 
@@ -105,14 +105,14 @@ Add only the audit rules needed for the exercise and measure event volume before
 
 Download the official Kali image matching the host/guest architecture and verify the checksum. Create a VM with 2–4 vCPU, 4–8 GB RAM and 60 GB disk. Attach it only to REDTEAM; use temporary NAT only for updates and disconnect it before testing.
 
-\`\`\`bash
+```bash
 sudo apt update && sudo apt full-upgrade -y
 sudo reboot
 uname -m
 cat /etc/os-release
 ip -br address
 ip route
-\`\`\`
+```
 
 Use Kali repositories for tools. Start with Nmap, Wireshark, Burp Suite Community and browser developer tools. Test only lab-owned targets.
 

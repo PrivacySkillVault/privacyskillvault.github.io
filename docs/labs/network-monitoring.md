@@ -22,11 +22,11 @@ Use a supported Ubuntu Server x86-64 VM with 4 vCPU, 8 GB RAM and sufficient dis
 
 Identify interfaces:
 
-\`\`\`bash
+```bash
 ip -br link
 ip -br address
 ip route
-\`\`\`
+```
 
 Record which interface is management and which is capture. Do not guess interface names.
 
@@ -38,18 +38,18 @@ Use the official Zeek installation documentation for the Ubuntu release and supp
 
 After installation, verify:
 
-\`\`\`bash
+```bash
 zeek --version
 zeek -N
-\`\`\`
+```
 
 For an offline PCAP test:
 
-\`\`\`bash
+```bash
 mkdir -p ~/zeek-test && cd ~/zeek-test
 zeek -r /path/to/lab-capture.pcap
 ls -lah
-\`\`\`
+```
 
 The PCAP must be generated from your own lab. Inspect logs such as conn.log, dns.log and http.log where protocol traffic exists. The presence and exact fields depend on the traffic and Zeek scripts loaded.
 
@@ -59,16 +59,16 @@ For live capture, use the exact interface identified earlier and the supported Z
 
 Use the official Suricata installation guide for the OS and release. After installation:
 
-\`\`\`bash
+```bash
 suricata --build-info
 suricata --list-runmodes
-\`\`\`
+```
 
 For a safe offline PCAP check:
 
-\`\`\`bash
+```bash
 sudo suricata -r /path/to/lab-capture.pcap -l ./suricata-output
-\`\`\`
+```
 
 Inspect eve.json and fast.log. A rule match depends on the traffic and ruleset; no alert is expected for arbitrary traffic.
 
@@ -78,9 +78,9 @@ For live capture, follow the current Suricata guide for selecting the interface,
 
 Use the official ET Open rules or another rule source whose licence and update method you understand. Update rules using the supported Suricata update tooling for your package. Validate configuration before restart:
 
-\`\`\`bash
+```bash
 sudo suricata -T -c /etc/suricata/suricata.yaml
-\`\`\`
+```
 
 Do not copy random IDS rules from untrusted repositories. A rule alert is a signal requiring triage, not proof of compromise.
 

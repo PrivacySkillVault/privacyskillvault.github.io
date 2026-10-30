@@ -17,11 +17,11 @@ Use a dedicated VM. Do not run Splunk, Elastic, Wazuh and Security Onion togethe
 3. Select a supported x86-64 platform from the current support matrix.
 4. For Linux, follow Splunk's release-specific package installation instructions. A Debian package workflow is shown below; replace placeholders with the exact downloaded filename:
 
-\`\`\`bash
+```bash
 sudo dpkg -i splunk-<version>-<build>-linux-amd64.deb
 sudo /opt/splunk/bin/splunk start --accept-license
 sudo /opt/splunk/bin/splunk enable boot-start
-\`\`\`
+```
 
 5. For Windows, run the signed MSI as Administrator and follow the installer. Record the actual install path.
 6. Set a strong unique admin password and store it securely.
@@ -33,21 +33,21 @@ In Splunk Web, go to Settings → Forwarding and receiving → Configure receivi
 
 Verify on Linux:
 
-\`\`\`bash
+```bash
 sudo ss -lntp | grep 9997
-\`\`\`
+```
 
 On Windows:
 
-\`\`\`powershell
+```powershell
 Get-NetTCPConnection -LocalPort 9997 -State Listen
-\`\`\`
+```
 
 Do not expose management port 8089 or Web port 8000 to untrusted networks.
 
 ## 4. Create a test index
 
-Create an index named \`windows_lab\` under Settings → Indexes. Record its retention and storage policy. Use a disposable lab index, not production.
+Create an index named `windows_lab` under Settings → Indexes. Record its retention and storage policy. Use a disposable lab index, not production.
 
 ## 5. Install Universal Forwarder on Windows endpoint
 
@@ -57,24 +57,24 @@ Create an index named \`windows_lab\` under Settings → Indexes. Record its ret
 4. Configure the receiving Splunk host and port using the installer wizard or current Splunk CLI.
 5. Configure the Sysmon Operational channel input. A starting stanza is:
 
-\`\`\`ini
+```ini
 [WinEventLog://Microsoft-Windows-Sysmon/Operational]
 disabled = 0
 index = windows_lab
 renderXml = 1
-\`\`\`
+```
 
 Confirm the channel name and stanza syntax against the current Universal Forwarder documentation. Do not assume the Splunk Add-on for Microsoft Windows or CIM field extractions are present.
 
 6. Configure outputs.conf with the actual server address and port:
 
-\`\`\`ini
+```ini
 [tcpout]
 defaultGroup = lab-indexer
 
 [tcpout:lab-indexer]
 server = 10.10.30.21:9997
-\`\`\`
+```
 
 7. Restart the forwarder using the supported service/CLI method and inspect its internal logs.
 
@@ -82,18 +82,18 @@ server = 10.10.30.21:9997
 
 Search:
 
-\`\`\`spl
+```spl
 index=windows_lab earliest=-15m
 | stats count by host sourcetype source
-\`\`\`
+```
 
 Then inspect Sysmon process events:
 
-\`\`\`spl
+```spl
 index=windows_lab EventCode=1
 | table _time host Image CommandLine ParentImage ProcessGuid
 | sort -_time
-\`\`\`
+```
 
 Field names vary with raw XML, add-ons and parsing. If EventCode or Image is absent, inspect raw events and adapt the query. A running forwarder service is not proof of ingestion.
 

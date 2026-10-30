@@ -8,20 +8,20 @@ This guide is for M-series Apple-silicon Macs. VMware Fusion on Apple Silicon ru
 
 Open Terminal:
 
-\`\`\`bash
+```bash
 uname -m
 system_profiler SPHardwareDataType
 sw_vers
 df -h /
 sysctl hw.memsize
-\`\`\`
+```
 
-Expected host architecture: \`arm64\`. Record chip, unified memory, macOS version and free SSD capacity.
+Expected host architecture: `arm64`. Record chip, unified memory, macOS version and free SSD capacity.
 
 1. Update macOS through System Settings after backing up important data.
 2. Ensure sufficient free space; use a fast SSD for VM storage.
 3. Do not disable macOS security protections simply to make a VM install.
-4. Create \`~/CyberLab/{ISO,VMs,Evidence,Exports}\` or an equivalent external SSD directory.
+4. Create `~/CyberLab/{ISO,VMs,Evidence,Exports}` or an equivalent external SSD directory.
 
 ## 2. Install VMware Fusion
 
@@ -37,9 +37,9 @@ Expected host architecture: \`arm64\`. Record chip, unified memory, macOS versio
 1. Download the official Kali Apple Silicon/ARM64 installer or VMware image.
 2. Verify SHA-256 against the checksum published alongside the image:
 
-\`\`\`bash
+```bash
 shasum -a 256 ~/CyberLab/ISO/<downloaded-file>
-\`\`\`
+```
 
 3. Compare the output exactly with the official checksum. Stop if it differs.
 4. In Fusion, create a VM from the ARM64 ISO/image.
@@ -47,14 +47,14 @@ shasum -a 256 ~/CyberLab/ISO/<downloaded-file>
 6. Complete the install, update Kali, and install open-vm-tools only if recommended for that guest image.
 7. Verify:
 
-\`\`\`bash
+```bash
 uname -m
 cat /etc/os-release
 ip -br address
 ip route
-\`\`\`
+```
 
-Expected architecture: \`aarch64\` or \`arm64\`, depending on the command.
+Expected architecture: `aarch64` or `arm64`, depending on the command.
 
 ## 4. Install Ubuntu Server ARM64
 
@@ -64,12 +64,12 @@ Expected architecture: \`aarch64\` or \`arm64\`, depending on the command.
 4. Install a non-root user; enable OpenSSH only if remote administration is required.
 5. Update and verify:
 
-\`\`\`bash
+```bash
 sudo apt update && sudo apt upgrade -y
 uname -m
 lsb_release -a
 ip -br address
-\`\`\`
+```
 
 ## 5. Windows 11 ARM guest
 

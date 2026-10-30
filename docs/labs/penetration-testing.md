@@ -20,27 +20,27 @@ Use a supported Docker Engine installation on a disposable Ubuntu target VM conn
 
 After installing Docker, verify:
 
-\`\`\`bash
+```bash
 docker version
 docker info
-\`\`\`
+```
 
 Run the official OWASP Juice Shop image on the DMZ interface only. First inspect image metadata and confirm platform support. Bind the application port to the target VM's DMZ address, not to all host interfaces:
 
-\`\`\`bash
+```bash
 docker pull bkimminich/juice-shop
 docker run -d --name juice-shop --restart unless-stopped \
   -p 10.10.60.20:3000:3000 bkimminich/juice-shop
 docker ps
-\`\`\`
+```
 
 Replace 10.10.60.20 with the actual DMZ address assigned to the target VM. If the image does not publish a compatible ARM64 manifest, use a supported x86-64 target on the Windows PC rather than assuming emulation is suitable.
 
 From Kali, confirm only the intended application port is reachable:
 
-\`\`\`bash
+```bash
 curl -I http://10.10.60.20:3000
-\`\`\`
+```
 
 Do not expose this service on the home LAN or public Internet. Do not use default port mapping without binding to the lab interface.
 
@@ -61,9 +61,9 @@ Example scope: Kali 10.10.40.10 may assess Juice Shop 10.10.60.20 TCP/3000 only.
 
 From Kali, first confirm the target address and then scan only the target and port in scope:
 
-\`\`\`bash
+```bash
 nmap -sT -sV -p 3000 10.10.60.20
-\`\`\`
+```
 
 Record the command, Nmap version, time, target and output. Do not use broad subnet scans until the lab's authorised scope explicitly permits them.
 
@@ -97,10 +97,10 @@ A scanner finding is not confirmed until manually validated. Avoid presenting to
 
 Stop and remove the disposable target when finished:
 
-\`\`\`bash
+```bash
 docker stop juice-shop
 docker rm juice-shop
-\`\`\`
+```
 
 Revert the target VM snapshot. Remove temporary firewall allows and verify that the target is no longer reachable from Kali or any other network.
 
