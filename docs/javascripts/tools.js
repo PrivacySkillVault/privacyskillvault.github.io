@@ -1072,12 +1072,29 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
     value = value.replace(/^\[|\]$/g, "").replace(/\.$/, "").toLowerCase();
     const octets = value.split(".");
-    const isIp = octets.length === 4 && octets.every(part => /^\d{1,3}$/.test(part) && Number(part) <= 255);
-    if (isIp) return { value, isIp: true };
+    const isIPv4 = octets.length === 4 && octets.every(part => /^(0|[1-9]\d{0,2})$/.test(part) && Number(part) <= 255);
+    if (isIPv4) {
+      const [a, b] = octets.map(Number);
+      const privateOrSpecial =
+        a === 0 || a === 10 || a === 127 || a >= 224 ||
+        (a === 100 && b >= 64 && b <= 127) ||
+        (a === 169 && b === 254) ||
+        (a === 172 && b >= 16 && b <= 31) ||
+        (a === 192 && (b === 0 || b === 168)) ||
+        (a === 192 && b === 0 && Number(octets[2]) === 2) ||
+        (a === 192 && b === 88 && Number(octets[2]) === 99) ||
+        (a === 198 && (b === 18 || b === 19)) ||
+        (a === 198 && b === 51 && Number(octets[2]) === 100) ||
+        (a === 203 && b === 0 && Number(octets[2]) === 113);
+      if (privateOrSpecial) return null;
+      return { value, isIp: true };
+    }
+    if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(value)) return null;
     if (value.length > 253 || value.length < 4 || !value.includes(".")) return null;
     const labels = value.split(".");
     if (!labels.every(label => label.length <= 63 && /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(label)) ||
         !/[a-z]/.test(labels[labels.length - 1])) return null;
+    if (["localhost", "local", "internal", "test", "invalid", "example", "onion"].includes(labels[labels.length - 1])) return null;
     return { value, isIp: false };
   }
 
