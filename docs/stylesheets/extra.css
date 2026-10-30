@@ -31,9 +31,9 @@ body{background:var(--psv-bg);color:var(--psv-text);font-family:Roboto,"Helvetic
 
 /* Consistent heading hierarchy and homepage action styling */
 .md-typeset h1,.md-typeset h2,.md-typeset h3,.md-typeset h4,.md-typeset h5,.md-typeset h6{font-weight:700}
-.md-typeset h1{font-weight:750}
+.md-typeset h1{font-weight:700}
 .md-typeset h2{font-weight:700}
-.md-typeset h3,.md-typeset h4,.md-typeset h5,.md-typeset h6{font-weight:650}
+.md-typeset h3,.md-typeset h4,.md-typeset h5,.md-typeset h6{font-weight:700}
 .psv-home-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin:1.25rem 0 2rem}
 .md-typeset .psv-home-actions .md-button{display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;margin:0;padding:.55rem 1rem;border-radius:7px;font-family:Roboto,"Helvetica Neue",Arial,sans-serif;font-size:.86rem;font-weight:650;line-height:1.3;text-decoration:none;transition:background-color .15s ease,border-color .15s ease,transform .15s ease}
 .md-typeset .psv-home-actions .md-button--primary{background:#1f6feb;border-color:#1f6feb;color:#fff}
