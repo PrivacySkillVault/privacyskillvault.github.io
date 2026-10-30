@@ -1,0 +1,4 @@
+{"case_id":"PSV-DET-001-POS","source":"Sysmon/Operational","EventID":1,"Image":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe","CommandLine":"powershell.exe -NoProfile -EncodedCommand QQ==","ParentImage":"C:\\Windows\\System32\\cmd.exe","expected":"match"}
+{"case_id":"PSV-DET-001-NEG","source":"Sysmon/Operational","EventID":1,"Image":"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe","CommandLine":"powershell.exe -NoProfile -File C:\\Admin\\Inventory.ps1","ParentImage":"C:\\Windows\\System32\\services.exe","expected":"no-match"}
+{"case_id":"PSV-DET-002-POS","source":"Security","EventID":4732,"TargetSid":"S-1-5-32-544","TargetUserName":"Administrators","MemberName":"CONTOSO\\svc-maint","SubjectUserName":"ops-admin","expected":"match"}
+{"case_id":"PSV-DET-002-NEG","source":"Security","EventID":4732,"TargetSid":"S-1-5-32-545","TargetUserName":"Users","MemberName":"CONTOSO\\new-user","SubjectUserName":"helpdesk","expected":"no-match"}

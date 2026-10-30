@@ -6,6 +6,11 @@ Defensive investigation methods and worked examples covering security alerts, en
 
 Every report must distinguish observed evidence from interpretation. Published material is classified as sanitised professional experience, lab investigation, simulated scenario, or research note. No customer records, internal banking details, production IP addresses, or employer-confidential information belong here.
 
+## Operational playbooks
+
+- [Account Takeover (ATO) Investigation Playbook](account-takeover-playbook.md) — investigate identity, session, device, API, fraud-engine and transaction evidence.
+- [Payment Fraud Investigation Playbook](payment-fraud-playbook.md) — reconstruct payment lifecycles and interpret rail-specific evidence, including 3DS where applicable.
+
 ## Detailed walkthrough
 
 - [Suspicious PowerShell from a Scheduled Task](scheduled-task-powershell.md) — a synthetic evidence-led investigation with competing hypotheses, correlation steps, and an analyst checklist.

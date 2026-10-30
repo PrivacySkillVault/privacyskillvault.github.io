@@ -25,6 +25,12 @@ jobs:
           node-version: "20"
       - name: Install MkDocs Material
         run: python -m pip install --upgrade pip mkdocs-material
+      - name: Validate Sigma rules against Sigma 2.1.0 schema
+        uses: SigmaHQ/sigma-rules-validator@aa3561cf4c5b577330ce4ace97d363853624b29a # v1
+        with:
+          paths: |
+            ./docs/detection-engineering/rules
+          schemaURL: https://raw.githubusercontent.com/SigmaHQ/sigma-specification/refs/tags/v2.1.0/json-schema/sigma-detection-rule-schema.json
       - name: Check JavaScript syntax
         run: node --check docs/javascripts/tools.js
       - name: Build site strictly

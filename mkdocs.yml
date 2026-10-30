@@ -73,5 +73,10 @@ nav:
   - Investigations:
       - Overview: investigations/index.md
       - Scheduled Task & PowerShell Investigation: investigations/scheduled-task-powershell.md
+  - Detection Engineering:
+      - Overview: detection-engineering/index.md
+      - PowerShell Encoded Command: detection-engineering/windows-powershell-encoded-command.md
+      - Local Administrators Group Change: detection-engineering/windows-local-admin-membership.md
+  - Operational Templates: templates/index.md
   - Tools: tools/index.md
   - Blog: blog/index.md
