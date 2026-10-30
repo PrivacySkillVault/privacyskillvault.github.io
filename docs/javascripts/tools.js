@@ -1752,7 +1752,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function init() {
-    if (!/\/tools(?:\/|$)/.test(window.location.pathname)) return;
+    if (!/\/tools(?:\/|$)/.test(window.location.pathname)) {
+      const injectedStyles = document.getElementById("psv-hiderox-royal-css");
+      if (injectedStyles) injectedStyles.remove();
+      return;
+    }
     const h = window.location.hash || "";
     if (h.startsWith("#tool/")) {
       const id = h.replace("#tool/", "").trim();
