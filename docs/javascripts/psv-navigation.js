@@ -60,6 +60,27 @@
   }
 
   /*
+   * Close the compact navigation after a selection or Escape.
+   * This matters because MkDocs instant navigation keeps the header alive.
+   */
+  function closeMobileNavigation() {
+    const nav = document.getElementById("psv-global-nav");
+    const toggle = document.querySelector(".psv-mobile-menu-toggle");
+    if (nav) nav.classList.remove("psv-global-nav--open");
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+  }
+
+  document.addEventListener("click", function (event) {
+    if (event.target && event.target.closest && event.target.closest("#psv-global-nav a")) {
+      closeMobileNavigation();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeMobileNavigation();
+  });
+
+  /*
    * Initial page load.
    */
   document.addEventListener(
