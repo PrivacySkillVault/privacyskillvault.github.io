@@ -13,7 +13,31 @@
          <lastmod>2026-10-30</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/detection-engineering/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/detection-engineering/windows-local-admin-membership/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/detection-engineering/windows-powershell-encoded-command/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/detection-engineering/fixtures/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/investigations/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/investigations/account-takeover-playbook/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/investigations/payment-fraud-playbook/</loc>
          <lastmod>2026-10-30</lastmod>
     </url>
     <url>
@@ -50,6 +74,22 @@
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/d05/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/operational-templates/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/operational-templates/detection-change-record/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/operational-templates/fraud-case-record/</loc>
+         <lastmod>2026-10-30</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/operational-templates/incident-report/</loc>
          <lastmod>2026-10-30</lastmod>
     </url>
     <url>

@@ -1,0 +1,31 @@
+title: Member Added to Built-in Local Administrators Group
+id: 2b3e1e76-7e3b-4a9d-9d81-001000000002
+status: test
+description: Detects a member added to the built-in local Administrators group using Windows Security Event 4732.
+author: Privacy Skill Vault
+date: 2026-10-31
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4732
+        TargetSid: 'S-1-5-32-544'
+    condition: selection
+fields:
+    - SubjectUserName
+    - SubjectDomainName
+    - SubjectLogonId
+    - MemberName
+    - MemberSid
+    - TargetUserName
+    - TargetSid
+falsepositives:
+    - Approved endpoint provisioning
+    - Privileged access management workflows
+    - Software deployment or support activity
+level: high
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1098.007

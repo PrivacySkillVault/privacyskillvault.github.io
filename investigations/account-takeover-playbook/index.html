@@ -1,0 +1,1694 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/investigations/account-takeover-playbook/">
+      
+      
+        <link rel="prev" href="../scheduled-task-powershell/">
+      
+      
+        <link rel="next" href="../payment-fraud-playbook/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Account Takeover Playbook - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#account-takeover-ato-investigation-playbook" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href="../.." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../../standards/" class="psv-global-nav__link">Standards</a></li>
+        <li><a href="../../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../../labs/" class="psv-global-nav__link">Labs</a></li>
+        <li><a href="../" class="psv-global-nav__link psv-global-nav__link--active">Investigations</a></li>
+        <li><a href="../../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-establish-the-case-and-preserve-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Establish the case and preserve evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-build-a-single-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Build a single timeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-evidence-collection-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Evidence collection matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-correlation-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Correlation logic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-when-the-session-is-missing-from-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. When the session is missing from logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-assess-device-id-cloning-or-replay-hypotheses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Assess device-ID cloning or replay hypotheses
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-assess-transaction-and-customer-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Assess transaction and customer impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-decision-and-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Decision and escalation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-case-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Case conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../payment-fraud-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Fraud Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Detection Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/fixtures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Test Fixtures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-powershell-encoded-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell Encoded Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-local-admin-membership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Administrators Group Change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operational Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/detection-change-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Change & Validation Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/fraud-case-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fraud Investigation Case Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/incident-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cybersecurity Incident Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-establish-the-case-and-preserve-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Establish the case and preserve evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-build-a-single-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Build a single timeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-evidence-collection-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Evidence collection matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-correlation-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Correlation logic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-when-the-session-is-missing-from-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. When the session is missing from logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-assess-device-id-cloning-or-replay-hypotheses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Assess device-ID cloning or replay hypotheses
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-assess-transaction-and-customer-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Assess transaction and customer impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-decision-and-escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Decision and escalation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-case-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Case conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="account-takeover-ato-investigation-playbook">Account Takeover (ATO) Investigation Playbook<a class="headerlink" href="#account-takeover-ato-investigation-playbook" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Operational reference — follow approved bank procedures</badge></p>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>Provide a repeatable evidence-led investigation for suspected digital-channel account takeover, including disputed transactions. This playbook is a checklist and decision aid; it does not authorise account restrictions, transaction blocks, customer contact, or regulatory notifications.</p>
+<h2 id="1-establish-the-case-and-preserve-evidence">1. Establish the case and preserve evidence<a class="headerlink" href="#1-establish-the-case-and-preserve-evidence" title="Permanent link">&para;</a></h2>
+<p>Record the case ID, alert/reference IDs, customer/account reference in the authorised case platform, detection source, time first observed, investigator, case owner, current status, and approved priority.</p>
+<p>Preserve original records before enrichment or transformation. Record source system, native event ID, event timestamp and time zone, collection time, record/request/trace/session identifiers, collector, export method, integrity hash where supported, and access restrictions.</p>
+<p>Do not paste customer identifiers, authentication secrets, full card data, OTPs, session tokens, or internal production logs into this public template or an unapproved service.</p>
+<h2 id="2-build-a-single-timeline">2. Build a single timeline<a class="headerlink" href="#2-build-a-single-timeline" title="Permanent link">&para;</a></h2>
+<p>Normalise timestamps to UTC while retaining the original timestamp and offset. Use a timeline table:</p>
+<table>
+<thead>
+<tr>
+<th>UTC time</th>
+<th>Source</th>
+<th>Event / action</th>
+<th>Actor / account</th>
+<th>Device / session</th>
+<th>IP / channel</th>
+<th>Transaction</th>
+<th>Evidence reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[time]</td>
+<td>[IAM/app/fraud/core]</td>
+<td>[login/profile change/payment]</td>
+<td>[masked ID]</td>
+<td>[ID]</td>
+<td>[IP/channel]</td>
+<td>[ID]</td>
+<td>[record ID]</td>
+</tr>
+</tbody>
+</table>
+<p>Do not correlate solely on a timestamp. Prefer server-issued identifiers and independently observed keys: authentication request ID, session ID, API request/trace ID, transaction ID, payment reference, 3DS transaction identifiers, device attestation reference, and account/customer key. Record the reliability and origin of each identifier.</p>
+<h2 id="3-evidence-collection-matrix">3. Evidence collection matrix<a class="headerlink" href="#3-evidence-collection-matrix" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Collect</th>
+<th>Questions / caveats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity provider / IAM</td>
+<td>Login attempts, success/failure, MFA challenge/result, password reset, recovery, authenticator enrolment/removal, lockout, token/session issue and revocation</td>
+<td>Which component authenticated the user? Which factor was actually validated?</td>
+</tr>
+<tr>
+<td>Mobile/web application</td>
+<td>App version, device ID and fingerprint, device attestation result if implemented, session creation/refresh/revoke, API route, request/trace ID, server response</td>
+<td>Was the identifier generated client-side or server-side? Could it be copied or replayed?</td>
+</tr>
+<tr>
+<td>API gateway / WAF</td>
+<td>Request ID, trace ID, route, method, source IP, TLS/client metadata available, status, upstream target and latency</td>
+<td>Was the call received, rejected, retried, or routed elsewhere?</td>
+</tr>
+<tr>
+<td>Fraud platform</td>
+<td>Rule/model version, evaluated features, score, decision, reason codes, latency, override, bypass/disable event, operator and configuration history</td>
+<td>What exact data was evaluated at decision time? Were rules disabled or thresholds changed?</td>
+</tr>
+<tr>
+<td>Core banking / payment</td>
+<td>Transaction ID, posting/authorisation state, amount, currency, beneficiary, rail, timestamps, reversals/returns, channel and authorisation references</td>
+<td>Distinguish initiated, authorised, accepted, posted, settled, reversed and returned states.</td>
+</tr>
+<tr>
+<td>Device / endpoint</td>
+<td>EDR events, device registration, OS/app version, root/jailbreak/attestation signals, malware findings, integrity signals</td>
+<td>A matching device ID is not proof of the same physical device or legitimate user.</td>
+</tr>
+<tr>
+<td>Network / infrastructure</td>
+<td>IP, port, ASN/geo enrichment, DNS, proxy, VPN indicators, firewall, load balancer, NAT and TLS metadata</td>
+<td>IP and geolocation are contextual signals; consider carrier NAT, VPNs, proxies and shared egress.</td>
+</tr>
+<tr>
+<td>Customer / channel</td>
+<td>Contact history, verified callback result, dispute details, known travel/accessibility context where lawfully available</td>
+<td>Use independently verified contact routes and approved customer-contact scripts.</td>
+</tr>
+<tr>
+<td>3-D Secure / card rails</td>
+<td>Protocol version, message identifiers, result/status, challenge flow, ECI and other fields supplied by the provider</td>
+<td>Interpret fields with the applicable EMVCo version and provider mapping. Authentication result is not a complete fraud verdict.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-correlation-logic">4. Correlation logic<a class="headerlink" href="#4-correlation-logic" title="Permanent link">&para;</a></h2>
+<p>Use the following sequence and record each join:</p>
+<ol>
+<li>Link the disputed transaction to the payment/core record using the authoritative transaction or payment reference.</li>
+<li>Link the transaction to the fraud decision using the decision reference, rule execution ID or trace ID.</li>
+<li>Link the fraud decision to the application/API request using a server-side request or trace ID.</li>
+<li>Link the API request to the authenticated session using the session reference; establish whether the mapping is direct or inferred.</li>
+<li>Link the session to the authentication event using the identity provider's authentication/request ID and user/account key.</li>
+<li>Link the session/device to network and endpoint evidence using multiple attributes and timestamps, not a client-controlled device ID alone.</li>
+<li>Independently compare the resulting chain with customer dispute evidence and known-good historical behaviour.</li>
+</ol>
+<p>A join that relies only on approximate time, IP, user-agent or a client-generated device ID must be labelled a weak correlation—not a confirmed link.</p>
+<h2 id="5-when-the-session-is-missing-from-logs">5. When the session is missing from logs<a class="headerlink" href="#5-when-the-session-is-missing-from-logs" title="Permanent link">&para;</a></h2>
+<p>Do not conclude that a session did not exist merely because it is absent from one log source. Investigate the logging path:</p>
+<ul>
+<li>Was the session created by a different component, region, API version, gateway, or authentication provider?</li>
+<li>Is the expected event generated at all, or only after a successful downstream step?</li>
+<li>Was the log sampled, filtered, dropped, delayed, overwritten, or outside retention?</li>
+<li>Are clocks out of sync or time zones misinterpreted?</li>
+<li>Did an asynchronous queue, retry, cache, or service-to-service call break trace propagation?</li>
+<li>Are request IDs and trace IDs regenerated at a proxy or gateway?</li>
+<li>Did the request fail before application logging, or did a downstream service accept a request without the expected upstream log?</li>
+<li>Was there a logging configuration change, service restart, audit disablement, or pipeline incident?</li>
+<li>Can the provider, API gateway, WAF, load balancer, mobile telemetry, or core system independently corroborate the request?</li>
+</ul>
+<p>Document the exact sources searched, query/time range, retention status, and whether the source is expected to log that event. Use the conclusion <strong>“not present in the available source records”</strong> until the gap is explained.</p>
+<h2 id="6-assess-device-id-cloning-or-replay-hypotheses">6. Assess device-ID cloning or replay hypotheses<a class="headerlink" href="#6-assess-device-id-cloning-or-replay-hypotheses" title="Permanent link">&para;</a></h2>
+<p>A cloned or reused device identifier is a hypothesis to test, not a conclusion based on duplicate values alone.</p>
+<p>Compare:
+- Client device ID against server-side device registration and attestation references.
+- App instance ID, app version, OS build, device model and integrity signals.
+- Concurrent or near-concurrent sessions using the same identifier from incompatible network contexts.
+- Device ID history, reset/re-registration events and identifier lifecycle.
+- TLS/client metadata and API request patterns where lawfully collected.
+- Authentication factors, session tokens and token lifecycle; do not expose token values in the case report.
+- Differences between mobile telemetry, API gateway records and fraud-platform feature inputs.</p>
+<p>Possible explanations include identifier cloning/replay, legitimate app reinstall or migration, SDK changes, shared devices, account sharing, data mapping defects, stale cache, or a provider integration issue. Seek independent evidence before choosing among them.</p>
+<h2 id="7-assess-transaction-and-customer-impact">7. Assess transaction and customer impact<a class="headerlink" href="#7-assess-transaction-and-customer-impact" title="Permanent link">&para;</a></h2>
+<p>Record each disputed transaction separately. Distinguish attempted, declined, authorised, posted, settled, reversed, returned and recovered amounts. Record currency, fee/FX impact, beneficiary, rail, transaction status, dispute status, and any related transactions.</p>
+<p>Determine whether the same session/account/device/beneficiary or fraud pattern affects other customers. Use approved internal link-analysis and case-management controls.</p>
+<h2 id="8-decision-and-escalation">8. Decision and escalation<a class="headerlink" href="#8-decision-and-escalation" title="Permanent link">&para;</a></h2>
+<p>Escalate according to approved policy when there is credible evidence of ongoing unauthorised access, attempted/confirmed financial loss, compromised credentials or sessions, multiple affected customers, suspected control bypass, or a material logging/control failure.</p>
+<p>For any protective action, record:
+- Decision-maker and authority
+- Evidence and risk basis
+- Exact scope (account/session/device/transaction)
+- Execution time, operator and system result
+- Customer/service impact
+- Review and reversal criteria</p>
+<p>Do not infer a mandatory action or deadline from this playbook. Use the institution's current policy, payment scheme rules, contracts, and applicable regulatory obligations.</p>
+<h2 id="9-case-conclusion">9. Case conclusion<a class="headerlink" href="#9-case-conclusion" title="Permanent link">&para;</a></h2>
+<p>State one of: confirmed unauthorised activity; likely unauthorised activity; suspicious but inconclusive; legitimate/authorised activity; control/process failure without confirmed fraud; or unable to determine. Define the institution's approved case outcomes if they differ.</p>
+<p>Include observed facts, correlated facts, analysis, alternative hypotheses, confidence, losses/attempts, customer impact, control gaps, actions and approvals, evidence gaps, root cause (if supported), corrective actions, owners and target dates.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://rulebook.sama.gov.sa/en/52-fraud-detection-systems">SAMA 2022 Counter-Fraud Framework — 5.2 Fraud Detection Systems</a></li>
+<li><a href="https://rulebook.sama.gov.sa/en/counter-fraud-framework-0">SAMA 2022 Counter-Fraud Framework</a></li>
+<li><a href="https://rulebook.sama.gov.sa/en/63-fraud-investigation">SAMA 2022 Counter-Fraud Framework — 6.3 Fraud Investigation</a></li>
+<li><a href="https://www.emvco.com/emv-technologies/3-d-secure/">EMVCo 3-D Secure</a></li>
+<li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final">NIST SP 800-61 Rev. 3</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/psv-navigation.js"></script>
+      
+        <script src="../../javascripts/tools.js"></script>
+      
+    
+  </body>
+</html>
