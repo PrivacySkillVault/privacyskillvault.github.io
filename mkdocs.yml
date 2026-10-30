@@ -71,6 +71,8 @@ nav:
       - Overview: labs/index.md
       - Hardware & Compatibility: labs/requirements.md
       - Windows Host Setup: labs/platform-windows.md
+      - VirtualBox Host Setup: labs/platform-virtualbox.md
+      - End-to-end Build Sequence: labs/build-sequence.md
       - Mac Host Setup: labs/platform-macos.md
       - Network Design: labs/network-design.md
       - OPNsense Firewall & Routing: labs/firewall-routing.md
