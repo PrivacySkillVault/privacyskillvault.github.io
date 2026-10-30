@@ -52,6 +52,8 @@ This is a logical design. It does not create network isolation by itself. Implem
 |---|---|---|
 | 0 | [Hardware and compatibility](requirements.md) | Confirm which workloads fit each host |
 | 1 | [Windows host setup](platform-windows.md) | Hypervisor, storage and virtual switches |
+| 1A | [VirtualBox host setup](platform-virtualbox.md) | Windows x64 VirtualBox installation, host-only/internal networks and OPNsense NIC mapping |
+| 1B | [End-to-end build sequence](build-sequence.md) | Ordered deployment gates from host preparation to SOC capstone |
 | 2 | [Mac Apple-silicon setup](platform-macos.md) | ARM virtualisation and supported guest images |
 | 3 | [Network design](network-design.md) | Segments, routing, firewall policy and isolation tests |
 | 3A | [OPNsense firewall](firewall-routing.md) | Routed interfaces, DHCP, DNS, NAT and default-deny rules |
@@ -70,7 +72,7 @@ Build and validate one SIEM at a time. Security Onion is a separate, resource-in
 
 ### Windows x64 PC — primary host
 
-Use this host for x86-64 Windows Server, Windows 11, Ubuntu, Splunk Enterprise, Security Onion and the primary SIEM labs. Security Onion requires x86-64 and its standalone deployment has a vendor bare minimum of 4 CPU cores, 24 GB RAM, 200 GB storage and 2 NICs.
+Use this host for x86-64 Windows Server, Windows 11, Ubuntu, Splunk Enterprise, Security Onion and the primary SIEM labs. Choose Hyper-V, VMware Workstation or VirtualBox as the primary hypervisor for a given build. The dedicated VirtualBox guide documents a tested-by-design network layout but remains untested until executed on physical hardware. Security Onion requires x86-64 and its standalone deployment has a vendor bare minimum of 4 CPU cores, 24 GB RAM, 200 GB storage and 2 NICs.
 
 ### Apple-silicon MacBook — ARM64 host
 
@@ -117,6 +119,10 @@ Start with default-deny between segments. Allow only required management, DNS/NT
 
 A virtual switch is Layer 2 connectivity, not a firewall. Hyper-V private switches and Fusion host-only networks do not automatically connect across the two physical hosts. Cross-host integration requires an explicit lab router/firewall or a separate telemetry path.
 
+## End-to-end execution runbook
+
+Use the [End-to-end lab build sequence](build-sequence.md) as the master checklist. It links the host setup, OPNsense segmentation, operating-system deployment, endpoint telemetry, one-at-a-time SIEM installation, network monitoring, penetration-testing exercises and SOC validation into a controlled build order. Complete each acceptance gate before moving to the next stage.
+
 ## Lab evidence standard
 
 Each lab write-up should record:
@@ -134,6 +140,8 @@ Never publish real customer data, employer logs, internal IPs, production creden
 ## Official documentation
 
 - [VMware Fusion and Workstation FAQ](https://www.vmware.com/docs/desktop-hypervisor-faqs)
+- [Oracle VirtualBox downloads](https://www.virtualbox.org/wiki/Downloads)
+- [Oracle VirtualBox networking manual](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html)
 - [Microsoft Hyper-V host requirements](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements)
 - [Microsoft Windows 11 ARM ISO](https://learn.microsoft.com/en-us/windows/arm/iso)
 - [Kali official downloads and verification](https://www.kali.org/docs/introduction/download-official-kali-linux-images/)

@@ -71,6 +71,20 @@ Use this where Hyper-V is unavailable or you prefer VMware's VM networking workf
 
 VMware menu names and licensing screens may vary by release. Follow the current product documentation for the exact version installed.
 
+### Option C — Oracle VirtualBox
+
+Use VirtualBox on this Windows x64 host when you want a separate, supported x86/x64 guest environment and its internal/host-only network model. Follow the dedicated [VirtualBox host and network build guide](platform-virtualbox.md) for the exact installation, named network creation, OPNsense adapter mapping, first guest smoke test and packet-capture limitations. Do not combine this option with the Hyper-V/VMware network plan without deliberately redesigning the virtual switches.
+
+1. Download the current Windows hosts package from Oracle's official VirtualBox downloads page.
+2. Verify the Oracle digital signature and review the release's supported host/guest matrix.
+3. Install as Administrator; expect a brief network adapter reset while networking components are installed.
+4. Reboot if requested and verify the installed version in VirtualBox Manager.
+5. Do not install the Extension Pack unless a required feature needs it. If installed, its version must match the base VirtualBox version and its separate licence terms must be reviewed.
+6. Create a small Ubuntu x86-64 VM as a smoke test before creating the firewall or SIEM VMs.
+7. Do not attach Kali or intentionally vulnerable targets to Bridged Adapter.
+
+VirtualBox can operate alongside some Windows hypervisor features using its supported backend, but performance and feature availability can vary. Do not disable VBS, Memory Integrity, Hyper-V or WSL2 blindly to troubleshoot it; inspect the VirtualBox log and the current Oracle/Windows compatibility guidance first.
+
 ## 3. Storage layout
 
 Create a simple layout on the VM SSD:

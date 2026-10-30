@@ -34,6 +34,7 @@ For Hyper-V, confirm supported Windows edition, CPU SLAT, firmware virtualisatio
 | Windows 11 ARM guest | Not on x64 Hyper-V host | Yes, using supported ARM virtualisation |
 | Ubuntu x86-64 guest | Yes | No native x64 guest in Fusion |
 | Ubuntu ARM64 guest | Depends on host hypervisor | Yes |
+| VirtualBox host | Supported Windows x64 host; x86/x64 guests | Apple-silicon VirtualBox host supports ARM64 guests only; no x86/x64 guests |
 | Kali x86-64 guest | Yes | No native x64 guest in Fusion |
 | Kali ARM64 guest | Depends on host hypervisor | Yes |
 | Splunk Enterprise | Supported x64 Windows/Linux platform | ARM64 is not supported for Splunk Enterprise |
@@ -44,7 +45,7 @@ For Hyper-V, confirm supported Windows edition, CPU SLAT, firmware virtualisatio
 | Zeek / Suricata | Supported Linux builds | ARM builds where the selected release/package supports them |
 | OWASP Juice Shop | Docker image/platform must match guest | Verify the published ARM64 image manifest |
 
-**Apple Silicon limitation:** VMware Fusion on Apple Silicon supports 64-bit ARM guests only; x86 guest operating systems are not supported. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.
+**Apple Silicon limitation:** VMware Fusion and Oracle VirtualBox on Apple Silicon support ARM64 guests only; x86/x64 guest operating systems are not supported. VirtualBox on Apple Silicon has additional limitations and is not a substitute for the Windows x64 host for OPNsense, Security Onion or Splunk Enterprise. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.
 
 ## 3. Practical planning allocations
 
@@ -64,6 +65,7 @@ Run one major SIEM stack at a time. Reserve memory for the host OS and hyperviso
 - Windows Server/Windows client media: Microsoft Evaluation Center/download pages; read the exact evaluation and activation terms.
 - Kali: official Kali images only; verify SHA-256.
 - VMware Fusion/Workstation: Broadcom's official portal; verify host and guest compatibility for exact release.
+- VirtualBox: use the official Oracle downloads and the matching release manual. On Apple Silicon, only ARM64 guests are supported; check the current host/guest matrix before installing.
 - Splunk Enterprise and Universal Forwarder: current Splunk support matrix lists supported OS/architecture combinations. Splunk Enterprise does not support ARM architecture; Windows ARM is not a supported Enterprise/Universal Forwarder platform in the cited current matrix. Use x64 Windows/Linux on the PC.
 - Elastic: verify the exact Elasticsearch, Kibana, Agent and integration versions in Elastic's support matrix. Keep components on a compatible release family.
 - Wazuh: central components support x86_64/AMD64 and AARCH64/ARM64 Linux on listed OS versions.
@@ -74,6 +76,8 @@ Run one major SIEM stack at a time. Reserve memory for the host OS and hyperviso
 - [Microsoft Hyper-V host requirements](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements)
 - [Microsoft Windows 11 ARM ISO](https://learn.microsoft.com/en-us/windows/arm/iso)
 - [Broadcom Fusion ARM guest compatibility](https://knowledge.broadcom.com/external/article/315602)
+- [Oracle VirtualBox host/guest architecture support](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/Introduction.html)
+- [Oracle VirtualBox downloads](https://www.virtualbox.org/wiki/Downloads)
 - [Splunk Enterprise 10.6 on-premises system requirements](https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.6/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises)
 - [Elastic Support Matrix](https://www.elastic.co/support/matrix)
 - [Wazuh Quickstart requirements](https://documentation.wazuh.com/current/quickstart.html)
