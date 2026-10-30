@@ -36,6 +36,23 @@ On VMware Workstation:
 
 Hyper-V Generation 1/2 and VMware virtual installation are documented by OPNsense. If your hypervisor does not expose enough isolated virtual networks, build fewer segments first and expand after validation.
 
+### VirtualBox adapter mapping (Windows x64 host)
+
+For VirtualBox, create the firewall VM on the Windows x64 PC and attach these adapters before first boot:
+
+| VirtualBox adapter | Attachment | Name | OPNsense role |
+|---|---|---|---|
+| 1 | NAT | — | WAN |
+| 2 | Host-only Adapter | The dedicated MGMT host-only network | MGMT |
+| 3 | Internal Network | `PSV-ENDPOINT` | ENDPOINT |
+| 4 | Internal Network | `PSV-SERVER` | SERVER |
+| 5 | Internal Network | `PSV-REDTEAM` | REDTEAM |
+| 6 | Internal Network | `PSV-DMZ` | DMZ |
+
+Create the MGMT host-only network with the Windows host at `10.10.10.2/24` and disable the VirtualBox DHCP server on it; OPNsense uses `10.10.10.1/24`. Create the four internal networks using exactly the names above. The OPNsense WAN should be VirtualBox NAT, not Bridged Adapter. Follow [VirtualBox Host Setup](platform-virtualbox.md) for detailed setup and verification.
+
+Record each virtual NIC MAC address and map the OPNsense interfaces by MAC at the console. VirtualBox adapter number does not guarantee guest interface name/order. Do not guess interface assignments. VirtualBox's NAT mode provides outbound access for the firewall WAN; it is not a shared LAN for the other lab VMs.
+
 ## 3. Install OPNsense
 
 1. Download the current x86-64 DVD ISO from the official OPNsense download site.
@@ -141,6 +158,8 @@ Export an encrypted OPNsense configuration backup after the initial working setu
 ## References
 
 - [OPNsense virtual installation](https://docs.opnsense.org/manual/virtuals.html)
+- [Oracle VirtualBox networking modes](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html)
+- [OPNsense VirtualBox OVA installation notes](https://docs.opnsense.org/manual/how-tos/installova.html)
 - [OPNsense initial installation](https://docs.opnsense.org/manual/install.html)
 - [OPNsense interface assignments](https://docs.opnsense.org/manual/interfaces.html)
 - [OPNsense firewall rules](https://docs.opnsense.org/manual/firewall.html)
