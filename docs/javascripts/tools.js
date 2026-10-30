@@ -1102,7 +1102,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     jobs.push(["RDAP", fetchThreatJson("https://rdap.org/" + (parsed.isIp ? "ip/" : "domain/") + encodeURIComponent(indicator), { headers: { accept: "application/rdap+json, application/json" } })]);
     if (!parsed.isIp) jobs.push(["Cloudflare DNS", fetchThreatJson("https://cloudflare-dns.com/dns-query?name=" + encodeURIComponent(indicator) + "&type=A", { headers: { accept: "application/dns-json" } })]);
     const settled = await Promise.allSettled(jobs.map(job => job[1]));
-    if (requestId !== tiLookupSequence || !document.getElementById("psv-tool-result-box")) return;
+    if (requestId !== tiLookupSequence || document.getElementById("psv-tool-result-box") !== outputElement || activeToolId !== "ti" || currentView !== "tool") return;
     const results = {};
     jobs.forEach((job, index) => {
       const result = settled[index];
@@ -1673,6 +1673,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
         if (tid) {
+          tiLookupSequence++;
           activeToolId = tid;
           selectedOptionIdx = 0;
           currentView = "tool";
@@ -1714,6 +1715,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         userInputs[tool.id] = "";
         const ed = document.getElementById("psv-tool-editor");
         const out = document.getElementById("psv-tool-result-box");
+        if (tool.id === "ti") tiLookupSequence++;
         if (ed) ed.value = "";
         if (out) out.innerHTML = `<div style="color:#94a3b8;padding:0.5rem;">Workspace cleared. Click <strong>Reset Sample</strong> or paste your own telemetry above.</div>`;
       } else if (action === "copy-output") {
@@ -1748,6 +1750,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       } else if (e.target && e.target.id === "psv-tool-editor") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
         userInputs[tool.id] = e.target.value;
+        if (tool.id === "ti") tiLookupSequence++;
         const out = document.getElementById("psv-tool-result-box");
         if (out) out.innerHTML = computeDynamicOutput(tool, e.target.value);
       }
