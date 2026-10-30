@@ -59,6 +59,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - About: about.md
+  - Standards & Frameworks: standards/index.md
   - Learn:
       - Overview: learn/index.md
       - D01 - Infrastructure & Platform Foundation: learn/d01/index.md
