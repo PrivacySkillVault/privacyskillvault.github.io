@@ -14,6 +14,10 @@ The Threat Intel Hub does not make requests while you type. Provider responses m
 
 **Do not paste customer information, authentication data, internal logs, confidential indicators, or employer-sensitive material into this public page.** Public providers may process or retain submitted indicators under their own terms and policies. Review those policies before use.
 
+## Standards and version compatibility
+
+The CVSS calculator currently supports **CVSS v3.1 only**. FIRST publishes CVSS v4.0 as the current specification; do not use this calculator for v4.0 vectors or label its output as v4.0. See the [Industry Standards & Authoritative References](../standards/index.md#first-common-vulnerability-scoring-system-cvss-v40) page for the version distinction. The Sigma utility on this page is a source preview only, not a Sigma parser or converter.
+
 ## Operational limitations
 
 - Tool output is an aid to analysis, not a verdict or automated security decision.

@@ -1,6 +1,6 @@
 site_name: "Privacy Skill Vault"
 site_url: "https://privacyskillvault.com/"
-site_description: "A personal cybersecurity portfolio and practical knowledge base."
+site_description: "Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references."
 site_author: "Saju Varghese"
 theme:
   name: material
@@ -59,6 +59,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - About: about.md
+  - Standards & Frameworks: standards/index.md
   - Learn:
       - Overview: learn/index.md
       - D01 - Infrastructure & Platform Foundation: learn/d01/index.md
