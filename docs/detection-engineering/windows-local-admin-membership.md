@@ -77,10 +77,10 @@ Check the actual field mapping in Discover before deploying. Some integrations e
 
 ## Splunk — raw Windows Security SPL starting query
 
-Replace the index and sourcetype with values verified from your deployment.
+Replace the index and source value with values verified from your deployment. The CI conversion using the Sigma Splunk Windows pipeline emits the source constraint shown here; your ingestion configuration may use a different source/sourcetype mapping.
 
 ```spl
-index=YOUR_INDEX sourcetype="WinEventLog:Security" EventCode=4732 TargetSid="S-1-5-32-544"
+index=YOUR_INDEX source="WinEventLog:Security" EventCode=4732 TargetSid="S-1-5-32-544"
 | table _time host SubjectUserName SubjectDomainName SubjectLogonId MemberName MemberSid TargetUserName TargetSid
 ```
 
