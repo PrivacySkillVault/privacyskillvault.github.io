@@ -157,20 +157,21 @@ Official resources:
 
 ## Saudi financial-sector counter-fraud requirements
 
-These sources are jurisdiction- and sector-specific. They must not be conflated.
+These sources are jurisdiction- and sector-specific. The two SAMA references below are separate Rulebook instruments with different scopes and control numbering. Do not merge their requirements or assume that one applies to every SAMA-regulated entity.
 
-### SAMA Counter-Fraud Framework — Banking Sector
+### SAMA Counter-Fraud Framework — Banking Sector (2022)
 
 - **Publisher:** Saudi Central Bank (SAMA)
-- **Framework reference:** Circular 000044021528, dated 11 October 2022
+- **Framework number:** 000044021528
+- **Circular:** No. 44021528, dated 11 October 2022
 - **Rulebook status shown during review:** In Force
 - **Scope shown in the Rulebook:** Banking Sector
+- **Applicability:** The framework states that applicability to Member Organisations is based on SAMA discretion and that organisations required to implement it are notified by SAMA.
 - **Domains:** Governance, Prevent, Detect, Respond
 
-Relevant operational sections include:
-- **3.3 — Counter-Fraud Policy and Procedures:** policy and associated procedures should be defined, approved, communicated, and implemented.
-- **3.3 — Counter-Fraud Policy and Procedures:** approved and communicated policy and procedures.
-- **4.1 — Risk Management:** fraud risk management framework, KPIs, fraud risk assessment, risk appetite, and KRIs. This is not the separate 2025 elevated-risk control set.
+Relevant sections include:
+- **3.3 — Counter-Fraud Policy and Procedures:** define, approve, communicate, implement and periodically review the policy and procedures.
+- **4.1 — Risk Management:** fraud risk management framework, KPIs, fraud risk assessment, risk appetite, and KRIs.
 - **5.1 — Fraud Detection Standards:** approved detection standards aligned to internal and external fraud risks.
 - **5.2 — Fraud Detection Systems:** data timeliness, completeness and accuracy; behavioural baselining; rule libraries; risk scoring; case-management linkage; calibration; false-positive/false-negative feedback; and monitoring of system metrics.
 - **6.2 — Alert and Case Management:** case ownership, lifecycle tracking, investigative steps, evidence repository, outcomes, losses, corrective actions, and retention.
@@ -179,18 +180,9 @@ Relevant operational sections include:
 The framework describes six maturity levels (0–5) and states that Member Organisations should operate at level 3 or higher. Confirm the entity's applicability and current interpretation with Compliance and current SAMA communications.
 
 Official resources:
-- [SAMA Counter-Fraud Framework — Rulebook](https://rulebook.sama.gov.sa/en/counter-fraud-framework-0)
-- [SAMA Counter-Fraud Framework — official document](https://www.sama.gov.sa/en-US/RulesInstructions/CyberSecurity/Counter_Fraud_Framework.pdf)
-- [SAMA elevated-risk controls, section 4.1](https://rulebook.sama.gov.sa/en/41-counter-fraud-solutions-and-controls-elevated-risk)
-
-### SAMA Counter-Fraud Fundamental Requirements — payment systems and payment services providers
-
-The SAMA Rulebook separately lists Counter-Fraud Fundamental Requirements with scope stated as **Finance Sector — Payment Systems and Payment Services Providers**, and an effective date of 13 April 2026.
-
-Do not automatically apply this scope statement to every bank or assume it replaces the Banking Sector Counter-Fraud Framework. Confirm the legal entity's licence, regulated activity, applicability, and current SAMA instructions.
-
-Official resource:
-- [SAMA Counter-Fraud Fundamental Requirements](https://rulebook.sama.gov.sa/en/counter-fraud-fundamental-requirements)
+- [SAMA 2022 Counter-Fraud Framework — Rulebook](https://rulebook.sama.gov.sa/en/counter-fraud-framework-0)
+- [SAMA 2022 Counter-Fraud Framework — official document](https://www.sama.gov.sa/en-US/RulesInstructions/CyberSecurity/Counter_Fraud_Framework.pdf)
+- [SAMA circular No. 44021528](https://rulebook.sama.gov.sa/en/circular-re-counter-fraud-framework)
 
 ### SAMA Counter-Fraud Fundamental Requirements — payment systems and payment services providers (effective 13 April 2026)
 
