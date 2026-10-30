@@ -53,7 +53,7 @@ detection:
             - '-encodedcommand '
             - '-enc '
             - '-ENC '
-    condition: all of selection_image, selection_encoded
+    condition: selection_image and selection_encoded
 fields:
     - Image
     - CommandLine
