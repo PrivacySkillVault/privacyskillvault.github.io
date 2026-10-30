@@ -1080,7 +1080,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         (a === 100 && b >= 64 && b <= 127) ||
         (a === 169 && b === 254) ||
         (a === 172 && b >= 16 && b <= 31) ||
-        (a === 192 && (b === 0 || b === 168)) ||
+        (a === 192 && b === 168) ||
+        (a === 192 && b === 0 && Number(octets[2]) === 0) ||
         (a === 192 && b === 0 && Number(octets[2]) === 2) ||
         (a === 192 && b === 88 && Number(octets[2]) === 99) ||
         (a === 198 && (b === 18 || b === 19)) ||
@@ -1426,7 +1427,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       if(missing.length) return '<div role="alert" class="psv-ti-error">Missing required Base metrics: '+esc(missing.join(", "))+'.</div>';
 
       const avMap={N:.85,A:.62,L:.55,P:.2}, acMap={L:.77,H:.44}, uiMap={N:.85,R:.62}, impactMap={H:.56,L:.22,N:0};
-      const prMap={N:.85,L:m.S==="C"?.68:.62,H:m.S==="C"?.5:.27};
+      const prMap={N:.85,L: m.S === "C" ? 0.68 : 0.62, H: m.S === "C" ? 0.5 : 0.27};
       const roundup=v=>Math.ceil((v-1e-10)*10)/10, cap=v=>Math.min(v,10);
       const c=impactMap[m.C], i=impactMap[m.I], a=impactMap[m.A];
       const iss=1-(1-c)*(1-i)*(1-a), changed=m.S==="C";
@@ -1442,7 +1443,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const modifiedScope=(m.MS&&m.MS!=="X"?m.MS:m.S)==="C";
       const modifiedImpact=modifiedScope?7.52*(miss-.029)-3.25*Math.pow(miss*.9731-.02,13):6.42*miss;
       const mv=(key,baseKey)=>m[key]&&m[key]!=="X"?m[key]:m[baseKey];
-      const modifiedPR={N:.85,L:modifiedScope?.68:.62,H:modifiedScope?.5:.27};
+      const modifiedPR={N:.85,L: modifiedScope ? 0.68 : 0.62, H: modifiedScope ? 0.5 : 0.27};
       const modifiedExploit=8.22*avMap[mv("MAV","AV")]*acMap[mv("MAC","AC")]*modifiedPR[mv("MPR","PR")]*uiMap[mv("MUI","UI")];
       const environmentalBase=modifiedImpact<=0?0:roundup(cap((modifiedScope?1.08:1)*(modifiedImpact+modifiedExploit)));
       const environmental=modifiedImpact<=0?0:roundup(environmentalBase*temporalFactor);
@@ -1454,7 +1455,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           <tr><td><strong>Base</strong></td><td>${base.toFixed(1)} / 10.0</td><td>${rating(base)}</td><td>Impact: ${impact.toFixed(4)} · Exploitability: ${exploit.toFixed(4)}</td></tr>
           <tr><td><strong>Temporal</strong></td><td>${temporal.toFixed(1)} / 10.0</td><td>${rating(temporal)}</td><td>E:${m.E||"X"} · RL:${m.RL||"X"} · RC:${m.RC||"X"}</td></tr>
           <tr><td><strong>Environmental</strong></td><td>${environmental.toFixed(1)} / 10.0</td><td>${rating(environmental)}</td><td>Modified impact: ${modifiedImpact.toFixed(4)} · Modified exploitability: ${modifiedExploit.toFixed(4)}</td></tr>
-        </tbody></table><p><strong>Environmental metrics:</strong> ${esc(envText)}</p>
+        </tbody></table><p><strong>Vector:</strong> <code>${esc(input)}</code></p><p><strong>Environmental metrics:</strong> ${esc(envText)}</p>
         <p>CVSS v3.1 is a vulnerability severity framework, not a complete organizational risk assessment. Verify the vector assumptions before using the score.</p>`;
     }
 
