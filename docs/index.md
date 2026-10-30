@@ -18,6 +18,7 @@ The goal is straightforward: make technical work understandable, reproducible, a
   <a class="psv-card" href="labs/"><span class="psv-card-kicker">02 / BUILD</span><h2>Labs</h2><p>Lab environments, experiments, configurations, troubleshooting, and validation notes.</p></a>
   <a class="psv-card" href="investigations/"><span class="psv-card-kicker">03 / ANALYSE</span><h2>Investigations</h2><p>Defensive investigation walkthroughs, evidence handling, detection logic, and clearly labelled scenarios.</p></a>
   <a class="psv-card" href="tools/"><span class="psv-card-kicker">04 / USE</span><h2>Security tools</h2><p>Browser-based utilities and operational references for SOC and security analysis.</p></a>
+  <a class="psv-card" href="standards/"><span class="psv-card-kicker">05 / REFERENCE</span><h2>Standards & frameworks</h2><p>Primary sources, version notes, applicability, and operational evidence references.</p></a>
 </div>
 
 ## How information is labelled
