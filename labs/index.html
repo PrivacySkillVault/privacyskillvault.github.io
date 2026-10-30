@@ -18,7 +18,7 @@
         <link rel="prev" href="../learn/d05/">
       
       
-        <link rel="next" href="windows-endpoint-telemetry/">
+        <link rel="next" href="requirements/">
       
       
         
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#labs" class="md-skip">
+        <a href="#enterprise-style-cybersecurity-home-lab" class="md-skip">
           Skip to content
         </a>
       
@@ -590,10 +590,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#featured-walkthrough" class="md-nav__link">
+  <a href="#target-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Featured walkthrough
+        Target architecture
       
     </span>
   </a>
@@ -601,22 +601,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-areas" class="md-nav__link">
+  <a href="#build-order" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab areas
+        Build order
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lab areas">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#platform-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Platform allocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Platform allocation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#infrastructure-and-platform" class="md-nav__link">
+  <a href="#windows-x64-pc-primary-host" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Infrastructure and platform
+        Windows x64 PC — primary host
       
     </span>
   </a>
@@ -624,32 +635,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-monitoring" class="md-nav__link">
+  <a href="#apple-silicon-macbook-arm64-host" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security monitoring
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#offensive-security" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Offensive security
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#experiments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Experiments
+        Apple-silicon MacBook — ARM64 host
       
     </span>
   </a>
@@ -662,10 +651,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-write-up-standard" class="md-nav__link">
+  <a href="#resource-planning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab write-up standard
+        Resource planning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-address-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network address plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network security policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-evidence-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab evidence standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official documentation
       
     </span>
   </a>
@@ -676,6 +709,370 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="platform-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Firewall & Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="elastic-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="splunk-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wazuh-soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh SOC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="security-onion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Onion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="penetration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="soc-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOC Validation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1295,10 +1692,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#featured-walkthrough" class="md-nav__link">
+  <a href="#target-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Featured walkthrough
+        Target architecture
       
     </span>
   </a>
@@ -1306,22 +1703,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-areas" class="md-nav__link">
+  <a href="#build-order" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab areas
+        Build order
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lab areas">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#platform-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Platform allocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Platform allocation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#infrastructure-and-platform" class="md-nav__link">
+  <a href="#windows-x64-pc-primary-host" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Infrastructure and platform
+        Windows x64 PC — primary host
       
     </span>
   </a>
@@ -1329,32 +1737,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-monitoring" class="md-nav__link">
+  <a href="#apple-silicon-macbook-arm64-host" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security monitoring
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#offensive-security" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Offensive security
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#experiments" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Experiments
+        Apple-silicon MacBook — ARM64 host
       
     </span>
   </a>
@@ -1367,10 +1753,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab-write-up-standard" class="md-nav__link">
+  <a href="#resource-planning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lab write-up standard
+        Resource planning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-address-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network address plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network security policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-evidence-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab evidence standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official documentation
       
     </span>
   </a>
@@ -1394,34 +1824,268 @@
 
 
 
-<h1 id="labs">Labs<a class="headerlink" href="#labs" title="Permanent link">&para;</a></h1>
-<p>Practical environments and experiments that connect cybersecurity concepts to observable system behaviour.</p>
-<p>This section is documentation-led. A lab is described as <strong>tested</strong> only after the setup, versions, steps, and expected results have been verified. Proposed designs are reference architectures, not proof of running infrastructure.</p>
-<h2 id="featured-walkthrough">Featured walkthrough<a class="headerlink" href="#featured-walkthrough" title="Permanent link">&para;</a></h2>
+<h1 id="enterprise-style-cybersecurity-home-lab">Enterprise-style cybersecurity home lab<a class="headerlink" href="#enterprise-style-cybersecurity-home-lab" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Build guide — not yet lab-tested</badge></p>
+<p>This programme builds a segmented, multi-OS cybersecurity environment using a Windows x64 PC and an Apple-silicon MacBook. It is split into independent labs so you can build and validate each platform and product without trying to run every stack simultaneously.</p>
+<p><strong>Evidence rule:</strong> these are reference build instructions. They are not claims that PSV has installed or tested the environment. Mark a lab <strong>Lab-tested</strong> only after recording host hardware, exact software versions, commands, observed results, evidence and cleanup.</p>
+<h2 id="target-architecture">Target architecture<a class="headerlink" href="#target-architecture" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TB
+  subgraph HOSTS["Physical hosts"]
+    WIN["Windows x64 PC\nHyper-V / VMware Workstation"]
+    MAC["Apple Silicon MacBook\nVMware Fusion"]
+  end
+  subgraph MGMT["Management 10.10.10.0/24"]
+    ADMIN["Admin workstation / browser"]
+  end
+  subgraph SERVER["Server 10.10.30.0/24"]
+    DC["Windows Server\nAD DS + DNS"]
+    LINUX["Ubuntu Server"]
+    SIEM["Elastic / Splunk / Wazuh\nOne stack at a time"]
+  end
+  subgraph ENDPOINT["Endpoint 10.10.20.0/24"]
+    W11["Windows 11\nSysmon + endpoint agent"]
+    UB["Ubuntu\nauditd + agent"]
+    ARM["macOS / Windows ARM\nwhere supported"]
+  end
+  subgraph RED["Red team 10.10.40.0/24"]
+    KALI["Kali Linux"]
+  end
+  subgraph DMZ["DMZ 10.10.60.0/24"]
+    JUICE["OWASP Juice Shop\nintentionally vulnerable target"]
+  end
+  subgraph SENSOR["Sensor 10.10.50.0/24"]
+    ZEEK["Zeek / Suricata"]
+    SO["Security Onion\nx86-64 only"]
+  end
+  WIN --- MGMT
+  MAC --- MGMT
+  SERVER --- ENDPOINT
+  ENDPOINT --- SENSOR
+  RED --- DMZ</code></pre>
+<p>This is a logical design. It does not create network isolation by itself. Implement the segments and firewall rules in the hypervisor or dedicated lab router/firewall and test isolation before running any assessment.</p>
+<h2 id="build-order">Build order<a class="headerlink" href="#build-order" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Lab</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><a href="requirements/">Hardware and compatibility</a></td>
+<td>Confirm which workloads fit each host</td>
+</tr>
+<tr>
+<td>1</td>
+<td><a href="platform-windows/">Windows host setup</a></td>
+<td>Hypervisor, storage and virtual switches</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="platform-macos/">Mac Apple-silicon setup</a></td>
+<td>ARM virtualisation and supported guest images</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="network-design/">Network design</a></td>
+<td>Segments, routing, firewall policy and isolation tests</td>
+</tr>
+<tr>
+<td>3A</td>
+<td><a href="firewall-routing/">OPNsense firewall</a></td>
+<td>Routed interfaces, DHCP, DNS, NAT and default-deny rules</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="operating-systems/">Operating systems and identity</a></td>
+<td>Windows Server, Windows client, Ubuntu and Kali</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="elastic-siem/">Elastic SIEM</a></td>
+<td>Elasticsearch, Kibana, Fleet and endpoint telemetry</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="splunk-siem/">Splunk SIEM</a></td>
+<td>Splunk Enterprise and Universal Forwarder</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="wazuh-soc/">Wazuh SOC</a></td>
+<td>Manager, indexer, dashboard and agents</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="network-monitoring/">Network monitoring</a></td>
+<td>Zeek, Suricata and packet visibility</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="security-onion/">Security Onion</a></td>
+<td>Standalone x86-64 network security monitoring</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="penetration-testing/">Penetration-testing lab</a></td>
+<td>Kali, OWASP Juice Shop and isolated targets</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="soc-exercises/">SOC validation exercises</a></td>
+<td>Event generation, ingestion, detection and investigation</td>
+</tr>
+</tbody>
+</table>
+<p>Build and validate one SIEM at a time. Security Onion is a separate, resource-intensive platform; do not co-host it with all other stacks on a constrained PC.</p>
+<h2 id="platform-allocation">Platform allocation<a class="headerlink" href="#platform-allocation" title="Permanent link">&para;</a></h2>
+<h3 id="windows-x64-pc-primary-host">Windows x64 PC — primary host<a class="headerlink" href="#windows-x64-pc-primary-host" title="Permanent link">&para;</a></h3>
+<p>Use this host for x86-64 Windows Server, Windows 11, Ubuntu, Splunk Enterprise, Security Onion and the primary SIEM labs. Security Onion requires x86-64 and its standalone deployment has a vendor bare minimum of 4 CPU cores, 24 GB RAM, 200 GB storage and 2 NICs.</p>
+<h3 id="apple-silicon-macbook-arm64-host">Apple-silicon MacBook — ARM64 host<a class="headerlink" href="#apple-silicon-macbook-arm64-host" title="Permanent link">&para;</a></h3>
+<p>Use ARM64 guest images for Ubuntu, Kali and Windows 11 ARM. Elastic and Wazuh components can run on supported ARM64 Linux releases; check each component's support matrix. Splunk Enterprise does not support ARM architecture. VMware Fusion on Apple Silicon does not run x86-64 guest operating systems.</p>
+<p>Windows 11 ARM in Fusion has limitations including unavailable nested-virtualisation-dependent features such as WSL2 and VBS. Use a separate Linux VM for Docker-based vulnerable targets rather than relying on Docker Desktop inside this Windows ARM guest.</p>
+<h2 id="resource-planning">Resource planning<a class="headerlink" href="#resource-planning" title="Permanent link">&para;</a></h2>
+<p>These are home-lab starting allocations, not universal vendor minimums. Reserve at least 8–12 GB RAM for a Windows host with 64 GB RAM and leave additional headroom for hypervisor overhead.</p>
+<table>
+<thead>
+<tr>
+<th>VM/service</th>
+<th style="text-align: right;">vCPU</th>
+<th style="text-align: right;">RAM</th>
+<th style="text-align: right;">Disk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows Server AD DS/DNS</td>
+<td style="text-align: right;">2–4</td>
+<td style="text-align: right;">6–8 GB</td>
+<td style="text-align: right;">80 GB</td>
+</tr>
+<tr>
+<td>Windows 11 endpoint</td>
+<td style="text-align: right;">2–4</td>
+<td style="text-align: right;">6–8 GB</td>
+<td style="text-align: right;">80 GB</td>
+</tr>
+<tr>
+<td>Ubuntu endpoint/server</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2–4 GB</td>
+<td style="text-align: right;">40–60 GB</td>
+</tr>
+<tr>
+<td>Kali</td>
+<td style="text-align: right;">2–4</td>
+<td style="text-align: right;">4–8 GB</td>
+<td style="text-align: right;">60–80 GB</td>
+</tr>
+<tr>
+<td>Elastic single-node lab</td>
+<td style="text-align: right;">4–8</td>
+<td style="text-align: right;">12–16 GB</td>
+<td style="text-align: right;">150–200 GB</td>
+</tr>
+<tr>
+<td>Splunk Enterprise lab</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8–12 GB</td>
+<td style="text-align: right;">100–150 GB</td>
+</tr>
+<tr>
+<td>Wazuh all-in-one (1–25 agents)</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8 GiB</td>
+<td style="text-align: right;">50 GB / 90 days indexed alerts</td>
+</tr>
+<tr>
+<td>Security Onion Standalone</td>
+<td style="text-align: right;">4+</td>
+<td style="text-align: right;">24–32 GB</td>
+<td style="text-align: right;">200+ GB, 2 NICs</td>
+</tr>
+<tr>
+<td>OWASP Juice Shop target</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2–4 GB</td>
+<td style="text-align: right;">20 GB</td>
+</tr>
+</tbody>
+</table>
+<p>Do not allocate all host memory to VMs. Run Elastic, Splunk, Wazuh and Security Onion sequentially. The 64 GB Windows PC is the main SIEM and Security Onion host. A 16 GB MacBook is best limited to one small ARM Linux VM; 24–36 GB provides more flexibility.</p>
+<h2 id="network-address-plan">Network address plan<a class="headerlink" href="#network-address-plan" title="Permanent link">&para;</a></h2>
+<p>Use private RFC1918 ranges and check for overlap with your home LAN, work VPN, corporate routes or other local networks before configuring them.</p>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Subnet</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MGMT</td>
+<td>10.10.10.0/24</td>
+<td>Admin workstation and management interfaces</td>
+</tr>
+<tr>
+<td>ENDPOINT</td>
+<td>10.10.20.0/24</td>
+<td>Windows, Linux and Mac endpoints</td>
+</tr>
+<tr>
+<td>SERVER</td>
+<td>10.10.30.0/24</td>
+<td>AD DS/DNS and SIEM servers</td>
+</tr>
+<tr>
+<td>REDTEAM</td>
+<td>10.10.40.0/24</td>
+<td>Kali and authorised assessment source</td>
+</tr>
+<tr>
+<td>SENSOR</td>
+<td>10.10.50.0/24</td>
+<td>Passive capture and monitoring</td>
+</tr>
+<tr>
+<td>DMZ</td>
+<td>10.10.60.0/24</td>
+<td>Intentionally vulnerable applications</td>
+</tr>
+</tbody>
+</table>
+<p>Suggested addresses: lab router/firewall .1 per subnet; domain controller 10.10.30.10; Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22; Kali 10.10.40.10; Juice Shop 10.10.60.20. Assign a gateway only when a router/firewall exists on that segment.</p>
+<h2 id="network-security-policy">Network security policy<a class="headerlink" href="#network-security-policy" title="Permanent link">&para;</a></h2>
+<p>Start with default-deny between segments. Allow only required management, DNS/NTP and telemetry flows. Kali may access only explicitly authorised target IPs/ports. Vulnerable targets must not be bridged to the home LAN. A sensor capture NIC should receive mirrored traffic and must not route or provide management access.</p>
+<p>A virtual switch is Layer 2 connectivity, not a firewall. Hyper-V private switches and Fusion host-only networks do not automatically connect across the two physical hosts. Cross-host integration requires an explicit lab router/firewall or a separate telemetry path.</p>
+<h2 id="lab-evidence-standard">Lab evidence standard<a class="headerlink" href="#lab-evidence-standard" title="Permanent link">&para;</a></h2>
+<p>Each lab write-up should record:
+1. Host CPU architecture, RAM and free SSD.
+2. Hypervisor and version.
+3. Guest OS edition/build/architecture and ISO checksum.
+4. VM CPU/RAM/disk/NIC settings and snapshots.
+5. Network segments, addresses, routes and firewall rules.
+6. Product versions, licence mode and install method.
+7. Verification commands, raw source events and SIEM copies.
+8. Expected versus actual results, troubleshooting and cleanup.</p>
+<p>Never publish real customer data, employer logs, internal IPs, production credentials or tokens.</p>
+<h2 id="official-documentation">Official documentation<a class="headerlink" href="#official-documentation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="windows-endpoint-telemetry/">Windows Endpoint Telemetry: Sysmon to Elastic</a> — a safe reference design for generating, collecting, and validating a benign Sysmon process event. <strong>Reference design; not yet lab-tested.</strong></li>
+<li><a href="https://www.vmware.com/docs/desktop-hypervisor-faqs">VMware Fusion and Workstation FAQ</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements">Microsoft Hyper-V host requirements</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/arm/iso">Microsoft Windows 11 ARM ISO</a></li>
+<li><a href="https://www.kali.org/docs/introduction/download-official-kali-linux-images/">Kali official downloads and verification</a></li>
+<li><a href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/tutorial-self-managed-install">Elastic self-managed installation</a></li>
+<li><a href="https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.6/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises">Splunk Enterprise system requirements</a></li>
+<li><a href="https://documentation.wazuh.com/current/quickstart.html">Wazuh Quickstart</a></li>
+<li><a href="https://docs.securityonion.net/en/3/dev/hardware/">Security Onion hardware requirements</a></li>
 </ul>
-<h2 id="lab-areas">Lab areas<a class="headerlink" href="#lab-areas" title="Permanent link">&para;</a></h2>
-<h3 id="infrastructure-and-platform">Infrastructure and platform<a class="headerlink" href="#infrastructure-and-platform" title="Permanent link">&para;</a></h3>
-<p>Linux and Windows systems, virtual machines, virtual networking, storage, identity, and container fundamentals.</p>
-<h3 id="security-monitoring">Security monitoring<a class="headerlink" href="#security-monitoring" title="Permanent link">&para;</a></h3>
-<p>A defensive stack can combine endpoint telemetry (such as Sysmon and Linux audit logs), network visibility (such as Zeek or Suricata), and central analysis (such as Elastic or Wazuh). Each integration should document resource requirements and data flow.</p>
-<h3 id="offensive-security">Offensive security<a class="headerlink" href="#offensive-security" title="Permanent link">&para;</a></h3>
-<p>Isolated targets for reconnaissance, web application testing, vulnerability validation, and remediation verification. Testing remains within systems owned by the lab or explicitly authorised for assessment.</p>
-<h3 id="experiments">Experiments<a class="headerlink" href="#experiments" title="Permanent link">&para;</a></h3>
-<p>Repeatable tests for log generation, detection logic, parsing, network behaviour, platform troubleshooting, and security-control validation.</p>
-<h2 id="lab-write-up-standard">Lab write-up standard<a class="headerlink" href="#lab-write-up-standard" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Objective, scope, and safety boundary</li>
-<li>Hardware, operating system, and software versions</li>
-<li>Architecture and network configuration</li>
-<li>Prerequisites and implementation steps</li>
-<li>Validation commands and expected results</li>
-<li>Observed output, issues, and troubleshooting</li>
-<li>Cleanup, rollback, and lessons learned</li>
-<li>References and last-reviewed date</li>
-</ol>
-<p>A diagram or proposed tool list is not proof that an environment has been deployed. Each future write-up will state its status explicitly.</p>
+<p><strong>Programme status:</strong> documentation is under construction. No VM, SIEM or sensor is claimed to have been installed or tested by this page.</p>
 
 
 
