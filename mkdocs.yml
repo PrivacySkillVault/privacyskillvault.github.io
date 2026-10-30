@@ -1,8 +1,7 @@
 site_name: "Privacy Skill Vault"
 site_url: "https://privacyskillvault.com/"
-site_description: "Defensive Operations, Threat Analysis & Security Testing"
-site_author: "Privacy Skill Vault"
-
+site_description: "A personal cybersecurity portfolio and practical knowledge base."
+site_author: "Saju Varghese"
 theme:
   name: material
   custom_dir: docs/overrides
@@ -10,19 +9,17 @@ theme:
   logo: assets/branding/PSV-colored.png
   favicon: assets/branding/favicon.ico
   palette:
-    # Light Mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: slate
-      accent: indigo
+      accent: blue
       toggle:
         icon: material/brightness-7
         name: "Switch to dark mode"
-    # Dark Mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: slate
-      accent: cyan
+      accent: blue
       toggle:
         icon: material/brightness-4
         name: "Switch to light mode"
@@ -32,13 +29,11 @@ theme:
     - navigation.top
     - content.code.copy
     - content.action.view
-
 extra_css:
   - stylesheets/extra.css
-
 extra_javascript:
   - javascripts/psv-navigation.js
-
+  - javascripts/tools.js
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -61,12 +56,17 @@ markdown_extensions:
   - md_in_html
   - toc:
       permalink: true
-
 nav:
-  - "Home": "index.md"
-  - "Learn": "learn/index.md"
-  - "Labs": "labs/index.md"
-  - "Investigations": "investigations/index.md"
-  - "Tools": "tools/index.md"
-  - "Blog": "blog/index.md"
-  - "About": "about.md"
+  - Home: index.md
+  - About: about.md
+  - Learn:
+      - Overview: learn/index.md
+      - D01 - Infrastructure & Platform Foundation: learn/d01/index.md
+      - D02 - Security Monitoring & Detection: learn/d02/index.md
+      - D03 - Offensive Security & Testing: learn/d03/index.md
+      - D04 - Security Operations & Investigations: learn/d04/index.md
+      - D05 - Operations, Maintenance & Capstone: learn/d05/index.md
+  - Labs: labs/index.md
+  - Investigations: investigations/index.md
+  - Tools: tools/index.md
+  - Blog: blog/index.md

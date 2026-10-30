@@ -1,21 +1,12 @@
-# Blog & Technical Write-ups
+# Blog
 
-Long-form articles are published as they become ready. This page is the starting point for technical notes, lessons learned, and deeper walkthroughs from Privacy Skill Vault.
+Technical articles and longer write-ups will be listed here when they are complete and reviewed.
 
-## What to expect
+The blog is separate from structured learning paths:
 
-- **Security operations:** alert triage, SIEM queries, detection engineering, and investigation workflow.
-- **Hands-on labs:** setup notes, experiment results, troubleshooting, and validation.
-- **Offensive security:** controlled testing, findings, remediation, and lessons learned.
-- **Cyber fraud:** defensive analysis of fraud patterns, telemetry, and investigation methods.
+- **Learn** explains concepts in a progressive sequence.
+- **Labs** records reproducible environments and experiments.
+- **Investigations** documents evidence-led analysis and worked scenarios.
+- **Blog** contains longer reflections, lessons learned, and technical deep dives.
 
-## Browse the current material
-
-Use the main site sections for content that is available now:
-
-- [Learn](../learn/) — foundations and topic overviews.
-- [Labs](../labs/) — lab environments and practical experiments.
-- [Investigations](../investigations/) — case-study-style technical walkthroughs.
-- [Tools](../tools/) — scripts, detection references, and operational notes.
-
-The external Blog Vault is available at [blog.privacyskillvault.com](https://blog.privacyskillvault.com/). Articles should be treated as published only when a complete article is available at its destination.
+New articles will be published on this domain so readers have one consistent destination. An empty publication list is better than linking to placeholder articles.
