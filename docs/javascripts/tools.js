@@ -136,7 +136,7 @@ Subject: URGENT: Mandatory MFA Token Re-synchronization Required
 X-Originating-IP: [91.215.85.19]
 Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support-alert.com; dkim=fail; dmarc=fail action=quarantine`,
       whatItDoes: "Parses supplied header fields and Received lines, extracts sender-address differences, and displays SPF, DKIM, and DMARC results as reported in supplied Authentication-Results text.",
-      whyItMatters: "Display names and From headers are trivially spoofed in phishing attacks. True attribution requires inspecting the bottom-most external Received hop, Return-Path, and Authentication-Results headers.",
+      whyItMatters: "Display names and From headers can be spoofed. Header clues must be checked against the trusted receiving gateway boundary and corroborated with mail-server and network telemetry; no single supplied header proves attribution.",
       howItWorks: "Parses supplied header text and displays Received lines in reverse order. It does not verify DKIM signatures, authenticate Authentication-Results provenance, or prove Received-line trustworthiness.",
       bestPractices: [
         "Treat Authentication-Results as untrusted until you validate the header added by your own receiving gateway; pasted text alone cannot establish provenance.",
@@ -179,7 +179,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       options: ["All Event Sources (16)", "Windows Security Only", "Sysmon Only"],
       actionLabel: "Search Event IDs",
       sample: "ALL",
-      whatItDoes: "Provides an instant-search reference for critical Windows Security (4624, 4625, 4688, 4697, 4698, 4720, 4769, 1102) and Sysmon (IDs 1–29) events, detailing XML fields, LogonTypes, MITRE ATT&CK techniques, and KQL hunting queries.",
+      whatItDoes: "Provides 16 curated Windows Security and Sysmon event records with selected event fields, LogonTypes where relevant, MITRE ATT&CK references, and example Elastic KQL hunting queries. It is not a complete event catalogue.",
       whyItMatters: "Memorizing Windows event schemas, hexadecimal failure codes (0xC000006A), and Sysmon GrantedAccess masks (0x1010) is difficult during high-pressure investigations.",
       howItWorks: "Filters an embedded forensic dataset by Event ID, keyword (e.g., 'lsass', 'kerberos', 'rdp', 'service'), or MITRE technique ID.",
       bestPractices: [
@@ -302,7 +302,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       sample: "1760713462",
       whatItDoes: "Converts 10-digit Unix seconds, 13-digit milliseconds, 16-digit microseconds, 19-digit nanoseconds, 18-digit Windows FILETIME values, and parseable date strings.",
       whyItMatters: "During incident timeline reconstruction, firewall logs may be in UTC Epoch, Active Directory attributes (lastLogonTimestamp) in 18-digit FileTime, and endpoint logs in local time.",
-      howItWorks: "Detects timestamp precision automatically by digit length and format, applying BigInt arithmetic for 100-nanosecond Windows FileTime epochs (since January 1, 1601).",
+      howItWorks: "Recognises 10-digit seconds, 13-digit milliseconds, 16-digit microseconds, 19-digit nanoseconds, 18-digit Windows FILETIME ticks, and browser-parseable date strings. BigInt preserves sub-millisecond remainders; JavaScript Date display remains millisecond precision.",
       bestPractices: [
         "Always normalize every timestamp in an incident timeline to UTC before correlating events across hosts."
       ],
@@ -318,7 +318,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       shortTitle: "Triage Heuristic",
       title: "Incident Triage Heuristic (Illustrative)",
       desc: "Apply a keyword-based triage heuristic to produce an illustrative score and example priority bands. It is not an approved severity policy, SLA, or containment decision.",
-      options: ["Scenario: P1 Domain Controller Intrusion", "Scenario: P3 Isolated Workstation Alert"],
+      options: ["Scenario: P1 Domain Controller Intrusion", "Scenario: P4 Isolated Workstation Alert"],
       actionLabel: "Estimate Triage Priority",
       sample: `ASSET_CRITICALITY::tier1_dc
 DATA_SENSITIVITY::regulated_pii
@@ -415,7 +415,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   let searchQuery = "";
   let activeToolId = "ioc";
   let selectedOptionIdx = 0;
-  let copyFeedback = false;
   const userInputs = {};
 
   function esc(str) {
@@ -1288,7 +1287,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         </div>
         <p class="psv-tool-note">This is not a YARA parser or compiler. A clean reference check does not establish valid YARA syntax, modifiers, or condition semantics. Validate with the YARA compiler or approved engine.</p>
         <pre style="margin:0;color:#38bdf8;font-family:'Roboto Mono',SFMono-Regular,Consolas,monospace;font-size:0.8rem;white-space:pre-wrap;">${esc(compiled)}</pre>
-      `;    }
+      `;
+    }
 
     if (tool.id === "deobfuscator") {
       let decoded = input;
