@@ -1,0 +1,1401 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A personal cybersecurity portfolio and practical knowledge base.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/investigations/scheduled-task-powershell/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../tools/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Scheduled Task & PowerShell Investigation - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#investigation-walkthrough-suspicious-powershell-from-a-scheduled-task" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href="../.." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../../labs/" class="psv-global-nav__link">Labs</a></li>
+        <li><a href="../" class="psv-global-nav__link psv-global-nav__link--active">Investigations</a></li>
+        <li><a href="../../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../labs/windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investigation objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synthetic-evidence-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synthetic evidence set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-preserve-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Preserve and scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-reconstruct-process-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Reconstruct process execution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-inspect-the-scheduled-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Inspect the scheduled task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-correlate-independent-telemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Correlate independent telemetry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-test-competing-hypotheses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Test competing hypotheses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5 — Test competing hypotheses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#h1-approved-administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H1: Approved administration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h2-unauthorised-but-non-malicious-activity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H2: Unauthorised but non-malicious activity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h3-malicious-persistence-or-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H3: Malicious persistence or execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-document-the-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Document the conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-response-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Response considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyst-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyst checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning references
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investigation-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investigation objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synthetic-evidence-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synthetic evidence set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-preserve-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Preserve and scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-reconstruct-process-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Reconstruct process execution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-inspect-the-scheduled-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Inspect the scheduled task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-correlate-independent-telemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Correlate independent telemetry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-test-competing-hypotheses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Test competing hypotheses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5 — Test competing hypotheses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#h1-approved-administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H1: Approved administration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h2-unauthorised-but-non-malicious-activity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H2: Unauthorised but non-malicious activity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h3-malicious-persistence-or-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H3: Malicious persistence or execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-document-the-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Document the conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-response-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Response considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analyst-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analyst checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning references
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="investigation-walkthrough-suspicious-powershell-from-a-scheduled-task">Investigation Walkthrough: Suspicious PowerShell from a Scheduled Task<a class="headerlink" href="#investigation-walkthrough-suspicious-powershell-from-a-scheduled-task" title="Permanent link">&para;</a></h1>
+<p><badge color="info">Simulated training scenario</badge></p>
+<p>This case is synthetic. Host names, timestamps, users, event records, and command lines are invented for training. It is not a description of a real customer, employer, bank, or production incident.</p>
+<h2 id="scenario">Scenario<a class="headerlink" href="#scenario" title="Permanent link">&para;</a></h2>
+<p>An endpoint alert reports PowerShell execution shortly after a scheduled task was created on a workstation. The command line contains encoded content. The analyst must determine whether this is expected administration, a policy violation, or evidence of compromise.</p>
+<p><strong>Initial alert is not a verdict.</strong> Encoded PowerShell, an unfamiliar task, or an unusual parent process can justify investigation, but none independently proves malicious activity.</p>
+<h2 id="investigation-objectives">Investigation objectives<a class="headerlink" href="#investigation-objectives" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Establish what happened and when.</li>
+<li>Identify the account, process, task definition, and affected host.</li>
+<li>Correlate independent endpoint, identity, and network telemetry.</li>
+<li>Test benign and malicious explanations.</li>
+<li>State the conclusion, confidence, evidence gaps, and recommended next steps.</li>
+</ol>
+<h2 id="synthetic-evidence-set">Synthetic evidence set<a class="headerlink" href="#synthetic-evidence-set" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Time (UTC)</th>
+<th>Source</th>
+<th>Synthetic observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>09:12:04</td>
+<td>Endpoint alert</td>
+<td>Encoded PowerShell execution detected on <code>WS-TRAIN-07</code></td>
+</tr>
+<tr>
+<td>09:11:58</td>
+<td>Process telemetry</td>
+<td><code>powershell.exe</code> started; parent process and full command line available</td>
+</tr>
+<tr>
+<td>09:10:31</td>
+<td>Task audit</td>
+<td>A scheduled task registration was recorded; task XML and registering account require retrieval</td>
+</tr>
+<tr>
+<td>09:12:10</td>
+<td>DNS telemetry</td>
+<td>A query was recorded shortly after process start; destination context is not yet established</td>
+</tr>
+<tr>
+<td>09:12:18</td>
+<td>Network telemetry</td>
+<td>One outbound connection was observed; process attribution must be corroborated</td>
+</tr>
+</tbody>
+</table>
+<p>These rows are intentionally incomplete. They provide investigation leads, not proof that the task, DNS query, and connection belong to one causal chain.</p>
+<h2 id="step-1-preserve-and-scope">Step 1 — Preserve and scope<a class="headerlink" href="#step-1-preserve-and-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Record the alert ID, host identifier, event source, original timestamps, collection time, and analyst actions.</li>
+<li>Preserve the original event records and task definition before making changes.</li>
+<li>Confirm the host owner, business function, maintenance window, and whether an approved change exists.</li>
+<li>Establish whether similar activity appears on other endpoints.</li>
+<li>Record which telemetry sources are available and their retention windows.</li>
+</ul>
+<p>Do not modify or delete the task before preserving the relevant evidence unless an authorised containment decision requires immediate action.</p>
+<h2 id="step-2-reconstruct-process-execution">Step 2 — Reconstruct process execution<a class="headerlink" href="#step-2-reconstruct-process-execution" title="Permanent link">&para;</a></h2>
+<p>Review the process event and collect, where available:</p>
+<ul>
+<li>Image path, hash, signer, and file metadata</li>
+<li>Full command line and parent command line</li>
+<li>Parent and child process identifiers or process GUIDs</li>
+<li>User, logon session, integrity level, and host</li>
+<li>Process start and termination times</li>
+</ul>
+<p>Validate the parent-child relationship using the raw event. Parent process names can vary by Windows version and execution path; do not assume one fixed Task Scheduler process chain.</p>
+<p>For Sysmon, Event ID 1 is Process Create. Its presence depends on Sysmon installation and configuration. Correlate process identifiers and timestamps rather than relying only on process names.</p>
+<h2 id="step-3-inspect-the-scheduled-task">Step 3 — Inspect the scheduled task<a class="headerlink" href="#step-3-inspect-the-scheduled-task" title="Permanent link">&para;</a></h2>
+<p>Retrieve the task's:</p>
+<ul>
+<li>Full task path and name</li>
+<li>Registration and modification times</li>
+<li>Author and security principal</li>
+<li>Trigger and execution conditions</li>
+<li>Action, executable path, arguments, and working directory</li>
+<li>Run level and task history</li>
+<li>Creation or modification source, where available</li>
+</ul>
+<p>Compare the task definition with the organisation's approved software deployment, administration scripts, and change records. A task can be legitimate, misconfigured, or unauthorised; classify it only after checking ownership and intent.</p>
+<h2 id="step-4-correlate-independent-telemetry">Step 4 — Correlate independent telemetry<a class="headerlink" href="#step-4-correlate-independent-telemetry" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Evidence source</th>
+<th>Questions to answer</th>
+<th>Important limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows process telemetry</td>
+<td>Which process launched PowerShell? What command and account were used?</td>
+<td>Collection and command-line visibility depend on configuration</td>
+</tr>
+<tr>
+<td>Task Scheduler logs / audit</td>
+<td>When was the task registered, changed, and executed?</td>
+<td>Relevant logging may not have been enabled or retained</td>
+</tr>
+<tr>
+<td>PowerShell operational logs</td>
+<td>Is script-block or module content available?</td>
+<td>Logging policy and version affect visibility</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>Which name was queried, by which host, and at what time?</td>
+<td>A query alone does not prove a successful connection</td>
+</tr>
+<tr>
+<td>Network / proxy / firewall</td>
+<td>Was a connection established? What process or host initiated it?</td>
+<td>Network records may not identify the originating process</td>
+</tr>
+<tr>
+<td>Identity logs</td>
+<td>Was the account's sign-in or privilege use expected?</td>
+<td>Correlation requires correct time and identity context</td>
+</tr>
+<tr>
+<td>File telemetry</td>
+<td>Were scripts or payloads created, modified, or executed?</td>
+<td>Absence of a file event is not proof that no file existed</td>
+</tr>
+</tbody>
+</table>
+<p>Build the timeline using UTC and preserve the original timestamps. Distinguish event time from collection or ingestion time.</p>
+<h2 id="step-5-test-competing-hypotheses">Step 5 — Test competing hypotheses<a class="headerlink" href="#step-5-test-competing-hypotheses" title="Permanent link">&para;</a></h2>
+<h3 id="h1-approved-administration">H1: Approved administration<a class="headerlink" href="#h1-approved-administration" title="Permanent link">&para;</a></h3>
+<p>Supporting evidence could include a known task owner, approved change, expected script path and signature, documented execution window, and matching activity on similarly managed endpoints.</p>
+<p>Evidence against it could include an unknown registering account, unapproved arguments, an unexpected script location, or activity outside the change window.</p>
+<h3 id="h2-unauthorised-but-non-malicious-activity">H2: Unauthorised but non-malicious activity<a class="headerlink" href="#h2-unauthorised-but-non-malicious-activity" title="Permanent link">&para;</a></h3>
+<p>A legitimate user may have created a task outside the change process. This can still be a policy or control issue even when there is no evidence of malware.</p>
+<h3 id="h3-malicious-persistence-or-execution">H3: Malicious persistence or execution<a class="headerlink" href="#h3-malicious-persistence-or-execution" title="Permanent link">&para;</a></h3>
+<p>Supporting evidence could include an unexplained task, concealed or user-writable execution path, obfuscated arguments, untrusted script content, suspicious account use, corroborated command-and-control activity, or related actions on other hosts.</p>
+<p>No single indicator is sufficient. Corroborate the task, process, identity, and network evidence.</p>
+<h2 id="step-6-document-the-conclusion">Step 6 — Document the conclusion<a class="headerlink" href="#step-6-document-the-conclusion" title="Permanent link">&para;</a></h2>
+<p>Use a conclusion format that separates facts from interpretation:</p>
+<ul>
+<li><strong>Observed:</strong> what the source records directly show.</li>
+<li><strong>Correlated:</strong> which independent records align by host, identity, process identifier, and time.</li>
+<li><strong>Interpretation:</strong> what the combined evidence suggests.</li>
+<li><strong>Alternative explanations:</strong> plausible benign or non-malicious causes considered.</li>
+<li><strong>Confidence:</strong> low, moderate, or high, with a reason.</li>
+<li><strong>Gaps:</strong> missing logs, incomplete retention, uncertain attribution, or unverified ownership.</li>
+<li><strong>Next steps:</strong> further collection, owner confirmation, remediation, or escalation under approved procedures.</li>
+</ul>
+<p>Example conclusion for this training case:</p>
+<blockquote>
+<p>The available records establish that PowerShell executed shortly after a scheduled task was registered. They do not yet establish who authorised the task or whether the outbound connection was caused by that process. The case remains unresolved pending task-definition review, account validation, and process-to-network correlation.</p>
+</blockquote>
+<h2 id="step-7-response-considerations">Step 7 — Response considerations<a class="headerlink" href="#step-7-response-considerations" title="Permanent link">&para;</a></h2>
+<p>If evidence supports compromise, follow the organisation's incident-response process. Preserve volatile and relevant endpoint evidence, identify scope, and obtain the required approval for containment actions. Do not isolate a host, disable an account, or remove a task solely because an encoded command or one suspicious event was observed.</p>
+<p>If the activity is approved, document the owner and change reference. If it is unauthorised but not malicious, route it through the appropriate control-remediation process.</p>
+<h2 id="analyst-checklist">Analyst checklist<a class="headerlink" href="#analyst-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Original alert and raw records preserved</li>
+<li>[ ] Host, user, and time zone confirmed</li>
+<li>[ ] Process and parent process reviewed</li>
+<li>[ ] Scheduled task definition and owner verified</li>
+<li>[ ] PowerShell logging availability checked</li>
+<li>[ ] DNS and network records correlated</li>
+<li>[ ] Alternative explanations considered</li>
+<li>[ ] Scope and affected assets assessed</li>
+<li>[ ] Confidence and evidence gaps documented</li>
+<li>[ ] Response actions aligned with approved procedure</li>
+</ul>
+<h2 id="learning-references">Learning references<a class="headerlink" href="#learning-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/sysmon-events">Microsoft: Sysmon events</a></li>
+<li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/read-tune-sysmon-events">Microsoft: Read and tune Sysmon events</a></li>
+</ul>
+<p><strong>Evidence status:</strong> Simulated scenario. No real incident or production investigation is claimed.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/psv-navigation.js"></script>
+      
+        <script src="../../javascripts/tools.js"></script>
+      
+    
+  </body>
+</html>
