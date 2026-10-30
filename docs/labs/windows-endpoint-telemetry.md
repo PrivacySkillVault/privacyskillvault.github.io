@@ -39,7 +39,7 @@ The Elastic Windows integration documents collection of Windows-specific channel
 
 ## Prerequisites
 
-- A supported Windows 10 or Windows 11 VM with administrative access.
+- A supported Windows 10 or Windows 11 VM with administrative access. On Windows 11, check whether the built-in Sysmon optional feature is available in your edition/build.
 - Sysmon downloaded from Microsoft's official Sysinternals page.
 - An Elastic environment with a compatible Elastic Agent and Windows integration, or an equivalent approved log collector.
 - Sufficient disk space for the VM and a snapshot taken before configuration.
@@ -47,6 +47,7 @@ The Elastic Windows integration documents collection of Windows-specific channel
 
 Official references:
 
+- [Microsoft: Enable and configure Sysmon in Windows](https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/how-to-enable-sysmon)
 - [Microsoft Sysmon download and usage](https://learn.microsoft.com/sysinternals/downloads/sysmon)
 - [Microsoft Sysmon event reference](https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/sysmon-events)
 - [Elastic Windows integration](https://www.elastic.co/docs/reference/integrations/windows)
@@ -63,11 +64,19 @@ Official references:
 
 ### 2. Install and verify Sysmon
 
-1. Download Sysmon from the official Microsoft Sysinternals page. Verify the download source and publisher.
-2. Review the current Microsoft usage instructions before installation; command-line options can change between releases.
-3. Install Sysmon with an approved configuration. For this first exercise, ensure Process Create telemetry is enabled.
-4. Open Event Viewer and navigate to **Applications and Services Logs → Microsoft → Windows → Sysmon → Operational**.
-5. Confirm the channel is present and that Sysmon is running.
+Windows 11 now offers Sysmon as a built-in optional feature, while the standalone Sysinternals download remains available. Choose one installation method appropriate to the VM and Windows version; do not install the built-in feature and standalone package on top of one another.
+
+1. Check whether Sysmon is already installed before making changes:
+
+```powershell
+Get-Service sysmon*
+```
+
+2. For Windows 11, review Microsoft's current instructions for enabling the built-in optional feature. For Windows 10, or where you deliberately choose the standalone package, download Sysmon from the official Microsoft Sysinternals page. Verify the download source and publisher.
+3. Review the current Microsoft usage instructions before installation; command-line options can change between Sysmon releases.
+4. Install or enable Sysmon with an approved configuration. For this first exercise, ensure Process Create telemetry is enabled.
+5. Open Event Viewer and navigate to **Applications and Services Logs → Microsoft → Windows → Sysmon → Operational**.
+6. Confirm the channel is present, Sysmon is running, and new events are being written.
 
 Sysmon Event ID 1 records process creation, including process and parent-process context. Network connection events (Event ID 3) are disabled by default, so do not expect them unless you deliberately enable them in the configuration.
 
