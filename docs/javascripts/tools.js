@@ -458,6 +458,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app button, #psv-app input, #psv-app select, #psv-app textarea {
         font-family: inherit;
       }
+      #psv-app .psv-editor { font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace; }
       #psv-app h1, #psv-app h2, #psv-app h3, #psv-app h4, #psv-app h5, #psv-app h6 {
         font-weight: 700;
         letter-spacing: -0.015em;
