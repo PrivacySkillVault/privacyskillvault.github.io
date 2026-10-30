@@ -63,7 +63,7 @@ These are example measures, not universal mandatory KPIs or regulatory threshold
 
 Use the [Detection Engineering Pack](../../detection-engineering/index.md) for test-status Sigma rules, SIEM query starting points, and detection release gates.
 
-Use the [Operational Templates](../../templates/index.md) for detection change records, fraud case records, and incident reports. Complete these in approved internal systems; do not publish customer or production evidence.
+Use the [Operational Templates](../../operational-templates/index.md) for detection change records, fraud case records, and incident reports. Complete these in approved internal systems; do not publish customer or production evidence.
 
 ## Capstone approach
 

@@ -125,7 +125,7 @@ Avoid absolute conclusions when the evidence is incomplete. “Not observed in a
 
 - [Account Takeover (ATO) Investigation Playbook](../../investigations/account-takeover-playbook.md) — evidence preservation, cross-system correlation, missing-session log investigation, device-ID cloning/replay hypotheses, and decision records.
 - [Payment Fraud Investigation Playbook](../../investigations/payment-fraud-playbook.md) — payment lifecycle, card/3DS evidence, SADAD-style payment flow, fraud-control evaluation, and reconciliation.
-- [Fraud Investigation Case Record](../../templates/fraud-case-record.md) — blank case evidence template.
+- [Fraud Investigation Case Record](../../operational-templates/fraud-case-record.md) — blank case evidence template.
 
 These are operational reference checklists, not substitutes for the institution's approved procedures, authority matrix, scheme rules, or regulatory advice.
 

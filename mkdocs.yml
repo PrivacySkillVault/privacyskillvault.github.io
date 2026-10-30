@@ -73,10 +73,13 @@ nav:
   - Investigations:
       - Overview: investigations/index.md
       - Scheduled Task & PowerShell Investigation: investigations/scheduled-task-powershell.md
+      - Account Takeover Playbook: investigations/account-takeover-playbook.md
+      - Payment Fraud Playbook: investigations/payment-fraud-playbook.md
   - Detection Engineering:
       - Overview: detection-engineering/index.md
+      - Synthetic Test Fixtures: detection-engineering/fixtures/README.md
       - PowerShell Encoded Command: detection-engineering/windows-powershell-encoded-command.md
       - Local Administrators Group Change: detection-engineering/windows-local-admin-membership.md
-  - Operational Templates: templates/index.md
+  - Operational Templates: operational-templates/index.md
   - Tools: tools/index.md
   - Blog: blog/index.md
