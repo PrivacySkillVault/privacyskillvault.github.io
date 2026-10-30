@@ -451,7 +451,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       [data-md-color-scheme="default"] body, [data-md-color-scheme="default"] .md-main { background: #f8fafc !important; }
 
       #psv-app {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
         color: #f1f5f9;
         padding: 1.5rem 0 4rem 0;
       }
@@ -471,7 +471,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.76rem;
         font-weight: 700;
         letter-spacing: 0.14em;
@@ -550,7 +550,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.72rem;
         color: #60a5fa;
         margin-bottom: 0.75rem;
@@ -587,7 +587,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
       .psv-mini-tile span {
         display: block;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.65rem;
         color: #3b82f6;
         margin-bottom: 0.15rem;
@@ -614,7 +614,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         padding: 0.65rem 1.25rem;
         background: linear-gradient(90deg, #1d4ed8, #2563eb);
         color: #ffffff;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.76rem;
         font-weight: 700;
         letter-spacing: 0.06em;
@@ -723,13 +723,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         border-radius: 8px;
         background: linear-gradient(135deg, #2563eb, #1d4ed8);
         color: #ffffff;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.73rem;
         font-weight: 800;
         letter-spacing: 0.05em;
       }
       .psv-card-cat-lbl {
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.68rem;
         text-transform: uppercase;
         color: #64748b;
@@ -801,7 +801,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 1rem;
         font-weight: 800;
         box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
@@ -866,7 +866,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.74rem;
         font-weight: 700;
         text-transform: uppercase;
@@ -882,7 +882,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         border: 1px solid rgba(59, 130, 246, 0.28);
         background: #040811;
         color: #f1f5f9;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.83rem;
         line-height: 1.5;
         margin-bottom: 1rem;
@@ -963,7 +963,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       .psv-out-table {
         width: 100%;
         border-collapse: collapse;
-        font-family: "JetBrains Mono", monospace;
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
         font-size: 0.79rem;
       }
       .psv-out-table th {
