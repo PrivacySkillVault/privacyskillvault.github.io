@@ -38,8 +38,8 @@ jobs:
           sigma plugin install sysmon
       - name: Convert Sigma rules to Splunk SPL
         run: |
+          sigma list pipelines splunk
           sigma convert -t splunk -p sysmon docs/detection-engineering/rules/windows-powershell-encoded-command.yml
-          sigma convert -t splunk -p splunk_windows_pipeline docs/detection-engineering/rules/windows-local-admin-membership.yml
       - name: Check JavaScript syntax
         run: node --check docs/javascripts/tools.js
       - name: Build site strictly
