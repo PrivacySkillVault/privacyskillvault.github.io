@@ -100,17 +100,17 @@ level: critical`
       badge: "INT",
       shortTitle: "Threat Intel Hub",
       title: "Multi-Source Threat Intel Hub",
-      desc: "Enrich IPs and domains in real time using keyless Shodan InternetDB, RDAP ownership, Cloudflare DoH DNS, and OSINT pivots.",
-      options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (example.com)"],
+      desc: "Look up public IPv4 indicators with Shodan InternetDB and RDAP, or domain indicators with RDAP and Cloudflare DNS. Optional links open external OSINT searches.",
+      options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (cloudflare.com)"],
       actionLabel: "Enrich Indicator",
       sample: "1.1.1.1",
-      whatItDoes: "Consolidates live indicator enrichment into a single view—querying Shodan InternetDB for open ports and CVEs, RDAP for ASN/registrar ownership, and Cloudflare DNS-over-HTTPS for live DNS records, alongside instant deep-links to VirusTotal, AbuseIPDB, and URLScan.",
-      whyItMatters: "SOC analysts often waste minutes opening ten separate tabs for every suspicious IP or domain. Aggregating open ports, vulnerabilities, registration data, and DNS resolution accelerates triage.",
-      howItWorks: "Executes direct browser HTTPS requests to CORS-enabled public security APIs (internetdb.shodan.io, rdap.org, and cloudflare-dns.com) and formats the JSON responses into a unified report card.",
+      whatItDoes: "Queries Shodan InternetDB for public IPv4 open-port and CVE data; queries RDAP for registry name/handle, status, and country when supplied; and queries Cloudflare DNS-over-HTTPS for A-record answers on domains. Optional links open VirusTotal, AbuseIPDB, URLScan, and Shodan searches.",
+      whyItMatters: "Combining selected public-provider responses can speed up initial indicator triage. Treat the results as supporting context and corroborate them with authoritative telemetry and additional sources.",
+      howItWorks: "After you explicitly select Enrich Indicator, the browser sends the submitted public indicator to the relevant provider endpoints: Shodan InternetDB for IPv4 only, RDAP for IPv4 or domains, and Cloudflare DNS-over-HTTPS for domain A records. No provider lookup runs while you type.",
       bestPractices: [
         "Check open ports and CVEs on external IPs before escalating perimeter scan alerts.",
-        "Inspect RDAP registration dates—newly registered domains (< 30 days) are high-confidence phishing indicators.",
-        "Use the direct VirusTotal and AbuseIPDB pivot links for historical passive DNS and community abuse reports."
+        "RDAP output is limited to fields returned by the registry; this view does not calculate domain age or establish ownership.",
+        "Use the optional VirusTotal, AbuseIPDB, and URLScan links for additional provider-specific context; corroborate findings before drawing conclusions."
       ],
       faqs: [
         { q: "Do I need an API key for Shodan InternetDB or RDAP?", a: "No. Shodan InternetDB, ICANN RDAP, and Cloudflare DoH are keyless public endpoints that run directly from your browser." }
@@ -1093,6 +1093,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(value)) return null;
     if (value.length > 253 || value.length < 4 || !value.includes(".")) return null;
     const labels = value.split(".");
+    if (["example.com", "example.net", "example.org"].some(domain => value === domain || value.endsWith("." + domain))) return null;
     if (!labels.every(label => label.length <= 63 && /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(label)) ||
         !/[a-z]/.test(labels[labels.length - 1])) return null;
     if (["localhost", "local", "internal", "test", "invalid", "example", "onion"].includes(labels[labels.length - 1])) return null;
