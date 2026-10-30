@@ -8,6 +8,7 @@
       <ul class="psv-global-nav__list">
         <li><a href="{{ '' | url }}" class="psv-global-nav__link{% if page and page.is_homepage %} psv-global-nav__link--active{% endif %}">Home</a></li>
         <li><a href="{{ 'about/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('about') %} psv-global-nav__link--active{% endif %}">About</a></li>
+        <li><a href="{{ 'standards/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('standards/') %} psv-global-nav__link--active{% endif %}">Standards</a></li>
         <li><a href="{{ 'learn/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('learn/') %} psv-global-nav__link--active{% endif %}">Learn</a></li>
         <li><a href="{{ 'labs/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('labs/') %} psv-global-nav__link--active{% endif %}">Labs</a></li>
         <li><a href="{{ 'investigations/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('investigations/') %} psv-global-nav__link--active{% endif %}">Investigations</a></li>
