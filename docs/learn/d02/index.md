@@ -2,6 +2,10 @@
 
 Learn how security telemetry is collected, normalised, searched, correlated, and converted into detections that can be tested and maintained.
 
+## Hands-on SIEM labs
+
+Build and validate [Elastic](../../labs/elastic-siem.md), [Splunk](../../labs/splunk-siem.md) or [Wazuh](../../labs/wazuh-soc.md) one at a time. Add [Zeek/Suricata](../../labs/network-monitoring.md) or [Security Onion](../../labs/security-onion.md) only after packet visibility and resource requirements are confirmed.
+
 ## Authoritative foundations
 
 - [NIST CSF 2.0](../../standards/index.md#nist-cybersecurity-framework-csf-20) — use the Detect Function outcomes to structure monitoring and adverse-event analysis.
