@@ -4,10 +4,10 @@ Develop an evidence-led approach to suspicious activity across endpoint, network
 
 ## Authoritative foundations
 
-- [NIST SP 800-61 Rev. 3](../../standards/index.md#nist-sp-800-61-revision-3--incident-response) — current NIST incident-response guidance, finalised April 2025; it supersedes Rev. 2.
+- [NIST SP 800-61 Rev. 3](../../standards/index.md#nist-sp-800-61-revision-3-incident-response) — current NIST incident-response guidance, finalised April 2025; it supersedes Rev. 2.
 - [NIST CSF 2.0](../../standards/index.md#nist-cybersecurity-framework-csf-20) — relevant outcomes include Detect, Respond, and Recover.
-- [SAMA 2022 Counter-Fraud Framework](../../standards/index.md#sama-counter-fraud-framework--banking-sector-2022) — Banking Sector framework, subject to SAMA applicability.
-- [SAMA 2025 Counter-Fraud Fundamental Requirements](../../standards/index.md#sama-counter-fraud-fundamental-requirements--payment-systems-and-payment-services-providers-effective-13-april-2026) — separate requirements for payment systems and payment services providers; verify entity scope.
+- [SAMA 2022 Counter-Fraud Framework](../../standards/index.md#sama-counter-fraud-framework-banking-sector-2022) — Banking Sector framework, subject to SAMA applicability.
+- [SAMA 2025 Counter-Fraud Fundamental Requirements](../../standards/index.md#sama-counter-fraud-fundamental-requirements-payment-systems-and-payment-services-providers-effective-13-april-2026) — separate requirements for payment systems and payment services providers; verify entity scope.
 - [EMVCo 3-D Secure](../../standards/index.md#emv-3-d-secure-3ds) — authoritative 3DS protocol specifications and version bulletins.
 - [MITRE ATT&CK](../../standards/index.md#mitre-attck) — a knowledge base for describing observed adversary behaviour, not a verdict or attribution engine.
 
@@ -81,7 +81,7 @@ A device ID, cookie, app-generated identifier, or fingerprint can be copied, rep
 
 The SAMA 2022 Banking Sector Counter-Fraud Framework has four domains: Governance, Prevent, Detect, and Respond. Its Rulebook includes 3.3 (policy and procedures), 4.1 (risk management), 5.1 (fraud detection standards), 5.2 (fraud detection systems), 6.2 (alert and case management), and 6.3 (fraud investigation). In particular, 5.2 addresses data quality, behavioural baselining, rules, risk scoring, feedback loops, calibration, and system metrics. The framework states a minimum maturity level of 3 for Member Organisations, while applicability is subject to SAMA's notification and discretion. Confirm the legal entity's status and applicable obligations with Compliance.
 
-A separate SAMA Counter-Fraud Fundamental Requirements framework became effective on 13 April 2026 for Finance Sector — Payment Systems and Payment Services Providers. Its section 4.1 contains specific elevated-risk controls, including real-time detection, 24/7 monitoring, real-time protective actions, and stronger authentication requirements. Do not transfer those control IDs to the 2022 Banking Sector framework or assume the PSP scope applies to every bank.
+A separate SAMA Counter-Fraud Fundamental Requirements framework became effective on 13 April 2026 for Finance Sector — Payment Systems and Payment Services Providers. Its section 4.1 contains specific elevated-risk controls, including real-time detection, 24/7 operation of fraud detection systems, timely protective actions, and stronger authentication requirements. Do not transfer those control IDs to the 2022 Banking Sector framework or assume the PSP scope applies to every bank.
 
 For card-not-present transactions, interpret actual EMV 3DS message fields and result codes using the applicable EMVCo version and bulletin set, plus the implementation documentation of the issuer/acquirer/provider. A generic 3DS success label is not proof of legitimate customer initiation.
 

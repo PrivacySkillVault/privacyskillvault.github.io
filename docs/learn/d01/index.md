@@ -20,6 +20,11 @@ Environment and software versions; network diagram and private lab IP plan; comm
 
 D02 uses this foundation to understand telemetry. D04 uses it to correlate endpoint, identity, and network evidence.
 
+## Authoritative references
+
+- [NIST CSF 2.0](../../standards/index.md#nist-cybersecurity-framework-csf-20) — cybersecurity outcomes and risk-management context.
+- [CIS Controls v8.1](../../standards/index.md#cis-critical-security-controls-v81) — prioritised safeguards for implementation planning.
+
 ## Protocol and addressing references
 
 Use primary protocol specifications when documenting network behaviour. Examples include:

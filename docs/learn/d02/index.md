@@ -47,7 +47,6 @@ A minimal illustrative rule structure is shown below. This is a syntax example, 
 
 ```yaml
 title: Example Process Creation Analytic
-id: 2f9e5f4b-3c42-4d8a-a5a8-6e6c73b9a2f1
 status: test
 description: Illustrates the structure of a process-creation rule.
 logsource:
@@ -55,7 +54,7 @@ logsource:
     category: process_creation
 detection:
     selection:
-        Image|endswith: '\\example.exe'
+        Image|endswith: '\example.exe'
     condition: selection
 level: low
 ```

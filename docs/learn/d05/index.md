@@ -5,9 +5,9 @@ Connect security controls and detection content to stable, supportable operation
 ## Authoritative foundations
 
 - [NIST CSF 2.0](../../standards/index.md#nist-cybersecurity-framework-csf-20) — use the Govern and Identify outcomes to establish ownership and context, and the Protect, Detect, Respond, and Recover outcomes to organise operational work.
-- [NIST SP 800-61 Rev. 3](../../standards/index.md#nist-sp-800-61-revision-3--incident-response) — integrate response preparation, detection, response, recovery, and improvement into risk management.
+- [NIST SP 800-61 Rev. 3](../../standards/index.md#nist-sp-800-61-revision-3-incident-response) — integrate response preparation, detection, response, recovery, and improvement into risk management.
 - [CIS Controls v8.1](../../standards/index.md#cis-critical-security-controls-v81) — select applicable safeguards and validate implementation.
-- [SAMA Counter-Fraud Framework](../../standards/index.md#sama-counter-fraud-framework--banking-sector) — where the banking-sector framework applies, retain evidence of control operation, monitoring, measurement, and periodic evaluation.
+- [SAMA Counter-Fraud Framework](../../standards/index.md#sama-counter-fraud-framework-banking-sector-2022) — where the banking-sector framework applies, retain evidence of control operation, monitoring, measurement, and periodic evaluation.
 
 ## Operational disciplines
 
