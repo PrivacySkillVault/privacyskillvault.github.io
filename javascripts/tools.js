@@ -100,17 +100,17 @@ level: critical`
       badge: "INT",
       shortTitle: "Threat Intel Hub",
       title: "Multi-Source Threat Intel Hub",
-      desc: "Enrich IPs and domains in real time using keyless Shodan InternetDB, RDAP ownership, Cloudflare DoH DNS, and OSINT pivots.",
-      options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (example.com)"],
+      desc: "Look up public IPv4 indicators with Shodan InternetDB and RDAP, or domain indicators with RDAP and Cloudflare DNS. Optional links open external OSINT searches.",
+      options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (cloudflare.com)"],
       actionLabel: "Enrich Indicator",
       sample: "1.1.1.1",
-      whatItDoes: "Consolidates live indicator enrichment into a single view—querying Shodan InternetDB for open ports and CVEs, RDAP for ASN/registrar ownership, and Cloudflare DNS-over-HTTPS for live DNS records, alongside instant deep-links to VirusTotal, AbuseIPDB, and URLScan.",
-      whyItMatters: "SOC analysts often waste minutes opening ten separate tabs for every suspicious IP or domain. Aggregating open ports, vulnerabilities, registration data, and DNS resolution accelerates triage.",
-      howItWorks: "Executes direct browser HTTPS requests to CORS-enabled public security APIs (internetdb.shodan.io, rdap.org, and cloudflare-dns.com) and formats the JSON responses into a unified report card.",
+      whatItDoes: "Queries Shodan InternetDB for public IPv4 open-port and CVE data; queries RDAP for registry name/handle, status, and country when supplied; and queries Cloudflare DNS-over-HTTPS for A-record answers on domains. Optional links open VirusTotal, AbuseIPDB, URLScan, and Shodan searches.",
+      whyItMatters: "Combining selected public-provider responses can speed up initial indicator triage. Treat the results as supporting context and corroborate them with authoritative telemetry and additional sources.",
+      howItWorks: "After you explicitly select Enrich Indicator, the browser sends the submitted public indicator to the relevant provider endpoints: Shodan InternetDB for IPv4 only, RDAP for IPv4 or domains, and Cloudflare DNS-over-HTTPS for domain A records. No provider lookup runs while you type.",
       bestPractices: [
         "Check open ports and CVEs on external IPs before escalating perimeter scan alerts.",
-        "Inspect RDAP registration dates—newly registered domains (< 30 days) are high-confidence phishing indicators.",
-        "Use the direct VirusTotal and AbuseIPDB pivot links for historical passive DNS and community abuse reports."
+        "RDAP output is limited to fields returned by the registry; this view does not calculate domain age or establish ownership.",
+        "Use the optional VirusTotal, AbuseIPDB, and URLScan links for additional provider-specific context; corroborate findings before drawing conclusions."
       ],
       faqs: [
         { q: "Do I need an API key for Shodan InternetDB or RDAP?", a: "No. Shodan InternetDB, ICANN RDAP, and Cloudflare DoH are keyless public endpoints that run directly from your browser." }
@@ -151,21 +151,21 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       id: "sigma",
       cat: "soc",
       badge: "SGM",
-      shortTitle: "Sigma Rule Translator",
-      title: "SIEM Query Builder & Sigma Translator",
-      desc: "Validate YAML Sigma detection rules and dynamically translate selection/filter logic into Elastic KQL, Splunk SPL, and Sentinel KQL.",
+      shortTitle: "Sigma Rule Preview",
+      title: "Sigma Rule Preview (Translation Disabled)",
+      desc: "Review supplied Sigma YAML examples. This preview does not parse, validate, or translate Sigma rules into SIEM queries.",
       options: ["Template: LSASS Dump", "Template: Kerberoasting 4769", "Template: ShadowCopy Delete"],
-      actionLabel: "Translate Sigma Rule",
+      actionLabel: "Review Sigma Rule",
       sample: SIGMA_TEMPLATES[0].yaml,
-      whatItDoes: "Parses Sigma YAML detection rules—including field modifiers (|contains, |startswith, |endswith, |all) and filter exclusions—and translates them into ready-to-run queries for Elastic/Kibana, Splunk, and Microsoft Sentinel.",
+      whatItDoes: "Displays the selected Sigma YAML source for analyst review. It does not parse YAML, validate Sigma semantics, or generate SIEM queries.",
       whyItMatters: "Detection engineers maintain vendor-agnostic detections in Sigma YAML. Manually rewriting complex boolean conditions for three different SIEM query languages introduces syntax bugs.",
-      howItWorks: "Extracts selection and filter key-value blocks from the YAML detection section, maps Windows/Sysmon field names to ECS, CIM, and Sentinel schemas, and compiles boolean queries dynamically.",
+      howItWorks: "The current workbench intentionally does not compile this input. Correct Sigma conversion requires YAML parsing, condition-expression evaluation, modifier handling, and target-specific field mappings. Use maintained Sigma tooling for actual conversion.",
       bestPractices: [
         "Test translated queries against 7–30 days of historical telemetry before enabling production alerting.",
         "Add environment-specific service account or path exclusions inside a dedicated filter block."
       ],
       faqs: [
-        { q: "Does this translator dynamically parse my custom YAML fields?", a: "Yes. Any field or string list you add under selection: or filter: is dynamically parsed and mapped into Elastic KQL, Splunk SPL, and Sentinel KQL." }
+        { q: "Does this preview validate or translate my custom Sigma YAML?", a: "No. It only displays the source text. It does not validate YAML or Sigma semantics and does not generate Elastic, Splunk, or Sentinel queries." }
       ],
       related: ["events", "regex", "yara", "json"]
     },
@@ -1059,6 +1059,103 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
   }
 
+  let tiLookupSequence = 0;
+
+  function normalizeThreatIndicator(raw) {
+    let value = String(raw || "").trim();
+    if (!value || /\s/.test(value)) return null;
+    value = value.replace(/^hxxps?:\/\//i, "https://").replace(/\[\.\]/g, ".");
+    if (/^https?:\/\//i.test(value)) {
+      try { value = new URL(value).hostname; } catch (err) { return null; }
+    } else {
+      value = value.split(/[/?#]/, 1)[0];
+    }
+    value = value.replace(/^\[|\]$/g, "").replace(/\.$/, "").toLowerCase();
+    const octets = value.split(".");
+    const isIPv4 = octets.length === 4 && octets.every(part => /^(0|[1-9]\d{0,2})$/.test(part) && Number(part) <= 255);
+    if (isIPv4) {
+      const [a, b] = octets.map(Number);
+      const privateOrSpecial =
+        a === 0 || a === 10 || a === 127 || a >= 224 ||
+        (a === 100 && b >= 64 && b <= 127) ||
+        (a === 169 && b === 254) ||
+        (a === 172 && b >= 16 && b <= 31) ||
+        (a === 192 && b === 168) ||
+        (a === 192 && b === 0 && Number(octets[2]) === 0) ||
+        (a === 192 && b === 0 && Number(octets[2]) === 2) ||
+        (a === 192 && b === 88 && Number(octets[2]) === 99) ||
+        (a === 198 && (b === 18 || b === 19)) ||
+        (a === 198 && b === 51 && Number(octets[2]) === 100) ||
+        (a === 203 && b === 0 && Number(octets[2]) === 113);
+      if (privateOrSpecial) return null;
+      return { value, isIp: true };
+    }
+    if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(value)) return null;
+    if (value.length > 253 || value.length < 4 || !value.includes(".")) return null;
+    const labels = value.split(".");
+    if (["example.com", "example.net", "example.org"].some(domain => value === domain || value.endsWith("." + domain))) return null;
+    if (!labels.every(label => label.length <= 63 && /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(label)) ||
+        !/[a-z]/.test(labels[labels.length - 1])) return null;
+    if (["localhost", "local", "internal", "test", "invalid", "example", "onion"].includes(labels[labels.length - 1])) return null;
+    return { value, isIp: false };
+  }
+
+  async function fetchThreatJson(url, options) {
+    const response = await fetch(url, options);
+    if (response.status === 404) return { notFound: true, data: null };
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    return { notFound: false, data: await response.json() };
+  }
+
+  async function runThreatIntelLookup(rawInput, outputElement) {
+    const parsed = normalizeThreatIndicator(rawInput);
+    if (!parsed) {
+      outputElement.innerHTML = '<div role="alert" class="psv-ti-error">Invalid input. Enter one public IPv4 address or a valid domain name. URLs are accepted, but only their hostname is queried.</div>';
+      return;
+    }
+    const requestId = ++tiLookupSequence;
+    const indicator = parsed.value;
+    outputElement.innerHTML = '<div role="status">Sending the requested indicator to the disclosed public services…</div>';
+    const jobs = [];
+    if (parsed.isIp) jobs.push(["Shodan InternetDB", fetchThreatJson("https://internetdb.shodan.io/" + encodeURIComponent(indicator))]);
+    jobs.push(["RDAP", fetchThreatJson("https://rdap.org/" + (parsed.isIp ? "ip/" : "domain/") + encodeURIComponent(indicator), { headers: { accept: "application/rdap+json, application/json" } })]);
+    if (!parsed.isIp) jobs.push(["Cloudflare DNS", fetchThreatJson("https://cloudflare-dns.com/dns-query?name=" + encodeURIComponent(indicator) + "&type=A", { headers: { accept: "application/dns-json" } })]);
+    const settled = await Promise.allSettled(jobs.map(job => job[1]));
+    if (requestId !== tiLookupSequence || document.getElementById("psv-tool-result-box") !== outputElement || activeToolId !== "ti" || currentView !== "tool") return;
+    const results = {};
+    jobs.forEach((job, index) => {
+      const result = settled[index];
+      results[job[0]] = result.status === "fulfilled"
+        ? { ok: true, ...result.value }
+        : { ok: false, error: result.reason && result.reason.message ? result.reason.message : "Request failed" };
+    });
+    const cell = name => {
+      const r = results[name];
+      if (!r) return "Not applicable";
+      if (!r.ok) return '<span class="psv-ti-error">Lookup failed: ' + esc(r.error) + '</span>';
+      if (r.notFound) return "No record returned by provider (HTTP 404).";
+      const d = r.data || {};
+      if (name === "Shodan InternetDB") return "Open ports: " + esc((d.ports || []).join(", ") || "None listed") + "<br>Hostnames: " + esc((d.hostnames || []).join(", ") || "None listed") + "<br>CVEs: " + esc((d.vulns || []).join(", ") || "None listed");
+      if (name === "RDAP") return "Name/handle: " + esc(d.ldhName || d.handle || indicator) + "<br>Status: " + esc(Array.isArray(d.status) ? d.status.join(", ") : "Not supplied") + "<br>Country: " + esc(d.country || "Not supplied");
+      const answers = Array.isArray(d.Answer) ? d.Answer : [];
+      return answers.length ? answers.map(a => esc(a.name) + " → " + esc(a.data) + " (TTL " + esc(a.TTL) + ")").join("<br>") : "No A-record answer returned (DNS status: " + esc(d.Status) + ").";
+    };
+    const pivot = encodeURIComponent(indicator);
+    outputElement.innerHTML = `
+      <div role="status"><strong>Lookup completed.</strong> Provider responses are not a verdict that an indicator is malicious or benign.</div>
+      <table class="psv-out-table"><thead><tr><th>Service</th><th>Indicator</th><th>Provider response</th></tr></thead><tbody>
+        ${parsed.isIp ? '<tr><td>Shodan InternetDB</td><td>' + esc(indicator) + '</td><td>' + cell("Shodan InternetDB") + '</td></tr>' : ''}
+        <tr><td>RDAP</td><td>${esc(indicator)}</td><td>${cell("RDAP")}</td></tr>
+        ${!parsed.isIp ? '<tr><td>Cloudflare DNS (A)</td><td>' + esc(indicator) + '</td><td>' + cell("Cloudflare DNS") + '</td></tr>' : ''}
+      </tbody></table>
+      <p>Optional external pivots (opening a link also shares the indicator with that provider):
+        <a href="https://www.virustotal.com/gui/search/${pivot}" target="_blank" rel="noopener noreferrer">VirusTotal</a> ·
+        <a href="https://www.abuseipdb.com/check/${pivot}" target="_blank" rel="noopener noreferrer">AbuseIPDB</a> ·
+        <a href="https://urlscan.io/search/#${pivot}" target="_blank" rel="noopener noreferrer">URLScan</a> ·
+        <a href="https://www.shodan.io/search?query=${pivot}" target="_blank" rel="noopener noreferrer">Shodan</a>
+      </p>`;
+  }
+
   function computeDynamicOutput(tool, rawInput) {
     const input = (rawInput || "").trim();
     if (!input) {
@@ -1090,49 +1187,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
 
     if (tool.id === "ti") {
-      const target = input.split(/\s+/)[0].replace(/\[\.\]/g, ".").replace(/^https?:\/\//i, "").split("/")[0];
-      const isIp = /^(?:\d{1,3}\.){3}\d{1,3}$/.test(target);
-      setTimeout(() => {
-        if (isIp) {
-          fetch(`https://internetdb.shodan.io/${encodeURIComponent(target)}`)
-            .then(r => r.json())
-            .then(d => {
-              const el = document.getElementById("ti-live-shodan");
-              if (el) el.textContent = `Open Ports: ${(d.ports || []).join(", ") || "None"} | Hostnames: ${(d.hostnames || []).join(", ") || "None"} | CVEs: ${(d.vulns || []).join(", ") || "None"}`;
-            })
-            .catch(() => {});
-        }
-        fetch(`https://rdap.org/${isIp ? "ip" : "domain"}/${encodeURIComponent(target)}`)
-          .then(r => r.json())
-          .then(d => {
-            const el = document.getElementById("ti-live-rdap");
-            if (el) el.textContent = `Handle/Name: ${d.handle || d.ldhName || target} | Status: ${(d.status || []).join(", ") || "Active"} | Country: ${d.country || "Global"}`;
-          })
-          .catch(() => {});
-        fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(target)}&type=A`, { headers: { accept: "application/dns-json" } })
-          .then(r => r.json())
-          .then(d => {
-            const el = document.getElementById("ti-live-dns");
-            if (el) el.textContent = (d.Answer || []).map(a => `${a.name} -> ${a.data} (TTL ${a.TTL})`).join(" | ") || "No direct A record returned";
-          })
-          .catch(() => {});
-      }, 30);
-
+      const target = normalizeThreatIndicator(input);
+      if (!target) return '<div role="status">Enter one public IPv4 address or fully qualified domain name. No request is made while typing.</div>';
       return `
-        <table class="psv-out-table">
-          <thead><tr><th>Intelligence Module</th><th>Indicator</th><th>Live Telemetry & Reputation Findings</th></tr></thead>
-          <tbody>
-            <tr><td>Shodan InternetDB</td><td style="color:#38bdf8;font-weight:700;">${esc(target)}</td><td id="ti-live-shodan">${isIp ? "Ports: 53, 80, 443, 853 | Hostnames: one.one.one.one | CVEs: None" : "Domain indicator (enter IPv4 for Shodan port lookup)"}</td></tr>
-            <tr><td>ICANN RDAP Ownership</td><td style="color:#38bdf8;font-weight:700;">${esc(target)}</td><td id="ti-live-rdap">Handle: ${esc(target)} | Status: active</td></tr>
-            <tr><td>Cloudflare DoH DNS</td><td style="color:#38bdf8;font-weight:700;">${esc(target)}</td><td id="ti-live-dns">Resolved via 1.1.1.1 DNS-over-HTTPS</td></tr>
-            <tr><td>External OSINT Pivots</td><td style="color:#38bdf8;font-weight:700;">${esc(target)}</td><td>
-              <a href="https://www.virustotal.com/gui/search/${encodeURIComponent(target)}" target="_blank" rel="noopener" style="color:#60a5fa;margin-right:12px;font-weight:700;">↗ VirusTotal</a>
-              <a href="https://www.abuseipdb.com/check/${encodeURIComponent(target)}" target="_blank" rel="noopener" style="color:#60a5fa;margin-right:12px;font-weight:700;">↗ AbuseIPDB</a>
-              <a href="https://urlscan.io/search/#${encodeURIComponent(target)}" target="_blank" rel="noopener" style="color:#60a5fa;margin-right:12px;font-weight:700;">↗ URLScan.io</a>
-              <a href="https://www.shodan.io/search?query=${encodeURIComponent(target)}" target="_blank" rel="noopener" style="color:#60a5fa;font-weight:700;">↗ Shodan</a>
-            </td></tr>
-          </tbody>
-        </table>
+        <div role="note" class="psv-ti-disclosure"><strong>External lookup notice:</strong> Selecting <strong>Enrich Indicator</strong> sends this indicator to Shodan InternetDB (IPv4 only), RDAP, and Cloudflare DNS (domains only). These are third-party services. Do not submit internal, customer, confidential, or employer-sensitive indicators.</div>
+        <div role="status"><strong>Ready — no request has been sent.</strong><br>Indicator: <code>${esc(target.value)}</code><br>Select <strong>Enrich Indicator</strong> to make the external requests.</div>
       `;
     }
 
@@ -1162,52 +1221,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
 
     if (tool.id === "sigma") {
-      const title = (input.match(/^title:\s*(.+)$/im) || [])[1] || "Custom Detection Rule";
-      const fieldMap = { Image: "process.executable", CommandLine: "process.command_line", ParentImage: "process.parent.executable", User: "user.name", TargetFilename: "file.path", DestinationIp: "destination.ip", EventID: "event.code", TicketEncryptionType: "winlog.event_data.TicketEncryptionType", ServiceName: "winlog.event_data.ServiceName" };
-      const clausesKql = [];
-      const clausesSpl = [];
-      const clausesSen = [];
-
-      const lines = input.split("\n");
-      let currentKey = "";
-      lines.forEach(line => {
-        const kv = line.match(/^\s{4,}([A-Za-z0-9_|]+):\s*(.*)$/);
-        if (kv) {
-          currentKey = kv[1];
-          const val = kv[2].replace(/^['"]|['"]$/g, "").trim();
-          if (val) {
-            const baseField = currentKey.split("|")[0];
-            const ecsField = fieldMap[baseField] || baseField;
-            clausesKql.push(`${ecsField}: "*${val}*"`);
-            clausesSpl.push(`${baseField}="*${val}*"`);
-            clausesSen.push(`${baseField} contains "${val}"`);
-          }
-        } else {
-          const listItem = line.match(/^\s*-\s*['"]?([^'"]+)['"]?$/);
-          if (listItem && currentKey) {
-            const baseField = currentKey.split("|")[0];
-            const ecsField = fieldMap[baseField] || baseField;
-            const val = listItem[1].trim();
-            clausesKql.push(`${ecsField}: "*${val}*"`);
-            clausesSpl.push(`${baseField}="*${val}*"`);
-            clausesSen.push(`${baseField} contains "${val}"`);
-          }
-        }
-      });
-
-      const kqlOut = clausesKql.length ? clausesKql.join(" and ") : "process.command_line: *";
-      const splOut = `index=main ${clausesSpl.join(" ")} | table _time host User Image CommandLine`;
-      const senOut = `SecurityEvent | where ${clausesSen.length ? clausesSen.join(" and ") : "true"}`;
-
       return `
-        <table class="psv-out-table">
-          <thead><tr><th>SIEM Target</th><th>Dynamically Compiled Query — ${esc(title)}</th></tr></thead>
-          <tbody>
-            <tr><td style="color:#38bdf8;font-weight:700;">Elastic / Kibana KQL</td><td><code>${esc(kqlOut)}</code></td></tr>
-            <tr><td style="color:#38bdf8;font-weight:700;">Splunk SPL</td><td><code>${esc(splOut)}</code></td></tr>
-            <tr><td style="color:#38bdf8;font-weight:700;">Microsoft Sentinel KQL</td><td><code>${esc(senOut)}</code></td></tr>
-          </tbody>
-        </table>
+        <div role="note"><strong>Preview only — no SIEM query was generated.</strong><br>This workbench does not include a standards-compliant Sigma YAML parser or conversion backend. The text below is displayed as supplied; it has not been syntax-checked or semantically validated.</div>
+        <pre style="white-space:pre-wrap;overflow-wrap:anywhere;">${esc(input)}</pre>
+        <p>For production conversion, use maintained Sigma tooling and validate the resulting query against your target SIEM schema and telemetry.</p>
       `;
     }
 
@@ -1387,49 +1404,60 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
 
     if (tool.id === "cvss") {
+      const parts = input.split("/");
+      if (parts[0] !== "CVSS:3.1") return '<div role="alert" class="psv-ti-error">A CVSS:3.1 vector beginning with CVSS:3.1/ is required.</div>';
       const m = {};
-      input.split("/").forEach(p => {
-        const kv = p.split(":");
-        if (kv.length === 2) m[kv[0].toUpperCase()] = kv[1].toUpperCase();
-      });
-      const av = { N: 0.85, A: 0.62, L: 0.55, P: 0.2 }[m.AV] || 0.85;
-      const ac = { L: 0.77, H: 0.44 }[m.AC] || 0.77;
-      const sc = m.S === "C";
-      const pr = (sc ? { N: 0.85, L: 0.68, H: 0.5 } : { N: 0.85, L: 0.62, H: 0.27 })[m.PR] ?? 0.85;
-      const ui = { N: 0.85, R: 0.62 }[m.UI] || 0.85;
-      const c = { H: 0.56, L: 0.22, N: 0 }[m.C] ?? 0.56;
-      const i = { H: 0.56, L: 0.22, N: 0 }[m.I] ?? 0.56;
-      const a = { H: 0.56, L: 0.22, N: 0 }[m.A] ?? 0.56;
+      const allowed = {
+        AV:["N","A","L","P"], AC:["L","H"], PR:["N","L","H"], UI:["N","R"], S:["U","C"],
+        C:["H","L","N"], I:["H","L","N"], A:["H","L","N"],
+        E:["X","H","F","P","U"], RL:["X","U","W","T","O"], RC:["X","C","R","U"],
+        CR:["X","H","M","L"], IR:["X","H","M","L"], AR:["X","H","M","L"],
+        MAV:["X","N","A","L","P"], MAC:["X","L","H"], MPR:["X","N","L","H"], MUI:["X","N","R"],
+        MS:["X","U","C"], MC:["X","N","L","H"], MI:["X","N","L","H"], MA:["X","N","L","H"]
+      };
+      for (let index=1; index<parts.length; index++) {
+        const kv=parts[index].split(":");
+        if(kv.length!==2 || !kv[0] || !kv[1]) return '<div role="alert" class="psv-ti-error">Malformed vector component: '+esc(parts[index])+'</div>';
+        const key=kv[0].toUpperCase(), value=kv[1].toUpperCase();
+        if(!Object.prototype.hasOwnProperty.call(allowed,key)) return '<div role="alert" class="psv-ti-error">Unsupported CVSS v3.1 metric: '+esc(key)+'</div>';
+        if(Object.prototype.hasOwnProperty.call(m,key)) return '<div role="alert" class="psv-ti-error">Duplicate CVSS metric: '+esc(key)+'</div>';
+        if(!allowed[key].includes(value)) return '<div role="alert" class="psv-ti-error">Invalid value '+esc(value)+' for metric '+esc(key)+'.</div>';
+        m[key]=value;
+      }
+      const required=["AV","AC","PR","UI","S","C","I","A"], missing=required.filter(key=>!m[key]);
+      if(missing.length) return '<div role="alert" class="psv-ti-error">Missing required Base metrics: '+esc(missing.join(", "))+'.</div>';
 
-      const iss = 1 - (1 - c) * (1 - i) * (1 - a);
-      const impact = sc ? 7.52 * (iss - 0.029) - 3.25 * Math.pow(iss - 0.02, 15) : 6.42 * iss;
-      const exploit = 8.22 * av * ac * pr * ui;
-      const roundUp = v => Math.ceil(Math.round(v * 100000) / 10000) / 10;
-      const base = iss <= 0 ? 0 : roundUp(Math.min(sc ? 1.08 * (impact + exploit) : impact + exploit, 10));
+      const avMap={N:.85,A:.62,L:.55,P:.2}, acMap={L:.77,H:.44}, uiMap={N:.85,R:.62}, impactMap={H:.56,L:.22,N:0};
+      const prMap={N:.85,L: m.S === "C" ? 0.68 : 0.62, H: m.S === "C" ? 0.5 : 0.27};
+      const roundup=v=>Math.ceil((v-1e-10)*10)/10, cap=v=>Math.min(v,10);
+      const c=impactMap[m.C], i=impactMap[m.I], a=impactMap[m.A];
+      const iss=1-(1-c)*(1-i)*(1-a), changed=m.S==="C";
+      const impact=changed?7.52*(iss-.029)-3.25*Math.pow(iss-.02,15):6.42*iss;
+      const exploit=8.22*avMap[m.AV]*acMap[m.AC]*prMap[m.PR]*uiMap[m.UI];
+      const base=impact<=0?0:roundup(cap((changed?1.08:1)*(impact+exploit)));
 
-      const eW = { X: 1, H: 1, F: 0.97, P: 0.94, U: 0.91 }[m.E] || 1;
-      const rlW = { X: 1, U: 1, W: 0.97, T: 0.96, O: 0.95 }[m.RL] || 1;
-      const rcW = { X: 1, C: 1, R: 0.96, U: 0.92 }[m.RC] || 1;
-      const temporal = roundUp(base * eW * rlW * rcW);
-
-      const crW = { X: 1, H: 1.5, M: 1.0, L: 0.5 }[m.CR] || 1;
-      const irW = { X: 1, H: 1.5, M: 1.0, L: 0.5 }[m.IR] || 1;
-      const arW = { X: 1, H: 1.5, M: 1.0, L: 0.5 }[m.AR] || 1;
-      const miss = Math.min(1 - (1 - c * crW) * (1 - i * irW) * (1 - a * arW), 0.915);
-      const mImpact = sc ? 7.52 * (miss - 0.029) - 3.25 * Math.pow(miss * 0.9731 - 0.02, 13) : 6.42 * miss;
-      const env = iss <= 0 ? 0 : roundUp(roundUp(Math.min(sc ? 1.08 * (mImpact + exploit) : mImpact + exploit, 10)) * eW * rlW * rcW);
-      const rating = s => (s >= 9.0 ? "CRITICAL" : s >= 7.0 ? "HIGH" : s >= 4.0 ? "MEDIUM" : s > 0 ? "LOW" : "NONE");
-
+      const weights={E:{X:1,H:1,F:.97,P:.94,U:.91},RL:{X:1,U:1,W:.97,T:.96,O:.95},RC:{X:1,C:1,R:.96,U:.92}};
+      const temporalFactor=["E","RL","RC"].reduce((v,key)=>v*weights[key][m[key]||"X"],1);
+      const temporal=roundup(base*temporalFactor);
+      const req={X:1,H:1.5,M:1,L:.5};
+      const miss=Math.min(1-(1-req[m.CR||"X"]*impactMap[m.MC&&m.MC!=="X"?m.MC:m.C])*(1-req[m.IR||"X"]*impactMap[m.MI&&m.MI!=="X"?m.MI:m.I])*(1-req[m.AR||"X"]*impactMap[m.MA&&m.MA!=="X"?m.MA:m.A]),.915);
+      const modifiedScope=(m.MS&&m.MS!=="X"?m.MS:m.S)==="C";
+      const modifiedImpact=modifiedScope?7.52*(miss-.029)-3.25*Math.pow(miss*.9731-.02,13):6.42*miss;
+      const mv=(key,baseKey)=>m[key]&&m[key]!=="X"?m[key]:m[baseKey];
+      const modifiedPR={N:.85,L: modifiedScope ? 0.68 : 0.62, H: modifiedScope ? 0.5 : 0.27};
+      const modifiedExploit=8.22*avMap[mv("MAV","AV")]*acMap[mv("MAC","AC")]*modifiedPR[mv("MPR","PR")]*uiMap[mv("MUI","UI")];
+      const environmentalBase=modifiedImpact<=0?0:roundup(cap((modifiedScope?1.08:1)*(modifiedImpact+modifiedExploit)));
+      const environmental=modifiedImpact<=0?0:roundup(environmentalBase*temporalFactor);
+      const rating=v=>v>=9?"CRITICAL":v>=7?"HIGH":v>=4?"MEDIUM":v>0?"LOW":"NONE";
+      const envKeys=["CR","IR","AR","MAV","MAC","MPR","MUI","MS","MC","MI","MA"];
+      const envText=envKeys.map(k=>k+":"+(m[k]||"X")).join(" · ");
       return `
-        <table class="psv-out-table">
-          <thead><tr><th>CVSS v3.1 Metric Group</th><th>Calculated Score</th><th>Severity Rating</th><th>Sub-Score Details</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Base Score</strong></td><td style="color:#f87171;font-weight:800;font-size:0.95rem;">${base.toFixed(1)} / 10.0</td><td>${rating(base)}</td><td>Impact: ${impact.toFixed(2)} | Exploitability: ${exploit.toFixed(2)}</td></tr>
-            <tr><td><strong>Temporal Score</strong></td><td style="color:#fbbf24;font-weight:800;font-size:0.95rem;">${temporal.toFixed(1)} / 10.0</td><td>${rating(temporal)}</td><td>E:${m.E || "X"} | RL:${m.RL || "X"} | RC:${m.RC || "X"}</td></tr>
-            <tr><td><strong>Environmental Score</strong></td><td style="color:#38bdf8;font-weight:800;font-size:0.95rem;">${env.toFixed(1)} / 10.0</td><td>${rating(env)}</td><td>CR:${m.CR || "X"} | IR:${m.IR || "X"} | AR:${m.AR || "X"}</td></tr>
-          </tbody>
-        </table>
-      `;
+        <table class="psv-out-table"><thead><tr><th>CVSS v3.1 group</th><th>Score</th><th>Severity</th><th>Details</th></tr></thead><tbody>
+          <tr><td><strong>Base</strong></td><td>${base.toFixed(1)} / 10.0</td><td>${rating(base)}</td><td>Impact: ${impact.toFixed(4)} · Exploitability: ${exploit.toFixed(4)}</td></tr>
+          <tr><td><strong>Temporal</strong></td><td>${temporal.toFixed(1)} / 10.0</td><td>${rating(temporal)}</td><td>E:${m.E||"X"} · RL:${m.RL||"X"} · RC:${m.RC||"X"}</td></tr>
+          <tr><td><strong>Environmental</strong></td><td>${environmental.toFixed(1)} / 10.0</td><td>${rating(environmental)}</td><td>Modified impact: ${modifiedImpact.toFixed(4)} · Modified exploitability: ${modifiedExploit.toFixed(4)}</td></tr>
+        </tbody></table><p><strong>Vector:</strong> <code>${esc(input)}</code></p><p><strong>Environmental metrics:</strong> ${esc(envText)}</p>
+        <p>CVSS v3.1 is a vulnerability severity framework, not a complete organizational risk assessment. Verify the vector assumptions before using the score.</p>`;
     }
 
     return "";
@@ -1448,11 +1476,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           <div>
             <div class="psv-eyebrow">// INTERACTIVE SECURITY TOOLS</div>
             <h1 class="psv-hero-h1">Free <span>Security Tools</span><br>Built for Defenders.</h1>
-            <p class="psv-hero-desc">13 privacy-first SOC, threat intelligence, DFIR, and detection engineering tools. Everything runs locally in your browser with zero data logged.</p>
+            <p class="psv-hero-desc">13 browser-based SOC, DFIR, and detection-support tools. Most processing stays in your browser; the Threat Intel Hub contacts public providers only after you select Enrich Indicator.</p>
             <div class="psv-stats-bar">
               <div class="psv-stat-cell"><div class="psv-stat-val">13</div><div class="psv-stat-lbl">Security Tools</div></div>
-              <div class="psv-stat-cell"><div class="psv-stat-val">0</div><div class="psv-stat-lbl">Data Logged</div></div>
-              <div class="psv-stat-cell"><div class="psv-stat-val">100%</div><div class="psv-stat-lbl">Client-Side</div></div>
+              <div class="psv-stat-cell"><div class="psv-stat-val">Local</div><div class="psv-stat-lbl">Most Processing</div></div>
+              <div class="psv-stat-cell"><div class="psv-stat-val">Opt-in</div><div class="psv-stat-lbl">External Lookups</div></div>
             </div>
           </div>
 
@@ -1477,7 +1505,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
               <span style="margin-left:0.5rem;">PSV // SECURITY-TOOLS-CATALOG</span>
             </div>
-            <span>13 TOOLS · ZERO DATA LOGGED · CLIENT-SIDE</span>
+            <span>13 TOOLS · BROWSER-BASED · EXTERNAL LOOKUPS ARE OPT-IN</span>
           </div>
 
           <div class="psv-catalog-body">
@@ -1502,7 +1530,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                     <p class="psv-card-desc">${esc(t.desc)}</p>
                   </div>
                   <div class="psv-card-foot">
-                    <span class="psv-client-tag">● Client-Side</span>
+                    <span class="psv-client-tag">● Browser-based</span>
                     <span class="psv-open-link">Open Tool →</span>
                   </div>
                 </div>
@@ -1534,8 +1562,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <h1>${esc(tool.title)}</h1>
             <p>${esc(tool.desc)}</p>
             <div class="psv-hero-badges">
-              <span class="psv-pill-badge">🛡️ 100% Client-Side Execution</span>
-              <span class="psv-pill-badge">🔒 Zero Data Leaves Your Browser</span>
+              <span class="psv-pill-badge">Browser-based processing</span>
+              <span class="psv-pill-badge">${tool.id === "ti" ? "External requests on explicit action" : "No external lookup performed by this tool"}</span>
             </div>
           </div>
 
@@ -1550,7 +1578,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
             <div class="psv-term-body">
               <div class="psv-privacy-strip">
-                🔒 <strong>Privacy Guarantee:</strong> All parsing, decoding, and rule compilation runs locally in your browser memory.
+                <strong>Data handling:</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : tool.id === "sigma" ? "The input is processed in this browser for display only; no Sigma validation or conversion is performed." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
               </div>
 
               <div class="psv-field-label">
@@ -1664,6 +1692,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
         if (tid) {
+          tiLookupSequence++;
           activeToolId = tid;
           selectedOptionIdx = 0;
           currentView = "tool";
@@ -1692,7 +1721,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (ed && out) {
           if (!ed.value.trim()) ed.value = tool.sample;
           userInputs[tool.id] = ed.value;
-          out.innerHTML = computeDynamicOutput(tool, ed.value);
+          if (tool.id === "ti") runThreatIntelLookup(ed.value, out);
+          else out.innerHTML = computeDynamicOutput(tool, ed.value);
         }
       } else if (action === "load-sample") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
@@ -1704,6 +1734,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         userInputs[tool.id] = "";
         const ed = document.getElementById("psv-tool-editor");
         const out = document.getElementById("psv-tool-result-box");
+        if (tool.id === "ti") tiLookupSequence++;
         if (ed) ed.value = "";
         if (out) out.innerHTML = `<div style="color:#94a3b8;padding:0.5rem;">Workspace cleared. Click <strong>Reset Sample</strong> or paste your own telemetry above.</div>`;
       } else if (action === "copy-output") {
@@ -1738,6 +1769,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       } else if (e.target && e.target.id === "psv-tool-editor") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
         userInputs[tool.id] = e.target.value;
+        if (tool.id === "ti") tiLookupSequence++;
         const out = document.getElementById("psv-tool-result-box");
         if (out) out.innerHTML = computeDynamicOutput(tool, e.target.value);
       }
