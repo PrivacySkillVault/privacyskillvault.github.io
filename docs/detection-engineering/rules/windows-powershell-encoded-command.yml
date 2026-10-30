@@ -3,7 +3,7 @@ id: 2b3e1e76-7e3b-4a9d-9d81-001000000001
 status: test
 description: Detects PowerShell process creation with an encoded-command argument. Review context; this is not a malware verdict.
 author: Privacy Skill Vault
-date: 2026/10/31
+date: 2026-10-31
 logsource:
     product: windows
     category: process_creation

@@ -3,7 +3,7 @@ id: 2b3e1e76-7e3b-4a9d-9d81-001000000002
 status: test
 description: Detects a member added to the built-in local Administrators group using Windows Security Event 4732.
 author: Privacy Skill Vault
-date: 2026/10/31
+date: 2026-10-31
 logsource:
     product: windows
     service: security
