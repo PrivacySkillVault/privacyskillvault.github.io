@@ -1,7 +1,6 @@
 /* Privacy Skill Vault — Production SOC Workbench (Capture-Phase Event Engine) */
 (function () {
   "use strict";
-  if (!/\/tools(?:\/|$)/.test(window.location.pathname)) return;
 
   const CATEGORIES = [
     { id: "all", label: "All Tools" },
@@ -1753,6 +1752,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function init() {
+    if (!/\/tools(?:\/|$)/.test(window.location.pathname)) return;
     const h = window.location.hash || "";
     if (h.startsWith("#tool/")) {
       const id = h.replace("#tool/", "").trim();
