@@ -1,121 +1,24 @@
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header.title') }}">
-
-    <!-- Left: Brand Logo & Title -->
-    <a href="{{ config.site_url | default(nav.homepage.url, true) | url }}"
-       title="{{ config.site_name | e }}"
-       class="md-header__button md-logo"
-       aria-label="{{ config.site_name }}">
-
-      <img src="{{ config.theme.logo | url }}" alt="{{ config.site_name }} Logo">
-
+    <a href="{{ config.site_url | default(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}">
+      <img src="{{ config.theme.logo | url }}" alt="{{ config.site_name }} logo">
     </a>
-
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <span class="psv-brand-title">{{ config.site_name }}</span>
-      </div>
-    </div>
-
-
-    <!-- Right: Global Navigation -->
-    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
-
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">{{ config.site_name }}</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
       <ul class="psv-global-nav__list">
-
-        <li class="psv-global-nav__item">
-          <a href="{{ '' | url }}"
-             class="psv-global-nav__link{% if page and page.is_homepage %} psv-global-nav__link--active{% endif %}">
-            Home
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="{{ 'learn/' | url }}"
-             class="psv-global-nav__link{% if page and page.url.startswith('learn/') %} psv-global-nav__link--active{% endif %}">
-            Learn
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="{{ 'labs/' | url }}"
-             class="psv-global-nav__link{% if page and page.url.startswith('labs/') %} psv-global-nav__link--active{% endif %}">
-            Labs
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="{{ 'investigations/' | url }}"
-             class="psv-global-nav__link{% if page and page.url.startswith('investigations/') %} psv-global-nav__link--active{% endif %}">
-            Investigations
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="{{ 'tools/' | url }}"
-             class="psv-global-nav__link{% if page and page.url.startswith('tools/') %} psv-global-nav__link--active{% endif %}">
-            Tools
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="{{ 'blog/' | url }}"
-             class="psv-global-nav__link{% if page and page.url.startswith('blog/') %} psv-global-nav__link--active{% endif %}">
-            Blog
-          </a>
-        </li>
-
+        <li><a href="{{ '' | url }}" class="psv-global-nav__link{% if page and page.is_homepage %} psv-global-nav__link--active{% endif %}">Home</a></li>
+        <li><a href="{{ 'about/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('about') %} psv-global-nav__link--active{% endif %}">About</a></li>
+        <li><a href="{{ 'learn/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('learn/') %} psv-global-nav__link--active{% endif %}">Learn</a></li>
+        <li><a href="{{ 'labs/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('labs/') %} psv-global-nav__link--active{% endif %}">Labs</a></li>
+        <li><a href="{{ 'investigations/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('investigations/') %} psv-global-nav__link--active{% endif %}">Investigations</a></li>
+        <li><a href="{{ 'tools/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('tools/') %} psv-global-nav__link--active{% endif %}">Tools</a></li>
+        <li><a href="{{ 'blog/' | url }}" class="psv-global-nav__link{% if page and page.url.startswith('blog/') %} psv-global-nav__link--active{% endif %}">Blog</a></li>
       </ul>
-
     </nav>
-
-
-    <!-- Native Theme Switch -->
-    {% if config.theme.palette %}
-      {% if not config.theme.palette is mapping %}
-        {% include "partials/palette.html" %}
-      {% endif %}
-    {% endif %}
-
-
-    <!-- Accessible Mobile Navigation Toggle -->
-    <button
-      type="button"
-      class="psv-mobile-menu-toggle"
-      aria-expanded="false"
-      aria-controls="psv-global-nav"
-      aria-label="Toggle navigation menu"
-      onclick="
-        const nav = document.getElementById('psv-global-nav');
-        const isOpen = nav.classList.toggle('psv-global-nav--open');
-        this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      "
-      onkeydown="
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          const nav = document.getElementById('psv-global-nav');
-          const isOpen = nav.classList.toggle('psv-global-nav--open');
-          this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        }
-      "
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-
-      </svg>
+    {% if config.theme.palette %}{% if not config.theme.palette is mapping %}{% include "partials/palette.html" %}{% endif %}{% endif %}
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
-
   </nav>
 </header>
