@@ -684,6 +684,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#end-to-end-execution-runbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-end execution runbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#lab-evidence-standard" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -757,6 +768,62 @@
     
   
     Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -1786,6 +1853,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#end-to-end-execution-runbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-end execution runbook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#lab-evidence-standard" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1884,6 +1962,16 @@
 <td>Hypervisor, storage and virtual switches</td>
 </tr>
 <tr>
+<td>1A</td>
+<td><a href="platform-virtualbox/">VirtualBox host setup</a></td>
+<td>Windows x64 VirtualBox installation, host-only/internal networks and OPNsense NIC mapping</td>
+</tr>
+<tr>
+<td>1B</td>
+<td><a href="build-sequence/">End-to-end build sequence</a></td>
+<td>Ordered deployment gates from host preparation to SOC capstone</td>
+</tr>
+<tr>
 <td>2</td>
 <td><a href="platform-macos/">Mac Apple-silicon setup</a></td>
 <td>ARM virtualisation and supported guest images</td>
@@ -1943,7 +2031,7 @@
 <p>Build and validate one SIEM at a time. Security Onion is a separate, resource-intensive platform; do not co-host it with all other stacks on a constrained PC.</p>
 <h2 id="platform-allocation">Platform allocation<a class="headerlink" href="#platform-allocation" title="Permanent link">&para;</a></h2>
 <h3 id="windows-x64-pc-primary-host">Windows x64 PC — primary host<a class="headerlink" href="#windows-x64-pc-primary-host" title="Permanent link">&para;</a></h3>
-<p>Use this host for x86-64 Windows Server, Windows 11, Ubuntu, Splunk Enterprise, Security Onion and the primary SIEM labs. Security Onion requires x86-64 and its standalone deployment has a vendor bare minimum of 4 CPU cores, 24 GB RAM, 200 GB storage and 2 NICs.</p>
+<p>Use this host for x86-64 Windows Server, Windows 11, Ubuntu, Splunk Enterprise, Security Onion and the primary SIEM labs. Choose Hyper-V, VMware Workstation or VirtualBox as the primary hypervisor for a given build. The dedicated VirtualBox guide documents a tested-by-design network layout but remains untested until executed on physical hardware. Security Onion requires x86-64 and its standalone deployment has a vendor bare minimum of 4 CPU cores, 24 GB RAM, 200 GB storage and 2 NICs.</p>
 <h3 id="apple-silicon-macbook-arm64-host">Apple-silicon MacBook — ARM64 host<a class="headerlink" href="#apple-silicon-macbook-arm64-host" title="Permanent link">&para;</a></h3>
 <p>Use ARM64 guest images for Ubuntu, Kali and Windows 11 ARM. Elastic and Wazuh components can run on supported ARM64 Linux releases; check each component's support matrix. Splunk Enterprise does not support ARM architecture. VMware Fusion on Apple Silicon does not run x86-64 guest operating systems.</p>
 <p>Windows 11 ARM in Fusion has limitations including unavailable nested-virtualisation-dependent features such as WSL2 and VBS. Use a separate Linux VM for Docker-based vulnerable targets rather than relying on Docker Desktop inside this Windows ARM guest.</p>
@@ -2063,6 +2151,8 @@
 <h2 id="network-security-policy">Network security policy<a class="headerlink" href="#network-security-policy" title="Permanent link">&para;</a></h2>
 <p>Start with default-deny between segments. Allow only required management, DNS/NTP and telemetry flows. Kali may access only explicitly authorised target IPs/ports. Vulnerable targets must not be bridged to the home LAN. A sensor capture NIC should receive mirrored traffic and must not route or provide management access.</p>
 <p>A virtual switch is Layer 2 connectivity, not a firewall. Hyper-V private switches and Fusion host-only networks do not automatically connect across the two physical hosts. Cross-host integration requires an explicit lab router/firewall or a separate telemetry path.</p>
+<h2 id="end-to-end-execution-runbook">End-to-end execution runbook<a class="headerlink" href="#end-to-end-execution-runbook" title="Permanent link">&para;</a></h2>
+<p>Use the <a href="build-sequence/">End-to-end lab build sequence</a> as the master checklist. It links the host setup, OPNsense segmentation, operating-system deployment, endpoint telemetry, one-at-a-time SIEM installation, network monitoring, penetration-testing exercises and SOC validation into a controlled build order. Complete each acceptance gate before moving to the next stage.</p>
 <h2 id="lab-evidence-standard">Lab evidence standard<a class="headerlink" href="#lab-evidence-standard" title="Permanent link">&para;</a></h2>
 <p>Each lab write-up should record:
 1. Host CPU architecture, RAM and free SSD.
@@ -2077,6 +2167,8 @@
 <h2 id="official-documentation">Official documentation<a class="headerlink" href="#official-documentation" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://www.vmware.com/docs/desktop-hypervisor-faqs">VMware Fusion and Workstation FAQ</a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox downloads</a></li>
+<li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html">Oracle VirtualBox networking manual</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements">Microsoft Hyper-V host requirements</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows/arm/iso">Microsoft Windows 11 ARM ISO</a></li>
 <li><a href="https://www.kali.org/docs/introduction/download-official-kali-linux-images/">Kali official downloads and verification</a></li>

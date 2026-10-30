@@ -1,0 +1,2294 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/labs/platform-virtualbox/">
+      
+      
+        <link rel="prev" href="../platform-windows/">
+      
+      
+        <link rel="next" href="../build-sequence/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>VirtualBox Host Setup - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-1b-oracle-virtualbox-on-a-windows-x64-host" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href="../.." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../../standards/" class="psv-global-nav__link">Standards</a></li>
+        <li><a href="../../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../" class="psv-global-nav__link psv-global-nav__link--active">Labs</a></li>
+        <li><a href="../../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-confirm-host-readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Confirm host readiness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-download-and-install-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Download and install VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-a-dedicated-vm-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create a dedicated VM folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-create-the-virtual-networks-before-creating-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Create the virtual networks before creating VMs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Create the virtual networks before creating VMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-create-the-management-host-only-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Create the management host-only network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-use-named-internal-networks-for-isolated-segments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Use named Internal Networks for isolated segments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-understand-the-network-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Understand the network modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-build-the-opnsense-firewall-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Build the OPNsense firewall VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-create-the-first-guest-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Create the first guest VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-snapshot-clone-and-baseline-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Snapshot, clone and baseline procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-packet-capture-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Packet capture boundaries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-virtualbox-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. VirtualBox troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Validation checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official references
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Firewall & Routing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elastic-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../splunk-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wazuh-soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh SOC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-onion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Onion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../penetration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../soc-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOC Validation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/account-takeover-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/payment-fraud-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Fraud Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Detection Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/fixtures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Test Fixtures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-powershell-encoded-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell Encoded Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-local-admin-membership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Administrators Group Change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operational Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/detection-change-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Change & Validation Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/fraud-case-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fraud Investigation Case Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/incident-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cybersecurity Incident Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-confirm-host-readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Confirm host readiness
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-download-and-install-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Download and install VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-create-a-dedicated-vm-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Create a dedicated VM folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-create-the-virtual-networks-before-creating-vms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Create the virtual networks before creating VMs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Create the virtual networks before creating VMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-create-the-management-host-only-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Create the management host-only network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-use-named-internal-networks-for-isolated-segments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Use named Internal Networks for isolated segments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-understand-the-network-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Understand the network modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-build-the-opnsense-firewall-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Build the OPNsense firewall VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-create-the-first-guest-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Create the first guest VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-snapshot-clone-and-baseline-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Snapshot, clone and baseline procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-packet-capture-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Packet capture boundaries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-virtualbox-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. VirtualBox troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Validation checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official references
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lab-1b-oracle-virtualbox-on-a-windows-x64-host">Lab 1B — Oracle VirtualBox on a Windows x64 host<a class="headerlink" href="#lab-1b-oracle-virtualbox-on-a-windows-x64-host" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Build guide — not yet lab-tested</badge></p>
+<p>This is an alternative Windows x64 hypervisor path. Use it instead of Hyper-V or VMware Workstation for the first build, not in addition to them. VirtualBox on an x86-64 Windows host can run supported x86/x64 guests. On Apple-silicon hosts, VirtualBox runs ARM64 guests only; it cannot run OPNsense or Security Onion x86-64 guests there.</p>
+<h2 id="1-confirm-host-readiness">1. Confirm host readiness<a class="headerlink" href="#1-confirm-host-readiness" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Confirm Windows is 64-bit x64 and record its edition/build with <code>winver</code>.</li>
+<li>Confirm CPU virtualisation is enabled in UEFI/BIOS (Intel VT-x or AMD-V).</li>
+<li>Confirm at least 32 GB RAM; 64 GB is preferable for multiple security VMs.</li>
+<li>Keep at least 200–300 GB free on an SSD for the VM set, snapshots and evidence. This is a planning target, not a vendor minimum.</li>
+<li>Save the BitLocker recovery key and back up important host data before installing hypervisor networking components.</li>
+<li>Close other hypervisors and VM workloads during the initial smoke test.</li>
+</ol>
+<p>Run in elevated PowerShell:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">Get-ComputerInfo</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">WindowsProductName</span><span class="p">,</span> <span class="n">WindowsVersion</span><span class="p">,</span> <span class="n">OsArchitecture</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">Get-CimInstance</span> <span class="n">Win32_Processor</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">NumberOfCores</span><span class="p">,</span> <span class="n">VirtualizationFirmwareEnabled</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">Get-Volume</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">DriveLetter</span><span class="p">,</span> <span class="n">SizeRemaining</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">systeminfo</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div>
+<p>If Windows reports that a hypervisor is present, do not disable Hyper-V, VBS, Memory Integrity or WSL2 automatically. Current VirtualBox releases can use Windows hypervisor interfaces on supported Windows hosts, although this can affect performance and feature availability. First install the current supported VirtualBox release and inspect its VM log if acceleration is unavailable. Change Windows security features only after understanding the security and operational impact.</p>
+<h2 id="2-download-and-install-virtualbox">2. Download and install VirtualBox<a class="headerlink" href="#2-download-and-install-virtualbox" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Open the <a href="https://www.virtualbox.org/wiki/Downloads">official Oracle VirtualBox downloads page</a>.</li>
+<li>Select the current Windows hosts package. Do not download installers from third-party mirrors.</li>
+<li>Review the supported-host list and release notes for the exact version.</li>
+<li>Verify the downloaded installer is digitally signed by Oracle and that the signature is valid (File Explorer → Properties → Digital Signatures).</li>
+<li>Run the installer as Administrator. Accept the required networking components. Windows may briefly reset network connectivity while virtual adapters are installed.</li>
+<li>Complete installation and reboot if requested.</li>
+<li>Open VirtualBox Manager and confirm the installed version under Help → About.</li>
+<li>Install the Extension Pack only if you need a feature it provides. If installed, use the Extension Pack built for the exact same VirtualBox version and review its separate licence terms. Basic VM networking and the labs in this programme do not require the Extension Pack.</li>
+</ol>
+<p>Verify from PowerShell:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&amp;</span> <span class="s2">"$env:ProgramFiles\Oracle\VirtualBox\VBoxManage.exe"</span> <span class="p">-</span><span class="n">-version</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">&amp;</span> <span class="s2">"$env:ProgramFiles\Oracle\VirtualBox\VBoxManage.exe"</span> <span class="n">list</span> <span class="n">hostinfo</span>
+</span></code></pre></div>
+<h2 id="3-create-a-dedicated-vm-folder">3. Create a dedicated VM folder<a class="headerlink" href="#3-create-a-dedicated-vm-folder" title="Permanent link">&para;</a></h2>
+<p>Create the following folders on an SSD volume with sufficient free space:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>D:\CyberLab\
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ISO\
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  VMs\
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  Exports\
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  Evidence\
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  Backups\
+</span></code></pre></div>
+<p>In VirtualBox Manager, open File → Preferences → General and set the Default Machine Folder to <code>D:\CyberLab\VMs</code>. Keep ISO files, exports and evidence outside the VM disk folder. Snapshots are not backups; export or back up important guest data separately.</p>
+<h2 id="4-create-the-virtual-networks-before-creating-vms">4. Create the virtual networks before creating VMs<a class="headerlink" href="#4-create-the-virtual-networks-before-creating-vms" title="Permanent link">&para;</a></h2>
+<p>Open Tools → Network (or File → Tools → Network Manager; labels vary slightly by release).</p>
+<h3 id="41-create-the-management-host-only-network">4.1 Create the management host-only network<a class="headerlink" href="#41-create-the-management-host-only-network" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Open the Host-only Networks tab and create a host-only network.</li>
+<li>Select its Adapter properties.</li>
+<li>Set the host-side IPv4 address to <code>10.10.10.2</code> and mask to <code>255.255.255.0</code>.</li>
+<li>Disable the VirtualBox DHCP server for this host-only network. OPNsense will be the lab DHCP service where dynamic addressing is required.</li>
+<li>Do not configure a default gateway on the host-only adapter.</li>
+<li>Record the actual network name shown by VirtualBox; use that exact name when attaching VM adapters.</li>
+</ol>
+<p>The OPNsense MGMT interface will be <code>10.10.10.1/24</code>. The host-side address <code>10.10.10.2/24</code> lets the Windows host open the OPNsense management page without bridging the lab to the physical LAN.</p>
+<h3 id="42-use-named-internal-networks-for-isolated-segments">4.2 Use named Internal Networks for isolated segments<a class="headerlink" href="#42-use-named-internal-networks-for-isolated-segments" title="Permanent link">&para;</a></h3>
+<p>Create these network names by selecting Internal Network in each VM's adapter settings. VirtualBox creates the internal switch when the first VM uses the name.</p>
+<table>
+<thead>
+<tr>
+<th>VirtualBox network name</th>
+<th>Purpose</th>
+<th>Gateway after OPNsense is configured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PSV-ENDPOINT</code></td>
+<td>Windows and Linux user endpoints</td>
+<td><code>10.10.20.1</code></td>
+</tr>
+<tr>
+<td><code>PSV-SERVER</code></td>
+<td>Domain controller and SIEM server</td>
+<td><code>10.10.30.1</code></td>
+</tr>
+<tr>
+<td><code>PSV-REDTEAM</code></td>
+<td>Kali assessment source</td>
+<td><code>10.10.40.1</code></td>
+</tr>
+<tr>
+<td><code>PSV-DMZ</code></td>
+<td>OWASP Juice Shop and vulnerable targets</td>
+<td><code>10.10.60.1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Do not attach Kali or vulnerable targets to Bridged Adapter. Do not use VirtualBox's per-VM NAT mode as a substitute for the routed lab firewall: separate NAT-attached VMs are not automatically on one shared LAN.</p>
+<h3 id="43-understand-the-network-modes">4.3 Understand the network modes<a class="headerlink" href="#43-understand-the-network-modes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>NAT:</strong> a guest can make outbound connections through VirtualBox. By default, separate VMs using ordinary NAT are isolated from each other. Use only as the OPNsense WAN uplink or for a temporary single-VM update path.</li>
+<li><strong>Host-only:</strong> the host and attached VMs can communicate, but the network is not connected to the physical LAN. Use for MGMT.</li>
+<li><strong>Internal Network:</strong> only VMs attached to the same named internal network communicate at Layer 2. Use for ENDPOINT, SERVER, REDTEAM and DMZ.</li>
+<li><strong>Bridged Adapter:</strong> connects the guest to the physical network. Do not use for the attacker or intentionally vulnerable target VMs.</li>
+</ul>
+<p>A virtual network is not itself a firewall. OPNsense must route between segments and enforce the inter-segment policy.</p>
+<h2 id="5-build-the-opnsense-firewall-vm">5. Build the OPNsense firewall VM<a class="headerlink" href="#5-build-the-opnsense-firewall-vm" title="Permanent link">&para;</a></h2>
+<p>Use the Windows x64 PC for OPNsense. The OPNsense VM must use an x86-64 guest image. Follow <a href="../firewall-routing/">OPNsense Firewall &amp; Routing</a> for installation and firewall policy; this section defines the VirtualBox adapter mapping.</p>
+<p>Create a VM named <code>PSV-FW01</code>:</p>
+<ul>
+<li>Type: BSD; Version: FreeBSD (64-bit), or the closest supported FreeBSD x64 choice shown by your VirtualBox version.</li>
+<li>2 vCPU; 4 GB RAM as a starting lab allocation.</li>
+<li>20 GB dynamically allocated virtual disk.</li>
+<li>Attach the official OPNsense x86-64 DVD ISO.</li>
+<li>Configure the adapters exactly as follows before first boot.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>VirtualBox adapter</th>
+<th>Attached to</th>
+<th>Network name</th>
+<th>OPNsense role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adapter 1</td>
+<td>NAT</td>
+<td>—</td>
+<td>WAN</td>
+</tr>
+<tr>
+<td>Adapter 2</td>
+<td>Host-only Adapter</td>
+<td>The management host-only network created above</td>
+<td>MGMT</td>
+</tr>
+<tr>
+<td>Adapter 3</td>
+<td>Internal Network</td>
+<td><code>PSV-ENDPOINT</code></td>
+<td>ENDPOINT</td>
+</tr>
+<tr>
+<td>Adapter 4</td>
+<td>Internal Network</td>
+<td><code>PSV-SERVER</code></td>
+<td>SERVER</td>
+</tr>
+<tr>
+<td>Adapter 5</td>
+<td>Internal Network</td>
+<td><code>PSV-REDTEAM</code></td>
+<td>REDTEAM</td>
+</tr>
+<tr>
+<td>Adapter 6</td>
+<td>Internal Network</td>
+<td><code>PSV-DMZ</code></td>
+<td>DMZ</td>
+</tr>
+</tbody>
+</table>
+<p>For each enabled adapter, use an Intel PRO/1000-family adapter unless the current OPNsense/VirtualBox documentation for the selected release recommends another supported type. Keep cable connected enabled. Record each virtual NIC MAC address from Advanced settings before boot.</p>
+<p><strong>Important:</strong> VirtualBox adapter number does not guarantee the guest's interface name or assignment order. At the OPNsense console, identify interfaces by MAC address and link state. Assign WAN/MGMT/ENDPOINT/SERVER/REDTEAM/DMZ only after matching the MAC addresses. Never guess based only on names such as <code>em0</code> or <code>em1</code>.</p>
+<p>After installation, configure the OPNsense interface addresses and policies using the main firewall guide. On MGMT, the firewall address is <code>10.10.10.1/24</code>; browse from the Windows host to <code>https://10.10.10.1</code> after the host-only adapter and firewall interface are up.</p>
+<h2 id="6-create-the-first-guest-vm">6. Create the first guest VM<a class="headerlink" href="#6-create-the-first-guest-vm" title="Permanent link">&para;</a></h2>
+<p>Create an Ubuntu Server x86-64 VM as a smoke test:</p>
+<ul>
+<li>Name: <code>PSV-UBU-TEST01</code></li>
+<li>Type: Linux; Ubuntu (64-bit)</li>
+<li>2 vCPU, 4 GB RAM, 40 GB virtual disk</li>
+<li>Adapter 1: Internal Network <code>PSV-ENDPOINT</code></li>
+<li>Attach the official Ubuntu Server x86-64 ISO</li>
+<li>Install a named non-root user; enable OpenSSH only if required</li>
+</ul>
+<p>Once OPNsense DHCP is configured for ENDPOINT, boot the guest and verify:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uname<span class="w"> </span>-m
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>ip<span class="w"> </span>route
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>resolvectl<span class="w"> </span>status
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span></code></pre></div>
+<p>Expected architecture is <code>x86_64</code>. The guest should receive an address in the configured ENDPOINT DHCP range, gateway <code>10.10.20.1</code>, and the configured DNS resolver. If it does not, check the adapter's exact internal-network name, OPNsense interface assignment, DHCP service and firewall logs.</p>
+<h2 id="7-snapshot-clone-and-baseline-procedure">7. Snapshot, clone and baseline procedure<a class="headerlink" href="#7-snapshot-clone-and-baseline-procedure" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Apply guest OS updates and install only baseline utilities.</li>
+<li>Verify the guest has the intended network adapter and no bridged/NAT adapter that bypasses OPNsense.</li>
+<li>Shut down cleanly and take a snapshot named <code>baseline-clean</code>.</li>
+<li>Record guest OS build, architecture, MAC address, IP address, VM resources and network name.</li>
+<li>For repeatable endpoints, clone from a powered-off baseline. Generate a new MAC address for each clone.</li>
+<li>For Windows domain members, use supported Sysprep/generalisation or the Windows deployment workflow before cloning. Do not clone an already domain-joined machine with duplicated identity/SID/hostname state.</li>
+<li>Treat snapshots as rollback points, not backups of the SIEM data or domain controller.</li>
+</ol>
+<h2 id="8-packet-capture-boundaries">8. Packet capture boundaries<a class="headerlink" href="#8-packet-capture-boundaries" title="Permanent link">&para;</a></h2>
+<p>VirtualBox promiscuous-mode settings are not equivalent to a physical switch SPAN port. <code>Allow VMs</code> can expose traffic to/from other VMs on the same virtual network to a monitoring VM, subject to the selected adapter mode and host implementation. It does not automatically mirror all routed traffic across every VirtualBox internal network.</p>
+<p>For the first home lab, use one of these explicit approaches:</p>
+<ul>
+<li>Run Suricata on the OPNsense gateway to inspect traffic traversing the firewall interfaces, using the supported OPNsense plugin and documented configuration.</li>
+<li>Capture traffic on the individual VM or gateway interface with Wireshark/tcpdump.</li>
+<li>Build a separately designed mirror/tap path and prove that it receives the intended packets before claiming full network visibility.</li>
+</ul>
+<p>Do not claim Zeek, Suricata or Security Onion sees all lab traffic merely because its VM adapter is set to Promiscuous Mode. Confirm packet direction, interfaces, packet counters and a known test flow.</p>
+<h2 id="9-virtualbox-troubleshooting">9. VirtualBox troubleshooting<a class="headerlink" href="#9-virtualbox-troubleshooting" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VM reports VT-x/AMD-V unavailable</td>
+<td>Confirm firmware virtualisation; inspect VirtualBox VM log; check whether another hypervisor/security feature is affecting the backend. Do not disable Windows protections blindly.</td>
+</tr>
+<tr>
+<td>Guest has no DHCP address</td>
+<td>Confirm exact Internal Network name, OPNsense interface assignment, DHCP scope and firewall rules.</td>
+</tr>
+<tr>
+<td>Host cannot open OPNsense GUI</td>
+<td>Confirm host-only adapter IP, mask, firewall MGMT address, host-only DHCP disabled, and adapter attached to the correct host-only network.</td>
+</tr>
+<tr>
+<td>OPNsense sees interfaces in unexpected order</td>
+<td>Match VirtualBox adapter MAC addresses with OPNsense console interface/MAC output; reassign by MAC.</td>
+</tr>
+<tr>
+<td>Kali can reach the home LAN</td>
+<td>Power it off immediately; remove any Bridged adapter; inspect routes, OPNsense rules and any second NIC bypass.</td>
+</tr>
+<tr>
+<td>Sensor sees only some traffic</td>
+<td>Determine which virtual switch carries the flow. Promiscuous mode is not global SPAN; validate with a known packet capture.</td>
+</tr>
+<tr>
+<td>Performance is poor</td>
+<td>Run one SIEM at a time, reduce concurrent VMs, confirm SSD free space and guest memory pressure, and review Hyper-V/VBS backend implications.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-validation-checklist">10. Validation checklist<a class="headerlink" href="#10-validation-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] VirtualBox version and Windows host build recorded.</li>
+<li>[ ] Installer signature checked; Extension Pack omitted unless needed and version-matched if installed.</li>
+<li>[ ] Host-only MGMT network uses <code>10.10.10.2/24</code>, with VirtualBox DHCP disabled.</li>
+<li>[ ] Internal networks use the exact names in the network plan.</li>
+<li>[ ] OPNsense WAN is NAT; no lab guest uses Bridged Adapter.</li>
+<li>[ ] OPNsense NICs mapped by MAC address, not guessed by adapter order.</li>
+<li>[ ] Windows host can reach OPNsense MGMT only through host-only networking.</li>
+<li>[ ] Test guest receives the correct DHCP address, gateway and DNS.</li>
+<li>[ ] Inter-segment allow/deny tests are recorded.</li>
+<li>[ ] Snapshot restore and cleanup have been tested.</li>
+</ul>
+<h2 id="official-references">Official references<a class="headerlink" href="#official-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox downloads</a></li>
+<li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html">Oracle VirtualBox 7.2 User Manual — networking</a></li>
+<li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/Introduction.html">Oracle VirtualBox host/guest architecture support</a></li>
+<li><a href="https://docs.opnsense.org/manual/virtuals.html">OPNsense virtual installation</a></li>
+<li><a href="https://docs.opnsense.org/manual/how-tos/installova.html">OPNsense VirtualBox OVA installation notes</a></li>
+</ul>
+<p><strong>Current status:</strong> Reference build guide only. No VirtualBox VM or network has been installed or tested by PSV.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/psv-navigation.js"></script>
+      
+        <script src="../../javascripts/tools.js"></script>
+      
+    
+  </body>
+</html>

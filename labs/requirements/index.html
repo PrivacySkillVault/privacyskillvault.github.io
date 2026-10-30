@@ -716,6 +716,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../platform-macos/" class="md-nav__link">
         
   
@@ -1750,6 +1806,11 @@
 <td>Yes</td>
 </tr>
 <tr>
+<td>VirtualBox host</td>
+<td>Supported Windows x64 host; x86/x64 guests</td>
+<td>Apple-silicon VirtualBox host supports ARM64 guests only; no x86/x64 guests</td>
+</tr>
+<tr>
 <td>Kali x86-64 guest</td>
 <td>Yes</td>
 <td>No native x64 guest in Fusion</td>
@@ -1796,7 +1857,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Apple Silicon limitation:</strong> VMware Fusion on Apple Silicon supports 64-bit ARM guests only; x86 guest operating systems are not supported. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.</p>
+<p><strong>Apple Silicon limitation:</strong> VMware Fusion and Oracle VirtualBox on Apple Silicon support ARM64 guests only; x86/x64 guest operating systems are not supported. VirtualBox on Apple Silicon has additional limitations and is not a substitute for the Windows x64 host for OPNsense, Security Onion or Splunk Enterprise. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.</p>
 <h2 id="3-practical-planning-allocations">3. Practical planning allocations<a class="headerlink" href="#3-practical-planning-allocations" title="Permanent link">&para;</a></h2>
 <p>These are home-lab planning recommendations, not vendor minimums for every component.</p>
 <ul>
@@ -1813,6 +1874,7 @@
 <li>Windows Server/Windows client media: Microsoft Evaluation Center/download pages; read the exact evaluation and activation terms.</li>
 <li>Kali: official Kali images only; verify SHA-256.</li>
 <li>VMware Fusion/Workstation: Broadcom's official portal; verify host and guest compatibility for exact release.</li>
+<li>VirtualBox: use the official Oracle downloads and the matching release manual. On Apple Silicon, only ARM64 guests are supported; check the current host/guest matrix before installing.</li>
 <li>Splunk Enterprise and Universal Forwarder: current Splunk support matrix lists supported OS/architecture combinations. Splunk Enterprise does not support ARM architecture; Windows ARM is not a supported Enterprise/Universal Forwarder platform in the cited current matrix. Use x64 Windows/Linux on the PC.</li>
 <li>Elastic: verify the exact Elasticsearch, Kibana, Agent and integration versions in Elastic's support matrix. Keep components on a compatible release family.</li>
 <li>Wazuh: central components support x86_64/AMD64 and AARCH64/ARM64 Linux on listed OS versions.</li>
@@ -1823,6 +1885,8 @@
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements">Microsoft Hyper-V host requirements</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows/arm/iso">Microsoft Windows 11 ARM ISO</a></li>
 <li><a href="https://knowledge.broadcom.com/external/article/315602">Broadcom Fusion ARM guest compatibility</a></li>
+<li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/Introduction.html">Oracle VirtualBox host/guest architecture support</a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox downloads</a></li>
 <li><a href="https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.6/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises">Splunk Enterprise 10.6 on-premises system requirements</a></li>
 <li><a href="https://www.elastic.co/support/matrix">Elastic Support Matrix</a></li>
 <li><a href="https://documentation.wazuh.com/current/quickstart.html">Wazuh Quickstart requirements</a></li>

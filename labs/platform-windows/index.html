@@ -18,7 +18,7 @@
         <link rel="prev" href="../requirements/">
       
       
-        <link rel="next" href="../platform-macos/">
+        <link rel="next" href="../platform-virtualbox/">
       
       
         
@@ -690,6 +690,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#option-c-oracle-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C — Oracle VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -754,6 +765,62 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1725,6 +1792,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#option-c-oracle-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C — Oracle VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1860,6 +1938,18 @@
 <li>Record subnet, DHCP range, host adapter and NAT status for each VMnet.</li>
 </ol>
 <p>VMware menu names and licensing screens may vary by release. Follow the current product documentation for the exact version installed.</p>
+<h3 id="option-c-oracle-virtualbox">Option C — Oracle VirtualBox<a class="headerlink" href="#option-c-oracle-virtualbox" title="Permanent link">&para;</a></h3>
+<p>Use VirtualBox on this Windows x64 host when you want a separate, supported x86/x64 guest environment and its internal/host-only network model. Follow the dedicated <a href="../platform-virtualbox/">VirtualBox host and network build guide</a> for the exact installation, named network creation, OPNsense adapter mapping, first guest smoke test and packet-capture limitations. Do not combine this option with the Hyper-V/VMware network plan without deliberately redesigning the virtual switches.</p>
+<ol>
+<li>Download the current Windows hosts package from Oracle's official VirtualBox downloads page.</li>
+<li>Verify the Oracle digital signature and review the release's supported host/guest matrix.</li>
+<li>Install as Administrator; expect a brief network adapter reset while networking components are installed.</li>
+<li>Reboot if requested and verify the installed version in VirtualBox Manager.</li>
+<li>Do not install the Extension Pack unless a required feature needs it. If installed, its version must match the base VirtualBox version and its separate licence terms must be reviewed.</li>
+<li>Create a small Ubuntu x86-64 VM as a smoke test before creating the firewall or SIEM VMs.</li>
+<li>Do not attach Kali or intentionally vulnerable targets to Bridged Adapter.</li>
+</ol>
+<p>VirtualBox can operate alongside some Windows hypervisor features using its supported backend, but performance and feature availability can vary. Do not disable VBS, Memory Integrity, Hyper-V or WSL2 blindly to troubleshoot it; inspect the VirtualBox log and the current Oracle/Windows compatibility guidance first.</p>
 <h2 id="3-storage-layout">3. Storage layout<a class="headerlink" href="#3-storage-layout" title="Permanent link">&para;</a></h2>
 <p>Create a simple layout on the VM SSD:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>D:\CyberLab\
