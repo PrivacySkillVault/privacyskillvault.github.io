@@ -15,3 +15,7 @@ Learn how security telemetry is collected, normalised, searched, correlated, and
 Generate benign process and authentication activity in a controlled endpoint. Confirm that expected events are collected, identify the fields needed for a detection, test a query against available data, and document false-positive conditions.
 
 A rule is not production-ready merely because it parses or returns results. Record the data source, tested event samples, expected matches, false positives, performance considerations, and review date.
+
+## Applied walkthrough
+
+Continue with the [Windows Endpoint Telemetry: Sysmon to Elastic lab](../../labs/windows-endpoint-telemetry.md). It is a reference design until the environment, versions, event output, and SIEM collection are actually verified.
