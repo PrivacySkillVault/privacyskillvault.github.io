@@ -123,7 +123,7 @@ level: critical`
       badge: "EML",
       shortTitle: "Email Header Analyzer",
       title: "Email Header Analyzer",
-      desc: "Parse raw SMTP email headers to trace hop-by-hop routing delays, originating IPs, and SPF/DKIM/DMARC alignment.",
+      desc: "Parse supplied email headers and display Received hops plus reported SPF/DKIM/DMARC text. No cryptographic verification is performed.",
       options: ["Full Hop & Auth Analysis", "Extract Routing Hops Only"],
       actionLabel: "Analyze Email Headers",
       sample: `Return-Path: <security-notice@paypa1-support-alert.com>
@@ -137,9 +137,9 @@ X-Originating-IP: [91.215.85.19]
 Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support-alert.com; dkim=fail; dmarc=fail action=quarantine`,
       whatItDoes: "Reconstructs the chronological delivery path of an email from bottom-to-top Received headers, extracts sender envelope mismatches, and highlights SPF, DKIM, and DMARC authentication results.",
       whyItMatters: "Display names and From headers are trivially spoofed in phishing attacks. True attribution requires inspecting the bottom-most external Received hop, Return-Path, and Authentication-Results headers.",
-      howItWorks: "Parses multiline RFC 5322 header blocks locally, reverses the Received stack into chronological Hop 1 → Final Hop order, calculates inter-hop transit delays, and flags Reply-To/From domain discrepancies.",
+      howItWorks: "Parses supplied header text and displays Received lines in reverse order. It does not verify DKIM signatures, authenticate Authentication-Results provenance, or prove Received-line trustworthiness.",
       bestPractices: [
-        "Always trust the Authentication-Results header stamped by your own receiving mail gateway (top-most hop).",
+        "Treat Authentication-Results as untrusted until you validate the header added by your own receiving gateway; pasted text alone cannot establish provenance.",
         "Look for mismatches between the header From domain, the Return-Path (Envelope Sender), and the Reply-To address."
       ],
       faqs: [
@@ -175,7 +175,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       badge: "EVT",
       shortTitle: "Event ID Encyclopedia",
       title: "Windows & Sysmon Event Encyclopedia",
-      desc: "Search 30+ high-value Windows Security and Sysmon Event IDs with XML field schemas, MITRE ATT&CK mappings, and KQL hunts.",
+      desc: "Search 16 curated Windows Security and Sysmon Event ID references with selected fields, MITRE ATT&CK mappings, and example Elastic KQL hunts.",
       options: ["All Event Sources (16)", "Windows Security Only", "Sysmon Only"],
       actionLabel: "Search Event IDs",
       sample: "ALL",
@@ -222,10 +222,10 @@ LOG::2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user r
       cat: "dfir",
       badge: "YAR",
       shortTitle: "YARA Rule Builder",
-      title: "YARA Rule Builder & Syntax Linter",
-      desc: "Build complete YARA rules with custom strings, hex wildcards, PE header checks, and live unreferenced-string linting.",
+      title: "YARA Rule Text Builder & Reference Check",
+      desc: "Assemble YARA rule text and perform a limited string-reference check; this is not YARA syntax validation.",
       options: ["Preset: CobaltStrike Loader", "Preset: Ransomware Note & Crypto"],
-      actionLabel: "Build & Validate YARA",
+      actionLabel: "Build YARA Rule Text",
       sample: `RULE_NAME::Detect_CobaltStrike_Beacon_Loader
 META_AUTHOR::SOC Detection Engineering
 META_SEVERITY::Critical
@@ -235,15 +235,15 @@ $s2 = "ReflectiveLoader" ascii fullword
 $s3 = "VirtualAllocEx" ascii
 $hex1 = { 4D 5A 90 00 03 00 00 00 [4-16] 50 45 00 00 }
 CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
-      whatItDoes: "Compiles structured metadata, string definitions, and condition logic into a properly formatted YARA rule while checking for syntax errors, unbalanced quotes/hex braces, and unreferenced string variables.",
+      whatItDoes: "Assembles supplied metadata, string definitions, and condition text into a YARA-like rule template and checks whether declared string identifiers appear in the condition text.",
       whyItMatters: "Syntax typos or forgetting to reference a defined string in the condition block will cause YARA scanners and EDR hunting jobs to reject the rule.",
-      howItWorks: "Parses your custom STRINGS:: and CONDITION:: blocks, validates every $variable against the condition expression, and outputs the complete .yar file.",
+      howItWorks: "Extracts STRINGS:: and CONDITION:: sections, performs a simple textual reference check, and formats the text. It does not parse YARA grammar, validate modifiers or condition semantics, or compile a rule.",
       bestPractices: [
         "Filter by uint16(0) == 0x5A4D and filesize < 10MB first in your condition to dramatically speed up scanning.",
         "Combine unique strings with fullword and wide modifiers to catch UTF-16 compiled .NET/Windows binaries."
       ],
       faqs: [
-        { q: "Does this linter detect unused string variables?", a: "Yes. If you define $s4 in STRINGS:: but forget to include it in CONDITION::, the linter immediately warns you." }
+        { q: "Does this tool validate YARA syntax or compile the rule?", a: "No. It only checks for textual references to declared string identifiers. Use the YARA compiler or an approved engine to validate and compile the completed rule." }
       ],
       related: ["deobfuscator", "sigma", "ioc", "report"]
     },
@@ -296,11 +296,11 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       badge: "TIME",
       shortTitle: "Timestamp Converter",
       title: "Multi-Timezone Forensic Timestamp Converter",
-      desc: "Convert Unix Epoch (seconds, ms, ns), 18-digit Windows FileTime/LDAP timestamps, and ISO-8601 strings across timezones.",
+      desc: "Convert Unix Epoch seconds, milliseconds, microseconds and nanoseconds, 18-digit Windows FILETIME values, and parseable date strings. Calendar display is millisecond-precision.",
       options: ["Sample Epoch (Seconds)", "Sample Windows AD FileTime (18-Digit)", "Use Current Live UTC Time"],
       actionLabel: "Convert Timestamp",
       sample: "1760713462",
-      whatItDoes: "Converts between Unix Epoch (10-digit seconds, 13-digit milliseconds), 18-digit Windows Active Directory / NTFS FileTime intervals, and ISO-8601 strings, displaying UTC, Local Time, and relative offsets.",
+      whatItDoes: "Converts 10-digit Unix seconds, 13-digit milliseconds, 16-digit microseconds, 19-digit nanoseconds, 18-digit Windows FILETIME values, and parseable date strings.",
       whyItMatters: "During incident timeline reconstruction, firewall logs may be in UTC Epoch, Active Directory attributes (lastLogonTimestamp) in 18-digit FileTime, and endpoint logs in local time.",
       howItWorks: "Detects timestamp precision automatically by digit length and format, applying BigInt arithmetic for 100-nanosecond Windows FileTime epochs (since January 1, 1601).",
       bestPractices: [
@@ -317,7 +317,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       badge: "SEV",
       shortTitle: "Severity Calculator",
       title: "Incident Severity & SLA Calculator",
-      desc: "Calculate transparent SOC incident priority (P1–P4), numeric risk scores, SLA response windows, and containment playbooks.",
+      desc: "Apply a keyword-based triage heuristic to produce an illustrative score and example priority bands. It is not an approved SLA or containment decision.",
       options: ["Scenario: P1 Domain Controller Intrusion", "Scenario: P3 Isolated Workstation Alert"],
       actionLabel: "Calculate Incident Severity",
       sample: `ASSET_CRITICALITY::tier1_dc
@@ -325,14 +325,14 @@ DATA_SENSITIVITY::regulated_pii
 COMPROMISE_SCOPE::multi_host_lateral
 THREAT_STATUS::active_c2_exfil
 PRIVILEGE_LEVEL::domain_admin`,
-      whatItDoes: "Evaluates five core triage factors—Asset Criticality, Data Sensitivity, Compromise Scope, Threat Status, and Privilege Level—to compute a deterministic 0–100 score and P1–P4 Incident Priority.",
+      whatItDoes: "Applies fixed keyword weights to selected terms in raw input and maps the resulting illustrative score to example P1–P4 bands. The input is not parsed as structured fields.",
       whyItMatters: "Subjective severity ratings lead to alert fatigue on minor events or delayed escalation during critical domain-wide intrusions.",
-      howItWorks: "Dynamically weights each parameter in your input block and maps the resulting score to P1 (Critical), P2 (High), P3 (Medium), or P4 (Low) response SLAs.",
+      howItWorks: "Searches raw input for hard-coded keywords, adds fixed weights, caps the score at 100, and maps it to example priority labels. Thresholds and response times must be replaced with your organisation’s approved policy.",
       bestPractices: [
-        "Any confirmed compromise involving Domain Admin privileges or Tier-1 Domain Controllers should immediately escalate to P1."
+        "Use confirmed privileged-account or Tier-1 asset compromise as an escalation signal, but apply organisational severity criteria and assess scope, impact, confidence, and containment status."
       ],
       faqs: [
-        { q: "Does changing the values in the input box change the calculated score?", a: "Yes. Click between the P1 and P3 scenario pills or edit the text to watch the score and SLA dynamically recalculate." }
+        { q: "Is the score an authoritative incident severity?", a: "No. It is a simple keyword heuristic for discussion only. It does not replace incident commander judgement, approved severity criteria, or contractual/regulatory response SLAs." }
       ],
       related: ["report", "cvss", "ioc", "ti"]
     },
@@ -1163,27 +1163,23 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
 
     if (tool.id === "ioc") {
-      const useRaw = selectedOptionIdx === 1;
-      const fmt = v => (useRaw ? v : defang(v));
-      const ips = Array.from(new Set(input.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || []));
-      const urls = Array.from(new Set(input.match(/https?:\/\/[^\s"'<>]+/gi) || []));
-      const emails = Array.from(new Set(input.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g) || []));
-      const hashes = Array.from(new Set(input.match(/\b[a-fA-F0-9]{32,64}\b/g) || []));
-      const cves = Array.from(new Set(input.match(/\bCVE-\d{4}-\d{4,7}\b/gi) || []));
-      const rows = [
-        ...ips.map(v => ["IPv4 Address", v, fmt(v)]),
-        ...urls.map(v => ["URL", v, fmt(v)]),
-        ...emails.map(v => ["Email Address", v, fmt(v)]),
-        ...hashes.map(v => [v.length === 64 ? "SHA-256 Hash" : "MD5/SHA-1 Hash", v, v]),
-        ...cves.map(v => ["CVE Vulnerability", v.toUpperCase(), v.toUpperCase()])
-      ];
-      if (!rows.length) return `<div style="color:#fbbf24;">No indicators matched in the provided text.</div>`;
-      return `
-        <table class="psv-out-table">
-          <thead><tr><th>#</th><th>Indicator Type</th><th>Original Value</th><th>${useRaw ? "Extracted Value" : "Safe Defanged Output"}</th><th>Quick Pivot</th></tr></thead>
-          <tbody>${rows.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td style="color:#38bdf8;font-weight:600;">${esc(r[2])}</td><td><button type="button" class="psv-btn-util" style="padding:0.2rem 0.55rem;font-size:0.72rem;" data-psv-action="pivot-ti" data-indicator="${esc(r[1])}">Enrich →</button></td></tr>`).join("")}</tbody>
-        </table>
-      `;
+      const raw = selectedOptionIdx === 1;
+      const fmt = v => raw ? v : defang(v);
+      const unique = a => Array.from(new Set(a));
+      const validIPv4 = v => { const p=v.split("."); return p.length===4 && p.every(x=>/^(0|[1-9]\d{0,2})$/.test(x)&&Number(x)<=255); };
+      const urls = unique((input.match(/https?:\/\/[^\s"'<>]+/gi)||[]).map(v=>v.replace(/[),.;!?}\]]+$/g,"")));
+      const emails = unique(input.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g)||[]);
+      const ips = unique(input.match(/(?<![\w.])(?:\d{1,3}\.){3}\d{1,3}(?![\w.])/g)||[]).filter(validIPv4);
+      const hosts = urls.map(v=>{try{return new URL(v).hostname.toLowerCase().replace(/^\[|\]$/g,"")}catch(e){return ""}}).filter(Boolean);
+      const mailDomains = emails.map(v=>v.split("@").pop().toLowerCase());
+      const domains = unique([...hosts,...mailDomains,...(input.match(/(?<![A-Za-z0-9_-])(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,63}(?![A-Za-z0-9_-])/g)||[])].map(v=>v.toLowerCase())).filter(v=>!validIPv4(v)&&!v.includes(":"));
+      const hashes = unique([...(input.match(/(?<![A-Fa-f0-9])[A-Fa-f0-9]{32}(?![A-Fa-f0-9])/g)||[]).map(v=>v+"|MD5"),...(input.match(/(?<![A-Fa-f0-9])[A-Fa-f0-9]{40}(?![A-Fa-f0-9])/g)||[]).map(v=>v+"|SHA-1"),...(input.match(/(?<![A-Fa-f0-9])[A-Fa-f0-9]{64}(?![A-Fa-f0-9])/g)||[]).map(v=>v+"|SHA-256")]).map(v=>v.split("|"));
+      const cves=unique(input.match(/\bCVE-\d{4}-\d{4,7}\b/gi)||[]).map(v=>v.toUpperCase());
+      const rows=[...ips.map(v=>["IPv4 Address",v,fmt(v),true]),...urls.map(v=>["URL",v,fmt(v),false]),...domains.map(v=>["Domain",v,fmt(v),true]),...emails.map(v=>["Email Address",v,fmt(v),false]),...hashes.map(([v,t])=>[t+" Hash",v,v,false]),...cves.map(v=>["CVE Vulnerability",v,v,false])];
+      if(!rows.length)return '<div role="status">No supported indicators matched. IPv4 must contain four decimal octets in the range 0–255; hashes must be exactly 32, 40, or 64 hexadecimal characters.</div>';
+      return '<table class="psv-out-table"><thead><tr><th>#</th><th>Type</th><th>Original</th><th>'+(raw?"Extracted":"Safe Defanged Output")+'</th><th>Quick Pivot</th></tr></thead><tbody>'+
+        rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+(r[3]?'<button type="button" class="psv-btn-util" data-psv-action="pivot-ti" data-indicator="'+esc(r[1])+'">Enrich →</button>':'—')+'</td></tr>').join("")+
+        '</tbody></table><p class="psv-tool-note">Domain extraction includes URL hostnames, email domains, and domain-like text. It is pattern-based, not DNS validation. IPv4 is syntax-checked only; private/reserved ranges are not classified here.</p>';
     }
 
     if (tool.id === "ti") {
@@ -1196,28 +1192,27 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
 
     if (tool.id === "headers") {
-      const from = (input.match(/^From:\s*(.+)$/im) || [])[1] || "Not present";
-      const replyTo = (input.match(/^Reply-To:\s*(.+)$/im) || [])[1] || "Not present";
-      const returnPath = (input.match(/^Return-Path:\s*(.+)$/im) || [])[1] || "Not present";
-      const origIp = (input.match(/^X-Originating-IP:\s*(.+)$/im) || [])[1] || "Not present";
-      const spf = (input.match(/spf=(\w+)/i) || [])[1] || "none";
-      const dkim = (input.match(/dkim=(\w+)/i) || [])[1] || "none";
-      const dmarc = (input.match(/dmarc=(\w+)/i) || [])[1] || "none";
-      const hops = (input.match(/^Received:[\s\S]*?(?=\n[A-Za-z-]+:|\n\n|$)/gim) || []).reverse();
-
-      return `
-        <table class="psv-out-table">
-          <thead><tr><th>Header / Hop</th><th>Parsed Value</th><th>Security Verdict</th></tr></thead>
-          <tbody>
-            <tr><td>From</td><td>${esc(from)}</td><td>Sender Display Header</td></tr>
-            <tr><td>Reply-To</td><td>${esc(replyTo)}</td><td style="color:${from !== replyTo && replyTo !== "Not present" ? "#fbbf24" : "#34d399"};font-weight:700;">${from !== replyTo && replyTo !== "Not present" ? "⚠️ Spoofing Anomaly: Reply-To != From" : "✓ Aligned"}</td></tr>
-            <tr><td>Return-Path</td><td>${esc(returnPath)}</td><td>SMTP Envelope Sender</td></tr>
-            <tr><td>X-Originating-IP</td><td style="color:#38bdf8;font-weight:700;">${esc(origIp)}</td><td>Originating Client IP</td></tr>
-            <tr><td>SPF / DKIM / DMARC</td><td>SPF: <strong>${esc(spf.toUpperCase())}</strong> | DKIM: <strong>${esc(dkim.toUpperCase())}</strong> | DMARC: <strong>${esc(dmarc.toUpperCase())}</strong></td><td style="color:${/fail/i.test(spf + dkim + dmarc) ? "#f87171" : "#34d399"};font-weight:700;">${/fail/i.test(spf + dkim + dmarc) ? "❌ Authentication Failed (Quarantine/Reject)" : "✓ Passed"}</td></tr>
-            ${hops.map((h, i) => `<tr><td><strong>Hop #${i + 1}</strong></td><td colspan="2">${esc(h.replace(/\s+/g, " ").trim())}</td></tr>`).join("")}
-          </tbody>
-        </table>
-      `;
+      const getHeader = name => (input.match(new RegExp("^" + name + ":\\s*(.+)$", "im")) || [])[1] || "Not present";
+      const from=getHeader("From"), replyTo=getHeader("Reply-To"), returnPath=getHeader("Return-Path"), origIp=getHeader("X-Originating-IP");
+      const authHeaders=input.match(/^Authentication-Results:[^\r\n]*(?:\r?\n[ \t]+[^\r\n]*)*/gim)||[];
+      const authText=authHeaders.join(" | ");
+      const readResult=key=>{const m=authText.match(new RegExp("(?:^|[;\\s])"+key+"=([A-Za-z0-9_-]+)","i"));return m?m[1].toUpperCase():"Not reported";};
+      const spf=readResult("spf"),dkim=readResult("dkim"),dmarc=readResult("dmarc");
+      const hops=(input.match(/^Received:[^\r\n]*(?:\r?\n[ \t]+[^\r\n]*)*/gim)||[]).reverse();
+      const domain=value=>{const m=String(value).match(/@([A-Za-z0-9.-]+\.[A-Za-z]{2,})/);return m?m[1].toLowerCase():"";};
+      const fd=domain(from),rd=domain(replyTo),diff=Boolean(fd&&rd&&fd!==rd);
+      return '<div role="note" class="psv-tool-note"><strong>Important limitation:</strong> Text parser only. It does not cryptographically verify DKIM, SPF, or DMARC, and cannot establish whether Authentication-Results or Received headers were added by a trusted mail server. Validate the trusted gateway boundary using the original message and mail-platform logs.</div>'+
+      '<table class="psv-out-table"><thead><tr><th>Header / Hop</th><th>Parsed Value</th><th>Interpretation</th></tr></thead><tbody>'+
+      '<tr><td>From</td><td>'+esc(from)+'</td><td>Supplied header; not proof of sender identity</td></tr>'+
+      '<tr><td>Reply-To</td><td>'+esc(replyTo)+'</td><td>'+(diff?"Reply-To domain differs from From domain":"No domain difference established")+'</td></tr>'+
+      '<tr><td>Return-Path</td><td>'+esc(returnPath)+'</td><td>Supplied envelope-return header</td></tr>'+
+      '<tr><td>X-Originating-IP</td><td>'+esc(origIp)+'</td><td>Unverified header value; corroborate independently</td></tr>'+
+      '<tr><td>Reported SPF</td><td>'+esc(spf)+'</td><td>Text parsed from supplied Authentication-Results</td></tr>'+
+      '<tr><td>Reported DKIM</td><td>'+esc(dkim)+'</td><td>Text parsed; signature not verified</td></tr>'+
+      '<tr><td>Reported DMARC</td><td>'+esc(dmarc)+'</td><td>Text parsed from supplied Authentication-Results</td></tr>'+
+      authHeaders.map((h,i)=>'<tr><td>Authentication-Results #'+(i+1)+'</td><td colspan="2">'+esc(h.replace(/\s+/g," ").trim())+'</td></tr>').join("")+
+      hops.map((h,i)=>'<tr><td><strong>Received hop #'+(i+1)+'</strong></td><td colspan="2">'+esc(h.replace(/\s+/g," ").trim())+'</td></tr>').join("")+
+      '</tbody></table>';
     }
 
     if (tool.id === "sigma") {
@@ -1236,12 +1231,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (q === "all" || !q) return true;
         return e.id.toLowerCase().includes(q) || e.title.toLowerCase().includes(q) || e.mitre.toLowerCase().includes(q) || e.fields.toLowerCase().includes(q);
       });
-      const list = filtered.length ? filtered : EVENT_DB;
       return `
         <table class="psv-out-table">
           <thead><tr><th>Event ID</th><th>Source</th><th>Description & XML Fields</th><th>MITRE ATT&CK</th><th>Elastic KQL Hunt & Tuning</th></tr></thead>
           <tbody>
-            ${list.map(e => `<tr><td style="color:#38bdf8;font-weight:800;">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><br><span style="color:#94a3b8;font-size:0.74rem;">Fields: ${esc(e.fields)}</span></td><td style="color:#fbbf24;font-weight:700;">${esc(e.mitre)}</td><td><code>${esc(e.kql)}</code><br><span style="color:#94a3b8;font-size:0.73rem;">Tuning: ${esc(e.fp)}</span></td></tr>`).join("")}
+            ${filtered.length ? filtered.map(e => `<tr><td style="color:#38bdf8;font-weight:800;">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><br><span style="color:#94a3b8;font-size:0.74rem;">Fields: ${esc(e.fields)}</span></td><td style="color:#fbbf24;font-weight:700;">${esc(e.mitre)}</td><td><code>${esc(e.kql)}</code><br><span style="color:#94a3b8;font-size:0.73rem;">Tuning: ${esc(e.fp)}</span></td></tr>`).join("") : '<tr><td colspan="5">No matching event records. Try an event ID, keyword, or MITRE technique ID.</td></tr>'}
           </tbody>
         </table>
       `;
@@ -1289,12 +1283,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const compiled = `rule ${name} {\n  meta:\n    author = "${author}"\n    severity = "${sev}"\n    date = "${new Date().toISOString().slice(0, 10)}"\n  strings:\n    ${stringsRaw.split("\n").join("\n    ")}\n  condition:\n    ${condRaw}\n}`;
 
       return `
-        <div style="margin-bottom:0.65rem;font-size:0.8rem;font-weight:700;color:${unreferenced.length ? "#fbbf24" : "#34d399"};">
-          ${unreferenced.length ? `⚠️ Linter Warning: Unreferenced string variable(s): ${esc(unreferenced.join(", "))}` : `✓ YARA Linter Passed: ${definedVars.length} strings validated`}
+        <div role="note" style="margin-bottom:0.65rem;font-size:0.8rem;font-weight:700;color:${unreferenced.length ? "#fbbf24" : "#94a3b8"};">
+          ${unreferenced.length ? `Reference check warning: unreferenced string variable(s): ${esc(unreferenced.join(", "))}` : `Textual reference check: no unreferenced identifiers detected among ${definedVars.length} declared strings`}
         </div>
+        <p class="psv-tool-note">This is not a YARA parser or compiler. A clean reference check does not establish valid YARA syntax, modifiers, or condition semantics. Validate with the YARA compiler or approved engine.</p>
         <pre style="margin:0;color:#38bdf8;font-family:'Roboto Mono',SFMono-Regular,Consolas,monospace;font-size:0.8rem;white-space:pre-wrap;">${esc(compiled)}</pre>
-      `;
-    }
+      `;    }
 
     if (tool.id === "deobfuscator") {
       let decoded = input;
@@ -1349,52 +1343,34 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
 
     if (tool.id === "timestamp") {
-      let d;
-      if (/^\d{10}$/.test(input)) d = new Date(parseInt(input, 10) * 1000);
-      else if (/^\d{13}$/.test(input)) d = new Date(parseInt(input, 10));
-      else if (/^\d{18}$/.test(input)) d = new Date(Number(BigInt(input) / 10000n - 11644473600000n));
-      else d = new Date(input);
-
-      if (isNaN(d.getTime())) return `<div style="color:#f87171;">Invalid timestamp format: ${esc(input)}</div>`;
-      const sec = Math.floor(d.getTime() / 1000);
-      const ms = d.getTime();
-      const ft = (BigInt(ms) + 11644473600000n) * 10000n;
-      return `
-        <table class="psv-out-table">
-          <thead><tr><th>Timestamp Representation</th><th>Converted Value</th></tr></thead>
-          <tbody>
-            <tr><td>ISO-8601 (UTC)</td><td style="color:#38bdf8;font-weight:700;">${esc(d.toISOString())}</td></tr>
-            <tr><td>UTC String</td><td>${esc(d.toUTCString())}</td></tr>
-            <tr><td>Analyst Local Time</td><td>${esc(d.toString())}</td></tr>
-            <tr><td>Unix Epoch (Seconds)</td><td>${sec}</td></tr>
-            <tr><td>Unix Epoch (Milliseconds)</td><td>${ms}</td></tr>
-            <tr><td>Windows FileTime / LDAP (18-digit)</td><td>${ft.toString()}</td></tr>
-          </tbody>
-        </table>
-      `;
+      let date, precisionNote="", sourceKind="Date string";
+      try {
+        if(/^\d{10}$/.test(input)){date=new Date(Number(input)*1000);sourceKind="Unix epoch seconds";}
+        else if(/^\d{13}$/.test(input)){date=new Date(Number(input));sourceKind="Unix epoch milliseconds";}
+        else if(/^\d{16}$/.test(input)||/^\d{19}$/.test(input)){
+          const n=BigInt(input), ms=input.length===16?n/1000n:n/1000000n, rem=input.length===16?(n%1000n)*1000n:n%1000000n;
+          if(ms>8640000000000000n||ms< -8640000000000000n)throw new Error("Outside JavaScript Date range");
+          date=new Date(Number(ms));precisionNote="Sub-millisecond remainder: "+rem.toString().padStart(6,"0")+" ns.";sourceKind=input.length===16?"Unix epoch microseconds":"Unix epoch nanoseconds";
+        } else if(/^\d{18}$/.test(input)){
+          const n=BigInt(input), ms=n/10000n-11644473600000n;
+          if(ms>8640000000000000n||ms< -8640000000000000n)throw new Error("FILETIME outside JavaScript Date range");
+          date=new Date(Number(ms));precisionNote="FILETIME remainder: "+(n%10000n).toString()+" × 100 ns ticks.";sourceKind="Windows FILETIME";
+        } else date=new Date(input);
+      } catch(e){return '<div role="alert">Invalid timestamp: '+esc(e.message||input)+'</div>';}
+      if(!date||isNaN(date.getTime()))return '<div role="alert">Unsupported timestamp. Supported integer forms: 10, 13, 16, 18, or 19 digits; otherwise use a browser-parseable date string.</div>';
+      const ms=date.getTime(), ft=(BigInt(ms)+11644473600000n)*10000n;
+      return '<table class="psv-out-table"><thead><tr><th>Representation</th><th>Value</th></tr></thead><tbody>'+
+        '<tr><td>Detected Input Type</td><td>'+esc(sourceKind)+'</td></tr><tr><td>ISO-8601 UTC</td><td>'+esc(date.toISOString())+'</td></tr><tr><td>UTC String</td><td>'+esc(date.toUTCString())+'</td></tr><tr><td>Analyst Local Time</td><td>'+esc(date.toString())+'</td></tr><tr><td>Unix Seconds</td><td>'+Math.floor(ms/1000)+'</td></tr><tr><td>Unix Milliseconds</td><td>'+ms+'</td></tr><tr><td>Windows FILETIME</td><td>'+ft.toString()+'</td></tr>'+
+        (precisionNote?'<tr><td>Precision detail</td><td>'+esc(precisionNote)+'</td></tr>':"")+
+        '</tbody></table><p class="psv-tool-note">JavaScript Date calendar display has millisecond precision. Sub-millisecond input precision is shown separately and is not represented in the displayed date/time.</p>';
     }
 
     if (tool.id === "severity") {
-      let score = 20;
-      if (/tier1_dc|domain_controller|critical/i.test(input)) score += 30;
-      else if (/server|production/i.test(input)) score += 15;
-      if (/regulated_pii|pci|hipaa|secret/i.test(input)) score += 20;
-      if (/multi_host_lateral|domain_wide/i.test(input)) score += 15;
-      if (/active_c2_exfil|ransomware/i.test(input)) score += 15;
-      if (/domain_admin|root|system/i.test(input)) score += 10;
-      score = Math.min(100, score);
-      const p = score >= 85 ? "P1 — Critical (SLA: 15 mins)" : score >= 65 ? "P2 — High (SLA: 1 hour)" : score >= 40 ? "P3 — Medium (SLA: 4 hours)" : "P4 — Low (SLA: 24 hours)";
-
-      return `
-        <table class="psv-out-table">
-          <thead><tr><th>Metric</th><th>Calculated Result</th></tr></thead>
-          <tbody>
-            <tr><td>Incident Priority & SLA</td><td style="color:${score >= 85 ? "#f87171" : "#fbbf24"};font-weight:800;">${esc(p)}</td></tr>
-            <tr><td>Composite Triage Risk Score</td><td style="color:#38bdf8;font-weight:700;">${score} / 100</td></tr>
-            <tr><td>Mandatory Containment Actions</td><td>1. Isolate affected host(s) in EDR immediately.<br>2. Revoke active session tokens & Kerberos TGTs.<br>3. Block external C2 indicators at firewall/DNS.</td></tr>
-          </tbody>
-        </table>
-      `;
+      const signals=[{label:"Critical asset / domain controller",pattern:/tier1_dc|domain_controller|critical/i,points:30},{label:"Server / production asset",pattern:/server|production/i,points:15},{label:"Regulated or sensitive data",pattern:/regulated_pii|pci|hipaa|secret/i,points:20},{label:"Multi-host or domain-wide scope",pattern:/multi_host_lateral|domain_wide/i,points:15},{label:"Active C2 / exfiltration / ransomware",pattern:/active_c2_exfil|ransomware/i,points:15},{label:"Privileged identity",pattern:/domain_admin|root|system/i,points:10}];
+      let score=20;const matched=signals.filter(x=>x.pattern.test(input));matched.forEach(x=>score+=x.points);score=Math.min(100,score);
+      const p=score>=85?"P1 — Critical (example target: 15 min)":score>=65?"P2 — High (example target: 1 hour)":score>=40?"P3 — Medium (example target: 4 hours)":"P4 — Low (example target: 24 hours)";
+      return '<div role="note" class="psv-tool-note"><strong>Heuristic only:</strong> Starts at 20 and adds fixed weights when selected keywords appear anywhere in raw text. It does not parse structured fields, validate facts, infer confidence, or apply your organisation policy. Response targets are illustrative, not commitments.</div>'+
+      '<table class="psv-out-table"><thead><tr><th>Metric</th><th>Result</th></tr></thead><tbody><tr><td>Illustrative Priority Band</td><td>'+esc(p)+'</td></tr><tr><td>Heuristic Score</td><td>'+score+' / 100</td></tr><tr><td>Baseline</td><td>20 points</td></tr><tr><td>Matched Signals</td><td>'+(matched.length?matched.map(x=>esc(x.label+" (+"+x.points+")")).join("<br>"):"No configured signals matched")+'</td></tr><tr><td>Next Step</td><td>Validate business impact, evidence confidence, scope, threat activity, and containment status with the incident owner. Do not isolate systems or revoke sessions solely from this score; follow approved response procedures.</td></tr></tbody></table>';
     }
 
     if (tool.id === "report") {
@@ -1739,12 +1715,17 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (out) out.innerHTML = `<div style="color:#94a3b8;padding:0.5rem;">Workspace cleared. Click <strong>Reset Sample</strong> or paste your own telemetry above.</div>`;
       } else if (action === "copy-output") {
         const out = document.getElementById("psv-tool-result-box");
-        if (out && navigator.clipboard) {
-          navigator.clipboard.writeText(out.innerText);
-          copyFeedback = true;
-          render();
-          setTimeout(() => { copyFeedback = false; render(); }, 1500);
+        if (!out) return;
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+          target.textContent = "Clipboard unavailable — select output manually";
+          return;
         }
+        navigator.clipboard.writeText(out.innerText).then(() => {
+          target.textContent = "✓ Copied!";
+          setTimeout(() => { if (target.isConnected) target.textContent = "Copy Output"; }, 1500);
+        }).catch(() => {
+          target.textContent = "Copy failed — select output manually";
+        });
       } else if (action === "pivot-ti") {
         const ind = target.getAttribute("data-indicator") || "1.1.1.1";
         activeToolId = "ti";
@@ -1754,6 +1735,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         render();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
+    }, true);
+
+    window.addEventListener("keydown", function (e) {
+      const card = e.target && e.target.closest ? e.target.closest('.psv-tool-card[role="button"][data-psv-action="open-tool"]') : null;
+      if (!card || (e.key !== "Enter" && e.key !== " ")) return;
+      e.preventDefault();
+      card.click();
     }, true);
 
     window.addEventListener("input", function (e) {
