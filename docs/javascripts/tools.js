@@ -74,7 +74,7 @@ level: critical`
       badge: "IOC",
       shortTitle: "Bulk IoC Extractor",
       title: "Bulk IoC Extractor & Defanger",
-      desc: "Extract IPv4s, domains, URLs, emails, CVEs, and SHA-256/MD5 hashes from raw logs and defang indicators safely.",
+      desc: "Extract syntactically valid IPv4 values, domains, URLs, email addresses, CVEs, and MD5/SHA-1/SHA-256 hash candidates from text; optionally defang indicators.",
       options: ["Defang Output (hxxps / [.])", "Raw Extracted Values"],
       actionLabel: "Extract Indicators",
       sample: `2026-10-17 10:14:23 WKSTN-FIN-09 src=10.24.18.44 dst=185.220.101.42 url=https://login-gateway.evil-pay-verify.com/stage2/payload.ps1 user=admin
@@ -135,7 +135,7 @@ Reply-To: <collect-credentials@paypa1-support-alert.com>
 Subject: URGENT: Mandatory MFA Token Re-synchronization Required
 X-Originating-IP: [91.215.85.19]
 Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support-alert.com; dkim=fail; dmarc=fail action=quarantine`,
-      whatItDoes: "Reconstructs the chronological delivery path of an email from bottom-to-top Received headers, extracts sender envelope mismatches, and highlights SPF, DKIM, and DMARC authentication results.",
+      whatItDoes: "Parses supplied header fields and Received lines, extracts sender-address differences, and displays SPF, DKIM, and DMARC results as reported in supplied Authentication-Results text.",
       whyItMatters: "Display names and From headers are trivially spoofed in phishing attacks. True attribution requires inspecting the bottom-most external Received hop, Return-Path, and Authentication-Results headers.",
       howItWorks: "Parses supplied header text and displays Received lines in reverse order. It does not verify DKIM signatures, authenticate Authentication-Results provenance, or prove Received-line trustworthiness.",
       bestPractices: [
@@ -143,7 +143,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
         "Look for mismatches between the header From domain, the Return-Path (Envelope Sender), and the Reply-To address."
       ],
       faqs: [
-        { q: "Why are Received headers read from bottom to top?", a: "Each mail server prepends its Received line to the top of the header block as the message transits, so the bottom-most Received line represents the earliest hop." }
+        { q: "Does this tool verify DKIM or trust Authentication-Results?", a: "No. It parses text only; it does not verify DKIM signatures or establish which mail server added Authentication-Results." }
       ],
       related: ["ioc", "ti", "deobfuscator", "report"]
     },
@@ -315,11 +315,11 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       id: "severity",
       cat: "util",
       badge: "SEV",
-      shortTitle: "Severity Calculator",
-      title: "Incident Severity & SLA Calculator",
-      desc: "Apply a keyword-based triage heuristic to produce an illustrative score and example priority bands. It is not an approved SLA or containment decision.",
+      shortTitle: "Triage Heuristic",
+      title: "Incident Triage Heuristic (Illustrative)",
+      desc: "Apply a keyword-based triage heuristic to produce an illustrative score and example priority bands. It is not an approved severity policy, SLA, or containment decision.",
       options: ["Scenario: P1 Domain Controller Intrusion", "Scenario: P3 Isolated Workstation Alert"],
-      actionLabel: "Calculate Incident Severity",
+      actionLabel: "Estimate Triage Priority",
       sample: `ASSET_CRITICALITY::tier1_dc
 DATA_SENSITIVITY::regulated_pii
 COMPROMISE_SCOPE::multi_host_lateral
@@ -1485,7 +1485,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           </div>
 
           <div class="psv-catalog-body">
-            <input type="search" id="psv-cat-search" class="psv-search-bar" placeholder="Search 13 tools (e.g. ioc, sigma, sysmon, yara, phishing, cvss, timestamp)..." value="${esc(searchQuery)}" />
+            <input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search 13 tools (e.g. ioc, sigma, sysmon, yara, phishing, cvss, timestamp)..." value="${esc(searchQuery)}" />
 
             <div class="psv-cat-pills">
               ${CATEGORIES.map(c => {
@@ -1561,7 +1561,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 <span>INPUT TELEMETRY / PAYLOAD (EDIT BELOW OR CLICK A PRESET PILL)</span>
                 <span>REAL-TIME ENGINE</span>
               </div>
-              <textarea id="psv-tool-editor" class="psv-editor" spellcheck="false">${esc(currentInput)}</textarea>
+              <textarea id="psv-tool-editor" class="psv-editor" aria-label="Security tool input" spellcheck="false">${esc(currentInput)}</textarea>
 
               <div class="psv-action-bar">
                 <div class="psv-opt-group">
