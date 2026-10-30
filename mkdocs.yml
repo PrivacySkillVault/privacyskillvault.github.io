@@ -69,6 +69,18 @@ nav:
       - D05 - Operations, Maintenance & Capstone: learn/d05/index.md
   - Labs:
       - Overview: labs/index.md
+      - Hardware & Compatibility: labs/requirements.md
+      - Windows Host Setup: labs/platform-windows.md
+      - Mac Host Setup: labs/platform-macos.md
+      - Network Design: labs/network-design.md
+      - Operating Systems & Identity: labs/operating-systems.md
+      - Elastic SIEM: labs/elastic-siem.md
+      - Splunk SIEM: labs/splunk-siem.md
+      - Wazuh SOC: labs/wazuh-soc.md
+      - Network Monitoring: labs/network-monitoring.md
+      - Security Onion: labs/security-onion.md
+      - Penetration Testing: labs/penetration-testing.md
+      - SOC Validation Exercises: labs/soc-exercises.md
       - Windows Endpoint Telemetry Lab: labs/windows-endpoint-telemetry.md
   - Investigations:
       - Overview: investigations/index.md

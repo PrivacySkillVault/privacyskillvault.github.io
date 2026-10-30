@@ -2,6 +2,10 @@
 
 Connect security controls and detection content to stable, supportable operations. The objective is to demonstrate that a system or control can be operated, monitored, changed, recovered, and improved—not merely installed.
 
+## Enterprise-style home lab capstone
+
+Complete the [SOC validation exercises](../../labs/soc-exercises.md): prove endpoint event generation, SIEM ingestion, field mapping, positive/negative detection behaviour, network visibility, telemetry health and cleanup.
+
 ## Authoritative foundations
 
 - [NIST CSF 2.0](../../standards/index.md#nist-cybersecurity-framework-csf-20) — use the Govern and Identify outcomes to establish ownership and context, and the Protect, Detect, Respond, and Recover outcomes to organise operational work.

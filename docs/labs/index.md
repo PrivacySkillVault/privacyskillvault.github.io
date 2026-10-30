@@ -4,6 +4,27 @@ Practical environments and experiments that connect cybersecurity concepts to ob
 
 This section is documentation-led. A lab is described as **tested** only after the setup, versions, steps, and expected results have been verified. Proposed designs are reference architectures, not proof of running infrastructure.
 
+## Platform-specific build guides
+
+- [Windows x64 PC host setup](platform-windows.md)
+- [Apple-silicon MacBook setup](platform-macos.md)
+- [Hardware and compatibility matrix](requirements.md)
+- [Network segmentation and routing](network-design.md)
+- [Operating systems and identity](operating-systems.md)
+
+## SIEM and monitoring stacks
+
+- [Elastic SIEM and Fleet](elastic-siem.md)
+- [Splunk Enterprise and Universal Forwarder](splunk-siem.md)
+- [Wazuh all-in-one SOC](wazuh-soc.md)
+- [Zeek and Suricata network monitoring](network-monitoring.md)
+- [Security Onion standalone](security-onion.md) — x86-64 only
+
+## Offensive security and validation
+
+- [Isolated penetration-testing lab](penetration-testing.md)
+- [SOC validation exercises](soc-exercises.md)
+
 ## Featured walkthrough
 
 - [Windows Endpoint Telemetry: Sysmon to Elastic](windows-endpoint-telemetry.md) — a safe reference design for generating, collecting, and validating a benign Sysmon process event. **Reference design; not yet lab-tested.**

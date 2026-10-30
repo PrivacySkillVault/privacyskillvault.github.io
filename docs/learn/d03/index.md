@@ -2,6 +2,10 @@
 
 Use authorised testing to identify, validate, explain, and help remediate security weaknesses. This domain focuses on evidence-based verification rather than tool output alone.
 
+## Isolated assessment environment
+
+Use the [PSV penetration-testing lab](../../labs/penetration-testing.md) with Kali and deliberately vulnerable targets on a dedicated, non-bridged network. Verify isolation before scanning.
+
 ## Authoritative foundations
 
 ### OWASP Application Security Verification Standard 5.0.0

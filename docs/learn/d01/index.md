@@ -2,6 +2,10 @@
 
 Understand the systems and network services on which applications and security controls depend.
 
+## Build the lab foundation
+
+Follow the [PSV enterprise-style home lab programme](../../labs/index.md), beginning with hardware compatibility, hypervisor installation and network segmentation. The Windows PC and Apple-silicon Mac have separate build instructions.
+
 ## Learning areas
 
 - Networking: Ethernet, IPv4/IPv6, subnetting, routing, switching, VLANs, TCP/UDP, DNS, DHCP, HTTP/S, and TLS.
