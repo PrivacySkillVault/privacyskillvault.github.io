@@ -50,13 +50,13 @@ For each rule, use the following release gates:
 The Sigma project documents installation of `sigma-cli`, backend plugins, and conversion with a selected backend and processing pipeline. For a controlled workstation:
 
 ```bash
-python -m pip install --upgrade sigma-cli
+python -m pip install 'sigma-cli==3.1.0'
 sigma plugin install splunk
 sigma plugin install sysmon
 sigma convert -t splunk -p sysmon docs/detection-engineering/rules/windows-powershell-encoded-command.yml
 ```
 
-Use the current [Sigma CLI documentation](https://sigmahq.io/docs/) and the backend's own documentation to confirm the plugin name and options available at the time of use. A successful conversion proves that the selected toolchain accepted the rule for that backend; it does not prove that the query matches your telemetry or detects malicious activity.
+This repository's CI pins Sigma CLI 3.1.0 because the currently published Sysmon pipeline is not compatible with pySigma 2.x; do not force-install an incompatible plugin. Recheck the [Sigma CLI releases](https://github.com/SigmaHQ/sigma-cli/releases), [Sysmon pipeline releases](https://github.com/SigmaHQ/pySigma-pipeline-sysmon/releases), and plugin compatibility before upgrading. A successful conversion proves that the selected toolchain accepted the rule for that backend; it does not prove that the query matches your telemetry or detects malicious activity.
 
 ## Synthetic test fixture
 

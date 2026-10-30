@@ -33,7 +33,7 @@ jobs:
           schemaURL: https://raw.githubusercontent.com/SigmaHQ/sigma-specification/refs/tags/v2.1.0/json-schema/sigma-detection-rule-schema.json
       - name: Install Sigma CLI and conversion plugins
         run: |
-          python -m pip install sigma-cli
+          python -m pip install 'sigma-cli==3.1.0'
           sigma plugin install splunk
           sigma plugin install sysmon
       - name: Convert Sigma rules to Splunk SPL

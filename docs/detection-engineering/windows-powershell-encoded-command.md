@@ -71,7 +71,7 @@ tags:
     - attack.t1059.001
 \`\`\`
 
-The Sigma file is provided as source. CI validates it against the Sigma 2.1.0 JSON schema. Before operational use, also run the current Sigma CLI, convert it for the intended backend and pipeline, and test the converted query against raw events from the target SIEM. Schema validation does not prove detection semantics, backend compatibility, or production effectiveness.
+The Sigma file is provided as source. CI validates it against the Sigma 2.1.0 JSON schema and converts it using Sigma CLI 3.1.0 with the Splunk backend and Sysmon processing pipeline. This does not test the generated query against a live Splunk instance or real telemetry. Before operational use, test it against raw events from the target SIEM and confirm the installed backend/pipeline compatibility. Schema validation does not prove detection semantics, backend compatibility, or production effectiveness.
 
 The explicit command-line patterns are intentionally conservative and may miss unusual quoting, parameter abbreviations, or obfuscation. Expand only after testing the resulting noise and coverage.
 
