@@ -54,6 +54,7 @@ This is a logical design. It does not create network isolation by itself. Implem
 | 1 | [Windows host setup](platform-windows.md) | Hypervisor, storage and virtual switches |
 | 2 | [Mac Apple-silicon setup](platform-macos.md) | ARM virtualisation and supported guest images |
 | 3 | [Network design](network-design.md) | Segments, routing, firewall policy and isolation tests |
+| 3A | [OPNsense firewall](firewall-routing.md) | Routed interfaces, DHCP, DNS, NAT and default-deny rules |
 | 4 | [Operating systems and identity](operating-systems.md) | Windows Server, Windows client, Ubuntu and Kali |
 | 5 | [Elastic SIEM](elastic-siem.md) | Elasticsearch, Kibana, Fleet and endpoint telemetry |
 | 6 | [Splunk SIEM](splunk-siem.md) | Splunk Enterprise and Universal Forwarder |

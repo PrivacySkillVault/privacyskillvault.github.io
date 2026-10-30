@@ -73,6 +73,7 @@ nav:
       - Windows Host Setup: labs/platform-windows.md
       - Mac Host Setup: labs/platform-macos.md
       - Network Design: labs/network-design.md
+      - OPNsense Firewall & Routing: labs/firewall-routing.md
       - Operating Systems & Identity: labs/operating-systems.md
       - Elastic SIEM: labs/elastic-siem.md
       - Splunk SIEM: labs/splunk-siem.md
