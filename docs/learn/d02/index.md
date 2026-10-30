@@ -97,6 +97,15 @@ Do not invent universal thresholds for these measures. Set targets from the serv
 
 Continue with the [Windows Endpoint Telemetry: Sysmon to Elastic lab](../../labs/windows-endpoint-telemetry.md). It is explicitly a reference design until the actual Windows build, Sysmon configuration, Elastic integration version, event, and search result are recorded.
 
+## 7. Operational detection pack
+
+The [PSV Detection Engineering Pack](../../detection-engineering/index.md) contains two example detections with Sigma source, Elastic KQL and Splunk SPL starting queries, synthetic test cases, telemetry requirements, triage steps, and release gates:
+
+- PowerShell encoded-command execution (Sysmon Event ID 1)
+- Addition to the built-in local Administrators group (Windows Security Event ID 4732)
+
+These are test-status examples. The backend queries are authored starting points based on stated field assumptions, not confirmed output from a specific live SIEM. CI validates both Sigma files against the Sigma 2.1.0 schema and converts them to Splunk SPL with the applicable Sysmon and Splunk Windows pipelines. This does not validate the queries against a live SIEM; test them against raw events from your own environment.
+
 ## Evidence record for a detection change
 
 | Record | Required detail |

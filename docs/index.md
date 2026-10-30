@@ -19,6 +19,8 @@ The goal is straightforward: make technical work understandable, reproducible, a
   <a class="psv-card" href="investigations/"><span class="psv-card-kicker">03 / ANALYSE</span><h2>Investigations</h2><p>Defensive investigation walkthroughs, evidence handling, detection logic, and clearly labelled scenarios.</p></a>
   <a class="psv-card" href="tools/"><span class="psv-card-kicker">04 / USE</span><h2>Security tools</h2><p>Browser-based utilities and operational references for SOC and security analysis.</p></a>
   <a class="psv-card" href="standards/"><span class="psv-card-kicker">05 / REFERENCE</span><h2>Standards & frameworks</h2><p>Primary sources, version notes, applicability, and operational evidence references.</p></a>
+  <a class="psv-card" href="detection-engineering/"><span class="psv-card-kicker">06 / DETECT</span><h2>Detection engineering</h2><p>Test-status detections, SIEM query examples, telemetry requirements, and validation workflow.</p></a>
+  <a class="psv-card" href="operational-templates/"><span class="psv-card-kicker">07 / OPERATE</span><h2>Operational templates</h2><p>Detection change records, fraud case records, and incident report structures.</p></a>
 </div>
 
 ## How information is labelled

@@ -59,6 +59,12 @@ Use measures with clear definitions and owners. Examples include:
 
 These are example measures, not universal mandatory KPIs or regulatory thresholds. Define targets using business impact, risk appetite, service design, staffing, and approved obligations.
 
+## Operational deliverables
+
+Use the [Detection Engineering Pack](../../detection-engineering/index.md) for test-status Sigma rules, SIEM query starting points, and detection release gates.
+
+Use the [Operational Templates](../../operational-templates/index.md) for detection change records, fraud case records, and incident reports. Complete these in approved internal systems; do not publish customer or production evidence.
+
 ## Capstone approach
 
 Choose a small, authorised lab environment and define a measurable security objective. Build the environment, generate benign test activity, collect telemetry, implement a detection, validate the detection, investigate the result, tune false positives, document operational requirements, and demonstrate recovery or rollback.
