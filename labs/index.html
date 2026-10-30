@@ -6,16 +6,16 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Defensive Operations, Threat Analysis & Security Testing">
+        <meta name="description" content="A personal cybersecurity portfolio and practical knowledge base.">
       
       
-        <meta name="author" content="Privacy Skill Vault">
+        <meta name="author" content="Saju Varghese">
       
       
         <link rel="canonical" href="https://privacyskillvault.com/labs/">
       
       
-        <link rel="prev" href="../learn/">
+        <link rel="prev" href="../learn/d05/">
       
       
         <link rel="next" href="../investigations/">
@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../assets/branding/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -73,13 +73,18 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#labs" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -89,92 +94,27 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="header.title">
-
-    <!-- Left: Brand Logo & Title -->
-    <a href="https://privacyskillvault.com/"
-       title="Privacy Skill Vault"
-       class="md-header__button md-logo"
-       aria-label="Privacy Skill Vault">
-
-      <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault Logo">
-
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
     </a>
-
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <span class="psv-brand-title">Privacy Skill Vault</span>
-      </div>
-    </div>
-
-
-    <!-- Right: Global Navigation -->
-    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
-
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
       <ul class="psv-global-nav__list">
-
-        <li class="psv-global-nav__item">
-          <a href=".."
-             class="psv-global-nav__link">
-            Home
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../learn/"
-             class="psv-global-nav__link">
-            Learn
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="./"
-             class="psv-global-nav__link psv-global-nav__link--active">
-            Labs
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../investigations/"
-             class="psv-global-nav__link">
-            Investigations
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../tools/"
-             class="psv-global-nav__link">
-            Tools
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../blog/"
-             class="psv-global-nav__link">
-            Blog
-          </a>
-        </li>
-
-              <li class="psv-global-nav__item">
-          <a href="../about/"
-             class="psv-global-nav__link psv-global-nav__link--about">
-            About
-          </a>
-        </li>
-
+        <li><a href=".." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="./" class="psv-global-nav__link psv-global-nav__link--active">Labs</a></li>
+        <li><a href="../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../blog/" class="psv-global-nav__link">Blog</a></li>
       </ul>
-
     </nav>
-
-
-    <!-- Native Theme Switch -->
-    
-      
-        <form class="md-header__option" data-md-component="palette">
+    <form class="md-header__option" data-md-component="palette">
   
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -184,7 +124,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -192,49 +132,10 @@
     
   
 </form>
-      
-    
-
-
-    <!-- Accessible Mobile Navigation Toggle -->
-    <button
-      type="button"
-      class="psv-mobile-menu-toggle"
-      aria-expanded="false"
-      aria-controls="psv-global-nav"
-      aria-label="Toggle navigation menu"
-      onclick="
-        const nav = document.getElementById('psv-global-nav');
-        const isOpen = nav.classList.toggle('psv-global-nav--open');
-        this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      "
-      onkeydown="
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          const nav = document.getElementById('psv-global-nav');
-          const isOpen = nav.classList.toggle('psv-global-nav--open');
-          this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        }
-      "
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-
-      </svg>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
-
   </nav>
 </header>
     
@@ -303,8 +204,46 @@
   
   
     <li class="md-nav__item">
-      <a href="../learn/" class="md-nav__link">
+      <a href="../about/" class="md-nav__link">
         
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -318,7 +257,191 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -336,6 +459,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -353,6 +496,97 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab-areas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab areas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lab areas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure-and-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure and platform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#offensive-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offensive security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-write-up-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab write-up standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -439,12 +673,7 @@
   
 
     
-    <li class="md-nav__item">
-    <a href="../about/" class="md-nav__link md-nav__link--about">
-      <span class="md-ellipsis">About</span>
-    </a>
-  </li>
-</ul>
+  </ul>
 </nav>
                   </div>
                 </div>
@@ -461,6 +690,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab-areas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab areas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lab areas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure-and-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure and platform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#offensive-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offensive security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-write-up-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lab write-up standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -477,1016 +788,30 @@
 
 
 
-<div class="psv-labs-page">
-
-<section class="psv-labs-hero">
-
-  <div class="psv-labs-hero__main">
-
-    <p class="psv-labs-eyebrow psv-labs-label"><span class="psv-labs-eyebrow">HANDS-ON SECURITY LABS</span></p>
-
-    <h1>
-  Build. Test. <span class="psv-labs-heading-accent">Investigate.</span>
-</h1>
-
-    <p class="psv-labs-hero__lead">
-      The Labs section brings together the hands-on environments, experiments,
-      and practical exercises used to turn cybersecurity concepts into working skills.
-    </p>
-
-    <p class="psv-labs-hero__support">
-      The environment is built as an integrated security laboratory — combining
-      infrastructure, enterprise systems, defensive activity, telemetry, detection,
-      investigation, automation, and operational validation.
-    </p>
-
-  </div>
-
-          <div class="psv-labs-hero__visual">
-
-    <svg
-      class="psv-labs-reference-visual"
-      viewBox="0 0 820 420"
-      role="img"
-      aria-label="Privacy Skill Vault laboratory workflow from build and testing through telemetry, detection, investigation and response"
-    >
-
-      <defs>
-
-        <pattern
-          id="psvReferenceGrid"
-          width="24"
-          height="24"
-          patternUnits="userSpaceOnUse"
-        >
-          <path
-            d="M24 0H0V24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width=".6"
-            opacity=".08"
-          />
-        </pattern>
-
-        <linearGradient
-          id="psvBlueBase"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="#DDEBFF" stop-opacity=".55"/>
-        </linearGradient>
-
-        <linearGradient
-          id="psvCyanBase"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="#D9FFFF" stop-opacity=".55"/>
-        </linearGradient>
-
-        <linearGradient
-          id="psvPurpleBase"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-        >
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="#EEE2FF" stop-opacity=".6"/>
-        </linearGradient>
-
-        <filter
-          id="psvReferenceGlow"
-          x="-80%"
-          y="-80%"
-          width="260%"
-          height="260%"
-        >
-          <feGaussianBlur stdDeviation="8"/>
-        </filter>
-
-        <filter
-          id="psvReferenceSoftGlow"
-          x="-80%"
-          y="-80%"
-          width="260%"
-          height="260%"
-        >
-          <feGaussianBlur stdDeviation="3"/>
-        </filter>
-
-      </defs>
-
-
-      <!-- =================================================
-           BACKGROUND GRID
-           ================================================= -->
-
-      <rect
-        x="8"
-        y="8"
-        width="804"
-        height="404"
-        rx="10"
-        class="psv-reference-background"
-      />
-
-      <rect
-        x="8"
-        y="8"
-        width="804"
-        height="404"
-        rx="10"
-        class="psv-reference-grid"
-      />
-
-
-      <!-- =================================================
-           BUILD / TEST
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="22"
-          y="55"
-          width="142"
-          height="155"
-          rx="9"
-          class="card"
-        />
-
-        <text x="38" y="79" class="card-label">
-          BUILD / TEST
-        </text>
-
-        <line
-          x1="38"
-          y1="89"
-          x2="148"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="57" y="116" class="item">
-          Windows
-        </text>
-
-        <text x="57" y="143" class="item">
-          Linux
-        </text>
-
-        <text x="57" y="170" class="item">
-          Kali
-        </text>
-
-        <circle cx="43" cy="112" r="3" class="item-dot"/>
-        <circle cx="43" cy="139" r="3" class="item-dot"/>
-        <circle cx="43" cy="166" r="3" class="item-dot"/>
-
-        <text x="38" y="193" class="item-sub">
-          enterprise · attack
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           TELEMETRY
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="183"
-          y="55"
-          width="142"
-          height="155"
-          rx="9"
-          class="card"
-        />
-
-        <text x="199" y="79" class="card-label">
-          TELEMETRY
-        </text>
-
-        <line
-          x1="199"
-          y1="89"
-          x2="309"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="218" y="116" class="item">
-          Sysmon
-        </text>
-
-        <text x="218" y="143" class="item">
-          Auditd
-        </text>
-
-        <text x="218" y="170" class="item">
-          Suricata
-        </text>
-
-        <text x="218" y="197" class="item">
-          Zeek
-        </text>
-
-        <circle cx="204" cy="112" r="3" class="item-dot"/>
-        <circle cx="204" cy="139" r="3" class="item-dot"/>
-        <circle cx="204" cy="166" r="3" class="item-dot"/>
-        <circle cx="204" cy="193" r="3" class="item-dot"/>
-
-      </g>
-
-
-      <!-- =================================================
-           FLOW 1
-           ================================================= -->
-
-      <path
-        d="M164 132 H183"
-        class="reference-arrow-line"
-      />
-
-      <path
-        d="M176 126 L184 132 L176 138"
-        class="reference-arrow"
-      />
-
-
-      <!-- =================================================
-           DETECTION CORE
-           ================================================= -->
-
-      <g class="psv-reference-detection">
-
-        <!-- glow -->
-
-        <ellipse
-          cx="409"
-          cy="181"
-          rx="82"
-          ry="22"
-          class="detection-glow"
-        />
-
-        <!-- upper rings -->
-
-        <ellipse
-          cx="409"
-          cy="75"
-          rx="51"
-          ry="13"
-          class="detection-ring"
-        />
-
-        <ellipse
-          cx="409"
-          cy="84"
-          rx="51"
-          ry="13"
-          class="detection-ring secondary"
-        />
-
-        <!-- cylinder -->
-
-        <ellipse
-          cx="409"
-          cy="102"
-          rx="45"
-          ry="14"
-          class="server-top"
-        />
-
-        <rect
-          x="364"
-          y="102"
-          width="90"
-          height="78"
-          class="server-body"
-        />
-
-        <ellipse
-          cx="409"
-          cy="180"
-          rx="45"
-          ry="14"
-          class="server-bottom"
-        />
-
-        <!-- server layers -->
-
-        <ellipse
-          cx="409"
-          cy="120"
-          rx="42"
-          ry="12"
-          class="server-line"
-        />
-
-        <ellipse
-          cx="409"
-          cy="145"
-          rx="42"
-          ry="12"
-          class="server-line"
-        />
-
-        <ellipse
-          cx="409"
-          cy="169"
-          rx="42"
-          ry="12"
-          class="server-line"
-        />
-
-        <!-- lights -->
-
-        <circle cx="386" cy="120" r="2.5" class="server-light"/>
-        <circle cx="397" cy="120" r="2.5" class="server-light"/>
-        <circle cx="408" cy="120" r="2.5" class="server-light"/>
-        <circle cx="419" cy="120" r="2.5" class="server-light"/>
-        <circle cx="430" cy="120" r="2.5" class="server-light"/>
-
-        <circle cx="386" cy="145" r="2.5" class="server-light"/>
-        <circle cx="397" cy="145" r="2.5" class="server-light"/>
-        <circle cx="408" cy="145" r="2.5" class="server-light"/>
-        <circle cx="419" cy="145" r="2.5" class="server-light"/>
-        <circle cx="430" cy="145" r="2.5" class="server-light"/>
-
-        <!-- platform -->
-
-        <ellipse
-          cx="409"
-          cy="190"
-          rx="70"
-          ry="15"
-          class="detection-platform-glow"
-        />
-
-        <ellipse
-          cx="409"
-          cy="188"
-          rx="66"
-          ry="13"
-          class="detection-platform"
-        />
-
-        <text
-          x="409"
-          y="219"
-          text-anchor="middle"
-          class="detection-label"
-        >
-          DETECTION
-        </text>
-
-        <text
-          x="409"
-          y="235"
-          text-anchor="middle"
-          class="detection-sub"
-        >
-          Elastic · Wazuh
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           FLOW 2
-           ================================================= -->
-
-      <path
-        d="M325 132 H355"
-        class="reference-arrow-line"
-      />
-
-      <path
-        d="M348 126 L356 132 L348 138"
-        class="reference-arrow"
-      />
-
-
-      <!-- =================================================
-           INVESTIGATION
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="493"
-          y="55"
-          width="142"
-          height="155"
-          rx="9"
-          class="card investigation"
-        />
-
-        <text x="509" y="79" class="card-label">
-          INVESTIGATE
-        </text>
-
-        <line
-          x1="509"
-          y1="89"
-          x2="619"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="528" y="124" class="item">
-          TheHive
-        </text>
-
-        <text x="528" y="160" class="item">
-          MISP
-        </text>
-
-        <circle cx="514" cy="120" r="3" class="investigation-dot"/>
-        <circle cx="514" cy="156" r="3" class="investigation-dot"/>
-
-        <text x="509" y="193" class="item-sub">
-          evidence · intelligence
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           FLOW 3
-           ================================================= -->
-
-      <path
-        d="M635 132 H665"
-        class="reference-arrow-line"
-      />
-
-      <path
-        d="M658 126 L666 132 L658 138"
-        class="reference-arrow"
-      />
-
-
-      <!-- =================================================
-           RESPONSE
-           ================================================= -->
-
-      <g class="psv-reference-card">
-
-        <rect
-          x="675"
-          y="55"
-          width="120"
-          height="155"
-          rx="9"
-          class="card response"
-        />
-
-        <text x="691" y="79" class="card-label">
-          RESPOND
-        </text>
-
-        <line
-          x1="691"
-          y1="89"
-          x2="779"
-          y2="89"
-          class="card-line"
-        />
-
-        <text x="706" y="120" class="response-item">
-          ✓ Evidence
-        </text>
-
-        <text x="706" y="151" class="response-item">
-          ✓ Response
-        </text>
-
-        <text x="706" y="182" class="response-item">
-          ✓ Validate
-        </text>
-
-      </g>
-
-
-      <!-- =================================================
-           LOWER LIFECYCLE
-           ================================================= -->
-
-      <path
-        d="M96 238
-           C96 275 96 287 135 287
-           H190"
-        class="lifecycle-line"
-      />
-
-      <path
-        d="M724 238
-           C724 275 724 287 685 287
-           H630"
-        class="lifecycle-line"
-      />
-
-      <path
-        d="M190 281 L198 287 L190 293"
-        class="lifecycle-arrow"
-      />
-
-      <path
-        d="M630 281 L622 287 L630 293"
-        class="lifecycle-arrow"
-      />
-
-      <text
-        x="410"
-        y="291"
-        text-anchor="middle"
-        class="lifecycle-text"
-      >
-        BUILD → TEST → OBSERVE → INVESTIGATE → RESPOND → VALIDATE
-      </text>
-
-
-      <!-- =================================================
-           SMALL TECHNICAL MARKERS
-           ================================================= -->
-
-      <circle cx="35" cy="335" r="2" class="marker"/>
-      <circle cx="47" cy="335" r="2" class="marker"/>
-      <circle cx="59" cy="335" r="2" class="marker"/>
-
-      <line
-        x1="72"
-        y1="335"
-        x2="748"
-        y2="335"
-        class="technical-line"
-      />
-
-      <text
-        x="35"
-        y="356"
-        class="technical-text"
-      >
-        SECURITY LAB / CONTROLLED ENVIRONMENT
-      </text>
-
-      <text
-        x="785"
-        y="356"
-        text-anchor="end"
-        class="technical-text"
-      >
-        PSV
-      </text>
-
-    </svg>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     INTEGRATED LAB ARCHITECTURE
-     ===================================================== -->
-
-<section class="psv-labs-section">
-
-  <p class="psv-labs-section-label psv-labs-label"><span class="psv-labs-eyebrow">ONE CONNECTED ENVIRONMENT</span></p>
-
-  <h2>Integrated Lab Architecture</h2>
-
-  <p class="psv-labs-section-intro">
-    The laboratory is designed as one connected environment, where activity
-    in one part of the lab can become telemetry, evidence, and investigation
-    elsewhere.
-  </p>
-
-
-  <div class="psv-labs-architecture">
-
-    <div class="psv-labs-architecture__top">
-
-      <div class="psv-labs-arch-box psv-labs-arch-box--wide">
-        <span class="psv-labs-arch-label">EXTERNAL</span>
-        <strong>Internet / WAN</strong>
-        <small>Controlled connectivity</small>
-      </div>
-
-      <div class="psv-labs-arch-arrow">↓</div>
-
-      <div class="psv-labs-arch-box psv-labs-arch-box--wide">
-        <span class="psv-labs-arch-label">NETWORK CONTROL</span>
-        <strong>pfSense</strong>
-        <small>Routing · Segmentation · Firewall</small>
-      </div>
-
-    </div>
-
-
-    <div class="psv-labs-arch-columns">
-
-      <div class="psv-labs-arch-column psv-labs-arch-column--enterprise">
-
-        <span class="psv-labs-arch-column-label">
-          ENTERPRISE ENVIRONMENT
-        </span>
-
-        <div class="psv-labs-arch-item">
-          <strong>Windows</strong>
-          <span>Active Directory · Clients</span>
-        </div>
-
-        <div class="psv-labs-arch-item">
-          <strong>Linux</strong>
-          <span>Servers · Services</span>
-        </div>
-
-      </div>
-
-
-      <div class="psv-labs-arch-column psv-labs-arch-column--attack">
-
-        <span class="psv-labs-arch-column-label">
-          ATTACK ENVIRONMENT
-        </span>
-
-        <div class="psv-labs-arch-item">
-          <strong>Kali Linux</strong>
-          <span>Security testing</span>
-        </div>
-
-        <div class="psv-labs-arch-item">
-          <strong>Simulation</strong>
-          <span>Controlled activity</span>
-        </div>
-
-      </div>
-
-
-      <div class="psv-labs-arch-column psv-labs-arch-column--services">
-
-        <span class="psv-labs-arch-column-label">
-          SERVICES
-        </span>
-
-        <div class="psv-labs-arch-item">
-          <strong>Applications</strong>
-          <span>Lab services</span>
-        </div>
-
-        <div class="psv-labs-arch-item">
-          <strong>Infrastructure</strong>
-          <span>Core services</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="psv-labs-architecture__flow">
-
-      <div class="psv-labs-flow-title">
-        SECURITY VISIBILITY
-      </div>
-
-      <div class="psv-labs-flow-grid">
-
-        <div>
-          <strong>System Activity</strong>
-          <span>Endpoints &amp; network</span>
-        </div>
-
-        <div>
-          <strong>Telemetry</strong>
-          <span>Sysmon · Auditd · Suricata · Zeek</span>
-        </div>
-
-        <div>
-          <strong>Centralization</strong>
-          <span>Agents · Beats · Log pipeline</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="psv-labs-architecture__flow">
-
-      <div class="psv-labs-flow-title">
-        SECURITY OPERATIONS
-      </div>
-
-      <div class="psv-labs-flow-grid psv-labs-flow-grid--four">
-
-        <div>
-          <strong>Elastic Security</strong>
-          <span>SIEM &amp; analytics</span>
-        </div>
-
-        <div>
-          <strong>Wazuh</strong>
-          <span>Endpoint security</span>
-        </div>
-
-        <div>
-          <strong>Suricata / Zeek</strong>
-          <span>Network visibility</span>
-        </div>
-
-        <div>
-          <strong>TheHive / MISP</strong>
-          <span>Cases &amp; intelligence</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="psv-labs-architecture__lifecycle">
-
-      <span>BUILD</span>
-      <i>→</i>
-      <span>ATTACK</span>
-      <i>→</i>
-      <span>DETECT</span>
-      <i>→</i>
-      <span>INVESTIGATE</span>
-      <i>→</i>
-      <span>RESPOND</span>
-      <i>→</i>
-      <span>VALIDATE</span>
-
-    </div>
-
-  </div>
-
-  <p class="psv-labs-architecture-note">
-    Exact virtual networks, addressing, host configuration, and deployment
-    procedures are documented inside the individual laboratory phases.
-  </p>
-
-</section>
-
-
-<!-- =====================================================
-     SEVEN LAB AREAS
-     ===================================================== -->
-
-<section class="psv-labs-section" id="lab-areas">
-
-  <p class="psv-labs-section-label psv-labs-label"><span class="psv-labs-eyebrow">30 PHASES</span></p>
-
-  <h2>The Seven Lab Areas</h2>
-
-  <p class="psv-labs-section-intro">
-    The complete laboratory is organized into seven connected areas covering
-    the build, operation, testing, investigation, and validation of the environment.
-  </p>
-
-
-  <div class="psv-labs-areas">
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">01</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 01–06</small>
-          <strong>Foundation &amp; Lab Platform</strong>
-          <em>
-            Build the host platform, virtualization environment, storage,
-            networking, and base operating systems.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>01 · Host Platform Preparation</span>
-        <span>02 · VMware Workstation Pro Installation &amp; Configuration</span>
-        <span>03 · Lab Storage &amp; Project Organization</span>
-        <span>04 · Virtual Network Infrastructure</span>
-        <span>05 · Base Operating System Installation</span>
-        <span>06 · Base Operating System Configuration</span>
-      </div>
-
-    </details>
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">02</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 07–10</small>
-          <strong>Enterprise Infrastructure</strong>
-          <em>
-            Establish identity, Windows and Linux systems, services,
-            clients, and the infrastructure required for security operations.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>07 · Active Directory &amp; Core Services</span>
-        <span>08 · Enterprise Server Configuration</span>
-        <span>09 · Windows Client Deployment</span>
-        <span>10 · Linux Server Configuration</span>
-      </div>
-
-    </details>
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">03</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 11–16</small>
-          <strong>Security Visibility &amp; SOC</strong>
-          <em>
-            Introduce SIEM, endpoint telemetry, network monitoring,
-            EDR, centralized logging, and SOC platform capabilities.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>11 · SIEM Platform Installation</span>
-        <span>12 · Endpoint Telemetry Collection</span>
-        <span>13 · Network Security Monitoring</span>
-        <span>14 · Endpoint Detection &amp; Response (EDR)</span>
-        <span>15 · Log Collection &amp; Centralization</span>
-        <span>16 · SOC Platform Configuration</span>
-      </div>
-
-    </details>
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">04</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 17–19</small>
-          <strong>Offensive Security &amp; Simulation</strong>
-          <em>
-            Build the controlled offensive environment and generate
-            security activity that can be observed and investigated.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>17 · Penetration Testing Platform</span>
-        <span>18 · Vulnerable Lab Targets</span>
-        <span>19 · Attack Simulation</span>
-      </div>
-
-    </details>
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">05</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 20–22</small>
-          <strong>Detection, Investigation &amp; Hunting</strong>
-          <em>
-            Turn telemetry into detections, investigations,
-            and practical threat-hunting workflows.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>20 · Detection Engineering</span>
-        <span>21 · Incident Investigation</span>
-        <span>22 · Threat Hunting</span>
-      </div>
-
-    </details>
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">06</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 23–27</small>
-          <strong>Threat Intelligence, Automation &amp; Resilience</strong>
-          <em>
-            Connect intelligence, optional cyber-fraud activity,
-            automation, monitoring, backup, and recovery.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>23 · Threat Intelligence Integration</span>
-        <span>24 · Cyber Fraud Environment (Optional)</span>
-        <span>25 · Security Automation</span>
-        <span>26 · Monitoring &amp; Health Checks</span>
-        <span>27 · Backup &amp; Recovery</span>
-      </div>
-
-    </details>
-
-
-    <details class="psv-labs-area">
-
-      <summary>
-        <span class="psv-labs-area__number">07</span>
-
-        <span class="psv-labs-area__content">
-          <small>PHASES 28–30</small>
-          <strong>Validation, Capstone &amp; Operations</strong>
-          <em>
-            Validate the environment, bring the components together,
-            exercise the resulting capability, and maintain it operationally.
-          </em>
-        </span>
-
-        <span class="psv-labs-area__toggle">View phases</span>
-      </summary>
-
-      <div class="psv-labs-phase-list">
-        <span>28 · Enterprise Validation</span>
-        <span>29 · Capstone Exercises</span>
-        <span>30 · Operations &amp; Maintenance</span>
-      </div>
-
-    </details>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     CTA
-     ===================================================== -->
-
-<section class="psv-labs-cta">
-
-  <div>
-
-    <p class="psv-labs-label"><span class="psv-labs-eyebrow">THE LAB ENVIRONMENT</span></p>
-
-
-    <span>
-      Explore the complete laboratory phases and detailed implementation
-      documentation inside the Labs Vault.
-    </span>
-
-  </div>
-
-  <a
-    href="https://labs.privacyskillvault.com/"
-    target="_blank"
-    rel="noopener"
-  >
-    EXPLORE LAB PHASES →
-  </a>
-
-</section>
-
-
-</div>
+<h1 id="labs">Labs<a class="headerlink" href="#labs" title="Permanent link">&para;</a></h1>
+<p>Practical environments and experiments that connect cybersecurity concepts to observable system behaviour.</p>
+<p>This section is documentation-led. A lab is described as <strong>tested</strong> only after the setup, versions, steps, and expected results have been verified. Proposed designs are reference architectures, not proof of running infrastructure.</p>
+<h2 id="lab-areas">Lab areas<a class="headerlink" href="#lab-areas" title="Permanent link">&para;</a></h2>
+<h3 id="infrastructure-and-platform">Infrastructure and platform<a class="headerlink" href="#infrastructure-and-platform" title="Permanent link">&para;</a></h3>
+<p>Linux and Windows systems, virtual machines, virtual networking, storage, identity, and container fundamentals.</p>
+<h3 id="security-monitoring">Security monitoring<a class="headerlink" href="#security-monitoring" title="Permanent link">&para;</a></h3>
+<p>A defensive stack can combine endpoint telemetry (such as Sysmon and Linux audit logs), network visibility (such as Zeek or Suricata), and central analysis (such as Elastic or Wazuh). Each integration should document resource requirements and data flow.</p>
+<h3 id="offensive-security">Offensive security<a class="headerlink" href="#offensive-security" title="Permanent link">&para;</a></h3>
+<p>Isolated targets for reconnaissance, web application testing, vulnerability validation, and remediation verification. Testing remains within systems owned by the lab or explicitly authorised for assessment.</p>
+<h3 id="experiments">Experiments<a class="headerlink" href="#experiments" title="Permanent link">&para;</a></h3>
+<p>Repeatable tests for log generation, detection logic, parsing, network behaviour, platform troubleshooting, and security-control validation.</p>
+<h2 id="lab-write-up-standard">Lab write-up standard<a class="headerlink" href="#lab-write-up-standard" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Objective, scope, and safety boundary</li>
+<li>Hardware, operating system, and software versions</li>
+<li>Architecture and network configuration</li>
+<li>Prerequisites and implementation steps</li>
+<li>Validation commands and expected results</li>
+<li>Observed output, issues, and troubleshooting</li>
+<li>Cleanup, rollback, and lessons learned</li>
+<li>References and last-reviewed date</li>
+</ol>
+<p>A diagram or proposed tool list is not proof that an environment has been deployed. Each future write-up will state its status explicitly.</p>
 
 
 
@@ -1542,12 +867,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../javascripts/psv-navigation.js"></script>
+      
+        <script src="../javascripts/tools.js"></script>
       
     
   </body>

