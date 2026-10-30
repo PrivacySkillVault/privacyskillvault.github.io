@@ -455,6 +455,14 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         color: #f1f5f9;
         padding: 1.5rem 0 4rem 0;
       }
+      #psv-app button, #psv-app input, #psv-app select, #psv-app textarea {
+        font-family: inherit;
+      }
+      #psv-app .psv-editor { font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace; }
+      #psv-app h1, #psv-app h2, #psv-app h3, #psv-app h4, #psv-app h5, #psv-app h6 {
+        font-weight: 700;
+        letter-spacing: -0.015em;
+      }
       [data-md-color-scheme="default"] #psv-app { color: #0f172a; }
       #psv-app svg { max-width: 22px; max-height: 22px; flex-shrink: 0; }
 
@@ -1267,7 +1275,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         <div style="margin-bottom:0.65rem;font-size:0.8rem;font-weight:700;color:${unreferenced.length ? "#fbbf24" : "#34d399"};">
           ${unreferenced.length ? `⚠️ Linter Warning: Unreferenced string variable(s): ${esc(unreferenced.join(", "))}` : `✓ YARA Linter Passed: ${definedVars.length} strings validated`}
         </div>
-        <pre style="margin:0;color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:0.8rem;white-space:pre-wrap;">${esc(compiled)}</pre>
+        <pre style="margin:0;color:#38bdf8;font-family:'Roboto Mono',SFMono-Regular,Consolas,monospace;font-size:0.8rem;white-space:pre-wrap;">${esc(compiled)}</pre>
       `;
     }
 
@@ -1316,7 +1324,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <thead><tr><th>Flattened ECS / SIEM Field Path</th><th>Extracted Value</th></tr></thead>
             <tbody>${Object.keys(flat).map(k => `<tr><td style="color:#38bdf8;font-weight:600;">${esc(k)}</td><td>${esc(flat[k])}</td></tr>`).join("")}</tbody>
           </table>
-          <pre style="margin:0;color:#cbd5e1;font-family:'JetBrains Mono',monospace;font-size:0.78rem;">${esc(JSON.stringify(obj, null, 2))}</pre>
+          <pre style="margin:0;color:#cbd5e1;font-family:'Roboto Mono',SFMono-Regular,Consolas,monospace;font-size:0.78rem;">${esc(JSON.stringify(obj, null, 2))}</pre>
         `;
       } catch (err) {
         return `<div style="color:#f87171;">JSON Syntax Error: ${esc(err.message)}</div>`;
@@ -1375,7 +1383,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     if (tool.id === "report") {
       const getVal = k => ((input.match(new RegExp(k + "::([\\s\\S]*?)(?=\\n[A-Z_]+::|$)", "i")) || [])[1] || "").trim();
       const md = `# SOC INCIDENT REPORT — ${getVal("INCIDENT_ID") || "INC-2026"}\n**Title:** ${getVal("TITLE")}\n**Severity:** ${getVal("SEVERITY")}\n**Detection Source:** ${getVal("DETECTION_SOURCE")}\n\n## 1. Affected Assets\n${getVal("AFFECTED_ASSETS")}\n\n## 2. MITRE ATT&CK Tactics & Techniques\n${getVal("MITRE_TACTICS")}\n\n## 3. Investigation Timeline (UTC)\n${getVal("TIMELINE")}\n\n## 4. Defanged Indicators of Compromise\n${defang(getVal("IOCS"))}\n\n## 5. Containment & Eradication Actions\n${getVal("CONTAINMENT")}`;
-      return `<pre style="margin:0;color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:0.8rem;white-space:pre-wrap;">${esc(md)}</pre>`;
+      return `<pre style="margin:0;color:#38bdf8;font-family:'Roboto Mono',SFMono-Regular,Consolas,monospace;font-size:0.8rem;white-space:pre-wrap;">${esc(md)}</pre>`;
     }
 
     if (tool.id === "cvss") {
