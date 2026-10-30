@@ -8,17 +8,29 @@ Use a fresh supported Ubuntu Server x86-64 VM on the Windows PC: start with 4–
 
 ## 2. Install Elasticsearch
 
-Follow Elastic's current official Debian/Ubuntu APT repository instructions, including the signing key and repository for the exact major version:
-[Install Elasticsearch with Debian package](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-with-debian-package).
+Follow Elastic's current official Debian/Ubuntu APT repository instructions. The following is the currently documented 9.x repository workflow; if Elastic publishes a new major release, use that major version's official guide and keep all stack components on the same version:
 
-Then install and start:
+```bash
+sudo apt-get update
+sudo apt-get install -y wget gnupg apt-transport-https
+sudo install -d -m 0755 /usr/share/keyrings
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/9.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-9.x.list
+sudo apt-get update
+sudo apt-get install -y elasticsearch
+```
+
+Start and enable Elasticsearch:
 
 \`\`\`bash
 sudo apt-get update
 sudo apt-get install -y elasticsearch
 sudo systemctl daemon-reload
-sudo systemctl enable --now elasticsearch
+sudo systemctl daemon-reload
+sudo systemctl enable elasticsearch.service
+sudo systemctl start elasticsearch.service
 sudo systemctl status elasticsearch --no-pager
+sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
 \`\`\`
 
 The package setup generates security credentials and TLS material. Save the generated elastic password securely. Do not disable authentication or TLS.

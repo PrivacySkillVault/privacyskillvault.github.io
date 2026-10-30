@@ -6,15 +6,20 @@ The all-in-one Wazuh deployment places manager, indexer and dashboard on one Lin
 
 ## 1. Prepare the server
 
-Use a fresh supported Ubuntu Server x86-64 VM on the Windows PC. Start with 4 vCPU, 8–12 GB RAM and 100 GB SSD-backed disk for a small lab. Check Wazuh's current quickstart sizing table for the number of agents and expected events. Run Wazuh separately from Elastic and Splunk initially.
+Use a fresh supported Ubuntu Server VM on the Windows PC or Mac. Wazuh central components support 64-bit Intel, AMD and ARM Linux on the operating systems listed in the current support matrix. For a 1–25 agent quickstart, Wazuh currently recommends 4 vCPU, 8 GiB RAM and 50 GB storage for 90 days of indexed alert data; use more disk for raw logs and longer retention. Run Wazuh separately from Elastic and Splunk initially.
 
 Set hostname and static address, update the OS, and confirm DNS/time are correct. Do not expose the dashboard to the public Internet.
 
 ## 2. Install using the official assistant
 
-1. Open the current Wazuh Quickstart documentation.
-2. Follow the all-in-one installation assistant command shown for the current release. The download URL and version may change; do not copy a stale assistant command from a blog.
-3. Run the assistant as instructed on the fresh server.
+1. Open the current Wazuh Quickstart documentation and confirm the current version, OS support and sizing. At the time this guide was checked, the official page documents Wazuh 4.14 and the following assistant command. If the current docs show a newer version, use that documented version instead:
+
+```bash
+curl -sO https://packages.wazuh.com/4.14/wazuh-install.sh
+sudo bash ./wazuh-install.sh -a
+```
+
+2. Run the assistant on the fresh server.
 4. Save the generated dashboard credentials and certificates securely.
 5. Confirm services:
 

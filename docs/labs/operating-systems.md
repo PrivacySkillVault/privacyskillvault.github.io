@@ -58,6 +58,22 @@ nltest /dsgetdc:lab.psv.test
 
 If joining fails, investigate DNS, time skew, routing, firewall policy and join permissions; do not disable security controls as a shortcut.
 
+## C. Apply Windows audit policy with Group Policy
+
+After the Windows endpoint is joined to the lab domain, use Group Policy Management on PSV-DC01:
+
+1. Create a GPO named `PSV-Lab-Endpoint-Auditing` and link it to the `Lab-Workstations` OU.
+2. Under **Computer Configuration → Policies → Windows Settings → Security Settings → Advanced Audit Policy Configuration → System Audit Policies**, enable:
+   - **Account Management → Audit Security Group Management:** Success.
+   - **Detailed Tracking → Audit Process Creation:** Success.
+   - **Logon/Logoff → Audit Logon:** Success and Failure for this lab OU.
+3. Under **Administrative Templates → System → Audit Process Creation**, enable **Include command line in process creation events** if you need Event 4688 command-line evidence. Command lines can contain secrets; keep this lab-only and sanitise evidence.
+4. If practising PowerShell logging, enable **Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging** on the lab OU only. Script contents can contain sensitive data.
+5. On the endpoint run `gpupdate /force`, then `gpresult /h C:\\Temp\\gpresult.html`. Confirm the policy applied.
+6. Make a controlled local group membership change on the disposable endpoint. Confirm Event ID 4732 and TargetSid `S-1-5-32-544` for the built-in local Administrators group. The event proves a group membership change occurred; it does not prove malicious intent.
+
+Do not apply this test GPO to production systems. Audit policy changes should be approved, event volume measured, and the GPO unlinked/removed after the lab if no longer required.
+
 ## C. Ubuntu Server on either host
 
 Download the matching architecture ISO from Ubuntu and verify its published SHA-256 checksum. Create a VM with 2 vCPU, 2–4 GB RAM, 40–60 GB disk, and the appropriate SERVER or ENDPOINT NIC. Install a named non-root user; enable OpenSSH only if needed.
