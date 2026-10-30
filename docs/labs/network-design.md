@@ -6,7 +6,7 @@ This guide defines the network layout used by all subsequent PSV labs. Build the
 
 ## 1. Segments and IP plan
 
-Use the plan in the [lab overview](index.md#5-network-address-plan). The example uses 10.10.0.0/16 subnets; check for conflicts with your actual LAN, VPN and routes first.
+Use the plan in the [lab overview](index.md#network-address-plan). The example uses 10.10.0.0/16 subnets; check for conflicts with your actual LAN, VPN and routes first.
 
 | Network | Example subnet | Windows Hyper-V | VMware Workstation | VMware Fusion |
 |---|---|---|---|---|
