@@ -1063,16 +1063,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function normalizeThreatIndicator(raw) {
     let value = String(raw || "").trim();
-    if (!value || /\\s/.test(value)) return null;
-    value = value.replace(/^hxxps?:\\/\\//i, "https://").replace(/\\[\\.\\]/g, ".");
-    if (/^https?:\\/\\//i.test(value)) {
+    if (!value || /\s/.test(value)) return null;
+    value = value.replace(/^hxxps?:\/\//i, "https://").replace(/\[\.\]/g, ".");
+    if (/^https?:\/\//i.test(value)) {
       try { value = new URL(value).hostname; } catch (err) { return null; }
     } else {
       value = value.split(/[/?#]/, 1)[0];
     }
-    value = value.replace(/^\\[|\\]$/g, "").replace(/\\.$/, "").toLowerCase();
+    value = value.replace(/^\[|\]$/g, "").replace(/\.$/, "").toLowerCase();
     const octets = value.split(".");
-    const isIp = octets.length === 4 && octets.every(part => /^\\d{1,3}$/.test(part) && Number(part) <= 255);
+    const isIp = octets.length === 4 && octets.every(part => /^\d{1,3}$/.test(part) && Number(part) <= 255);
     if (isIp) return { value, isIp: true };
     if (value.length > 253 || value.length < 4 || !value.includes(".")) return null;
     const labels = value.split(".");
