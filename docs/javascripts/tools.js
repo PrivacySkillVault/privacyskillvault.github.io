@@ -295,7 +295,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       cat: "util",
       badge: "TIME",
       shortTitle: "Timestamp Converter",
-      title: "Multi-Timezone Forensic Timestamp Converter",
+      title: "Forensic Timestamp Converter (UTC & Local)",
       desc: "Convert Unix Epoch seconds, milliseconds, microseconds and nanoseconds, 18-digit Windows FILETIME values, and parseable date strings. Calendar display is millisecond-precision.",
       options: ["Sample Epoch (Seconds)", "Sample Windows AD FileTime (18-Digit)", "Use Current Live UTC Time"],
       actionLabel: "Convert Timestamp",
@@ -1177,8 +1177,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const rows=[...ips.map(v=>["IPv4 Address",v,fmt(v),true]),...urls.map(v=>["URL",v,fmt(v),false]),...domains.map(v=>["Domain",v,fmt(v),true]),...emails.map(v=>["Email Address",v,fmt(v),false]),...hashes.map(([v,t])=>[t+" Hash",v,v,false]),...cves.map(v=>["CVE Vulnerability",v,v,false])];
       if(!rows.length)return '<div role="status">No supported indicators matched. IPv4 must contain four decimal octets in the range 0–255; hashes must be exactly 32, 40, or 64 hexadecimal characters.</div>';
       return '<table class="psv-out-table"><thead><tr><th>#</th><th>Type</th><th>Original</th><th>'+(raw?"Extracted":"Safe Defanged Output")+'</th><th>Quick Pivot</th></tr></thead><tbody>'+
-        rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+(r[3]?'<button type="button" class="psv-btn-util" data-psv-action="pivot-ti" data-indicator="'+esc(r[1])+'">Enrich →</button>':'—')+'</td></tr>').join("")+
-        '</tbody></table><p class="psv-tool-note">Domain extraction includes URL hostnames, email domains, and domain-like text. It is pattern-based, not DNS validation. IPv4 is syntax-checked only; private/reserved ranges are not classified here.</p>';
+        rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td>'+(r[3]&&normalizeThreatIndicator(r[1])?'<button type="button" class="psv-btn-util" data-psv-action="pivot-ti" data-indicator="'+esc(r[1])+'">Enrich →</button>':'—')+'</td></tr>').join("")+
+        '</tbody></table><p class="psv-tool-note">Domain extraction includes URL hostnames, email domains, and domain-like text. It is pattern-based, not DNS validation. IPv4 extraction is syntax-checked only and does not classify address ranges; the Enrich action is shown only when the Threat Intel Hub accepts the indicator.</p>';
     }
 
     if (tool.id === "ti") {
