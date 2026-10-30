@@ -6,8 +6,10 @@ I work across cyber-fraud monitoring, security operations, and technical investi
 
 The goal is straightforward: make technical work understandable, reproducible, and honest about what has actually been tested.
 
-[About me](about.md){ .md-button .md-button--primary }
-[Explore the learning paths](learn/){ .md-button }
+<div class="psv-home-actions">
+  <a href="about/" class="md-button md-button--primary">About me</a>
+  <a href="learn/" class="md-button psv-button-secondary">Explore the learning paths</a>
+</div>
 
 ## Explore the work
 
