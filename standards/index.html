@@ -1,0 +1,1663 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/standards/">
+      
+      
+        <link rel="prev" href="../about/">
+      
+      
+        <link rel="next" href="../learn/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Standards & Frameworks - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#industry-standards-authoritative-references" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href=".." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../labs/" class="psv-global-nav__link">Labs</a></li>
+        <li><a href="../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-interpret-these-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to interpret these sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-cybersecurity-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core cybersecurity frameworks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core cybersecurity frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nist-cybersecurity-framework-csf-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NIST Cybersecurity Framework (CSF) 2.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nist-sp-800-61-revision-3-incident-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NIST SP 800-61 Revision 3 — Incident Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cis-critical-security-controls-v81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIS Critical Security Controls v8.1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#threat-informed-defence-and-detection-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat-informed defence and detection engineering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Threat-informed defence and detection engineering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mitre-attck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sigma-detection-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sigma Detection Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oasis-stix-21-and-taxii-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OASIS STIX 2.1 and TAXII 2.1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerability-and-application-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability and application security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vulnerability and application security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-common-vulnerability-scoring-system-cvss-v40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FIRST Common Vulnerability Scoring System (CVSS) v4.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#owasp-application-security-verification-standard-asvs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OWASP Application Security Verification Standard (ASVS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pci-dss-v401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PCI DSS v4.0.1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#emv-3-d-secure-3ds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EMV® 3-D Secure (3DS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saudi-financial-sector-counter-fraud-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saudi financial-sector counter-fraud requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Saudi financial-sector counter-fraud requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sama-counter-fraud-framework-banking-sector-2022" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAMA Counter-Fraud Framework — Banking Sector (2022)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sama-counter-fraud-fundamental-requirements-payment-systems-and-payment-services-providers-effective-13-april-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAMA Counter-Fraud Fundamental Requirements — payment systems and payment services providers (effective 13 April 2026)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-mapping-from-standard-to-operational-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical mapping: from standard to operational evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-psv-will-maintain-accuracy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How PSV will maintain accuracy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../investigations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../investigations/scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-interpret-these-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to interpret these sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-cybersecurity-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core cybersecurity frameworks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core cybersecurity frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nist-cybersecurity-framework-csf-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NIST Cybersecurity Framework (CSF) 2.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nist-sp-800-61-revision-3-incident-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NIST SP 800-61 Revision 3 — Incident Response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cis-critical-security-controls-v81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIS Critical Security Controls v8.1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#threat-informed-defence-and-detection-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat-informed defence and detection engineering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Threat-informed defence and detection engineering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mitre-attck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MITRE ATT&amp;CK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sigma-detection-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sigma Detection Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oasis-stix-21-and-taxii-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OASIS STIX 2.1 and TAXII 2.1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vulnerability-and-application-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vulnerability and application security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vulnerability and application security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#first-common-vulnerability-scoring-system-cvss-v40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FIRST Common Vulnerability Scoring System (CVSS) v4.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#owasp-application-security-verification-standard-asvs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OWASP Application Security Verification Standard (ASVS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pci-dss-v401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PCI DSS v4.0.1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#emv-3-d-secure-3ds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EMV® 3-D Secure (3DS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#saudi-financial-sector-counter-fraud-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saudi financial-sector counter-fraud requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Saudi financial-sector counter-fraud requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sama-counter-fraud-framework-banking-sector-2022" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAMA Counter-Fraud Framework — Banking Sector (2022)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sama-counter-fraud-fundamental-requirements-payment-systems-and-payment-services-providers-effective-13-april-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAMA Counter-Fraud Fundamental Requirements — payment systems and payment services providers (effective 13 April 2026)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-mapping-from-standard-to-operational-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical mapping: from standard to operational evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-psv-will-maintain-accuracy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How PSV will maintain accuracy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="industry-standards-authoritative-references">Industry Standards &amp; Authoritative References<a class="headerlink" href="#industry-standards-authoritative-references" title="Permanent link">&para;</a></h1>
+<p>A working reference for the standards, frameworks, knowledge bases, and specifications used across the Privacy Skill Vault learning paths.</p>
+<p><badge color="success">Source-reviewed 31 October 2026</badge></p>
+<p>This page links to primary publishers wherever possible. Version labels below are the versions verified during this review; standards and knowledge bases can change, so check the publisher's release page before using a requirement in a formal assessment, control mapping, production procedure, or audit.</p>
+<h2 id="how-to-interpret-these-sources">How to interpret these sources<a class="headerlink" href="#how-to-interpret-these-sources" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Source type</th>
+<th>What it provides</th>
+<th>What it does not automatically provide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td>Defined requirements or technical specifications</td>
+<td>Proof that an organisation complies</td>
+</tr>
+<tr>
+<td>Framework</td>
+<td>A structure for managing or assessing outcomes</td>
+<td>A universal implementation sequence or mandatory control set</td>
+</tr>
+<tr>
+<td>Knowledge base</td>
+<td>A maintained catalogue of adversary behaviours or security knowledge</td>
+<td>A compliance standard or a complete detection rule</td>
+</tr>
+<tr>
+<td>Format / protocol</td>
+<td>A common way to represent or exchange information</td>
+<td>Proof that the information is accurate or trustworthy</td>
+</tr>
+<tr>
+<td>Scoring system</td>
+<td>A repeatable method to describe a defined risk dimension</td>
+<td>A complete business-risk or remediation-priority decision</td>
+</tr>
+</tbody>
+</table>
+<p>Never describe a framework mapping as certification, compliance, or proof of implementation. Applicability depends on the organisation, service, jurisdiction, contractual obligations, and formal scope.</p>
+<h2 id="core-cybersecurity-frameworks">Core cybersecurity frameworks<a class="headerlink" href="#core-cybersecurity-frameworks" title="Permanent link">&para;</a></h2>
+<h3 id="nist-cybersecurity-framework-csf-20">NIST Cybersecurity Framework (CSF) 2.0<a class="headerlink" href="#nist-cybersecurity-framework-csf-20" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> National Institute of Standards and Technology (NIST)</li>
+<li><strong>Publication:</strong> CSWP 29, published 26 February 2024</li>
+<li><strong>Structure:</strong> Govern, Identify, Protect, Detect, Respond, Recover</li>
+<li><strong>Use it for:</strong> Organising cybersecurity outcomes, communicating risk, developing Current and Target Profiles, and identifying improvement priorities.</li>
+<li><strong>Do not use it as:</strong> A fixed technical checklist or a certification by itself.</li>
+</ul>
+<p>The six Functions are supported by Categories and Subcategories. Use the official Core and Informative References when mapping a control. Record the exact Subcategory ID and the organisation-specific evidence that demonstrates the outcome.</p>
+<p>Official resources:
+- <a href="https://www.nist.gov/cyberframework">NIST CSF 2.0 publication and Core</a>
+- <a href="https://doi.org/10.6028/NIST.CSWP.29">NIST CSF 2.0 PDF</a>
+- <a href="https://csrc.nist.gov/Projects/cybersecurity-framework">NIST CSF 2.0 Reference Tool</a></p>
+<h3 id="nist-sp-800-61-revision-3-incident-response">NIST SP 800-61 Revision 3 — Incident Response<a class="headerlink" href="#nist-sp-800-61-revision-3-incident-response" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> NIST</li>
+<li><strong>Final publication:</strong> 3 April 2025</li>
+<li><strong>Status:</strong> Supersedes SP 800-61 Revision 2</li>
+<li><strong>Use it for:</strong> Integrating incident response into cybersecurity risk management, preparation, detection, response, recovery, and continual improvement.</li>
+<li><strong>Important:</strong> Do not build a current incident-response programme solely around the older Rev. 2 lifecycle diagram. Use Rev. 3 as the current NIST publication.</li>
+</ul>
+<p>Official resources:
+- <a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final">SP 800-61 Rev. 3 final publication</a>
+- <a href="https://csrc.nist.gov/Projects/incident-response">NIST incident response project</a></p>
+<h3 id="cis-critical-security-controls-v81">CIS Critical Security Controls v8.1<a class="headerlink" href="#cis-critical-security-controls-v81" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> Center for Internet Security (CIS)</li>
+<li><strong>Version reviewed:</strong> 8.1</li>
+<li><strong>Use it for:</strong> Prioritised safeguards and implementation planning. The Controls include Implementation Groups to help organisations select safeguards appropriate to their risk and resources.</li>
+<li><strong>Important:</strong> Select the appropriate Implementation Group and assess the safeguard's actual applicability. Do not claim that a control is implemented because it appears in a plan.</li>
+</ul>
+<p>Official resources:
+- <a href="https://www.cisecurity.org/controls/v8-1">CIS Controls v8.1</a></p>
+<h2 id="threat-informed-defence-and-detection-engineering">Threat-informed defence and detection engineering<a class="headerlink" href="#threat-informed-defence-and-detection-engineering" title="Permanent link">&para;</a></h2>
+<h3 id="mitre-attck">MITRE ATT&amp;CK<a class="headerlink" href="#mitre-attck" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> MITRE</li>
+<li><strong>Type:</strong> Maintained knowledge base of adversary tactics and techniques</li>
+<li><strong>Use it for:</strong> Describing observed behaviour, threat-informed defence, detection coverage analysis, adversary emulation planning, and consistent technique references.</li>
+<li><strong>Important:</strong> ATT&amp;CK is not a compliance framework. Map behaviour to a technique only when the evidence supports it. A technique mapping does not prove attribution to a threat group or prove that a detection is effective.</li>
+</ul>
+<p>Use the live Enterprise matrix and the official data resources rather than copying technique names or IDs from an old screenshot.</p>
+<p>Official resources:
+- <a href="https://attack.mitre.org/matrices/enterprise/">MITRE ATT&amp;CK Enterprise</a>
+- <a href="https://attack.mitre.org/resources/working-with-attack/">ATT&amp;CK data and tools</a>
+- <a href="https://github.com/mitre-attack/attack-stix-data">ATT&amp;CK knowledge base on GitHub</a></p>
+<h3 id="sigma-detection-format">Sigma Detection Format<a class="headerlink" href="#sigma-detection-format" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> SigmaHQ</li>
+<li><strong>Specification reviewed:</strong> Sigma Rules Specification 2.1.0, released 2 August 2025</li>
+<li><strong>Use it for:</strong> Writing portable, YAML-based detection rules with a defined log source, detection selections, condition, metadata, and optional fields.</li>
+<li><strong>Important:</strong> A valid Sigma rule is not automatically a working SIEM detection. Backend support, field mappings, event collection, data normalisation, query translation, and test data all matter.</li>
+</ul>
+<p>The specification defines condition logic, value modifiers, status, logsource, tags, and schema. Use maintained Sigma tooling such as the official Sigma CLI / pySigma ecosystem for conversion; then inspect the generated query and test it against the target SIEM and actual event schema.</p>
+<p>Official resources:
+- <a href="https://github.com/SigmaHQ/sigma-specification">Sigma specification repository</a>
+- <a href="https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html">Sigma Rules Specification</a>
+- <a href="https://sigmahq.io/docs/basics/rules.html">Sigma rule-writing guide</a>
+- <a href="https://github.com/SigmaHQ/sigma">Sigma main detection repository</a></p>
+<h3 id="oasis-stix-21-and-taxii-21">OASIS STIX 2.1 and TAXII 2.1<a class="headerlink" href="#oasis-stix-21-and-taxii-21" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> OASIS Open</li>
+<li><strong>Type:</strong> Standards for representing and exchanging cyber threat intelligence</li>
+<li><strong>STIX 2.1:</strong> Defines the language and object model for representing threat intelligence.</li>
+<li><strong>TAXII 2.1:</strong> Defines an application-layer protocol and API resources for exchanging cyber threat intelligence.</li>
+<li><strong>Important:</strong> STIX is the representation model; TAXII is the exchange protocol. Neither guarantees that an indicator is current, malicious, or relevant to your environment.</li>
+</ul>
+<p>Official resources:
+- <a href="https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html">OASIS STIX 2.1</a>
+- <a href="https://docs.oasis-open.org/cti/taxii/v2.1/os/taxii-v2.1-os.html">OASIS TAXII 2.1</a>
+- <a href="https://oasis-open.github.io/cti-documentation/">OASIS CTI documentation</a></p>
+<h2 id="vulnerability-and-application-security">Vulnerability and application security<a class="headerlink" href="#vulnerability-and-application-security" title="Permanent link">&para;</a></h2>
+<h3 id="first-common-vulnerability-scoring-system-cvss-v40">FIRST Common Vulnerability Scoring System (CVSS) v4.0<a class="headerlink" href="#first-common-vulnerability-scoring-system-cvss-v40" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> FIRST</li>
+<li><strong>Version reviewed:</strong> CVSS v4.0, Specification Document 1.2</li>
+<li><strong>Metric groups:</strong> Base, Threat, Environmental, Supplemental</li>
+<li><strong>Use it for:</strong> Communicating vulnerability severity using defined technical metrics and a vector string.</li>
+<li><strong>Important:</strong> CVSS is not a complete organisational risk score. Consider asset criticality, exposure, compensating controls, exploit intelligence, business impact, and applicable regulatory deadlines separately.</li>
+</ul>
+<p>A published CVSS result should include the score and vector string. Do not silently mix CVSS v3.1 and v4.0 vectors or scores.</p>
+<p>Official resources:
+- <a href="https://www.first.org/cvss/specification-document">FIRST CVSS specification</a>
+- <a href="https://www.first.org/cvss/v4.0/specification-document">CVSS v4.0 specification</a>
+- <a href="https://www.first.org/cvss/">FIRST CVSS resources</a></p>
+<p><strong>PSV tool compatibility:</strong> The current CVSS calculator on the Tools page implements CVSS v3.1. It must not be used to calculate or label a CVSS v4.0 vector. The v3.1 calculator is retained as a version-specific tool, not represented as the latest CVSS version.</p>
+<h3 id="owasp-application-security-verification-standard-asvs">OWASP Application Security Verification Standard (ASVS)<a class="headerlink" href="#owasp-application-security-verification-standard-asvs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> OWASP</li>
+<li><strong>Version reviewed:</strong> ASVS 5.0.0, published 30 May 2025</li>
+<li><strong>Use it for:</strong> Testable security requirements for designing, developing, and verifying web applications and web services.</li>
+<li><strong>Important:</strong> ASVS is more appropriate for verification requirements than treating the OWASP Top 10 risk list as a complete test plan. Select verification requirements appropriate to the application's architecture and risk.</li>
+</ul>
+<p>Official resources:
+- <a href="https://asvs.owasp.org/">OWASP ASVS</a>
+- <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP ASVS project</a></p>
+<h3 id="pci-dss-v401">PCI DSS v4.0.1<a class="headerlink" href="#pci-dss-v401" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> PCI Security Standards Council (PCI SSC)</li>
+<li><strong>Version reviewed:</strong> v4.0.1, published June 2024</li>
+<li><strong>Scope:</strong> Entities that store, process, or transmit cardholder data or sensitive authentication data, and entities that can impact the security of the cardholder data environment.</li>
+<li><strong>Use it for:</strong> Payment account data security requirements and assessment where the entity and environment are in scope.</li>
+<li><strong>Important:</strong> Applicability and validation obligations depend on the payment ecosystem, acquirer/payment brand requirements, and the entity's scope. Use PCI SSC documents and a qualified assessor where required.</li>
+</ul>
+<p>Official resources:
+- <a href="https://www.pcisecuritystandards.org/standards/pci-dss/">PCI DSS overview</a>
+- <a href="https://www.pcisecuritystandards.org/document_library/">PCI SSC document library</a></p>
+<h3 id="emv-3-d-secure-3ds">EMV® 3-D Secure (3DS)<a class="headerlink" href="#emv-3-d-secure-3ds" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> EMVCo</li>
+<li><strong>Type:</strong> Payment-card authentication protocol specifications and associated bulletins</li>
+<li><strong>Use it for:</strong> Understanding the 3DS message flow, roles, data elements, authentication outcomes, SDK behaviour, and version-specific requirements.</li>
+<li><strong>Important:</strong> 3DS version, message fields, and result semantics must be read from the applicable specification and bulletin set used by the issuer, acquirer, directory server, ACS, 3DS Server, SDK, and payment provider. Do not treat a generic “3DS passed” label as proof that the legitimate account holder initiated the payment or that fraud is impossible.</li>
+</ul>
+<p>Official resources:
+- <a href="https://www.emvco.com/emv-technologies/3-d-secure/">EMVCo 3-D Secure</a>
+- <a href="https://www.emvco.com/dynamic/emv-3-d-secure-whitepaper-v2/3-d-secure-documentation/">EMVCo 3DS documentation and specification versions</a>
+- <a href="https://www.emvco.com/whitepapers/emv-3-d-secure-whitepaper-v2/3-d-secure-documentation/3-d-secure-specification-v2-3-1/">EMVCo 3DS v2.3.1 specification page</a></p>
+<h2 id="saudi-financial-sector-counter-fraud-requirements">Saudi financial-sector counter-fraud requirements<a class="headerlink" href="#saudi-financial-sector-counter-fraud-requirements" title="Permanent link">&para;</a></h2>
+<p>These sources are jurisdiction- and sector-specific. The two SAMA references below are separate Rulebook instruments with different scopes and control numbering. Do not merge their requirements or assume that one applies to every SAMA-regulated entity.</p>
+<h3 id="sama-counter-fraud-framework-banking-sector-2022">SAMA Counter-Fraud Framework — Banking Sector (2022)<a class="headerlink" href="#sama-counter-fraud-framework-banking-sector-2022" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Publisher:</strong> Saudi Central Bank (SAMA)</li>
+<li><strong>Framework number:</strong> 000044021528</li>
+<li><strong>Circular:</strong> No. 44021528, dated 11 October 2022</li>
+<li><strong>Rulebook status shown during review:</strong> In Force</li>
+<li><strong>Scope shown in the Rulebook:</strong> Banking Sector</li>
+<li><strong>Applicability:</strong> The framework states that applicability to Member Organisations is based on SAMA discretion and that organisations required to implement it are notified by SAMA.</li>
+<li><strong>Domains:</strong> Governance, Prevent, Detect, Respond</li>
+</ul>
+<p>Relevant sections include:
+- <strong>3.3 — Counter-Fraud Policy and Procedures:</strong> define, approve, communicate, implement and periodically review the policy and procedures.
+- <strong>4.1 — Risk Management:</strong> fraud risk management framework, KPIs, fraud risk assessment, risk appetite, and KRIs.
+- <strong>5.1 — Fraud Detection Standards:</strong> approved detection standards aligned to internal and external fraud risks.
+- <strong>5.2 — Fraud Detection Systems:</strong> data timeliness, completeness and accuracy; behavioural baselining; rule libraries; risk scoring; case-management linkage; calibration; false-positive/false-negative feedback; and monitoring of system metrics.
+- <strong>6.2 — Alert and Case Management:</strong> case ownership, lifecycle tracking, investigative steps, evidence repository, outcomes, losses, corrective actions, and retention.
+- <strong>6.3 — Fraud Investigation:</strong> time sensitivity, materiality, information gathering, collaboration, documentation, retention, outcomes, reporting, corrective action, notifications, root cause and lessons learned.</p>
+<p>The framework describes six maturity levels (0–5) and states that Member Organisations should operate at level 3 or higher. Confirm the entity's applicability and current interpretation with Compliance and current SAMA communications.</p>
+<p>Official resources:
+- <a href="https://rulebook.sama.gov.sa/en/counter-fraud-framework-0">SAMA 2022 Counter-Fraud Framework — Rulebook</a>
+- <a href="https://www.sama.gov.sa/en-US/RulesInstructions/CyberSecurity/Counter_Fraud_Framework.pdf">SAMA 2022 Counter-Fraud Framework — official document</a>
+- <a href="https://rulebook.sama.gov.sa/en/circular-re-counter-fraud-framework">SAMA circular No. 44021528</a></p>
+<h3 id="sama-counter-fraud-fundamental-requirements-payment-systems-and-payment-services-providers-effective-13-april-2026">SAMA Counter-Fraud Fundamental Requirements — payment systems and payment services providers (effective 13 April 2026)<a class="headerlink" href="#sama-counter-fraud-fundamental-requirements-payment-systems-and-payment-services-providers-effective-13-april-2026" title="Permanent link">&para;</a></h3>
+<p>This is a separate Rulebook framework from the 2022 Banking Sector Counter-Fraud Framework above.</p>
+<ul>
+<li><strong>Publisher:</strong> Saudi Central Bank (SAMA)</li>
+<li><strong>Rulebook reference:</strong> No. 106897184, dated 14 April 2025</li>
+<li><strong>Effective date:</strong> 13 April 2026</li>
+<li><strong>Scope shown in the Rulebook:</strong> Finance Sector — Payment Systems and Payment Services Providers</li>
+<li><strong>Status shown during review:</strong> In Force</li>
+<li><strong>Use it for:</strong> Requirements applicable to entities and activities within that stated scope. Do not automatically apply this framework to every bank or treat it as a replacement for the 2022 Banking Sector framework.</li>
+</ul>
+<p>The Rulebook's separate section <strong>4.1 — Counter-Fraud Solutions and Controls for Elevated Risk</strong> includes numbered controls such as:
+- <strong>4.1.1:</strong> real-time fraud detection and prevention across transactional and non-transactional data.
+- <strong>4.1.2:</strong> 24/7 operation with appropriate resources to manage system outputs.
+- <strong>4.1.4:</strong> timely real-time actions, including account freezing and transaction blocking where compromise is suspected.
+- <strong>4.1.8–4.1.9:</strong> multi-factor authentication for specified higher-risk activities and a requirement that SMS OTP alone not be the only factor.
+- <strong>4.1.11–4.1.12:</strong> mule-account controls and updates to rules/models for emerging typologies.</p>
+<p>These are the control IDs of the 2025 Counter-Fraud Fundamental Requirements, not section numbers from the 2022 Banking Sector Counter-Fraud Framework.</p>
+<p>Official resources:
+- <a href="https://rulebook.sama.gov.sa/en/counter-fraud-fundamental-requirements">SAMA Counter-Fraud Fundamental Requirements</a>
+- <a href="https://rulebook.sama.gov.sa/en/41-counter-fraud-solutions-and-controls-elevated-risk">Section 4.1 — Counter-Fraud Solutions and Controls for Elevated Risk</a></p>
+<h2 id="practical-mapping-from-standard-to-operational-evidence">Practical mapping: from standard to operational evidence<a class="headerlink" href="#practical-mapping-from-standard-to-operational-evidence" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Operational activity</th>
+<th>Authoritative reference</th>
+<th>Evidence to retain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Establish security outcomes and priorities</td>
+<td>NIST CSF 2.0</td>
+<td>Current/Target Profile, risk decisions, owners, evidence</td>
+</tr>
+<tr>
+<td>Prepare and improve incident response</td>
+<td>NIST SP 800-61 Rev. 3</td>
+<td>Plan, roles, exercises, lessons learned, improvement actions</td>
+</tr>
+<tr>
+<td>Prioritise safeguards</td>
+<td>CIS Controls v8.1</td>
+<td>Applicable safeguards, implementation group, owner, validation</td>
+</tr>
+<tr>
+<td>Describe observed adversary behaviour</td>
+<td>MITRE ATT&amp;CK</td>
+<td>Source events, technique rationale, confidence, coverage gap</td>
+</tr>
+<tr>
+<td>Author portable detections</td>
+<td>Sigma specification</td>
+<td>Rule YAML, schema validation, backend translation, test results</td>
+</tr>
+<tr>
+<td>Exchange threat intelligence</td>
+<td>STIX 2.1 / TAXII 2.1</td>
+<td>Source, object IDs, markings, timestamps, confidence, expiry/revocation</td>
+</tr>
+<tr>
+<td>Communicate vulnerability severity</td>
+<td>FIRST CVSS v4.0</td>
+<td>Score, vector, source, threat and environmental context</td>
+</tr>
+<tr>
+<td>Verify application security</td>
+<td>OWASP ASVS 5.0</td>
+<td>Requirement ID, test procedure, result, evidence, exception</td>
+</tr>
+<tr>
+<td>Protect payment account data</td>
+<td>PCI DSS v4.0.1</td>
+<td>Scope, applicable requirement, testing evidence, assessor decision</td>
+</tr>
+<tr>
+<td>Manage bank counter-fraud operations</td>
+<td>SAMA 2022 Banking Sector Counter-Fraud Framework</td>
+<td>Applicable control reference, approved policy/procedure, operating evidence, KPI/KRI</td>
+</tr>
+<tr>
+<td>Payment-service-provider elevated-risk controls</td>
+<td>SAMA 2025 Counter-Fraud Fundamental Requirements, where in scope</td>
+<td>Applicable control ID, entity scope confirmation, implementation and operating evidence</td>
+</tr>
+<tr>
+<td>Interpret card-not-present authentication evidence</td>
+<td>EMVCo 3-D Secure specifications</td>
+<td>Actual message version, identifiers, relevant data elements, authentication result and provider semantics</td>
+</tr>
+</tbody>
+</table>
+<p>This table is a navigation aid, not a formal crosswalk. It does not assert that one framework requirement is equivalent to another.</p>
+<h2 id="how-psv-will-maintain-accuracy">How PSV will maintain accuracy<a class="headerlink" href="#how-psv-will-maintain-accuracy" title="Permanent link">&para;</a></h2>
+<p>Every standards-based page should include:</p>
+<ol>
+<li>Publisher and exact standard/framework/specification version.</li>
+<li>Official source link and publication/release date where available.</li>
+<li>Exact control, requirement, category, subcategory, or technique ID when referenced.</li>
+<li>Applicability and scope notes.</li>
+<li>An implementation example clearly separated from the source requirement.</li>
+<li>Evidence required to demonstrate execution.</li>
+<li>Last-reviewed date and a note to recheck the publisher before formal use.</li>
+</ol>
+<p>If a publisher changes a version or retires a requirement, update the reference before presenting it as current. Where a document is paywalled or licensed, link to the official source rather than reproducing proprietary text.</p>
+<p><strong>Last source review:</strong> 31 October 2026. This is a point-in-time review, not an automated standards-change monitoring service.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/psv-navigation.js"></script>
+      
+        <script src="../javascripts/tools.js"></script>
+      
+    
+  </body>
+</html>
