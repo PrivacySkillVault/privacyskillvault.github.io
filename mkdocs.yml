@@ -80,6 +80,10 @@ nav:
       - Synthetic Test Fixtures: detection-engineering/fixtures/README.md
       - PowerShell Encoded Command: detection-engineering/windows-powershell-encoded-command.md
       - Local Administrators Group Change: detection-engineering/windows-local-admin-membership.md
-  - Operational Templates: operational-templates/index.md
+  - Operational Templates:
+      - Overview: operational-templates/index.md
+      - Detection Change & Validation Record: operational-templates/detection-change-record.md
+      - Fraud Investigation Case Record: operational-templates/fraud-case-record.md
+      - Cybersecurity Incident Report: operational-templates/incident-report.md
   - Tools: tools/index.md
   - Blog: blog/index.md
