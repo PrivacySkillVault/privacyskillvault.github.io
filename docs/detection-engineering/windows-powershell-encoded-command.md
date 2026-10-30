@@ -92,7 +92,7 @@ If the actual integration maps the executable or command line differently, inspe
 Replace \`YOUR_INDEX\` and the sourcetype with the actual values in your deployment. Confirm field extractions from a raw event first.
 
 \`\`\`spl
-index=YOUR_INDEX sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=1
+index=YOUR_INDEX sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventID=1
 | where match(Image, "(?i)\\\\\\\\(powershell|pwsh)\\\\.exe$")
     AND match(CommandLine, "(?i)(^|\\\\s)-(enc|encodedcommand)(\\\\s|$)")
 | table _time host User Image CommandLine ParentImage ProcessGuid ParentProcessGuid

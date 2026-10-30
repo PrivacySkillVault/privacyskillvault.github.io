@@ -54,9 +54,10 @@ python -m pip install 'sigma-cli==3.1.0'
 sigma plugin install splunk
 sigma plugin install sysmon
 sigma convert -t splunk -p sysmon docs/detection-engineering/rules/windows-powershell-encoded-command.yml
+sigma convert -t splunk -p splunk_windows docs/detection-engineering/rules/windows-local-admin-membership.yml
 ```
 
-This repository's CI pins Sigma CLI 3.1.0 because the currently published Sysmon pipeline is not compatible with pySigma 2.x; do not force-install an incompatible plugin. Recheck the [Sigma CLI releases](https://github.com/SigmaHQ/sigma-cli/releases), [Sysmon pipeline releases](https://github.com/SigmaHQ/pySigma-pipeline-sysmon/releases), and plugin compatibility before upgrading. CI currently converts the Sysmon process-creation rule to Splunk SPL. The Windows Security Event 4732 rule is schema-validated and its SPL example is manually authored; verify the target source pipeline and run the conversion yourself before using it. A successful conversion proves that the selected toolchain accepted the rule for that backend; it does not prove that the query matches your telemetry or detects malicious activity.
+This repository's CI pins Sigma CLI 3.1.0 because the currently published Sysmon pipeline is not compatible with pySigma 2.x; do not force-install an incompatible plugin. Recheck the [Sigma CLI releases](https://github.com/SigmaHQ/sigma-cli/releases), [Sysmon pipeline releases](https://github.com/SigmaHQ/pySigma-pipeline-sysmon/releases), and plugin compatibility before upgrading. CI converts the Sysmon process-creation rule to Splunk SPL using the Sysmon pipeline and the Windows Security Event 4732 rule using the Splunk Windows pipeline. These are parser/backend conversion checks only; they do not test the generated queries against a live Splunk instance or genuine telemetry. A successful conversion proves that the selected toolchain accepted the rule for that backend; it does not prove that the query matches your telemetry or detects malicious activity.
 
 ## Synthetic test fixture
 

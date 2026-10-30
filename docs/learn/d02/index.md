@@ -104,7 +104,7 @@ The [PSV Detection Engineering Pack](../../detection-engineering/index.md) conta
 - PowerShell encoded-command execution (Sysmon Event ID 1)
 - Addition to the built-in local Administrators group (Windows Security Event ID 4732)
 
-These are test-status examples. The backend queries are authored starting points based on stated field assumptions, not confirmed output from a specific live SIEM. The Sigma files are schema-validated in CI, but still require backend conversion and tests against raw events from your own environment.
+These are test-status examples. The backend queries are authored starting points based on stated field assumptions, not confirmed output from a specific live SIEM. CI validates both Sigma files against the Sigma 2.1.0 schema and converts them to Splunk SPL with the applicable Sysmon and Splunk Windows pipelines. This does not validate the queries against a live SIEM; test them against raw events from your own environment.
 
 ## Evidence record for a detection change
 
