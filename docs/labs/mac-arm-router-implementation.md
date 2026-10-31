@@ -197,16 +197,26 @@ table inet filter {
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport 49152-65535 ct state new accept
 
     # Select ONE SIEM path and replace the sample manager IP/ports with the actual deployment.
-    # Wazuh agent secure channel + enrollment (disable enrollment rule after rollout if not needed).
-    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 1515 } ct state new accept
-    # Elastic Agent to Fleet Server/Elasticsearch (use separate destination IPs if deployed separately).
-    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 8220, 9200 } ct state new accept
-    # Splunk Universal Forwarder to receiver.
+    # Wazuh agent secure channel + enrollment (Wazuh manager example 10.10.30.22).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.22 tcp dport { 1514, 1515 } ct state new accept
+    # Elastic Agent to Fleet Server/Elasticsearch (Elastic example 10.10.30.20; split destinations if separate).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.20 tcp dport { 8220, 9200 } ct state new accept
+    # Splunk Universal Forwarder to receiver (Splunk example 10.10.30.21).
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
-    # Management UI access from the named admin host only; use only the selected UI port.
-    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.21 tcp dport { 443, 5601, 8000 } ct state new accept
+    # Management UI access from the named admin host only; uncomment only the selected product rule.
+    # Elastic Kibana:
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.20 tcp dport 5601 ct state new accept
+    # Splunk Web:
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.21 tcp dport 8000 ct state new accept
+    # Wazuh Dashboard:
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.22 tcp dport 443 ct state new accept
     # Sensor management agent to the selected SIEM; capture-only NICs have no IP and are not routed.
-    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 8220, 9200, 9997 } ct state new accept
+    # Wazuh sensor agent:
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.22 tcp dport 1514 ct state new accept
+    # Elastic sensor agent:
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.20 tcp dport { 8220, 9200 } ct state new accept
+    # Splunk sensor forwarder:
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
 
     # Optional temporary update egress for trusted lab segments only.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
