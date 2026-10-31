@@ -1556,7 +1556,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       {id:"util",label:"Reporting & Utilities"}
     ];
     root.innerHTML = `
-      <div id="psv-app" class="psv-workbench-v2">
+      <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
         <section class="psv-command-hero">
           <div class="psv-eyebrow">PRIVACY SKILL VAULT / SECURITY OPERATIONS</div>
           <h1 class="psv-hero-h1">Investigation <span>Workbench</span></h1>
@@ -1935,7 +1935,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       } else if (action === "hash-file") {
         const file=document.getElementById("evidence-file")?.files[0],out=document.getElementById("evidence-output");
         if(!file||!out){if(out)out.textContent="Select a file first.";return;}
-        out.textContent="Calculating SHA-256 locally…";
+        if(file.size>100*1024*1024){out.textContent="File exceeds 100 MB. Use validated forensic tooling for large evidence files.";return;}\n        out.textContent="Calculating SHA-256 locally…";
         try {
           const digest=await crypto.subtle.digest("SHA-256",await file.arrayBuffer());
           const hex=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
