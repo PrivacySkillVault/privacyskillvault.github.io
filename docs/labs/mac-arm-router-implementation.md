@@ -285,7 +285,7 @@ sudo dnsmasq --test
 sudo systemctl enable --now dnsmasq
 sudo systemctl status dnsmasq --no-pager
 sudo journalctl -u dnsmasq -n 100 --no-pager
-sudo ss -lunp | grep -E ':(53|67)\\b'
+sudo ss -lunp | grep -E ':(53|67)( |$)'
 ~~~
 
 On a Linux DHCP client, renew the lease using the network manager/client appropriate to that guest, then verify:
