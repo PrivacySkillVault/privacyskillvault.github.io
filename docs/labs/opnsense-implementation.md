@@ -66,6 +66,8 @@ Under Services → Kea DHCP → Kea DHCPv4 (menu labels may vary by release):
 
 Keep SERVER infrastructure hosts on static addresses or explicit reservations. Do not hand out dynamic addresses to the DC, relay, SIEM or firewall. If the DHCP UI automatically adds rules, inspect them and confirm they do not permit unrelated services.
 
+From one test client on each DHCP-enabled segment, renew its lease and verify the assigned address, gateway and DNS server. On Windows run `ipconfig /release`, `ipconfig /renew`, `ipconfig /all`, then `nslookup example.com <expected-DNS-IP>`. On Linux use the guest's DHCP client/network manager, then check `ip -4 address`, `ip route`, `resolvectl status` and `dig @<expected-DNS-IP> example.com`. If AD DS is used, query `_ldap._tcp.dc._msdcs.lab.psv.test` against 10.10.30.10 and confirm the correct DC SRV record. Check the Kea lease table and logs if the client receives no lease.
+
 ## 5. Configure DNS — choose the correct resolver
 
 ### If Active Directory is deployed
