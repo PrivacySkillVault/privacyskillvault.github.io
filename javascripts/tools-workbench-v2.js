@@ -1705,6 +1705,115 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     `;
   }
 
+
+  function downloadText(filename, content, mime) {
+    const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename || "download.txt";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function fieldValue(id) {
+    const el = document.getElementById(id);
+    return el ? String(el.value || "").trim() : "";
+  }
+
+  function caseReport() {
+    const fields = [
+      ["Case ID","case-id"],["Incident title","case-title"],["Severity / priority","case-severity"],
+      ["Status","case-status"],["Detection source","case-source"],["Affected assets / accounts","case-assets"],
+      ["UTC timeline","case-timeline"],["Indicators of compromise","case-iocs"],
+      ["Investigation notes","case-notes"],["Containment / response actions","case-actions"],
+      ["Evidence references","case-evidence"]
+    ];
+    const lines = ["# SOC Incident Case Report","","Generated (UTC): " + new Date().toISOString(),""];
+    fields.forEach(pair => { const value=fieldValue(pair[1]); if(value) lines.push("## "+pair[0],"",value,""); });
+    lines.push("> Generated locally in the browser. Verify facts, timestamps and evidence references before storing in an approved case-management system.");
+    return lines.join("\n");
+  }
+
+  function renderAdvancedTool(root, tool) {
+    const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>';
+    const header = '<header class="psv-tool-page-head"><span class="psv-card-badge">'+esc(tool.badge)+'</span><h1>'+esc(tool.title)+'</h1><p>'+esc(tool.desc)+'</p></header>';
+    let body = "";
+    if (tool.id === "case") {
+      body = '<section class="psv-advanced-panel"><h2>Incident details</h2><p>Build a local incident record. Export the report and store it only in your approved case repository.</p><div class="psv-advanced-grid">'+
+        '<label>Case ID<input id="case-id" type="text" placeholder="INC-2026-001"></label>'+
+        '<label>Incident title<input id="case-title" type="text" placeholder="Suspicious account activity"></label>'+
+        '<label>Severity / priority<select id="case-severity"><option>P1 - Critical</option><option>P2 - High</option><option selected>P3 - Medium</option><option>P4 - Low</option><option>Under assessment</option></select></label>'+
+        '<label>Status<select id="case-status"><option>Open</option><option>Investigating</option><option>Contained</option><option>Resolved</option><option>Closed</option></select></label>'+
+        '<label>Detection source<input id="case-source" type="text" placeholder="SIEM, EDR, fraud alert…"></label>'+
+        '<label>Affected assets / accounts<textarea id="case-assets" rows="3" placeholder="Hostnames, user IDs, applications…"></textarea></label>'+
+        '<label>Timeline (UTC)<textarea id="case-timeline" rows="5" placeholder="2026-10-31 10:15 UTC — Alert generated…"></textarea></label>'+
+        '<label>Indicators of compromise<textarea id="case-iocs" rows="4" placeholder="IP addresses, domains, hashes, URLs…"></textarea></label>'+
+        '<label>Investigation notes<textarea id="case-notes" rows="5" placeholder="Observations, validation, correlation and findings…"></textarea></label>'+
+        '<label>Containment / response actions<textarea id="case-actions" rows="4" placeholder="Actions taken, owner and time…"></textarea></label>'+
+        '<label>Evidence references<textarea id="case-evidence" rows="3" placeholder="Evidence IDs, file names, SHA-256…"></textarea></label></div>'+
+        '<div class="psv-advanced-actions"><button type="button" data-psv-action="copy-case">Copy Markdown report</button><button type="button" data-psv-action="export-case">Download Markdown report</button></div>'+
+        '<pre id="case-output" class="psv-advanced-output" aria-live="polite">Complete the fields and export your incident report.</pre></section>';
+    } else if (tool.id === "evidence") {
+      body = '<section class="psv-advanced-panel"><h2>Calculate file integrity digest</h2><p>Select a local file. It is read in browser memory and is not uploaded. SHA-256 supports integrity comparison but does not prove provenance or authenticity.</p>'+
+        '<label class="psv-file-label" for="evidence-file">Evidence file</label><input id="evidence-file" type="file"><p id="evidence-file-meta" class="psv-advanced-muted">No file selected.</p>'+
+        '<div class="psv-advanced-actions"><button type="button" data-psv-action="hash-file">Calculate SHA-256</button><button type="button" data-psv-action="export-hash">Export integrity record (JSON)</button></div>'+
+        '<pre id="evidence-output" class="psv-advanced-output" aria-live="polite">Select a file to begin.</pre><p class="psv-advanced-muted">For large forensic images, use validated forensic tooling and documented acquisition procedures.</p></section>';
+    } else if (tool.id === "share") {
+      body = '<section class="psv-advanced-panel"><h2>Encrypt or decrypt an evidence package</h2><p>Encryption and decryption run locally using Web Crypto (AES-256-GCM with PBKDF2-SHA-256). The encrypted package is downloaded; PSV does not receive the content.</p>'+
+        '<div class="psv-advanced-actions psv-share-modes"><button type="button" class="active" data-psv-action="share-mode" data-mode="encrypt">Encrypt package</button><button type="button" data-psv-action="share-mode" data-mode="decrypt">Decrypt package</button></div>'+
+        '<label for="share-text">Text to encrypt (optional)</label><textarea id="share-text" rows="5" placeholder="Paste text for local encryption…"></textarea>'+
+        '<label for="share-file">Or select a file to encrypt</label><input id="share-file" type="file">'+
+        '<label for="share-package">Encrypted package (for decryption)</label><textarea id="share-package" rows="5" placeholder="Paste encrypted package JSON…"></textarea>'+
+        '<label for="share-pass">Passphrase</label><input id="share-pass" type="password" autocomplete="new-password" placeholder="Use a unique, strong passphrase">'+
+        '<div class="psv-advanced-actions"><button type="button" data-psv-action="share-run">Encrypt &amp; download package</button><button type="button" data-psv-action="share-clear">Clear fields</button></div>'+
+        '<pre id="share-output" class="psv-advanced-output" aria-live="polite">Choose encrypt or decrypt, provide the required content and passphrase, then run the operation.</pre>'+
+        '<p class="psv-advanced-muted">Share the passphrase through a separate approved channel. Lost passphrases cannot be recovered. Follow organisational evidence-transfer policies.</p></section>';
+    }
+    root.innerHTML = '<div id="psv-app" class="psv-workbench-v2"><div class="psv-tool-page">'+back+header+body+'</div></div>';
+  }
+
+  async function runShare() {
+    const output=document.getElementById("share-output");
+    const app=document.getElementById("psv-app");
+    const mode=app && app.dataset.shareMode==="decrypt" ? "decrypt" : "encrypt";
+    const passphrase=fieldValue("share-pass");
+    if(!output) return;
+    if(!window.isSecureContext || !window.crypto || !crypto.subtle){output.textContent="Web Crypto is unavailable. Open this page over HTTPS in a supported browser.";return;}
+    if(passphrase.length<14){output.textContent="Use a passphrase of at least 14 characters.";return;}
+    const enc=new TextEncoder();
+    const toB64=bytes=>{let binary="";const a=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);for(let i=0;i<a.length;i+=0x8000)binary+=String.fromCharCode(...a.subarray(i,i+0x8000));return btoa(binary);};
+    const fromB64=value=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
+    const deriveKey=async(salt,usages)=>{const material=await crypto.subtle.importKey("raw",enc.encode(passphrase),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,usages);};
+    try {
+      if(mode==="encrypt"){
+        const fileInput=document.getElementById("share-file"),file=fileInput&&fileInput.files&&fileInput.files[0],txt=fieldValue("share-text");
+        if(!file&&!txt){output.textContent="Enter text or select a file to encrypt.";return;}
+        if(file&&file.size>10*1024*1024){output.textContent="This browser utility is limited to files up to 10 MB. Use approved managed transfer for larger evidence.";return;}
+        const plaintext=file?new Uint8Array(await file.arrayBuffer()):enc.encode(txt);
+        const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveKey(salt,["encrypt"]);
+        const ciphertext=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},key,plaintext));
+        const pkg={format:"PSV-ENCRYPTED-PACKAGE",version:1,algorithm:"AES-256-GCM",kdf:"PBKDF2-SHA-256",iterations:310000,salt:toB64(salt),iv:toB64(iv),filename:file?file.name:"encrypted-text.txt",content_type:file?(file.type||"application/octet-stream"):"text/plain;charset=utf-8",payload:toB64(ciphertext)};
+        downloadText("psv-encrypted-package.json",JSON.stringify(pkg,null,2),"application/json;charset=utf-8");
+        output.textContent="Encryption successful. The encrypted package has been downloaded. Share the package and passphrase separately. No plaintext or key was sent to a server.";
+      } else {
+        const raw=fieldValue("share-package");
+        if(!raw){output.textContent="Paste the encrypted package JSON first.";return;}
+        const pkg=JSON.parse(raw);
+        if(pkg.format!=="PSV-ENCRYPTED-PACKAGE"||pkg.version!==1||pkg.algorithm!=="AES-256-GCM"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.iterations!==310000)throw new Error("Unsupported or invalid package format.");
+        const salt=fromB64(pkg.salt),iv=fromB64(pkg.iv),ciphertext=fromB64(pkg.payload);
+        if(salt.length!==16||iv.length!==12||ciphertext.length<16)throw new Error("Invalid package fields.");
+        const key=await deriveKey(salt,["decrypt"]);
+        const plaintext=new Uint8Array(await crypto.subtle.decrypt({name:"AES-GCM",iv:iv},key,ciphertext));
+        const filename=(pkg.filename||"decrypted-evidence.bin").replace(/[\\/:*?"<>|]/g,"_");
+        downloadText(filename,plaintext,pkg.content_type||"application/octet-stream");
+        output.textContent="Decryption successful. The decrypted file has been downloaded. Keep the passphrase and decrypted evidence protected.";
+      }
+    } catch(error) {
+      console.error("[PSV Tools] Secure-share operation failed:",error);
+      output.textContent=mode==="decrypt"?"Decryption failed. The package may be damaged, unsupported, or the passphrase may be incorrect.":"Encryption failed: "+(error&&error.message?error.message:String(error));
+    }
+  }
+
   function renderSingleToolView(root) {
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
     if (["case","share","evidence"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
