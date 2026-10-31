@@ -27,7 +27,14 @@ Create VM PSV-MAC-RTR01 with ARM64 Ubuntu Server, 2–4 vCPU, 4–8 GB RAM and a
 
 The exact number and naming of custom networks depend on the Fusion release. If the installed Fusion version cannot provide separate isolated networks, stop and redesign; do not collapse them into one host-only segment.
 
-Boot Ubuntu and confirm ARM64:
+Boot Ubuntu, set the guest hostname, and confirm ARM64:
+
+~~~bash
+sudo hostnamectl set-hostname PSV-MAC-RTR01
+hostnamectl
+~~~
+
+Use this exact hostname in the relay's source-identification rule. The SERVER interface in this example is 10.10.30.1/24.
 
 ~~~bash
 uname -m
@@ -261,7 +268,7 @@ dhcp-range=interface:server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
 dhcp-option=tag:interface:server0,option:router,10.10.30.1
 dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
 dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
-dhcp-range=interface:dmz0,10.10.60.200,10.10.60.150,255.255.255.0,12h
+dhcp-range=interface:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
 dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
 ~~~
 
@@ -276,7 +283,7 @@ sudo systemctl status dnsmasq --no-pager
 sudo journalctl -u dnsmasq -n 100 --no-pager
 ~~~
 
-## 7. Local firewall logs
+## 7. Local firewall logs and relay forwarding
 
 The nftables rules emit kernel log messages with unique prefixes. Confirm them:
 
@@ -298,7 +305,45 @@ sudo rsyslogd -N1
 sudo systemctl restart rsyslog
 ~~~
 
-Generate a known blocked flow and verify the record in /var/log/psv-router-firewall.log. Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
+Generate a known blocked flow and verify the record in /var/log/psv-router-firewall.log.
+
+Ubuntu normally configures rsyslog to read the system journal and/or kernel log. Confirm the installed configuration has a working journal/kernel input; do not load a duplicate input module if it is already enabled:
+
+~~~bash
+grep -R -E 'module\\(load="(imjournal|imklog)"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
+~~~
+
+Create /etc/rsyslog.d/30-psv-router-forward.conf to forward only the tagged nftables records to the SERVER relay. The relay must already allow this router's SERVER-facing source address and hostname. Replace the relay IP/port if your deployment differs:
+
+~~~text
+if ($msg contains "PSV-ROUTER-") then {
+    action(
+        type="omfwd"
+        target="10.10.30.30"
+        port="514"
+        protocol="tcp"
+        template="RSYSLOG_SyslogProtocol23Format"
+        queue.type="LinkedList"
+        queue.filename="psv-router-fwd"
+        queue.maxDiskSpace="1g"
+        queue.saveOnShutdown="on"
+        action.resumeRetryCount="-1"
+    )
+    stop
+}
+~~~
+
+Validate and restart:
+
+~~~bash
+sudo rsyslogd -N1
+sudo systemctl restart rsyslog
+sudo systemctl status rsyslog --no-pager
+~~~
+
+Generate a blocked test flow, confirm the unique PSV-ROUTER prefix in the local file, then confirm the corresponding message arrives at /var/log/remote/psv-mac-router.log on the relay. Confirm the forwarding queue remains bounded and monitor rsyslog errors. TCP/514 is permitted only on the isolated lab segment; use the TLS configuration in the relay guide on shared or untrusted paths.
+
+Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
 
 ## 8. Acceptance tests
 
