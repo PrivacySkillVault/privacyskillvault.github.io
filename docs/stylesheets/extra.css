@@ -330,3 +330,84 @@ body:has(.psv-journal-shell) .md-content__inner>h1:first-child{display:none!impo
 .psv-page-status{margin:0 .4rem;color:var(--psv-muted);font-size:.68rem}
 .psv-page-next{margin-left:.35rem;color:var(--psv-primary)!important}
 @media(max-width:700px){.psv-journal-pagination{gap:.35rem}.psv-page-status{width:100%;order:3;text-align:center}.psv-page-next{margin-left:0}}
+
+
+/* CYBER JOURNAL — consistent story spacing and card dimensions on every listing. */
+.psv-journal-story-list{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+  width:100%;
+  margin:1rem 0 0;
+}
+.psv-journal-story-list>.psv-story-card{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:160px minmax(0,1fr)!important;
+  align-items:stretch;
+  width:100%;
+  min-height:136px;
+  height:136px;
+}
+.psv-journal-story-list>.psv-story-card>.psv-story-card__art{
+  box-sizing:border-box;
+  width:160px;
+  min-width:160px;
+  height:136px;
+  min-height:136px!important;
+  aspect-ratio:auto;
+  align-self:stretch;
+}
+.psv-journal-story-list>.psv-story-card>.psv-story-card__art img{
+  width:100%;
+  height:100%;
+  min-height:0;
+  object-fit:cover;
+}
+.psv-journal-story-list>.psv-story-card>.psv-story-card__body{
+  box-sizing:border-box;
+  min-width:0;
+  min-height:136px;
+  height:136px;
+  padding:.85rem 1rem!important;
+}
+.psv-journal-page-top{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin:0 0 1rem;
+}
+.psv-journal-page-top .psv-page-link{
+  min-width:auto;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--psv-muted)!important;
+  font:700 .7rem/1.4 ui-monospace,monospace;
+  letter-spacing:.08em;
+}
+.psv-journal-page-top .psv-page-link.is-current{
+  color:var(--psv-primary)!important;
+  background:transparent;
+}
+@media(max-width:700px){
+  .psv-journal-story-list{gap:.8rem}
+  .psv-journal-story-list>.psv-story-card{
+    grid-template-columns:104px minmax(0,1fr)!important;
+    min-height:112px;
+    height:112px;
+  }
+  .psv-journal-story-list>.psv-story-card>.psv-story-card__art{
+    width:104px;
+    min-width:104px;
+    height:112px;
+    min-height:112px!important;
+  }
+  .psv-journal-story-list>.psv-story-card>.psv-story-card__body{
+    min-height:112px;
+    height:112px;
+    padding:.65rem .7rem!important;
+  }
+}
