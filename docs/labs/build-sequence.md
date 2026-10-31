@@ -29,7 +29,7 @@ Follow [Windows Host Setup](platform-windows.md), [Mac Host Setup](platform-maco
 
 ## Stage 2 — design and create networks
 
-Follow [Network Design](network-design.md). Check example subnets against home LAN, VPN and existing routes.
+Follow [Network Design](network-design.md) and [Hypervisor Network Implementation](hypervisor-network-implementation.md). Check example subnets against home LAN, VPN and existing routes. Create and verify the actual virtual switches before attaching guests.
 
 | Segment | Example subnet | Purpose |
 |---|---|---|
@@ -48,7 +48,7 @@ Follow [Network Design](network-design.md). Check example subnets against home L
 Follow [OPNsense Firewall & Routing](firewall-routing.md). Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.
 
 ### Apple Silicon Mac
-Follow [Mac ARM Router & Firewall](mac-arm-routing.md). Use Ubuntu Server ARM64 with nftables and separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.
+Follow [Mac ARM Router & Firewall](mac-arm-routing.md) and the [detailed ARM64 router implementation](mac-arm-router-implementation.md). Use Ubuntu Server ARM64 with Netplan and nftables on separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.
 
 **Gate 3:** verify DHCP/static addressing, DNS, gateway, allowed and denied TCP flows, firewall logs and routes. Kali/DMZ must not reach home LAN or MGMT.
 
@@ -77,7 +77,7 @@ Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md).
 
 ## Stage 6 — firewall and network monitoring
 
-Follow [Network Monitoring](network-monitoring.md).
+Follow [Network Monitoring](network-monitoring.md) and the [Zeek/Suricata sensor implementation](network-sensor-implementation.md). Prove packet visibility before installing analyzers.
 
 1. On Windows OPNsense, enable Suricata in alert-only IDS mode on relevant internal interfaces, not only WAN. WAN capture after NAT may lose original internal source identity.
 2. Enable logging on the firewall rules used for pass/block tests.
@@ -93,7 +93,7 @@ On Mac ARM, use supported ARM64 Zeek/Suricata builds only after verifying packet
 
 ## Stage 7 — telemetry collection and forwarding
 
-Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
+Follow the [rsyslog relay implementation](syslog-relay-implementation.md) and [Telemetry Collection & Forwarding](telemetry-pipeline.md).
 
 1. Create a Linux syslog relay on SERVER.
 2. Configure OPNsense or the Mac Linux router to send firewall events to the relay.
