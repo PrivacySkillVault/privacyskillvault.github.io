@@ -296,3 +296,22 @@ body:has(.psv-journal-shell) .md-content__inner>h1:first-child{display:none!impo
  .psv-journal-sidebar{max-width:none}
  .psv-journal-side-link{padding:.5rem .6rem;font-size:.7rem}
 }
+
+
+/* Cyber Journal article thumbnail artwork */
+.psv-story-card__art{display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#1c4167 0%,#10253b 50%,#0a1523 100%)}
+.psv-story-card__art:after{position:absolute;inset:0;background:linear-gradient(135deg,rgba(88,166,255,.12),transparent 55%,rgba(31,111,235,.08));content:""}
+.psv-thumb-glyph{position:relative;z-index:1;display:grid;width:45px;height:45px;place-items:center;border:1px solid rgba(134,190,245,.55);border-radius:13px;background:rgba(8,22,39,.58);box-shadow:0 0 28px rgba(31,111,235,.22);color:#c8e4ff;font:750 1.2rem/1 ui-monospace,monospace;letter-spacing:-.06em}
+.psv-story-art--fraud{background:radial-gradient(ellipse at 50% 45%,#234d62,#102b3b 52%,#0a1724)}
+.psv-story-art--payment{background:radial-gradient(ellipse at 50% 45%,#254d58,#112a36 52%,#0a1724)}
+.psv-story-art--ransom{background:radial-gradient(ellipse at 50% 45%,#583b3c,#30232e 52%,#111723)}
+.psv-story-art--lotl{background:radial-gradient(ellipse at 50% 45%,#34466a,#1b2b48 52%,#0b1525)}
+.psv-story-art--powershell{background:radial-gradient(ellipse at 50% 45%,#254c70,#102b46 52%,#091725)}
+.psv-story-art--login{background:radial-gradient(ellipse at 50% 45%,#344f70,#172c47 52%,#0a1524)}
+.psv-story-art--cve{background:radial-gradient(ellipse at 50% 45%,#594b2e,#302a22 52%,#151923)}
+.psv-story-art--risk{background:radial-gradient(ellipse at 50% 45%,#3d5264,#1b2d3d 52%,#0a1724)}
+.psv-story-art--sysmon{background:radial-gradient(ellipse at 50% 45%,#254b69,#10283f 52%,#091725)}
+.psv-story-art--zeek{background:radial-gradient(ellipse at 50% 45%,#27565b,#123238 52%,#091a24)}
+.psv-story-art--dns{background:radial-gradient(ellipse at 50% 45%,#2b5068,#142b40 52%,#091725)}
+.psv-story-art--mfa{background:radial-gradient(ellipse at 50% 45%,#394e6e,#1b2c48 52%,#0a1524)}
+@media(max-width:700px){.psv-thumb-glyph{width:35px;height:35px;border-radius:10px;font-size:1rem}}

@@ -15,6 +15,16 @@
     <p class="psv-journal-kicker">JOURNAL CATEGORY / 05</p>
     <h1>Lab Notes</h1>
     <p class="psv-category-deck">Hands-on experiments, configurations, troubleshooting, and validation from controlled security environments.</p>
-    <div class="psv-journal-empty"><span>⌬</span><h2>Stories are being researched</h2><p>There are no published articles in this category yet. New stories will appear here after their sources and technical details have been reviewed.</p><a href="../">Browse all journal stories →</a></div>
+    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in Lab Notes</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
+    <div class="psv-journal-story-list">
+<a class="psv-story-card" href="windows-sysmon-telemetry-lab/">
+      <div class="psv-story-card__art psv-story-art--sysmon" aria-hidden="true"><span class="psv-story-art__label">WINDOWS TELEMETRY</span><span class="psv-thumb-glyph">▤</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">LAB NOTES <i>·</i> EXPLAINER</span><h3>Lab Notes: Building a Windows Endpoint Telemetry Pipeline with Sysmon</h3><p>A safe lab plan for collecting process, network, and file events and validating that the SIEM receives them.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 10 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="zeek-network-visibility-lab/">
+      <div class="psv-story-card__art psv-story-art--zeek" aria-hidden="true"><span class="psv-story-art__label">NETWORK VISIBILITY</span><span class="psv-thumb-glyph">⌁</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">LAB NOTES <i>·</i> EXPLAINER</span><h3>Lab Notes: Understanding Network Activity with Zeek Logs</h3><p>Learn what conn.log, dns.log, and http.log can tell you, how to correlate them, and what encrypted traffic hides.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+    </div>
   </section>
 </div>

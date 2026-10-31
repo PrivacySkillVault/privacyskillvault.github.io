@@ -15,6 +15,16 @@
     <p class="psv-journal-kicker">JOURNAL CATEGORY / 06</p>
     <h1>Security Explainers</h1>
     <p class="psv-category-deck">Clear, technically grounded explanations of security concepts, protocols, tools, and defensive controls.</p>
-    <div class="psv-journal-empty"><span>◇</span><h2>Stories are being researched</h2><p>There are no published articles in this category yet. New stories will appear here after their sources and technical details have been reviewed.</p><a href="../">Browse all journal stories →</a></div>
+    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in Security Explainers</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
+    <div class="psv-journal-story-list">
+<a class="psv-story-card" href="dns-resolution-explained/">
+      <div class="psv-story-card__art psv-story-art--dns" aria-hidden="true"><span class="psv-story-art__label">DOMAIN RESOLUTION</span><span class="psv-thumb-glyph">⇄</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">SECURITY EXPLAINERS <i>·</i> EXPLAINER</span><h3>DNS Explained: What Happens After You Type a Website Address?</h3><p>Follow a DNS lookup from the local cache through recursive and authoritative name servers, and learn what defenders can observe.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 7 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="mfa-passkeys-explained/">
+      <div class="psv-story-card__art psv-story-art--mfa" aria-hidden="true"><span class="psv-story-art__label">AUTHENTICATION</span><span class="psv-thumb-glyph">⌑</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">SECURITY EXPLAINERS <i>·</i> EXPLAINER</span><h3>MFA, OTPs and Passkeys: What Actually Makes Authentication Stronger?</h3><p>Understand authentication factors, OTP limitations, phishing-resistant passkeys, and why recovery flows still matter.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+    </div>
   </section>
 </div>

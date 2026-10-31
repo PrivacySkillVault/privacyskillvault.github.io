@@ -15,6 +15,16 @@
     <p class="psv-journal-kicker">JOURNAL CATEGORY / 04</p>
     <h1>Vulnerabilities</h1>
     <p class="psv-category-deck">Understand vulnerability disclosures, real-world exposure, exploitability, prioritisation, and remediation.</p>
-    <div class="psv-journal-empty"><span>⛨</span><h2>Stories are being researched</h2><p>There are no published articles in this category yet. New stories will appear here after their sources and technical details have been reviewed.</p><a href="../">Browse all journal stories →</a></div>
+    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in Vulnerabilities</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
+    <div class="psv-journal-story-list">
+<a class="psv-story-card" href="cve-cvss-cwe-cpe-explained/">
+      <div class="psv-story-card__art psv-story-art--cve" aria-hidden="true"><span class="psv-story-art__label">VULNERABILITY DATA</span><span class="psv-thumb-glyph">CVE</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>CVE, CVSS, CWE and CPE: Four Terms Every Vulnerability Analyst Should Know</h3><p>Understand what each identifier or score represents—and why none alone tells you whether a system is at risk.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="prioritising-vulnerabilities-beyond-cvss/">
+      <div class="psv-story-card__art psv-story-art--risk" aria-hidden="true"><span class="psv-story-art__label">RISK PRIORITISATION</span><span class="psv-thumb-glyph">◉</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>How to Prioritise Vulnerabilities Beyond the CVSS Score</h3><p>Combine severity, active exploitation, exposure, asset criticality, and remediation feasibility into a defensible decision.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+    </div>
   </section>
 </div>
