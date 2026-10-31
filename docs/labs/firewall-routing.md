@@ -47,6 +47,8 @@ Record every virtual NIC MAC before boot. At OPNsense console map roles by MAC a
 4. Use a consistent time source/timezone for all guests.
 5. For AD DS, domain clients use the domain controller for DNS; configure upstream resolution deliberately.
 
+For the exact source/destination/port matrix, including AD DS dependencies and the selected SIEM's common receiver ports, use the [Firewall Policy Matrix](firewall-policy-matrix.md). The table is a design aid: enable only the rows required by the chosen services and verify every rule.
+
 ## 5. Least-privilege policy
 
 Retain a safe management path and console access before narrowing rules.
