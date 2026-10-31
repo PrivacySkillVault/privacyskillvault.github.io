@@ -18,7 +18,7 @@ This programme has two distinct host tracks: Windows x64 and Apple-silicon Mac A
 | 5 | [Endpoint telemetry](windows-endpoint-telemetry.md) and [cross-platform implementation](endpoint-telemetry-implementation.md) | Windows Security/Sysmon and Linux/macOS source events verified locally |
 | 6 | [Network monitoring](network-monitoring.md) and [sensor implementation](network-sensor-implementation.md) | Firewall IDS, Suricata and Zeek visibility proven; logs written locally |
 | 7 | [Syslog relay implementation](syslog-relay-implementation.md) and [telemetry pipeline](telemetry-pipeline.md) | Firewall/router events reach the relay; endpoint events and sensor files are verified locally |
-| 8 | [Elastic](elastic-siem.md), [Splunk](splunk-siem.md) or [Wazuh](wazuh-soc.md) | Install one SIEM, configure collectors/agents, and prove end-to-end ingestion |
+| 8 | [Elastic](elastic-siem.md), [Splunk](splunk-siem.md) or [Wazuh](wazuh-soc.md) plus [collector implementation](siem-collector-implementation.md) | Install one SIEM, configure collectors/agents, and prove end-to-end ingestion |
 | 9 | [Security Onion](security-onion.md) — optional x86-64 alternative | Dedicated NSM/SOC deployment after network visibility is ready |
 | 10 | [Penetration testing](penetration-testing.md) | Scope, isolation, target and telemetry gates passed |
 | 11 | [SOC validation](soc-exercises.md) | End-to-end detection, investigation, evidence and cleanup demonstrated |
