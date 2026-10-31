@@ -4,6 +4,12 @@
 
 This is a separate Splunk deployment. Use a supported x86-64 Windows or Linux server on the Windows PC. The Mac is an endpoint/admin client; do not assume Splunk Enterprise server is supported natively on Apple-silicon macOS.
 
+## Mandatory prerequisites — complete before installing Splunk
+
+Do not start this SIEM until Stages 0–7 in [Master Build Sequence](build-sequence.md) pass. Firewall syslog must be written by the Linux relay; Zeek/Suricata files must exist and be readable on the sensor; Windows Security/Sysmon and Linux source events must be proven locally. Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
+
+Use Splunk Universal Forwarder to monitor endpoint Event Log channels and relay/sensor files. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog; direct TCP/UDP syslog input to Splunk Enterprise is discouraged for production designs. Verify OS and architecture support for each forwarder host.
+
 ## 1. Architecture
 
 Windows endpoint (Sysmon + Universal Forwarder) → TCP receiving port → Splunk Enterprise → Search & Reporting.
@@ -121,3 +127,4 @@ Splunk licence and trial/free capabilities change. Check current terms from Splu
 - [Universal Forwarder installation](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Installtheuniversalforwarder)
 - [Windows Event Log inputs](https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/MonitorWindowseventlogdata)
 - [Enable a receiver](https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Enableareceiver)
+- [Splunk syslog data collection architectures](https://help.splunk.com/en/data-management/splunk-validated-architectures/getting-data-in-forwarding-and-preprocessing/syslog-data-collection)
