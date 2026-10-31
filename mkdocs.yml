@@ -75,6 +75,7 @@ nav:
       - VirtualBox Host Setup: labs/platform-virtualbox.md
       - Network Design: labs/network-design.md
       - Windows OPNsense Firewall & IDS: labs/firewall-routing.md
+      - OPNsense Implementation: labs/opnsense-implementation.md
       - Firewall Policy Matrix: labs/firewall-policy-matrix.md
       - Mac ARM Router & Firewall: labs/mac-arm-routing.md
       - Operating Systems & Identity: labs/operating-systems.md
