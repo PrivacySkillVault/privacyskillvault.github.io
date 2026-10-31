@@ -35,7 +35,23 @@ gpresult /h C:\Temp\psv-gpo-result.html
 auditpol /get /category:*
 ~~~
 
-Generate a controlled local Administrators group membership change on the disposable endpoint. Confirm Security Event ID 4732 and verify the target group SID is S-1-5-32-544. Revert the change after evidence collection. Event 4732 shows a membership change, not malicious intent.
+Generate a controlled local Administrators group membership change on the disposable endpoint. Run PowerShell as Administrator and use a temporary local account:
+
+~~~powershell
+$Password = Read-Host "Temporary lab account password" -AsSecureString
+New-LocalUser -Name "PSV-LabTestUser" -Password $Password -Description "Temporary telemetry test"
+Add-LocalGroupMember -Group "Administrators" -Member "PSV-LabTestUser"
+Get-LocalGroupMember -Group "Administrators"
+~~~
+
+Confirm Security Event ID 4732 and verify the target group SID is S-1-5-32-544. Then remove the test membership and account:
+
+~~~powershell
+Remove-LocalGroupMember -Group "Administrators" -Member "PSV-LabTestUser"
+Remove-LocalUser -Name "PSV-LabTestUser"
+~~~
+
+Event 4732 shows a membership change, not malicious intent; the removal should also generate a corresponding group-membership event.
 
 Generate a benign process event:
 
