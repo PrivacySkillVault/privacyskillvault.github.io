@@ -15,15 +15,15 @@ This programme builds an enterprise-style segmented lab using virtual machines. 
 | 2 | [Network Design](network-design.md) and [Hypervisor Network Implementation](hypervisor-network-implementation.md) | Isolated segments, adapter mapping and capture design proven |
 | 3 | [OPNsense Implementation](opnsense-implementation.md) and [Firewall Policy Matrix](firewall-policy-matrix.md) | Routing, DNS, DHCP, NTP and default-deny policy validated |
 | 4 | [Operating Systems & Identity](operating-systems.md) | All guest OSs installed inside VMs |
-| 5 | AD DS/DNS and DMZ applications | Domain join and isolated targets verified |
+| 5 | [AD DS/DNS and DMZ applications](enterprise-dual-siem-vm-lab.md#8-active-directory-and-target-application) · [Operating Systems & Identity](operating-systems.md) | Domain join and isolated targets verified |
 | 6 | [Endpoint Telemetry](endpoint-telemetry-implementation.md) | Windows/Linux events exist locally |
 | 7 | [Network Monitoring](network-monitoring.md) and [Sensor Implementation](network-sensor-implementation.md) | Packet visibility, Zeek and Suricata events proven |
 | 8 | [Syslog Relay](syslog-relay-implementation.md) and [Telemetry Pipeline](telemetry-pipeline.md) | Firewall and sensor events reach the broker |
 | 9 | [Elastic SIEM](elastic-siem.md) | Elastic raw event ingestion verified |
 | 10 | [Splunk SIEM](splunk-siem.md) | Splunk raw event ingestion verified |
-| 11 | Dual-output Vector and endpoint coexistence | Same controlled sources searchable in both SIEMs |
+| 11 | [Dual-output Vector](siem-collector-implementation.md#4a-dual-siem-broker-design-vector) · [Telemetry Pipeline](telemetry-pipeline.md) · [Master Runbook](enterprise-dual-siem-vm-lab.md#12-vector-dual-output-broker) | Same controlled sources searchable in both SIEMs |
 | 12 | [Penetration Testing](penetration-testing.md) and [SOC Exercises](soc-exercises.md) | Controlled detection and investigation validated |
-| 13 | Operations and recovery | Backups, retention, health and restore tests documented |
+| 13 | [Operations & Recovery](operations-recovery.md) | Backups, retention, health and restore tests documented |
 
 Do not skip gates. A service showing active, an agent showing online, or a successful documentation build does not prove end-to-end telemetry.
 

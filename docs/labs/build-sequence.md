@@ -60,6 +60,8 @@ Deploy the firewall, domain controller, Windows endpoint, collector, Elastic, Sp
 
 ## Stage 5 — identity and target applications
 
+Implementation guides: [Operating Systems & Identity](operating-systems.md) · [AD DS and target application runbook](enterprise-dual-siem-vm-lab.md#8-active-directory-and-target-application).
+
 1. Promote the Windows Server VM to AD DS/DNS for a private lab-only domain.
 2. Configure DNS forwarders and test records.
 3. Create lab OUs, users and groups.
@@ -116,6 +118,8 @@ Follow [Splunk SIEM](splunk-siem.md). Install Splunk Enterprise on the supported
 
 ## Stage 11 — dual-output and endpoint coexistence
 
+Implementation guides: [SIEM Collector — Vector dual-SIEM design](siem-collector-implementation.md#4a-dual-siem-broker-design-vector) · [Telemetry Pipeline](telemetry-pipeline.md) · [Enterprise Runbook — Vector dual output](enterprise-dual-siem-vm-lab.md#12-vector-dual-output-broker).
+
 Configure Vector outputs to Elasticsearch and Splunk HEC with TLS, least-privilege credentials, explicit index/dataset mapping and bounded retry/buffering. Test each output independently, then simulate one destination being unavailable.
 
 On a disposable Windows endpoint, enroll Elastic Agent first, verify data, then install Splunk UF and verify the same test event in Splunk. Measure resource use, latency and duplicates. Do not install both agents on every VM by default.
@@ -129,6 +133,8 @@ Follow [Penetration Testing](penetration-testing.md) and [SOC Validation Exercis
 **Gate 12:** each exercise has source evidence, SIEM raw event, query/rule, alert result, timestamp comparison and cleanup record in both SIEMs where applicable.
 
 ## Stage 13 — operations and recovery
+
+Implementation guide: [Operations & Recovery](operations-recovery.md).
 
 Back up firewall, AD, SIEM and broker configurations separately from VM snapshots. Document retention, disk limits, updates, credentials, agent health, restore procedures and evidence sanitization. Re-test segmentation after hypervisor or NIC changes.
 
