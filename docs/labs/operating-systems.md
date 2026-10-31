@@ -49,7 +49,14 @@ nslookup -type=SRV _ldap._tcp.dc._msdcs.lab.psv.test
 Add-Computer -DomainName "lab.psv.test" -Credential (Get-Credential) -Restart
 ```
 
-Use a delegated join account rather than Domain Admin for routine joining. Verify after reboot:
+Use a delegated join account rather than Domain Admin for routine joining. On PSV-DC01, create the lab workstation OU and move the joined endpoint computer object into it (replace the computer name if yours differs):
+
+~~~powershell
+New-ADOrganizationalUnit -Name "Lab-Workstations" -Path "DC=lab,DC=psv,DC=test" -ProtectedFromAccidentalDeletion $true
+Get-ADComputer "PSV-W11-01" | Move-ADObject -TargetPath "OU=Lab-Workstations,DC=lab,DC=psv,DC=test"
+~~~
+
+Verify after reboot:
 
 ```powershell
 systeminfo | findstr /B /C:"Domain"
@@ -69,7 +76,7 @@ After the Windows endpoint is joined to the lab domain, use Group Policy Managem
    - **Logon/Logoff → Audit Logon:** Success and Failure for this lab OU.
 3. Under **Administrative Templates → System → Audit Process Creation**, enable **Include command line in process creation events** if you need Event 4688 command-line evidence. Command lines can contain secrets; keep this lab-only and sanitise evidence.
 4. If practising PowerShell logging, enable **Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging** on the lab OU only. Script contents can contain sensitive data.
-5. On the endpoint run `gpupdate /force`, create the output folder, then run `gpresult /h C:\Temp\gpresult.html`. Confirm the policy applied:
+5. On the endpoint create the output folder, refresh policy, and verify the applied policy:
 
    ```powershell
    New-Item -ItemType Directory -Path C:\Temp -Force | Out-Null
