@@ -1730,7 +1730,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       <div id="psv-app">
         <div class="psv-tool-page">
           <div class="psv-back-bar">
-            <button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Security Tools (13)</button>
+            <button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools (${TOOLS.length})</button>
             <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
               ${TOOLS.map(t => `<button type="button" class="psv-opt-pill ${t.id === tool.id ? "active" : ""}" style="padding:0.28rem 0.6rem;font-size:0.71rem;" data-psv-action="open-tool" data-tool="${esc(t.id)}">${esc(t.badge)}</button>`).join("")}
             </div>
