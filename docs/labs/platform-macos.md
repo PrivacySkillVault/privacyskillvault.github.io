@@ -87,7 +87,21 @@ Identify Fusion's shared/NAT and host-only networks. Use NAT only for temporary 
 
 Fusion host-only networks and Windows Hyper-V private switches are local to each host. They are not automatically Layer-2 connected. Cross-host connectivity needs a deliberate lab firewall/router or separate isolated labs forwarding telemetry over a controlled management network.
 
-## 7. Snapshot and verify
+## 7. Create the isolated Fusion networks
+
+Fusion provides NAT and Host-only networking by default. Fusion Pro also supports custom virtual networks through its Network preferences, but do not assume an arbitrary number of networks exists before creating and inspecting them.
+
+1. Shut down VMs before changing network layout.
+2. Open VMware Fusion → Settings/Preferences → Network. Unlock the settings if prompted.
+3. Use the **+** control to add a custom network. Give it a descriptive name (for example, PSV-ENDPOINT); repeat for the segments your installed release permits.
+4. Inspect each network's subnet and DHCP setting. Record the actual vmnet name, subnet, host connectivity and DHCP status.
+5. Use the default NAT network only for the router's WAN/update path.
+6. Use separate custom/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Disable Fusion DHCP on internal networks served by the router; do not create duplicate DHCP services.
+7. If the installed Fusion version cannot provide enough independent networks, stop and use a dedicated physical firewall/managed-switch design or reduce the lab to a clearly documented smaller topology. Do not claim segmentation when all guests share one host-only network.
+
+Attach the ARM64 router VM to WAN plus each independent internal network. Map adapters to roles by MAC address and verify with `ip -br link` before applying Netplan. Keep Kali and vulnerable targets off Bridged networking.
+
+## 8. Snapshot and verify
 
 1. Shut down each VM cleanly.
 2. Create a baseline snapshot.
@@ -96,9 +110,11 @@ Fusion host-only networks and Windows Hyper-V private switches are local to each
 5. Verify Kali/target cannot reach the home LAN.
 6. Record Fusion version, macOS build, ISO checksum, VM settings and network plan.
 
-## 8. References
+## 9. References
 
 - [Broadcom: Arm guest OS compatibility in Fusion on Apple Silicon](https://knowledge.broadcom.com/external/article/315602)
+- [Broadcom: Understanding networking types in VMware Fusion](https://knowledge.broadcom.com/external/article/303393)
+- [Broadcom: Add custom Fusion networks](https://knowledge.broadcom.com/external/article/311759)
 - [Broadcom Compatibility Guide](https://compatibilityguide.broadcom.com/)
 - [Kali on VMware Fusion / Apple Silicon](https://www.kali.org/docs/virtualization/install-vmware-silicon-host/)
 - [Kali official image verification](https://www.kali.org/docs/introduction/download-official-kali-linux-images/)
