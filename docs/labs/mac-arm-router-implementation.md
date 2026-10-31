@@ -311,8 +311,17 @@ Generate a known blocked flow and verify the record in /var/log/psv-router-firew
 Ubuntu normally configures rsyslog to read the system journal and/or kernel log. Confirm the installed configuration has a working journal/kernel input; do not load a duplicate input module if it is already enabled:
 
 ~~~bash
-grep -R -E 'module\\(load="(imjournal|imklog)"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
+grep -R -E 'module\(load="(imjournal|imklog)"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
 ~~~
+
+ 
+If neither journal nor kernel input is enabled, add the following once (do not duplicate an existing module) to /etc/rsyslog.d/05-psv-journal-input.conf:
+
+~~~text
+module(load="imjournal" StateFile="imjournal.state")
+~~~
+
+Validate the complete configuration with rsyslogd -N1 and confirm a test kernel log record is received before proceeding.
 
 Create /etc/rsyslog.d/40-psv-router-forward.conf to forward only the tagged nftables records to the SERVER relay. The later filename ensures the local file action above runs first. The relay must already allow this router's SERVER-facing source address and hostname. Replace the relay IP/port if your deployment differs:
 
@@ -342,7 +351,7 @@ sudo systemctl restart rsyslog
 sudo systemctl status rsyslog --no-pager
 ~~~
 
-Generate a blocked test flow, confirm the unique PSV-ROUTER prefix in the local file, then confirm the corresponding message arrives at /var/log/remote/psv-mac-router.log on the relay. Confirm the forwarding queue remains bounded and monitor rsyslog errors. TCP/514 is permitted only on the isolated lab segment; use the TLS configuration in the relay guide on shared or untrusted paths.
+Generate a blocked test flow, confirm the unique PSV-ROUTER prefix in the local file, then on PSV-LOG01 run `sudo grep 'PSV-ROUTER-' /var/log/remote/psv-mac-router.log` and confirm the same message arrives with the PSV-MAC-RTR01 identity. Confirm the forwarding queue remains bounded and monitor rsyslog errors. TCP/514 is permitted only on the isolated lab segment; use the TLS configuration in the relay guide on shared or untrusted paths.
 
 Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
 
