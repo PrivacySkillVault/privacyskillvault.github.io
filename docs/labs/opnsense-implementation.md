@@ -35,7 +35,7 @@ After applying, verify the interface status and address on the dashboard and und
 ## 3. Initial firewall GUI access and administration
 
 1. Attach a dedicated admin workstation VM to MGMT.
-2. Configure it as 10.10.10.10/24 with gateway 10.10.10.1, or use a reservation.
+2. Configure it as 10.10.10.10/24 with gateway 10.10.10.1, or use a reservation. Set DNS to the DC (10.10.30.10) if this workstation is domain-joined; otherwise use the OPNsense MGMT interface/Unbound address (10.10.10.1).
 3. Open the OPNsense GUI at https://10.10.10.1 from that workstation.
 4. Complete the initial setup wizard, set a unique strong admin password and configure hostname/domain/timezone/NTP. For the relay example, set the system hostname to PSV-OPNSENSE01 so the relay can distinguish this firewall from the isolated Mac router track.
 5. Use HTTPS and the generated certificate; do not permanently disable browser certificate checks.
@@ -122,7 +122,7 @@ OPNsense rules are applied on the interface where traffic enters. Add rules to t
 2. Allow PSV_MGMT_ADMIN to firewall SSH on TCP/22 only if SSH administration is required.
 3. Allow MGMT admin host to the named server management ports that are actually needed, including TCP/22 and/or TCP/443 to the sensor management host 10.10.50.10 if sensor administration is required.
 4. Deny/log other management access from non-admin clients.
-5. If Unbound is the DNS service for MGMT, allow MGMT net to This Firewall on UDP/53 and TCP/53 only; do not allow arbitrary external DNS.
+5. If the MGMT workstation is domain-joined, allow its DNS only to the DC on UDP/TCP 53. If it is not domain-joined and Unbound is its resolver, allow MGMT net to This Firewall on UDP/53 and TCP/53 only. Do not allow arbitrary external DNS.
 6. Do not allow MGMT to reach the home LAN unless explicitly required.
 
 ### ENDPOINT interface
