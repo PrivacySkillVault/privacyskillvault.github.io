@@ -8,7 +8,7 @@ This guide configures a dedicated Linux relay on SERVER to receive firewall/rout
 
 Example relay: PSV-LOG01, 10.10.30.30/24, gateway 10.10.30.1. Use a static address or DHCP reservation. Configure authoritative lab DNS and NTP. Do not use these example addresses if they overlap your existing network.
 
-Create an allowlist containing exact source IPs: OPNsense firewall interface address used for syslog, Mac ARM router SERVER-facing address if used, and other devices only when explicitly added.
+Create an allowlist containing exact source IPs: OPNsense firewall SERVER interface address used for syslog, Mac ARM router SERVER-facing address if used, and other devices only when explicitly added. The OPNsense and Mac tracks are separate lab islands and both examples may use 10.10.30.1. If both send to one relay, use distinct source subnets/IPs or preserve and match a deliberately configured sender hostname. These sample rules require the OPNsense hostname PSV-OPNSENSE01 and Mac router hostname PSV-MAC-RTR01; configure and verify those identities before enabling the rules.
 
 The example uses TCP/514 on an isolated lab network. TCP syslog without TLS is not confidential or authenticated; restrict it to a private isolated segment and source allowlist. For any untrusted/inter-host network, configure TLS with certificates and hostname validation using current rsyslog GTLS documentation. Do not describe plain TCP as encrypted.
 
@@ -45,7 +45,7 @@ template(name="PSVRemoteLine" type="string"
          string="source-time=%timereported:::date-rfc3339% received-time=%timegenerated:::date-rfc3339% fromhost-ip=%fromhost-ip% hostname=%hostname% app=%programname% msg=%msg%\n")
 
 ruleset(name="PSV-REMOTE") {
-    if ($fromhost-ip == "10.10.30.1") then {
+    if (($fromhost-ip == "10.10.30.1") and ($hostname == "PSV-OPNSENSE01")) then {
         action(type="omfile"
                file="/var/log/remote/psv-opnsense.log"
                template="PSVRemoteLine"
@@ -54,7 +54,7 @@ ruleset(name="PSV-REMOTE") {
         stop
     }
 
-    if ($fromhost-ip == "10.10.30.2") then {
+    if (($fromhost-ip == "10.10.30.1") and ($hostname == "PSV-MAC-RTR01")) then {
         action(type="omfile"
                file="/var/log/remote/psv-mac-router.log"
                template="PSVRemoteLine"
@@ -78,7 +78,7 @@ ruleset(name="PSV-REMOTE") {
 }
 ~~~
 
-Replace example source IPs with actual addresses observed on the wire. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP allowlisting is a network control, not cryptographic authentication.
+Replace example source IPs and hostnames with the actual values observed on the wire. Configure OPNsense's system hostname as PSV-OPNSENSE01 for this sample and the Mac router as PSV-MAC-RTR01. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP and hostname matching are routing filters, not cryptographic authentication.
 
 Create the directory and validate:
 
