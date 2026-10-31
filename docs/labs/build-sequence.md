@@ -99,11 +99,11 @@ Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
 2. Configure OPNsense or the Mac Linux router to send firewall events to the relay.
 3. Verify messages arrive and are written to the expected per-source files.
 4. Verify Zeek/Suricata files exist, are readable and rotate safely.
-5. Prepare the chosen SIEM's agent/forwarder path on relay and sensor.
-6. Keep endpoint collection explicit: Windows Event Channels/Sysmon, Linux journald/auditd and macOS Unified Logging where supported.
-7. Verify source → relay/file → collector with identity and timestamp intact.
+5. Configure log rotation, disk limits, file permissions, source identity and timestamps on the relay and sensor.
+6. Keep endpoint collection explicit: Windows Event Channels/Sysmon, Linux journald/auditd and macOS Unified Logging where supported. Prove each event exists locally.
+7. Do not configure SIEM-specific agents/forwarders yet; the destination SIEM does not exist at this stage.
 
-**Gate 7:** each required source reaches the relay/collector before SIEM installation. Only required source IPs and ports are allowed.
+**Gate 7:** firewall/router events arrive at the relay and are written to the correct source-specific files; Zeek/Suricata files exist locally on the sensor; endpoint source events exist locally; timestamps and host identity are preserved. This gate proves source generation and pre-SIEM relay only—not SIEM ingestion.
 
 ## Stage 8 — install one SIEM and connect sources
 
@@ -113,9 +113,9 @@ Choose one stack per iteration:
 - [Splunk](splunk-siem.md): Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.
 - [Wazuh](wazuh-soc.md): central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Use relay-file-plus-agent rather than relying on direct manager syslog listener across versions.
 
-For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections.
+For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; install supported agents/forwarders on endpoints, relay and sensor; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections. On the Mac router track, forward nftables messages from its local rsyslog file to the SERVER relay over the configured restricted transport, or collect the local file with a supported agent. Do not assume an agent supports ARM64 without checking its matrix.
 
-**Gate 8:** every required source has a raw searchable event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.
+**Gate 8:** every required source has a raw searchable SIEM event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.
 
 ## Stage 9 — optional Security Onion
 
