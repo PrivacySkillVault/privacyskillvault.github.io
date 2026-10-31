@@ -181,6 +181,23 @@ table inet filter {
 
     iifname "redteam0" oifname "dmz0" ip daddr $dmz_target tcp dport { 80, 443, 8080 } ct state new accept
 
+    # Optional AD DS flows — uncomment only if a lab DC exists at 10.10.30.10.
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 88, 389, 464 } ct state new accept
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport { 53, 88, 135, 389, 445, 464, 636, 3268, 3269, 9389 } ct state new accept
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport 49152-65535 ct state new accept
+
+    # Select ONE SIEM path and replace the sample manager IP/ports with the actual deployment.
+    # Wazuh agent secure channel + enrollment (disable enrollment rule after rollout if not needed).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 1515 } ct state new accept
+    # Elastic Agent to Fleet Server/Elasticsearch (use separate destination IPs if deployed separately).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 8220, 9200 } ct state new accept
+    # Splunk Universal Forwarder to receiver.
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
+    # Management UI access from the named admin host only; use only the selected UI port.
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.21 tcp dport { 443, 5601, 8000 } ct state new accept
+    # Sensor management agent to the selected SIEM; capture-only NICs have no IP and are not routed.
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 8220, 9200, 9997 } ct state new accept
+
     # Optional temporary update egress for trusted lab segments only.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
