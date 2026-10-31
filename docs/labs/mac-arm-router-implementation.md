@@ -174,8 +174,8 @@ table inet filter {
 
     # Uncomment only when dnsmasq is enabled. DHCP is offered on MGMT, ENDPOINT, REDTEAM and DMZ only; SERVER is static/reservation-only.
     # iifname { "mgmt0", "endpoint0", "redteam0", "dmz0" } udp dport 67 accept
-    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 53 accept
-    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } tcp dport 53 accept
+    # iifname { "mgmt0", "endpoint0", "server0", "sensormgmt0", "redteam0", "dmz0" } udp dport 53 accept
+    # iifname { "mgmt0", "endpoint0", "server0", "sensormgmt0", "redteam0", "dmz0" } tcp dport 53 accept
 
     limit rate 5/second log prefix "PSV-ROUTER-INPUT-DROP " flags all counter
     counter drop
@@ -218,10 +218,13 @@ table inet filter {
     # Splunk sensor forwarder:
     # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
 
-    # Optional temporary update egress for trusted lab segments only.
+    # Optional temporary update egress for trusted lab segments only. Remove after patching.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
+    # Optional sensor OS/package updates: sensor management host only (10.10.50.10). Remove after maintenance.
+    iifname "sensormgmt0" oifname $wan_if ip saddr 10.10.50.10 tcp dport { 80, 443 } ct state new accept
+    iifname "sensormgmt0" oifname $wan_if ip saddr 10.10.50.10 udp dport 123 ct state new accept
 
     limit rate 5/second log prefix "PSV-ROUTER-FWD-DROP " flags all counter
     counter drop
@@ -235,12 +238,12 @@ table inet filter {
 table ip nat {
   chain postrouting {
     type nat hook postrouting priority srcnat; policy accept;
-    oifname "wan0" ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } masquerade
+    oifname "wan0" ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24, 10.10.50.10/32 } masquerade
   }
 }
 ~~~
 
-This is a restrictive learning baseline, not a universal enterprise policy. Router-originated output is permissive in this sample; harden it for your chosen services. The optional update-egress rules permit only web, DNS and NTP from trusted segments. Remove them for a fully offline lab. There is deliberately no DMZ-to-trusted, REDTEAM-to-trusted or SENSOR-MGMT-to-client forwarding rule.
+This is a restrictive learning baseline, not a universal enterprise policy. Router-originated output is permissive in this sample; harden it for your chosen services. The optional update-egress rules permit only web, DNS and NTP from trusted segments. Remove them for a fully offline lab. There is deliberately no DMZ-to-trusted, REDTEAM-to-trusted or SENSOR-MGMT-to-client forwarding rule. The only optional SENSOR-MGMT egress is the single sensor host's temporary package-update rule.
 
 Syntax-check before applying:
 
@@ -264,6 +267,7 @@ If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. This 
 interface=mgmt0
 interface=endpoint0
 interface=server0
+interface=sensormgmt0
 interface=redteam0
 interface=dmz0
 bind-interfaces
@@ -286,7 +290,7 @@ dhcp-option=tag:dmz0,option:router,10.10.60.1
 dhcp-option=tag:dmz0,option:dns-server,10.10.60.1
 ~~~
 
-By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. The SERVER subnet remains static/reservation-only: do not create a DHCP scope there for the domain controller, relay, SIEM or infrastructure. If AD DS is deployed, explicitly set DHCP option 6 for domain-member scopes to the DC DNS address (10.10.30.10), and configure the DC to forward non-domain queries as designed. Do not advertise dnsmasq/public DNS to domain members. Keep SENSOR-MGMT static and do not run DHCP on a capture-only NIC.
+By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. The SERVER and SENSOR-MGMT subnets remain static/reservation-only: do not create DHCP scopes there. The sensor management host example is 10.10.50.10/24 with gateway/DNS 10.10.50.1; capture NICs have no address, gateway or DHCP. If AD DS is deployed, explicitly set DHCP option 6 for domain-member scopes to the DC DNS address (10.10.30.10), and configure the DC to forward non-domain queries as designed. Do not advertise dnsmasq/public DNS to domain members. The optional sensor update rules permit only 10.10.50.10 to HTTP/HTTPS and NTP; remove them after maintenance.
 
 Validate:
 
