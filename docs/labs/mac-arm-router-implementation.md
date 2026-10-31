@@ -154,7 +154,7 @@ flush ruleset
 
 define wan_if = "wan0"
 define mgmt_admin = 10.10.10.10
-define dmz_target = 10.10.60.10
+define dmz_target = 10.10.60.20
 
 table inet filter {
   chain input {
@@ -259,7 +259,7 @@ dhcp-range=interface:server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
 dhcp-option=tag:interface:server0,option:router,10.10.30.1
 dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
 dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
-dhcp-range=interface:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
+dhcp-range=interface:dmz0,10.10.60.200,10.10.60.150,255.255.255.0,12h
 dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
 ~~~
 
