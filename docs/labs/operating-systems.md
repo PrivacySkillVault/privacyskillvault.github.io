@@ -122,6 +122,8 @@ Use Microsoft's official Windows 11 ARM ISO and a virtualisation application tha
 
 Do not install x64 Windows media in an ARM VM. Confirm that every endpoint agent, driver and security product supports Windows ARM before relying on it.
 
+For the exact local event-generation tests and Windows Security/Sysmon, Linux auditd/journald and macOS Unified Logging procedures, follow the [Cross-platform Endpoint Telemetry Implementation Runbook](endpoint-telemetry-implementation.md).
+
 ## F. Mac endpoint telemetry considerations
 
 macOS host and guest telemetry uses Apple's Unified Logging system and other OS-specific sources; it is not Windows Event Log. Use an agent only when the vendor documents support for the exact macOS release and Apple-silicon architecture. Wazuh documents collection from macOS Unified Logging; Elastic Agent and other products must be checked against their current macOS support matrix. Do not assume Sysmon for Windows, Windows Event Channel integrations or x64 endpoint agents work on macOS/Windows ARM.
