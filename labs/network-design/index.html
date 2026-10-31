@@ -558,6 +558,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../enterprise-dual-siem-vm-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Dual-SIEM VM Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../requirements/" class="md-nav__link">
         
   
@@ -741,10 +769,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-windows-x64-implementation" class="md-nav__link">
+  <a href="#2-windows-x64-hypervisor-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Windows x64 implementation
+        2. Windows x64 hypervisor implementation
       
     </span>
   </a>
@@ -774,10 +802,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-update-egress" class="md-nav__link">
+  <a href="#5-egress-and-exposure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Update egress
+        5. Egress and exposure
       
     </span>
   </a>
@@ -785,10 +813,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-validate-segmentation" class="md-nav__link">
+  <a href="#6-validate-segmentation-and-visibility" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Validate segmentation
+        6. Validate segmentation and visibility
       
     </span>
   </a>
@@ -2011,10 +2039,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-windows-x64-implementation" class="md-nav__link">
+  <a href="#2-windows-x64-hypervisor-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Windows x64 implementation
+        2. Windows x64 hypervisor implementation
       
     </span>
   </a>
@@ -2044,10 +2072,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-update-egress" class="md-nav__link">
+  <a href="#5-egress-and-exposure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Update egress
+        5. Egress and exposure
       
     </span>
   </a>
@@ -2055,10 +2083,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-validate-segmentation" class="md-nav__link">
+  <a href="#6-validate-segmentation-and-visibility" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Validate segmentation
+        6. Validate segmentation and visibility
       
     </span>
   </a>
@@ -2104,18 +2132,18 @@
 
 
 
-<h1 id="lab-network-design-and-segmentation">Lab — Network design and segmentation<a class="headerlink" href="#lab-network-design-and-segmentation" title="Permanent link">&para;</a></h1>
+<h1 id="lab-network-design-and-segmentation">Lab — network design and segmentation<a class="headerlink" href="#lab-network-design-and-segmentation" title="Permanent link">&para;</a></h1>
 <p><badge color="warning">Architecture baseline — validate on the selected hypervisor</badge></p>
-<p>This page defines the logical networks used by both host tracks. The Windows and Mac implementations are not interchangeable. Follow the <a href="../build-sequence/">Master Build Sequence</a>.</p>
+<p>This page defines the logical networks for the Windows x64 primary lab. Follow the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab Runbook</a> and <a href="../build-sequence/">Master Build Sequence</a>. The Mac ARM64 implementation is a separate lab island.</p>
 <h2 id="1-logical-segments-and-example-address-plan">1. Logical segments and example address plan<a class="headerlink" href="#1-logical-segments-and-example-address-plan" title="Permanent link">&para;</a></h2>
-<p>Check for overlap with home LAN, VPN, corporate routes and other VM networks before using these examples.</p>
+<p>Check for overlap with home LAN, VPN, Docker/WSL networks and existing routes before use.</p>
 <table>
 <thead>
 <tr>
 <th>Segment</th>
 <th>Subnet</th>
 <th>Purpose</th>
-<th>Example gateway</th>
+<th>Gateway</th>
 </tr>
 </thead>
 <tbody>
@@ -2128,26 +2156,26 @@
 <tr>
 <td>ENDPOINT</td>
 <td>10.10.20.0/24</td>
-<td>Windows/Linux/Mac test endpoints</td>
+<td>Windows/Linux test endpoints</td>
 <td>10.10.20.1</td>
 </tr>
 <tr>
-<td>SERVER</td>
+<td>SERVER/SOC</td>
 <td>10.10.30.0/24</td>
-<td>AD DS/DNS, syslog relay and selected SIEM</td>
+<td>AD DS/DNS, broker, Elastic and Splunk</td>
 <td>10.10.30.1</td>
 </tr>
 <tr>
 <td>REDTEAM</td>
 <td>10.10.40.0/24</td>
-<td>Kali assessment source</td>
+<td>Kali and scoped assessment source</td>
 <td>10.10.40.1</td>
 </tr>
 <tr>
 <td>SENSOR-MGMT</td>
 <td>10.10.50.0/24</td>
 <td>Sensor administration only</td>
-<td>10.10.50.1 if routed</td>
+<td>10.10.50.1</td>
 </tr>
 <tr>
 <td>DMZ</td>
@@ -2157,25 +2185,18 @@
 </tr>
 </tbody>
 </table>
-<p>Suggested Windows-track addresses: DC 10.10.30.10; syslog relay 10.10.30.30; Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22; Kali 10.10.40.10; Juice Shop 10.10.60.20. Use only the address for the SIEM currently being built.</p>
-<p>A sensor has a management NIC with an IP on SENSOR-MGMT (or a deliberately chosen MGMT subnet) and one or more separate capture NICs with no IP, gateway, DNS registration or forwarding. Capture NICs receive traffic only through a verified Hyper-V port mirror, physical SPAN/TAP, inline sensor path or offline PCAP. SENSOR-MGMT is not the capture network. Do not attach a sniffing NIC to an ordinary routed network and assume it receives mirrored traffic.</p>
-<h2 id="2-windows-x64-implementation">2. Windows x64 implementation<a class="headerlink" href="#2-windows-x64-implementation" title="Permanent link">&para;</a></h2>
+<p>Suggested addresses: AD/DNS 10.10.30.10; Elastic 10.10.30.20; Splunk 10.10.30.21; Vector broker 10.10.30.30; sensor management 10.10.50.10; Windows endpoint 10.10.20.20; Kali 10.10.40.10; DMZ target 10.10.60.20. The firewall uses .1 on each routed segment. Its WAN adapter connects to hypervisor NAT, not the REDTEAM subnet.</p>
+<p>A sensor has a management NIC with an address on SENSOR-MGMT and one or more separate capture NICs with no IP, gateway, DNS registration or forwarding. Capture NICs receive traffic only through a verified virtual switch mirror, physical SPAN/TAP, deliberately designed inline path or offline PCAP. SENSOR-MGMT is not the capture network.</p>
+<h2 id="2-windows-x64-hypervisor-implementation">2. Windows x64 hypervisor implementation<a class="headerlink" href="#2-windows-x64-hypervisor-implementation" title="Permanent link">&para;</a></h2>
 <p>Choose exactly one hypervisor and record actual switch names.</p>
 <ul>
-<li><strong>Hyper-V:</strong> create an Internal switch for MGMT and Private switches for ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Create a separate Internal NAT uplink for OPNsense WAN using the documented Hyper-V NAT configuration in <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a>. Private is VM-to-VM only; Internal also permits host-to-VM. Do not create an External switch for Kali or vulnerable targets. Hyper-V port mirroring requires source and destination adapters to be configured on the same virtual switch; explicitly set and verify roles.</li>
-<li><strong>VMware Workstation:</strong> use host-only networks for isolated segments and NAT only for controlled updates. Do not use Bridged for REDTEAM or DMZ. Do not assume a universal SPAN/mirror feature.</li>
-<li><strong>VirtualBox:</strong> use Host-only for host management and named Internal Networks for VM-only segments; NAT only for firewall WAN/update. Promiscuous mode is not a global mirror. See <a href="../platform-virtualbox/">VirtualBox Host Setup</a>.</li>
+<li><strong>Hyper-V:</strong> use an Internal switch for host management only where required and Private switches for VM-only segments. Configure the firewall WAN path deliberately using documented NAT; do not attach Kali/DMZ to an External switch. Port mirroring requires source and destination adapter roles configured on the relevant virtual switch.</li>
+<li><strong>VMware Workstation:</strong> use host-only networks for isolated segments and NAT only for the firewall WAN/update path. Do not use Bridged for REDTEAM or DMZ. Do not assume promiscuous mode is equivalent to SPAN.</li>
+<li><strong>VirtualBox:</strong> use named Internal Networks for VM-only segments and Host-only only where host access is intended. Use NAT for the firewall WAN. Promiscuous mode is not a universal packet mirror.</li>
 </ul>
+<p>See <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a> for commands and verification. Record adapter number, switch/network name, MAC, subnet, IP settings, role and whether the adapter is management or capture-only.</p>
 <h2 id="3-apple-silicon-mac-implementation">3. Apple-silicon Mac implementation<a class="headerlink" href="#3-apple-silicon-mac-implementation" title="Permanent link">&para;</a></h2>
-<p>Use ARM64 guests. Fusion NAT, Host-only and custom networks are distinct and are not automatically connected to Windows hypervisor switches.</p>
-<p>For a segmented Mac-only build:
-1. Keep Fusion NAT as the router VM's WAN/update interface only.
-2. Create independent private/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ using features actually exposed by the installed Fusion release.
-3. Disable Fusion DHCP on networks where the Linux router provides DHCP, or use static addresses consistently.
-4. Deploy the ARM64 Ubuntu router in <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>.
-5. Attach each guest only to its intended segment.
-6. Do not use Bridged networking for REDTEAM or DMZ.</p>
-<p>If the installed Fusion version cannot create enough independent networks, stop. Do not collapse all VMs onto one host-only network and call it segmentation.</p>
+<p>Use ARM64 guests and keep the Mac lab separate. Fusion NAT, Host-only and custom networks are distinct and are not automatically connected to Windows hypervisor switches. Use the <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a> and its implementation runbook with Ubuntu ARM64/nftables. If the installed Fusion version cannot provide enough isolated networks, stop rather than collapsing the topology into one network.</p>
 <h2 id="4-minimum-inter-segment-policy">4. Minimum inter-segment policy<a class="headerlink" href="#4-minimum-inter-segment-policy" title="Permanent link">&para;</a></h2>
 <p>Start with default-deny and add only flows required by the current stage.</p>
 <table>
@@ -2189,44 +2210,68 @@
 </thead>
 <tbody>
 <tr>
-<td>Admin workstation</td>
+<td>MGMT</td>
 <td>Firewall/VM management</td>
 <td>Administration</td>
-<td>Allow named admin IPs/ports only</td>
+<td>Named admin IPs and required ports only</td>
 </tr>
 <tr>
 <td>ENDPOINT</td>
-<td>Domain controller</td>
-<td>DNS/Kerberos/LDAP/SMB/RPC as required</td>
-<td>Allow documented AD ports to DC only</td>
+<td>AD/DNS server</td>
+<td>Domain services</td>
+<td>Documented AD ports to DC only, including required RPC</td>
 </tr>
 <tr>
 <td>Lab hosts</td>
-<td>DNS/NTP</td>
-<td>Name/time</td>
-<td>Allow designated resolver/time source</td>
+<td>Approved DNS/NTP</td>
+<td>Name and time</td>
+<td>Designated services only</td>
 </tr>
 <tr>
-<td>Firewall/router</td>
-<td>Syslog relay</td>
-<td>Firewall/IDS logs</td>
-<td>Allow configured TCP/UDP/TLS listener only</td>
+<td>Firewall</td>
+<td>Vector broker</td>
+<td>Firewall logs</td>
+<td>Configured syslog transport only</td>
 </tr>
 <tr>
-<td>Relay/sensor/endpoint</td>
+<td>Sensor/relay/endpoints</td>
 <td>Selected SIEM</td>
-<td>Log forwarding</td>
-<td>Allow documented agent/receiver ports only</td>
+<td>Telemetry</td>
+<td>Exact agent/receiver ports only</td>
 </tr>
 <tr>
-<td>Kali</td>
+<td>Broker</td>
+<td>Elastic</td>
+<td>Elasticsearch ingest</td>
+<td>TCP 9200 with TLS/auth</td>
+</tr>
+<tr>
+<td>Broker</td>
+<td>Splunk</td>
+<td>HEC ingest</td>
+<td>TCP 8088 with TLS/token</td>
+</tr>
+<tr>
+<td>Windows forwarders</td>
+<td>Splunk</td>
+<td>UF receiving</td>
+<td>TCP 9997, approved hosts only</td>
+</tr>
+<tr>
+<td>Windows agents</td>
+<td>Fleet Server</td>
+<td>Agent management</td>
+<td>TCP 8220, approved hosts only</td>
+</tr>
+<tr>
+<td>REDTEAM</td>
 <td>DMZ target</td>
-<td>Authorised testing</td>
-<td>Allow only scoped target IPs/ports</td>
+<td>Authorized testing</td>
+<td>Only scoped target IPs/ports</td>
 </tr>
 <tr>
 <td>DMZ</td>
-<td>MGMT/SERVER/ENDPOINT/home LAN</td>
+<td>MGMT/ENDPOINT/SOC/home LAN</td>
 <td>None by default</td>
 <td>Deny</td>
 </tr>
@@ -2244,10 +2289,10 @@
 </tr>
 </tbody>
 </table>
-<p>Do not guess Active Directory ports. Use Microsoft's current port documentation and test the exact services enabled, including dynamic RPC requirements.</p>
-<h2 id="5-update-egress">5. Update egress<a class="headerlink" href="#5-update-egress" title="Permanent link">&para;</a></h2>
-<p>Permit OS/package updates from designated infrastructure VMs during a maintenance window. Remove update access from Kali and vulnerable targets before assessments. Do not expose management interfaces on WAN or use Internet Connection Sharing as a shortcut.</p>
-<h2 id="6-validate-segmentation">6. Validate segmentation<a class="headerlink" href="#6-validate-segmentation" title="Permanent link">&para;</a></h2>
+<p>Do not guess Active Directory ports. Include RPC endpoint mapper and the required dynamic RPC range based on the Windows Server configuration and Microsoft's current guidance.</p>
+<h2 id="5-egress-and-exposure">5. Egress and exposure<a class="headerlink" href="#5-egress-and-exposure" title="Permanent link">&para;</a></h2>
+<p>Allow package updates only from designated infrastructure VMs during maintenance windows. Remove update access from Kali and vulnerable targets before assessments. Do not create WAN port forwards to Juice Shop, DVWA, management UIs or SIEM ports. No inbound WAN access is required for the base lab.</p>
+<h2 id="6-validate-segmentation-and-visibility">6. Validate segmentation and visibility<a class="headerlink" href="#6-validate-segmentation-and-visibility" title="Permanent link">&para;</a></h2>
 <p>On Linux:</p>
 <div class="language-text highlight"><pre><span></span><code>ip -br address
 ip route
@@ -2258,16 +2303,16 @@ ip neigh
 Get-NetRoute -AddressFamily IPv4
 Get-NetFirewallProfile
 </code></pre></div>
-<p>Test allowed and denied TCP paths to known IPs/ports. Inspect routes and firewall logs. A failed ping alone is not proof because ICMP may be blocked independently.</p>
+<p>Test allowed and denied TCP paths to known IPs/ports. Inspect routes and firewall logs. A failed ping alone is not proof because ICMP may be blocked independently. For the sensor, generate a known DNS/HTTP flow and verify packets/counters and corresponding Zeek/Suricata output.</p>
 <p>Record source/destination IP and port, expected rule, observed verdict, route/NIC, timestamp and result.</p>
 <h2 id="7-cross-host-integration">7. Cross-host integration<a class="headerlink" href="#7-cross-host-integration" title="Permanent link">&para;</a></h2>
-<p>Hyper-V private switches and Fusion host-only networks are local to their hosts. The safe default is two isolated lab islands with their own routing and SIEM ingestion.</p>
-<p>A shared cross-host enterprise design is a separate project requiring an x86-64 firewall appliance, managed switch, VLAN plan, suitable physical NICs and explicit management/telemetry policy. Do not bridge REDTEAM or DMZ onto home Wi-Fi.</p>
+<p>Hypervisor private/host-only networks are local to their host. The safe default is two isolated lab islands. A shared cross-host enterprise design is a separate project requiring a physical firewall, managed switch, VLAN plan, suitable NICs and explicit management/telemetry policy. Never bridge REDTEAM or DMZ onto home Wi-Fi.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/virtual-switch">Hyper-V virtual switches</a></li>
 <li><a href="https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html">Broadcom Fusion networking types</a></li>
 <li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html">Oracle VirtualBox networking</a></li>
+<li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/config-firewall-for-ad-domains-and-trusts">Microsoft AD DS firewall ports</a></li>
 </ul>
 
 

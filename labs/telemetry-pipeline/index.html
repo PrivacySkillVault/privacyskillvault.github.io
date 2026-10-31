@@ -558,6 +558,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../enterprise-dual-siem-vm-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Dual-SIEM VM Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../requirements/" class="md-nav__link">
         
   
@@ -1098,6 +1126,17 @@
     <span class="md-ellipsis">
       
         1. Required source-to-destination map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1a-dual-siem-data-flow-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1A. Dual-SIEM data-flow model
       
     </span>
   </a>
@@ -2033,6 +2072,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1a-dual-siem-data-flow-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1A. Dual-SIEM data-flow model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2-create-a-linux-syslog-relay" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2149,8 +2199,8 @@
 
 
 <h1 id="lab-telemetry-collection-and-forwarding-pipeline">Lab — Telemetry collection and forwarding pipeline<a class="headerlink" href="#lab-telemetry-collection-and-forwarding-pipeline" title="Permanent link">&para;</a></h1>
-<p><badge color="warning">Mandatory pre-SIEM stage — reference guide, not yet hardware-tested</badge></p>
-<p>This stage creates and proves the data path before installing Elastic, Splunk or Wazuh. The SIEM is the destination, not the source of firewall, endpoint or network telemetry.</p>
+<p><badge color="warning">Dual-SIEM pipeline — design baseline, not yet hardware-tested</badge></p>
+<p>This stage creates and proves the data path for the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab</a>. Firewall/router syslog and selected sensor/file sources can pass through Vector for fan-out to Elastic and Splunk HEC. Windows endpoint events use direct Elastic Agent and Splunk UF paths after coexistence is tested. Do not force every endpoint through the broker or install overlapping collectors without a deliberate duplicate strategy.</p>
 <h2 id="1-required-source-to-destination-map">1. Required source-to-destination map<a class="headerlink" href="#1-required-source-to-destination-map" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2198,8 +2248,46 @@
 </tr>
 </tbody>
 </table>
-<p>Do not install competing agents to collect the same source unless duplicate ingestion is intentional.</p>
+<p>Do not install competing agents to collect the same source unless duplicate ingestion is intentional. For the dual-SIEM design, distinguish per-destination collection from duplicate collection within a SIEM. A Windows event may be collected once by Elastic Agent for Elastic and once by Splunk UF for Splunk; do not also monitor an exported copy of that same event through Vector unless duplication is intended.</p>
 <p>For a reproducible relay listener, source allowlist, per-source file routing, log rotation, firewall policy and TLS decision, follow the <a href="../syslog-relay-implementation/">Linux Syslog Relay Implementation Runbook</a>. The steps below describe the required design and acceptance gate.</p>
+<h2 id="1a-dual-siem-data-flow-model">1A. Dual-SIEM data-flow model<a class="headerlink" href="#1a-dual-siem-data-flow-model" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Path to Elastic</th>
+<th>Path to Splunk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPNsense firewall syslog</td>
+<td>Firewall → Vector → Elasticsearch</td>
+<td>Firewall → Vector → Splunk HEC</td>
+</tr>
+<tr>
+<td>Suricata EVE / Zeek JSON</td>
+<td>Sensor file input/agent → Vector or supported collector → Elasticsearch</td>
+<td>Sensor file input/agent → Vector or UF → Splunk</td>
+</tr>
+<tr>
+<td>Windows Security / Sysmon</td>
+<td>Elastic Agent → Fleet/Elasticsearch</td>
+<td>Splunk UF → TCP receiving port 9997</td>
+</tr>
+<tr>
+<td>Linux audit/journal</td>
+<td>Elastic Agent or supported file input</td>
+<td>Splunk UF or broker file input</td>
+</tr>
+<tr>
+<td>DMZ application logs</td>
+<td>Supported agent/file input → Elastic</td>
+<td>Supported agent/file input → Splunk</td>
+</tr>
+</tbody>
+</table>
+<p>Use one source path per destination. Do not assume that the broker transforms all data into ECS or CIM automatically; mappings and field extraction must be explicitly configured and validated.</p>
 <h2 id="2-create-a-linux-syslog-relay">2. Create a Linux syslog relay<a class="headerlink" href="#2-create-a-linux-syslog-relay" title="Permanent link">&para;</a></h2>
 <p>On Windows track create PSV-LOG01 on SERVER, for example 10.10.30.30/24. On Mac track use an ARM64 Ubuntu Server VM on SERVER. Configure static/reserved addressing, correct DNS/NTP and restricted management.</p>
 <p>Install the distribution-supported rsyslog package. Configure it to receive syslog only on the lab-facing interface and only from known firewall/router source addresses. Prefer TCP for an isolated lab; use TLS when logs cross a network you do not fully trust. Do not expose the listener to home LAN or Internet.</p>
