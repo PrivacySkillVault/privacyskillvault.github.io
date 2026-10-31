@@ -246,3 +246,34 @@ body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~table{displa
   .psv-story-feature__body{padding:1.05rem}
   body:has(.psv-article-breadcrumb) .md-content__inner{padding:1.2rem .9rem 2.5rem!important}
 }
+
+
+/* CYBER JOURNAL: compact Hacker News-inspired story rows on every listing page. */
+body:has(.psv-journal-shell) .md-content__inner>h1:first-child{display:none!important}
+.psv-story-feature,.psv-story-card{grid-template-columns:148px minmax(0,1fr)!important;align-items:stretch;max-width:100%;min-height:0;border-radius:9px}
+.psv-story-feature .psv-story-art,.psv-story-card__art{width:148px;min-width:0;min-height:112px!important;height:100%;aspect-ratio:4/3;align-self:stretch}
+.psv-story-art__label,.psv-story-art__foot{left:.55rem;font-size:.43rem;letter-spacing:.07em}
+.psv-story-art__foot{bottom:.45rem}
+.psv-ato-orbit--a{width:112px;height:65px}
+.psv-ato-orbit--b{width:82px;height:100px}
+.psv-ato-lock{width:46px;height:46px;border-radius:13px}
+.psv-ato-lock span{font-size:1.35rem}
+.psv-ato-node{width:19px;height:19px;font-size:.45rem}
+.psv-story-feature__body,.psv-story-card__body{min-width:0;justify-content:center;padding:.75rem .95rem!important}
+.psv-story-category{font-size:.57rem}
+.md-typeset .psv-story-feature h3,.md-typeset .psv-story-card h3{margin:.3rem 0 .25rem;font-size:1.02rem;line-height:1.32;letter-spacing:-.02em}
+.md-typeset .psv-story-feature__body>p,.md-typeset .psv-story-card__body>p{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;margin:0;font-size:.75rem;line-height:1.5}
+.psv-story-read{margin-top:.45rem;font-size:.72rem}
+.psv-story-date{margin-top:.45rem;font-size:.55rem}
+.psv-story-card__footer{margin-top:.55rem}
+.psv-story-card__footer small{font-size:.53rem}
+.psv-story-card__footer>span{font-size:.68rem}
+@media(max-width:700px){
+ .psv-story-feature,.psv-story-card{grid-template-columns:104px minmax(0,1fr)!important}
+ .psv-story-feature .psv-story-art,.psv-story-card__art{width:104px;min-height:100px!important;aspect-ratio:1/1}
+ .psv-story-feature__body,.psv-story-card__body{padding:.65rem .7rem!important}
+ .md-typeset .psv-story-feature h3,.md-typeset .psv-story-card h3{font-size:.9rem}
+ .md-typeset .psv-story-feature__body>p,.md-typeset .psv-story-card__body>p{-webkit-line-clamp:2;font-size:.69rem}
+ .psv-story-art__label,.psv-story-art__foot{font-size:.36rem}
+ .psv-story-date{font-size:.49rem}
+}
