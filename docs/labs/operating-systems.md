@@ -42,8 +42,14 @@ nslookup -type=SRV _ldap._tcp.dc._msdcs.lab.psv.test
 1. Download official Windows 11 x64 media.
 2. Create VM: 2–4 vCPU, 6–8 GB RAM, 80 GB disk, Generation 2, virtual TPM and Secure Boot as required by Windows 11/hypervisor, NIC on ENDPOINT.
 3. Install a Windows edition that supports the domain-join features you intend to practise. Patch and install guest tools.
-4. Set DNS to 10.10.30.10. Verify the domain controller resolves.
-5. Join the lab domain:
+4. Rename the endpoint and reboot:
+
+   ```powershell
+   Rename-Computer -NewName "PSV-W11-01" -Restart
+   ```
+
+5. Set DNS to 10.10.30.10. Verify the domain controller resolves.
+6. Join the lab domain:
 
 ```powershell
 Add-Computer -DomainName "lab.psv.test" -Credential (Get-Credential) -Restart
