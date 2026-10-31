@@ -482,7 +482,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function getRoot() {
-    return document.getElementById("psv-workbench-root") || document.querySelector(".md-content__inner");
+    // Never replace MkDocs' entire article as a fallback. The dedicated mount
+    // point is the only safe place for this application to render.
+    return document.getElementById("psv-workbench-root");
   }
 
   function injectStyles() {
