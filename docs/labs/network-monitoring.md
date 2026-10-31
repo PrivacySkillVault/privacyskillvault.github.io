@@ -41,6 +41,8 @@ Visibility options:
 
 Record exactly which segments/interfaces are visible. A sensor on one segment cannot see all other segments without a real feed.
 
+For exact sensor NIC roles, capture tests, JSON setup, EVE output, storage and pre-SIEM acceptance, follow the [Network Sensor Implementation Runbook](network-sensor-implementation.md). The commands below remain a concise orientation; the runbook is the detailed procedure.
+
 ## 4. Install and verify Zeek
 
 Install Zeek using official instructions for the exact Ubuntu release and architecture. Record package version and method.
