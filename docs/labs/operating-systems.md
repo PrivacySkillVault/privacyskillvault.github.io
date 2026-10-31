@@ -69,7 +69,14 @@ After the Windows endpoint is joined to the lab domain, use Group Policy Managem
    - **Logon/Logoff → Audit Logon:** Success and Failure for this lab OU.
 3. Under **Administrative Templates → System → Audit Process Creation**, enable **Include command line in process creation events** if you need Event 4688 command-line evidence. Command lines can contain secrets; keep this lab-only and sanitise evidence.
 4. If practising PowerShell logging, enable **Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging** on the lab OU only. Script contents can contain sensitive data.
-5. On the endpoint run `gpupdate /force`, then `gpresult /h C:\\Temp\\gpresult.html`. Confirm the policy applied.
+5. On the endpoint run `gpupdate /force`, create the output folder, then run `gpresult /h C:\Temp\gpresult.html`. Confirm the policy applied:
+
+   ```powershell
+   New-Item -ItemType Directory -Path C:\Temp -Force | Out-Null
+   gpupdate /force
+   gpresult /h C:\Temp\gpresult.html
+   gpresult /r
+   ```
 6. Make a controlled local group membership change on the disposable endpoint. Confirm Event ID 4732 and TargetSid `S-1-5-32-544` for the built-in local Administrators group. The event proves a group membership change occurred; it does not prove malicious intent.
 
 Do not apply this test GPO to production systems. Audit policy changes should be approved, event volume measured, and the GPO unlinked/removed after the lab if no longer required.
