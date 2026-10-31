@@ -29,9 +29,7 @@ Ensure the relay clock is synchronized. Configure the OS NTP client appropriate 
 
 ## 3. Configure a restricted TCP listener
 
-Create /etc/rsyslog.d/10-psv-remote-rules.conf first. Define the ruleset before the input that references it:
-
-Create /etc/rsyslog.d/20-psv-input.conf only after the ruleset file exists:
+Create /etc/rsyslog.d/10-psv-remote-rules.conf and place the following template and ruleset in it. The ruleset must be defined before the input references it:
 
 ~~~text
 template(name="PSVRemoteLine" type="string"
@@ -70,6 +68,15 @@ ruleset(name="PSV-REMOTE") {
     stop
 }
 ~~~
+
+Now create /etc/rsyslog.d/20-psv-input.conf:
+
+~~~text
+module(load="imtcp")
+input(type="imtcp" address="10.10.30.30" port="514" ruleset="PSV-REMOTE")
+~~~
+
+Replace the bind address with the relay's actual SERVER interface address. Binding to 0.0.0.0 is not recommended because it may expose the port on management/WAN interfaces.
 
 Replace example source IPs and hostnames with the actual values observed on the wire. Configure OPNsense's system hostname as PSV-OPNSENSE01 for this sample and the Mac router as PSV-MAC-RTR01. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP and hostname matching are routing filters, not cryptographic authentication.
 
