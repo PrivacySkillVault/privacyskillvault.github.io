@@ -14,7 +14,8 @@ Create one x86-64 OPNsense VM with seven adapters (WAN plus six internal segment
 | MGMT | Internal/host-only | 10.10.10.1/24 |
 | ENDPOINT | Private/host-only | 10.10.20.1/24 |
 | SERVER | Private/host-only | 10.10.30.1/24 |
-| REDTEAM | Private/host-only | 10.10.40.1/24 |\n| SENSOR-MGMT | Private/host-only | 10.10.50.1/24 |
+| REDTEAM | Private/host-only | 10.10.40.1/24 |
+| SENSOR-MGMT | Private/host-only | 10.10.50.1/24 |
 | DMZ | Private/host-only | 10.10.60.1/24 |
 
 The SENSOR capture path is separate. Do not assume a routed SENSOR interface receives copies of all packets. Use OPNsense IDS on relevant routed interfaces or a separately verified mirror/tap for Zeek.
