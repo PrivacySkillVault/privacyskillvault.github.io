@@ -69,6 +69,7 @@ nav:
       - D05 - Operations, Maintenance & Capstone: learn/d05/index.md
   - Labs:
       - Overview: labs/index.md
+      - Enterprise Dual-SIEM VM Lab: labs/enterprise-dual-siem-vm-lab.md
       - Hardware & Compatibility: labs/requirements.md
       - Windows Host Setup: labs/platform-windows.md
       - Mac Host Setup: labs/platform-macos.md
