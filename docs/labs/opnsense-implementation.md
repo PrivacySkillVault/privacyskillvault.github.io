@@ -62,8 +62,7 @@ Under Services → Kea DHCP → Kea DHCPv4 (menu labels may vary by release):
    - Configure **Domain name** only for the intended lab domain (for example, lab.psv.test); do not advertise an unrelated suffix.
    - Set NTP servers deliberately if you provide a lab NTP source.
    - Keep MGMT, SERVER and SENSOR-MGMT on static addresses/reservations in this baseline; do not create DHCP pools there.
-6. Configure the domain name/search suffix only for the intended domain.
-7. Save/apply and inspect the Kea service log.
+6. Save/apply and inspect the Kea service log.
 
 Keep SERVER infrastructure hosts on static addresses or explicit reservations. Do not hand out dynamic addresses to the DC, relay, SIEM or firewall. If the DHCP UI automatically adds rules, inspect them and confirm they do not permit unrelated services.
 
@@ -119,7 +118,8 @@ OPNsense rules are applied on the interface where traffic enters. Add rules to t
 2. Allow PSV_MGMT_ADMIN to firewall SSH on TCP/22 only if SSH administration is required.
 3. Allow MGMT admin host to the named server management ports that are actually needed.
 4. Deny/log other management access from non-admin clients.
-5. Do not allow MGMT to reach the home LAN unless explicitly required.
+5. If Unbound is the DNS service for MGMT, allow MGMT net to This Firewall on UDP/53 and TCP/53 only; do not allow arbitrary external DNS.
+6. Do not allow MGMT to reach the home LAN unless explicitly required.
 
 ### ENDPOINT interface
 
@@ -129,15 +129,15 @@ If AD DS is deployed, add narrow rules from ENDPOINT net to PSV_DC_DNS:
 - TCP dynamic RPC range only if required for domain operations/GPO/remote management; scope destination to the DC.
 - UDP/123 to the designated NTP source.
 
-Add DNS rules to the DC only. Do not permit ENDPOINT to query arbitrary Internet DNS directly when domain DNS is required. Add SIEM agent/forwarder access later, only after Stage 8 and only to PSV_SIEM/required service ports.
+If AD DS is deployed, allow DNS only to the DC and do not permit arbitrary Internet DNS or firewall Unbound as a bypass. If AD DS is not deployed and Unbound is selected, instead allow ENDPOINT net to This Firewall on UDP/53 and TCP/53. Do not enable both patterns unless the host roles explicitly require them. Add SIEM agent/forwarder access later, only after Stage 8 and only to PSV_SIEM/required service ports.
 
 ### REDTEAM interface
 
-Allow only the approved assessment source(s) to PSV_DMZ_TARGET on the explicitly selected test ports. Use a time-bounded rule and enable logging. Deny REDTEAM to MGMT, SERVER, ENDPOINT, SENSOR-MGMT and the home LAN.
+Allow only the approved assessment source(s) to PSV_DMZ_TARGET on the explicitly selected test ports. Use a time-bounded rule and enable logging. If REDTEAM clients require DNS, allow REDTEAM net to This Firewall on UDP/53 and TCP/53 only; otherwise omit DNS from the DHCP scope. Deny REDTEAM to MGMT, SERVER, ENDPOINT, SENSOR-MGMT and the home LAN.
 
 ### DMZ interface
 
-Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENSOR-MGMT or the home LAN. Allow only narrowly required egress (for example, package updates) during a controlled maintenance window. Remove update egress before assessments.
+Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENSOR-MGMT or the home LAN. Allow only narrowly required egress (for example, package updates) during a controlled maintenance window. If DMZ clients require DNS for a controlled update window, allow DMZ net to This Firewall on UDP/53 and TCP/53 only; otherwise do not advertise a resolver in DHCP. Remove update egress before assessments.
 
 ### SENSOR-MGMT interface
 
@@ -147,6 +147,7 @@ Allow sensor administration only from PSV_MGMT_ADMIN to the sensor's management 
 
 Allow only required service-to-service flows:
 - Endpoints to DC/DNS for AD services.
+- If non-domain SERVER hosts use Unbound, allow only the required SERVER hosts to This Firewall on UDP/53 and TCP/53.
 - Firewall/router devices to PSV_LOG_RELAY on the selected syslog transport/port.
 - Relay/sensor/endpoint agents to the selected SIEM on the product-specific ports.
 - Management workstation to SIEM UI/API only where required.
