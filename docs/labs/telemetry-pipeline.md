@@ -64,6 +64,8 @@ On the sensor, prove the files exist before adding a collector:
 
 Zeek supports JSON log output; Suricata EVE writes JSON events. Do not send full PCAP as routine SIEM events; PCAP needs separate access, storage and retention controls.
 
+Before proceeding, complete the [Cross-platform Endpoint Telemetry Implementation Runbook](endpoint-telemetry-implementation.md) and [Network Sensor Implementation Runbook](network-sensor-implementation.md), and verify their local acceptance gates.
+
 ## 6. Pre-SIEM acceptance gate — source and relay only
 
 Verify:
