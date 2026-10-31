@@ -183,7 +183,8 @@ table inet filter {
 
     # Optional temporary update egress for trusted lab segments only.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
-    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept\n    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
 
     limit rate 5/second log prefix "PSV-ROUTER-FWD-DROP " flags all counter
     counter drop
