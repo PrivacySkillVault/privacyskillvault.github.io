@@ -145,6 +145,8 @@ Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENS
 
 Allow sensor administration only from PSV_MGMT_ADMIN to the sensor's management address on required SSH/HTTPS ports. Do not use this interface as a capture feed. The sensor's capture NIC is separate, has no IP/default gateway and must receive a verified mirror/tap feed.
 
+For the example sensor management host 10.10.50.10, add only the DNS/time flow matching your design: if it uses Unbound, allow that host to This Firewall on UDP/53 and TCP/53; if it uses AD DNS/time, allow it to 10.10.30.10 on TCP/UDP 53 and UDP/123. For temporary OS/package updates, add a time-bounded rule from 10.10.50.10 only to WAN on TCP/80,443 and UDP/123, then remove it. Do not permit the whole SENSOR-MGMT subnet to unrestricted Internet access.
+
 ### SERVER interface
 
 Allow only required service-to-service flows:
