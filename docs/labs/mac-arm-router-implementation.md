@@ -250,6 +250,8 @@ interface=server0
 interface=redteam0
 interface=dmz0
 bind-interfaces
+# On Ubuntu with systemd-resolved, use the upstream resolver list rather than the local stub file.
+resolv-file=/run/systemd/resolve/resolv.conf
 
 dhcp-range=interface:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
 dhcp-option=tag:interface:mgmt0,option:router,10.10.10.1
@@ -263,7 +265,7 @@ dhcp-range=interface:dmz0,10.10.60.200,10.10.60.150,255.255.255.0,12h
 dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
 ~~~
 
-For an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
+By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. If this router serves an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS; configure the appropriate DHCP DNS option for those domain clients or use static reservations. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
 
 Validate:
 
