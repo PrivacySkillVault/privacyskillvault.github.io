@@ -135,9 +135,11 @@ OWASP's session-management guidance and credential-stuffing guidance provide imp
 
 These references support the technical distinctions and defensive recommendations in this explainer:
 
-1. [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) — session identifiers, session hijacking, renewal, expiry, and safe session logging.
-2. [OWASP Credential Stuffing Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html) — credential stuffing versus brute force and password spraying, MFA, device signals, and layered mitigation.
-3. [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html) — security event logging and protection of sensitive log data.
+1. [FBI Internet Crime Complaint Center — Account Takeover Fraud](https://www.ic3.gov/CrimeInfo/AccountTakeover) — examples of reported ATO access routes, including phishing, social engineering, malware, and credentials exposed through breaches.
+2. [Federal Reserve Financial Services — Account Takeover Fraud Mitigation Toolkit](https://fedpaymentsimprovement.org/resources/account-takeover-fraud-mitigation-toolkit/) — financial-institution-focused ATO scenarios and mitigation resources.
+3. [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) — session identifiers, session hijacking, renewal, expiry, and safe session logging.
+4. [OWASP Credential Stuffing Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html) — credential stuffing versus brute force and password spraying, MFA, device signals, and layered mitigation.
+5. [OWASP Logging Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html) — security event logging and protection of sensitive log data.
 
 ## Scope and limitations
 
