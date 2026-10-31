@@ -1936,7 +1936,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       } else if (action === "hash-file") {
         const file=document.getElementById("evidence-file")?.files[0],out=document.getElementById("evidence-output");
         if(!file||!out){if(out)out.textContent="Select a file first.";return;}
-        if(file.size>100*1024*1024){out.textContent="File exceeds 100 MB. Use validated forensic tooling for large evidence files.";return;}\n        out.textContent="Calculating SHA-256 locally…";
+        if(file.size>100*1024*1024){out.textContent="File exceeds 100 MB. Use validated forensic tooling for large evidence files.";return;}
+        out.textContent="Calculating SHA-256 locally…";
         try {
           const digest=await crypto.subtle.digest("SHA-256",await file.arrayBuffer());
           const hex=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
