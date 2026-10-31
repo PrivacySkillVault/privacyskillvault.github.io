@@ -64,3 +64,13 @@ body{background:var(--psv-bg);color:var(--psv-text);font-family:Roboto,"Helvetic
 @media(max-width:767px){
   .psv-blog-page .md-content__inner{padding-left:.9rem;padding-right:.9rem}
 }
+
+/* Center the custom site-wide copyright footer */
+.md-footer-meta__inner{
+  justify-content:center;
+}
+.md-footer-meta__inner .md-copyright{
+  width:100%;
+  margin:0 auto;
+  text-align:center;
+}
