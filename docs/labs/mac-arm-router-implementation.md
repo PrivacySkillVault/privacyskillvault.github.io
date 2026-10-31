@@ -264,15 +264,17 @@ dhcp-range=interface:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
 dhcp-option=tag:interface:mgmt0,option:router,10.10.10.1
 dhcp-range=interface:endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
 dhcp-option=tag:interface:endpoint0,option:router,10.10.20.1
-dhcp-range=interface:server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
-dhcp-option=tag:interface:server0,option:router,10.10.30.1
+# If AD DS/DNS is deployed, uncomment this so domain members use the DC, not dnsmasq/public DNS.
+# dhcp-option=tag:interface:endpoint0,option:dns-server,10.10.30.10
 dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
 dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
 dhcp-range=interface:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
 dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
+# Explicitly advertise the router as DNS for a standalone, non-domain DMZ.
+dhcp-option=tag:interface:dmz0,option:dns-server,10.10.60.1
 ~~~
 
-By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. If this router serves an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS; configure the appropriate DHCP DNS option for those domain clients or use static reservations. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
+By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. The SERVER subnet remains static/reservation-only: do not create a DHCP scope there for the domain controller, relay, SIEM or infrastructure. If AD DS is deployed, explicitly set DHCP option 6 for domain-member scopes to the DC DNS address (10.10.30.10), and configure the DC to forward non-domain queries as designed. Do not advertise dnsmasq/public DNS to domain members. Keep SENSOR-MGMT static and do not run DHCP on a capture-only NIC.
 
 Validate:
 
