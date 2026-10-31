@@ -18,11 +18,11 @@
     <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in Security Explainers</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="dns-resolution-explained/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34803966/pexels-photo-34803966.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34803966/pexels-photo-34803966.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">SECURITY EXPLAINERS <i>·</i> EXPLAINER</span><h3>DNS Explained: What Happens After You Type a Website Address?</h3><p>Follow a DNS lookup from the local cache through recursive and authoritative name servers, and learn what defenders can observe.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 7 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
 <a class="psv-story-card" href="mfa-passkeys-explained/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/4078343/pexels-photo-4078343.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Mario Amé on Pexels" loading="lazy" decoding="async" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/4078343/pexels-photo-4078343.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Mario Amé on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">SECURITY EXPLAINERS <i>·</i> EXPLAINER</span><h3>MFA, OTPs and Passkeys: What Actually Makes Authentication Stronger?</h3><p>Understand authentication factors, OTP limitations, phishing-resistant passkeys, and why recovery flows still matter.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
     </div>
