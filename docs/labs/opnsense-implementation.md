@@ -52,15 +52,15 @@ Under Services → Kea DHCP → Kea DHCPv4 (menu labels may vary by release):
 1. Enable the DHCPv4 service.
 2. Select only internal interfaces that should issue leases (typically ENDPOINT, REDTEAM and DMZ; use static/reservations for servers and infrastructure).
 3. Enable the basic DHCP firewall rules if the service offers that option.
-4. Create one subnet per selected interface:
-   - ENDPOINT 10.10.20.0/24, pool 10.10.20.100–10.10.20.199, router 10.10.20.1.
-   - REDTEAM 10.10.40.0/24, pool 10.10.40.100–10.10.40.150, router 10.10.40.1.
-   - DMZ 10.10.60.0/24, pool 10.10.60.100–10.10.60.150, router 10.10.60.1.
-5. Configure DNS server options deliberately:
-   - If AD DS is deployed, domain-joined Windows clients must use the DC DNS address (example 10.10.30.10), not public DNS.
-   - If there is no AD DNS, use the firewall's Unbound address on the relevant interface and configure Unbound access lists.
-   - Set DHCP option 6 (DNS servers) explicitly for every scope: DC DNS (10.10.30.10) for domain members; the firewall interface address for non-domain clients using Unbound. Do not rely on an implicit default.
-   - Set DHCP option 3 (router) to that subnet's firewall interface address and option 15 (domain name) only where the intended DNS/domain design requires it.
+4. Create one subnet per selected interface in the Subnets tab, select its interface, enter the subnet CIDR, add the pool as `start - end`, and set the gateway:
+   - ENDPOINT 10.10.20.0/24, pool 10.10.20.100 - 10.10.20.199, router 10.10.20.1.
+   - REDTEAM 10.10.40.0/24, pool 10.10.40.100 - 10.10.40.150, router 10.10.40.1.
+   - DMZ 10.10.60.0/24, pool 10.10.60.100 - 10.10.60.150, router 10.10.60.1.
+5. In each subnet's DHCP option data, configure the **Routers (gateway)** field as that interface's firewall IP. Configure **DNS servers** explicitly; do not rely on Auto collect when the scope needs a DNS server other than the firewall:
+   - If AD DS is deployed, domain-member ENDPOINT clients must receive 10.10.30.10 as DNS, not public DNS. Disable Auto collect for that subnet if it would overwrite the desired DNS setting.
+   - If there is no AD DNS, use the firewall's Unbound address on that subnet and configure Unbound access lists.
+   - Configure **Domain name** only for the intended lab domain (for example, lab.psv.test); do not advertise an unrelated suffix.
+   - Set NTP servers deliberately if you provide a lab NTP source.
    - Keep MGMT, SERVER and SENSOR-MGMT on static addresses/reservations in this baseline; do not create DHCP pools there.
 6. Configure the domain name/search suffix only for the intended domain.
 7. Save/apply and inspect the Kea service log.
