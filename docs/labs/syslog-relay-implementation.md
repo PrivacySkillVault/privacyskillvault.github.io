@@ -42,7 +42,7 @@ Create /etc/rsyslog.d/20-psv-remote-rules.conf:
 
 ~~~text
 template(name="PSVRemoteLine" type="string"
-         string="%timegenerated:::date-rfc3339% fromhost-ip=%fromhost-ip% hostname=%hostname% app=%programname% msg=%msg%\n")
+         string="source-time=%timereported:::date-rfc3339% received-time=%timegenerated:::date-rfc3339% fromhost-ip=%fromhost-ip% hostname=%hostname% app=%programname% msg=%msg%\n")
 
 ruleset(name="PSV-REMOTE") {
     if ($fromhost-ip == "10.10.30.1") then {
