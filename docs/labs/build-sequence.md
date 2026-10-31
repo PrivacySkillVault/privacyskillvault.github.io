@@ -37,7 +37,7 @@ Follow [Network Design](network-design.md), [Hypervisor Network Implementation](
 | ENDPOINT | 10.10.20.0/24 | Windows/Linux/Mac test endpoints |
 | SERVER | 10.10.30.0/24 | AD DS/DNS, syslog relay and selected SIEM |
 | REDTEAM | 10.10.40.0/24 | Kali assessment source |
-| SENSOR | 10.10.50.0/24 | Sensor management/capture design |
+| SENSOR-MGMT | 10.10.50.0/24 | Sensor administration only; capture NIC is separate/no IP |
 | DMZ | 10.10.60.0/24 | Vulnerable targets |
 
 **Gate 2:** segments exist; VM NICs are mapped; no DHCP overlap, subnet overlap or unintended bridged adapter.
