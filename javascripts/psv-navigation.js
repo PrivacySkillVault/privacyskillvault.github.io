@@ -28,6 +28,12 @@
 
     const currentPath = normalizePath(window.location.pathname);
 
+    // Keep page-specific layout in sync with MkDocs instant navigation.
+    document.body.classList.toggle(
+      "psv-blog-page",
+      currentPath === "/blog/" || currentPath.startsWith("/blog/")
+    );
+
     const links = nav.querySelectorAll(
       ".psv-global-nav__link"
     );
