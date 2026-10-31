@@ -1,8 +1,8 @@
 # Lab — Telemetry collection and forwarding pipeline
 
-<badge color="warning">Mandatory pre-SIEM stage — reference guide, not yet hardware-tested</badge>
+<badge color="warning">Dual-SIEM pipeline — design baseline, not yet hardware-tested</badge>
 
-This stage creates and proves the data path before installing Elastic, Splunk or Wazuh. The SIEM is the destination, not the source of firewall, endpoint or network telemetry.
+This stage creates and proves the data path for the [Enterprise Dual-SIEM VM Lab](enterprise-dual-siem-vm-lab.md). Firewall/router syslog and selected sensor/file sources can pass through Vector for fan-out to Elastic and Splunk HEC. Windows endpoint events use direct Elastic Agent and Splunk UF paths after coexistence is tested. Do not force every endpoint through the broker or install overlapping collectors without a deliberate duplicate strategy.
 
 ## 1. Required source-to-destination map
 
@@ -16,9 +16,21 @@ This stage creates and proves the data path before installing Elastic, Splunk or
 | Zeek | conn.log/dns.log | JSON files → collector/agent on sensor |
 | Sensor Suricata | eve.json | JSON file → collector/agent on sensor |
 
-Do not install competing agents to collect the same source unless duplicate ingestion is intentional.
+Do not install competing agents to collect the same source unless duplicate ingestion is intentional. For the dual-SIEM design, distinguish per-destination collection from duplicate collection within a SIEM. A Windows event may be collected once by Elastic Agent for Elastic and once by Splunk UF for Splunk; do not also monitor an exported copy of that same event through Vector unless duplication is intended.
 
 For a reproducible relay listener, source allowlist, per-source file routing, log rotation, firewall policy and TLS decision, follow the [Linux Syslog Relay Implementation Runbook](syslog-relay-implementation.md). The steps below describe the required design and acceptance gate.
+
+## 1A. Dual-SIEM data-flow model
+
+| Source | Path to Elastic | Path to Splunk |
+|---|---|---|
+| OPNsense firewall syslog | Firewall → Vector → Elasticsearch | Firewall → Vector → Splunk HEC |
+| Suricata EVE / Zeek JSON | Sensor file input/agent → Vector or supported collector → Elasticsearch | Sensor file input/agent → Vector or UF → Splunk |
+| Windows Security / Sysmon | Elastic Agent → Fleet/Elasticsearch | Splunk UF → TCP receiving port 9997 |
+| Linux audit/journal | Elastic Agent or supported file input | Splunk UF or broker file input |
+| DMZ application logs | Supported agent/file input → Elastic | Supported agent/file input → Splunk |
+
+Use one source path per destination. Do not assume that the broker transforms all data into ECS or CIM automatically; mappings and field extraction must be explicitly configured and validated.
 
 ## 2. Create a Linux syslog relay
 
