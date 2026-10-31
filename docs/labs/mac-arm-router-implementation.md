@@ -285,7 +285,19 @@ sudo dnsmasq --test
 sudo systemctl enable --now dnsmasq
 sudo systemctl status dnsmasq --no-pager
 sudo journalctl -u dnsmasq -n 100 --no-pager
+sudo ss -lunp | grep -E ':(53|67)\\b'
 ~~~
+
+On a Linux DHCP client, renew the lease using the network manager/client appropriate to that guest, then verify:
+
+~~~bash
+ip -4 address
+ip route
+resolvectl status
+dig @10.10.20.1 example.com
+~~~
+
+Replace 10.10.20.1 with that guest's segment DNS address. For a Windows guest use `ipconfig /release`, `ipconfig /renew`, `ipconfig /all`, and `nslookup example.com 10.10.20.1`. In an AD domain, query the DC DNS directly for the domain controller SRV record and confirm the expected DC is returned. A DHCP lease alone does not prove DNS is correct.
 
 ## 7. Local firewall logs and relay forwarding
 
