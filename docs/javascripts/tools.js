@@ -1080,7 +1080,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         margin-top: 0.85rem;
       }
       @media (max-width: 800px) { .psv-related-grid { grid-template-columns: repeat(2, 1fr); } }
-    `;
 
       /* PSV investigation workbench refresh */
       #psv-app.psv-workbench-v2{max-width:1440px;margin:0 auto;padding:1.5rem clamp(.75rem,2vw,2rem) 4rem;color:var(--md-default-fg-color)}
@@ -1132,6 +1131,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-advanced-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:1050px;margin:0 auto}
       @media(max-width:900px){#psv-app .psv-workflow-grid{grid-template-columns:1fr}#psv-app .psv-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#psv-app .psv-section-head{align-items:flex-start;flex-direction:column}}
       @media(max-width:620px){#psv-app .psv-form-grid,#psv-app .psv-reference-grid{grid-template-columns:1fr}#psv-app .psv-form-wide{grid-column:auto}#psv-app .psv-command-stats{gap:1rem}#psv-app .psv-advanced-head{align-items:flex-start;flex-direction:column}}
+    `;
     document.head.appendChild(style);
   }
 
