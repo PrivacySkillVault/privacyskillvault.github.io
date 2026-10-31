@@ -44,6 +44,30 @@
       <div class="psv-story-card__art psv-story-art--login" aria-hidden="true"><span class="psv-story-art__label">IDENTITY SIGNALS</span><span class="psv-thumb-glyph">◎</span></div>
       <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>Triage a Suspicious Login Alert Without Jumping to Conclusions</h3><p>Separate failed attempts, successful authentication, session creation, and account activity while building a defensible timeline.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
+    </div>
+    <nav class="psv-journal-pagination" aria-label="Journal pages"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link" href="page/2/">2</a><span class="psv-page-status">Page 1 of 2</span><a class="psv-page-next" href="page/2/">Older articles →</a></nav>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Device Fingerprinting in Banking: What It Can—and Cannot—Prove</h3><p>A practical guide to device signals, device binding, spoofing limits, and how fraud teams should interpret a device match.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="cyber-fraud/investigating-suspicious-bank-transfer/">
+      <div class="psv-story-card__art psv-story-art--payment" aria-hidden="true"><span class="psv-story-art__label">PAYMENT TIMELINE</span><span class="psv-thumb-glyph">↗</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Investigating a Suspicious Bank Transfer: Build the Timeline Before the Theory</h3><p>Connect login, session, beneficiary, authentication, and payment evidence without jumping to conclusions.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="threat-analysis/ransomware-attack-chain/">
+      <div class="psv-story-card__art psv-story-art--ransom" aria-hidden="true"><span class="psv-story-art__label">RANSOMWARE</span><span class="psv-thumb-glyph">▧</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>A Ransomware Attack, Step by Step: What Happens Before Files Are Encrypted?</h3><p>Understand common intrusion stages, where defenders can detect them, and why recovery starts before encryption.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 10 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="threat-analysis/living-off-the-land/">
+      <div class="psv-story-card__art psv-story-art--lotl" aria-hidden="true"><span class="psv-story-art__label">LIVING OFF THE LAND</span><span class="psv-thumb-glyph">⌘</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>Living off the Land: Why Legitimate Tools Can Look Suspicious</h3><p>How attackers abuse built-in utilities, why simple blocklists fail, and how to investigate behaviour and context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="soc-investigations/investigating-suspicious-powershell/">
+      <div class="psv-story-card__art psv-story-art--powershell" aria-hidden="true"><span class="psv-story-art__label">ENDPOINT TRIAGE</span><span class="psv-thumb-glyph">>_</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>How to Investigate Suspicious PowerShell Activity</h3><p>A practical triage workflow using process lineage, Event 4104, Sysmon, network activity, and host context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="soc-investigations/triaging-suspicious-login-alert/">
+      <div class="psv-story-card__art psv-story-art--login" aria-hidden="true"><span class="psv-story-art__label">IDENTITY SIGNALS</span><span class="psv-thumb-glyph">◎</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>Triage a Suspicious Login Alert Without Jumping to Conclusions</h3><p>Separate failed attempts, successful authentication, session creation, and account activity while building a defensible timeline.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
 <a class="psv-story-card" href="vulnerabilities/cve-cvss-cwe-cpe-explained/">
       <div class="psv-story-card__art psv-story-art--cve" aria-hidden="true"><span class="psv-story-art__label">VULNERABILITY DATA</span><span class="psv-thumb-glyph">CVE</span></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>CVE, CVSS, CWE and CPE: Four Terms Every Vulnerability Analyst Should Know</h3><p>Understand what each identifier or score represents—and why none alone tells you whether a system is at risk.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
