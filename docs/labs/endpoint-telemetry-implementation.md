@@ -29,6 +29,7 @@ Command lines may contain passwords, tokens or personal data. Keep command-line 
 On the endpoint:
 
 ~~~powershell
+New-Item -ItemType Directory -Path C:\Temp -Force | Out-Null
 gpupdate /force
 gpresult /h C:\Temp\psv-gpo-result.html
 auditpol /get /category:*
@@ -51,12 +52,15 @@ If no 4688 appears, verify the audit subcategory, effective GPO, policy preceden
 
 ## 3. Windows 11 x64 — Sysmon
 
-Download Sysmon only from Microsoft's Sysinternals page. Verify the Microsoft signature and record the file version. Extract it into a controlled tools directory.
+Download Sysmon only from Microsoft's Sysinternals page. Create the tools directory, extract the downloaded archive into it, verify the Microsoft signature and record the file version:
 
 Install using the Microsoft Sysmon default configuration for the first smoke test:
 
 ~~~powershell
+New-Item -ItemType Directory -Path C:\CyberLab\Tools\Sysmon -Force | Out-Null
+# Extract the official Sysmon ZIP into this directory before running the next commands.
 cd C:\CyberLab\Tools\Sysmon
+Get-AuthenticodeSignature .\Sysmon64.exe | Format-List Status,SignerCertificate
 .\Sysmon64.exe -accepteula -i
 Get-Service Sysmon64
 Get-WinEvent -ListLog 'Microsoft-Windows-Sysmon/Operational'
@@ -107,7 +111,7 @@ sudo sh -c 'echo test >> /opt/psv-audit-test/test.txt'
 sudo ausearch -k psv_lab_file_change -ts recent -i
 ~~~
 
-For persistence, place reviewed rules in the distribution's audit rules directory (commonly /etc/audit/rules.d/), validate using the installed audit tooling, and reload using the supported service method. Do not rely on runtime auditctl rules after reboot. Confirm auditd log rotation and disk capacity.
+For persistence, create /etc/audit/rules.d/psv-lab.rules containing the same reviewed watch rule (`-w /opt/psv-audit-test -p wa -k psv_lab_file_change`). Then run `sudo augenrules --check`, `sudo augenrules --load`, and `sudo auditctl -l` to confirm it is active. Do not rely on runtime-only auditctl rules after reboot. Confirm auditd log rotation and disk capacity.
 
 For system logs:
 
@@ -125,6 +129,7 @@ macOS uses Unified Logging, not Windows Event Log. Start with local proof on the
 ~~~bash
 uname -m
 sw_vers
+sudo -v
 log show --last 10m --style json --predicate 'process == "sudo"'
 ~~~
 
