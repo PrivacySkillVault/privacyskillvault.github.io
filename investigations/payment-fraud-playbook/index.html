@@ -2204,11 +2204,11 @@
 
 
 
-<h1 id="payment-fraud-investigation-playbook">Payment Fraud Investigation Playbook<a class="headerlink" href="#payment-fraud-investigation-playbook" title="Permanent link">&para;</a></h1>
+<h1 id="payment-fraud-investigation-playbook">Payment Fraud Investigation Playbook</h1>
 <p><badge color="warning">Operational reference — not payment-scheme advice</badge></p>
-<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<h2 id="purpose">Purpose</h2>
 <p>Structure an investigation into suspected unauthorised card, account-to-account, bill-payment or other digital payment activity. Use the actual payment rail and provider documentation; do not assume every rail exposes the same lifecycle states, identifiers or reversal rights.</p>
-<h2 id="1-preserve-the-transaction-record">1. Preserve the transaction record<a class="headerlink" href="#1-preserve-the-transaction-record" title="Permanent link">&para;</a></h2>
+<h2 id="1-preserve-the-transaction-record">1. Preserve the transaction record</h2>
 <p>For each transaction, record the authorised case reference and the authoritative values available in the payment/core system:</p>
 <ul>
 <li>Transaction/payment reference and any parent/related reference</li>
@@ -2222,10 +2222,10 @@
 <li>Customer dispute/contact record and source of the statement</li>
 </ul>
 <p>Do not collapse “authorised”, “posted”, “settled”, “reversed” and “refunded” into a single “successful” state. Confirm the meaning of each status with the system or payment provider.</p>
-<h2 id="2-reconstruct-the-payment-flow">2. Reconstruct the payment flow<a class="headerlink" href="#2-reconstruct-the-payment-flow" title="Permanent link">&para;</a></h2>
+<h2 id="2-reconstruct-the-payment-flow">2. Reconstruct the payment flow</h2>
 <p>Map the real message and service path for the specific rail. A generic card-not-present flow may involve customer channel, merchant, 3DS Server, Directory Server, Access Control Server, acquirer, issuer authorisation host and payment network. A SADAD or other account/bill-payment flow has a different path and must be mapped from the bank/provider's own interface and operational documentation.</p>
 <p>For every hop, record request/response IDs, timestamps, system name, status and the original event reference. Confirm which system is authoritative for each state.</p>
-<h2 id="3-card-not-present-and-3-d-secure-evidence">3. Card-not-present and 3-D Secure evidence<a class="headerlink" href="#3-card-not-present-and-3-d-secure-evidence" title="Permanent link">&para;</a></h2>
+<h2 id="3-card-not-present-and-3-d-secure-evidence">3. Card-not-present and 3-D Secure evidence</h2>
 <p>When 3DS is involved, capture only fields actually present in the issuer/acquirer/provider records and interpret them using the applicable EMVCo specification version and integration documentation.</p>
 <p>Potentially relevant fields include:
 - Protocol version
@@ -2238,7 +2238,7 @@
 - Provider mapping of authentication, authorisation and liability-related outcomes</p>
 <p>Protect authentication values and sensitive payment data. Store the minimum necessary evidence in the authorised case system; do not publish full values in PSV.</p>
 <p><strong>Do not assume:</strong> a generic “3DS passed” label means the legitimate account holder initiated the transaction; a frictionless flow means the customer actively approved it; or a liability-shift indicator determines the bank's fraud verdict. Confirm the actual protocol version, result fields, scheme rules and provider semantics.</p>
-<h2 id="4-account-to-account-bill-payment-and-sadad-style-flows">4. Account-to-account, bill-payment and SADAD-style flows<a class="headerlink" href="#4-account-to-account-bill-payment-and-sadad-style-flows" title="Permanent link">&para;</a></h2>
+<h2 id="4-account-to-account-bill-payment-and-sadad-style-flows">4. Account-to-account, bill-payment and SADAD-style flows</h2>
 <p>For a non-card payment, identify the rail-specific source of truth and collect:
 - Payment initiation request and response references
 - Payer authentication and authorisation records
@@ -2249,7 +2249,7 @@
 - Cancellation, reversal, return, dispute or recovery state
 - Customer channel and session linkage</p>
 <p>Do not apply EMV 3DS fields to a rail that does not use EMV 3DS. Do not assume a payment can be reversed or blocked after a particular state without checking the applicable rail and operating procedure.</p>
-<h2 id="5-fraud-control-evaluation">5. Fraud-control evaluation<a class="headerlink" href="#5-fraud-control-evaluation" title="Permanent link">&para;</a></h2>
+<h2 id="5-fraud-control-evaluation">5. Fraud-control evaluation</h2>
 <p>For every relevant decision, reconstruct what the control knew at decision time:</p>
 <table>
 <thead>
@@ -2290,10 +2290,10 @@
 </tbody>
 </table>
 <p>A missing fraud alert does not by itself prove a rule failed. First establish whether the event reached the engine, whether required features were present, whether the rule was enabled and in scope, and whether the decision was logged.</p>
-<h2 id="6-cross-system-correlation">6. Cross-system correlation<a class="headerlink" href="#6-cross-system-correlation" title="Permanent link">&para;</a></h2>
+<h2 id="6-cross-system-correlation">6. Cross-system correlation</h2>
 <p>Correlate payment reference → fraud decision reference → API request/trace ID → authenticated session → authentication event → device/network evidence. Use independent references wherever possible. Record the join key, source and confidence for every link.</p>
 <p>If an application session is absent, use the dedicated <a href="../account-takeover-playbook/#5-when-the-session-is-missing-from-logs">ATO playbook</a> to investigate logging and trace-propagation gaps. Do not fill missing records with assumed values.</p>
-<h2 id="7-scope-loss-and-customer-impact">7. Scope, loss and customer impact<a class="headerlink" href="#7-scope-loss-and-customer-impact" title="Permanent link">&para;</a></h2>
+<h2 id="7-scope-loss-and-customer-impact">7. Scope, loss and customer impact</h2>
 <ul>
 <li>Identify related transactions and whether the pattern spans customers, channels, products, beneficiaries or institutions.</li>
 <li>Separate attempted, declined, authorised, posted, settled, reversed, returned and recovered amounts.</li>
@@ -2301,7 +2301,7 @@
 <li>Confirm customer impact and contact status using approved processes.</li>
 <li>Preserve evidence for dispute, scheme, provider, legal and regulatory processes as required.</li>
 </ul>
-<h2 id="8-outcome-and-corrective-action">8. Outcome and corrective action<a class="headerlink" href="#8-outcome-and-corrective-action" title="Permanent link">&para;</a></h2>
+<h2 id="8-outcome-and-corrective-action">8. Outcome and corrective action</h2>
 <p>The case conclusion should identify confirmed facts, inference, alternative explanations, confidence, loss status, customer impact, control performance, evidence gaps and unresolved questions.</p>
 <p>Potential corrective-action categories include:
 - Authentication or account-recovery control
@@ -2312,7 +2312,7 @@
 - Logging, monitoring, evidence retention and case workflow
 - Third-party/provider integration and reconciliation</p>
 <p>Assign each action an accountable owner, approval, risk rationale, due date, validation evidence and closure criteria. Do not use a generic remediation deadline or severity threshold unless approved by the institution.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://rulebook.sama.gov.sa/en/52-fraud-detection-systems">SAMA Counter-Fraud Framework — 5.2 Fraud Detection Systems</a></li>
 <li><a href="https://rulebook.sama.gov.sa/en/63-fraud-investigation">SAMA Counter-Fraud Framework — 6.3 Fraud Investigation</a></li>

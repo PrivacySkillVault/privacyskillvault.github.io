@@ -2182,9 +2182,9 @@
 
 
 
-<h1 id="detection-002-addition-to-local-administrators-group">Detection 002 — Addition to local Administrators group<a class="headerlink" href="#detection-002-addition-to-local-administrators-group" title="Permanent link">&para;</a></h1>
+<h1 id="detection-002-addition-to-local-administrators-group">Detection 002 — Addition to local Administrators group</h1>
 <p><badge color="warning">Review privileged change; validate local group scope</badge></p>
-<h2 id="analytic-intent">Analytic intent<a class="headerlink" href="#analytic-intent" title="Permanent link">&para;</a></h2>
+<h2 id="analytic-intent">Analytic intent</h2>
 <p>Identify Windows Security Event ID 4732 where the target group SID is the built-in local Administrators group SID <code>S-1-5-32-544</code>. This indicates a membership addition to that security-enabled local group. It does not establish whether the change was authorised.</p>
 <ul>
 <li><strong>Rule ID:</strong> PSV-WIN-002</li>
@@ -2194,7 +2194,7 @@
 <li><strong>Initial Sigma level:</strong> high</li>
 <li><strong>Status:</strong> test</li>
 </ul>
-<h2 id="required-event-fields">Required event fields<a class="headerlink" href="#required-event-fields" title="Permanent link">&para;</a></h2>
+<h2 id="required-event-fields">Required event fields</h2>
 <table>
 <thead>
 <tr>
@@ -2230,7 +2230,7 @@
 </tbody>
 </table>
 <p>Group display names may be localised or renamed. The well-known SID is a more stable selector for the built-in local Administrators group, but confirm that the event field is correctly parsed and that your environment's group semantics match this analytic.</p>
-<h2 id="sigma-rule">Sigma rule<a class="headerlink" href="#sigma-rule" title="Permanent link">&para;</a></h2>
+<h2 id="sigma-rule">Sigma rule</h2>
 <p>Source file: <a href="../rules/windows-local-admin-membership.yml">windows-local-admin-membership.yml</a></p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Member Added to Built-in Local Administrators Group</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2b3e1e76-7e3b-4a9d-9d81-001000000002</span>
@@ -2264,18 +2264,18 @@
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.privilege_escalation</span>
 </span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.t1098.007</span>
 </span></code></pre></div>
-<h2 id="elastic-security-kql-starting-query">Elastic Security — KQL starting query<a class="headerlink" href="#elastic-security-kql-starting-query" title="Permanent link">&para;</a></h2>
+<h2 id="elastic-security-kql-starting-query">Elastic Security — KQL starting query</h2>
 <p>Assumptions: Windows Security events are ingested and the raw Windows event data is available in <code>winlog.event_data</code>.</p>
 <div class="language-kql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">event</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"4732"</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">and</span><span class="w"> </span><span class="n">winlog</span><span class="p">.</span><span class="n">event_data</span><span class="p">.</span><span class="n">TargetSid</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"S-1-5-32-544"</span>
 </span></code></pre></div>
 <p>Check the actual field mapping in Discover before deploying. Some integrations expose additional normalised fields; retain the original raw event fields for auditability.</p>
-<h2 id="splunk-raw-windows-security-spl-starting-query">Splunk — raw Windows Security SPL starting query<a class="headerlink" href="#splunk-raw-windows-security-spl-starting-query" title="Permanent link">&para;</a></h2>
+<h2 id="splunk-raw-windows-security-spl-starting-query">Splunk — raw Windows Security SPL starting query</h2>
 <p>Replace the index and source value with values verified from your deployment. The CI conversion using the Sigma Splunk Windows pipeline emits the source constraint shown here; your ingestion configuration may use a different source/sourcetype mapping.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>index=YOUR_INDEX source="WinEventLog:Security" EventCode=4732 TargetSid="S-1-5-32-544"
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>| table _time host SubjectUserName SubjectDomainName SubjectLogonId MemberName MemberSid TargetUserName TargetSid
 </span></code></pre></div>
-<h2 id="test-matrix">Test matrix<a class="headerlink" href="#test-matrix" title="Permanent link">&para;</a></h2>
+<h2 id="test-matrix">Test matrix</h2>
 <table>
 <thead>
 <tr>
@@ -2312,7 +2312,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="analyst-triage">Analyst triage<a class="headerlink" href="#analyst-triage" title="Permanent link">&para;</a></h2>
+<h2 id="analyst-triage">Analyst triage</h2>
 <ol>
 <li>Confirm the host and original event XML; verify <code>TargetSid</code>, <code>MemberSid</code>, actor, time and logon ID.</li>
 <li>Identify the added principal by SID and directory source; determine whether it is a user, computer or service account.</li>
@@ -2322,9 +2322,9 @@
 <li>Search for follow-on privileged activity and lateral movement from the affected host.</li>
 <li>Record the authorisation decision and evidence. Containment or removal requires the organisation's approved authority and change process.</li>
 </ol>
-<h2 id="tuning">Tuning<a class="headerlink" href="#tuning" title="Permanent link">&para;</a></h2>
+<h2 id="tuning">Tuning</h2>
 <p>Do not blanket-exclude IT administrators or provisioning accounts. Tune by approved workflow identity, source host, target group, actor, ticket evidence and expected timing. Every exception needs an owner and periodic review.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4732">Microsoft Event 4732</a></li>
 <li><a href="https://attack.mitre.org/techniques/T1098/007">MITRE ATT&amp;CK T1098.007</a></li>

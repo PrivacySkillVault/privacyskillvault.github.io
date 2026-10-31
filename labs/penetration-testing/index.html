@@ -2160,10 +2160,10 @@
 
 
 
-<h1 id="lab-9-isolated-penetration-testing-environment">Lab 9 — Isolated penetration-testing environment<a class="headerlink" href="#lab-9-isolated-penetration-testing-environment" title="Permanent link">&para;</a></h1>
+<h1 id="lab-9-isolated-penetration-testing-environment">Lab 9 — Isolated penetration-testing environment</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This is a controlled assessment lab. Only scan or test the targets you own and have deliberately placed in the isolated lab segment. Do not use the lab network as a bridge to your home, employer or public networks.</p>
-<h2 id="1-topology">1. Topology<a class="headerlink" href="#1-topology" title="Permanent link">&para;</a></h2>
+<h2 id="1-topology">1. Topology</h2>
 <ul>
 <li>Kali Linux: REDTEAM network, no bridged adapter.</li>
 <li>OWASP Juice Shop: DMZ network, no direct home LAN access.</li>
@@ -2172,7 +2172,7 @@
 <li>Firewall/router: explicit allow from Kali to target IP and ports only.</li>
 </ul>
 <p>Use the Windows PC for x86-64 targets or Mac for ARM64 Kali and container images with a matching platform manifest. Verify Docker images support the guest architecture before pulling.</p>
-<h2 id="2-install-owasp-juice-shop-with-docker">2. Install OWASP Juice Shop with Docker<a class="headerlink" href="#2-install-owasp-juice-shop-with-docker" title="Permanent link">&para;</a></h2>
+<h2 id="2-install-owasp-juice-shop-with-docker">2. Install OWASP Juice Shop with Docker</h2>
 <p>Use a supported Docker Engine installation on a disposable Ubuntu target VM connected only to DMZ. Follow Docker's official install guide for that Ubuntu release.</p>
 <p>After installing Docker, verify:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span>version
@@ -2189,7 +2189,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>-I<span class="w"> </span>http://10.10.60.20:3000
 </span></code></pre></div>
 <p>Do not expose this service on the home LAN or public Internet. Do not use default port mapping without binding to the lab interface.</p>
-<h2 id="3-establish-a-test-scope">3. Establish a test scope<a class="headerlink" href="#3-establish-a-test-scope" title="Permanent link">&para;</a></h2>
+<h2 id="3-establish-a-test-scope">3. Establish a test scope</h2>
 <p>Create a written scope file with:
 - Authorised tester VM/IP.
 - Target VM/IP and application URL.
@@ -2199,12 +2199,12 @@
 - Stop conditions.
 - Data handling and cleanup.</p>
 <p>Example scope: Kali 10.10.40.10 may assess Juice Shop 10.10.60.20 TCP/3000 only. No other addresses or ports are in scope.</p>
-<h2 id="4-reconnaissance-and-service-identification">4. Reconnaissance and service identification<a class="headerlink" href="#4-reconnaissance-and-service-identification" title="Permanent link">&para;</a></h2>
+<h2 id="4-reconnaissance-and-service-identification">4. Reconnaissance and service identification</h2>
 <p>From Kali, first confirm the target address and then scan only the target and port in scope:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nmap<span class="w"> </span>-sT<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">3000</span><span class="w"> </span><span class="m">10</span>.10.60.20
 </span></code></pre></div>
 <p>Record the command, Nmap version, time, target and output. Do not use broad subnet scans until the lab's authorised scope explicitly permits them.</p>
-<h2 id="5-web-assessment-workflow">5. Web assessment workflow<a class="headerlink" href="#5-web-assessment-workflow" title="Permanent link">&para;</a></h2>
+<h2 id="5-web-assessment-workflow">5. Web assessment workflow</h2>
 <p>Use browser developer tools and Burp Suite Community:
 1. Configure the browser to proxy through Burp's local listener.
 2. Confirm only the browser traffic for the Juice Shop lab is proxied.
@@ -2214,7 +2214,7 @@
 6. Capture request/response evidence with secrets and personal data redacted.
 7. Record finding, impact, reproducible steps, evidence, remediation and retest result.</p>
 <p>Do not run destructive exploit chains, denial-of-service tests or tests against public sites as part of this lab.</p>
-<h2 id="6-vulnerability-verification-and-remediation">6. Vulnerability verification and remediation<a class="headerlink" href="#6-vulnerability-verification-and-remediation" title="Permanent link">&para;</a></h2>
+<h2 id="6-vulnerability-verification-and-remediation">6. Vulnerability verification and remediation</h2>
 <p>For each finding:
 - Reproduce in the isolated target.
 - Identify the affected component and version.
@@ -2224,13 +2224,13 @@
 - Apply the fix or configuration change in a separate snapshot.
 - Repeat the exact test and record whether it is resolved.</p>
 <p>A scanner finding is not confirmed until manually validated. Avoid presenting tool output alone as proof of exploitability.</p>
-<h2 id="7-cleanup">7. Cleanup<a class="headerlink" href="#7-cleanup" title="Permanent link">&para;</a></h2>
+<h2 id="7-cleanup">7. Cleanup</h2>
 <p>Stop and remove the disposable target when finished:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>stop<span class="w"> </span>juice-shop
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span>rm<span class="w"> </span>juice-shop
 </span></code></pre></div>
 <p>Revert the target VM snapshot. Remove temporary firewall allows and verify that the target is no longer reachable from Kali or any other network.</p>
-<h2 id="8-references">8. References<a class="headerlink" href="#8-references" title="Permanent link">&para;</a></h2>
+<h2 id="8-references">8. References</h2>
 <ul>
 <li><a href="https://owasp.org/www-project-juice-shop/">OWASP Juice Shop</a></li>
 <li><a href="https://github.com/juice-shop/juice-shop">Juice Shop official repository and Docker usage</a></li>

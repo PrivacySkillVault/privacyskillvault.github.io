@@ -2204,10 +2204,10 @@
 
 
 
-<h1 id="lab-11-soc-validation-exercises-and-operational-monitoring">Lab 11 — SOC validation exercises and operational monitoring<a class="headerlink" href="#lab-11-soc-validation-exercises-and-operational-monitoring" title="Permanent link">&para;</a></h1>
+<h1 id="lab-11-soc-validation-exercises-and-operational-monitoring">Lab 11 — SOC validation exercises and operational monitoring</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This programme validates the full collection-to-investigation chain. Run each exercise in the SIEM currently powered on. Do not attempt to deploy every platform at once.</p>
-<h2 id="1-define-monitoring-coverage">1. Define monitoring coverage<a class="headerlink" href="#1-define-monitoring-coverage" title="Permanent link">&para;</a></h2>
+<h2 id="1-define-monitoring-coverage">1. Define monitoring coverage</h2>
 <p>Create an asset inventory for the lab:</p>
 <table>
 <thead>
@@ -2265,7 +2265,7 @@
 </tbody>
 </table>
 <p>For every source document event generation, collection, parsing, storage, searchability, alerting and retention. A green agent status does not prove all required event channels are collected.</p>
-<h2 id="2-exercise-a-windows-process-creation">2. Exercise A — Windows process creation<a class="headerlink" href="#2-exercise-a-windows-process-creation" title="Permanent link">&para;</a></h2>
+<h2 id="2-exercise-a-windows-process-creation">2. Exercise A — Windows process creation</h2>
 <ol>
 <li>Confirm Sysmon Event ID 1 is generated locally.</li>
 <li>Confirm the same event reaches Elastic or Splunk.</li>
@@ -2275,14 +2275,14 @@
 <li>Record the raw event, query, rule version, alert, timestamps and collection delay.</li>
 </ol>
 <p>Use only a harmless test command in your own VM. Do not execute downloaded payloads or real malware.</p>
-<h2 id="3-exercise-b-local-administrators-group-change">3. Exercise B — local Administrators group change<a class="headerlink" href="#3-exercise-b-local-administrators-group-change" title="Permanent link">&para;</a></h2>
+<h2 id="3-exercise-b-local-administrators-group-change">3. Exercise B — local Administrators group change</h2>
 <p>On a disposable Windows endpoint, create a synthetic local test user and add it to the local Administrators group only for the controlled exercise. Record the exact before/after membership and use an approved local admin session.</p>
 <p>Verify the Windows Security log contains Event ID 4732 and the target group SID is S-1-5-32-544. Forward the event to the SIEM. Run the Phase 5 detection and confirm:
 - Positive: target SID is the built-in Administrators SID.
 - Negative: an event for another group (for example Users) does not match.
 - Actor, member, target SID, host and time are parsed correctly.</p>
 <p>Remove the test user from the group and delete the synthetic account. Confirm the cleanup event is also recorded. Do not run this on a production or personal daily-use machine.</p>
-<h2 id="4-exercise-c-linux-authentication-and-audit">4. Exercise C — Linux authentication and audit<a class="headerlink" href="#4-exercise-c-linux-authentication-and-audit" title="Permanent link">&para;</a></h2>
+<h2 id="4-exercise-c-linux-authentication-and-audit">4. Exercise C — Linux authentication and audit</h2>
 <ol>
 <li>Confirm auditd is installed and active on Ubuntu.</li>
 <li>Generate a successful login to the test account and a failed login using a deliberately incorrect password.</li>
@@ -2292,7 +2292,7 @@
 <li>Record whether the SIEM distinguishes failed authentication from successful login.</li>
 </ol>
 <p>Do not brute-force accounts. A single controlled failed login is sufficient to validate collection.</p>
-<h2 id="5-exercise-d-network-monitoring">5. Exercise D — network monitoring<a class="headerlink" href="#5-exercise-d-network-monitoring" title="Permanent link">&para;</a></h2>
+<h2 id="5-exercise-d-network-monitoring">5. Exercise D — network monitoring</h2>
 <ol>
 <li>Generate a DNS query from a lab endpoint to the lab DNS server.</li>
 <li>Generate HTTP traffic to the Juice Shop target.</li>
@@ -2302,7 +2302,7 @@
 <li>Correlate endpoint, DNS and sensor records using IP, time and other available identifiers.</li>
 </ol>
 <p>If sensor packets are missing, check SPAN/mirroring, VLAN, NIC mapping, asymmetric routing, capture drops and time synchronisation before changing rules.</p>
-<h2 id="6-exercise-e-health-and-availability-monitoring">6. Exercise E — health and availability monitoring<a class="headerlink" href="#6-exercise-e-health-and-availability-monitoring" title="Permanent link">&para;</a></h2>
+<h2 id="6-exercise-e-health-and-availability-monitoring">6. Exercise E — health and availability monitoring</h2>
 <p>Monitor:
 - Agent/forwarder last-seen and policy state.
 - SIEM node health, cluster status and disk watermarks.
@@ -2312,7 +2312,7 @@
 - Clock synchronisation and event ingestion delay.
 - Backup/restore and snapshot status.</p>
 <p>Set thresholds based on measured baseline and vendor guidance. Avoid arbitrary universal thresholds. Alert on loss of telemetry as well as security events.</p>
-<h2 id="7-exercise-f-investigation-and-case-management">7. Exercise F — investigation and case management<a class="headerlink" href="#7-exercise-f-investigation-and-case-management" title="Permanent link">&para;</a></h2>
+<h2 id="7-exercise-f-investigation-and-case-management">7. Exercise F — investigation and case management</h2>
 <p>For one synthetic alert:
 1. Create a case with unique lab case ID.
 2. Preserve the raw source event and SIEM alert.
@@ -2323,7 +2323,7 @@
 7. Add remediation and retest evidence.
 8. Close the case with reviewer and date.</p>
 <p>Use the Phase 5 fraud/incident templates as structures, not as proof of regulatory compliance.</p>
-<h2 id="8-evidence-package">8. Evidence package<a class="headerlink" href="#8-evidence-package" title="Permanent link">&para;</a></h2>
+<h2 id="8-evidence-package">8. Evidence package</h2>
 <p>For each exercise save:
 - Hardware and hypervisor details.
 - VM settings and IP/network diagram.
@@ -2336,7 +2336,7 @@
 - Troubleshooting and cleanup.
 - Limitations and reviewer sign-off.</p>
 <p>Use synthetic accounts and addresses. Do not upload production telemetry, customer records, internal hostnames or credentials to PSV.</p>
-<h2 id="9-exit-criteria">9. Exit criteria<a class="headerlink" href="#9-exit-criteria" title="Permanent link">&para;</a></h2>
+<h2 id="9-exit-criteria">9. Exit criteria</h2>
 <p>A lab is complete only when:
 - Network isolation is proven.
 - Source event generation is verified locally.
@@ -2346,7 +2346,7 @@
 - Telemetry-health gaps are documented.
 - Cleanup is verified.
 - The evidence package is reproducible by another person.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/sysmon-events">Microsoft Sysmon events</a></li>
 <li><a href="https://www.elastic.co/docs/solutions/security/detect-and-alert/detection-rule-concepts">Elastic detection rule concepts</a></li>

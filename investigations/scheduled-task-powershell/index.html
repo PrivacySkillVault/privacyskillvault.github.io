@@ -2326,13 +2326,13 @@
 
 
 
-<h1 id="investigation-walkthrough-suspicious-powershell-from-a-scheduled-task">Investigation Walkthrough: Suspicious PowerShell from a Scheduled Task<a class="headerlink" href="#investigation-walkthrough-suspicious-powershell-from-a-scheduled-task" title="Permanent link">&para;</a></h1>
+<h1 id="investigation-walkthrough-suspicious-powershell-from-a-scheduled-task">Investigation Walkthrough: Suspicious PowerShell from a Scheduled Task</h1>
 <p><badge color="info">Simulated training scenario</badge></p>
 <p>This case is synthetic. Host names, timestamps, users, event records, and command lines are invented for training. It is not a description of a real customer, employer, bank, or production incident.</p>
-<h2 id="scenario">Scenario<a class="headerlink" href="#scenario" title="Permanent link">&para;</a></h2>
+<h2 id="scenario">Scenario</h2>
 <p>An endpoint alert reports PowerShell execution shortly after a scheduled task was created on a workstation. The command line contains encoded content. The analyst must determine whether this is expected administration, a policy violation, or evidence of compromise.</p>
 <p><strong>Initial alert is not a verdict.</strong> Encoded PowerShell, an unfamiliar task, or an unusual parent process can justify investigation, but none independently proves malicious activity.</p>
-<h2 id="investigation-objectives">Investigation objectives<a class="headerlink" href="#investigation-objectives" title="Permanent link">&para;</a></h2>
+<h2 id="investigation-objectives">Investigation objectives</h2>
 <ol>
 <li>Establish what happened and when.</li>
 <li>Identify the account, process, task definition, and affected host.</li>
@@ -2340,7 +2340,7 @@
 <li>Test benign and malicious explanations.</li>
 <li>State the conclusion, confidence, evidence gaps, and recommended next steps.</li>
 </ol>
-<h2 id="synthetic-evidence-set">Synthetic evidence set<a class="headerlink" href="#synthetic-evidence-set" title="Permanent link">&para;</a></h2>
+<h2 id="synthetic-evidence-set">Synthetic evidence set</h2>
 <table>
 <thead>
 <tr>
@@ -2378,7 +2378,7 @@
 </tbody>
 </table>
 <p>These rows are intentionally incomplete. They provide investigation leads, not proof that the task, DNS query, and connection belong to one causal chain.</p>
-<h2 id="step-1-preserve-and-scope">Step 1 — Preserve and scope<a class="headerlink" href="#step-1-preserve-and-scope" title="Permanent link">&para;</a></h2>
+<h2 id="step-1-preserve-and-scope">Step 1 — Preserve and scope</h2>
 <ul>
 <li>Record the alert ID, host identifier, event source, original timestamps, collection time, and analyst actions.</li>
 <li>Preserve the original event records and task definition before making changes.</li>
@@ -2387,7 +2387,7 @@
 <li>Record which telemetry sources are available and their retention windows.</li>
 </ul>
 <p>Do not modify or delete the task before preserving the relevant evidence unless an authorised containment decision requires immediate action.</p>
-<h2 id="step-2-reconstruct-process-execution">Step 2 — Reconstruct process execution<a class="headerlink" href="#step-2-reconstruct-process-execution" title="Permanent link">&para;</a></h2>
+<h2 id="step-2-reconstruct-process-execution">Step 2 — Reconstruct process execution</h2>
 <p>Review the process event and collect, where available:</p>
 <ul>
 <li>Image path, hash, signer, and file metadata</li>
@@ -2398,7 +2398,7 @@
 </ul>
 <p>Validate the parent-child relationship using the raw event. Parent process names can vary by Windows version and execution path; do not assume one fixed Task Scheduler process chain.</p>
 <p>For Sysmon, Event ID 1 is Process Create. Its presence depends on Sysmon installation and configuration. Correlate process identifiers and timestamps rather than relying only on process names.</p>
-<h2 id="step-3-inspect-the-scheduled-task">Step 3 — Inspect the scheduled task<a class="headerlink" href="#step-3-inspect-the-scheduled-task" title="Permanent link">&para;</a></h2>
+<h2 id="step-3-inspect-the-scheduled-task">Step 3 — Inspect the scheduled task</h2>
 <p>Retrieve the task's:</p>
 <ul>
 <li>Full task path and name</li>
@@ -2410,7 +2410,7 @@
 <li>Creation or modification source, where available</li>
 </ul>
 <p>Compare the task definition with the organisation's approved software deployment, administration scripts, and change records. A task can be legitimate, misconfigured, or unauthorised; classify it only after checking ownership and intent.</p>
-<h2 id="step-4-correlate-independent-telemetry">Step 4 — Correlate independent telemetry<a class="headerlink" href="#step-4-correlate-independent-telemetry" title="Permanent link">&para;</a></h2>
+<h2 id="step-4-correlate-independent-telemetry">Step 4 — Correlate independent telemetry</h2>
 <table>
 <thead>
 <tr>
@@ -2458,16 +2458,16 @@
 </tbody>
 </table>
 <p>Build the timeline using UTC and preserve the original timestamps. Distinguish event time from collection or ingestion time.</p>
-<h2 id="step-5-test-competing-hypotheses">Step 5 — Test competing hypotheses<a class="headerlink" href="#step-5-test-competing-hypotheses" title="Permanent link">&para;</a></h2>
-<h3 id="h1-approved-administration">H1: Approved administration<a class="headerlink" href="#h1-approved-administration" title="Permanent link">&para;</a></h3>
+<h2 id="step-5-test-competing-hypotheses">Step 5 — Test competing hypotheses</h2>
+<h3 id="h1-approved-administration">H1: Approved administration</h3>
 <p>Supporting evidence could include a known task owner, approved change, expected script path and signature, documented execution window, and matching activity on similarly managed endpoints.</p>
 <p>Evidence against it could include an unknown registering account, unapproved arguments, an unexpected script location, or activity outside the change window.</p>
-<h3 id="h2-unauthorised-but-non-malicious-activity">H2: Unauthorised but non-malicious activity<a class="headerlink" href="#h2-unauthorised-but-non-malicious-activity" title="Permanent link">&para;</a></h3>
+<h3 id="h2-unauthorised-but-non-malicious-activity">H2: Unauthorised but non-malicious activity</h3>
 <p>A legitimate user may have created a task outside the change process. This can still be a policy or control issue even when there is no evidence of malware.</p>
-<h3 id="h3-malicious-persistence-or-execution">H3: Malicious persistence or execution<a class="headerlink" href="#h3-malicious-persistence-or-execution" title="Permanent link">&para;</a></h3>
+<h3 id="h3-malicious-persistence-or-execution">H3: Malicious persistence or execution</h3>
 <p>Supporting evidence could include an unexplained task, concealed or user-writable execution path, obfuscated arguments, untrusted script content, suspicious account use, corroborated command-and-control activity, or related actions on other hosts.</p>
 <p>No single indicator is sufficient. Corroborate the task, process, identity, and network evidence.</p>
-<h2 id="step-6-document-the-conclusion">Step 6 — Document the conclusion<a class="headerlink" href="#step-6-document-the-conclusion" title="Permanent link">&para;</a></h2>
+<h2 id="step-6-document-the-conclusion">Step 6 — Document the conclusion</h2>
 <p>Use a conclusion format that separates facts from interpretation:</p>
 <ul>
 <li><strong>Observed:</strong> what the source records directly show.</li>
@@ -2482,10 +2482,10 @@
 <blockquote>
 <p>The available records establish that PowerShell executed shortly after a scheduled task was registered. They do not yet establish who authorised the task or whether the outbound connection was caused by that process. The case remains unresolved pending task-definition review, account validation, and process-to-network correlation.</p>
 </blockquote>
-<h2 id="step-7-response-considerations">Step 7 — Response considerations<a class="headerlink" href="#step-7-response-considerations" title="Permanent link">&para;</a></h2>
+<h2 id="step-7-response-considerations">Step 7 — Response considerations</h2>
 <p>If evidence supports compromise, follow the organisation's incident-response process. Preserve volatile and relevant endpoint evidence, identify scope, and obtain the required approval for containment actions. Do not isolate a host, disable an account, or remove a task solely because an encoded command or one suspicious event was observed.</p>
 <p>If the activity is approved, document the owner and change reference. If it is unauthorised but not malicious, route it through the appropriate control-remediation process.</p>
-<h2 id="analyst-checklist">Analyst checklist<a class="headerlink" href="#analyst-checklist" title="Permanent link">&para;</a></h2>
+<h2 id="analyst-checklist">Analyst checklist</h2>
 <ul>
 <li>[ ] Original alert and raw records preserved</li>
 <li>[ ] Host, user, and time zone confirmed</li>
@@ -2498,7 +2498,7 @@
 <li>[ ] Confidence and evidence gaps documented</li>
 <li>[ ] Response actions aligned with approved procedure</li>
 </ul>
-<h2 id="learning-references">Learning references<a class="headerlink" href="#learning-references" title="Permanent link">&para;</a></h2>
+<h2 id="learning-references">Learning references</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/sysmon-events">Microsoft: Sysmon events</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/read-tune-sysmon-events">Microsoft: Read and tune Sysmon events</a></li>

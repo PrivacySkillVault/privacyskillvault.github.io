@@ -2204,11 +2204,11 @@
 
 
 
-<h1 id="lab-firewall-routing-ids-and-firewall-log-generation">Lab — Firewall, routing, IDS and firewall-log generation<a class="headerlink" href="#lab-firewall-routing-ids-and-firewall-log-generation" title="Permanent link">&para;</a></h1>
+<h1 id="lab-firewall-routing-ids-and-firewall-log-generation">Lab — Firewall, routing, IDS and firewall-log generation</h1>
 <p><badge color="warning">Mandatory before telemetry forwarding — reference guide, not yet hardware-tested</badge></p>
 <p>This page is the Windows x64 OPNsense implementation. For an Apple-silicon Mac-only build use <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>. OPNsense supports x86-64, not ARM64.</p>
 <p>For the full interface assignment, Kea DHCPv4, DNS resolver selection, aliases, least-privilege rules, remote logging, IDS and recovery procedure, follow the <a href="../opnsense-implementation/">OPNsense Implementation Runbook</a>.</p>
-<h2 id="1-windows-opnsense-topology">1. Windows OPNsense topology<a class="headerlink" href="#1-windows-opnsense-topology" title="Permanent link">&para;</a></h2>
+<h2 id="1-windows-opnsense-topology">1. Windows OPNsense topology</h2>
 <p>Create one x86-64 OPNsense VM with seven adapters (WAN plus six internal segments):</p>
 <table>
 <thead>
@@ -2257,7 +2257,7 @@
 </tbody>
 </table>
 <p>The SENSOR capture path is separate. Do not assume a routed SENSOR interface receives copies of all packets. Use OPNsense IDS on relevant routed interfaces or a separately verified mirror/tap for Zeek.</p>
-<h2 id="2-create-the-firewall-vm">2. Create the firewall VM<a class="headerlink" href="#2-create-the-firewall-vm" title="Permanent link">&para;</a></h2>
+<h2 id="2-create-the-firewall-vm">2. Create the firewall VM</h2>
 <p>On Windows x64 use the selected hypervisor. Starting allocation: 2–4 vCPU, 4 GB RAM and 20 GB disk. OPNsense recommends at least 4 GB RAM and an 8 GB virtual disk for virtual installation; allocate more for IDS/log retention.</p>
 <ul>
 <li>Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six internal NICs plus the WAN NIC and attach each to its intended switch.</li>
@@ -2265,7 +2265,7 @@
 <li>VirtualBox: follow <a href="../platform-virtualbox/">VirtualBox Host Setup</a>; WAN on NAT, MGMT host-only, remaining internal segments (including SENSOR-MGMT) named Internal Networks.</li>
 </ul>
 <p>Record every virtual NIC MAC before boot. At OPNsense console map roles by MAC and link state. Adapter number is not a reliable interface identifier.</p>
-<h2 id="3-install-opnsense">3. Install OPNsense<a class="headerlink" href="#3-install-opnsense" title="Permanent link">&para;</a></h2>
+<h2 id="3-install-opnsense">3. Install OPNsense</h2>
 <ol>
 <li>Download the current x86-64 DVD ISO from the official OPNsense site and verify its checksum.</li>
 <li>Boot and follow the current official installer. Installation erases the selected virtual disk.</li>
@@ -2275,7 +2275,7 @@
 <li>Configure WAN by DHCP from hypervisor NAT and internal addresses from the topology table.</li>
 <li>From MGMT, open the OPNsense HTTPS UI. Do not expose GUI/SSH on WAN.</li>
 </ol>
-<h2 id="4-dns-dhcp-and-time">4. DNS, DHCP and time<a class="headerlink" href="#4-dns-dhcp-and-time" title="Permanent link">&para;</a></h2>
+<h2 id="4-dns-dhcp-and-time">4. DNS, DHCP and time</h2>
 <ol>
 <li>Configure Unbound DNS to listen only on required internal interfaces.</li>
 <li>Create DHCP scopes only for client networks; keep DC, relay and SIEM static/reserved.</li>
@@ -2284,7 +2284,7 @@
 <li>For AD DS, domain clients use the domain controller for DNS; configure upstream resolution deliberately.</li>
 </ol>
 <p>For the exact source/destination/port matrix, including AD DS dependencies and the selected SIEM's common receiver ports, use the <a href="../firewall-policy-matrix/">Firewall Policy Matrix</a>. The table is a design aid: enable only the rows required by the chosen services and verify every rule.</p>
-<h2 id="5-least-privilege-policy">5. Least-privilege policy<a class="headerlink" href="#5-least-privilege-policy" title="Permanent link">&para;</a></h2>
+<h2 id="5-least-privilege-policy">5. Least-privilege policy</h2>
 <p>Retain a safe management path and console access before narrowing rules.</p>
 <ul>
 <li>MGMT: allow only named admin workstation to firewall and server management ports.</li>
@@ -2295,7 +2295,7 @@
 <li>WAN: no inbound management. Update egress is temporary and controlled.</li>
 </ul>
 <p>Do not guess Active Directory ports. Use Microsoft's current port documentation and test the exact services enabled, including dynamic RPC.</p>
-<h2 id="6-generate-firewall-logs">6. Generate firewall logs<a class="headerlink" href="#6-generate-firewall-logs" title="Permanent link">&para;</a></h2>
+<h2 id="6-generate-firewall-logs">6. Generate firewall logs</h2>
 <p>OPNsense does not necessarily log every pass rule by default. Edit the specific firewall rules used for allow/deny exercises and enable the rule's Log option.</p>
 <ol>
 <li>Generate a known allowed connection, such as endpoint DNS to the lab resolver.</li>
@@ -2304,7 +2304,7 @@
 <li>Save sanitised evidence.</li>
 </ol>
 <p>If a rule is not logged, inspect its Log setting and live-log filters before concluding enforcement failed.</p>
-<h2 id="7-enable-suricata-ids-in-alert-only-mode">7. Enable Suricata IDS in alert-only mode<a class="headerlink" href="#7-enable-suricata-ids-in-alert-only-mode" title="Permanent link">&para;</a></h2>
+<h2 id="7-enable-suricata-ids-in-alert-only-mode">7. Enable Suricata IDS in alert-only mode</h2>
 <p>OPNsense Intrusion Detection is based on Suricata. Start with IDS/alert-only; do not begin with inline IPS blocking.</p>
 <ol>
 <li>Open Services → Intrusion Detection.</li>
@@ -2316,7 +2316,7 @@
 <li>Confirm the alert in the OPNsense IDS view and local log.</li>
 </ol>
 <p>OPNsense offers different capture modes and driver requirements. IDS is the safer initial mode. IPS/netmap can interrupt traffic and may require disabling hardware offloads; do not enable IPS until exact release, NIC driver and recovery access are validated.</p>
-<h2 id="8-enable-evesyslog-for-later-forwarding">8. Enable EVE/syslog for later forwarding<a class="headerlink" href="#8-enable-evesyslog-for-later-forwarding" title="Permanent link">&para;</a></h2>
+<h2 id="8-enable-evesyslog-for-later-forwarding">8. Enable EVE/syslog for later forwarding</h2>
 <ol>
 <li>Enable EVE syslog output in Intrusion Detection if available in the installed release.</li>
 <li>In System → Settings → Logging → Remote, add the Linux relay destination.</li>
@@ -2325,7 +2325,7 @@
 <li>Generate a known IDS event and confirm it reaches the relay.</li>
 </ol>
 <p>Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a> for the complete relay and SIEM collector setup. Do not install a SIEM before the source-to-relay test passes.</p>
-<h2 id="9-validation-and-backup">9. Validation and backup<a class="headerlink" href="#9-validation-and-backup" title="Permanent link">&para;</a></h2>
+<h2 id="9-validation-and-backup">9. Validation and backup</h2>
 <ul>
 <li>[ ] NIC roles mapped by MAC.</li>
 <li>[ ] Internal addresses, DHCP and DNS correct.</li>
@@ -2337,7 +2337,7 @@
 <li>[ ] Encrypted configuration backup exported outside the VM.</li>
 </ul>
 <p>If isolation fails, disconnect Kali and DMZ guests and correct the network/firewall mapping before continuing.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.opnsense.org/manual/hardware.html">OPNsense hardware and architecture support</a></li>
 <li><a href="https://docs.opnsense.org/manual/virtuals.html">OPNsense virtual installation</a></li>

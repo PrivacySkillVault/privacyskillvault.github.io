@@ -2226,10 +2226,10 @@
 
 
 
-<h1 id="lab-telemetry-collection-and-forwarding-pipeline">Lab — Telemetry collection and forwarding pipeline<a class="headerlink" href="#lab-telemetry-collection-and-forwarding-pipeline" title="Permanent link">&para;</a></h1>
+<h1 id="lab-telemetry-collection-and-forwarding-pipeline">Lab — Telemetry collection and forwarding pipeline</h1>
 <p><badge color="warning">Dual-SIEM pipeline — design baseline, not yet hardware-tested</badge></p>
 <p>This stage creates and proves the data path for the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab</a>. Firewall/router syslog and selected sensor/file sources can pass through Vector for fan-out to Elastic and Splunk HEC. Windows endpoint events use direct Elastic Agent and Splunk UF paths after coexistence is tested. Do not force every endpoint through the broker or install overlapping collectors without a deliberate duplicate strategy.</p>
-<h2 id="1-required-source-to-destination-map">1. Required source-to-destination map<a class="headerlink" href="#1-required-source-to-destination-map" title="Permanent link">&para;</a></h2>
+<h2 id="1-required-source-to-destination-map">1. Required source-to-destination map</h2>
 <table>
 <thead>
 <tr>
@@ -2278,7 +2278,7 @@
 </table>
 <p>Do not install competing agents to collect the same source unless duplicate ingestion is intentional. For the dual-SIEM design, distinguish per-destination collection from duplicate collection within a SIEM. A Windows event may be collected once by Elastic Agent for Elastic and once by Splunk UF for Splunk; do not also monitor an exported copy of that same event through Vector unless duplication is intended.</p>
 <p>For a reproducible relay listener, source allowlist, per-source file routing, log rotation, firewall policy and TLS decision, follow the <a href="../syslog-relay-implementation/">Linux Syslog Relay Implementation Runbook</a>. The steps below describe the required design and acceptance gate.</p>
-<h2 id="1a-dual-siem-data-flow-model">1A. Dual-SIEM data-flow model<a class="headerlink" href="#1a-dual-siem-data-flow-model" title="Permanent link">&para;</a></h2>
+<h2 id="1a-dual-siem-data-flow-model">1A. Dual-SIEM data-flow model</h2>
 <table>
 <thead>
 <tr>
@@ -2316,7 +2316,7 @@
 </tbody>
 </table>
 <p>Use one source path per destination. Do not assume that the broker transforms all data into ECS or CIM automatically; mappings and field extraction must be explicitly configured and validated.</p>
-<h2 id="2-create-a-linux-syslog-relay">2. Create a Linux syslog relay<a class="headerlink" href="#2-create-a-linux-syslog-relay" title="Permanent link">&para;</a></h2>
+<h2 id="2-create-a-linux-syslog-relay">2. Create a Linux syslog relay</h2>
 <p>On Windows track create PSV-LOG01 on SERVER, for example 10.10.30.30/24. On Mac track use an ARM64 Ubuntu Server VM on SERVER. Configure static/reserved addressing, correct DNS/NTP and restricted management.</p>
 <p>Install the distribution-supported rsyslog package. Configure it to receive syslog only on the lab-facing interface and only from known firewall/router source addresses. Prefer TCP for an isolated lab; use TLS when logs cross a network you do not fully trust. Do not expose the listener to home LAN or Internet.</p>
 <p>Write separate source files for firewall system events, firewall filter events and IDS alerts. Configure rotation, disk limits and read permissions for the later collector account. Preserve source identity and timestamps. Use the exact rsyslog input/template syntax for the installed distribution version and test before enabling the listener.</p>
@@ -2324,7 +2324,7 @@
 <div class="language-text highlight"><pre><span></span><code>sudo ss -lntup
 </code></pre></div>
 <p>Do not proceed until a test syslog message arrives from an allowed source and is written to the expected file.</p>
-<h2 id="3-configure-opnsense-remote-logging">3. Configure OPNsense remote logging<a class="headerlink" href="#3-configure-opnsense-remote-logging" title="Permanent link">&para;</a></h2>
+<h2 id="3-configure-opnsense-remote-logging">3. Configure OPNsense remote logging</h2>
 <p>In OPNsense open System → Settings → Logging → Remote:</p>
 <ol>
 <li>Add and enable a destination.</li>
@@ -2336,9 +2336,9 @@
 </ol>
 <p>Enable the Log option on the individual firewall rules whose pass/block decisions must be investigated. Rule logging is not automatically enabled for every rule. For IDS, enable EVE syslog output and configure a remote target for Suricata.</p>
 <p>Generate one allowed and one blocked test flow. Confirm the relay receives both with source, timestamp, interface/rule context and action preserved.</p>
-<h2 id="4-mac-router-logging">4. Mac router logging<a class="headerlink" href="#4-mac-router-logging" title="Permanent link">&para;</a></h2>
+<h2 id="4-mac-router-logging">4. Mac router logging</h2>
 <p>For the nftables router, first prove firewall messages appear locally in journald. Configure rsyslog to write only the unique nftables log prefix/facility to a dedicated file. Then configure rsyslog to forward those records to the SERVER relay over the restricted TCP/TLS transport configured for the lab; retain a local copy for troubleshooting. Alternatively, collect the local file with a supported agent after the SIEM is installed. nftables does not automatically forward logs remotely. Do not assume an Elastic, Splunk or Wazuh agent supports the exact ARM64 OS/release until its support matrix confirms it.</p>
-<h2 id="5-prepare-zeek-and-suricata-files">5. Prepare Zeek and Suricata files<a class="headerlink" href="#5-prepare-zeek-and-suricata-files" title="Permanent link">&para;</a></h2>
+<h2 id="5-prepare-zeek-and-suricata-files">5. Prepare Zeek and Suricata files</h2>
 <p>On the sensor, prove the files exist before adding a collector:
 - Zeek JSON logs such as conn.log and dns.log.
 - Suricata eve.json.
@@ -2347,7 +2347,7 @@
 - Sensor hostname, interface and capture scope recorded.</p>
 <p>Zeek supports JSON log output; Suricata EVE writes JSON events. Do not send full PCAP as routine SIEM events; PCAP needs separate access, storage and retention controls.</p>
 <p>Before proceeding, complete the <a href="../endpoint-telemetry-implementation/">Cross-platform Endpoint Telemetry Implementation Runbook</a> and <a href="../network-sensor-implementation/">Network Sensor Implementation Runbook</a>, and verify their local acceptance gates.</p>
-<h2 id="6-pre-siem-acceptance-gate-source-and-relay-only">6. Pre-SIEM acceptance gate — source and relay only<a class="headerlink" href="#6-pre-siem-acceptance-gate-source-and-relay-only" title="Permanent link">&para;</a></h2>
+<h2 id="6-pre-siem-acceptance-gate-source-and-relay-only">6. Pre-SIEM acceptance gate — source and relay only</h2>
 <p>Verify:
 1. Firewall test event appears in the relay file.
 2. Suricata IDS alert appears in local EVE/syslog and, where configured, the relay output.
@@ -2359,17 +2359,17 @@
 8. Relay and sensor files have rotation, bounded disk use and correct collector read permissions.</p>
 <p>This gate proves source generation and pre-SIEM relay only. It does not claim SIEM ingestion. SIEM-specific agents/forwarders and end-to-end searches are configured after the selected SIEM server is ready.</p>
 <p>For the detailed configuration of Elastic Filestream, Splunk Universal Forwarder inputs/outputs and Wazuh Logcollector, use the <a href="../siem-collector-implementation/">SIEM Collector Implementation Runbook</a>.</p>
-<h2 id="7-siem-specific-collector-pattern">7. SIEM-specific collector pattern<a class="headerlink" href="#7-siem-specific-collector-pattern" title="Permanent link">&para;</a></h2>
+<h2 id="7-siem-specific-collector-pattern">7. SIEM-specific collector pattern</h2>
 <p><strong>Elastic:</strong> install Elastic Agent on relay and sensor. Use Custom Logs (Filestream) for written rsyslog, Zeek and Suricata files. Use Windows and System integrations for endpoint sources. A TCP/UDP integration is a separate listener design; do not assume Fleet being online means syslog is ingested.</p>
 <p><strong>Splunk:</strong> use Universal Forwarder on relay and sensor to monitor written files, and a Windows Universal Forwarder for Event Log channels. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog, rather than direct UDP/TCP input on Splunk Enterprise as the default production pattern. Verify every forwarder host architecture.</p>
 <p><strong>Wazuh:</strong> install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Wazuh manager releases document a direct syslog input mode, but the recommended portable lab pattern here is relay-file-plus-agent. If direct manager syslog is deliberately selected, follow the exact release's remote-input configuration, require an explicit allowed-ips list and restrict the listener at the firewall.</p>
-<h2 id="8-network-policy">8. Network policy<a class="headerlink" href="#8-network-policy" title="Permanent link">&para;</a></h2>
+<h2 id="8-network-policy">8. Network policy</h2>
 <p>Permit only:
 - Firewall/router source addresses → relay listener port.
 - Relay/sensor/endpoint agents → selected SIEM documented ports.
 - Admin workstation → management UIs/SSH/RDP as required.</p>
 <p>Do not open every common SIEM port on every segment. Use the installed release's port reference, source allowlists, TLS and host firewall policy. Keep management ports off WAN.</p>
-<h2 id="9-troubleshoot-from-source-to-destination">9. Troubleshoot from source to destination<a class="headerlink" href="#9-troubleshoot-from-source-to-destination" title="Permanent link">&para;</a></h2>
+<h2 id="9-troubleshoot-from-source-to-destination">9. Troubleshoot from source to destination</h2>
 <ol>
 <li>Did the source generate the event locally?</li>
 <li>Is it configured to export/forward?</li>
@@ -2379,7 +2379,7 @@
 <li>Does the SIEM accept it? Check receiver, parsing, index/data stream and time range.</li>
 <li>Are fields parsed correctly? Inspect raw event before changing queries.</li>
 </ol>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.opnsense.org/manual/settingsmenu.html">OPNsense remote logging</a></li>
 <li><a href="https://docs.opnsense.org/manual/ips.html">OPNsense IDS/IPS and EVE syslog</a></li>

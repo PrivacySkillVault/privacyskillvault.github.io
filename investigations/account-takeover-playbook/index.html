@@ -2226,15 +2226,15 @@
 
 
 
-<h1 id="account-takeover-ato-investigation-playbook">Account Takeover (ATO) Investigation Playbook<a class="headerlink" href="#account-takeover-ato-investigation-playbook" title="Permanent link">&para;</a></h1>
+<h1 id="account-takeover-ato-investigation-playbook">Account Takeover (ATO) Investigation Playbook</h1>
 <p><badge color="warning">Operational reference — follow approved bank procedures</badge></p>
-<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<h2 id="purpose">Purpose</h2>
 <p>Provide a repeatable evidence-led investigation for suspected digital-channel account takeover, including disputed transactions. This playbook is a checklist and decision aid; it does not authorise account restrictions, transaction blocks, customer contact, or regulatory notifications.</p>
-<h2 id="1-establish-the-case-and-preserve-evidence">1. Establish the case and preserve evidence<a class="headerlink" href="#1-establish-the-case-and-preserve-evidence" title="Permanent link">&para;</a></h2>
+<h2 id="1-establish-the-case-and-preserve-evidence">1. Establish the case and preserve evidence</h2>
 <p>Record the case ID, alert/reference IDs, customer/account reference in the authorised case platform, detection source, time first observed, investigator, case owner, current status, and approved priority.</p>
 <p>Preserve original records before enrichment or transformation. Record source system, native event ID, event timestamp and time zone, collection time, record/request/trace/session identifiers, collector, export method, integrity hash where supported, and access restrictions.</p>
 <p>Do not paste customer identifiers, authentication secrets, full card data, OTPs, session tokens, or internal production logs into this public template or an unapproved service.</p>
-<h2 id="2-build-a-single-timeline">2. Build a single timeline<a class="headerlink" href="#2-build-a-single-timeline" title="Permanent link">&para;</a></h2>
+<h2 id="2-build-a-single-timeline">2. Build a single timeline</h2>
 <p>Normalise timestamps to UTC while retaining the original timestamp and offset. Use a timeline table:</p>
 <table>
 <thead>
@@ -2263,7 +2263,7 @@
 </tbody>
 </table>
 <p>Do not correlate solely on a timestamp. Prefer server-issued identifiers and independently observed keys: authentication request ID, session ID, API request/trace ID, transaction ID, payment reference, 3DS transaction identifiers, device attestation reference, and account/customer key. Record the reliability and origin of each identifier.</p>
-<h2 id="3-evidence-collection-matrix">3. Evidence collection matrix<a class="headerlink" href="#3-evidence-collection-matrix" title="Permanent link">&para;</a></h2>
+<h2 id="3-evidence-collection-matrix">3. Evidence collection matrix</h2>
 <table>
 <thead>
 <tr>
@@ -2320,7 +2320,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="4-correlation-logic">4. Correlation logic<a class="headerlink" href="#4-correlation-logic" title="Permanent link">&para;</a></h2>
+<h2 id="4-correlation-logic">4. Correlation logic</h2>
 <p>Use the following sequence and record each join:</p>
 <ol>
 <li>Link the disputed transaction to the payment/core record using the authoritative transaction or payment reference.</li>
@@ -2332,7 +2332,7 @@
 <li>Independently compare the resulting chain with customer dispute evidence and known-good historical behaviour.</li>
 </ol>
 <p>A join that relies only on approximate time, IP, user-agent or a client-generated device ID must be labelled a weak correlation—not a confirmed link.</p>
-<h2 id="5-when-the-session-is-missing-from-logs">5. When the session is missing from logs<a class="headerlink" href="#5-when-the-session-is-missing-from-logs" title="Permanent link">&para;</a></h2>
+<h2 id="5-when-the-session-is-missing-from-logs">5. When the session is missing from logs</h2>
 <p>Do not conclude that a session did not exist merely because it is absent from one log source. Investigate the logging path:</p>
 <ul>
 <li>Was the session created by a different component, region, API version, gateway, or authentication provider?</li>
@@ -2346,7 +2346,7 @@
 <li>Can the provider, API gateway, WAF, load balancer, mobile telemetry, or core system independently corroborate the request?</li>
 </ul>
 <p>Document the exact sources searched, query/time range, retention status, and whether the source is expected to log that event. Use the conclusion <strong>“not present in the available source records”</strong> until the gap is explained.</p>
-<h2 id="6-assess-device-id-cloning-or-replay-hypotheses">6. Assess device-ID cloning or replay hypotheses<a class="headerlink" href="#6-assess-device-id-cloning-or-replay-hypotheses" title="Permanent link">&para;</a></h2>
+<h2 id="6-assess-device-id-cloning-or-replay-hypotheses">6. Assess device-ID cloning or replay hypotheses</h2>
 <p>A cloned or reused device identifier is a hypothesis to test, not a conclusion based on duplicate values alone.</p>
 <p>Compare:
 - Client device ID against server-side device registration and attestation references.
@@ -2357,10 +2357,10 @@
 - Authentication factors, session tokens and token lifecycle; do not expose token values in the case report.
 - Differences between mobile telemetry, API gateway records and fraud-platform feature inputs.</p>
 <p>Possible explanations include identifier cloning/replay, legitimate app reinstall or migration, SDK changes, shared devices, account sharing, data mapping defects, stale cache, or a provider integration issue. Seek independent evidence before choosing among them.</p>
-<h2 id="7-assess-transaction-and-customer-impact">7. Assess transaction and customer impact<a class="headerlink" href="#7-assess-transaction-and-customer-impact" title="Permanent link">&para;</a></h2>
+<h2 id="7-assess-transaction-and-customer-impact">7. Assess transaction and customer impact</h2>
 <p>Record each disputed transaction separately. Distinguish attempted, declined, authorised, posted, settled, reversed, returned and recovered amounts. Record currency, fee/FX impact, beneficiary, rail, transaction status, dispute status, and any related transactions.</p>
 <p>Determine whether the same session/account/device/beneficiary or fraud pattern affects other customers. Use approved internal link-analysis and case-management controls.</p>
-<h2 id="8-decision-and-escalation">8. Decision and escalation<a class="headerlink" href="#8-decision-and-escalation" title="Permanent link">&para;</a></h2>
+<h2 id="8-decision-and-escalation">8. Decision and escalation</h2>
 <p>Escalate according to approved policy when there is credible evidence of ongoing unauthorised access, attempted/confirmed financial loss, compromised credentials or sessions, multiple affected customers, suspected control bypass, or a material logging/control failure.</p>
 <p>For any protective action, record:
 - Decision-maker and authority
@@ -2370,10 +2370,10 @@
 - Customer/service impact
 - Review and reversal criteria</p>
 <p>Do not infer a mandatory action or deadline from this playbook. Use the institution's current policy, payment scheme rules, contracts, and applicable regulatory obligations.</p>
-<h2 id="9-case-conclusion">9. Case conclusion<a class="headerlink" href="#9-case-conclusion" title="Permanent link">&para;</a></h2>
+<h2 id="9-case-conclusion">9. Case conclusion</h2>
 <p>State one of: confirmed unauthorised activity; likely unauthorised activity; suspicious but inconclusive; legitimate/authorised activity; control/process failure without confirmed fraud; or unable to determine. Define the institution's approved case outcomes if they differ.</p>
 <p>Include observed facts, correlated facts, analysis, alternative hypotheses, confidence, losses/attempts, customer impact, control gaps, actions and approvals, evidence gaps, root cause (if supported), corrective actions, owners and target dates.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://rulebook.sama.gov.sa/en/52-fraud-detection-systems">SAMA 2022 Counter-Fraud Framework — 5.2 Fraud Detection Systems</a></li>
 <li><a href="https://rulebook.sama.gov.sa/en/counter-fraud-framework-0">SAMA 2022 Counter-Fraud Framework</a></li>

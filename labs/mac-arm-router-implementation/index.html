@@ -2226,10 +2226,10 @@
 
 
 
-<h1 id="apple-silicon-mac-arm64-ubuntu-router-implementation">Apple Silicon Mac — ARM64 Ubuntu router implementation<a class="headerlink" href="#apple-silicon-mac-arm64-ubuntu-router-implementation" title="Permanent link">&para;</a></h1>
+<h1 id="apple-silicon-mac-arm64-ubuntu-router-implementation">Apple Silicon Mac — ARM64 Ubuntu router implementation</h1>
 <p><badge color="warning">Reference configuration — validate from VM console before relying on it</badge></p>
 <p>This is the Mac-only routing/firewall implementation for Apple Silicon. It uses an ARM64 Ubuntu Server guest with Netplan, nftables and optional dnsmasq. It is <strong>not OPNsense</strong> and does not provide its GUI/plugins. OPNsense is x86-64; do not install its x86-64 image as a native ARM64 guest.</p>
-<h2 id="1-prerequisites-and-safety">1. Prerequisites and safety<a class="headerlink" href="#1-prerequisites-and-safety" title="Permanent link">&para;</a></h2>
+<h2 id="1-prerequisites-and-safety">1. Prerequisites and safety</h2>
 <ul>
 <li>Apple Silicon Mac and a supported VMware Fusion release.</li>
 <li>Ubuntu Server ARM64 image verified from the official Ubuntu source.</li>
@@ -2238,7 +2238,7 @@
 <li>A written interface-to-network-to-MAC inventory and a clean VM snapshot.</li>
 </ul>
 <p>Fusion NAT is only the upstream virtual network; it is not the lab's security policy. Never attach REDTEAM or DMZ directly to Bridged networking. Fusion NAT, host-only and bridged networks do not automatically mirror packets.</p>
-<h2 id="2-create-the-vm-and-adapters">2. Create the VM and adapters<a class="headerlink" href="#2-create-the-vm-and-adapters" title="Permanent link">&para;</a></h2>
+<h2 id="2-create-the-vm-and-adapters">2. Create the VM and adapters</h2>
 <p>Create VM PSV-MAC-RTR01 with ARM64 Ubuntu Server, 2–4 vCPU, 4–8 GB RAM and at least 40 GB disk. Add:
 1. WAN — Fusion NAT.
 2. MGMT — dedicated private network.
@@ -2259,7 +2259,7 @@
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>ip<span class="w"> </span>route
 </span></code></pre></div>
 <p>Expected architecture: aarch64. Record every adapter MAC and map it to its Fusion network. Never assume Linux interface enumeration matches the order displayed in Fusion.</p>
-<h2 id="3-netplan-stable-interface-names-by-mac">3. Netplan — stable interface names by MAC<a class="headerlink" href="#3-netplan-stable-interface-names-by-mac" title="Permanent link">&para;</a></h2>
+<h2 id="3-netplan-stable-interface-names-by-mac">3. Netplan — stable interface names by MAC</h2>
 <p>Create /etc/netplan/60-psv-router.yaml. Replace every placeholder with the real lowercase MAC address. Remove the SENSOR-MGMT stanza if that adapter is not present.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">network</span><span class="p">:</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
@@ -2333,7 +2333,7 @@
 - Sensor management NIC: 10.10.50.10/24, gateway 10.10.50.1; capture NICs have no IP address, gateway or DNS.
 - DMZ test target: 10.10.60.20/24, gateway 10.10.60.1.</p>
 <p>Keep the Windows x64 and Mac labs as separate isolated islands when using these same sample addresses. Do not connect both overlapping subnets to one shared L2 network or shared relay without assigning unique, non-overlapping addresses.</p>
-<h2 id="4-ipv4-forwarding-and-ipv6-policy">4. IPv4 forwarding and IPv6 policy<a class="headerlink" href="#4-ipv4-forwarding-and-ipv6-policy" title="Permanent link">&para;</a></h2>
+<h2 id="4-ipv4-forwarding-and-ipv6-policy">4. IPv4 forwarding and IPv6 policy</h2>
 <p>This reference profile is IPv4-only. IPv6 must not provide an unfiltered alternate route. If IPv6 is required, design equivalent IPv6 input/forward rules, router advertisements, DNS and logging before enabling it.</p>
 <p>Create /etc/sysctl.d/60-psv-router.conf:</p>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="na">net.ipv4.ip_forward</span><span class="o">=</span><span class="s">1</span>
@@ -2348,7 +2348,7 @@
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>sysctl<span class="w"> </span>net.ipv6.conf.all.disable_ipv6
 </span></code></pre></div>
 <p>Expected IPv4 forwarding is 1 and IPv6 disable is 1 for this profile.</p>
-<h2 id="5-nftables-baseline">5. nftables baseline<a class="headerlink" href="#5-nftables-baseline" title="Permanent link">&para;</a></h2>
+<h2 id="5-nftables-baseline">5. nftables baseline</h2>
 <p>Install packages:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nftables<span class="w"> </span>rsyslog<span class="w"> </span>tcpdump
@@ -2453,7 +2453,7 @@
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>nftables<span class="w"> </span>--no-pager
 </span></code></pre></div>
 <p>Keep the VM console open. Confirm router SSH works from the named MGMT admin host and is denied from ENDPOINT, REDTEAM and DMZ. Do not assume a failed ping proves a firewall rule.</p>
-<h2 id="6-dhcp-and-dns-only-after-static-routing-works">6. DHCP and DNS — only after static routing works<a class="headerlink" href="#6-dhcp-and-dns-only-after-static-routing-works" title="Permanent link">&para;</a></h2>
+<h2 id="6-dhcp-and-dns-only-after-static-routing-works">6. DHCP and DNS — only after static routing works</h2>
 <p>Start with static addresses. Do not run Fusion DHCP and dnsmasq DHCP on the same internal L2 segment.</p>
 <p>If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. Remove <code>interface=sensormgmt0</code> if that optional adapter is not present. The SENSOR-MGMT interface is DNS-only/static; do not create a DHCP range for it. This sample explicitly tags DHCP scopes by the receiving interface. The standalone DNS options point clients at the router's interface address; replace the ENDPOINT DNS option with the AD DNS address when domain services are deployed:</p>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="na">interface</span><span class="o">=</span><span class="s">mgmt0</span>
@@ -2496,7 +2496,7 @@
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>dig<span class="w"> </span>@10.10.20.1<span class="w"> </span>example.com
 </span></code></pre></div>
 <p>Replace 10.10.20.1 with that guest's segment DNS address. For a Windows guest use <code>ipconfig /release</code>, <code>ipconfig /renew</code>, <code>ipconfig /all</code>, and <code>nslookup example.com 10.10.20.1</code>. In an AD domain, query the DC DNS directly for the domain controller SRV record and confirm the expected DC is returned. A DHCP lease alone does not prove DNS is correct.</p>
-<h2 id="7-local-firewall-logs-and-relay-forwarding">7. Local firewall logs and relay forwarding<a class="headerlink" href="#7-local-firewall-logs-and-relay-forwarding" title="Permanent link">&para;</a></h2>
+<h2 id="7-local-firewall-logs-and-relay-forwarding">7. Local firewall logs and relay forwarding</h2>
 <p>The nftables rules emit kernel log messages with unique prefixes. Confirm them:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-k<span class="w"> </span>-g<span class="w"> </span><span class="s1">'PSV-ROUTER-'</span><span class="w"> </span>--since<span class="w"> </span><span class="s1">'10 minutes ago'</span>
 </span></code></pre></div>
@@ -2558,7 +2558,7 @@
 </span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>df<span class="w"> </span>-h<span class="w"> </span>/var/log
 </span></code></pre></div>
 <p>Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.</p>
-<h2 id="8-acceptance-tests">8. Acceptance tests<a class="headerlink" href="#8-acceptance-tests" title="Permanent link">&para;</a></h2>
+<h2 id="8-acceptance-tests">8. Acceptance tests</h2>
 <p>From each guest, record Windows ipconfig /all or Linux ip -br address and ip route. Verify:
 - Each guest reaches its own router gateway.
 - DNS/NTP use the intended lab services.
@@ -2570,11 +2570,11 @@
 - nftables counters and logs reflect allowed and denied tests.
 - After reboot, Netplan, forwarding, nftables and optional DHCP/DNS persist.</p>
 <p>Use TCP/UDP tests for real services and inspect counters/logs. Ping alone is insufficient.</p>
-<h2 id="9-fusion-packet-visibility-limitation">9. Fusion packet-visibility limitation<a class="headerlink" href="#9-fusion-packet-visibility-limitation" title="Permanent link">&para;</a></h2>
+<h2 id="9-fusion-packet-visibility-limitation">9. Fusion packet-visibility limitation</h2>
 <p>This router does not create a SPAN feed. Capture on router interfaces with tcpdump for routed-boundary traffic, or use an external managed-switch SPAN/TAP. Traffic switched locally between guests on the same Fusion virtual network may never traverse the router and will not appear on router interfaces. Offline PCAP is valid for deterministic analysis but must be labelled offline, not live monitoring.</p>
-<h2 id="10-recovery-procedure">10. Recovery procedure<a class="headerlink" href="#10-recovery-procedure" title="Permanent link">&para;</a></h2>
+<h2 id="10-recovery-procedure">10. Recovery procedure</h2>
 <p>Before each change: snapshot the VM, keep console access, save current Netplan/nftables files, run validation commands, change one subsystem at a time, and re-run all acceptance tests after recovery. If access is lost, restore from console or revert the snapshot.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://ubuntu.com/server/docs">Ubuntu Server networking documentation</a></li>
 <li><a href="https://netplan.readthedocs.io/">Netplan documentation</a></li>

@@ -2182,10 +2182,10 @@
 
 
 
-<h1 id="lab-firewall-policy-matrix-least-privilege-flows">Lab firewall policy matrix — least-privilege flows<a class="headerlink" href="#lab-firewall-policy-matrix-least-privilege-flows" title="Permanent link">&para;</a></h1>
+<h1 id="lab-firewall-policy-matrix-least-privilege-flows">Lab firewall policy matrix — least-privilege flows</h1>
 <p><badge color="warning">Policy design reference — adapt to enabled services and verify with packet/log tests</badge></p>
 <p>This page defines the intended inter-segment policy before writing individual OPNsense/nftables rules. It is not a substitute for inspecting the actual services enabled on each VM. Start with deny-by-default between segments, then add only the required flows below. Keep WAN management closed.</p>
-<h2 id="1-address-and-role-assumptions">1. Address and role assumptions<a class="headerlink" href="#1-address-and-role-assumptions" title="Permanent link">&para;</a></h2>
+<h2 id="1-address-and-role-assumptions">1. Address and role assumptions</h2>
 <table>
 <thead>
 <tr>
@@ -2243,7 +2243,7 @@
 </tbody>
 </table>
 <p>Replace these addresses consistently if your actual plan differs. Do not copy a sample rule before checking source/destination interface and address.</p>
-<h2 id="2-default-policy">2. Default policy<a class="headerlink" href="#2-default-policy" title="Permanent link">&para;</a></h2>
+<h2 id="2-default-policy">2. Default policy</h2>
 <table>
 <thead>
 <tr>
@@ -2311,7 +2311,7 @@
 </tbody>
 </table>
 <p>Use stateful return traffic for allowed sessions. Log selected deny rules and selected test allow rules; do not enable noisy logging on every packet indefinitely.</p>
-<h2 id="3-ad-dsdns-client-to-domain-controller-flows">3. AD DS/DNS client-to-domain-controller flows<a class="headerlink" href="#3-ad-dsdns-client-to-domain-controller-flows" title="Permanent link">&para;</a></h2>
+<h2 id="3-ad-dsdns-client-to-domain-controller-flows">3. AD DS/DNS client-to-domain-controller flows</h2>
 <p>The following are common AD DS dependencies, not a command to open every port unconditionally. Select based on installed roles/features and Microsoft guidance.</p>
 <table>
 <thead>
@@ -2386,7 +2386,7 @@
 </table>
 <p>Some Windows versions/roles use additional ports. The dynamic RPC range can be narrowed on the DC only if the change is supported, documented and consistently applied. Do not arbitrarily open or shrink it. Verify DNS SRV lookup, domain join, Group Policy, Kerberos authentication and administrative tools after adding rules.</p>
 <p><strong>DNS when AD DS is not deployed:</strong> if clients use OPNsense Unbound or the Mac router's dnsmasq resolver, allow only the relevant client subnet to the router's own interface address on UDP/53 and TCP/53. Configure Unbound access lists or bind dnsmasq only to the intended internal interfaces. Do not allow arbitrary client DNS directly to public resolvers. If AD DS is deployed, domain members should use the DC DNS address; do not silently fall back to the router/public DNS because that can break AD SRV discovery.</p>
-<h2 id="4-siem-and-telemetry-ports-only-enable-selected-stack">4. SIEM and telemetry ports — only enable selected stack<a class="headerlink" href="#4-siem-and-telemetry-ports-only-enable-selected-stack" title="Permanent link">&para;</a></h2>
+<h2 id="4-siem-and-telemetry-ports-only-enable-selected-stack">4. SIEM and telemetry ports — only enable selected stack</h2>
 <table>
 <thead>
 <tr>
@@ -2466,14 +2466,14 @@
 </tbody>
 </table>
 <p>Do not enable all rows simultaneously. Select one SIEM, follow its version-specific guide, then add only the required rules. Some Elastic deployments use different ports/paths depending on Fleet topology. Consult the product's port documentation.</p>
-<h2 id="5-syslog-relay">5. Syslog relay<a class="headerlink" href="#5-syslog-relay" title="Permanent link">&para;</a></h2>
+<h2 id="5-syslog-relay">5. Syslog relay</h2>
 <p>For the relay runbook's isolated TCP example:
 - Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only. The Windows and Mac examples are separate lab islands and may reuse 10.10.30.1; if both send to one relay, first assign unique non-overlapping source IPs/subnets.
 - Deny TCP/514 from WAN, home LAN, REDTEAM, DMZ and unrelated clients.
 - If syslog crosses an untrusted or multi-host network, use TLS and validate certificates. TCP alone is not encryption or sender authentication.</p>
-<h2 id="6-management-access">6. Management access<a class="headerlink" href="#6-management-access" title="Permanent link">&para;</a></h2>
+<h2 id="6-management-access">6. Management access</h2>
 <p>Permit SSH/RDP/HTTPS only from the named MGMT admin workstation to named hosts. Avoid broad any-to-any management rules. Keep hypervisor host management protected by host OS firewall and strong authentication. Do not expose RDP, SSH, Kibana, Splunk Web, Wazuh dashboard or firewall GUI on WAN.</p>
-<h2 id="7-rule-creation-and-validation-sequence">7. Rule creation and validation sequence<a class="headerlink" href="#7-rule-creation-and-validation-sequence" title="Permanent link">&para;</a></h2>
+<h2 id="7-rule-creation-and-validation-sequence">7. Rule creation and validation sequence</h2>
 <p>For OPNsense:
 1. Create aliases for lab subnets, servers, management host and approved targets.
 2. Create rules on the interface where traffic enters; OPNsense rules are evaluated on ingress interface.
@@ -2489,7 +2489,7 @@
 3. Add only the required flows to the ruleset; syntax-check before applying.
 4. Check counters and unique log prefixes for both allowed and denied flows.
 5. Re-run the policy tests after reboot.</p>
-<h2 id="8-negative-tests-required">8. Negative tests — required<a class="headerlink" href="#8-negative-tests-required" title="Permanent link">&para;</a></h2>
+<h2 id="8-negative-tests-required">8. Negative tests — required</h2>
 <ul>
 <li>ENDPOINT cannot connect to router SSH or management UI.</li>
 <li>REDTEAM cannot connect to MGMT, DC management ports or home LAN.</li>
@@ -2500,7 +2500,7 @@
 <li>No VM has a second bridged/NAT adapter that bypasses the firewall.</li>
 </ul>
 <p>A failed ping is not sufficient. Test the actual TCP/UDP service ports and inspect firewall counters/logs. Record test source, destination, port, time, expected result, actual result and rule identifier.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/config-firewall-for-ad-domains-and-trusts">Microsoft Active Directory and Active Directory Domain Services port requirements</a></li>
 <li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements">Microsoft Windows dynamic port range</a></li>

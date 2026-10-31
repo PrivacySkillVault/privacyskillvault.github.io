@@ -2336,10 +2336,10 @@
 
 
 
-<h1 id="master-build-sequence-enterprise-dual-siem-vm-lab">Master build sequence — enterprise dual-SIEM VM lab<a class="headerlink" href="#master-build-sequence-enterprise-dual-siem-vm-lab" title="Permanent link">&para;</a></h1>
+<h1 id="master-build-sequence-enterprise-dual-siem-vm-lab">Master build sequence — enterprise dual-SIEM VM lab</h1>
 <p><badge color="warning">Canonical dependency order — design baseline, not yet hardware-tested</badge></p>
 <p>This sequence builds the Windows x64 enterprise-style lab entirely inside VMs. The Windows host runs the selected hypervisor and management tools only. Follow the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab Runbook</a> for the architecture, IP plan, port matrix, policy model, deployment details and validation criteria.</p>
-<h2 id="stage-0-host-capacity-and-compatibility">Stage 0 — host capacity and compatibility<a class="headerlink" href="#stage-0-host-capacity-and-compatibility" title="Permanent link">&para;</a></h2>
+<h2 id="stage-0-host-capacity-and-compatibility">Stage 0 — host capacity and compatibility</h2>
 <ol>
 <li>Complete <a href="../requirements/">Hardware &amp; Compatibility</a>.</li>
 <li>Record CPU architecture/model, host OS/build, physical RAM, free SSD/NVMe capacity and hypervisor version.</li>
@@ -2349,7 +2349,7 @@
 <li>Decide whether the Apple-silicon Mac remains a separate ARM64 lab island.</li>
 </ol>
 <p><strong>Gate 0:</strong> capacity and architecture are known. Do not plan simultaneous execution of all VMs on a host that cannot support their combined memory and storage requirements.</p>
-<h2 id="stage-1-hypervisor-installation-and-test-vm">Stage 1 — hypervisor installation and test VM<a class="headerlink" href="#stage-1-hypervisor-installation-and-test-vm" title="Permanent link">&para;</a></h2>
+<h2 id="stage-1-hypervisor-installation-and-test-vm">Stage 1 — hypervisor installation and test VM</h2>
 <p>Follow <a href="../platform-windows/">Windows Host Setup</a> and the selected hypervisor guide.</p>
 <ol>
 <li>Install the hypervisor from its official source.</li>
@@ -2360,11 +2360,11 @@
 <li>Snapshot, restore and boot again.</li>
 </ol>
 <p><strong>Gate 1:</strong> host reboot does not break the hypervisor; test guest boots/restores; no guest is bridged to the physical LAN unintentionally.</p>
-<h2 id="stage-2-virtual-networks-and-sensor-visibility">Stage 2 — virtual networks and sensor visibility<a class="headerlink" href="#stage-2-virtual-networks-and-sensor-visibility" title="Permanent link">&para;</a></h2>
+<h2 id="stage-2-virtual-networks-and-sensor-visibility">Stage 2 — virtual networks and sensor visibility</h2>
 <p>Follow <a href="../network-design/">Network Design</a> and <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a>. Use the six PSV segments: MGMT, ENDPOINT, SERVER/SOC, REDTEAM, SENSOR-MGMT and DMZ, plus a NAT-backed WAN for the firewall.</p>
 <p>Create and verify actual virtual networks before attaching guests. Record adapter number, switch name, MAC, subnet and role. A capture NIC must be connected to a proven mirror/tap or an explicit offline PCAP workflow; promiscuous mode alone is not proof of packet mirroring.</p>
 <p><strong>Gate 2:</strong> no subnet overlap, DHCP collision, unintended bridge or unverified capture path. REDTEAM and DMZ cannot reach the home LAN.</p>
-<h2 id="stage-3-firewall-dns-dhcp-ntp-and-segmentation">Stage 3 — firewall, DNS, DHCP, NTP and segmentation<a class="headerlink" href="#stage-3-firewall-dns-dhcp-ntp-and-segmentation" title="Permanent link">&para;</a></h2>
+<h2 id="stage-3-firewall-dns-dhcp-ntp-and-segmentation">Stage 3 — firewall, DNS, DHCP, NTP and segmentation</h2>
 <p>Follow <a href="../opnsense-implementation/">OPNsense Implementation</a>, <a href="../firewall-policy-matrix/">Firewall Policy Matrix</a>, and the separate <a href="../mac-arm-router-implementation/">Mac ARM Router Implementation</a> only for the Mac track.</p>
 <ol>
 <li>Install OPNsense x86-64 as a VM on the Windows x64 track.</li>
@@ -2376,11 +2376,11 @@
 <li>Enable logging on validation rules.</li>
 </ol>
 <p><strong>Gate 3:</strong> test permitted and denied TCP flows, DNS, NTP, routes and firewall logs. Kali/DMZ must not reach host management or home LAN.</p>
-<h2 id="stage-4-install-guest-operating-systems">Stage 4 — install guest operating systems<a class="headerlink" href="#stage-4-install-guest-operating-systems" title="Permanent link">&para;</a></h2>
+<h2 id="stage-4-install-guest-operating-systems">Stage 4 — install guest operating systems</h2>
 <p>Follow <a href="../operating-systems/">Operating Systems &amp; Identity</a> and the detailed dual-SIEM runbook.</p>
 <p>Deploy the firewall, domain controller, Windows endpoint, collector, Elastic, Splunk, sensor, DMZ target and Kali VMs. Install OSs only inside their respective VMs. Set hostnames before domain join/certificate generation. Configure static addressing, DNS, NTP, guest tools and clean snapshots.</p>
 <p><strong>Gate 4:</strong> every VM has the expected OS/build/architecture, IP, route, DNS, time and NIC mapping.</p>
-<h2 id="stage-5-identity-and-target-applications">Stage 5 — identity and target applications<a class="headerlink" href="#stage-5-identity-and-target-applications" title="Permanent link">&para;</a></h2>
+<h2 id="stage-5-identity-and-target-applications">Stage 5 — identity and target applications</h2>
 <p>Implementation guides: <a href="../operating-systems/">Operating Systems &amp; Identity</a> · <a href="../enterprise-dual-siem-vm-lab/#8-active-directory-and-target-application">AD DS and target application runbook</a>.</p>
 <ol>
 <li>Promote the Windows Server VM to AD DS/DNS for a private lab-only domain.</li>
@@ -2391,11 +2391,11 @@
 <li>Deploy Nginx and deliberately vulnerable applications in the isolated DMZ. Do not publish vulnerable services to the physical WAN.</li>
 </ol>
 <p><strong>Gate 5:</strong> domain authentication works; target applications are reachable only from authorized lab segments.</p>
-<h2 id="stage-6-local-endpoint-telemetry">Stage 6 — local endpoint telemetry<a class="headerlink" href="#stage-6-local-endpoint-telemetry" title="Permanent link">&para;</a></h2>
+<h2 id="stage-6-local-endpoint-telemetry">Stage 6 — local endpoint telemetry</h2>
 <p>Follow <a href="../windows-endpoint-telemetry/">Windows Endpoint Telemetry</a> and <a href="../endpoint-telemetry-implementation/">Cross-platform Endpoint Telemetry Implementation</a>.</p>
 <p>Configure Windows Advanced Audit Policy and Sysmon, Linux auditd/journald, and required sensor logs. Verify known events locally before installing agents.</p>
 <p><strong>Gate 6:</strong> each source event exists locally with timestamp, host identity and event/channel details.</p>
-<h2 id="stage-7-firewall-and-network-monitoring">Stage 7 — firewall and network monitoring<a class="headerlink" href="#stage-7-firewall-and-network-monitoring" title="Permanent link">&para;</a></h2>
+<h2 id="stage-7-firewall-and-network-monitoring">Stage 7 — firewall and network monitoring</h2>
 <p>Follow <a href="../network-monitoring/">Network Monitoring</a> and <a href="../network-sensor-implementation/">Zeek &amp; Suricata Sensor Implementation</a>.</p>
 <ol>
 <li>Enable and verify firewall pass/block logging.</li>
@@ -2405,7 +2405,7 @@
 <li>Record exactly which segments and directions the sensor can observe.</li>
 </ol>
 <p><strong>Gate 7:</strong> known packet flows are visible and local firewall/Suricata/Zeek records exist. If mirror visibility is unavailable, use documented PCAP replay; do not claim live network monitoring.</p>
-<h2 id="stage-8-syslog-and-broker-foundation">Stage 8 — syslog and broker foundation<a class="headerlink" href="#stage-8-syslog-and-broker-foundation" title="Permanent link">&para;</a></h2>
+<h2 id="stage-8-syslog-and-broker-foundation">Stage 8 — syslog and broker foundation</h2>
 <p>Follow <a href="../syslog-relay-implementation/">Syslog Relay Implementation</a>, <a href="../telemetry-pipeline/">Telemetry Pipeline</a> and the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab Runbook</a>.</p>
 <ol>
 <li>Configure firewall/router syslog to the broker/relay.</li>
@@ -2416,26 +2416,26 @@
 <li>Do not deploy Kafka in the initial build.</li>
 </ol>
 <p><strong>Gate 8:</strong> a unique test event arrives at the broker with correct sender identity and timestamp. Queue, disk and retry behavior are understood.</p>
-<h2 id="stage-9-elastic-deployment">Stage 9 — Elastic deployment<a class="headerlink" href="#stage-9-elastic-deployment" title="Permanent link">&para;</a></h2>
+<h2 id="stage-9-elastic-deployment">Stage 9 — Elastic deployment</h2>
 <p>Follow <a href="../elastic-siem/">Elastic SIEM</a>. Install Elasticsearch, Kibana and Fleet Server on the dedicated VM using one exact compatible release. Configure trusted certificates with correct DNS/IP SANs. Enroll one test endpoint and prove a raw event in Discover.</p>
 <p><strong>Gate 9:</strong> raw events and required fields are searchable; Fleet health alone is insufficient.</p>
-<h2 id="stage-10-splunk-deployment">Stage 10 — Splunk deployment<a class="headerlink" href="#stage-10-splunk-deployment" title="Permanent link">&para;</a></h2>
+<h2 id="stage-10-splunk-deployment">Stage 10 — Splunk deployment</h2>
 <p>Follow <a href="../splunk-siem/">Splunk SIEM</a>. Install Splunk Enterprise on the supported x86-64 VM, create intended indexes, configure TCP/9997 receiving and HTTPS HEC/8088. Install required add-ons according to their actual search-time/index-time roles. Verify a raw event in the correct index.</p>
 <p><strong>Gate 10:</strong> a known event is searchable with correct host, source, sourcetype and timestamp.</p>
-<h2 id="stage-11-dual-output-and-endpoint-coexistence">Stage 11 — dual-output and endpoint coexistence<a class="headerlink" href="#stage-11-dual-output-and-endpoint-coexistence" title="Permanent link">&para;</a></h2>
+<h2 id="stage-11-dual-output-and-endpoint-coexistence">Stage 11 — dual-output and endpoint coexistence</h2>
 <p>Implementation guides: <a href="../siem-collector-implementation/#4a-dual-siem-broker-design-vector">SIEM Collector — Vector dual-SIEM design</a> · <a href="../telemetry-pipeline/">Telemetry Pipeline</a> · <a href="../enterprise-dual-siem-vm-lab/#12-vector-dual-output-broker">Enterprise Runbook — Vector dual output</a>.</p>
 <p>Configure Vector outputs to Elasticsearch and Splunk HEC with TLS, least-privilege credentials, explicit index/dataset mapping and bounded retry/buffering. Test each output independently, then simulate one destination being unavailable.</p>
 <p>On a disposable Windows endpoint, enroll Elastic Agent first, verify data, then install Splunk UF and verify the same test event in Splunk. Measure resource use, latency and duplicates. Do not install both agents on every VM by default.</p>
 <p><strong>Gate 11:</strong> the same unique source event is present in both SIEMs without unexplained gaps or duplicates. Failure/recovery behavior is measured, not assumed.</p>
-<h2 id="stage-12-controlled-purple-team-validation">Stage 12 — controlled purple-team validation<a class="headerlink" href="#stage-12-controlled-purple-team-validation" title="Permanent link">&para;</a></h2>
+<h2 id="stage-12-controlled-purple-team-validation">Stage 12 — controlled purple-team validation</h2>
 <p>Follow <a href="../penetration-testing/">Penetration Testing</a> and <a href="../soc-exercises/">SOC Validation Exercises</a>. Use only lab-owned targets and explicit scope. Validate firewall, IDS, Zeek, Windows, Linux and AD detections. A custom User-Agent does not automatically trigger Suricata; auditd requires matching rules; event IDs are not guaranteed unless source policy and test behavior are configured.</p>
 <p><strong>Gate 12:</strong> each exercise has source evidence, SIEM raw event, query/rule, alert result, timestamp comparison and cleanup record in both SIEMs where applicable.</p>
-<h2 id="stage-13-operations-and-recovery">Stage 13 — operations and recovery<a class="headerlink" href="#stage-13-operations-and-recovery" title="Permanent link">&para;</a></h2>
+<h2 id="stage-13-operations-and-recovery">Stage 13 — operations and recovery</h2>
 <p>Implementation guide: <a href="../operations-recovery/">Operations &amp; Recovery</a>.</p>
 <p>Back up firewall, AD, SIEM and broker configurations separately from VM snapshots. Document retention, disk limits, updates, credentials, agent health, restore procedures and evidence sanitization. Re-test segmentation after hypervisor or NIC changes.</p>
-<h2 id="apple-silicon-mac-track">Apple-silicon Mac track<a class="headerlink" href="#apple-silicon-mac-track" title="Permanent link">&para;</a></h2>
+<h2 id="apple-silicon-mac-track">Apple-silicon Mac track</h2>
 <p>Keep the Mac as a separate ARM64 lab island using VMware Fusion and ARM64 guests. Use the Ubuntu ARM64/nftables router path, not OPNsense. Do not assume Splunk Enterprise or Security Onion is supported as an ARM64 guest. Verify every agent and integration against the exact support matrix.</p>
-<h2 id="stop-conditions">Stop conditions<a class="headerlink" href="#stop-conditions" title="Permanent link">&para;</a></h2>
+<h2 id="stop-conditions">Stop conditions</h2>
 <p>Stop if an unsupported guest/product is selected, a VM is unexpectedly bridged, REDTEAM/DMZ can reach home LAN, DNS/time is incorrect, source events are absent, packet visibility is unproven, broker queues are unbounded, certificates do not validate, or either SIEM cannot ingest the controlled event. Do not bypass a failed gate by disabling security controls.</p>
 
 

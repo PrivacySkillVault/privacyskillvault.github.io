@@ -2216,10 +2216,10 @@
 
 
 
-<h1 id="lab-1-windows-pc-host-and-hypervisor-setup">Lab 1 — Windows PC host and hypervisor setup<a class="headerlink" href="#lab-1-windows-pc-host-and-hypervisor-setup" title="Permanent link">&para;</a></h1>
+<h1 id="lab-1-windows-pc-host-and-hypervisor-setup">Lab 1 — Windows PC host and hypervisor setup</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This page prepares a Windows x64 PC as the primary host for Windows/Linux guests, Splunk Enterprise, Elastic, Wazuh and Security Onion. Choose <strong>one primary hypervisor</strong> for the first build. Do not install several hypervisors and change Windows hypervisor settings repeatedly without a reason.</p>
-<h2 id="1-preflight">1. Preflight<a class="headerlink" href="#1-preflight" title="Permanent link">&para;</a></h2>
+<h2 id="1-preflight">1. Preflight</h2>
 <ol>
 <li>Confirm Windows edition and build using <code>winver</code>.</li>
 <li>Confirm x64 architecture, RAM, CPU model and free disk using <a href="../requirements/">Hardware and platform compatibility</a>.</li>
@@ -2234,8 +2234,8 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">Get-CimInstance</span> <span class="n">Win32_ComputerSystem</span> <span class="p">|</span> <span class="nb">Select-Object</span> <span class="n">HypervisorPresent</span><span class="p">,</span> <span class="n">TotalPhysicalMemory</span>
 </span></code></pre></div>
 <p>If Windows reports a hypervisor already present, that does not by itself indicate a fault; Hyper-V, Virtual Machine Platform, WSL2 and Virtualisation-Based Security can use the Windows hypervisor.</p>
-<h2 id="2-choose-the-hypervisor">2. Choose the hypervisor<a class="headerlink" href="#2-choose-the-hypervisor" title="Permanent link">&para;</a></h2>
-<h3 id="option-a-hyper-v">Option A — Hyper-V<a class="headerlink" href="#option-a-hyper-v" title="Permanent link">&para;</a></h3>
+<h2 id="2-choose-the-hypervisor">2. Choose the hypervisor</h2>
+<h3 id="option-a-hyper-v">Option A — Hyper-V</h3>
 <p>Use this if your Windows edition exposes the Hyper-V feature and the hardware prerequisites are met.</p>
 <ol>
 <li>Open <strong>Settings → System → About</strong> and confirm Windows edition.</li>
@@ -2257,7 +2257,7 @@
 - <strong>Private:</strong> VM-to-VM only; host cannot communicate through that switch.
 - <strong>Internal:</strong> VM-to-VM and host-to-VM; no direct physical LAN connection.
 - <strong>External:</strong> connected to a physical network adapter; use only where explicitly required and understood.</p>
-<h3 id="option-b-vmware-workstation-pro">Option B — VMware Workstation Pro<a class="headerlink" href="#option-b-vmware-workstation-pro" title="Permanent link">&para;</a></h3>
+<h3 id="option-b-vmware-workstation-pro">Option B — VMware Workstation Pro</h3>
 <p>Use this where Hyper-V is unavailable or you prefer VMware's VM networking workflow.</p>
 <ol>
 <li>Download VMware Workstation from the official Broadcom/VMware desktop hypervisor portal.</li>
@@ -2274,7 +2274,7 @@
 <li>Record subnet, DHCP range, host adapter and NAT status for each VMnet.</li>
 </ol>
 <p>VMware menu names and licensing screens may vary by release. Follow the current product documentation for the exact version installed.</p>
-<h3 id="option-c-oracle-virtualbox">Option C — Oracle VirtualBox<a class="headerlink" href="#option-c-oracle-virtualbox" title="Permanent link">&para;</a></h3>
+<h3 id="option-c-oracle-virtualbox">Option C — Oracle VirtualBox</h3>
 <p>Use VirtualBox on this Windows x64 host when you want a separate, supported x86/x64 guest environment and its internal/host-only network model. Follow the dedicated <a href="../platform-virtualbox/">VirtualBox host and network build guide</a> for the exact installation, named network creation, OPNsense adapter mapping, first guest smoke test and packet-capture limitations. Do not combine this option with the Hyper-V/VMware network plan without deliberately redesigning the virtual switches.</p>
 <ol>
 <li>Download the current Windows hosts package from Oracle's official VirtualBox downloads page.</li>
@@ -2286,7 +2286,7 @@
 <li>Do not attach Kali or intentionally vulnerable targets to Bridged Adapter.</li>
 </ol>
 <p>VirtualBox can operate alongside some Windows hypervisor features using its supported backend, but performance and feature availability can vary. Do not disable VBS, Memory Integrity, Hyper-V or WSL2 blindly to troubleshoot it; inspect the VirtualBox log and the current Oracle/Windows compatibility guidance first.</p>
-<h2 id="3-storage-layout">3. Storage layout<a class="headerlink" href="#3-storage-layout" title="Permanent link">&para;</a></h2>
+<h2 id="3-storage-layout">3. Storage layout</h2>
 <p>Create a simple layout on the VM SSD:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>D:\CyberLab\
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ISO\
@@ -2296,7 +2296,7 @@
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  Backups\
 </span></code></pre></div>
 <p>Keep original ISO files and checksums in <code>ISO</code>. Store exported sanitised evidence separately from VM disks. Do not treat snapshots as backups; copy important VM exports or data to a separate device.</p>
-<h2 id="4-first-vm-smoke-test">4. First VM smoke test<a class="headerlink" href="#4-first-vm-smoke-test" title="Permanent link">&para;</a></h2>
+<h2 id="4-first-vm-smoke-test">4. First VM smoke test</h2>
 <p>Create an Ubuntu Server x86-64 VM:
 - Generation 2 / UEFI on Hyper-V.
 - 2 vCPU.
@@ -2314,7 +2314,7 @@
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
 </span></code></pre></div>
 <p>Expected architecture on this host: <code>x86_64</code>. If <code>uname -m</code> shows something else, stop and verify which ISO you installed.</p>
-<h2 id="5-snapshots-and-baseline">5. Snapshots and baseline<a class="headerlink" href="#5-snapshots-and-baseline" title="Permanent link">&para;</a></h2>
+<h2 id="5-snapshots-and-baseline">5. Snapshots and baseline</h2>
 <p>Before installing agents or security tools:
 1. Shut down the VM cleanly.
 2. Create a snapshot/checkpoint named <code>baseline-clean</code>.
@@ -2322,7 +2322,7 @@
 4. Boot and confirm the snapshot is visible.
 5. Restore the snapshot once to prove the recovery workflow works.</p>
 <p>For domain controllers and SIEM servers, use application-aware backups for persistent data; snapshots alone are not a safe backup strategy.</p>
-<h2 id="6-validation-checklist">6. Validation checklist<a class="headerlink" href="#6-validation-checklist" title="Permanent link">&para;</a></h2>
+<h2 id="6-validation-checklist">6. Validation checklist</h2>
 <ul>
 <li>[ ] Host CPU architecture is x64.</li>
 <li>[ ] Firmware virtualisation is enabled.</li>
@@ -2333,7 +2333,7 @@
 <li>[ ] VM storage is on SSD with sufficient free space.</li>
 <li>[ ] Baseline snapshot/checkpoint can be restored.</li>
 </ul>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements">Microsoft Hyper-V hardware requirements</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/virtual-switch">Microsoft Hyper-V virtual switch documentation</a></li>

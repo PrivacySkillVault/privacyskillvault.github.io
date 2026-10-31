@@ -2526,13 +2526,13 @@
 
 
 
-<h1 id="siem-collector-implementation-elastic-splunk-and-wazuh">SIEM collector implementation — Elastic, Splunk and Wazuh<a class="headerlink" href="#siem-collector-implementation-elastic-splunk-and-wazuh" title="Permanent link">&para;</a></h1>
+<h1 id="siem-collector-implementation-elastic-splunk-and-wazuh">SIEM collector implementation — Elastic, Splunk and Wazuh</h1>
 <p><badge color="warning">Dual-SIEM build — staged validation required</badge></p>
 <p>This guide contains source-specific collection examples. For the complete dual-SIEM VM architecture, port matrix and deployment sequence, follow the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab Runbook</a>.</p>
 <p>The final design may send approved endpoint events directly to Elastic and Splunk using their respective supported agents/forwarders, while firewall/router and selected sensor/file sources pass through Vector for dual output. Do not force every event through one broker. Build and validate one SIEM first, then the other, and only then enable both destinations. Wazuh is an alternative stack, not a third mandatory concurrent SIEM.</p>
 <p>Do not install all agents on every host by default. Avoid duplicate collection by ensuring that each source has one defined path per destination. Agent coexistence is subject to exact OS/architecture/vendor support and measured resource use.</p>
 <p><strong>Prerequisites:</strong> <a href="../build-sequence/">Master Build Sequence</a> Stages 0–7 pass; the <a href="../syslog-relay-implementation/">syslog relay</a>, <a href="../network-sensor-implementation/">network sensor</a> and <a href="../endpoint-telemetry-implementation/">endpoint telemetry</a> acceptance gates are complete.</p>
-<h2 id="1-inventory-before-installing-an-agent">1. Inventory before installing an agent<a class="headerlink" href="#1-inventory-before-installing-an-agent" title="Permanent link">&para;</a></h2>
+<h2 id="1-inventory-before-installing-an-agent">1. Inventory before installing an agent</h2>
 <p>Create a source inventory:</p>
 <table>
 <thead>
@@ -2604,16 +2604,16 @@
 </tbody>
 </table>
 <p>Actual file paths depend on the installed service configuration. Confirm paths with the source host before configuring a collector. Do not monitor an empty example directory.</p>
-<h2 id="2-elastic-fleet-and-filestream">2. Elastic — Fleet and Filestream<a class="headerlink" href="#2-elastic-fleet-and-filestream" title="Permanent link">&para;</a></h2>
+<h2 id="2-elastic-fleet-and-filestream">2. Elastic — Fleet and Filestream</h2>
 <p>Use supported Elastic Stack/Agent versions and an OS/architecture listed in the current Elastic Support Matrix. Keep Elasticsearch, Kibana, Fleet Server and Elastic Agent on compatible release versions. Do not assume an Elastic Agent package for ARM64 implies every integration is supported on that OS.</p>
-<h3 id="21-create-policies">2.1 Create policies<a class="headerlink" href="#21-create-policies" title="Permanent link">&para;</a></h3>
+<h3 id="21-create-policies">2.1 Create policies</h3>
 <p>In Kibana:
 1. Open Management → Fleet.
 2. Confirm Fleet Server is healthy and its URL/certificate is reachable from the agent host.
 3. Create separate policies for Windows endpoints, Linux relay/sensor and macOS endpoints where their integrations differ.
 4. Use the generated enrollment command on each host; protect enrollment tokens.
 5. Confirm the agent is enrolled and the policy is applied before adding integrations.</p>
-<h3 id="22-linux-relay-and-sensor-files">2.2 Linux relay and sensor files<a class="headerlink" href="#22-linux-relay-and-sensor-files" title="Permanent link">&para;</a></h3>
+<h3 id="22-linux-relay-and-sensor-files">2.2 Linux relay and sensor files</h3>
 <p>For the Linux policy, add the <strong>Custom Logs (Filestream)</strong> integration. Configure paths for files that actually exist, for example:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/var/log/remote/psv-*.log
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/opt/zeek/logs/current/*.log
@@ -2621,11 +2621,11 @@
 </span></code></pre></div>
 <p>Use separate inputs/datasets where possible so source types remain distinguishable. Enable JSON decoding for Zeek and Suricata JSON lines using the integration's current JSON parser settings. Keep plain rsyslog text as plain text; do not force JSON decoding on it.</p>
 <p>Ensure the Elastic Agent service account can read active and rotated files. Grant only group read access to the specific log directories. Do not make all logs world-readable. If logs rotate, test that the agent continues reading new files and does not re-ingest the entire file unexpectedly.</p>
-<h3 id="23-windows-endpoint">2.3 Windows endpoint<a class="headerlink" href="#23-windows-endpoint" title="Permanent link">&para;</a></h3>
+<h3 id="23-windows-endpoint">2.3 Windows endpoint</h3>
 <p>Add the Windows integration to the Windows endpoint policy. Enable Security event collection and the Sysmon Operational channel. Verify local events first. Do not assume Sysmon data is included just because the Windows integration is installed; inspect the integration's channel configuration and agent policy.</p>
-<h3 id="24-macos-endpoint">2.4 macOS endpoint<a class="headerlink" href="#24-macos-endpoint" title="Permanent link">&para;</a></h3>
+<h3 id="24-macos-endpoint">2.4 macOS endpoint</h3>
 <p>Check the exact macOS version and ARM64 support. Add the macOS Security Events integration only where supported. Grant only the documented permissions and validate the actual categories collected. Do not promise full Unified Logging visibility; macOS privacy and permissions affect what can be read.</p>
-<h3 id="25-verify">2.5 Verify<a class="headerlink" href="#25-verify" title="Permanent link">&para;</a></h3>
+<h3 id="25-verify">2.5 Verify</h3>
 <p>In Discover:
 1. Select the time range covering the test event.
 2. Search the actual data stream and dataset created by the integration.
@@ -2634,15 +2634,15 @@
 5. Compare event time with source and relay timestamps.
 6. Record ingest delay and any duplicate event count.</p>
 <p>Agent online or Fleet healthy is not proof of file ingestion. Check agent diagnostics and integration errors if no data arrives.</p>
-<h2 id="3-splunk-universal-forwarder">3. Splunk — Universal Forwarder<a class="headerlink" href="#3-splunk-universal-forwarder" title="Permanent link">&para;</a></h2>
+<h2 id="3-splunk-universal-forwarder">3. Splunk — Universal Forwarder</h2>
 <p>Use Splunk Enterprise on a supported x86-64 Windows/Linux server. Verify the Universal Forwarder OS/architecture matrix for each endpoint; do not assume Windows ARM or all macOS ARM versions are supported.</p>
-<h3 id="31-configure-the-receiver">3.1 Configure the receiver<a class="headerlink" href="#31-configure-the-receiver" title="Permanent link">&para;</a></h3>
+<h3 id="31-configure-the-receiver">3.1 Configure the receiver</h3>
 <p>On Splunk Enterprise, enable receiving on TCP/9997 (or the chosen port) and create indexes such as:
 - psv_windows
 - psv_network
 - psv_firewall</p>
 <p>Create only indexes needed for the current exercise. Set retention and storage limits deliberately. Restrict TCP/9997 to approved forwarder hosts.</p>
-<h3 id="32-linux-universal-forwarder-outputsconf">3.2 Linux Universal Forwarder — outputs.conf<a class="headerlink" href="#32-linux-universal-forwarder-outputsconf" title="Permanent link">&para;</a></h3>
+<h3 id="32-linux-universal-forwarder-outputsconf">3.2 Linux Universal Forwarder — outputs.conf</h3>
 <p>On each Linux relay/sensor forwarder, configure the system-local outputs file (package path commonly /opt/splunkforwarder/etc/system/local/outputs.conf):</p>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[tcpout]</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">defaultGroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv-indexers</span>
@@ -2651,7 +2651,7 @@
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="na">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.10.30.21:9997</span>
 </span></code></pre></div>
 <p>Replace the address with the actual Splunk receiver. Protect the configuration directory and use Splunk's documented TLS options if the path is not fully isolated. Do not store cleartext passwords in config files.</p>
-<h3 id="33-linux-universal-forwarder-inputsconf">3.3 Linux Universal Forwarder — inputs.conf<a class="headerlink" href="#33-linux-universal-forwarder-inputsconf" title="Permanent link">&para;</a></h3>
+<h3 id="33-linux-universal-forwarder-inputsconf">3.3 Linux Universal Forwarder — inputs.conf</h3>
 <p>Create inputs in /opt/splunkforwarder/etc/system/local/inputs.conf after confirming the real paths:</p>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[monitor:///var/log/remote/psv-opnsense.log]</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
@@ -2690,7 +2690,7 @@
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sudo<span class="w"> </span>/opt/splunkforwarder/bin/splunk<span class="w"> </span>list<span class="w"> </span>forward-server
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>sudo<span class="w"> </span>/opt/splunkforwarder/bin/splunk<span class="w"> </span>list<span class="w"> </span>monitor
 </span></code></pre></div>
-<h3 id="34-windows-universal-forwarder-inputsconf">3.4 Windows Universal Forwarder — inputs.conf<a class="headerlink" href="#34-windows-universal-forwarder-inputsconf" title="Permanent link">&para;</a></h3>
+<h3 id="34-windows-universal-forwarder-inputsconf">3.4 Windows Universal Forwarder — inputs.conf</h3>
 <p>Install the supported Windows x64 Universal Forwarder. Configure the receiving host through the installer wizard or outputs.conf. A starting Sysmon channel stanza is:</p>
 <div class="language-ini highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[WinEventLog://Microsoft-Windows-Sysmon/Operational]</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
@@ -2703,7 +2703,7 @@
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
 </span></code></pre></div>
 <p>Use the exact stanza syntax supported by the installed UF version. Security log access requires the correct service account privileges. Do not collect every Windows channel by default; select the channels needed for the exercise.</p>
-<h3 id="35-verify-splunk">3.5 Verify Splunk<a class="headerlink" href="#35-verify-splunk" title="Permanent link">&para;</a></h3>
+<h3 id="35-verify-splunk">3.5 Verify Splunk</h3>
 <p>Start with:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>index=psv_firewall earliest=-15m
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>| stats count by host source sourcetype
@@ -2715,9 +2715,9 @@
 </span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>| stats count by host source sourcetype
 </span></code></pre></div>
 <p>Inspect raw events before writing field-dependent searches. JSON sourcetype names do not automatically guarantee correct JSON field extraction; configure and verify the appropriate search-time parsing. Confirm _time, host, source, sourcetype and event-specific fields.</p>
-<h2 id="4-wazuh-agent-logcollector-and-custom-files">4. Wazuh — agent Logcollector and custom files<a class="headerlink" href="#4-wazuh-agent-logcollector-and-custom-files" title="Permanent link">&para;</a></h2>
+<h2 id="4-wazuh-agent-logcollector-and-custom-files">4. Wazuh — agent Logcollector and custom files</h2>
 <p>Use a supported Wazuh server and agent version. Wazuh agent secure communications use the documented secure channel (TCP/1514 by default); enrollment normally uses TCP/1515. Verify the installed version and firewall port reference.</p>
-<h3 id="41-linux-relay-and-sensor-agents">4.1 Linux relay and sensor agents<a class="headerlink" href="#41-linux-relay-and-sensor-agents" title="Permanent link">&para;</a></h3>
+<h3 id="41-linux-relay-and-sensor-agents">4.1 Linux relay and sensor agents</h3>
 <p>On the relay/sensor, back up /var/ossec/etc/ossec.conf. Add only the actual files that exist:</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">&lt;localfile&gt;</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>/var/log/remote/psv-opnsense.log<span class="nt">&lt;/location&gt;</span>
@@ -2748,16 +2748,16 @@
 </span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>sudo<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>/var/ossec/logs/ossec.log
 </span></code></pre></div>
 <p>If the installed version does not provide the same validation flag, consult that version's CLI help and validate using its documented method.</p>
-<h3 id="42-windows-agent">4.2 Windows agent<a class="headerlink" href="#42-windows-agent" title="Permanent link">&para;</a></h3>
+<h3 id="42-windows-agent">4.2 Windows agent</h3>
 <p>The Wazuh Windows agent collects standard Windows channels; configure Sysmon Operational explicitly if it is not already included by the selected policy. Back up the Windows agent configuration, add the correct EventChannel localfile block, restart the Wazuh service and verify agent logs.</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">&lt;localfile&gt;</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>Microsoft-Windows-Sysmon/Operational<span class="nt">&lt;/location&gt;</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&lt;log_format&gt;</span>eventchannel<span class="nt">&lt;/log_format&gt;</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nt">&lt;/localfile&gt;</span>
 </span></code></pre></div>
-<h3 id="43-macos-agent">4.3 macOS agent<a class="headerlink" href="#43-macos-agent" title="Permanent link">&para;</a></h3>
+<h3 id="43-macos-agent">4.3 macOS agent</h3>
 <p>Wazuh macOS uses Unified Logging. Configure the macOS localfile block as described in <a href="../endpoint-telemetry-implementation/">Endpoint Telemetry Implementation</a>. Verify that the exact query returns local events and that the manager receives them. macOS privacy controls may limit fields/categories.</p>
-<h3 id="44-verify-wazuh-ingestion">4.4 Verify Wazuh ingestion<a class="headerlink" href="#44-verify-wazuh-ingestion" title="Permanent link">&para;</a></h3>
+<h3 id="44-verify-wazuh-ingestion">4.4 Verify Wazuh ingestion</h3>
 <ul>
 <li>Agent status is active and last keepalive is current.</li>
 <li>The raw test record is visible in the manager/dashboard.</li>
@@ -2765,7 +2765,7 @@
 <li>Hostname, timestamp, source file/channel and raw message are preserved.</li>
 <li>No source is collected twice unintentionally.</li>
 </ul>
-<h2 id="4a-dual-siem-broker-design-vector">4A. Dual-SIEM broker design (Vector)<a class="headerlink" href="#4a-dual-siem-broker-design-vector" title="Permanent link">&para;</a></h2>
+<h2 id="4a-dual-siem-broker-design-vector">4A. Dual-SIEM broker design (Vector)</h2>
 <p>For the dual-SIEM build, use Vector on the dedicated broker VM as a controlled fan-out point for firewall syslog and explicitly selected sensor/Linux log files. The broker should have:
 - Inputs bound only to the intended lab-facing interface and protocol.
 - Separate source identifiers and datasets for firewall, Zeek, Suricata and Linux logs.
@@ -2775,7 +2775,7 @@
 - No secrets committed to the repository or embedded in screenshots.</p>
 <p>Do not configure TCP/5044 unless a Beats protocol input is deliberately enabled. Do not add Kafka/9092 to the initial lab. Use the exact Vector component schema for the pinned Vector release; validate the config with that release's CLI before starting the service. Test each output separately, then stop one SIEM temporarily to verify buffering/retry and recovery. Measure actual delivery delay; do not assume a fixed two-second SLA.</p>
 <p>Endpoint events follow a separate path: Elastic Agent to Fleet/Elastic and Splunk UF to Splunk. On a disposable Windows VM, install and validate one agent at a time, then verify the same controlled event in both products. Check duplicates, service health, CPU/RAM and reboot behavior before broad rollout.</p>
-<h2 id="5-source-by-source-rollout-order">5. Source-by-source rollout order<a class="headerlink" href="#5-source-by-source-rollout-order" title="Permanent link">&para;</a></h2>
+<h2 id="5-source-by-source-rollout-order">5. Source-by-source rollout order</h2>
 <p>Connect in this order and do not add the next source until the current one passes:
 1. One relay firewall test event.
 2. One OPNsense IDS/EVE event.
@@ -2786,7 +2786,7 @@
 7. One Linux audit/journal event.
 8. One macOS Unified Logging event, if the Mac track is used.</p>
 <p>For each, capture source event, collector log/offset, SIEM raw event, timestamp delta, host identity and parsing. Then run a positive and negative detection test.</p>
-<h2 id="6-common-troubleshooting">6. Common troubleshooting<a class="headerlink" href="#6-common-troubleshooting" title="Permanent link">&para;</a></h2>
+<h2 id="6-common-troubleshooting">6. Common troubleshooting</h2>
 <table>
 <thead>
 <tr>
@@ -2829,7 +2829,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="7-security-and-acceptance-gate">7. Security and acceptance gate<a class="headerlink" href="#7-security-and-acceptance-gate" title="Permanent link">&para;</a></h2>
+<h2 id="7-security-and-acceptance-gate">7. Security and acceptance gate</h2>
 <ul>
 <li>[ ] Only one SIEM stack selected.</li>
 <li>[ ] Agent/forwarder OS and architecture support verified.</li>
@@ -2843,7 +2843,7 @@
 <li>[ ] Retention, queueing, disk thresholds and agent health monitored.</li>
 <li>[ ] Positive/negative test evidence captured and sanitized.</li>
 </ul>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://www.elastic.co/docs/reference/integrations/filestream">Elastic Custom Logs Filestream</a></li>
 <li><a href="https://www.elastic.co/docs/reference/integrations/windows">Elastic Windows integration</a></li>

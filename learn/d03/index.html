@@ -2150,18 +2150,18 @@
 
 
 
-<h1 id="d03-offensive-security-application-testing">D03 — Offensive Security &amp; Application Testing<a class="headerlink" href="#d03-offensive-security-application-testing" title="Permanent link">&para;</a></h1>
+<h1 id="d03-offensive-security-application-testing">D03 — Offensive Security &amp; Application Testing</h1>
 <p>Use authorised testing to identify, validate, explain, and help remediate security weaknesses. This domain focuses on evidence-based verification rather than tool output alone.</p>
-<h2 id="isolated-assessment-environment">Isolated assessment environment<a class="headerlink" href="#isolated-assessment-environment" title="Permanent link">&para;</a></h2>
+<h2 id="isolated-assessment-environment">Isolated assessment environment</h2>
 <p>Use the <a href="../../labs/penetration-testing/">PSV penetration-testing lab</a> with Kali and deliberately vulnerable targets on a dedicated, non-bridged network. Verify isolation before scanning.</p>
-<h2 id="authoritative-foundations">Authoritative foundations<a class="headerlink" href="#authoritative-foundations" title="Permanent link">&para;</a></h2>
-<h3 id="owasp-application-security-verification-standard-500">OWASP Application Security Verification Standard 5.0.0<a class="headerlink" href="#owasp-application-security-verification-standard-500" title="Permanent link">&para;</a></h3>
+<h2 id="authoritative-foundations">Authoritative foundations</h2>
+<h3 id="owasp-application-security-verification-standard-500">OWASP Application Security Verification Standard 5.0.0</h3>
 <p>OWASP ASVS provides testable security requirements for web applications and web services. Use the requirement identifiers and verification guidance from the selected ASVS release. Record the exact version and requirement ID in test evidence.</p>
 <p>ASVS is a verification standard. The OWASP Top 10 is an awareness document about prominent application security risks; it is not a substitute for a complete verification plan.</p>
 <p>Official sources:
 - <a href="https://asvs.owasp.org/">OWASP ASVS 5.0.0</a>
 - <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP ASVS project</a></p>
-<h3 id="first-cvss-v40">FIRST CVSS v4.0<a class="headerlink" href="#first-cvss-v40" title="Permanent link">&para;</a></h3>
+<h3 id="first-cvss-v40">FIRST CVSS v4.0</h3>
 <p>CVSS v4.0 defines Base, Threat, Environmental, and Supplemental metric groups. A Base score communicates technical vulnerability severity under the CVSS model; it does not by itself determine organisational risk or remediation priority.</p>
 <p>For each finding, preserve:
 - CVE or other vulnerability identifier, if one exists
@@ -2173,7 +2173,7 @@
 - Remediation recommendation and retest evidence</p>
 <p>Official source: <a href="https://www.first.org/cvss/v4.0/specification-document">FIRST CVSS v4.0 specification</a>.</p>
 <p><strong>PSV tool limitation:</strong> the current calculator on the Tools page implements CVSS v3.1, not v4.0. Do not enter a v4.0 vector into it or report its result as CVSS v4.0.</p>
-<h2 id="testing-workflow">Testing workflow<a class="headerlink" href="#testing-workflow" title="Permanent link">&para;</a></h2>
+<h2 id="testing-workflow">Testing workflow</h2>
 <ol>
 <li><strong>Authorisation and scope:</strong> written permission, in-scope assets, excluded systems, dates, source IPs, test accounts, and emergency contacts.</li>
 <li><strong>Rules of engagement:</strong> allowed techniques, rate limits, data-handling requirements, stop conditions, and reporting route.</li>
@@ -2183,10 +2183,10 @@
 <li><strong>Reporting:</strong> include exact affected asset/version, reproducible steps, sanitised evidence, severity methodology, and practical remediation.</li>
 <li><strong>Retesting:</strong> verify the fix using the same relevant conditions and record the result.</li>
 </ol>
-<h2 id="practical-exercise">Practical exercise<a class="headerlink" href="#practical-exercise" title="Permanent link">&para;</a></h2>
+<h2 id="practical-exercise">Practical exercise</h2>
 <p>Use an intentionally vulnerable local application. Select an ASVS requirement that is relevant to the application's feature, define a safe test, record expected and observed behaviour, and explain whether the requirement is satisfied. Do not claim ASVS compliance from a small sample of tests.</p>
 <p>Only test systems you own or have explicit written permission to assess. Avoid destructive payloads, production data, persistence, or unnecessary service disruption.</p>
-<h2 id="finding-record">Finding record<a class="headerlink" href="#finding-record" title="Permanent link">&para;</a></h2>
+<h2 id="finding-record">Finding record</h2>
 <table>
 <thead>
 <tr>

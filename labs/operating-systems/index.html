@@ -2182,10 +2182,10 @@
 
 
 
-<h1 id="lab-4-operating-system-installation-and-identity">Lab 4 — Operating system installation and identity<a class="headerlink" href="#lab-4-operating-system-installation-and-identity" title="Permanent link">&para;</a></h1>
+<h1 id="lab-4-operating-system-installation-and-identity">Lab 4 — Operating system installation and identity</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This creates the Windows and Linux endpoints used by the SIEM and SOC labs. Use x64 media on the Windows PC and ARM64 media on the Apple-silicon Mac.</p>
-<h2 id="a-windows-server-on-the-windows-pc">A. Windows Server on the Windows PC<a class="headerlink" href="#a-windows-server-on-the-windows-pc" title="Permanent link">&para;</a></h2>
+<h2 id="a-windows-server-on-the-windows-pc">A. Windows Server on the Windows PC</h2>
 <ol>
 <li>Download the current Windows Server Evaluation ISO from Microsoft's Evaluation Center. Check the release's evaluation period and terms.</li>
 <li>Create a Generation 2 Hyper-V VM (or supported VMware VM): name PSV-DC01; 2–4 vCPU; 6 GB RAM; 80 GB disk; NIC on SERVER segment; UEFI and supported Secure Boot template.</li>
@@ -2214,7 +2214,7 @@
 <ol>
 <li>Create synthetic lab OUs/users only. Do not use real employee identities. Keep domain-controller DNS pointed to itself; configure DNS forwarders only if update access is required.</li>
 </ol>
-<h2 id="b-windows-11-endpoint-on-the-windows-pc">B. Windows 11 endpoint on the Windows PC<a class="headerlink" href="#b-windows-11-endpoint-on-the-windows-pc" title="Permanent link">&para;</a></h2>
+<h2 id="b-windows-11-endpoint-on-the-windows-pc">B. Windows 11 endpoint on the Windows PC</h2>
 <ol>
 <li>Download official Windows 11 x64 media.</li>
 <li>Create VM: 2–4 vCPU, 6–8 GB RAM, 80 GB disk, Generation 2, virtual TPM and Secure Boot as required by Windows 11/hypervisor, NIC on ENDPOINT.</li>
@@ -2238,7 +2238,7 @@
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">nltest</span> <span class="p">/</span><span class="n">dsgetdc</span><span class="p">:</span><span class="n">lab</span><span class="p">.</span><span class="n">psv</span><span class="p">.</span><span class="n">test</span>
 </span></code></pre></div>
 <p>If joining fails, investigate DNS, time skew, routing, firewall policy and join permissions; do not disable security controls as a shortcut.</p>
-<h2 id="c-apply-windows-audit-policy-with-group-policy">C. Apply Windows audit policy with Group Policy<a class="headerlink" href="#c-apply-windows-audit-policy-with-group-policy" title="Permanent link">&para;</a></h2>
+<h2 id="c-apply-windows-audit-policy-with-group-policy">C. Apply Windows audit policy with Group Policy</h2>
 <p>After the Windows endpoint is joined to the lab domain, use Group Policy Management on PSV-DC01:</p>
 <ol>
 <li>Create a GPO named <code>PSV-Lab-Endpoint-Auditing</code> and link it to the <code>Lab-Workstations</code> OU.</li>
@@ -2257,7 +2257,7 @@
 </span></code></pre></div>
 6. Make a controlled local group membership change on the disposable endpoint. Confirm Event ID 4732 and TargetSid <code>S-1-5-32-544</code> for the built-in local Administrators group. The event proves a group membership change occurred; it does not prove malicious intent.</p>
 <p>Do not apply this test GPO to production systems. Audit policy changes should be approved, event volume measured, and the GPO unlinked/removed after the lab if no longer required.</p>
-<h2 id="c-ubuntu-server-on-either-host">C. Ubuntu Server on either host<a class="headerlink" href="#c-ubuntu-server-on-either-host" title="Permanent link">&para;</a></h2>
+<h2 id="c-ubuntu-server-on-either-host">C. Ubuntu Server on either host</h2>
 <p>Download the matching architecture ISO from Ubuntu and verify its published SHA-256 checksum. Create a VM with 2 vCPU, 2–4 GB RAM, 40–60 GB disk, and the appropriate SERVER or ENDPOINT NIC. Install a named non-root user; enable OpenSSH only if needed.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sudo<span class="w"> </span>reboot
@@ -2275,7 +2275,7 @@
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>sudo<span class="w"> </span>auditctl<span class="w"> </span>-s
 </span></code></pre></div>
 <p>Add only the audit rules needed for the exercise and measure event volume before forwarding.</p>
-<h2 id="d-kali-linux">D. Kali Linux<a class="headerlink" href="#d-kali-linux" title="Permanent link">&para;</a></h2>
+<h2 id="d-kali-linux">D. Kali Linux</h2>
 <p>Download the official Kali image matching the host/guest architecture and verify the checksum. Create a VM with 2–4 vCPU, 4–8 GB RAM and 60 GB disk. Attach it only to REDTEAM; use temporary NAT only for updates and disconnect it before testing.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>reboot
@@ -2285,15 +2285,15 @@
 </span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>ip<span class="w"> </span>route
 </span></code></pre></div>
 <p>Use Kali repositories for tools. Start with Nmap, Wireshark, Burp Suite Community and browser developer tools. Test only lab-owned targets.</p>
-<h2 id="e-windows-11-arm-on-the-mac">E. Windows 11 ARM on the Mac<a class="headerlink" href="#e-windows-11-arm-on-the-mac" title="Permanent link">&para;</a></h2>
+<h2 id="e-windows-11-arm-on-the-mac">E. Windows 11 ARM on the Mac</h2>
 <p>Use Microsoft's official Windows 11 ARM ISO and a virtualisation application that explicitly supports Windows 11 ARM. Configure the required virtual TPM and Secure Boot using the hypervisor wizard. Start with 4 vCPU, 6–8 GB RAM and 80 GB disk. Install, activate with a valid licence, update, and verify System type reports ARM-based processor.</p>
 <p>Do not install x64 Windows media in an ARM VM. Confirm that every endpoint agent, driver and security product supports Windows ARM before relying on it.</p>
 <p>For the exact local event-generation tests and Windows Security/Sysmon, Linux auditd/journald and macOS Unified Logging procedures, follow the <a href="../endpoint-telemetry-implementation/">Cross-platform Endpoint Telemetry Implementation Runbook</a>.</p>
-<h2 id="f-mac-endpoint-telemetry-considerations">F. Mac endpoint telemetry considerations<a class="headerlink" href="#f-mac-endpoint-telemetry-considerations" title="Permanent link">&para;</a></h2>
+<h2 id="f-mac-endpoint-telemetry-considerations">F. Mac endpoint telemetry considerations</h2>
 <p>macOS host and guest telemetry uses Apple's Unified Logging system and other OS-specific sources; it is not Windows Event Log. Use an agent only when the vendor documents support for the exact macOS release and Apple-silicon architecture. Wazuh documents collection from macOS Unified Logging; Elastic Agent and other products must be checked against their current macOS support matrix. Do not assume Sysmon for Windows, Windows Event Channel integrations or x64 endpoint agents work on macOS/Windows ARM.</p>
-<h2 id="g-baseline-evidence">G. Baseline evidence<a class="headerlink" href="#g-baseline-evidence" title="Permanent link">&para;</a></h2>
+<h2 id="g-baseline-evidence">G. Baseline evidence</h2>
 <p>For each VM record ISO URL/checksum, OS build, architecture, hypervisor/version, CPU/RAM/disk, virtual NIC and IP. Patch the VM, create a clean snapshot, and verify it restores. A snapshot is not a backup, especially for domain controllers or SIEM databases.</p>
-<h2 id="official-references">Official references<a class="headerlink" href="#official-references" title="Permanent link">&para;</a></h2>
+<h2 id="official-references">Official references</h2>
 <ul>
 <li><a href="https://www.microsoft.com/en-us/evalcenter/">Microsoft Windows Server Evaluation Center</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2016-active-directory-forest">Install AD DS using PowerShell</a></li>

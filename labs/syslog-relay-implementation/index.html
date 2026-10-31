@@ -2226,14 +2226,14 @@
 
 
 
-<h1 id="linux-telemetry-relay-rsyslog-implementation">Linux telemetry relay — rsyslog implementation<a class="headerlink" href="#linux-telemetry-relay-rsyslog-implementation" title="Permanent link">&para;</a></h1>
+<h1 id="linux-telemetry-relay-rsyslog-implementation">Linux telemetry relay — rsyslog implementation</h1>
 <p><badge color="warning">Pre-SIEM configuration — isolated TCP baseline; TLS hardening is a separate required decision</badge></p>
 <p>This guide configures a dedicated Linux relay on SERVER to receive firewall/router syslog and write bounded, source-specific files. It does not install a SIEM agent. The pre-SIEM acceptance gate is that messages arrive from known sources and are written to the correct files with timestamps and source identity intact.</p>
-<h2 id="1-addressing-and-firewall-prerequisites">1. Addressing and firewall prerequisites<a class="headerlink" href="#1-addressing-and-firewall-prerequisites" title="Permanent link">&para;</a></h2>
+<h2 id="1-addressing-and-firewall-prerequisites">1. Addressing and firewall prerequisites</h2>
 <p>Example relay: PSV-LOG01, 10.10.30.30/24, gateway 10.10.30.1. Use a static address or DHCP reservation. Configure authoritative lab DNS and NTP. Do not use these example addresses if they overlap your existing network.</p>
 <p>Create an allowlist containing exact source IPs: OPNsense firewall SERVER interface address used for syslog, Mac ARM router SERVER-facing address if used, and other devices only when explicitly added. The OPNsense and Mac tracks are separate lab islands and both examples may use 10.10.30.1. If both send to one relay, use distinct source subnets/IPs or preserve and match a deliberately configured sender hostname. These sample rules require the OPNsense hostname PSV-OPNSENSE01 and Mac router hostname PSV-MAC-RTR01; configure and verify those identities before enabling the rules.</p>
 <p>The example uses TCP/514 on an isolated lab network. TCP syslog without TLS is not confidential or authenticated; restrict it to a private isolated segment and source allowlist. For any untrusted/inter-host network, configure TLS with certificates and hostname validation using current rsyslog GTLS documentation. Do not describe plain TCP as encrypted.</p>
-<h2 id="2-install-rsyslog-and-verify-host-identity">2. Install rsyslog and verify host identity<a class="headerlink" href="#2-install-rsyslog-and-verify-host-identity" title="Permanent link">&para;</a></h2>
+<h2 id="2-install-rsyslog-and-verify-host-identity">2. Install rsyslog and verify host identity</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>rsyslog<span class="w"> </span>logrotate
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>hostnamectl
@@ -2244,7 +2244,7 @@
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>rsyslog<span class="w"> </span>--no-pager
 </span></code></pre></div>
 <p>Ensure the relay clock is synchronized. Configure the OS NTP client appropriate to the Ubuntu release and use the lab's authoritative time source where available.</p>
-<h2 id="3-configure-a-restricted-tcp-listener">3. Configure a restricted TCP listener<a class="headerlink" href="#3-configure-a-restricted-tcp-listener" title="Permanent link">&para;</a></h2>
+<h2 id="3-configure-a-restricted-tcp-listener">3. Configure a restricted TCP listener</h2>
 <p>Create /etc/rsyslog.d/10-psv-remote-rules.conf and place the following template and ruleset in it. The ruleset must be defined before the input references it:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>template(name="PSVRemoteLine" type="string"
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>         string="source-time=%timereported:::date-rfc3339% received-time=%timegenerated:::date-rfc3339% fromhost-ip=%fromhost-ip% hostname=%hostname% app=%programname% msg=%msg%\n")
@@ -2296,13 +2296,13 @@
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>rsyslog<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--no-pager
 </span></code></pre></div>
 <p>If the installed service runs under a different account, inspect its unit and adjust ownership. Do not grant world write/read.</p>
-<h2 id="4-restrict-the-relay-listener-at-the-firewall">4. Restrict the relay listener at the firewall<a class="headerlink" href="#4-restrict-the-relay-listener-at-the-firewall" title="Permanent link">&para;</a></h2>
+<h2 id="4-restrict-the-relay-listener-at-the-firewall">4. Restrict the relay listener at the firewall</h2>
 <p>Allow TCP/514 to 10.10.30.30 only from explicitly listed firewall/router source addresses and only on SERVER. Deny the port from WAN, home LAN, REDTEAM, DMZ and unrelated endpoints. Keep SSH management restricted to MGMT. Host firewall and upstream router rules should agree.</p>
 <p>Verify from an allowed source:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nc<span class="w"> </span>-vz<span class="w"> </span><span class="m">10</span>.10.30.30<span class="w"> </span><span class="m">514</span>
 </span></code></pre></div>
 <p>A successful TCP handshake proves only reachability, not syslog parsing or file routing.</p>
-<h2 id="5-send-a-controlled-test-message">5. Send a controlled test message<a class="headerlink" href="#5-send-a-controlled-test-message" title="Permanent link">&para;</a></h2>
+<h2 id="5-send-a-controlled-test-message">5. Send a controlled test message</h2>
 <p>From a Linux test sender temporarily assigned 10.10.30.99/24 on SERVER (or change the test branch to that sender's actual static IP):</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>logger<span class="w"> </span>--tcp<span class="w"> </span>--server<span class="w"> </span><span class="m">10</span>.10.30.30<span class="w"> </span>--port<span class="w"> </span><span class="m">514</span><span class="w"> </span>--tag<span class="w"> </span>PSV-RELAY-TEST<span class="w"> </span><span class="s2">"PSV relay test id=UNIQUE-TEST-ID"</span>
 </span></code></pre></div>
@@ -2311,7 +2311,7 @@
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">20</span><span class="w"> </span>/var/log/remote/psv-opnsense.log
 </span></code></pre></div>
 <p>Unknown sources should not be written. Remove the temporary .99 test branch after validation, then add only real firewall/router sources. Confirm hostname, source IP, application/tag, message and timestamp.</p>
-<h2 id="6-opnsense-forwarding">6. OPNsense forwarding<a class="headerlink" href="#6-opnsense-forwarding" title="Permanent link">&para;</a></h2>
+<h2 id="6-opnsense-forwarding">6. OPNsense forwarding</h2>
 <p>On OPNsense open System → Settings → Logging → Remote (menu names vary by release):
 1. Add a remote target at the relay SERVER address.
 2. Set TCP and port 514 to match the listener.
@@ -2321,9 +2321,9 @@
 6. Configure Suricata EVE syslog output separately if IDS alerts are required; ordinary system syslog selection may not include EVE.
 7. Generate a known allowed and blocked flow and confirm both arrive.</p>
 <p>Do not select every facility by default; unnecessary high-volume events increase storage and hinder troubleshooting.</p>
-<h2 id="7-mac-nftables-router-forwarding">7. Mac nftables router forwarding<a class="headerlink" href="#7-mac-nftables-router-forwarding" title="Permanent link">&para;</a></h2>
+<h2 id="7-mac-nftables-router-forwarding">7. Mac nftables router forwarding</h2>
 <p>On the ARM64 router, first confirm nftables events appear in journald and are written to a local dedicated file. Forward only intended router firewall records to this relay and retain the local copy. Add the router's observed source IP to an exact allowlisted branch. If using TLS, configure both endpoints with a trusted CA, server certificate, correct DNS name/SAN, client-certificate policy, and renewal procedure. Test expiry/rotation.</p>
-<h2 id="8-log-rotation-and-disk-protection">8. Log rotation and disk protection<a class="headerlink" href="#8-log-rotation-and-disk-protection" title="Permanent link">&para;</a></h2>
+<h2 id="8-log-rotation-and-disk-protection">8. Log rotation and disk protection</h2>
 <p>Create /etc/logrotate.d/psv-remote after verifying actual paths and rsyslog reopen behavior:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/var/log/remote/psv-*.log {
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    daily
@@ -2345,7 +2345,7 @@
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>/var/log/remote
 </span></code></pre></div>
 <p>Check the installed rsyslog service's HUP behavior before production use. Set a disk alert/threshold and define behavior when the filesystem fills; never allow an unbounded log directory. Monitor queue/disk state and rsyslog health. For higher assurance, configure disk-assisted queues/retry using the exact installed release's action-queue documentation.</p>
-<h2 id="9-tls-requirement-for-non-isolated-paths">9. TLS requirement for non-isolated paths<a class="headerlink" href="#9-tls-requirement-for-non-isolated-paths" title="Permanent link">&para;</a></h2>
+<h2 id="9-tls-requirement-for-non-isolated-paths">9. TLS requirement for non-isolated paths</h2>
 <p>Plain TCP/514 is only the restricted isolated-lab baseline above. If traffic crosses a shared, bridged, wireless, multi-host or otherwise untrusted network, use syslog over TLS:
 - Configure rsyslog GTLS support and the imtcp input with TLS mode.
 - Issue a server certificate with DNS SAN matching the name clients use.
@@ -2355,7 +2355,7 @@
 - Test trusted, untrusted, wrong-hostname and expired certificate cases.
 - Document renewal, revocation and private-key permissions.</p>
 <p>Use current rsyslog TLS documentation for exact parameter names; they are release-dependent. Do not claim TLS is active until a packet capture/connection test confirms a TLS handshake and rsyslog logs confirm the authenticated peer.</p>
-<h2 id="10-pre-siem-acceptance-gate">10. Pre-SIEM acceptance gate<a class="headerlink" href="#10-pre-siem-acceptance-gate" title="Permanent link">&para;</a></h2>
+<h2 id="10-pre-siem-acceptance-gate">10. Pre-SIEM acceptance gate</h2>
 <ul>
 <li>[ ] Static/reserved IP, DNS and NTP verified.</li>
 <li>[ ] Listener binds only to SERVER interface.</li>
@@ -2370,7 +2370,7 @@
 <li>[ ] TCP is isolated-only or TLS certificate validation is proven.</li>
 <li>[ ] No SIEM-specific agent installed at this stage.</li>
 </ul>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://www.rsyslog.com/doc/">rsyslog documentation</a></li>
 <li><a href="https://www.rsyslog.com/doc/configuration/modules/imtcp.html">rsyslog TCP input module</a></li>

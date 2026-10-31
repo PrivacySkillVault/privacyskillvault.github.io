@@ -2194,25 +2194,25 @@
 
 
 
-<h1 id="investigations">Investigations<a class="headerlink" href="#investigations" title="Permanent link">&para;</a></h1>
+<h1 id="investigations">Investigations</h1>
 <p>Defensive investigation methods and worked examples covering security alerts, endpoint activity, network evidence, and cyber-fraud signals.</p>
-<h2 id="evidence-standard">Evidence standard<a class="headerlink" href="#evidence-standard" title="Permanent link">&para;</a></h2>
+<h2 id="evidence-standard">Evidence standard</h2>
 <p>Every report must distinguish observed evidence from interpretation. Published material is classified as sanitised professional experience, lab investigation, simulated scenario, or research note. No customer records, internal banking details, production IP addresses, or employer-confidential information belong here.</p>
-<h2 id="operational-playbooks">Operational playbooks<a class="headerlink" href="#operational-playbooks" title="Permanent link">&para;</a></h2>
+<h2 id="operational-playbooks">Operational playbooks</h2>
 <ul>
 <li><a href="account-takeover-playbook/">Account Takeover (ATO) Investigation Playbook</a> — investigate identity, session, device, API, fraud-engine and transaction evidence.</li>
 <li><a href="payment-fraud-playbook/">Payment Fraud Investigation Playbook</a> — reconstruct payment lifecycles and interpret rail-specific evidence, including 3DS where applicable.</li>
 </ul>
-<h2 id="detailed-walkthrough">Detailed walkthrough<a class="headerlink" href="#detailed-walkthrough" title="Permanent link">&para;</a></h2>
+<h2 id="detailed-walkthrough">Detailed walkthrough</h2>
 <ul>
 <li><a href="scheduled-task-powershell/">Suspicious PowerShell from a Scheduled Task</a> — a synthetic evidence-led investigation with competing hypotheses, correlation steps, and an analyst checklist.</li>
 </ul>
-<h2 id="worked-example-suspicious-powershell-launched-by-a-scheduled-task">Worked example: suspicious PowerShell launched by a scheduled task<a class="headerlink" href="#worked-example-suspicious-powershell-launched-by-a-scheduled-task" title="Permanent link">&para;</a></h2>
+<h2 id="worked-example-suspicious-powershell-launched-by-a-scheduled-task">Worked example: suspicious PowerShell launched by a scheduled task</h2>
 <p><badge>SIMULATED TRAINING SCENARIO</badge></p>
 <p>Hostnames, timestamps, commands, and indicators in this example are synthetic. It does not describe a real customer, employer, or production incident.</p>
-<h3 id="initial-alert">Initial alert<a class="headerlink" href="#initial-alert" title="Permanent link">&para;</a></h3>
+<h3 id="initial-alert">Initial alert</h3>
 <p>A monitoring rule flags encoded PowerShell launched by a scheduled-task process outside an expected maintenance window.</p>
-<h3 id="investigation-questions">Investigation questions<a class="headerlink" href="#investigation-questions" title="Permanent link">&para;</a></h3>
+<h3 id="investigation-questions">Investigation questions</h3>
 <ol>
 <li>What process created PowerShell, and what was its full command line?</li>
 <li>Which account and integrity level were involved?</li>
@@ -2220,7 +2220,7 @@
 <li>Do script-block, process, DNS, proxy, and firewall records corroborate the activity?</li>
 <li>Is there evidence of payload retrieval, persistence, lateral movement, or impact?</li>
 </ol>
-<h3 id="evidence-to-correlate">Evidence to correlate<a class="headerlink" href="#evidence-to-correlate" title="Permanent link">&para;</a></h3>
+<h3 id="evidence-to-correlate">Evidence to correlate</h3>
 <ul>
 <li>Process creation telemetry, including parent process and command line</li>
 <li>PowerShell operational events where logging is enabled</li>
@@ -2229,9 +2229,9 @@
 <li>File creation, hash, signature, and reputation context</li>
 <li>Change records and owner confirmation</li>
 </ul>
-<h3 id="example-reasoning">Example reasoning<a class="headerlink" href="#example-reasoning" title="Permanent link">&para;</a></h3>
+<h3 id="example-reasoning">Example reasoning</h3>
 <p>An encoded command is a triage signal, not proof of malware. A scheduled task can be legitimate administration or unauthorised persistence. Validate the task definition, executable path, script contents, account, creation time, change history, and network destinations before assigning a verdict.</p>
-<h3 id="possible-outcomes">Possible outcomes<a class="headerlink" href="#possible-outcomes" title="Permanent link">&para;</a></h3>
+<h3 id="possible-outcomes">Possible outcomes</h3>
 <ul>
 <li><strong>Expected administration:</strong> document the owner and maintenance purpose; tune narrowly with evidence.</li>
 <li><strong>Policy violation:</strong> remediate the configuration even if malicious intent is not established.</li>

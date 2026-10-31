@@ -2182,10 +2182,10 @@
 
 
 
-<h1 id="lab-2-apple-silicon-macbook-host-and-hypervisor-setup">Lab 2 — Apple-silicon MacBook host and hypervisor setup<a class="headerlink" href="#lab-2-apple-silicon-macbook-host-and-hypervisor-setup" title="Permanent link">&para;</a></h1>
+<h1 id="lab-2-apple-silicon-macbook-host-and-hypervisor-setup">Lab 2 — Apple-silicon MacBook host and hypervisor setup</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This guide is for M-series Apple-silicon Macs. VMware Fusion on Apple Silicon runs 64-bit ARM guests only; x86-64 operating-system images do not run as Fusion guests. UEFI firmware is required. Use the Broadcom Compatibility Guide to confirm support for the exact guest OS release.</p>
-<h2 id="1-preflight">1. Preflight<a class="headerlink" href="#1-preflight" title="Permanent link">&para;</a></h2>
+<h2 id="1-preflight">1. Preflight</h2>
 <p>Open Terminal:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uname<span class="w"> </span>-m
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>system_profiler<span class="w"> </span>SPHardwareDataType
@@ -2200,7 +2200,7 @@
 <li>Do not disable macOS security protections simply to make a VM install.</li>
 <li>Create <code>~/CyberLab/{ISO,VMs,Evidence,Exports}</code> or an equivalent external SSD directory.</li>
 </ol>
-<h2 id="2-install-vmware-fusion">2. Install VMware Fusion<a class="headerlink" href="#2-install-vmware-fusion" title="Permanent link">&para;</a></h2>
+<h2 id="2-install-vmware-fusion">2. Install VMware Fusion</h2>
 <ol>
 <li>Download VMware Fusion from Broadcom's official desktop hypervisor portal.</li>
 <li>Confirm the package supports the installed macOS version and Apple-silicon host.</li>
@@ -2209,7 +2209,7 @@
 <li>Create a small ARM Linux VM as a smoke test.</li>
 <li>For ARM guests, use UEFI firmware, virtual NVMe storage and vmxnet3 networking where the guest/hypervisor wizard offers those settings.</li>
 </ol>
-<h2 id="3-install-kali-arm64">3. Install Kali ARM64<a class="headerlink" href="#3-install-kali-arm64" title="Permanent link">&para;</a></h2>
+<h2 id="3-install-kali-arm64">3. Install Kali ARM64</h2>
 <ol>
 <li>Download the official Kali Apple Silicon/ARM64 installer or VMware image.</li>
 <li>Verify SHA-256 against the checksum published alongside the image:</li>
@@ -2229,7 +2229,7 @@
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>ip<span class="w"> </span>route
 </span></code></pre></div>
 <p>Expected architecture: <code>aarch64</code> or <code>arm64</code>, depending on the command.</p>
-<h2 id="4-install-ubuntu-server-arm64">4. Install Ubuntu Server ARM64<a class="headerlink" href="#4-install-ubuntu-server-arm64" title="Permanent link">&para;</a></h2>
+<h2 id="4-install-ubuntu-server-arm64">4. Install Ubuntu Server ARM64</h2>
 <ol>
 <li>Download Ubuntu Server ARM64 media from Ubuntu's official page.</li>
 <li>Verify its published checksum.</li>
@@ -2242,7 +2242,7 @@
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>lsb_release<span class="w"> </span>-a
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
 </span></code></pre></div>
-<h2 id="5-windows-11-arm-guest">5. Windows 11 ARM guest<a class="headerlink" href="#5-windows-11-arm-guest" title="Permanent link">&para;</a></h2>
+<h2 id="5-windows-11-arm-guest">5. Windows 11 ARM guest</h2>
 <ol>
 <li>Download Windows 11 ARM media from Microsoft's official page.</li>
 <li>Create a Windows 11 ARM VM using Fusion's supported wizard.</li>
@@ -2251,10 +2251,10 @@
 <li>Install Windows, activate using a valid licence, update, and confirm System type reports an ARM-based processor.</li>
 </ol>
 <p><strong>Important limitations:</strong> VMware documents limited VMware Tools functionality for Windows ARM guests. Nested-virtualisation-dependent features including VBS, WSL2, Windows Sandbox and Windows Defender Application Guard do not function in this configuration. Do not plan to run Docker Desktop with its WSL2 backend inside this guest. Use a separate Ubuntu ARM VM for Docker-based vulnerable applications. Check endpoint-agent and EDR vendor support for Windows ARM before using this guest to represent a managed enterprise endpoint.</p>
-<h2 id="6-configure-virtual-networking">6. Configure virtual networking<a class="headerlink" href="#6-configure-virtual-networking" title="Permanent link">&para;</a></h2>
+<h2 id="6-configure-virtual-networking">6. Configure virtual networking</h2>
 <p>Identify Fusion's shared/NAT and host-only networks. Use NAT only for temporary OS updates and host-only/private networking for lab traffic. Do not connect Kali or intentionally vulnerable targets to bridged networking.</p>
 <p>Fusion host-only networks and Windows Hyper-V private switches are local to each host. They are not automatically Layer-2 connected. Cross-host connectivity needs a deliberate lab firewall/router or separate isolated labs forwarding telemetry over a controlled management network.</p>
-<h2 id="7-create-the-isolated-fusion-networks">7. Create the isolated Fusion networks<a class="headerlink" href="#7-create-the-isolated-fusion-networks" title="Permanent link">&para;</a></h2>
+<h2 id="7-create-the-isolated-fusion-networks">7. Create the isolated Fusion networks</h2>
 <p>Fusion provides NAT and Host-only networking by default. Fusion Pro also supports custom virtual networks through its Network preferences, but do not assume an arbitrary number of networks exists before creating and inspecting them.</p>
 <ol>
 <li>Shut down VMs before changing network layout.</li>
@@ -2266,7 +2266,7 @@
 <li>If the installed Fusion version cannot provide enough independent networks, stop and use a dedicated physical firewall/managed-switch design or reduce the lab to a clearly documented smaller topology. Do not claim segmentation when all guests share one host-only network.</li>
 </ol>
 <p>Attach the ARM64 router VM to WAN plus each independent internal network. Map adapters to roles by MAC address and verify with <code>ip -br link</code> before applying Netplan. Keep Kali and vulnerable targets off Bridged networking.</p>
-<h2 id="8-snapshot-and-verify">8. Snapshot and verify<a class="headerlink" href="#8-snapshot-and-verify" title="Permanent link">&para;</a></h2>
+<h2 id="8-snapshot-and-verify">8. Snapshot and verify</h2>
 <ol>
 <li>Shut down each VM cleanly.</li>
 <li>Create a baseline snapshot.</li>
@@ -2275,7 +2275,7 @@
 <li>Verify Kali/target cannot reach the home LAN.</li>
 <li>Record Fusion version, macOS build, ISO checksum, VM settings and network plan.</li>
 </ol>
-<h2 id="9-references">9. References<a class="headerlink" href="#9-references" title="Permanent link">&para;</a></h2>
+<h2 id="9-references">9. References</h2>
 <ul>
 <li><a href="https://knowledge.broadcom.com/external/article/315602">Broadcom: Arm guest OS compatibility in Fusion on Apple Silicon</a></li>
 <li><a href="https://knowledge.broadcom.com/external/article/303393">Broadcom: Understanding networking types in VMware Fusion</a></li>

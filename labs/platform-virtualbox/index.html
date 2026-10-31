@@ -2304,10 +2304,10 @@
 
 
 
-<h1 id="lab-1b-oracle-virtualbox-on-a-windows-x64-host">Lab 1B — Oracle VirtualBox on a Windows x64 host<a class="headerlink" href="#lab-1b-oracle-virtualbox-on-a-windows-x64-host" title="Permanent link">&para;</a></h1>
+<h1 id="lab-1b-oracle-virtualbox-on-a-windows-x64-host">Lab 1B — Oracle VirtualBox on a Windows x64 host</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This is an alternative Windows x64 hypervisor path. Use it instead of Hyper-V or VMware Workstation for the first build, not in addition to them. VirtualBox on an x86-64 Windows host can run supported x86/x64 guests. On Apple-silicon hosts, VirtualBox runs ARM64 guests only; it cannot run OPNsense or Security Onion x86-64 guests there.</p>
-<h2 id="1-confirm-host-readiness">1. Confirm host readiness<a class="headerlink" href="#1-confirm-host-readiness" title="Permanent link">&para;</a></h2>
+<h2 id="1-confirm-host-readiness">1. Confirm host readiness</h2>
 <ol>
 <li>Confirm Windows is 64-bit x64 and record its edition/build with <code>winver</code>.</li>
 <li>Confirm CPU virtualisation is enabled in UEFI/BIOS (Intel VT-x or AMD-V).</li>
@@ -2323,7 +2323,7 @@
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">systeminfo</span><span class="p">.</span><span class="n">exe</span>
 </span></code></pre></div>
 <p>If Windows reports that a hypervisor is present, do not disable Hyper-V, VBS, Memory Integrity or WSL2 automatically. Current VirtualBox releases can use Windows hypervisor interfaces on supported Windows hosts, although this can affect performance and feature availability. First install the current supported VirtualBox release and inspect its VM log if acceleration is unavailable. Change Windows security features only after understanding the security and operational impact.</p>
-<h2 id="2-download-and-install-virtualbox">2. Download and install VirtualBox<a class="headerlink" href="#2-download-and-install-virtualbox" title="Permanent link">&para;</a></h2>
+<h2 id="2-download-and-install-virtualbox">2. Download and install VirtualBox</h2>
 <ol>
 <li>Open the <a href="https://www.virtualbox.org/wiki/Downloads">official Oracle VirtualBox downloads page</a>.</li>
 <li>Select the current Windows hosts package. Do not download installers from third-party mirrors.</li>
@@ -2338,7 +2338,7 @@
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&amp;</span> <span class="s2">"$env:ProgramFiles\Oracle\VirtualBox\VBoxManage.exe"</span> <span class="p">-</span><span class="n">-version</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">&amp;</span> <span class="s2">"$env:ProgramFiles\Oracle\VirtualBox\VBoxManage.exe"</span> <span class="n">list</span> <span class="n">hostinfo</span>
 </span></code></pre></div>
-<h2 id="3-create-a-dedicated-vm-folder">3. Create a dedicated VM folder<a class="headerlink" href="#3-create-a-dedicated-vm-folder" title="Permanent link">&para;</a></h2>
+<h2 id="3-create-a-dedicated-vm-folder">3. Create a dedicated VM folder</h2>
 <p>Create the following folders on an SSD volume with sufficient free space:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>D:\CyberLab\
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ISO\
@@ -2348,9 +2348,9 @@
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  Backups\
 </span></code></pre></div>
 <p>In VirtualBox Manager, open File → Preferences → General and set the Default Machine Folder to <code>D:\CyberLab\VMs</code>. Keep ISO files, exports and evidence outside the VM disk folder. Snapshots are not backups; export or back up important guest data separately.</p>
-<h2 id="4-create-the-virtual-networks-before-creating-vms">4. Create the virtual networks before creating VMs<a class="headerlink" href="#4-create-the-virtual-networks-before-creating-vms" title="Permanent link">&para;</a></h2>
+<h2 id="4-create-the-virtual-networks-before-creating-vms">4. Create the virtual networks before creating VMs</h2>
 <p>Open Tools → Network (or File → Tools → Network Manager; labels vary slightly by release).</p>
-<h3 id="41-create-the-management-host-only-network">4.1 Create the management host-only network<a class="headerlink" href="#41-create-the-management-host-only-network" title="Permanent link">&para;</a></h3>
+<h3 id="41-create-the-management-host-only-network">4.1 Create the management host-only network</h3>
 <ol>
 <li>Open the Host-only Networks tab and create a host-only network.</li>
 <li>Select its Adapter properties.</li>
@@ -2360,7 +2360,7 @@
 <li>Record the actual network name shown by VirtualBox; use that exact name when attaching VM adapters.</li>
 </ol>
 <p>The OPNsense MGMT interface will be <code>10.10.10.1/24</code>. The host-side address <code>10.10.10.2/24</code> lets the Windows host open the OPNsense management page without bridging the lab to the physical LAN.</p>
-<h3 id="42-use-named-internal-networks-for-isolated-segments">4.2 Use named Internal Networks for isolated segments<a class="headerlink" href="#42-use-named-internal-networks-for-isolated-segments" title="Permanent link">&para;</a></h3>
+<h3 id="42-use-named-internal-networks-for-isolated-segments">4.2 Use named Internal Networks for isolated segments</h3>
 <p>Create these network names by selecting Internal Network in each VM's adapter settings. VirtualBox creates the internal switch when the first VM uses the name.</p>
 <table>
 <thead>
@@ -2394,7 +2394,7 @@
 </tbody>
 </table>
 <p>Do not attach Kali or vulnerable targets to Bridged Adapter. Do not use VirtualBox's per-VM NAT mode as a substitute for the routed lab firewall: separate NAT-attached VMs are not automatically on one shared LAN.</p>
-<h3 id="43-understand-the-network-modes">4.3 Understand the network modes<a class="headerlink" href="#43-understand-the-network-modes" title="Permanent link">&para;</a></h3>
+<h3 id="43-understand-the-network-modes">4.3 Understand the network modes</h3>
 <ul>
 <li><strong>NAT:</strong> a guest can make outbound connections through VirtualBox. By default, separate VMs using ordinary NAT are isolated from each other. Use only as the OPNsense WAN uplink or for a temporary single-VM update path.</li>
 <li><strong>Host-only:</strong> the host and attached VMs can communicate, but the network is not connected to the physical LAN. Use for MGMT.</li>
@@ -2402,7 +2402,7 @@
 <li><strong>Bridged Adapter:</strong> connects the guest to the physical network. Do not use for the attacker or intentionally vulnerable target VMs.</li>
 </ul>
 <p>A virtual network is not itself a firewall. OPNsense must route between segments and enforce the inter-segment policy.</p>
-<h2 id="5-build-the-opnsense-firewall-vm">5. Build the OPNsense firewall VM<a class="headerlink" href="#5-build-the-opnsense-firewall-vm" title="Permanent link">&para;</a></h2>
+<h2 id="5-build-the-opnsense-firewall-vm">5. Build the OPNsense firewall VM</h2>
 <p>Use the Windows x64 PC for OPNsense. The OPNsense VM must use an x86-64 guest image. Follow <a href="../firewall-routing/">OPNsense Firewall &amp; Routing</a> for installation and firewall policy; this section defines the VirtualBox adapter mapping.</p>
 <p>Create a VM named <code>PSV-FW01</code>:</p>
 <ul>
@@ -2463,7 +2463,7 @@
 <p>For each enabled adapter, use an Intel PRO/1000-family adapter unless the current OPNsense/VirtualBox documentation for the selected release recommends another supported type. Keep cable connected enabled. Record each virtual NIC MAC address from Advanced settings before boot.</p>
 <p><strong>Important:</strong> VirtualBox adapter number does not guarantee the guest's interface name or assignment order. At the OPNsense console, identify interfaces by MAC address and link state. Assign WAN/MGMT/ENDPOINT/SERVER/REDTEAM/DMZ only after matching the MAC addresses. Never guess based only on names such as <code>em0</code> or <code>em1</code>.</p>
 <p>After installation, configure the OPNsense interface addresses and policies using the main firewall guide. On MGMT, the firewall address is <code>10.10.10.1/24</code>; browse from the Windows host to <code>https://10.10.10.1</code> after the host-only adapter and firewall interface are up.</p>
-<h2 id="6-create-the-first-guest-vm">6. Create the first guest VM<a class="headerlink" href="#6-create-the-first-guest-vm" title="Permanent link">&para;</a></h2>
+<h2 id="6-create-the-first-guest-vm">6. Create the first guest VM</h2>
 <p>Create an Ubuntu Server x86-64 VM as a smoke test:</p>
 <ul>
 <li>Name: <code>PSV-UBU-TEST01</code></li>
@@ -2481,7 +2481,7 @@
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </span></code></pre></div>
 <p>Expected architecture is <code>x86_64</code>. The guest should receive an address in the configured ENDPOINT DHCP range, gateway <code>10.10.20.1</code>, and the configured DNS resolver. If it does not, check the adapter's exact internal-network name, OPNsense interface assignment, DHCP service and firewall logs.</p>
-<h2 id="7-snapshot-clone-and-baseline-procedure">7. Snapshot, clone and baseline procedure<a class="headerlink" href="#7-snapshot-clone-and-baseline-procedure" title="Permanent link">&para;</a></h2>
+<h2 id="7-snapshot-clone-and-baseline-procedure">7. Snapshot, clone and baseline procedure</h2>
 <ol>
 <li>Apply guest OS updates and install only baseline utilities.</li>
 <li>Verify the guest has the intended network adapter and no bridged/NAT adapter that bypasses OPNsense.</li>
@@ -2491,7 +2491,7 @@
 <li>For Windows domain members, use supported Sysprep/generalisation or the Windows deployment workflow before cloning. Do not clone an already domain-joined machine with duplicated identity/SID/hostname state.</li>
 <li>Treat snapshots as rollback points, not backups of the SIEM data or domain controller.</li>
 </ol>
-<h2 id="8-packet-capture-boundaries">8. Packet capture boundaries<a class="headerlink" href="#8-packet-capture-boundaries" title="Permanent link">&para;</a></h2>
+<h2 id="8-packet-capture-boundaries">8. Packet capture boundaries</h2>
 <p>VirtualBox promiscuous-mode settings are not equivalent to a physical switch SPAN port. <code>Allow VMs</code> can expose traffic to/from other VMs on the same virtual network to a monitoring VM, subject to the selected adapter mode and host implementation. It does not automatically mirror all routed traffic across every VirtualBox internal network.</p>
 <p>For the first home lab, use one of these explicit approaches:</p>
 <ul>
@@ -2500,7 +2500,7 @@
 <li>Build a separately designed mirror/tap path and prove that it receives the intended packets before claiming full network visibility.</li>
 </ul>
 <p>Do not claim Zeek, Suricata or Security Onion sees all lab traffic merely because its VM adapter is set to Promiscuous Mode. Confirm packet direction, interfaces, packet counters and a known test flow.</p>
-<h2 id="9-virtualbox-troubleshooting">9. VirtualBox troubleshooting<a class="headerlink" href="#9-virtualbox-troubleshooting" title="Permanent link">&para;</a></h2>
+<h2 id="9-virtualbox-troubleshooting">9. VirtualBox troubleshooting</h2>
 <table>
 <thead>
 <tr>
@@ -2539,7 +2539,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="10-validation-checklist">10. Validation checklist<a class="headerlink" href="#10-validation-checklist" title="Permanent link">&para;</a></h2>
+<h2 id="10-validation-checklist">10. Validation checklist</h2>
 <ul>
 <li>[ ] VirtualBox version and Windows host build recorded.</li>
 <li>[ ] Installer signature checked; Extension Pack omitted unless needed and version-matched if installed.</li>
@@ -2552,7 +2552,7 @@
 <li>[ ] Inter-segment allow/deny tests are recorded.</li>
 <li>[ ] Snapshot restore and cleanup have been tested.</li>
 </ul>
-<h2 id="official-references">Official references<a class="headerlink" href="#official-references" title="Permanent link">&para;</a></h2>
+<h2 id="official-references">Official references</h2>
 <ul>
 <li><a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox downloads</a></li>
 <li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html">Oracle VirtualBox 7.2 User Manual — networking</a></li>

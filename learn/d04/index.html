@@ -2260,9 +2260,9 @@
 
 
 
-<h1 id="d04-security-operations-investigations">D04 — Security Operations &amp; Investigations<a class="headerlink" href="#d04-security-operations-investigations" title="Permanent link">&para;</a></h1>
+<h1 id="d04-security-operations-investigations">D04 — Security Operations &amp; Investigations</h1>
 <p>Develop an evidence-led approach to suspicious activity across endpoint, network, identity, application, transaction, and fraud-monitoring systems.</p>
-<h2 id="authoritative-foundations">Authoritative foundations<a class="headerlink" href="#authoritative-foundations" title="Permanent link">&para;</a></h2>
+<h2 id="authoritative-foundations">Authoritative foundations</h2>
 <ul>
 <li><a href="../../standards/#nist-sp-800-61-revision-3-incident-response">NIST SP 800-61 Rev. 3</a> — current NIST incident-response guidance, finalised April 2025; it supersedes Rev. 2.</li>
 <li><a href="../../standards/#nist-cybersecurity-framework-csf-20">NIST CSF 2.0</a> — relevant outcomes include Detect, Respond, and Recover.</li>
@@ -2271,14 +2271,14 @@
 <li><a href="../../standards/#emv-3-d-secure-3ds">EMVCo 3-D Secure</a> — authoritative 3DS protocol specifications and version bulletins.</li>
 <li><a href="../../standards/#mitre-attck">MITRE ATT&amp;CK</a> — a knowledge base for describing observed adversary behaviour, not a verdict or attribution engine.</li>
 </ul>
-<h2 id="1-separate-security-incidents-from-fraud-cases">1. Separate security incidents from fraud cases<a class="headerlink" href="#1-separate-security-incidents-from-fraud-cases" title="Permanent link">&para;</a></h2>
+<h2 id="1-separate-security-incidents-from-fraud-cases">1. Separate security incidents from fraud cases</h2>
 <p>Security incident response and counter-fraud investigation can overlap, but they are not interchangeable.</p>
 <p>A single event may require parallel workstreams:
 - Cybersecurity incident handling for compromised endpoints, accounts, infrastructure, malware, or unauthorised access.
 - Counter-fraud case handling for suspicious customer or employee activity, unauthorised transactions, social engineering, account takeover, or attempted loss.
 - Payment operations, customer support, legal, compliance, and other stakeholder involvement according to the organisation's approved process.</p>
 <p>Record the case owner, incident owner, hand-offs, and decision authority. Do not assume that one team can perform every containment, payment, customer-contact, or regulatory action.</p>
-<h2 id="2-triage-and-prioritisation">2. Triage and prioritisation<a class="headerlink" href="#2-triage-and-prioritisation" title="Permanent link">&para;</a></h2>
+<h2 id="2-triage-and-prioritisation">2. Triage and prioritisation</h2>
 <p>NIST CSF 2.0 identifies incident triage and validation, categorisation and prioritisation, escalation, and recovery initiation as incident-management outcomes. Apply the organisation's approved severity and escalation model.</p>
 <p>At minimum, capture:</p>
 <ul>
@@ -2291,7 +2291,7 @@
 <li>Required escalation, decision owner, and next review time</li>
 </ul>
 <p>Do not infer severity solely from a keyword, transaction value, CVSS score, ATT&amp;CK technique, or a single fraud signal. Use the approved organisational model and documented impact assessment.</p>
-<h2 id="3-investigation-evidence-and-provenance">3. Investigation evidence and provenance<a class="headerlink" href="#3-investigation-evidence-and-provenance" title="Permanent link">&para;</a></h2>
+<h2 id="3-investigation-evidence-and-provenance">3. Investigation evidence and provenance</h2>
 <p>Preserve original records and record how evidence was obtained. For every important artefact, capture:</p>
 <ul>
 <li>Source system, source record identifier, and collection method</li>
@@ -2304,7 +2304,7 @@
 <li>Known gaps, clock skew, parsing errors, and source limitations</li>
 </ul>
 <p>Do not overwrite original evidence with enriched values. Keep enrichment and analyst interpretation as separate fields or records.</p>
-<h2 id="4-account-takeover-and-transaction-investigation">4. Account takeover and transaction investigation<a class="headerlink" href="#4-account-takeover-and-transaction-investigation" title="Permanent link">&para;</a></h2>
+<h2 id="4-account-takeover-and-transaction-investigation">4. Account takeover and transaction investigation</h2>
 <p>The following is a collection and correlation checklist, not a claim that any single signal proves account takeover.</p>
 <table>
 <thead>
@@ -2352,11 +2352,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="device-identifiers-are-not-identity-proof">Device identifiers are not identity proof<a class="headerlink" href="#device-identifiers-are-not-identity-proof" title="Permanent link">&para;</a></h3>
+<h3 id="device-identifiers-are-not-identity-proof">Device identifiers are not identity proof</h3>
 <p>A device ID, cookie, app-generated identifier, or fingerprint can be copied, replayed, reset, or appear differently across application versions and collection layers. Treat it as one signal. Correlate it with server-side session records, authentication events, device attestation signals where implemented, application telemetry, and transaction evidence.</p>
-<h3 id="3-d-secure-is-not-a-standalone-fraud-verdict">3-D Secure is not a standalone fraud verdict<a class="headerlink" href="#3-d-secure-is-not-a-standalone-fraud-verdict" title="Permanent link">&para;</a></h3>
+<h3 id="3-d-secure-is-not-a-standalone-fraud-verdict">3-D Secure is not a standalone fraud verdict</h3>
 <p>3-D Secure data should be interpreted using the relevant EMV 3-D Secure specification and the payment provider's documented field semantics. Record the actual message fields and result codes received. Do not invent an authentication outcome from a generic “3DS passed” label.</p>
-<h2 id="5-sama-counter-fraud-framework-banking-sector-operational-references">5. SAMA Counter-Fraud Framework: banking-sector operational references<a class="headerlink" href="#5-sama-counter-fraud-framework-banking-sector-operational-references" title="Permanent link">&para;</a></h2>
+<h2 id="5-sama-counter-fraud-framework-banking-sector-operational-references">5. SAMA Counter-Fraud Framework: banking-sector operational references</h2>
 <p>The SAMA 2022 Banking Sector Counter-Fraud Framework has four domains: Governance, Prevent, Detect, and Respond. Its Rulebook includes 3.3 (policy and procedures), 4.1 (risk management), 5.1 (fraud detection standards), 5.2 (fraud detection systems), 6.2 (alert and case management), and 6.3 (fraud investigation). In particular, 5.2 addresses data quality, behavioural baselining, rules, risk scoring, feedback loops, calibration, and system metrics. The framework states a minimum maturity level of 3 for Member Organisations, while applicability is subject to SAMA's notification and discretion. Confirm the legal entity's status and applicable obligations with Compliance.</p>
 <p>A separate SAMA Counter-Fraud Fundamental Requirements framework became effective on 13 April 2026 for Finance Sector — Payment Systems and Payment Services Providers. Its section 4.1 contains specific elevated-risk controls, including real-time detection, 24/7 operation of fraud detection systems, timely protective actions, and stronger authentication requirements. Do not transfer those control IDs to the 2022 Banking Sector framework or assume the PSP scope applies to every bank.</p>
 <p>For card-not-present transactions, interpret actual EMV 3DS message fields and result codes using the applicable EMVCo version and bulletin set, plus the implementation documentation of the issuer/acquirer/provider. A generic 3DS success label is not proof of legitimate customer initiation.</p>
@@ -2365,7 +2365,7 @@
 - <a href="https://rulebook.sama.gov.sa/en/counter-fraud-fundamental-requirements">SAMA 2025 Counter-Fraud Fundamental Requirements</a>
 - <a href="https://rulebook.sama.gov.sa/en/41-counter-fraud-solutions-and-controls-elevated-risk">SAMA 2025 elevated-risk controls, section 4.1</a>
 - <a href="https://www.emvco.com/emv-technologies/3-d-secure/">EMVCo 3-D Secure</a></p>
-<h2 id="6-containment-and-response-decisions">6. Containment and response decisions<a class="headerlink" href="#6-containment-and-response-decisions" title="Permanent link">&para;</a></h2>
+<h2 id="6-containment-and-response-decisions">6. Containment and response decisions</h2>
 <p>Containment may include account protection, transaction blocking, session revocation, credential reset, device restrictions, endpoint isolation, or service-level controls. These actions can affect customers and business operations.</p>
 <p>Before acting, confirm:
 - The authority and approval path for the action
@@ -2375,7 +2375,7 @@
 - Whether evidence must be preserved first
 - How the action will be recorded, reviewed, and reversed if incorrect</p>
 <p>Use approved playbooks and escalation paths. This page does not authorise operational actions or define an organisation's response SLA.</p>
-<h2 id="7-investigation-conclusion-format">7. Investigation conclusion format<a class="headerlink" href="#7-investigation-conclusion-format" title="Permanent link">&para;</a></h2>
+<h2 id="7-investigation-conclusion-format">7. Investigation conclusion format</h2>
 <p>A defensible report separates:</p>
 <ol>
 <li><strong>Observed facts:</strong> directly supported by original records.</li>
@@ -2389,14 +2389,14 @@
 <li><strong>Follow-up:</strong> control improvement, monitoring, customer communication, recovery, and lessons learned.</li>
 </ol>
 <p>Avoid absolute conclusions when the evidence is incomplete. “Not observed in available logs” is not the same as “did not occur.”</p>
-<h2 id="applied-operational-playbooks">Applied operational playbooks<a class="headerlink" href="#applied-operational-playbooks" title="Permanent link">&para;</a></h2>
+<h2 id="applied-operational-playbooks">Applied operational playbooks</h2>
 <ul>
 <li><a href="../../investigations/account-takeover-playbook/">Account Takeover (ATO) Investigation Playbook</a> — evidence preservation, cross-system correlation, missing-session log investigation, device-ID cloning/replay hypotheses, and decision records.</li>
 <li><a href="../../investigations/payment-fraud-playbook/">Payment Fraud Investigation Playbook</a> — payment lifecycle, card/3DS evidence, SADAD-style payment flow, fraud-control evaluation, and reconciliation.</li>
 <li><a href="../../operational-templates/fraud-case-record/">Fraud Investigation Case Record</a> — blank case evidence template.</li>
 </ul>
 <p>These are operational reference checklists, not substitutes for the institution's approved procedures, authority matrix, scheme rules, or regulatory advice.</p>
-<h2 id="applied-walkthrough">Applied walkthrough<a class="headerlink" href="#applied-walkthrough" title="Permanent link">&para;</a></h2>
+<h2 id="applied-walkthrough">Applied walkthrough</h2>
 <p>Use the <a href="../../investigations/scheduled-task-powershell/">Suspicious PowerShell from a Scheduled Task investigation</a> to practise timeline reconstruction and competing-hypothesis analysis. It is a synthetic scenario.</p>
 <p><strong>Last reviewed:</strong> 31 October 2026. Confirm current standards, regulatory scope, and internal procedures before operational use.</p>
 

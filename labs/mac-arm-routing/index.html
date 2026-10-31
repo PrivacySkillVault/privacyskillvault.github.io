@@ -2204,11 +2204,11 @@
 
 
 
-<h1 id="mac-arm64-lab-linux-router-and-firewall">Mac ARM64 lab — Linux router and firewall<a class="headerlink" href="#mac-arm64-lab-linux-router-and-firewall" title="Permanent link">&para;</a></h1>
+<h1 id="mac-arm64-lab-linux-router-and-firewall">Mac ARM64 lab — Linux router and firewall</h1>
 <p><badge color="warning">Mac-only alternative — not OPNsense, not yet hardware-tested</badge></p>
 <p>Apple-silicon Macs cannot run OPNsense as an ARM64 guest because OPNsense supports x86-64. This guide uses Ubuntu Server ARM64 with nftables for a segmented Mac-only lab. It is not a feature-equivalent OPNsense replacement. If OPNsense is mandatory, use a separate x86-64 physical appliance or the Windows x64 OPNsense VM.</p>
 <p>For exact MAC-matched Netplan, IPv4/IPv6 forwarding policy, nftables rules, dnsmasq scopes, local logging, rsyslog forwarding and recovery steps, follow the <a href="../mac-arm-router-implementation/">Apple Silicon ARM64 Router Implementation Runbook</a>. This overview defines the architecture; the implementation runbook is the executable reference.</p>
-<h2 id="1-preconditions">1. Preconditions<a class="headerlink" href="#1-preconditions" title="Permanent link">&para;</a></h2>
+<h2 id="1-preconditions">1. Preconditions</h2>
 <ul>
 <li>Apple-silicon Mac and VMware Fusion.</li>
 <li>Fusion release that exposes enough independent custom/private host networks.</li>
@@ -2216,7 +2216,7 @@
 <li>No REDTEAM or DMZ guest connected to Bridged networking.</li>
 </ul>
 <p>If the installed Fusion release cannot create independent networks for the segments below, stop. Do not pretend one host-only network provides segmentation.</p>
-<h2 id="2-create-fusion-networks">2. Create Fusion networks<a class="headerlink" href="#2-create-fusion-networks" title="Permanent link">&para;</a></h2>
+<h2 id="2-create-fusion-networks">2. Create Fusion networks</h2>
 <p>Open Fusion network preferences and inspect available networks. Keep the default NAT network for router WAN only. Create independent private/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Disable Fusion DHCP on internal networks if the Linux router will provide DHCP; otherwise use static addressing consistently and do not enable a second DHCP server.</p>
 <table>
 <thead>
@@ -2255,7 +2255,7 @@
 </tbody>
 </table>
 <p>Record the actual Fusion network names and verify subnets before configuring guests. If Fusion assigns different ranges, change the plan consistently.</p>
-<h2 id="3-create-the-ubuntu-arm64-router-vm">3. Create the Ubuntu ARM64 router VM<a class="headerlink" href="#3-create-the-ubuntu-arm64-router-vm" title="Permanent link">&para;</a></h2>
+<h2 id="3-create-the-ubuntu-arm64-router-vm">3. Create the Ubuntu ARM64 router VM</h2>
 <ol>
 <li>Download Ubuntu Server ARM64 and verify its published checksum.</li>
 <li>Create PSV-MAC-RTR01 with 2–4 vCPU, 4 GB RAM and 30 GB disk.</li>
@@ -2271,7 +2271,7 @@ ip route</p>
 </ol>
 <p>Expected architecture is aarch64. Record every NIC MAC and map it to its Fusion network before configuration. Do not guess interface names.</p>
 <p>For the full MAC-matched Netplan YAML, persistent IPv4 forwarding, explicit IPv6 policy, nftables baseline, DHCP/DNS decision, logging and rollback procedure, use the <a href="../mac-arm-router-implementation/">Mac ARM Router Implementation Runbook</a>.</p>
-<h2 id="4-configure-interface-addressing">4. Configure interface addressing<a class="headerlink" href="#4-configure-interface-addressing" title="Permanent link">&para;</a></h2>
+<h2 id="4-configure-interface-addressing">4. Configure interface addressing</h2>
 <p>Use Netplan MAC matching so Linux interface enumeration changes do not silently swap network roles. Configure:
 - WAN: DHCP from Fusion NAT; this is the only interface with a default route.
 - MGMT: 10.10.10.1/24.
@@ -2280,7 +2280,7 @@ ip route</p>
 - REDTEAM: 10.10.40.1/24.
 - DMZ: 10.10.60.1/24.</p>
 <p>Use the actual MAC values in Netplan. Do not set default gateways on internal interfaces. Validate Netplan before applying; keep the Fusion console open in case remote access is lost.</p>
-<h2 id="5-enable-routing-and-firewall">5. Enable routing and firewall<a class="headerlink" href="#5-enable-routing-and-firewall" title="Permanent link">&para;</a></h2>
+<h2 id="5-enable-routing-and-firewall">5. Enable routing and firewall</h2>
 <p>Install the Ubuntu-supported nftables package. Enable IPv4 forwarding using a persistent sysctl setting and verify it is active. Keep IPv6 forwarding disabled unless you have designed and tested an equivalent IPv6 policy; an IPv4-only ruleset must not leave an IPv6 bypass.</p>
 <p>Create a persistent nftables ruleset with:
 - Default-drop input and forward chains.
@@ -2291,9 +2291,9 @@ ip route</p>
 - DMZ-to-MGMT/SERVER/ENDPOINT/home LAN denied.
 - Source NAT only for the selected internal subnets allowed temporary update egress.</p>
 <p>Build and validate rules from the Fusion console. Use nftables syntax-check mode before applying a file. Keep a known-good snapshot and do not paste an unreviewed generic firewall script into a live host.</p>
-<h2 id="6-dhcp-and-dns">6. DHCP and DNS<a class="headerlink" href="#6-dhcp-and-dns" title="Permanent link">&para;</a></h2>
+<h2 id="6-dhcp-and-dns">6. DHCP and DNS</h2>
 <p>Start with static addresses to prove routing and firewall policy. Once stable, add one DHCP service (for example, dnsmasq) on the router and one non-overlapping scope per client segment. Disable Fusion DHCP on those segments. For an AD domain, domain clients must use the domain controller for DNS; configure forwarding/resolution deliberately.</p>
-<h2 id="7-validate-isolation">7. Validate isolation<a class="headerlink" href="#7-validate-isolation" title="Permanent link">&para;</a></h2>
+<h2 id="7-validate-isolation">7. Validate isolation</h2>
 <p>From each guest:</p>
 <div class="language-text highlight"><pre><span></span><code>ip -br address
 ip route
@@ -2306,11 +2306,11 @@ ip neigh
 - DMZ cannot initiate to MGMT, SERVER, ENDPOINT or home LAN.
 - No guest has a second NAT or Bridged NIC bypassing the router.</p>
 <p>Check nftables counters/logs for allowed and denied flows. Ping failure is not sufficient evidence.</p>
-<h2 id="8-firewall-logging">8. Firewall logging<a class="headerlink" href="#8-firewall-logging" title="Permanent link">&para;</a></h2>
+<h2 id="8-firewall-logging">8. Firewall logging</h2>
 <p>Add nftables log statements to selected deny rules with a unique prefix. Verify the messages appear locally in journald. Configure rsyslog to write those messages to a dedicated file, then follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>. Do not assume nftables automatically exports logs remotely.</p>
-<h2 id="9-limitations">9. Limitations<a class="headerlink" href="#9-limitations" title="Permanent link">&para;</a></h2>
+<h2 id="9-limitations">9. Limitations</h2>
 <p>This Linux router does not provide OPNsense's GUI, DHCP/DNS integration, Suricata plugin or configuration backup interface. Install ARM64 Zeek/Suricata separately only after verifying package support and packet visibility. Do not claim full network visibility without a proven mirror/tap or inline path.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://ubuntu.com/server/docs">Ubuntu Server documentation</a></li>
 <li><a href="https://wiki.nftables.org/wiki-nftables/index.php/Main_Page">Linux nftables documentation</a></li>

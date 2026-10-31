@@ -2326,10 +2326,10 @@
 
 
 
-<h1 id="windows-endpoint-telemetry-sysmon-to-elastic">Windows Endpoint Telemetry: Sysmon to Elastic<a class="headerlink" href="#windows-endpoint-telemetry-sysmon-to-elastic" title="Permanent link">&para;</a></h1>
+<h1 id="windows-endpoint-telemetry-sysmon-to-elastic">Windows Endpoint Telemetry: Sysmon to Elastic</h1>
 <p><badge color="warning">Reference design — not yet lab-tested</badge></p>
 <p>This walkthrough describes a safe, reproducible design for collecting Windows process-creation telemetry and reviewing it in Elastic. It is a build plan, not evidence that this environment has been deployed or tested. Record the exact Windows, Sysmon, Elastic Agent, Elasticsearch, and Kibana versions before marking it tested.</p>
-<h2 id="objective">Objective<a class="headerlink" href="#objective" title="Permanent link">&para;</a></h2>
+<h2 id="objective">Objective</h2>
 <p>Generate one benign process event on an isolated Windows virtual machine, confirm that Sysmon records it, collect the event with Elastic, and verify that the event can be searched and interpreted.</p>
 <p><strong>Success criteria</strong></p>
 <ol>
@@ -2339,7 +2339,7 @@
 <li>The event contains enough context to identify the process and its parent.</li>
 <li>The write-up records any missing fields, collection delay, and configuration limitations.</li>
 </ol>
-<h2 id="scope-and-safety">Scope and safety<a class="headerlink" href="#scope-and-safety" title="Permanent link">&para;</a></h2>
+<h2 id="scope-and-safety">Scope and safety</h2>
 <ul>
 <li>Use a Windows VM that you own or are explicitly authorised to administer.</li>
 <li>Use Notepad as the benign test process. Do not use malware, exploit code, credential dumping, persistence payloads, or live suspicious indicators.</li>
@@ -2347,7 +2347,7 @@
 <li>Do not connect this exercise to production endpoints or production SIEM data.</li>
 <li>Do not paste real user, customer, or employer telemetry into public tools.</li>
 </ul>
-<h2 id="reference-architecture">Reference architecture<a class="headerlink" href="#reference-architecture" title="Permanent link">&para;</a></h2>
+<h2 id="reference-architecture">Reference architecture</h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Windows test VM
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  └─ Sysmon service
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>       └─ Microsoft-Windows-Sysmon/Operational
@@ -2356,7 +2356,7 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                      └─ Kibana Discover
 </span></code></pre></div>
 <p>The Elastic Windows integration documents collection of Windows-specific channels including Sysmon and PowerShell. The Sysmon data stream is named <code>windows.sysmon_operational</code> in the integration documentation. Confirm the actual data stream and field mappings in your own version before using saved queries.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>A supported Windows 10 or Windows 11 VM with administrative access. On Windows 11, check whether the built-in Sysmon optional feature is available in your edition/build.</li>
 <li>Sysmon downloaded from Microsoft's official Sysinternals page.</li>
@@ -2371,8 +2371,8 @@
 <li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/sysmon-events">Microsoft Sysmon event reference</a></li>
 <li><a href="https://www.elastic.co/docs/reference/integrations/windows">Elastic Windows integration</a></li>
 </ul>
-<h2 id="procedure">Procedure<a class="headerlink" href="#procedure" title="Permanent link">&para;</a></h2>
-<h3 id="1-prepare-the-endpoint">1. Prepare the endpoint<a class="headerlink" href="#1-prepare-the-endpoint" title="Permanent link">&para;</a></h3>
+<h2 id="procedure">Procedure</h2>
+<h3 id="1-prepare-the-endpoint">1. Prepare the endpoint</h3>
 <ol>
 <li>Create or select an isolated Windows VM.</li>
 <li>Apply the updates required for the lab and record the OS build.</li>
@@ -2380,7 +2380,7 @@
 <li>Confirm the VM can reach only the required management and telemetry endpoints.</li>
 <li>Record the local time zone. Sysmon event timestamps are recorded in UTC.</li>
 </ol>
-<h3 id="2-install-and-verify-sysmon">2. Install and verify Sysmon<a class="headerlink" href="#2-install-and-verify-sysmon" title="Permanent link">&para;</a></h3>
+<h3 id="2-install-and-verify-sysmon">2. Install and verify Sysmon</h3>
 <p>Windows 11 now offers Sysmon as a built-in optional feature, while the standalone Sysinternals download remains available. Choose one installation method appropriate to the VM and Windows version; do not install the built-in feature and standalone package on top of one another.</p>
 <ol>
 <li>Check whether Sysmon is already installed before making changes:</li>
@@ -2395,7 +2395,7 @@
 <li>Confirm the channel is present, Sysmon is running, and new events are being written.</li>
 </ol>
 <p>Sysmon Event ID 1 records process creation, including process and parent-process context. Network connection events (Event ID 3) are disabled by default, so do not expect them unless you deliberately enable them in the configuration.</p>
-<h3 id="3-generate-a-benign-event">3. Generate a benign event<a class="headerlink" href="#3-generate-a-benign-event" title="Permanent link">&para;</a></h3>
+<h3 id="3-generate-a-benign-event">3. Generate a benign event</h3>
 <p>Open PowerShell in the test VM and run:</p>
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">Start-Process</span> <span class="n">-FilePath</span> <span class="s2">"$env:WINDIR\System32\notepad.exe"</span> <span class="n">-PassThru</span> <span class="p">|</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="nb">Select-Object</span> <span class="n">Id</span><span class="p">,</span> <span class="n">ProcessName</span>
@@ -2409,11 +2409,11 @@
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">10</span> <span class="p">|</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="nb">Select-Object</span> <span class="n">TimeCreated</span><span class="p">,</span> <span class="n">Id</span><span class="p">,</span> <span class="n">ProviderName</span><span class="p">,</span> <span class="n">Message</span>
 </span></code></pre></div>
-<h3 id="4-configure-collection">4. Configure collection<a class="headerlink" href="#4-configure-collection" title="Permanent link">&para;</a></h3>
+<h3 id="4-configure-collection">4. Configure collection</h3>
 <p>In Elastic Fleet, enrol an Elastic Agent on the Windows VM and add the Windows integration according to the official integration guide. Enable the Sysmon Operational channel/data stream.</p>
 <p>Do not assume that adding the integration proves collection is working. Check agent health, integration policy, permissions, data stream creation, and the arrival of a new event generated after the policy was applied.</p>
 <p>If you use a different SIEM or collector, document the equivalent source channel, collection method, destination, parsing stage, and field mapping.</p>
-<h3 id="5-search-and-verify">5. Search and verify<a class="headerlink" href="#5-search-and-verify" title="Permanent link">&para;</a></h3>
+<h3 id="5-search-and-verify">5. Search and verify</h3>
 <p>In Kibana Discover, select the relevant Sysmon data view and search for the test process. A starting KQL example is:</p>
 <div class="language-kql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">event</span><span class="p">.</span><span class="n">dataset</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"windows.sysmon_operational"</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">and</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"1"</span>
@@ -2431,7 +2431,7 @@
 <li><code>user.name</code>, if present</li>
 <li>The time at which the event became searchable</li>
 </ul>
-<h3 id="6-validate-the-collection-path">6. Validate the collection path<a class="headerlink" href="#6-validate-the-collection-path" title="Permanent link">&para;</a></h3>
+<h3 id="6-validate-the-collection-path">6. Validate the collection path</h3>
 <table>
 <thead>
 <tr>
@@ -2474,7 +2474,7 @@
 </tbody>
 </table>
 <p>A local event with no corresponding SIEM document indicates a collection or ingestion problem, not a detection failure. A document with missing fields indicates a parsing, mapping, or source-configuration issue that should be diagnosed separately.</p>
-<h2 id="troubleshooting-checklist">Troubleshooting checklist<a class="headerlink" href="#troubleshooting-checklist" title="Permanent link">&para;</a></h2>
+<h2 id="troubleshooting-checklist">Troubleshooting checklist</h2>
 <ul>
 <li>Verify the Sysmon service is running and the Operational channel is enabled.</li>
 <li>Confirm Event ID 1 is not excluded by the Sysmon configuration.</li>
@@ -2484,7 +2484,7 @@
 <li>Compare the raw event with the parsed document before changing field names in a query.</li>
 <li>Check endpoint and SIEM clock synchronisation and compare source event time with ingestion time.</li>
 </ul>
-<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
+<h2 id="cleanup">Cleanup</h2>
 <ol>
 <li>Close the test process.</li>
 <li>If Sysmon was installed only for this exercise, remove it using the uninstall procedure documented by Microsoft.</li>
@@ -2492,7 +2492,7 @@
 <li>Retain or delete lab data according to your lab retention policy.</li>
 <li>Revert the VM snapshot if you want to return to the original state.</li>
 </ol>
-<h2 id="evidence-record">Evidence record<a class="headerlink" href="#evidence-record" title="Permanent link">&para;</a></h2>
+<h2 id="evidence-record">Evidence record</h2>
 <p>Before changing the status to <strong>Lab-tested</strong>, attach or record:</p>
 <ul>
 <li>Windows edition/build and VM platform</li>
@@ -2505,7 +2505,7 @@
 <li>Cleanup result and date last verified</li>
 </ul>
 <p><strong>Current status:</strong> Reference design only. No execution results are claimed by this page.</p>
-<h2 id="further-reading">Further reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<h2 id="further-reading">Further reading</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows/security/operating-system-security/sysmon/sysmon-events">Microsoft: Understanding Sysmon events</a></li>
 <li><a href="https://www.elastic.co/docs/reference/integrations/windows">Elastic: Windows integration</a></li>

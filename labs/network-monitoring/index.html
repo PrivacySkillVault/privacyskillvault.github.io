@@ -2160,15 +2160,15 @@
 
 
 
-<h1 id="lab-network-monitoring-before-siem">Lab — Network monitoring before SIEM<a class="headerlink" href="#lab-network-monitoring-before-siem" title="Permanent link">&para;</a></h1>
+<h1 id="lab-network-monitoring-before-siem">Lab — Network monitoring before SIEM</h1>
 <p><badge color="warning">Mandatory source stage — build and validate before SIEM</badge></p>
 <p>This lab builds and proves network telemetry sources. Do not postpone it until after Elastic, Splunk or Wazuh. A SIEM cannot ingest firewall/IDS/Zeek data that has not been generated and exposed to a collector.</p>
-<h2 id="1-visibility-model">1. Visibility model<a class="headerlink" href="#1-visibility-model" title="Permanent link">&para;</a></h2>
+<h2 id="1-visibility-model">1. Visibility model</h2>
 <p>There are two distinct sources:
 1. <strong>Firewall telemetry:</strong> OPNsense rule pass/block events and OPNsense Suricata IDS alerts. The firewall generates these and exports them through remote syslog/EVE syslog.
 2. <strong>Packet-sensor telemetry:</strong> Zeek connection/DNS logs and standalone Suricata EVE JSON. The sensor must actually receive packets. Installing the software or enabling promiscuous mode does not create a mirror.</p>
 <p>Start with firewall logging and OPNsense IDS. Add Zeek only after the packet feed is proven.</p>
-<h2 id="2-windows-x64-opnsense-ids">2. Windows x64 — OPNsense IDS<a class="headerlink" href="#2-windows-x64-opnsense-ids" title="Permanent link">&para;</a></h2>
+<h2 id="2-windows-x64-opnsense-ids">2. Windows x64 — OPNsense IDS</h2>
 <p>Complete <a href="../firewall-routing/">Firewall &amp; Routing</a> first.</p>
 <ol>
 <li>Enable logging on firewall rules used for allow/deny tests.</li>
@@ -2180,7 +2180,7 @@
 <li>Enable EVE/syslog output and prove an alert reaches the relay.</li>
 </ol>
 <p>Do not begin with IPS blocking. Measure CPU, packet loss, false positives and recovery first. OPNsense documents capture-mode and driver/offload requirements.</p>
-<h2 id="3-zeek-sensor-topology">3. Zeek sensor topology<a class="headerlink" href="#3-zeek-sensor-topology" title="Permanent link">&para;</a></h2>
+<h2 id="3-zeek-sensor-topology">3. Zeek sensor topology</h2>
 <p>Use a supported Ubuntu Server sensor VM. Suggested starting resources: 4 vCPU, 8 GB RAM and SSD-backed log storage.</p>
 <ul>
 <li>Management NIC: MGMT, static/reserved address and management route.</li>
@@ -2193,7 +2193,7 @@
 - <strong>VirtualBox:</strong> promiscuous mode is not a global mirror across internal networks. Use offline PCAP or a separately validated topology.</p>
 <p>Record exactly which segments/interfaces are visible. A sensor on one segment cannot see all other segments without a real feed.</p>
 <p>For exact sensor NIC roles, capture tests, JSON setup, EVE output, storage and pre-SIEM acceptance, follow the <a href="../network-sensor-implementation/">Network Sensor Implementation Runbook</a>. The commands below remain a concise orientation; the runbook is the detailed procedure.</p>
-<h2 id="4-install-and-verify-zeek">4. Install and verify Zeek<a class="headerlink" href="#4-install-and-verify-zeek" title="Permanent link">&para;</a></h2>
+<h2 id="4-install-and-verify-zeek">4. Install and verify Zeek</h2>
 <p>Install Zeek using official instructions for the exact Ubuntu release and architecture. Record package version and method.</p>
 <div class="language-text highlight"><pre><span></span><code>zeek --version
 zeek -N
@@ -2206,7 +2206,7 @@ ls -lah
 </code></pre></div>
 <p>Inspect conn.log and dns.log when those protocols exist in the PCAP. Enable Zeek's documented JSON logging policy before forwarding. Verify JSON records contain expected timestamp, source/destination and protocol fields.</p>
 <p>For live capture, use the exact interface identified by MAC and supported ZeekControl/deployment method. Do not capture on the management NIC accidentally.</p>
-<h2 id="5-install-and-verify-standalone-suricata-optional">5. Install and verify standalone Suricata (optional)<a class="headerlink" href="#5-install-and-verify-standalone-suricata-optional" title="Permanent link">&para;</a></h2>
+<h2 id="5-install-and-verify-standalone-suricata-optional">5. Install and verify standalone Suricata (optional)</h2>
 <p>Use official Suricata packages for the guest OS and architecture. Record version and ruleset.</p>
 <div class="language-text highlight"><pre><span></span><code>suricata --build-info
 suricata --list-runmodes
@@ -2217,7 +2217,7 @@ ls -lah ./suricata-output
 </code></pre></div>
 <p>Inspect eve.json. EVE contains JSON events such as alerts, anomalies and protocol metadata when enabled/applicable. Arbitrary traffic is not expected to trigger an alert; use documented safe test traffic.</p>
 <p>For live capture, confirm interface and run mode. Validate packet counters and dropped-packet metrics.</p>
-<h2 id="6-local-log-validation">6. Local log validation<a class="headerlink" href="#6-local-log-validation" title="Permanent link">&para;</a></h2>
+<h2 id="6-local-log-validation">6. Local log validation</h2>
 <p>Before forwarding:
 - Zeek logs exist and are JSON if configured.
 - Suricata eve.json exists and contains expected event types.
@@ -2226,10 +2226,10 @@ ls -lah ./suricata-output
 - Sensor host/interface/capture scope are documented.
 - Timestamp and event identity are preserved.</p>
 <p>Do not store full PCAP continuously until retention, capacity and sensitive-data handling are planned.</p>
-<h2 id="7-forwarding-prerequisites">7. Forwarding prerequisites<a class="headerlink" href="#7-forwarding-prerequisites" title="Permanent link">&para;</a></h2>
+<h2 id="7-forwarding-prerequisites">7. Forwarding prerequisites</h2>
 <p>Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>. The later SIEM collector monitors Zeek/Suricata files on the sensor. OPNsense firewall/IDS syslog flows through the Linux relay.</p>
 <p>The SIEM build is blocked until firewall pass/block events, OPNsense Suricata alerts, endpoint source events and (if selected) proven Zeek/Suricata sensor logs exist.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.opnsense.org/manual/ips.html">OPNsense IDS/IPS and Suricata</a></li>
 <li><a href="https://docs.opnsense.org/manual/settingsmenu.html">OPNsense remote logging</a></li>

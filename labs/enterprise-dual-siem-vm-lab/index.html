@@ -2436,11 +2436,11 @@
 
 
 
-<h1 id="enterprise-dual-siem-vm-lab-architecture-and-implementation-runbook">Enterprise dual-SIEM VM lab — architecture and implementation runbook<a class="headerlink" href="#enterprise-dual-siem-vm-lab-architecture-and-implementation-runbook" title="Permanent link">&para;</a></h1>
+<h1 id="enterprise-dual-siem-vm-lab-architecture-and-implementation-runbook">Enterprise dual-SIEM VM lab — architecture and implementation runbook</h1>
 <p><badge color="warning">Design baseline — not yet executed on physical host hardware</badge></p>
 <p>This runbook defines the Windows x64 primary build for a segmented, VM-only enterprise-style lab running Elastic Security and Splunk Enterprise side by side. All guest operating systems and security products are installed inside VMs. The Windows host runs only the selected hypervisor and host-management tools. The Apple-silicon Mac is a separate ARM64 learning track, not a shared x86-64 cluster.</p>
 <p>This is a controlled home lab, not a production deployment or a claim of vendor-certified production architecture. A single-node Elastic deployment, a single Splunk instance and one Vector relay have no high availability. Enterprise-style describes segmentation, identity, telemetry, detection and operational practices—not production resilience.</p>
-<h2 id="1-architecture-decisions">1. Architecture decisions<a class="headerlink" href="#1-architecture-decisions" title="Permanent link">&para;</a></h2>
+<h2 id="1-architecture-decisions">1. Architecture decisions</h2>
 <ol>
 <li>Use one primary hypervisor on the Windows x64 host. VMware Workstation Pro is the default Type-2 path when retaining Windows as the host. Hyper-V and VirtualBox are alternatives, not components to install together.</li>
 <li>Use OPNsense x86-64 as the only routed gateway between lab segments.</li>
@@ -2451,7 +2451,7 @@
 <li>Build and validate one SIEM at a time, then enable the dual-output broker. This reduces troubleshooting variables while retaining the final dual-SIEM objective.</li>
 <li>Security Onion is an optional separate x86-64 platform, not an application installed into the Ubuntu sensor VM. The default sensor is Ubuntu with Zeek and Suricata.</li>
 </ol>
-<h2 id="2-host-and-resource-gate">2. Host and resource gate<a class="headerlink" href="#2-host-and-resource-gate" title="Permanent link">&para;</a></h2>
+<h2 id="2-host-and-resource-gate">2. Host and resource gate</h2>
 <p>Before creating VMs, record CPU model/architecture, logical processors, physical RAM, free SSD/NVMe space, Windows edition/build and hypervisor version. Confirm firmware virtualization support. Keep VM disks, snapshots and evidence on a fast local SSD; exclude active VM folders from cloud-sync folders.</p>
 <p>Planning allocations (adjust after checking current vendor requirements):</p>
 <table>
@@ -2532,7 +2532,7 @@
 </table>
 <p>These are home-lab planning values, not vendor minimums. Simultaneously running all guests is not realistic on every 64 GB machine. On a 64 GB host, use staged operation, stop idle VMs and avoid full packet capture. 96 GB is more practical; 128 GB is preferred for simultaneous dual-SIEM operation. Keep additional storage headroom for snapshots, indexes, PCAP and log growth. Never allocate all host RAM to guests.</p>
 <p><strong>Gate H:</strong> host capacity, free disk, guest architecture and product support have been recorded. If capacity is inadequate, reduce concurrency or build in stages; do not silently under-allocate a SIEM below its current vendor guidance.</p>
-<h2 id="3-ip-and-vm-inventory">3. IP and VM inventory<a class="headerlink" href="#3-ip-and-vm-inventory" title="Permanent link">&para;</a></h2>
+<h2 id="3-ip-and-vm-inventory">3. IP and VM inventory</h2>
 <p>Use the existing PSV address plan. Check for overlap with the home LAN, VPN, Docker/WSL networks and existing routes before applying it.</p>
 <table>
 <thead>
@@ -2639,7 +2639,7 @@
 </tbody>
 </table>
 <p>Use static addressing or DHCP reservations for infrastructure. Configure the actual hostname and DNS records before issuing certificates or enrolling agents. Do not reuse the same subnet/IP plan for multiple simultaneously connected lab islands.</p>
-<h2 id="4-port-and-flow-matrix">4. Port and flow matrix<a class="headerlink" href="#4-port-and-flow-matrix" title="Permanent link">&para;</a></h2>
+<h2 id="4-port-and-flow-matrix">4. Port and flow matrix</h2>
 <p>This is a starting allowlist, not a blanket instruction to open every port from every segment. Firewall rules must identify source, destination, protocol, port, direction and purpose.</p>
 <table>
 <thead>
@@ -2720,14 +2720,14 @@
 - Fleet Server TCP/8220 is not the Elasticsearch API.
 - Do not expose Elasticsearch 9200, Splunk 9997/8088, Fleet 8220 or management UIs to WAN.
 - Use TLS and certificate validation on inter-VM paths where supported. Plain TCP syslog is acceptable only as a documented isolated-lab exercise with strict source allowlisting; it is not encrypted or authenticated.</p>
-<h2 id="5-hypervisor-and-virtual-network-build">5. Hypervisor and virtual network build<a class="headerlink" href="#5-hypervisor-and-virtual-network-build" title="Permanent link">&para;</a></h2>
+<h2 id="5-hypervisor-and-virtual-network-build">5. Hypervisor and virtual network build</h2>
 <p>Follow <a href="../platform-windows/">Windows Host Setup</a> and <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a>. Create one isolated virtual network per segment plus a NAT-backed WAN network for the OPNsense WAN NIC. The firewall is the only VM with a WAN adapter. Do not bridge REDTEAM or DMZ to the physical home LAN.</p>
 <p>For Hyper-V, use Private switches for VM-only segments and a deliberately configured NAT/management path for firewall WAN. For VMware Workstation, use host-only networks for internal segments and NAT for firewall WAN. For VirtualBox, use named Internal Networks or Host-only networks as appropriate. The UI names and adapter behavior differ by release; record the actual network names and VM adapter MAC addresses.</p>
-<h3 id="sensor-visibility">Sensor visibility<a class="headerlink" href="#sensor-visibility" title="Permanent link">&para;</a></h3>
+<h3 id="sensor-visibility">Sensor visibility</h3>
 <p>A capture NIC connected to a normal virtual switch does not automatically see other VMs' unicast traffic. Configure and verify an actual mirror/port-mirroring feature supported by the selected hypervisor and switch topology. Hyper-V port mirroring requires correctly configured source and destination adapters on the relevant virtual switch. Do not claim that promiscuous mode alone creates a SPAN feed. If the chosen hypervisor cannot mirror the desired traffic, use an explicitly documented inline sensor design or replay a PCAP for detection exercises.</p>
 <p>The sensor's management NIC has 10.10.50.10/24. The capture NIC has no IP address, no default gateway and no DNS registration. Disable offloads only when required by the selected capture method and NIC driver; validate with packet counters and test traffic rather than assuming every offload causes missed detections.</p>
 <p><strong>Gate N:</strong> prove guest-to-gateway routing, allowed and denied inter-segment flows, no Kali/DMZ access to home LAN, and actual packet visibility on the sensor capture NIC.</p>
-<h2 id="6-firewall-policy-model">6. Firewall policy model<a class="headerlink" href="#6-firewall-policy-model" title="Permanent link">&para;</a></h2>
+<h2 id="6-firewall-policy-model">6. Firewall policy model</h2>
 <p>Start with default-deny between internal segments. Add only specific flows required by the current stage.</p>
 <ul>
 <li>MGMT → firewall/VM management: named admin source IPs and required ports only.</li>
@@ -2743,7 +2743,7 @@
 <li>WAN → internal networks: deny unsolicited inbound. No WAN port forwards to vulnerable applications.</li>
 </ul>
 <p>Log both pass and block rules used in validation. Keep update egress temporary and limited to the relevant guests. Re-test isolation after changing virtual adapters or firewall rules.</p>
-<h2 id="7-guest-os-installation-baseline">7. Guest OS installation baseline<a class="headerlink" href="#7-guest-os-installation-baseline" title="Permanent link">&para;</a></h2>
+<h2 id="7-guest-os-installation-baseline">7. Guest OS installation baseline</h2>
 <p>Install from official vendor images and verify published checksums/signatures where available. For every VM:
 1. Create the VM with planned firmware, CPU, RAM, disk and NICs.
 2. Attach only the intended virtual networks.
@@ -2757,15 +2757,15 @@
 10. Install guest tools only from the selected hypervisor's official distribution.
 11. Take a clean OS snapshot and record version/build and VM adapter MACs.</p>
 <p>Use the existing PSV OS runbooks for exact Windows Server, Windows 11, Ubuntu and Kali installation screens and post-installation steps. Do not install SIEM software on the Windows host.</p>
-<h2 id="8-active-directory-and-target-application">8. Active Directory and target application<a class="headerlink" href="#8-active-directory-and-target-application" title="Permanent link">&para;</a></h2>
+<h2 id="8-active-directory-and-target-application">8. Active Directory and target application</h2>
 <p>Use a private lab-only domain such as lab.psv.test; do not use a real public domain you do not control. Install AD DS and DNS on ad-dc01, promote it, configure forwarders deliberately, create test OUs/users/groups, and join win11-wks01 after DNS points to the DC. Confirm domain authentication and time synchronization.</p>
 <p>Do not create an SPN for a service that does not exist. For Kerberoasting exercises, deploy a separate member server and a deliberately configured lab service account/SPN, then verify the resulting ticket events. A Domain Controller is not automatically an SQL server.</p>
 <p>On dmz-web01, install Docker Engine using the current official Ubuntu instructions, install the Compose plugin if needed, then deploy Nginx and intentionally vulnerable applications using pinned image tags. Bind/allow them only on the DMZ interface. Do not publish these ports to the physical WAN or home router. Take a snapshot before introducing vulnerable containers.</p>
-<h2 id="9-endpoint-telemetry-before-siem-enrollment">9. Endpoint telemetry before SIEM enrollment<a class="headerlink" href="#9-endpoint-telemetry-before-siem-enrollment" title="Permanent link">&para;</a></h2>
+<h2 id="9-endpoint-telemetry-before-siem-enrollment">9. Endpoint telemetry before SIEM enrollment</h2>
 <p>Follow <a href="../endpoint-telemetry-implementation/">Endpoint Telemetry Implementation</a>. On Windows, enable only the required Advanced Audit Policy categories and command-line process auditing where needed; install Microsoft Sysmon from the official Sysinternals source and verify the signature. Prove Security 4688, the chosen account/group event and Sysmon Event ID 1 locally.</p>
 <p>On Linux, configure auditd/journald sources and verify records locally. On the sensor, verify Zeek logs and Suricata EVE JSON locally. A file's existence does not prove the sensor can see packets; generate a known DNS/HTTP flow and verify counters/logs.</p>
 <p>Do not install agents until local source events exist. Record event timestamp, hostname, event ID/dataset and the command/action that generated the event.</p>
-<h2 id="10-elastic-installation-and-validation">10. Elastic installation and validation<a class="headerlink" href="#10-elastic-installation-and-validation" title="Permanent link">&para;</a></h2>
+<h2 id="10-elastic-installation-and-validation">10. Elastic installation and validation</h2>
 <p>Use the <a href="../elastic-siem/">Elastic SIEM guide</a> and current Elastic installation documentation. Pin one exact compatible release for Elasticsearch, Kibana, Fleet Server and Elastic Agent; do not use an unqualified floating version. Verify Ubuntu release and CPU architecture support.</p>
 <p>High-level order:
 1. Prepare soc-elastic static address, hostname, DNS and NTP.
@@ -2779,7 +2779,7 @@
 9. Create separate endpoint and Linux policies. Add Windows/Sysmon, System and supported custom-log integrations only as required.
 10. Verify a known raw event in Discover, including @timestamp, host.name, dataset and original event fields.</p>
 <p>A green Fleet status does not prove that every integration is collecting events. Check integration diagnostics and raw documents.</p>
-<h2 id="11-splunk-installation-and-validation">11. Splunk installation and validation<a class="headerlink" href="#11-splunk-installation-and-validation" title="Permanent link">&para;</a></h2>
+<h2 id="11-splunk-installation-and-validation">11. Splunk installation and validation</h2>
 <p>Use the <a href="../splunk-siem/">Splunk SIEM guide</a> and current Splunk Enterprise installation documentation. Pin an exact release and confirm Ubuntu x86-64 support for that release before downloading.</p>
 <p>High-level order:
 1. Prepare soc-splunk static address, hostname, DNS and NTP.
@@ -2793,7 +2793,7 @@
 9. Install/configure Universal Forwarder on a test endpoint only after checking OS/architecture support. Use Windows Event Log inputs on Windows and file monitors on Linux; do not reuse a Windows inputs.conf stanza on Linux.
 10. Verify receiver health and search for the controlled event in the expected index and sourcetype. Inspect raw events before writing field-dependent SPL.</p>
 <p>Do not enable HEC SSL by merely ticking a UI box and assume the certificate is trusted. Install and validate the certificate chain and hostname from the broker.</p>
-<h2 id="12-vector-dual-output-broker">12. Vector dual-output broker<a class="headerlink" href="#12-vector-dual-output-broker" title="Permanent link">&para;</a></h2>
+<h2 id="12-vector-dual-output-broker">12. Vector dual-output broker</h2>
 <p>Use Vector as the initial broker on soc-collector. Follow the official Vector installation instructions for Ubuntu 24.04 and pin the selected package version. Do not add Kafka or Logstash unless measured throughput, buffering or routing requirements justify the added services.</p>
 <p>Design the broker inputs explicitly:
 - Firewall syslog listener: use TCP/TLS where supported and bind to the SERVER-facing address only. Use a separate UDP listener only if the sender is configured for UDP and the loss characteristics are accepted.
@@ -2804,7 +2804,7 @@
 - Splunk HEC output to https://10.10.30.21:8088, using a dedicated HEC token, intended index and explicit sourcetype.</p>
 <p>Use Vector's documented syslog source, elasticsearch sink and splunk_hec sink schemas for the exact pinned release. Store secrets in protected environment/secret files, not in a public repository or shell history. Validate configuration with the installed vector validate command, run the service, inspect logs and monitor internal component errors/queue metrics. Configure disk buffering only after selecting and sizing the data directory; set a maximum disk budget and define backpressure behavior.</p>
 <p>Do not silently drop one output when the other is unavailable. Test the failure mode: stop one SIEM temporarily, confirm broker retry/buffer behavior, restart the SIEM, and verify delivery without unacceptable duplicates or loss. Record measured delay; do not promise a universal two-second delivery SLA.</p>
-<h2 id="13-endpoint-co-existence-and-duplicate-control">13. Endpoint co-existence and duplicate control<a class="headerlink" href="#13-endpoint-co-existence-and-duplicate-control" title="Permanent link">&para;</a></h2>
+<h2 id="13-endpoint-co-existence-and-duplicate-control">13. Endpoint co-existence and duplicate control</h2>
 <p>For Windows x64, Elastic Agent and Splunk UF may be installed side by side if the exact versions and host are supported. Start with a disposable endpoint snapshot:
 1. Install and enroll Elastic Agent.
 2. Verify one known Security and one Sysmon event in Elastic.
@@ -2816,11 +2816,11 @@
 8. Test service restart and host reboot.
 9. Document exclusions and rollback.</p>
 <p>Do not enable Elastic Defend and another EDR/endpoint driver blindly. Begin with supported telemetry integrations; add endpoint prevention/EDR only after vendor compatibility and exclusions are reviewed. Do not make blanket kernel/ETW conflict claims without evidence for the exact products.</p>
-<h2 id="14-network-sensor-implementation">14. Network sensor implementation<a class="headerlink" href="#14-network-sensor-implementation" title="Permanent link">&para;</a></h2>
+<h2 id="14-network-sensor-implementation">14. Network sensor implementation</h2>
 <p>The default sensor is Ubuntu Server x86-64 with two adapters: management on SENSOR-MGMT and a dedicated capture adapter with no IP. Install Zeek and Suricata from supported repositories/releases after verifying OS compatibility. Configure Suricata EVE JSON and explicitly enable Zeek JSON logs if JSON ingestion is intended. Configure service capture on the capture NIC and verify interface counters, packet capture and expected DNS/HTTP records.</p>
 <p>Do not state that promiscuous mode alone creates a mirror. Confirm the hypervisor's actual mirroring feature or use a supported offline PCAP workflow. Disable NIC offloads only where required and verify the effect. Forward sensor logs to the broker through the management network; do not route capture traffic through the sensor.</p>
 <p>Security Onion is a separate optional deployment. Check its current hardware and x86-64 requirements; do not install it as an Ubuntu package or run it on Apple Silicon ARM64.</p>
-<h2 id="15-end-to-end-validation">15. End-to-end validation<a class="headerlink" href="#15-end-to-end-validation" title="Permanent link">&para;</a></h2>
+<h2 id="15-end-to-end-validation">15. End-to-end validation</h2>
 <p>Use a unique test identifier and capture source-side evidence before searching either SIEM.</p>
 <table>
 <thead>
@@ -2878,7 +2878,7 @@
 </table>
 <p>A custom User-Agent does not automatically trigger a Suricata alert. A file read does not automatically appear in auditd without a matching rule. whoami /priv is not a Kerberoasting or lateral-movement test. Build and validate the detection rule before using an action as an alert test.</p>
 <p>For each test record source event time, relay receipt time, SIEM ingest time, host identity, raw event, query, detection version, expected/actual result and cleanup. Measure latency from timestamps; do not assert a fixed sub-three-second SLA until measured on the actual host.</p>
-<h2 id="16-rollback-recovery-and-evidence">16. Rollback, recovery and evidence<a class="headerlink" href="#16-rollback-recovery-and-evidence" title="Permanent link">&para;</a></h2>
+<h2 id="16-rollback-recovery-and-evidence">16. Rollback, recovery and evidence</h2>
 <p>Before each major stage:
 - Take a VM snapshot and export the relevant configuration.
 - Record the snapshot name, date, VM version and current IP/NIC mapping.
@@ -2886,11 +2886,11 @@
 - Never put secrets, enrollment tokens, private keys, real customer data or employer logs in GitHub or screenshots.
 - Keep raw evidence on the lab host; publish only sanitized screenshots and synthetic data.
 - Restore-test snapshots and configuration backups. A snapshot is not a substitute for an independent backup.</p>
-<h2 id="17-apple-silicon-mac-track">17. Apple-silicon Mac track<a class="headerlink" href="#17-apple-silicon-mac-track" title="Permanent link">&para;</a></h2>
+<h2 id="17-apple-silicon-mac-track">17. Apple-silicon Mac track</h2>
 <p>The Mac track remains a separate ARM64 lab island using VMware Fusion and ARM64 guests. Use the existing Ubuntu ARM64 router/nftables runbook rather than OPNsense. Do not assume Splunk Enterprise or Security Onion can run natively as ARM64 guests. Elastic ARM64 support is component- and OS-version-specific; verify each package and integration. Do not join Mac and Windows virtual switches into one network without a separate physical VLAN/firewall design.</p>
-<h2 id="18-completion-status">18. Completion status<a class="headerlink" href="#18-completion-status" title="Permanent link">&para;</a></h2>
+<h2 id="18-completion-status">18. Completion status</h2>
 <p>This document is a reviewed design and implementation plan. It is not evidence that the VMs have been installed or that the full data path has been hardware-tested. Mark a stage implemented only after its acceptance gate passes on the actual host. Mark screenshots genuine lab evidence only when captured from the actual running VM; official vendor screenshots and diagrams must be labelled as references/illustrations.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="../build-sequence/">PSV Master Build Sequence</a></li>
 <li><a href="../network-design/">PSV Network Design</a></li>

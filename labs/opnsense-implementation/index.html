@@ -2448,10 +2448,10 @@
 
 
 
-<h1 id="opnsense-implementation-interface-dhcp-dns-and-firewall-policy">OPNsense implementation — interface, DHCP, DNS and firewall policy<a class="headerlink" href="#opnsense-implementation-interface-dhcp-dns-and-firewall-policy" title="Permanent link">&para;</a></h1>
+<h1 id="opnsense-implementation-interface-dhcp-dns-and-firewall-policy">OPNsense implementation — interface, DHCP, DNS and firewall policy</h1>
 <p><badge color="warning">Windows x64 track — reference configuration; verify against installed OPNsense release</badge></p>
 <p>This is the Windows x64 firewall implementation. OPNsense is x86-64; use the separate <a href="../mac-arm-router-implementation/">ARM64 Ubuntu router guide</a> on Apple Silicon. This page expands the <a href="../firewall-routing/">firewall overview</a> into an interface and policy procedure.</p>
-<h2 id="1-before-installation">1. Before installation<a class="headerlink" href="#1-before-installation" title="Permanent link">&para;</a></h2>
+<h2 id="1-before-installation">1. Before installation</h2>
 <ul>
 <li>Confirm the hypervisor and VM network layout from <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a>.</li>
 <li>Create separate WAN, MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ networks.</li>
@@ -2461,7 +2461,7 @@
 <li>Do not attach REDTEAM or DMZ directly to a bridged/physical network.</li>
 </ul>
 <p>Starting VM allocation: 2–4 vCPU, 4 GB RAM and 20 GB disk. Increase RAM/storage for IDS and retention. OPNsense virtual hardware requirements depend on enabled services and traffic.</p>
-<h2 id="2-install-and-map-interfaces-by-mac">2. Install and map interfaces by MAC<a class="headerlink" href="#2-install-and-map-interfaces-by-mac" title="Permanent link">&para;</a></h2>
+<h2 id="2-install-and-map-interfaces-by-mac">2. Install and map interfaces by MAC</h2>
 <p>Install OPNsense using the current official virtual installation instructions. After first boot, identify each virtual NIC by MAC address and map it to the hypervisor inventory. Do not assume adapter order is stable.</p>
 <p>Assign:
 - WAN — hypervisor NAT uplink only.
@@ -2473,7 +2473,7 @@
 - DMZ — 10.10.60.1/24.</p>
 <p>Use the interface assignment workflow under Interfaces → Assignments. Enable each assigned interface, give it a clear description and configure static IPv4 addressing for internal segments. Do not configure an internal default gateway. WAN receives its address from the hypervisor NAT network (or the exact static values documented for that network).</p>
 <p>After applying, verify the interface status and address on the dashboard and under Interfaces. Test that the admin workstation is connected only to MGMT. Do not enable the WAN web GUI or SSH.</p>
-<h2 id="3-initial-firewall-gui-access-and-administration">3. Initial firewall GUI access and administration<a class="headerlink" href="#3-initial-firewall-gui-access-and-administration" title="Permanent link">&para;</a></h2>
+<h2 id="3-initial-firewall-gui-access-and-administration">3. Initial firewall GUI access and administration</h2>
 <ol>
 <li>Attach a dedicated admin workstation VM to MGMT.</li>
 <li>Configure it as 10.10.10.10/24 with gateway 10.10.10.1, or use a reservation. Set DNS to the DC (10.10.30.10) if this workstation is domain-joined; otherwise use the OPNsense MGMT interface/Unbound address (10.10.10.1).</li>
@@ -2484,7 +2484,7 @@
 <li>Save an encrypted configuration backup before creating the remaining policy.</li>
 </ol>
 <p>Do not connect the management workstation to WAN or use the host's physical network as an alternate path.</p>
-<h2 id="4-configure-dhcpv4-choose-one-service">4. Configure DHCPv4 — choose one service<a class="headerlink" href="#4-configure-dhcpv4-choose-one-service" title="Permanent link">&para;</a></h2>
+<h2 id="4-configure-dhcpv4-choose-one-service">4. Configure DHCPv4 — choose one service</h2>
 <p>Do not run multiple DHCP servers on the same L2 segment. Current OPNsense offers Dnsmasq, Kea and legacy ISC options; ISC DHCP is end-of-life. For this lab, use <strong>Kea DHCPv4</strong> and do not enable Dnsmasq DHCP on the same interfaces.</p>
 <p>Under Services → Kea DHCP → Kea DHCPv4 (menu labels may vary by release):
 1. Enable the DHCPv4 service.
@@ -2504,8 +2504,8 @@
 6. Save/apply and inspect the Kea service log.</p>
 <p>Keep SERVER infrastructure hosts on static addresses or explicit reservations. Do not hand out dynamic addresses to the DC, relay, SIEM or firewall. If the DHCP UI automatically adds rules, inspect them and confirm they do not permit unrelated services.</p>
 <p>From one test client on each DHCP-enabled segment, renew its lease and verify the assigned address, gateway and DNS server. On Windows run <code>ipconfig /release</code>, <code>ipconfig /renew</code>, <code>ipconfig /all</code>, then <code>nslookup example.com &lt;expected-DNS-IP&gt;</code>. On Linux use the guest's DHCP client/network manager, then check <code>ip -4 address</code>, <code>ip route</code>, <code>resolvectl status</code> and <code>dig @&lt;expected-DNS-IP&gt; example.com</code>. If AD DS is used, query <code>_ldap._tcp.dc._msdcs.lab.psv.test</code> against 10.10.30.10 and confirm the correct DC SRV record. Check the Kea lease table and logs if the client receives no lease.</p>
-<h2 id="5-configure-dns-choose-the-correct-resolver">5. Configure DNS — choose the correct resolver<a class="headerlink" href="#5-configure-dns-choose-the-correct-resolver" title="Permanent link">&para;</a></h2>
-<h3 id="if-active-directory-is-deployed">If Active Directory is deployed<a class="headerlink" href="#if-active-directory-is-deployed" title="Permanent link">&para;</a></h3>
+<h2 id="5-configure-dns-choose-the-correct-resolver">5. Configure DNS — choose the correct resolver</h2>
+<h3 id="if-active-directory-is-deployed">If Active Directory is deployed</h3>
 <ul>
 <li>Configure the Windows domain controller with a static SERVER IP (example 10.10.30.10).</li>
 <li>Configure domain members to use only the DC's DNS address.</li>
@@ -2513,7 +2513,7 @@
 <li>Do not give domain members public DNS directly; that breaks AD service discovery and can cause inconsistent domain behavior.</li>
 <li>The firewall's Unbound resolver may be used by non-domain guests, but do not configure domain members to bypass AD DNS.</li>
 </ul>
-<h3 id="if-active-directory-is-not-deployed">If Active Directory is not deployed<a class="headerlink" href="#if-active-directory-is-not-deployed" title="Permanent link">&para;</a></h3>
+<h3 id="if-active-directory-is-not-deployed">If Active Directory is not deployed</h3>
 <p>Use OPNsense Unbound as the lab resolver:
 1. Open Services → Unbound DNS → General.
 2. Enable Unbound.
@@ -2523,7 +2523,7 @@
 6. Apply and test from one endpoint using nslookup/dig.
 7. Confirm queries from REDTEAM/DMZ follow the intended policy and cannot access management interfaces.</p>
 <p>Do not run two DNS services on the same address/port. If Dnsmasq DNS is selected instead of Unbound, document that choice and disable conflicting listeners.</p>
-<h2 id="6-create-aliases-before-writing-rules">6. Create aliases before writing rules<a class="headerlink" href="#6-create-aliases-before-writing-rules" title="Permanent link">&para;</a></h2>
+<h2 id="6-create-aliases-before-writing-rules">6. Create aliases before writing rules</h2>
 <p>Under Firewall → Aliases create named aliases for:
 - PSV_MGMT_ADMIN — 10.10.10.10.
 - PSV_DC_DNS — 10.10.30.10 (only if AD DS is deployed).
@@ -2539,9 +2539,9 @@
 - PSV_NTP — UDP 123.
 - SIEM receiver aliases only for the selected product and actual configured ports.</p>
 <p>Use the firewall policy matrix and current Microsoft AD port requirements. Do not create a broad any-to-any pass rule.</p>
-<h2 id="7-build-inbound-interface-rules">7. Build inbound interface rules<a class="headerlink" href="#7-build-inbound-interface-rules" title="Permanent link">&para;</a></h2>
+<h2 id="7-build-inbound-interface-rules">7. Build inbound interface rules</h2>
 <p>OPNsense rules are applied on the interface where traffic enters. Add rules to the source interface, not the destination interface. Keep the default deny policy and put narrow allow rules above any broader rules. Enable logging on selected validation rules.</p>
-<h3 id="mgmt-interface">MGMT interface<a class="headerlink" href="#mgmt-interface" title="Permanent link">&para;</a></h3>
+<h3 id="mgmt-interface">MGMT interface</h3>
 <ol>
 <li>Allow PSV_MGMT_ADMIN to the firewall GUI on TCP/443.</li>
 <li>Allow PSV_MGMT_ADMIN to firewall SSH on TCP/22 only if SSH administration is required.</li>
@@ -2550,27 +2550,27 @@
 <li>If the MGMT workstation is domain-joined, allow its DNS only to the DC on UDP/TCP 53. If it is not domain-joined and Unbound is its resolver, allow MGMT net to This Firewall on UDP/53 and TCP/53 only. Do not allow arbitrary external DNS.</li>
 <li>Do not allow MGMT to reach the home LAN unless explicitly required.</li>
 </ol>
-<h3 id="endpoint-interface">ENDPOINT interface<a class="headerlink" href="#endpoint-interface" title="Permanent link">&para;</a></h3>
+<h3 id="endpoint-interface">ENDPOINT interface</h3>
 <p>If AD DS is deployed, add narrow rules from ENDPOINT net to PSV_DC_DNS:
 - TCP/UDP ports in PSV_AD_TCPUDP_CORE.
 - TCP ports in PSV_AD_TCP_CORE only for services required.
 - TCP dynamic RPC range only if required for domain operations/GPO/remote management; scope destination to the DC.
 - UDP/123 to the designated NTP source.</p>
 <p>If AD DS is deployed, allow DNS only to the DC and do not permit arbitrary Internet DNS or firewall Unbound as a bypass. If AD DS is not deployed and Unbound is selected, instead allow ENDPOINT net to This Firewall on UDP/53 and TCP/53. Do not enable both patterns unless the host roles explicitly require them. Add endpoint agent/forwarder access later, only after Stage 8, on this ENDPOINT ingress interface and only to the selected PSV_SIEM address/required ports.</p>
-<h3 id="redteam-interface">REDTEAM interface<a class="headerlink" href="#redteam-interface" title="Permanent link">&para;</a></h3>
+<h3 id="redteam-interface">REDTEAM interface</h3>
 <p>Allow only the approved assessment source(s) to PSV_DMZ_TARGET on the explicitly selected test ports. Use a time-bounded rule and enable logging. If REDTEAM clients require DNS, allow REDTEAM net to This Firewall on UDP/53 and TCP/53 only; otherwise omit DNS from the DHCP scope. Deny REDTEAM to MGMT, SERVER, ENDPOINT, SENSOR-MGMT and the home LAN.</p>
-<h3 id="dmz-interface">DMZ interface<a class="headerlink" href="#dmz-interface" title="Permanent link">&para;</a></h3>
+<h3 id="dmz-interface">DMZ interface</h3>
 <p>Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENSOR-MGMT or the home LAN. Allow only narrowly required egress (for example, package updates) during a controlled maintenance window. If DMZ clients require DNS for a controlled update window, allow DMZ net to This Firewall on UDP/53 and TCP/53 only; otherwise do not advertise a resolver in DHCP. Remove update egress before assessments.</p>
-<h3 id="sensor-mgmt-interface">SENSOR-MGMT interface<a class="headerlink" href="#sensor-mgmt-interface" title="Permanent link">&para;</a></h3>
+<h3 id="sensor-mgmt-interface">SENSOR-MGMT interface</h3>
 <p>The rule allowing PSV_MGMT_ADMIN to reach sensor management host 10.10.50.10 on required SSH/HTTPS ports must be created on the <strong>MGMT ingress interface</strong>, because MGMT is the source. Do not create that source rule on SENSOR-MGMT. This interface is for traffic initiated by the sensor management host. Do not use it as a capture feed. The sensor's capture NIC is separate, has no IP/default gateway and must receive a verified mirror/tap feed.</p>
 <p>For the example sensor management host 10.10.50.10, add only the DNS/time flow matching your design: if it uses Unbound, allow that host to This Firewall on UDP/53 and TCP/53; if it uses AD DNS/time, allow it to 10.10.30.10 on TCP/UDP 53 and UDP/123. For temporary OS/package updates, add a time-bounded rule from 10.10.50.10 only to WAN on TCP/80,443 and UDP/123, then remove it. Do not permit the whole SENSOR-MGMT subnet to unrestricted Internet access.</p>
 <p>After Stage 8, add only the selected SIEM agent flow from 10.10.50.10: Elastic to Fleet Server/Elasticsearch (typically TCP/8220 and the configured Elasticsearch endpoint), Splunk Universal Forwarder to the receiver (TCP/9997), or Wazuh agent to manager (TCP/1514 and TCP/1515 only during enrollment). Use the actual server addresses/ports from the policy matrix and selected deployment. Do not enable all three paths.</p>
-<h3 id="server-interface">SERVER interface<a class="headerlink" href="#server-interface" title="Permanent link">&para;</a></h3>
+<h3 id="server-interface">SERVER interface</h3>
 <p>Apply rules here only to traffic that actually enters from SERVER. If non-domain SERVER hosts use Unbound, allow only the required SERVER hosts to This Firewall on UDP/53 and TCP/53. If a SERVER host must reach a different subnet/service, add the narrow source/destination/port rule. Hosts on the same SERVER subnet communicate at Layer 2 and are not filtered by the router; enforce host firewalls between them. OPNsense-originated remote syslog is configured under the system remote-logging settings, not as a SERVER-interface ingress rule. Endpoint-to-SIEM rules belong on ENDPOINT, sensor-to-SIEM rules on SENSOR-MGMT, and management UI rules on MGMT. Do not permit REDTEAM/DMZ to access server management ports.</p>
-<h2 id="8-nat-and-controlled-update-egress">8. NAT and controlled update egress<a class="headerlink" href="#8-nat-and-controlled-update-egress" title="Permanent link">&para;</a></h2>
+<h2 id="8-nat-and-controlled-update-egress">8. NAT and controlled update egress</h2>
 <p>Keep outbound NAT in the documented default/automatic mode unless the lab design requires a specific manual mapping. Confirm internal source networks are translated through WAN. WAN is connected to the hypervisor NAT uplink, not directly to REDTEAM/DMZ.</p>
 <p>For initial package updates, add temporary egress rules from only the infrastructure hosts that need updates. Prefer DNS + HTTP/HTTPS and only to the intended upstream path. Remove broad egress after updates. Do not create inbound WAN port forwards for management.</p>
-<h2 id="9-firewall-logging-and-remote-forwarding">9. Firewall logging and remote forwarding<a class="headerlink" href="#9-firewall-logging-and-remote-forwarding" title="Permanent link">&para;</a></h2>
+<h2 id="9-firewall-logging-and-remote-forwarding">9. Firewall logging and remote forwarding</h2>
 <ol>
 <li>Enable logging on the specific pass/block rules used for acceptance tests.</li>
 <li>Open Firewall → Log Files → Live View and verify source, destination, port, interface, rule and action.</li>
@@ -2580,7 +2580,7 @@
 <li>Configure Suricata EVE forwarding separately if IDS alert records are required.</li>
 </ol>
 <p>Keep local firewall logs enabled and retain an encrypted OPNsense configuration backup.</p>
-<h2 id="10-suricata-ids-passive-alert-only-first">10. Suricata IDS — passive alert-only first<a class="headerlink" href="#10-suricata-ids-passive-alert-only-first" title="Permanent link">&para;</a></h2>
+<h2 id="10-suricata-ids-passive-alert-only-first">10. Suricata IDS — passive alert-only first</h2>
 <p>Only after interfaces and firewall rules are stable:
 1. Open Services → Intrusion Detection.
 2. Select the intended internal interfaces that carry routed traffic; WAN-only monitoring after NAT may lose original internal source identity.
@@ -2589,7 +2589,7 @@
 5. Start in IDS/alert-only mode. Do not enable inline IPS blocking until the passive path is proven and you understand the hypervisor NIC/run mode support.
 6. Generate a known test flow and a safe positive signature test in the isolated lab.
 7. Verify packet counters, alert record and local log; forward the EVE record to the relay only after local proof.</p>
-<h2 id="11-acceptance-and-recovery">11. Acceptance and recovery<a class="headerlink" href="#11-acceptance-and-recovery" title="Permanent link">&para;</a></h2>
+<h2 id="11-acceptance-and-recovery">11. Acceptance and recovery</h2>
 <ul>
 <li>[ ] All seven interfaces map to the intended networks and MAC inventory.</li>
 <li>[ ] Each internal interface has the intended static address.</li>
@@ -2607,7 +2607,7 @@
 <li>[ ] Config backup is saved and restore procedure is known.</li>
 </ul>
 <p>If an interface or rule change breaks management, use the hypervisor console to restore the last known-good config backup. Do not expose the GUI on WAN as a recovery shortcut.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.opnsense.org/manual/interfaces.html">OPNsense interface configuration</a></li>
 <li><a href="https://docs.opnsense.org/manual/dhcp.html">OPNsense DHCP services</a></li>

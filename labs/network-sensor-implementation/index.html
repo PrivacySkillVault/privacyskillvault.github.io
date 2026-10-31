@@ -2182,10 +2182,10 @@
 
 
 
-<h1 id="network-sensor-deployment-zeek-and-suricata">Network sensor deployment — Zeek and Suricata<a class="headerlink" href="#network-sensor-deployment-zeek-and-suricata" title="Permanent link">&para;</a></h1>
+<h1 id="network-sensor-deployment-zeek-and-suricata">Network sensor deployment — Zeek and Suricata</h1>
 <p><badge color="warning">Implementation runbook — live capture requires a proven packet feed</badge></p>
 <p>This page covers a Linux sensor after <a href="../hypervisor-network-implementation/">Hypervisor Networking</a> is configured. A running Zeek/Suricata process is not proof of visibility. The acceptance test is a known flow visible on the capture NIC and a corresponding local log record.</p>
-<h2 id="1-choose-sensor-role-and-scope">1. Choose sensor role and scope<a class="headerlink" href="#1-choose-sensor-role-and-scope" title="Permanent link">&para;</a></h2>
+<h2 id="1-choose-sensor-role-and-scope">1. Choose sensor role and scope</h2>
 <p>Use Ubuntu Server on a supported x86-64 host for the Windows lab. On Apple Silicon use an ARM64 Ubuntu guest and verify that the exact Zeek/Suricata release and package source support AArch64. Do not copy x86 package repositories or binaries to ARM.</p>
 <p>Starting allocation: 4 vCPU, 8 GB RAM, SSD-backed log volume. Add capacity based on measured packet rate, enabled protocols, JSON volume and retention. Separate the management NIC from capture NICs.</p>
 <table>
@@ -2213,7 +2213,7 @@
 </tbody>
 </table>
 <p>Do not bridge capture NICs, enable IP forwarding, or allow them to route between networks. Record hostname, OS release, architecture, package versions, capture interface MACs, mirror source ports and observed segments.</p>
-<h2 id="2-prove-capture-before-installing-analyzers">2. Prove capture before installing analyzers<a class="headerlink" href="#2-prove-capture-before-installing-analyzers" title="Permanent link">&para;</a></h2>
+<h2 id="2-prove-capture-before-installing-analyzers">2. Prove capture before installing analyzers</h2>
 <p>Identify NICs:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ip<span class="w"> </span>-br<span class="w"> </span>link
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
@@ -2225,7 +2225,7 @@
 </span></code></pre></div>
 <p>Expected: packets with the source/destination tuple and timestamps matching the generated test. If the test is not visible, stop and correct the mirror/tap topology. Do not install or tune Zeek/Suricata to compensate for a missing feed.</p>
 <p>For deterministic offline analysis, use an authorised lab PCAP and label the exercise <strong>offline PCAP analysis</strong>. Do not describe it as live network monitoring.</p>
-<h2 id="3-install-prerequisites-and-record-versions">3. Install prerequisites and record versions<a class="headerlink" href="#3-install-prerequisites-and-record-versions" title="Permanent link">&para;</a></h2>
+<h2 id="3-install-prerequisites-and-record-versions">3. Install prerequisites and record versions</h2>
 <p>Use official package instructions for the exact Ubuntu release and architecture. Do not add an unverified third-party repository. Record source, repository signing key, package version and installation date.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>jq<span class="w"> </span>tcpdump<span class="w"> </span>ethtool<span class="w"> </span>logrotate
@@ -2239,7 +2239,7 @@
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>suricata<span class="w"> </span>--list-runmodes
 </span></code></pre></div>
 <p>If either tool is unavailable for the guest architecture/release, do not force an x86 binary or untrusted package. Use a supported x86-64 sensor host, a supported ARM build, or offline PCAP tooling.</p>
-<h2 id="4-zeek-enable-json-output-deliberately">4. Zeek — enable JSON output deliberately<a class="headerlink" href="#4-zeek-enable-json-output-deliberately" title="Permanent link">&para;</a></h2>
+<h2 id="4-zeek-enable-json-output-deliberately">4. Zeek — enable JSON output deliberately</h2>
 <p>Zeek's default ASCII log output is not JSON. Enable the documented JSON logging policy in the active Zeek site/local configuration:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>@load policy/tuning/json-logs
 </span></code></pre></div>
@@ -2253,7 +2253,7 @@
 </span></code></pre></div>
 <p>Verify conn.log and dns.log exist when those protocols exist in the PCAP. Inspect JSON keys and timestamps. A PCAP with no DNS traffic will not produce DNS events.</p>
 <p>For live mode, configure the capture interface in the installed Zeek deployment (ZeekControl or supported package service), then check the active interface and service status. Do not assume a service name or interface variable across packaging methods. Validate using a known DNS query and TCP connection.</p>
-<h2 id="5-suricata-eve-json-and-capture-mode">5. Suricata — EVE JSON and capture mode<a class="headerlink" href="#5-suricata-eve-json-and-capture-mode" title="Permanent link">&para;</a></h2>
+<h2 id="5-suricata-eve-json-and-capture-mode">5. Suricata — EVE JSON and capture mode</h2>
 <p>Inspect the installed configuration and service before editing:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>suricata<span class="w"> </span>--build-info
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>suricata<span class="w"> </span>--no-pager
@@ -2268,10 +2268,10 @@
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>sudo<span class="w"> </span>jq<span class="w"> </span>-c<span class="w"> </span><span class="s1">'select(.event_type=="flow" or .event_type=="alert")'</span><span class="w"> </span>/var/log/suricata/psv-pcap-test/eve.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
 </span></code></pre></div>
 <p>For live service, validate YAML with the installed Suricata test option before restart (commonly sudo suricata -T -c /etc/suricata/suricata.yaml). Then restart the package service and inspect its journal. Do not copy a run command from a different version without checking suricata --help.</p>
-<h2 id="6-rules-and-safe-test-traffic">6. Rules and safe test traffic<a class="headerlink" href="#6-rules-and-safe-test-traffic" title="Permanent link">&para;</a></h2>
+<h2 id="6-rules-and-safe-test-traffic">6. Rules and safe test traffic</h2>
 <p>Use official Emerging Threats Open rules or another documented ruleset compatible with the installed Suricata release. Record ruleset version and update date. An empty alert file is not a failure if traffic does not match a signature.</p>
 <p>For a safe positive test, use the documented Suricata test signature and test method from current vendor documentation in a fully isolated lab. Confirm the intended packet reaches the capture NIC, Suricata increments packet counters, EVE contains the expected signature/source/destination, and no unexpected IPS drop occurred. Run a negative test using ordinary benign traffic and confirm it does not trigger the test signature.</p>
-<h2 id="7-storage-rotation-and-permissions">7. Storage, rotation and permissions<a class="headerlink" href="#7-storage-rotation-and-permissions" title="Permanent link">&para;</a></h2>
+<h2 id="7-storage-rotation-and-permissions">7. Storage, rotation and permissions</h2>
 <p>Use a dedicated log filesystem or bounded volume where possible. Example logrotate policy skeleton (adjust owner/group and path after verifying the installed service):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/var/log/zeek/*.log /var/log/suricata/eve.json {
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    daily
@@ -2289,7 +2289,7 @@
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>suricata<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>--no-pager
 </span></code></pre></div>
 <p>Do not continuously retain full PCAP unless capacity, privacy, access and retention are explicitly designed. Keep PCAP separate from SIEM event logs.</p>
-<h2 id="8-pre-siem-acceptance-gate">8. Pre-SIEM acceptance gate<a class="headerlink" href="#8-pre-siem-acceptance-gate" title="Permanent link">&para;</a></h2>
+<h2 id="8-pre-siem-acceptance-gate">8. Pre-SIEM acceptance gate</h2>
 <ul>
 <li>[ ] Known DNS/TCP test packets visible on capture NIC.</li>
 <li>[ ] Sensor capture interface has no unintended IP/default route.</li>
@@ -2303,7 +2303,7 @@
 <li>[ ] Evidence is sanitized and contains no customer/employer traffic.</li>
 </ul>
 <p>Do not configure SIEM ingestion until this gate passes. Then follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a> and the selected SIEM page.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.zeek.org/en/current/install.html">Zeek installation</a></li>
 <li><a href="https://docs.zeek.org/en/current/tutorial/logs.html">Zeek JSON logging</a></li>

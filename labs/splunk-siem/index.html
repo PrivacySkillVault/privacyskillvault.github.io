@@ -2226,16 +2226,16 @@
 
 
 
-<h1 id="lab-6-splunk-enterprise-and-universal-forwarder">Lab 6 — Splunk Enterprise and Universal Forwarder<a class="headerlink" href="#lab-6-splunk-enterprise-and-universal-forwarder" title="Permanent link">&para;</a></h1>
+<h1 id="lab-6-splunk-enterprise-and-universal-forwarder">Lab 6 — Splunk Enterprise and Universal Forwarder</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>This is a separate Splunk deployment. Use a supported x86-64 Windows or Linux server on the Windows PC. The Mac is an endpoint/admin client; do not assume Splunk Enterprise server is supported natively on Apple-silicon macOS.</p>
-<h2 id="mandatory-prerequisites-complete-before-installing-splunk">Mandatory prerequisites — complete before installing Splunk<a class="headerlink" href="#mandatory-prerequisites-complete-before-installing-splunk" title="Permanent link">&para;</a></h2>
+<h2 id="mandatory-prerequisites-complete-before-installing-splunk">Mandatory prerequisites — complete before installing Splunk</h2>
 <p>Do not start this SIEM until Stages 0–7 in <a href="../build-sequence/">Master Build Sequence</a> pass. Firewall syslog must be written by the Linux relay; Zeek/Suricata files must exist and be readable on the sensor; Windows Security/Sysmon and Linux source events must be proven locally. Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>.</p>
 <p>Use Splunk Universal Forwarder to monitor endpoint Event Log channels and relay/sensor files. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog; direct TCP/UDP syslog input to Splunk Enterprise is discouraged for production designs. Verify OS and architecture support for each forwarder host.</p>
-<h2 id="1-architecture">1. Architecture<a class="headerlink" href="#1-architecture" title="Permanent link">&para;</a></h2>
+<h2 id="1-architecture">1. Architecture</h2>
 <p>Windows endpoint (Sysmon + Universal Forwarder) → TCP receiving port → Splunk Enterprise → Search &amp; Reporting.</p>
 <p>Use a dedicated VM. Do not run Splunk, Elastic, Wazuh and Security Onion together on a resource-constrained host.</p>
-<h2 id="2-install-splunk-enterprise">2. Install Splunk Enterprise<a class="headerlink" href="#2-install-splunk-enterprise" title="Permanent link">&para;</a></h2>
+<h2 id="2-install-splunk-enterprise">2. Install Splunk Enterprise</h2>
 <ol>
 <li>Download the current Splunk Enterprise installer from Splunk's official download portal.</li>
 <li>Check current supported OS, architecture, RAM, disk and licence terms.</li>
@@ -2251,7 +2251,7 @@
 <li>Set a strong unique admin password and store it securely.</li>
 <li>Confirm the service is running and open Splunk Web from MGMT only.</li>
 </ol>
-<h2 id="3-enable-receiving">3. Enable receiving<a class="headerlink" href="#3-enable-receiving" title="Permanent link">&para;</a></h2>
+<h2 id="3-enable-receiving">3. Enable receiving</h2>
 <p>In Splunk Web, go to Settings → Forwarding and receiving → Configure receiving → New Receiving Port. Configure TCP 9997 (or another explicitly selected port). Restrict inbound access to the endpoint subnet.</p>
 <p>Verify on Linux:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>ss<span class="w"> </span>-lntp<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">9997</span>
@@ -2260,9 +2260,9 @@
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">Get-NetTCPConnection</span> <span class="n">-LocalPort</span> <span class="n">9997</span> <span class="n">-State</span> <span class="n">Listen</span>
 </span></code></pre></div>
 <p>Do not expose management port 8089 or Web port 8000 to untrusted networks.</p>
-<h2 id="4-create-a-test-index">4. Create a test index<a class="headerlink" href="#4-create-a-test-index" title="Permanent link">&para;</a></h2>
+<h2 id="4-create-a-test-index">4. Create a test index</h2>
 <p>Create an index named <code>windows_lab</code> under Settings → Indexes. Record its retention and storage policy. Use a disposable lab index, not production.</p>
-<h2 id="5-install-universal-forwarder-on-windows-endpoint">5. Install Universal Forwarder on Windows endpoint<a class="headerlink" href="#5-install-universal-forwarder-on-windows-endpoint" title="Permanent link">&para;</a></h2>
+<h2 id="5-install-universal-forwarder-on-windows-endpoint">5. Install Universal Forwarder on Windows endpoint</h2>
 <ol>
 <li>Download the current Windows x64 Universal Forwarder MSI from Splunk.</li>
 <li>Confirm compatibility with the Enterprise version.</li>
@@ -2288,7 +2288,7 @@
 <ol>
 <li>Restart the forwarder using the supported service/CLI method and inspect its internal logs.</li>
 </ol>
-<h2 id="6-verify-ingestion">6. Verify ingestion<a class="headerlink" href="#6-verify-ingestion" title="Permanent link">&para;</a></h2>
+<h2 id="6-verify-ingestion">6. Verify ingestion</h2>
 <p>Search:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>index=windows_lab earliest=-15m
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>| stats count by host sourcetype source
@@ -2299,9 +2299,9 @@
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>| sort -_time
 </span></code></pre></div>
 <p>Field names vary with raw XML, add-ons and parsing. If EventCode or Image is absent, inspect raw events and adapt the query. A running forwarder service is not proof of ingestion.</p>
-<h2 id="7-test-the-phase-5-detection">7. Test the Phase 5 detection<a class="headerlink" href="#7-test-the-phase-5-detection" title="Permanent link">&para;</a></h2>
+<h2 id="7-test-the-phase-5-detection">7. Test the Phase 5 detection</h2>
 <p>Use the PowerShell encoded-command detection only after confirming the real field names. Run positive and negative test cases on the disposable endpoint. Record raw event, search result, field extraction and any benign positives. Do not use production indexes.</p>
-<h2 id="8-troubleshooting">8. Troubleshooting<a class="headerlink" href="#8-troubleshooting" title="Permanent link">&para;</a></h2>
+<h2 id="8-troubleshooting">8. Troubleshooting</h2>
 <ul>
 <li>Confirm the local Sysmon event exists.</li>
 <li>Check forwarder service status and internal logs.</li>
@@ -2311,9 +2311,9 @@
 <li>Inspect raw XML before changing field names.</li>
 <li>Avoid duplicate collection of the same channel by multiple agents.</li>
 </ul>
-<h2 id="9-licence-note">9. Licence note<a class="headerlink" href="#9-licence-note" title="Permanent link">&para;</a></h2>
+<h2 id="9-licence-note">9. Licence note</h2>
 <p>Splunk licence and trial/free capabilities change. Check current terms from Splunk before downloading; do not assume an evaluation remains fully functional after expiry.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.splunk.com/Documentation/Splunk/latest/Installation/InstallonLinux">Splunk Enterprise installation</a></li>
 <li><a href="https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Installtheuniversalforwarder">Universal Forwarder installation</a></li>

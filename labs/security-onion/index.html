@@ -2138,19 +2138,19 @@
 
 
 
-<h1 id="lab-10-security-onion-standalone-monitoring-x86-64-only">Lab 10 — Security Onion standalone monitoring (x86-64 only)<a class="headerlink" href="#lab-10-security-onion-standalone-monitoring-x86-64-only" title="Permanent link">&para;</a></h1>
+<h1 id="lab-10-security-onion-standalone-monitoring-x86-64-only">Lab 10 — Security Onion standalone monitoring (x86-64 only)</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
 <p>Security Onion is a separate network security monitoring platform. It is not an add-on to the Elastic/Wazuh VM. Use a dedicated x86-64 host/VM on the Windows PC and consult the current Security Onion 3 hardware and installation documentation before allocating resources. It does not support Apple-silicon ARM as a native deployment target.</p>
-<h2 id="dependency-order">Dependency order<a class="headerlink" href="#dependency-order" title="Permanent link">&para;</a></h2>
+<h2 id="dependency-order">Dependency order</h2>
 <p>Complete network segmentation, firewall policy, endpoint telemetry and packet visibility before installing Security Onion. It is an optional integrated x86-64 NSM/SOC platform, not a prerequisite for Elastic/Splunk/Wazuh and not an ARM Mac guest. Complete Stages 0–6 in <a href="../build-sequence/">Master Build Sequence</a> first.</p>
-<h2 id="1-resource-and-topology">1. Resource and topology<a class="headerlink" href="#1-resource-and-topology" title="Permanent link">&para;</a></h2>
+<h2 id="1-resource-and-topology">1. Resource and topology</h2>
 <p>For a small standalone learning deployment, start with the vendor's current minimums as the floor, not a production sizing target. Security Onion can require substantial RAM, CPU, disk I/O and storage. Allocate a dedicated VM or spare x86-64 PC; do not run it alongside other full SIEM stacks on a 64 GB host.</p>
 <p>Recommended logical interfaces:
 - Management interface: MGMT network, static address and gateway as required.
 - Monitoring interface: SENSOR network, receives mirrored traffic, no IP/gateway and no management access.
 - Optional storage: dedicated SSD-backed virtual disk with sufficient capacity.</p>
 <p>The monitoring interface must receive traffic. A NIC attached to an empty private switch sees no network traffic.</p>
-<h2 id="2-prepare-installer">2. Prepare installer<a class="headerlink" href="#2-prepare-installer" title="Permanent link">&para;</a></h2>
+<h2 id="2-prepare-installer">2. Prepare installer</h2>
 <ol>
 <li>Download the current Security Onion ISO from its official download page.</li>
 <li>Verify the published checksum.</li>
@@ -2162,7 +2162,7 @@
 <li>Complete setup and save credentials securely.</li>
 </ol>
 <p>Installer prompts and supported deployment modes can change between releases. Use the current official installation guide, not screenshots from older versions.</p>
-<h2 id="3-configure-packet-visibility">3. Configure packet visibility<a class="headerlink" href="#3-configure-packet-visibility" title="Permanent link">&para;</a></h2>
+<h2 id="3-configure-packet-visibility">3. Configure packet visibility</h2>
 <p>Before expecting alerts:
 1. Configure the hypervisor or lab firewall to mirror selected endpoint/DMZ traffic to the sensor capture NIC.
 2. Confirm the monitoring NIC is assigned as the sniffing interface in Security Onion.
@@ -2170,7 +2170,7 @@
 4. Generate a known benign connection between two lab VMs.
 5. Confirm packets are visible using the Security Onion interface and supported capture tooling.</p>
 <p>Do not enable promiscuous mode and assume that this creates a mirror. Hypervisor port mirroring or an explicit network tap/bridge is required for traffic not addressed to the sensor.</p>
-<h2 id="4-validate-ingestion-and-detections">4. Validate ingestion and detections<a class="headerlink" href="#4-validate-ingestion-and-detections" title="Permanent link">&para;</a></h2>
+<h2 id="4-validate-ingestion-and-detections">4. Validate ingestion and detections</h2>
 <ol>
 <li>Confirm sensor services and health in the Security Onion interface.</li>
 <li>Generate benign DNS and HTTP traffic between lab endpoints and the Juice Shop target.</li>
@@ -2180,7 +2180,7 @@
 <li>Document packet loss, capture gaps, rule version and retention.</li>
 </ol>
 <p>Security Onion's component set and data schemas are release-dependent. Use the current vendor docs for SOC UI, Hunt, Alerts, Cases, Elastic Agent and sensor health procedures.</p>
-<h2 id="5-safe-operation">5. Safe operation<a class="headerlink" href="#5-safe-operation" title="Permanent link">&para;</a></h2>
+<h2 id="5-safe-operation">5. Safe operation</h2>
 <ul>
 <li>Never attach the monitoring interface to a bridged home network.</li>
 <li>Never expose the Security Onion management UI to the Internet.</li>
@@ -2189,7 +2189,7 @@
 <li>Treat packet captures as sensitive; they may contain credentials or personal content.</li>
 <li>Keep Security Onion isolated from other SIEM labs until the network and storage requirements are understood.</li>
 </ul>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://docs.securityonion.net/en/3/dev/hardware/">Security Onion hardware requirements</a></li>
 <li><a href="https://docs.securityonion.net/en/3/installation/">Security Onion installation</a></li>

@@ -2138,10 +2138,10 @@
 
 
 
-<h1 id="hypervisor-networking-and-packet-visibility">Hypervisor networking and packet visibility<a class="headerlink" href="#hypervisor-networking-and-packet-visibility" title="Permanent link">&para;</a></h1>
+<h1 id="hypervisor-networking-and-packet-visibility">Hypervisor networking and packet visibility</h1>
 <p><badge color="warning">Configuration reference — validate against the installed hypervisor release</badge></p>
 <p>This runbook converts the logical topology into actual virtual switches, VM adapters and a capture design. A private switch, NAT network, host-only network and bridged adapter have different security properties. Attaching a sensor VM to an ordinary virtual network does not automatically make it see every guest's unicast traffic.</p>
-<h2 id="1-freeze-the-network-design">1. Freeze the network design<a class="headerlink" href="#1-freeze-the-network-design" title="Permanent link">&para;</a></h2>
+<h2 id="1-freeze-the-network-design">1. Freeze the network design</h2>
 <p>Check the example subnets against the physical LAN, VPN routes, Docker/WSL networks and existing virtual networks before use.</p>
 <table>
 <thead>
@@ -2193,7 +2193,7 @@
 </table>
 <p>SENSOR-MGMT is not a packet-mirror network. The sensor needs a separate capture NIC connected to a real mirror/tap or deliberately designed inline path. Do not assign a default route to capture-only NICs.</p>
 <p>For every VM, record adapter number, switch/network name, MAC, IPv4/IPv6 settings, VLAN (if any), role, and whether the NIC is management or capture-only.</p>
-<h2 id="2-hyper-v-create-private-switches">2. Hyper-V — create private switches<a class="headerlink" href="#2-hyper-v-create-private-switches" title="Permanent link">&para;</a></h2>
+<h2 id="2-hyper-v-create-private-switches">2. Hyper-V — create private switches</h2>
 <p>Run PowerShell as Administrator. Inspect existing configuration first:</p>
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">Get-NetAdapter</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span><span class="n">InterfaceDescription</span><span class="p">,</span><span class="n">Status</span><span class="p">,</span><span class="n">LinkSpeed</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">Get-VMSwitch</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span><span class="n">SwitchType</span><span class="p">,</span><span class="n">NetAdapterInterfaceDescription</span>
@@ -2232,7 +2232,7 @@
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">Get-VMNetworkAdapter</span> <span class="n">-VMName</span> <span class="s2">"PSV-OPNSENSE"</span> <span class="p">|</span> <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span><span class="n">SwitchName</span><span class="p">,</span><span class="n">MacAddress</span>
 </span></code></pre></div>
 <p>If a WAN adapter already exists, connect that adapter to the switch with Connect-VMNetworkAdapter instead of adding a duplicate. Configure OPNsense WAN as 192.168.250.2/24 with gateway 192.168.250.1 and a deliberately selected upstream DNS resolver. Record all MAC addresses and map interfaces by MAC inside OPNsense; never assume adapter enumeration order.</p>
-<h2 id="3-hyper-v-configure-port-mirroring">3. Hyper-V — configure port mirroring<a class="headerlink" href="#3-hyper-v-configure-port-mirroring" title="Permanent link">&para;</a></h2>
+<h2 id="3-hyper-v-configure-port-mirroring">3. Hyper-V — configure port mirroring</h2>
 <p>Hyper-V port mirroring copies traffic sent/received by source adapters to a destination adapter. Source and destination adapters must be connected to the same virtual switch. This is not a global mirror across unrelated switches.</p>
 <p>Example: attach a sensor capture NIC to the same virtual switch as the monitored endpoint adapter, then set mirror roles. Replace adapter names with the actual names shown by Get-VMNetworkAdapter:</p>
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">Add-VMNetworkAdapter</span> <span class="n">-VMName</span> <span class="s2">"PSV-SENSOR"</span> <span class="n">-Name</span> <span class="s2">"CAPTURE-ENDPOINT"</span> <span class="n">-SwitchName</span> <span class="s2">"PSV-ENDPOINT"</span>
@@ -2248,11 +2248,11 @@
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="nb">Format-Table</span> <span class="n">Name</span><span class="p">,</span><span class="n">SwitchName</span><span class="p">,</span><span class="n">PortMirroring</span>
 </span></code></pre></div>
 <p>For multiple isolated switches, use one capture NIC per switch where supported, a documented aggregation design, router-interface capture, a physical managed-switch SPAN/TAP, or offline PCAP. Do not bridge isolated networks merely to make one sensor see them.</p>
-<h2 id="4-vmware-workstation-fusion-and-virtualbox">4. VMware Workstation, Fusion and VirtualBox<a class="headerlink" href="#4-vmware-workstation-fusion-and-virtualbox" title="Permanent link">&para;</a></h2>
+<h2 id="4-vmware-workstation-fusion-and-virtualbox">4. VMware Workstation, Fusion and VirtualBox</h2>
 <p>Create distinct host-only/private networks for each segment and a NAT network only for firewall WAN or explicitly permitted update egress. Record each virtual network's subnet and DHCP state. Disable hypervisor DHCP on any segment where the lab router or AD DHCP server owns the scope. Never run two DHCP servers on one L2 segment.</p>
 <p><strong>Promiscuous mode is not SPAN.</strong> It only permits a guest NIC to receive frames the virtual switch actually delivers. It does not guarantee that unicast traffic between other VMs is copied to the sensor. VirtualBox promiscuous policy and VMware capture behavior are not substitutes for documented port mirroring.</p>
 <p>For VMware Fusion on Apple Silicon, use supported ARM64 guests and the network types exposed by the installed release. NAT, host-only and bridged networks do not automatically mirror traffic. If Fusion cannot provide the required isolated networks or mirror, use router-interface capture, external managed-switch SPAN/TAP, or offline PCAP. Do not label a host-only network as an enterprise SPAN.</p>
-<h2 id="5-sensor-nic-roles">5. Sensor NIC roles<a class="headerlink" href="#5-sensor-nic-roles" title="Permanent link">&para;</a></h2>
+<h2 id="5-sensor-nic-roles">5. Sensor NIC roles</h2>
 <p>The sensor should have:
 - One management NIC on SENSOR-MGMT or a documented management segment.
 - One or more capture NICs attached only to intended mirror/tap paths.
@@ -2266,7 +2266,7 @@
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>sudo<span class="w"> </span>ethtool<span class="w"> </span>-k<span class="w"> </span>&lt;capture-interface&gt;
 </span></code></pre></div>
 <p>Set capture NICs up without IP addresses only after confirming interface names. Do not disable offloads blindly; test packet integrity and document any changes. Measure packet loss under load.</p>
-<h2 id="6-acceptance-tests">6. Acceptance tests<a class="headerlink" href="#6-acceptance-tests" title="Permanent link">&para;</a></h2>
+<h2 id="6-acceptance-tests">6. Acceptance tests</h2>
 <ol>
 <li>Generate a unique DNS query and TCP connection from a test endpoint to a controlled target.</li>
 <li>Record source, destination, ports and timestamp at the endpoint.</li>
@@ -2282,7 +2282,7 @@
 </span></code></pre></div>
 <p><strong>Pass:</strong> the known flow is visible on the intended interface, the capture path is documented, and no unintended network is exposed.</p>
 <p><strong>Fail:</strong> no packet is visible, only broadcast traffic appears, the sensor sees only its own traffic, or capture NIC has an unintended IP/default route. Stop before installing Zeek or Suricata.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/powershell/module/hyper-v/set-vmnetworkadapter">Microsoft Set-VMNetworkAdapter — port mirroring</a></li>
 <li><a href="https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html">Broadcom VMware Fusion network types</a></li>

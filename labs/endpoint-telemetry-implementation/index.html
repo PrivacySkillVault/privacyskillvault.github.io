@@ -2238,17 +2238,17 @@
 
 
 
-<h1 id="endpoint-telemetry-implementation-windows-linux-and-macos">Endpoint telemetry implementation — Windows, Linux and macOS<a class="headerlink" href="#endpoint-telemetry-implementation-windows-linux-and-macos" title="Permanent link">&para;</a></h1>
+<h1 id="endpoint-telemetry-implementation-windows-linux-and-macos">Endpoint telemetry implementation — Windows, Linux and macOS</h1>
 <p><badge color="warning">Pre-SIEM source configuration — verify locally before installing collectors</badge></p>
 <p>This guide proves endpoint event generation on each platform. The Windows x64 and Apple Silicon Mac tracks are not interchangeable: Windows Security Event Log/Sysmon, Linux audit/journal and macOS Unified Logging are different data sources. Do not install a Windows collector or Sysmon configuration on macOS and assume equivalent coverage.</p>
-<h2 id="1-common-preparation">1. Common preparation<a class="headerlink" href="#1-common-preparation" title="Permanent link">&para;</a></h2>
+<h2 id="1-common-preparation">1. Common preparation</h2>
 <p>For each endpoint record hostname, OS/build, architecture, IP, DNS, NTP/timezone, interface, agent support matrix and snapshot. Use a dedicated synthetic lab account and benign test actions. Do not collect employer, customer or personal data.</p>
 <p>The endpoint must have:
 - A stable hostname and correct time.
 - Network access only to required DNS/NTP, domain services (where used), and the later SIEM/agent endpoints.
 - A local event source configured and verified before any SIEM agent is installed.
 - A written retention plan and an evidence directory that excludes credentials and tokens.</p>
-<h2 id="2-windows-11-x64-advanced-audit-policy">2. Windows 11 x64 — Advanced Audit Policy<a class="headerlink" href="#2-windows-11-x64-advanced-audit-policy" title="Permanent link">&para;</a></h2>
+<h2 id="2-windows-11-x64-advanced-audit-policy">2. Windows 11 x64 — Advanced Audit Policy</h2>
 <p>Complete domain join and lab GPO preparation in <a href="../operating-systems/">Operating Systems &amp; Identity</a>.</p>
 <p>Create a lab-only GPO and link it only to the test workstation OU. Configure:
 - Account Management → Audit Security Group Management: Success.
@@ -2282,7 +2282,7 @@
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span> <span class="n">-MaxEvents</span> <span class="n">5</span> <span class="p">|</span> <span class="nb">Format-List</span> <span class="n">TimeCreated</span><span class="p">,</span><span class="n">Id</span><span class="p">,</span><span class="n">ProviderName</span><span class="p">,</span><span class="n">Message</span>
 </span></code></pre></div>
 <p>If no 4688 appears, verify the audit subcategory, effective GPO, policy precedence and process creation; do not troubleshoot the SIEM yet.</p>
-<h2 id="3-windows-11-x64-sysmon">3. Windows 11 x64 — Sysmon<a class="headerlink" href="#3-windows-11-x64-sysmon" title="Permanent link">&para;</a></h2>
+<h2 id="3-windows-11-x64-sysmon">3. Windows 11 x64 — Sysmon</h2>
 <p>Download Sysmon only from Microsoft's Sysinternals page. Create the tools directory, extract the downloaded archive into it, verify the Microsoft signature and record the file version:</p>
 <p>Install using the Microsoft Sysmon default configuration for the first smoke test:</p>
 <div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">New-Item</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Path</span> <span class="n">C</span><span class="p">:\</span><span class="n">CyberLab</span><span class="p">\</span><span class="n">Tools</span><span class="p">\</span><span class="n">Sysmon</span> <span class="n">-Force</span> <span class="p">|</span> <span class="nb">Out-Null</span>
@@ -2310,7 +2310,7 @@
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">.\</span><span class="n">Sysmon64</span><span class="p">.</span><span class="n">exe</span> <span class="p">-?</span>
 </span></code></pre></div>
 <p>For a controlled uninstall after the lab, use the documented Sysmon uninstall command and verify the service/event channel state. Snapshot before major configuration changes.</p>
-<h2 id="4-linux-journald-and-auditd">4. Linux — journald and auditd<a class="headerlink" href="#4-linux-journald-and-auditd" title="Permanent link">&para;</a></h2>
+<h2 id="4-linux-journald-and-auditd">4. Linux — journald and auditd</h2>
 <p>On supported Ubuntu Server:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>auditd<span class="w"> </span>audispd-plugins
@@ -2332,7 +2332,7 @@
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-k<span class="w"> </span>--since<span class="w"> </span><span class="s1">'1 hour ago'</span><span class="w"> </span>--no-pager
 </span></code></pre></div>
 <p>The service name and journal contents vary by distribution. Record the exact source and event query used.</p>
-<h2 id="5-macos-unified-logging">5. macOS — Unified Logging<a class="headerlink" href="#5-macos-unified-logging" title="Permanent link">&para;</a></h2>
+<h2 id="5-macos-unified-logging">5. macOS — Unified Logging</h2>
 <p>macOS uses Unified Logging, not Windows Event Log. Start with local proof on the Apple Silicon Mac or a supported macOS VM:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>uname<span class="w"> </span>-m
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sw_vers
@@ -2340,7 +2340,7 @@
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>log<span class="w"> </span>show<span class="w"> </span>--last<span class="w"> </span>10m<span class="w"> </span>--style<span class="w"> </span>json<span class="w"> </span>--predicate<span class="w"> </span><span class="s1">'process == "sudo"'</span>
 </span></code></pre></div>
 <p>Generate a harmless test event, then query the relevant process/subsystem. Unified Logging privacy controls can redact sensitive fields. Do not try to bypass macOS privacy protections or collect protected data without explicit permission.</p>
-<h3 id="wazuh-macos-collection">Wazuh macOS collection<a class="headerlink" href="#wazuh-macos-collection" title="Permanent link">&para;</a></h3>
+<h3 id="wazuh-macos-collection">Wazuh macOS collection</h3>
 <p>Wazuh documents a macOS Unified Logging input using the agent's localfile configuration. The example below is a minimal test input; validate against the exact Wazuh agent version and query syntax:</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">&lt;localfile&gt;</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>macos<span class="nt">&lt;/location&gt;</span>
@@ -2351,13 +2351,13 @@
 </span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nt">&lt;/localfile&gt;</span>
 </span></code></pre></div>
 <p>On macOS the Wazuh agent configuration path is commonly /Library/Ossec/etc/ossec.conf. Back up the file, validate XML, restart the agent using the installed package's documented service method, and inspect the agent log. Confirm the test record appears in the Wazuh manager with correct host/time fields.</p>
-<h3 id="elastic-agent-on-macos">Elastic Agent on macOS<a class="headerlink" href="#elastic-agent-on-macos" title="Permanent link">&para;</a></h3>
+<h3 id="elastic-agent-on-macos">Elastic Agent on macOS</h3>
 <p>Elastic Agent provides macOS integrations, including macOS Security Events based on Unified Logging, but the exact integration categories and required permissions depend on macOS and Elastic versions. Check the Elastic Support Matrix and integration documentation before deployment. Enrol through Fleet using the generated command, grant only the documented permissions, and verify actual raw events in Discover. Do not assume that every Unified Logging category is accessible to a non-privileged process.</p>
-<h3 id="splunk-on-macos">Splunk on macOS<a class="headerlink" href="#splunk-on-macos" title="Permanent link">&para;</a></h3>
+<h3 id="splunk-on-macos">Splunk on macOS</h3>
 <p>Check the current Splunk Universal Forwarder platform matrix for the exact macOS release and ARM64 architecture. Splunk Enterprise is not an ARM64 macOS deployment target. Do not assume that Windows Event Log inputs or Sysmon channels exist on macOS. Use only supported macOS inputs and validate raw events.</p>
-<h2 id="6-windows-arm-caveat">6. Windows ARM caveat<a class="headerlink" href="#6-windows-arm-caveat" title="Permanent link">&para;</a></h2>
+<h2 id="6-windows-arm-caveat">6. Windows ARM caveat</h2>
 <p>Windows 11 ARM is not equivalent to Windows 11 x64 for security agents, kernel drivers and endpoint products. Check each agent/driver vendor support matrix for the exact Windows ARM release. If unsupported, treat Windows ARM as a general endpoint exercise only; use Windows x64 on the PC for the fully supported Windows telemetry path.</p>
-<h2 id="7-local-source-acceptance-gate">7. Local source acceptance gate<a class="headerlink" href="#7-local-source-acceptance-gate" title="Permanent link">&para;</a></h2>
+<h2 id="7-local-source-acceptance-gate">7. Local source acceptance gate</h2>
 <ul>
 <li>[ ] Windows Security 4688 exists after controlled process creation.</li>
 <li>[ ] Windows Security 4732 exists after controlled group membership change.</li>
@@ -2371,7 +2371,7 @@
 <li>[ ] Test changes are reverted and evidence sanitized.</li>
 </ul>
 <p>Only after this gate passes should you configure Elastic Agent, Splunk Universal Forwarder or Wazuh agent as described in the selected SIEM guide.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/advanced-security-audit-policy-settings">Microsoft Advanced Audit Policy</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-process-creation">Microsoft process creation auditing</a></li>

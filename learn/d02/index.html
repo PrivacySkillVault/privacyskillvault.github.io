@@ -2204,18 +2204,18 @@
 
 
 
-<h1 id="d02-security-monitoring-detection">D02 — Security Monitoring &amp; Detection<a class="headerlink" href="#d02-security-monitoring-detection" title="Permanent link">&para;</a></h1>
+<h1 id="d02-security-monitoring-detection">D02 — Security Monitoring &amp; Detection</h1>
 <p>Learn how security telemetry is collected, normalised, searched, correlated, and converted into detections that can be tested and maintained.</p>
-<h2 id="hands-on-siem-labs">Hands-on SIEM labs<a class="headerlink" href="#hands-on-siem-labs" title="Permanent link">&para;</a></h2>
+<h2 id="hands-on-siem-labs">Hands-on SIEM labs</h2>
 <p>Build and validate <a href="../../labs/elastic-siem/">Elastic</a>, <a href="../../labs/splunk-siem/">Splunk</a> or <a href="../../labs/wazuh-soc/">Wazuh</a> one at a time. Add <a href="../../labs/network-monitoring/">Zeek/Suricata</a> or <a href="../../labs/security-onion/">Security Onion</a> only after packet visibility and resource requirements are confirmed.</p>
-<h2 id="authoritative-foundations">Authoritative foundations<a class="headerlink" href="#authoritative-foundations" title="Permanent link">&para;</a></h2>
+<h2 id="authoritative-foundations">Authoritative foundations</h2>
 <ul>
 <li><a href="../../standards/#nist-cybersecurity-framework-csf-20">NIST CSF 2.0</a> — use the Detect Function outcomes to structure monitoring and adverse-event analysis.</li>
 <li><a href="../../standards/#mitre-attck">MITRE ATT&amp;CK</a> — describe adversary behaviour using supported tactic and technique references; do not infer attribution from a technique match.</li>
 <li><a href="../../standards/#sigma-detection-format">Sigma Specification 2.1.0</a> — author portable detection logic using the published rule structure and condition semantics.</li>
 <li><a href="../../standards/#cis-critical-security-controls-v81">CIS Controls v8.1</a> — use applicable safeguards to inform monitoring and operational priorities.</li>
 </ul>
-<h2 id="1-telemetry-engineering">1. Telemetry engineering<a class="headerlink" href="#1-telemetry-engineering" title="Permanent link">&para;</a></h2>
+<h2 id="1-telemetry-engineering">1. Telemetry engineering</h2>
 <p>A detection is only as reliable as its data source and field semantics. For each source, document:</p>
 <ul>
 <li>System, product, version, host role, and collection method</li>
@@ -2227,7 +2227,7 @@
 <li>Known blind spots and conditions that stop events being generated</li>
 </ul>
 <p>Do not assume that identically named fields mean the same thing across Windows Event Log, Sysmon, Elastic ECS, Splunk CIM, or a vendor-specific schema. Validate field mappings against raw records from the deployed version.</p>
-<h2 id="2-detection-engineering-lifecycle">2. Detection engineering lifecycle<a class="headerlink" href="#2-detection-engineering-lifecycle" title="Permanent link">&para;</a></h2>
+<h2 id="2-detection-engineering-lifecycle">2. Detection engineering lifecycle</h2>
 <p>Use the following lifecycle for every detection change. This is an operational workflow informed by NIST CSF and Sigma; it is not a verbatim sequence mandated by either source.</p>
 <ol>
 <li><strong>Define the analytic question.</strong> State the behaviour or security outcome being monitored.</li>
@@ -2241,7 +2241,7 @@
 <li><strong>Monitor and maintain.</strong> Review performance, data-source health, rule status, environment changes, and threat changes.</li>
 </ol>
 <p>A rule that parses is not necessarily correct. A query that returns events is not necessarily a useful detection. A clean test set does not establish production effectiveness.</p>
-<h2 id="3-sigma-rule-structure">3. Sigma rule structure<a class="headerlink" href="#3-sigma-rule-structure" title="Permanent link">&para;</a></h2>
+<h2 id="3-sigma-rule-structure">3. Sigma rule structure</h2>
 <p>The Sigma Rules Specification 2.1.0 defines required and optional fields including <code>title</code>, <code>logsource</code>, <code>detection</code>, and <code>condition</code>. It also defines search identifiers, logical conditions, value modifiers, status, tags, and schema.</p>
 <p>A minimal illustrative rule structure is shown below. This is a syntax example, not a validated production detection:</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Example Process Creation Analytic</span>
@@ -2261,7 +2261,7 @@
 - <a href="https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html">Sigma Rules Specification</a>
 - <a href="https://github.com/SigmaHQ/sigma-specification">Sigma specification repository and JSON schemas</a>
 - <a href="https://sigmahq.io/docs/basics/rules.html">Sigma rule-writing guide</a></p>
-<h2 id="4-attck-mapping-discipline">4. ATT&amp;CK mapping discipline<a class="headerlink" href="#4-attck-mapping-discipline" title="Permanent link">&para;</a></h2>
+<h2 id="4-attck-mapping-discipline">4. ATT&amp;CK mapping discipline</h2>
 <p>For each mapped detection, record:</p>
 <ul>
 <li>ATT&amp;CK domain and release/data version used</li>
@@ -2272,7 +2272,7 @@
 <li>Test evidence and confidence</li>
 </ul>
 <p>Do not claim full technique coverage because one analytic has an ATT&amp;CK tag. ATT&amp;CK is a knowledge base for describing behaviour; the quality of a detection depends on telemetry, logic, testing, and operational context.</p>
-<h2 id="5-alert-quality-and-operational-acceptance">5. Alert quality and operational acceptance<a class="headerlink" href="#5-alert-quality-and-operational-acceptance" title="Permanent link">&para;</a></h2>
+<h2 id="5-alert-quality-and-operational-acceptance">5. Alert quality and operational acceptance</h2>
 <p>Before production use, define and measure the criteria approved by the organisation. Useful measures include:</p>
 <ul>
 <li>Detection test pass/fail against a versioned test set</li>
@@ -2284,16 +2284,16 @@
 <li>Data-source health and missing-event rates</li>
 </ul>
 <p>Do not invent universal thresholds for these measures. Set targets from the service's risk, baseline, coverage, staffing, and approved service-level objectives.</p>
-<h2 id="6-applied-lab">6. Applied lab<a class="headerlink" href="#6-applied-lab" title="Permanent link">&para;</a></h2>
+<h2 id="6-applied-lab">6. Applied lab</h2>
 <p>Continue with the <a href="../../labs/windows-endpoint-telemetry/">Windows Endpoint Telemetry: Sysmon to Elastic lab</a>. It is explicitly a reference design until the actual Windows build, Sysmon configuration, Elastic integration version, event, and search result are recorded.</p>
-<h2 id="7-operational-detection-pack">7. Operational detection pack<a class="headerlink" href="#7-operational-detection-pack" title="Permanent link">&para;</a></h2>
+<h2 id="7-operational-detection-pack">7. Operational detection pack</h2>
 <p>The <a href="../../detection-engineering/">PSV Detection Engineering Pack</a> contains two example detections with Sigma source, Elastic KQL and Splunk SPL starting queries, synthetic test cases, telemetry requirements, triage steps, and release gates:</p>
 <ul>
 <li>PowerShell encoded-command execution (Sysmon Event ID 1)</li>
 <li>Addition to the built-in local Administrators group (Windows Security Event ID 4732)</li>
 </ul>
 <p>These are test-status examples. The backend queries are authored starting points based on stated field assumptions, not confirmed output from a specific live SIEM. CI validates both Sigma files against the Sigma 2.1.0 schema and converts them to Splunk SPL with the applicable Sysmon and Splunk Windows pipelines. This does not validate the queries against a live SIEM; test them against raw events from your own environment.</p>
-<h2 id="evidence-record-for-a-detection-change">Evidence record for a detection change<a class="headerlink" href="#evidence-record-for-a-detection-change" title="Permanent link">&para;</a></h2>
+<h2 id="evidence-record-for-a-detection-change">Evidence record for a detection change</h2>
 <table>
 <thead>
 <tr>

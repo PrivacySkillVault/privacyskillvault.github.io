@@ -2138,10 +2138,10 @@
 
 
 
-<h1 id="lab-operations-backup-and-recovery">Lab — operations, backup and recovery<a class="headerlink" href="#lab-operations-backup-and-recovery" title="Permanent link">&para;</a></h1>
+<h1 id="lab-operations-backup-and-recovery">Lab — operations, backup and recovery</h1>
 <p><badge color="warning">Stage 13 — operational readiness; validate on the running lab</badge></p>
 <p>This runbook covers the maintenance and recovery work after the core lab is operational. It does not make a single-node home lab highly available. Follow the <a href="../enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab Runbook</a> and <a href="../build-sequence/">Master Build Sequence</a>.</p>
-<h2 id="1-configuration-inventory">1. Configuration inventory<a class="headerlink" href="#1-configuration-inventory" title="Permanent link">&para;</a></h2>
+<h2 id="1-configuration-inventory">1. Configuration inventory</h2>
 <p>Keep a private, current inventory of:
 - Hypervisor, host OS/build and versions.
 - VM name, guest OS/build/architecture, vCPU, RAM, disk, NICs and snapshot reference.
@@ -2151,7 +2151,7 @@
 - Log sources, datasets/indexes, retention and storage budgets.
 - Backup location, encryption, last successful backup and last restore test.</p>
 <p>Never put passwords, API tokens, enrollment tokens, private keys, customer data or employer logs in the public PSV repository.</p>
-<h2 id="2-backup-and-restore-matrix">2. Backup and restore matrix<a class="headerlink" href="#2-backup-and-restore-matrix" title="Permanent link">&para;</a></h2>
+<h2 id="2-backup-and-restore-matrix">2. Backup and restore matrix</h2>
 <table>
 <thead>
 <tr>
@@ -2199,7 +2199,7 @@
 </tbody>
 </table>
 <p>A VM snapshot is useful for rollback but is not an independent backup. Keep at least one protected copy outside the VM's virtual disk. Encrypt backups containing secrets or sensitive telemetry.</p>
-<h2 id="3-retention-and-storage-limits">3. Retention and storage limits<a class="headerlink" href="#3-retention-and-storage-limits" title="Permanent link">&para;</a></h2>
+<h2 id="3-retention-and-storage-limits">3. Retention and storage limits</h2>
 <p>For Elasticsearch, Splunk, Vector buffers, Zeek logs, Suricata EVE JSON and PCAP:
 1. Assign a maximum storage budget to each data path.
 2. Set retention to match the learning objective and available capacity.
@@ -2208,7 +2208,7 @@
 5. Monitor guest filesystem usage and host free space.
 6. Test behavior when a destination is unavailable and when disk capacity is low.</p>
 <p>Do not use unbounded queues or unlimited packet capture. Preserve free space for OS updates, recovery and filesystem operations.</p>
-<h2 id="4-routine-health-checks">4. Routine health checks<a class="headerlink" href="#4-routine-health-checks" title="Permanent link">&para;</a></h2>
+<h2 id="4-routine-health-checks">4. Routine health checks</h2>
 <ul>
 <li><strong>Hypervisor:</strong> unexpected VM stops/restarts, host memory pressure and datastore/free-space status.</li>
 <li><strong>OPNsense:</strong> interface/link state, DHCP/DNS, rule counters and firewall logs.</li>
@@ -2227,7 +2227,7 @@ df -h
 timedatectl
 journalctl -u vector --since "1 hour ago"
 </code></pre></div>
-<h2 id="5-recovery-exercises">5. Recovery exercises<a class="headerlink" href="#5-recovery-exercises" title="Permanent link">&para;</a></h2>
+<h2 id="5-recovery-exercises">5. Recovery exercises</h2>
 <p>Perform tests on isolated clones or after verifying backups:
 1. Restore OPNsense configuration and confirm segmentation still blocks prohibited paths.
 2. Restore Vector configuration; validate it before restarting the service.
@@ -2237,10 +2237,10 @@ journalctl -u vector --since "1 hour ago"
 6. Restore a cloned endpoint and confirm it does not create an unintended duplicate agent identity.
 7. Reboot the host and confirm required VM startup order, DNS and time dependencies.</p>
 <p>Record recovery time, the last recoverable data point, data loss (if any), errors and corrective actions. Do not label a recovery successful until the service and restored data are checked.</p>
-<h2 id="6-change-and-evidence-management">6. Change and evidence management<a class="headerlink" href="#6-change-and-evidence-management" title="Permanent link">&para;</a></h2>
+<h2 id="6-change-and-evidence-management">6. Change and evidence management</h2>
 <p>For each update record the date, reason, affected VM/service, previous and new versions, backup/snapshot reference, rollback steps, test performed, expected/actual result and impact on ingestion/detections.</p>
 <p>Use synthetic lab data only. Sanitize screenshots and exports. Never publish secrets, private keys, enrollment tokens, customer information or employer telemetry.</p>
-<h2 id="7-stage-13-acceptance-gate">7. Stage 13 acceptance gate<a class="headerlink" href="#7-stage-13-acceptance-gate" title="Permanent link">&para;</a></h2>
+<h2 id="7-stage-13-acceptance-gate">7. Stage 13 acceptance gate</h2>
 <p>Stage 13 is complete only when:
 - The VM/service inventory is current.
 - Independent backups exist for critical systems.

@@ -2250,10 +2250,10 @@
 
 
 
-<h1 id="detection-engineering-operational-pack">Detection Engineering — Operational Pack<a class="headerlink" href="#detection-engineering-operational-pack" title="Permanent link">&para;</a></h1>
+<h1 id="detection-engineering-operational-pack">Detection Engineering — Operational Pack</h1>
 <p><badge color="warning">Reference pack — validate against your own telemetry before enabling</badge></p>
 <p>This pack contains two Windows detections with Sigma source, Elastic KQL and Splunk SPL equivalents, synthetic test cases, and a repeatable release procedure. It is designed to be adapted—not imported blindly—into a real SIEM.</p>
-<h2 id="scope-and-source-assumptions">Scope and source assumptions<a class="headerlink" href="#scope-and-source-assumptions" title="Permanent link">&para;</a></h2>
+<h2 id="scope-and-source-assumptions">Scope and source assumptions</h2>
 <table>
 <thead>
 <tr>
@@ -2291,17 +2291,17 @@
 </tbody>
 </table>
 <p><strong>Important:</strong> the Elastic and Splunk queries below are authored equivalents for the stated field assumptions. They are not generated output from a verified converter run and are not asserted to work unchanged against every deployment. The Sigma YAML files are authored against the published Sigma structure; they still require parsing, backend conversion, and data-level testing in the target stack.</p>
-<h2 id="included-detections">Included detections<a class="headerlink" href="#included-detections" title="Permanent link">&para;</a></h2>
+<h2 id="included-detections">Included detections</h2>
 <ol>
 <li><a href="windows-powershell-encoded-command/">PowerShell encoded-command execution</a> — Sysmon Event ID 1 / process creation.</li>
 <li><a href="windows-local-admin-membership/">Addition to the local Administrators group</a> — Windows Security Event ID 4732.</li>
 </ol>
-<h2 id="data-collection-prerequisites">Data collection prerequisites<a class="headerlink" href="#data-collection-prerequisites" title="Permanent link">&para;</a></h2>
-<h3 id="sysmon-process-creation">Sysmon process creation<a class="headerlink" href="#sysmon-process-creation" title="Permanent link">&para;</a></h3>
+<h2 id="data-collection-prerequisites">Data collection prerequisites</h2>
+<h3 id="sysmon-process-creation">Sysmon process creation</h3>
 <p>Microsoft documents Sysmon Event ID 1 as Process Create, with process image, command line, parent process, hashes and Process GUID available according to configuration and event version. Process creation logging is a prerequisite for the PowerShell analytic. Sysmon Event ID 3 network connections are disabled by default; do not assume they are collected.</p>
-<h3 id="windows-security-group-management">Windows Security group management<a class="headerlink" href="#windows-security-group-management" title="Permanent link">&para;</a></h3>
+<h3 id="windows-security-group-management">Windows Security group management</h3>
 <p>Windows Security Event ID 4732 records a member added to a security-enabled local group. The event is generated on domain controllers, member servers and workstations. Configure and verify the applicable Advanced Audit Policy and event forwarding; absence of an event is not proof that no group change occurred.</p>
-<h2 id="validation-lifecycle">Validation lifecycle<a class="headerlink" href="#validation-lifecycle" title="Permanent link">&para;</a></h2>
+<h2 id="validation-lifecycle">Validation lifecycle</h2>
 <p>For each rule, use the following release gates:</p>
 <ol>
 <li>Confirm the source event is generated locally on a controlled test endpoint.</li>
@@ -2314,7 +2314,7 @@
 <li>Obtain peer review and change approval before enabling in production.</li>
 <li>Monitor the analytic and document tuning, owner, rollback and next review date.</li>
 </ol>
-<h3 id="sigma-cli-reference-workflow">Sigma CLI reference workflow<a class="headerlink" href="#sigma-cli-reference-workflow" title="Permanent link">&para;</a></h3>
+<h3 id="sigma-cli-reference-workflow">Sigma CLI reference workflow</h3>
 <p>The Sigma project documents installation of <code>sigma-cli</code>, backend plugins, and conversion with a selected backend and processing pipeline. For a controlled workstation:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">'sigma-cli==3.1.0'</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sigma<span class="w"> </span>plugin<span class="w"> </span>install<span class="w"> </span>splunk
@@ -2323,7 +2323,7 @@
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>sigma<span class="w"> </span>convert<span class="w"> </span>-t<span class="w"> </span>splunk<span class="w"> </span>-p<span class="w"> </span>splunk_windows<span class="w"> </span>docs/detection-engineering/rules/windows-local-admin-membership.yml
 </span></code></pre></div>
 <p>This repository's CI pins Sigma CLI 3.1.0 because the currently published Sysmon pipeline is not compatible with pySigma 2.x; do not force-install an incompatible plugin. Recheck the <a href="https://github.com/SigmaHQ/sigma-cli/releases">Sigma CLI releases</a>, <a href="https://github.com/SigmaHQ/pySigma-pipeline-sysmon/releases">Sysmon pipeline releases</a>, and plugin compatibility before upgrading. CI converts the Sysmon process-creation rule to Splunk SPL using the Sysmon pipeline and the Windows Security Event 4732 rule using the Splunk Windows pipeline. These are parser/backend conversion checks only; they do not test the generated queries against a live Splunk instance or genuine telemetry. A successful conversion proves that the selected toolchain accepted the rule for that backend; it does not prove that the query matches your telemetry or detects malicious activity.</p>
-<h2 id="synthetic-test-fixture">Synthetic test fixture<a class="headerlink" href="#synthetic-test-fixture" title="Permanent link">&para;</a></h2>
+<h2 id="synthetic-test-fixture">Synthetic test fixture</h2>
 <p>The examples below are intentionally synthetic. They are test inputs, not live indicators or evidence of a real incident.</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"case"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DET-PSV-001-positive"</span><span class="p">,</span>
@@ -2368,9 +2368,9 @@
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>These fixtures document expected analytic behaviour. They are not automatically replayed against a live SIEM by this website build.</p>
-<h2 id="local-synthetic-fixtures">Local synthetic fixtures<a class="headerlink" href="#local-synthetic-fixtures" title="Permanent link">&para;</a></h2>
+<h2 id="local-synthetic-fixtures">Local synthetic fixtures</h2>
 <p>The <a href="fixtures/synthetic-events.jsonl">synthetic fixture set</a> contains two positive and two negative examples. These are simplified constructed inputs, not genuine exported event XML and not automatically replayed by the CI workflow. Use them to record intended logic, then validate against actual source events in an isolated lab.</p>
-<h2 id="operational-ownership">Operational ownership<a class="headerlink" href="#operational-ownership" title="Permanent link">&para;</a></h2>
+<h2 id="operational-ownership">Operational ownership</h2>
 <p>Every production rule should have:
 - A named service and technical owner.
 - A documented data-source owner and telemetry-health check.
@@ -2380,7 +2380,7 @@
 - A suppression/exception owner and expiry/review date.
 - A rollback procedure and disablement authority.</p>
 <p>Do not use Sigma <code>level</code> as a substitute for your incident severity matrix. Sigma metadata and organisational incident priority are different concepts.</p>
-<h2 id="authoritative-references">Authoritative references<a class="headerlink" href="#authoritative-references" title="Permanent link">&para;</a></h2>
+<h2 id="authoritative-references">Authoritative references</h2>
 <ul>
 <li><a href="https://github.com/SigmaHQ/sigma-specification/releases/tag/v2.1.0">Sigma Rules Specification 2.1.0</a></li>
 <li><a href="https://github.com/SigmaHQ/sigma-cli">Sigma CLI</a></li>

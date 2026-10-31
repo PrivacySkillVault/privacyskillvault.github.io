@@ -2226,14 +2226,14 @@
 
 
 
-<h1 id="lab-5-elastic-siem-fleet-and-endpoint-telemetry">Lab 5 — Elastic SIEM, Fleet and endpoint telemetry<a class="headerlink" href="#lab-5-elastic-siem-fleet-and-endpoint-telemetry" title="Permanent link">&para;</a></h1>
+<h1 id="lab-5-elastic-siem-fleet-and-endpoint-telemetry">Lab 5 — Elastic SIEM, Fleet and endpoint telemetry</h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
-<h2 id="mandatory-prerequisites-complete-before-installing-elastic">Mandatory prerequisites — complete before installing Elastic<a class="headerlink" href="#mandatory-prerequisites-complete-before-installing-elastic" title="Permanent link">&para;</a></h2>
+<h2 id="mandatory-prerequisites-complete-before-installing-elastic">Mandatory prerequisites — complete before installing Elastic</h2>
 <p>Do not start this SIEM until Stages 0–7 in <a href="../build-sequence/">Master Build Sequence</a> pass. OPNsense firewall/Suricata events must already reach the Linux syslog relay; Zeek/Suricata files must exist on the sensor; Windows Security/Sysmon and Linux events must exist locally. Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>.</p>
 <p>For firewall and sensor logs, install Elastic Agent on the relay/sensor and use the supported Custom Logs (Filestream) integration for written log files. Use the Windows and System integrations for endpoints. A Fleet Server being online does not prove that syslog or JSON files are ingested. Verify each raw event and data stream separately.</p>
-<h2 id="1-topology-and-sizing">1. Topology and sizing<a class="headerlink" href="#1-topology-and-sizing" title="Permanent link">&para;</a></h2>
+<h2 id="1-topology-and-sizing">1. Topology and sizing</h2>
 <p>Use a fresh supported Ubuntu Server VM on the Windows x64 PC: 4–8 vCPU, 12–16 GB RAM and 150–200 GB SSD-backed virtual disk as a home-lab starting point. Run Elastic alone initially. This is a single-node learning deployment, not production HA. Keep Elasticsearch and Kibana on the same version. Check the current Elastic support matrix for the selected OS and architecture.</p>
-<h2 id="2-install-elasticsearch-9x-from-the-official-apt-repository">2. Install Elasticsearch 9.x from the official APT repository<a class="headerlink" href="#2-install-elasticsearch-9x-from-the-official-apt-repository" title="Permanent link">&para;</a></h2>
+<h2 id="2-install-elasticsearch-9x-from-the-official-apt-repository">2. Install Elasticsearch 9.x from the official APT repository</h2>
 <p>The following follows Elastic's currently documented 9.x Debian package instructions. If a new major release is available when you build, use that major version's official instructions and change the repository path consistently.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>wget<span class="w"> </span>gnupg<span class="w"> </span>apt-transport-https
@@ -2255,7 +2255,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>--cacert<span class="w"> </span>/etc/elasticsearch/certs/http_ca.crt<span class="w"> </span>-u<span class="w"> </span>elastic<span class="w"> </span>https://localhost:9200
 </span></code></pre></div>
 <p>A successful response includes cluster/node and version details. If the certificate path differs, inspect the package output and actual certificate location. Do not use an insecure TLS bypass as a permanent workaround.</p>
-<h2 id="3-install-kibana-from-the-same-repository">3. Install Kibana from the same repository<a class="headerlink" href="#3-install-kibana-from-the-same-repository" title="Permanent link">&para;</a></h2>
+<h2 id="3-install-kibana-from-the-same-repository">3. Install Kibana from the same repository</h2>
 <p>Use the same Elastic 9.x APT repository and install the same release family:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>kibana
@@ -2269,7 +2269,7 @@
 </span></code></pre></div>
 <p>Open the Kibana setup URL shown by the service status, enter the enrollment token, complete the verification-code step, then sign in with the elastic account. Enrollment tokens expire; generate a new token if required. Follow the current Kibana Debian installation guide if the setup wizard differs.</p>
 <p>Restrict Kibana access to MGMT. Do not expose port 5601 to the public Internet.</p>
-<h2 id="4-configure-fleet">4. Configure Fleet<a class="headerlink" href="#4-configure-fleet" title="Permanent link">&para;</a></h2>
+<h2 id="4-configure-fleet">4. Configure Fleet</h2>
 <ol>
 <li>Open Kibana from the management workstation.</li>
 <li>Navigate to Management → Fleet.</li>
@@ -2280,7 +2280,7 @@
 <li>Keep TLS trust configured. Treat enrollment tokens as secrets; never publish them.</li>
 </ol>
 <p>For a small lab, Fleet Server may share the Ubuntu VM, but check current Fleet sizing and support requirements. If the wizard or load requires a separate Fleet Server, create another VM.</p>
-<h2 id="5-windows-sysmon-integration">5. Windows Sysmon integration<a class="headerlink" href="#5-windows-sysmon-integration" title="Permanent link">&para;</a></h2>
+<h2 id="5-windows-sysmon-integration">5. Windows Sysmon integration</h2>
 <ol>
 <li>On PSV-W11-01, install Sysmon using Microsoft's official instructions.</li>
 <li>Confirm Event Viewer → Applications and Services Logs → Microsoft → Windows → Sysmon → Operational receives Event ID 1.</li>
@@ -2290,7 +2290,7 @@
 <li>Inspect the raw event in Discover and record the actual data stream and field names.</li>
 </ol>
 <p>Do not assume dataset/field mappings are identical across integration releases. Inspect the raw document.</p>
-<h2 id="6-linux-endpoint-integration">6. Linux endpoint integration<a class="headerlink" href="#6-linux-endpoint-integration" title="Permanent link">&para;</a></h2>
+<h2 id="6-linux-endpoint-integration">6. Linux endpoint integration</h2>
 <ol>
 <li>Add the System integration to a Linux endpoint policy.</li>
 <li>Enrol the Ubuntu endpoint using the Fleet-generated command.</li>
@@ -2298,19 +2298,19 @@
 <li>Add Auditd integration only after auditd is installed and configured on the endpoint.</li>
 <li>Confirm the audit source and event fields separately from system metrics.</li>
 </ol>
-<h2 id="7-search-and-test">7. Search and test<a class="headerlink" href="#7-search-and-test" title="Permanent link">&para;</a></h2>
+<h2 id="7-search-and-test">7. Search and test</h2>
 <p>After confirming the real data stream and ECS mappings, a starting KQL search for Sysmon process creation is:</p>
 <div class="language-kql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">event</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"1"</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">process</span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"notepad.exe"</span>
 </span></code></pre></div>
 <p>Create a test detection only after verifying the fields. The Phase 5 PowerShell analytic assumes ECS process fields; adapt it to the raw event and dataset actually ingested. Run positive and negative tests and record the raw event, alert, timestamps, agent version and ingest delay.</p>
-<h2 id="8-troubleshooting">8. Troubleshooting<a class="headerlink" href="#8-troubleshooting" title="Permanent link">&para;</a></h2>
+<h2 id="8-troubleshooting">8. Troubleshooting</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>elasticsearch<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>--no-pager
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>kibana<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>--no-pager
 </span></code></pre></div>
 <p>For offline agents, check Fleet URL resolution, TLS trust, firewall, policy and the agent status command. For no Sysmon data, first prove the local event exists; then check agent integration, channel subscription, ingest errors and data stream. For high memory pressure, reduce active VMs; do not arbitrarily change JVM heap.</p>
-<h2 id="9-cleanup">9. Cleanup<a class="headerlink" href="#9-cleanup" title="Permanent link">&para;</a></h2>
+<h2 id="9-cleanup">9. Cleanup</h2>
 <p>Unenrol agents through Fleet, stop services cleanly and retain only sanitised evidence. Follow Elastic's package removal/data-directory procedures if deleting the lab. Never commit passwords, tokens, certificates or production telemetry.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/tutorial-self-managed-install">Elastic self-managed installation</a></li>
 <li><a href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-with-debian-package">Elasticsearch Debian package</a></li>

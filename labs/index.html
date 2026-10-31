@@ -2172,11 +2172,11 @@
 
 
 
-<h1 id="enterprise-style-cybersecurity-home-lab">Enterprise-style cybersecurity home lab<a class="headerlink" href="#enterprise-style-cybersecurity-home-lab" title="Permanent link">&para;</a></h1>
+<h1 id="enterprise-style-cybersecurity-home-lab">Enterprise-style cybersecurity home lab</h1>
 <p><badge color="warning">VM-based dual-SIEM build programme — design baseline, not yet hardware-tested</badge></p>
 <p>This programme builds an enterprise-style segmented lab using virtual machines. The Windows x64 host runs the selected hypervisor and management tools; guest operating systems, firewalls, endpoints, collectors and SIEM products run inside VMs. The Apple-silicon Mac is a separate ARM64 track.</p>
 <p><strong>Primary architecture:</strong> OPNsense firewall, Windows Server AD DS/DNS, Windows 11 endpoint, Ubuntu Vector broker, Elastic Security, Splunk Enterprise, Ubuntu Zeek/Suricata sensor, Kali and an isolated vulnerable DMZ target. The full design, resource plan, IP matrix, port policy and dual-output pipeline are documented in the <a href="enterprise-dual-siem-vm-lab/">Enterprise Dual-SIEM VM Lab Runbook</a>.</p>
-<h2 id="canonical-build-order">Canonical build order<a class="headerlink" href="#canonical-build-order" title="Permanent link">&para;</a></h2>
+<h2 id="canonical-build-order">Canonical build order</h2>
 <table>
 <thead>
 <tr>
@@ -2259,14 +2259,14 @@
 </tbody>
 </table>
 <p>Do not skip gates. A service showing active, an agent showing online, or a successful documentation build does not prove end-to-end telemetry.</p>
-<h2 id="platform-tracks">Platform tracks<a class="headerlink" href="#platform-tracks" title="Permanent link">&para;</a></h2>
-<h3 id="windows-x64-pc-primary-full-build">Windows x64 PC — primary full build<a class="headerlink" href="#windows-x64-pc-primary-full-build" title="Permanent link">&para;</a></h3>
+<h2 id="platform-tracks">Platform tracks</h2>
+<h3 id="windows-x64-pc-primary-full-build">Windows x64 PC — primary full build</h3>
 <p>Choose exactly one hypervisor: VMware Workstation Pro (default Type-2 path), Hyper-V or VirtualBox. Run OPNsense x86-64 as a VM. Deploy x86-64 Windows/Linux/Kali guests and supported x86-64 SIEM components. Keep the WAN NIC on hypervisor NAT; do not bridge REDTEAM or DMZ to home Wi-Fi.</p>
-<h3 id="apple-silicon-mac-separate-arm64-build">Apple-silicon Mac — separate ARM64 build<a class="headerlink" href="#apple-silicon-mac-separate-arm64-build" title="Permanent link">&para;</a></h3>
+<h3 id="apple-silicon-mac-separate-arm64-build">Apple-silicon Mac — separate ARM64 build</h3>
 <p>Use VMware Fusion and ARM64 guest images. Use Ubuntu ARM64 with nftables as the router path; OPNsense and Security Onion are not ARM64 guest targets. Do not assume Splunk Enterprise is supported natively on ARM64. Verify Elastic components and every endpoint agent against current support matrices.</p>
-<h3 id="cross-host-operation">Cross-host operation<a class="headerlink" href="#cross-host-operation" title="Permanent link">&para;</a></h3>
+<h3 id="cross-host-operation">Cross-host operation</h3>
 <p>Fusion host-only networks and Windows hypervisor private networks are local to their host. They do not automatically form one shared VLAN. Keep two isolated lab islands unless a separate physical VLAN/firewall design is built and reviewed.</p>
-<h2 id="resource-planning">Resource planning<a class="headerlink" href="#resource-planning" title="Permanent link">&para;</a></h2>
+<h2 id="resource-planning">Resource planning</h2>
 <p>Planning values only; check current vendor requirements and host capacity before deployment.</p>
 <table>
 <thead>
@@ -2315,7 +2315,7 @@
 </tbody>
 </table>
 <p>A 64 GB host should use staged operation and stop idle VMs; simultaneous operation is not guaranteed. 96 GB is more practical and 128 GB preferred for running both SIEMs and all supporting VMs concurrently. Storage needs headroom for indexes, snapshots, PCAP and log retention.</p>
-<h2 id="data-flow-model">Data-flow model<a class="headerlink" href="#data-flow-model" title="Permanent link">&para;</a></h2>
+<h2 id="data-flow-model">Data-flow model</h2>
 <ul>
 <li>Windows endpoint: Elastic Agent → Elastic; Splunk UF → Splunk, after coexistence and duplicate tests.</li>
 <li>Firewall/router: syslog → Vector broker → Elasticsearch and Splunk HEC.</li>
@@ -2323,7 +2323,7 @@
 <li>Linux target: local audit/journal → selected supported collection path → both SIEMs.</li>
 </ul>
 <p>Vector is not a universal mandatory hop for every endpoint. Kafka and Logstash are not part of the initial design. Port 5044 is not opened unless a Beats input is deliberately deployed.</p>
-<h2 id="evidence-standard">Evidence standard<a class="headerlink" href="#evidence-standard" title="Permanent link">&para;</a></h2>
+<h2 id="evidence-standard">Evidence standard</h2>
 <p>For every stage record host/guest architecture, versions, checksums, VM resources, adapter mapping, IPs/routes, firewall rules, source event, broker receipt, SIEM document, timestamps, expected/actual results, rollback and cleanup. Screenshots labelled as genuine lab evidence must be captured from the actual running VM. Official vendor screenshots and diagrams must be labelled as references or illustrations. Never publish credentials, tokens, private keys, employer logs or customer data.</p>
 <p><strong>Status:</strong> architecture and runbooks are documentation, not proof of hardware execution. Mark a stage lab-tested only after its acceptance gate passes on the target host.</p>
 
