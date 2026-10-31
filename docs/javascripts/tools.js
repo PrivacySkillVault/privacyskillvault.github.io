@@ -1697,17 +1697,17 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     try {
       if(mode==="decrypt"){
         const pkg=JSON.parse(document.getElementById("share-package").value);
-        if(pkg.format!=="PSV-ENC-1"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.cipher!=="AES-256-GCM"||pkg.iterations!==310000||typeof pkg.ciphertext!=="string"||pkg.ciphertext.length>36*1024*1024)throw new Error("Unsupported, invalid or oversized package.");
-        const salt=Uint8Array.from(atob(pkg.salt),c=>c.charCodeAt(0)),iv=Uint8Array.from(atob(pkg.iv),c=>c.charCodeAt(0)),data=Uint8Array.from(atob(pkg.ciphertext),c=>c.charCodeAt(0));
+        if(pkg.format!=="PSV-ENC-1"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.cipher!=="AES-256-GCM"||pkg.iterations!==310000||!["text","file"].includes(pkg.kind)||typeof pkg.ciphertext!=="string"||pkg.ciphertext.length>36*1024*1024)throw new Error("Unsupported, invalid or oversized package.");
+        const salt=Uint8Array.from(atob(pkg.salt),c=>c.charCodeAt(0)),iv=Uint8Array.from(atob(pkg.iv),c=>c.charCodeAt(0)),data=Uint8Array.from(atob(pkg.ciphertext),c=>c.charCodeAt(0));\n        if(salt.length!==16||iv.length!==12||data.length<16)throw new Error("Invalid encryption parameters or ciphertext.");
         const key=await deriveShareKey(pass,salt),plain=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,data);
         const bytes=new Uint8Array(plain);
         if(pkg.kind==="text"){const text=new TextDecoder().decode(bytes);document.getElementById("share-text").value=text;out.textContent="Decryption successful. Plaintext is displayed in the text field; it has not been uploaded.";}
-        else {const blob=new Blob([bytes],{type:pkg.mime||"application/octet-stream"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=pkg.filename||"decrypted-evidence.bin";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);out.textContent="Decryption successful. The file download has started.";}
+        else {const blob=new Blob([bytes],{type:"application/octet-stream"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=(pkg.filename||"decrypted-evidence.bin").replace(/[\\/\\0]/g,"_");a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);out.textContent="Decryption successful. The file download has started.";}
       } else {
         const file=document.getElementById("share-file").files[0],text=document.getElementById("share-text").value;
         if(file&&file.size>25*1024*1024)throw new Error("File exceeds 25 MB. Use an approved managed transfer method for larger evidence.");
         if(!file&&!text)throw new Error("Select a file or enter text.");
-        const plain=file?await file.arrayBuffer():new TextEncoder().encode(text).buffer;
+        const plain=file?await file.arrayBuffer():new TextEncoder().encode(text).buffer;\n        if(plain.byteLength>25*1024*1024)throw new Error("Text or file exceeds 25 MB. Use an approved managed transfer method for larger evidence.");
         const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveShareKey(pass,salt);
         const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,plain);
         const b64=a=>{let out="";for(let i=0;i<a.length;i+=0x8000)out+=String.fromCharCode(...a.subarray(i,i+0x8000));return btoa(out);};
