@@ -488,10 +488,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function injectStyles() {
-    document.querySelectorAll('link[href*="tools.css"], link[href*="psv-tools.css"], link[href*="soc-workbench.css"]').forEach(el => {
-      el.disabled = true;
-    });
-
     if (document.getElementById("psv-hiderox-royal-css")) return;
     const style = document.createElement("style");
     style.id = "psv-hiderox-royal-css";
@@ -1673,7 +1669,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const title=isCase?"Incident case workspace":isShare?"Encrypted evidence sharing":"Evidence integrity checker";
     const description=isCase?"Build a consistent incident record and UTC event timeline. Export locally as Markdown.":isShare?"Encrypt or decrypt a text/file package in this browser. Share the encrypted file and passphrase through separate approved channels.":"Calculate a SHA-256 digest of a selected local file without uploading it.";
     root.innerHTML=`
-      <div id="psv-app" class="psv-workbench-v2">
+      <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
         <div class="psv-advanced-head"><button class="psv-back-btn" data-psv-action="back-catalog">← Back to workbench</button><span class="psv-eyebrow">LOCAL-FIRST / ${esc(tool.badge)}</span></div>
         <section class="psv-advanced-panel">
           <h1>${title}</h1><p>${description}</p>
