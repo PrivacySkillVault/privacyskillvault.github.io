@@ -4,9 +4,11 @@
 
 This page is the Windows x64 OPNsense implementation. For an Apple-silicon Mac-only build use [Mac ARM Router & Firewall](mac-arm-routing.md). OPNsense supports x86-64, not ARM64.
 
+For the full interface assignment, Kea DHCPv4, DNS resolver selection, aliases, least-privilege rules, remote logging, IDS and recovery procedure, follow the [OPNsense Implementation Runbook](opnsense-implementation.md).
+
 ## 1. Windows OPNsense topology
 
-Create one x86-64 OPNsense VM with six adapters:
+Create one x86-64 OPNsense VM with seven adapters (WAN plus six internal segments):
 
 | Role | Network | Address |
 |---|---|---|
@@ -15,6 +17,7 @@ Create one x86-64 OPNsense VM with six adapters:
 | ENDPOINT | Private/host-only | 10.10.20.1/24 |
 | SERVER | Private/host-only | 10.10.30.1/24 |
 | REDTEAM | Private/host-only | 10.10.40.1/24 |
+| SENSOR-MGMT | Private/host-only | 10.10.50.1/24 |
 | DMZ | Private/host-only | 10.10.60.1/24 |
 
 The SENSOR capture path is separate. Do not assume a routed SENSOR interface receives copies of all packets. Use OPNsense IDS on relevant routed interfaces or a separately verified mirror/tap for Zeek.
@@ -23,9 +26,9 @@ The SENSOR capture path is separate. Do not assume a routed SENSOR interface rec
 
 On Windows x64 use the selected hypervisor. Starting allocation: 2–4 vCPU, 4 GB RAM and 20 GB disk. OPNsense recommends at least 4 GB RAM and an 8 GB virtual disk for virtual installation; allocate more for IDS/log retention.
 
-- Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six NICs and attach each to its intended switch.
-- VMware Workstation: add six NICs; WAN on NAT, internal roles on separate host-only networks.
-- VirtualBox: follow [VirtualBox Host Setup](platform-virtualbox.md); WAN on NAT, MGMT host-only, remaining segments named Internal Networks.
+- Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six internal NICs plus the WAN NIC and attach each to its intended switch.
+- VMware Workstation: add seven NICs; WAN on NAT, six internal roles on separate host-only networks.
+- VirtualBox: follow [VirtualBox Host Setup](platform-virtualbox.md); WAN on NAT, MGMT host-only, remaining internal segments (including SENSOR-MGMT) named Internal Networks.
 
 Record every virtual NIC MAC before boot. At OPNsense console map roles by MAC and link state. Adapter number is not a reliable interface identifier.
 
@@ -46,6 +49,8 @@ Record every virtual NIC MAC before boot. At OPNsense console map roles by MAC a
 3. Do not run a second DHCP service on the same segment.
 4. Use a consistent time source/timezone for all guests.
 5. For AD DS, domain clients use the domain controller for DNS; configure upstream resolution deliberately.
+
+For the exact source/destination/port matrix, including AD DS dependencies and the selected SIEM's common receiver ports, use the [Firewall Policy Matrix](firewall-policy-matrix.md). The table is a design aid: enable only the rows required by the chosen services and verify every rule.
 
 ## 5. Least-privilege policy
 
