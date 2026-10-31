@@ -1,138 +1,96 @@
-# Lab 3 — Network design, segmentation and routing
+# Lab — Network design and segmentation
 
-<badge color="warning">Build guide — validate isolation before connecting targets</badge>
+<badge color="warning">Architecture baseline — validate on the selected hypervisor</badge>
 
-This guide defines the network layout used by all subsequent PSV labs. Build the networks first and prove isolation before installing Kali or vulnerable applications.
+This page defines the logical networks used by both host tracks. The Windows and Mac implementations are not interchangeable. Follow the [Master Build Sequence](build-sequence.md).
 
-## 1. Segments and IP plan
+## 1. Logical segments and example address plan
 
-Use the plan in the [lab overview](index.md#network-address-plan). The example uses 10.10.0.0/16 subnets; check for conflicts with your actual LAN, VPN and routes first.
+Check for overlap with home LAN, VPN, corporate routes and other VM networks before using these examples.
 
-| Network | Example subnet | Windows Hyper-V | VMware Workstation | VMware Fusion |
-|---|---|---|---|---|
-| Management | 10.10.10.0/24 | Internal | Host-only | Host-only/private, if available |
-| Endpoint | 10.10.20.0/24 | Private | Custom host-only | Custom private, if available |
-| Server | 10.10.30.0/24 | Private | Custom host-only | Custom private, if available |
-| Red team | 10.10.40.0/24 | Private | Custom host-only | Custom private, if available |
-| DMZ | 10.10.60.0/24 | Private | Custom host-only | Custom private, if available |
-| Update egress | NAT only | Controlled NAT adapter | VMnet8 NAT | Shared/NAT |
+| Segment | Subnet | Purpose | Example gateway |
+|---|---|---|---|
+| MGMT | 10.10.10.0/24 | Admin workstation and management interfaces | 10.10.10.1 |
+| ENDPOINT | 10.10.20.0/24 | Windows/Linux/Mac test endpoints | 10.10.20.1 |
+| SERVER | 10.10.30.0/24 | AD DS/DNS, syslog relay and selected SIEM | 10.10.30.1 |
+| REDTEAM | 10.10.40.0/24 | Kali assessment source | 10.10.40.1 |
+| SENSOR | 10.10.50.0/24 | Sensor management/capture design | Not a general client gateway |
+| DMZ | 10.10.60.0/24 | Vulnerable targets | 10.10.60.1 |
 
-The names above are logical labels. Map them to the actual switch/network names available in your hypervisor and record the mapping.
+Suggested Windows-track addresses: DC 10.10.30.10; syslog relay 10.10.30.30; Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22; Kali 10.10.40.10; Juice Shop 10.10.60.20. Use only the address for the SIEM currently being built.
 
-## 2. Hyper-V implementation
+A sensor may have a management NIC with an IP on MGMT and a passive capture NIC with no IP, gateway or forwarding. Do not attach the sniffing NIC to an ordinary routed network and assume it is receiving mirrored traffic.
 
-1. Open Hyper-V Manager → Virtual Switch Manager.
-2. Create an **Internal** switch named `PSV-MGMT`.
-3. Create **Private** switches named `PSV-ENDPOINT`, `PSV-SERVER`, `PSV-REDTEAM`, and `PSV-DMZ`.
-4. Do not enable host sharing or attach a physical adapter to the Private switches.
-5. Attach each VM NIC only to the segment it needs.
-6. If inter-segment routing is required, deploy a dedicated router/firewall VM with one NIC per segment, configure explicit policies and verify there is no unintended forwarding.
-7. Do not enable Windows Internet Connection Sharing as a shortcut between lab and home networks.
+## 2. Windows x64 implementation
 
-## 3. VMware Workstation implementation
+Choose exactly one hypervisor and record actual switch names.
 
-1. Open Virtual Network Editor as administrator.
-2. Keep VMnet1 host-only for management.
-3. Use VMnet8 NAT only for controlled package updates.
-4. Add custom host-only networks for endpoint, server, red-team and DMZ segments.
-5. Disable DHCP on segments where you will use static addressing or a dedicated DHCP server. Avoid two DHCP servers on one subnet.
-6. Keep the attacker and vulnerable targets on non-bridged host-only networks.
-7. If using a router/firewall VM, connect one virtual NIC to each required segment and enforce default-deny rules.
+- **Hyper-V:** create an Internal switch for MGMT and Private switches for ENDPOINT, SERVER, REDTEAM and DMZ. Private is VM-to-VM only; Internal also permits host-to-VM. Do not create an External switch for Kali or vulnerable targets. Hyper-V port mirroring requires source and destination adapters to be configured on the same virtual switch; explicitly set and verify roles.
+- **VMware Workstation:** use host-only networks for isolated segments and NAT only for controlled updates. Do not use Bridged for REDTEAM or DMZ. Do not assume a universal SPAN/mirror feature.
+- **VirtualBox:** use Host-only for host management and named Internal Networks for VM-only segments; NAT only for firewall WAN/update. Promiscuous mode is not a global mirror. See [VirtualBox Host Setup](platform-virtualbox.md).
 
-## 4. VMware Fusion implementation
+## 3. Apple-silicon Mac implementation
 
-1. Open Fusion network settings and inspect the actual network modes available in your installed release.
-2. Identify shared/NAT and host-only networks.
-3. Use host-only/private networks for isolated test VMs where the version supports them.
-4. Do not assume Fusion exposes the same number of custom segments as Workstation. If it does not, run a smaller standalone Mac lab or connect through a separately configured lab firewall/router.
-5. Do not bridge an intentionally vulnerable target to Wi-Fi/Ethernet.
-6. For cross-host lab integration, use a dedicated physical lab router with isolated VLANs or a carefully configured firewall appliance. Do not treat the home router as a lab firewall.
+Use ARM64 guests. Fusion NAT, Host-only and custom networks are distinct and are not automatically connected to Windows hypervisor switches.
 
-## 5. Static addressing
+For a segmented Mac-only build:
+1. Keep Fusion NAT as the router VM's WAN/update interface only.
+2. Create independent private/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ using features actually exposed by the installed Fusion release.
+3. Disable Fusion DHCP on networks where the Linux router provides DHCP, or use static addresses consistently.
+4. Deploy the ARM64 Ubuntu router in [Mac ARM Router & Firewall](mac-arm-routing.md).
+5. Attach each guest only to its intended segment.
+6. Do not use Bridged networking for REDTEAM or DMZ.
 
-For each segment, document:
-- Subnet and mask.
-- Gateway address (only if a router/firewall exists).
-- DHCP range and reservations.
-- DNS server.
-- NTP source.
-- Allowed source/destination/port rules.
-- Whether host-to-VM access is allowed.
-- Whether Internet egress is allowed and when.
+If the installed Fusion version cannot create enough independent networks, stop. Do not collapse all VMs onto one host-only network and call it segmentation.
 
-Do not assign a gateway on an isolated network unless that gateway exists. A static address alone does not provide DNS, Internet access or routing.
+## 4. Minimum inter-segment policy
 
-## 6. Firewall policy — default deny
-
-Start with no inter-segment forwarding. Add specific flows only as required.
+Start with default-deny and add only flows required by the current stage.
 
 | Source | Destination | Purpose | Policy |
 |---|---|---|---|
-| Admin workstation | Management interfaces | Admin access | Allow only required ports |
-| Endpoint | DNS/NTP | Name/time services | Allow to designated servers |
-| Endpoint | Elastic Fleet/outputs | Telemetry | Allow documented agent destinations |
-| Endpoint | Splunk receiver | Forwarded events | Allow configured receiving port only |
-| Endpoint | Wazuh manager | Agent communication | Allow documented Wazuh ports only |
-| Kali | DMZ target | Authorised testing | Allow only target IPs and test ports |
-| Sensor mgmt NIC | Management | Sensor administration | Allow from admin workstation |
-| Sensor sniff NIC | Mirrored traffic | Passive capture | No IP/gateway; no forwarding |
-| Vulnerable target | Home LAN | None | Deny |
-| Vulnerable target | Internet | Normally none | Deny except temporary controlled update window |
+| Admin workstation | Firewall/VM management | Administration | Allow named admin IPs/ports only |
+| ENDPOINT | Domain controller | DNS/Kerberos/LDAP/SMB/RPC as required | Allow documented AD ports to DC only |
+| Lab hosts | DNS/NTP | Name/time | Allow designated resolver/time source |
+| Firewall/router | Syslog relay | Firewall/IDS logs | Allow configured TCP/UDP/TLS listener only |
+| Relay/sensor/endpoint | Selected SIEM | Log forwarding | Allow documented agent/receiver ports only |
+| Kali | DMZ target | Authorised testing | Allow only scoped target IPs/ports |
+| DMZ | MGMT/SERVER/ENDPOINT/home LAN | None by default | Deny |
+| REDTEAM | Home LAN/MGMT | None | Deny |
+| Capture NIC | Routed destinations | Passive capture | No IP, gateway or forwarding |
 
-Port numbers must be taken from the exact versions and configuration you install. Do not copy a generic list without checking whether the product uses TLS, custom ports, Fleet, forwarders, or an alternative receiver.
+Do not guess Active Directory ports. Use Microsoft's current port documentation and test the exact services enabled, including dynamic RPC requirements.
 
-## 7. Prove isolation before testing
+## 5. Update egress
 
-On Kali, inspect routes:
+Permit OS/package updates from designated infrastructure VMs during a maintenance window. Remove update access from Kali and vulnerable targets before assessments. Do not expose management interfaces on WAN or use Internet Connection Sharing as a shortcut.
 
-```bash
-ip -br address
-ip route
-```
+## 6. Validate segmentation
 
-On a Windows target:
+On Linux:
 
-```powershell
-Get-NetIPConfiguration
-Get-NetRoute -AddressFamily IPv4
-Get-NetFirewallProfile
-```
+    ip -br address
+    ip route
+    ip neigh
 
-Run controlled connectivity checks:
-- Kali can reach the assigned vulnerable target IP.
-- Kali cannot reach your home router or unrelated LAN hosts.
-- The target cannot initiate connections to the home LAN.
-- Management access works only from the admin host.
-- Endpoint telemetry reaches only the SIEM receiver required for the current lab.
+On Windows:
 
-A failed ping is not conclusive proof of isolation because ICMP may be blocked. Check routes, firewall rules, virtual switch membership and a targeted TCP connection test. Record the results.
+    Get-NetIPConfiguration
+    Get-NetRoute -AddressFamily IPv4
+    Get-NetFirewallProfile
 
-## 8. Cross-host design
+Test allowed and denied TCP paths to known IPs/ports. Inspect routes and firewall logs. A failed ping alone is not proof because ICMP may be blocked independently.
 
-Hyper-V private switches and Fusion host-only networks are local to each host. They are not automatically interconnected.
+Record source/destination IP and port, expected rule, observed verdict, route/NIC, timestamp and result.
 
-For a two-host shared lab, use one of:
-- A dedicated managed switch and lab firewall/router with separate VLANs, if the PC and Mac have suitable wired adapters.
-- A dedicated firewall VM with carefully controlled host-only uplinks and an explicit inter-host tunnel.
-- Separate per-host labs with data forwarded to a SIEM reachable through the management segment.
+## 7. Cross-host integration
 
-Do not extend the red-team/DMZ Layer 2 segment onto your home Wi-Fi. Keep the routing point controlled and logged.
+Hyper-V private switches and Fusion host-only networks are local to their hosts. The safe default is two isolated lab islands with their own routing and SIEM ingestion.
 
-## 9. Validation and rollback
-
-Before proceeding:
-- [ ] Network segments exist and are named.
-- [ ] Each VM NIC is attached to the intended segment.
-- [ ] Kali and vulnerable targets are not bridged.
-- [ ] No accidental DHCP overlap exists.
-- [ ] No default route leaks from the DMZ/red-team network.
-- [ ] SIEM endpoints are reachable only on required ports.
-- [ ] Sensor sniff interface has no default gateway.
-- [ ] Isolation tests are recorded.
-
-If isolation fails, power off the attacker and target VMs, disconnect their NICs, correct the switch/firewall configuration, and retest. Do not continue with offensive exercises until isolation is demonstrated.
+A shared cross-host enterprise design is a separate project requiring an x86-64 firewall appliance, managed switch, VLAN plan, suitable physical NICs and explicit management/telemetry policy. Do not bridge REDTEAM or DMZ onto home Wi-Fi.
 
 ## References
 
 - [Hyper-V virtual switches](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/virtual-switch)
-- [VMware desktop hypervisor FAQ](https://www.vmware.com/docs/desktop-hypervisor-faqs)
+- [Broadcom Fusion networking types](https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html)
+- [Oracle VirtualBox networking](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html)
