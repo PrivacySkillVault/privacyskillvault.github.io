@@ -181,6 +181,9 @@ table inet filter {
 
     iifname "redteam0" oifname "dmz0" ip daddr $dmz_target tcp dport { 80, 443, 8080 } ct state new accept
 
+    # Sensor management: permit the named MGMT admin host to reach sensor management services only.
+    # iifname "mgmt0" oifname "sensormgmt0" ip saddr $mgmt_admin ip daddr 10.10.50.0/24 tcp dport { 22, 443 } ct state new accept
+
     # Optional AD DS flows — uncomment only if a lab DC exists at 10.10.30.10.
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 88, 389, 464 } ct state new accept
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport { 53, 88, 135, 389, 445, 464, 636, 3268, 3269, 9389 } ct state new accept
