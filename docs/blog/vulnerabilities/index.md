@@ -18,11 +18,11 @@
     <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in Vulnerabilities</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="cve-cvss-cwe-cpe-explained/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="../../assets/blog/cve-cvss-cwe-cpe-explained.svg" alt="" loading="lazy"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/3747486/pexels-photo-3747486.jpeg?cs=srgb&dl=pexels-polina-zimmerman-3747486.jpg&fm=jpg" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>CVE, CVSS, CWE and CPE: Four Terms Every Vulnerability Analyst Should Know</h3><p>Understand what each identifier or score represents—and why none alone tells you whether a system is at risk.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
 <a class="psv-story-card" href="prioritising-vulnerabilities-beyond-cvss/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="../../assets/blog/prioritising-vulnerabilities-beyond-cvss.svg" alt="" loading="lazy"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/6963937/pexels-photo-6963937.jpeg?cs=srgb&dl=pexels-mikhail-nilov-6963937.jpg&fm=jpg" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>How to Prioritise Vulnerabilities Beyond the CVSS Score</h3><p>Combine severity, active exploitation, exposure, asset criticality, and remediation feasibility into a defensible decision.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
     </div>
