@@ -410,4 +410,5 @@ Before each change: snapshot the VM, keep console access, save current Netplan/n
 - [Ubuntu Server networking documentation](https://ubuntu.com/server/docs)
 - [Netplan documentation](https://netplan.readthedocs.io/)
 - [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page)
+- [dnsmasq manual — DHCP ranges, interface tags and options](https://dnsmasq.org/docs/dnsmasq-man.html)
 - [Broadcom Fusion network types](https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html)
