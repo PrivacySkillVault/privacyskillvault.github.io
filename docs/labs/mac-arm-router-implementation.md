@@ -119,6 +119,16 @@ networkctl status wan0
 
 There must be exactly one default route through WAN. Internal interfaces must not have default gateways. If connectivity is lost, use the console and restore the last known-good YAML or snapshot.
 
+Before attaching client VMs, reserve/document these static addresses (change them consistently if your inventory differs):
+- MGMT admin workstation: 10.10.10.10/24, gateway 10.10.10.1; DNS 10.10.10.1 unless domain-joined, then use 10.10.30.10.
+- AD domain controller, if deployed: 10.10.30.10/24; DNS points to itself after promotion.
+- Syslog relay: 10.10.30.30/24, gateway 10.10.30.1.
+- Selected SIEM only: Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22.
+- Sensor management NIC: 10.10.50.10/24, gateway 10.10.50.1; capture NICs have no IP address, gateway or DNS.
+- DMZ test target: 10.10.60.20/24, gateway 10.10.60.1.
+
+Keep the Windows x64 and Mac labs as separate isolated islands when using these same sample addresses. Do not connect both overlapping subnets to one shared L2 network or shared relay without assigning unique, non-overlapping addresses.
+
 ## 4. IPv4 forwarding and IPv6 policy
 
 This reference profile is IPv4-only. IPv6 must not provide an unfiltered alternate route. If IPv6 is required, design equivalent IPv6 input/forward rules, router advertisements, DNS and logging before enabling it.
