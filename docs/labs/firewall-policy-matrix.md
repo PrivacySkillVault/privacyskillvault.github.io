@@ -56,6 +56,8 @@ The following are common AD DS dependencies, not a command to open every port un
 
 Some Windows versions/roles use additional ports. The dynamic RPC range can be narrowed on the DC only if the change is supported, documented and consistently applied. Do not arbitrarily open or shrink it. Verify DNS SRV lookup, domain join, Group Policy, Kerberos authentication and administrative tools after adding rules.
 
+**DNS when AD DS is not deployed:** if clients use OPNsense Unbound or the Mac router's dnsmasq resolver, allow only the relevant client subnet to the router's own interface address on UDP/53 and TCP/53. Configure Unbound access lists or bind dnsmasq only to the intended internal interfaces. Do not allow arbitrary client DNS directly to public resolvers. If AD DS is deployed, domain members should use the DC DNS address; do not silently fall back to the router/public DNS because that can break AD SRV discovery.
+
 ## 4. SIEM and telemetry ports — only enable selected stack
 
 | Stack/component | Typical port | Initiator → destination | Notes |
