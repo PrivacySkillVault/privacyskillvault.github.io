@@ -90,6 +90,7 @@ nav:
       - Telemetry Collection & Forwarding: labs/telemetry-pipeline.md
       - SIEM Collector Implementation: labs/siem-collector-implementation.md
       - End-to-end Build Sequence: labs/build-sequence.md
+      - Operations & Recovery: labs/operations-recovery.md
       - Elastic SIEM: labs/elastic-siem.md
       - Splunk SIEM: labs/splunk-siem.md
       - Wazuh SOC: labs/wazuh-soc.md
