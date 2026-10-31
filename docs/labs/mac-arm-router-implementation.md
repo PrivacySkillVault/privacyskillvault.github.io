@@ -274,7 +274,7 @@ Keep the VM console open. Confirm router SSH works from the named MGMT admin hos
 
 Start with static addresses. Do not run Fusion DHCP and dnsmasq DHCP on the same internal L2 segment.
 
-If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. This sample explicitly tags DHCP scopes by the receiving interface. The standalone DNS options point clients at the router's interface address; replace the ENDPOINT DNS option with the AD DNS address when domain services are deployed:
+If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. Remove `interface=sensormgmt0` if that optional adapter is not present. The SENSOR-MGMT interface is DNS-only/static; do not create a DHCP range for it. This sample explicitly tags DHCP scopes by the receiving interface. The standalone DNS options point clients at the router's interface address; replace the ENDPOINT DNS option with the AD DNS address when domain services are deployed:
 
 ~~~ini
 interface=mgmt0
