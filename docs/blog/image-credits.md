@@ -1,23 +1,23 @@
 # Journal image credits
 
-The photographs used in the Cyber Journal are editorial illustrations sourced from [Pexels](https://www.pexels.com/). They are generic contextual imagery, not photographs of the specific incidents, people, organisations, systems, or investigations discussed in the articles.
+The Cyber Journal uses editorial stock photographs from Pexels. Each photograph is a generic illustration of a topic such as security operations, online payments, software, or network infrastructure. **These photographs are not evidence from the specific incidents or investigations discussed in the articles.**
 
-| Article | Image source |
-|---|---|
-| Account takeover | [View image on Pexels CDN](https://images.pexels.com/photos/4973899/pexels-photo-4973899.jpeg?cs=srgb&dl=pexels-dan-nelson-1667453-4973899.jpg&fm=jpg) |
-| Device fingerprinting | [View image on Pexels CDN](https://images.pexels.com/photos/5483063/pexels-photo-5483063.jpeg?cs=srgb&dl=pexels-cottonbro-5483063.jpg&fm=jpg) |
-| Suspicious bank transfer | [View image on Pexels CDN](https://images.pexels.com/photos/36496927/pexels-photo-36496927.jpeg?cs=srgb&dl=pexels-jakubzerdzicki-36496927.jpg&fm=jpg) |
-| Ransomware attack chain | [View image on Pexels CDN](https://images.pexels.com/photos/5380597/pexels-photo-5380597.jpeg?cs=srgb&dl=pexels-tima-miroshnichenko-5380597.jpg&fm=jpg) |
-| Living off the Land | [View image on Pexels CDN](https://images.pexels.com/photos/207580/pexels-photo-207580.jpeg?cs=srgb&dl=pexels-pixabay-207580.jpg&fm=jpg) |
-| Suspicious PowerShell activity | [View image on Pexels CDN](https://images.pexels.com/photos/3803517/pexels-photo-3803517.jpeg?cs=srgb&dl=pexels-brett-sayles-3803517.jpg&fm=jpg) |
-| Suspicious login triage | [View image on Pexels CDN](https://images.pexels.com/photos/5935794/pexels-photo-5935794.jpeg?cs=srgb&dl=pexels-sora-shimazaki-5935794.jpg&fm=jpg) |
-| CVE, CVSS, CWE and CPE | [View image on Pexels CDN](https://images.pexels.com/photos/3747486/pexels-photo-3747486.jpeg?cs=srgb&dl=pexels-polina-zimmerman-3747486.jpg&fm=jpg) |
-| Vulnerability prioritisation | [View image on Pexels CDN](https://images.pexels.com/photos/6963937/pexels-photo-6963937.jpeg?cs=srgb&dl=pexels-mikhail-nilov-6963937.jpg&fm=jpg) |
-| Windows Sysmon lab | [View image on Pexels CDN](https://images.pexels.com/photos/5380596/pexels-photo-5380596.jpeg?cs=srgb&dl=pexels-tima-miroshnichenko-5380596.jpg&fm=jpg) |
-| Zeek network visibility lab | [View image on Pexels CDN](https://images.pexels.com/photos/1181320/pexels-photo-1181320.jpeg?cs=srgb&dl=pexels-divinetechygirl-1181320.jpg&fm=jpg) |
-| DNS resolution | [View image on Pexels CDN](https://images.pexels.com/photos/5483070/pexels-photo-5483070.jpeg?cs=srgb&dl=pexels-cottonbro-5483070.jpg&fm=jpg) |
-| MFA and passkeys | [View image on Pexels CDN](https://images.pexels.com/photos/5483064/pexels-photo-5483064.jpeg?cs=srgb&dl=pexels-cottonbro-5483064.jpg&fm=jpg) |
+| Article | Photographer | Original photo |
+|---|---|---|
+| account takeover explained | cottonbro studio | [View on Pexels](https://www.pexels.com/photo/laptop-with-cyber-security-text-on-the-screen-5483240/) |
+| device fingerprinting in banking | Antoni Shkraba | [View on Pexels](https://www.pexels.com/photo/person-using-black-tablet-computer-5475763/) |
+| investigating suspicious bank transfer | Mikhail Nilov | [View on Pexels](https://www.pexels.com/photo/a-person-using-his-cellphone-and-credit-card-for-online-transaction-6969933/) |
+| ransomware attack chain | Tima Miroshnichenko | [View on Pexels](https://www.pexels.com/photo/people-using-computers-5380597/) |
+| living off the land | Sora Shimazaki | [View on Pexels](https://www.pexels.com/photo/crop-hacker-typing-on-laptop-with-data-on-screen-5935788/) |
+| investigating suspicious powershell | Tima Miroshnichenko | [View on Pexels](https://www.pexels.com/photo/person-using-computer-5380603/) |
+| triaging suspicious login alert | Tima Miroshnichenko | [View on Pexels](https://www.pexels.com/photo/two-people-sitting-on-chairs-using-computers-5380582/) |
+| cve cvss cwe cpe explained | cottonbro studio | [View on Pexels](https://www.pexels.com/photo/workstation-computer-monitor-with-html-editor-6804613/) |
+| prioritising vulnerabilities beyond cvss | Tima Miroshnichenko | [View on Pexels](https://www.pexels.com/photo/marketing-businessman-man-laptop-7567606/) |
+| windows sysmon telemetry lab | Tima Miroshnichenko | [View on Pexels](https://www.pexels.com/photo/people-typing-on-keyboards-5380596/) |
+| zeek network visibility lab | cottonbro studio | [View on Pexels](https://www.pexels.com/photo/employee-working-through-the-tangle-of-cables-behind-the-computer-6804585/) |
+| dns resolution explained | Daniil Komov | [View on Pexels](https://www.pexels.com/photo/close-up-of-computer-screen-with-code-displayed-34803966/) |
+| mfa passkeys explained | Mario Amé | [View on Pexels](https://www.pexels.com/photo/person-using-black-dell-laptop-computer-4078343/) |
 
-Pexels states that its photos and videos may be used for free, including on websites and blogs, and that attribution is appreciated but not required. See the [Pexels licence](https://www.pexels.com/license/) and [Pexels terms](https://www.pexels.com/terms-of-service/).
+Pexels states that its photos and videos may be used free of charge on websites and blogs; attribution is not required but is appreciated. Review the [Pexels licence](https://www.pexels.com/license/) and [terms of service](https://www.pexels.com/terms-of-service/).
 
-Images are used only as article thumbnails and editorial decoration. No image should be interpreted as evidence supporting an article's technical claims.
+The photos are used as editorial thumbnails only. Do not interpret them as depictions of real victims, threat actors, financial institutions, devices, or security incidents.
