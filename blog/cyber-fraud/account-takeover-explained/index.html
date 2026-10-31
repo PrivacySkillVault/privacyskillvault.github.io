@@ -1,0 +1,2306 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/blog/cyber-fraud/account-takeover-explained/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>How Does a Banking Account Takeover Actually Work? - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-does-a-banking-account-takeover-actually-work" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../../../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href="../../.." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../../../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../../../standards/" class="psv-global-nav__link">Standards</a></li>
+        <li><a href="../../../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../../../labs/" class="psv-global-nav__link">Labs</a></li>
+        <li><a href="../../../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../../../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../../" class="psv-global-nav__link psv-global-nav__link--active">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../../../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/enterprise-dual-siem-vm-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Dual-SIEM VM Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/platform-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/operations-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/elastic-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/splunk-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/wazuh-soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh SOC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/security-onion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Onion (Optional x86-64)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/penetration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../labs/soc-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOC Validation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../investigations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../investigations/scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../investigations/account-takeover-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../investigations/payment-fraud-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Fraud Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Detection Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../detection-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../detection-engineering/fixtures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Test Fixtures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../detection-engineering/windows-powershell-encoded-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell Encoded Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../detection-engineering/windows-local-admin-membership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Administrators Group Change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operational Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operational-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operational-templates/detection-change-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Change & Validation Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operational-templates/fraud-case-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fraud Investigation Case Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operational-templates/incident-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cybersecurity Incident Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-simple-picture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The simple picture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-common-routes-to-account-takeover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Common routes to account takeover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Common routes to account takeover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#credential-theft-and-phishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credential theft and phishing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-stuffing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credential stuffing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#account-recovery-abuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account recovery abuse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-theft-or-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session theft or hijacking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-or-browser-identity-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Device or browser identity manipulation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-from-access-to-financial-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. From access to financial loss
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-how-a-fraud-or-soc-analyst-should-investigate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. How a fraud or SOC analyst should investigate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. How a fraud or SOC analyst should investigate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#correlate-events-do-not-rely-on-one-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlate events, do not rely on one log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-a-suspicious-session-is-not-visible-in-the-expected-login-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If a suspicious session is not visible in the expected login logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-what-helps-reduce-the-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What helps reduce the risk?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-key-lessons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Key lessons
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-references-and-further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. References and further reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="how-does-a-banking-account-takeover-actually-work">How Does a Banking Account Takeover Actually Work?</h1>
+<p><small>Cyber Fraud · Foundational explainer · Published: 31 October 2026</small></p>
+<p>Account takeover (ATO) is the unauthorised use of a legitimate customer's account. In digital banking, it can lead to unauthorised profile changes, new payees, payment instructions, or other actions available to the compromised account.</p>
+<p>The important point is that <strong>account takeover is an outcome, not one specific technique</strong>. An attacker might obtain credentials, abuse a recovery process, take over an authenticated session, or exploit a weakness in an application or its supporting systems. The exact path must be established from evidence; a suspicious payment alone does not identify how the account was compromised.</p>
+<h2 id="1-the-simple-picture">1. The simple picture</h2>
+<p>Think of a banking account as having several security gates:</p>
+<ol>
+<li><strong>Identity</strong> — which customer or account is being claimed?</li>
+<li><strong>Authentication</strong> — what evidence proves the person can sign in?</li>
+<li><strong>Session</strong> — how does the application recognise the authenticated customer across requests?</li>
+<li><strong>Authorisation</strong> — is this session allowed to perform this particular action?</li>
+<li><strong>Transaction controls</strong> — should this payment or beneficiary change be allowed under the current risk conditions?</li>
+</ol>
+<p>An attacker may target one or more of these layers. Passing one gate does not automatically mean every later action should be trusted.</p>
+<h2 id="2-common-routes-to-account-takeover">2. Common routes to account takeover</h2>
+<p>The following are established categories of attack. They are not a claim that every ATO incident uses all of them.</p>
+<h3 id="credential-theft-and-phishing">Credential theft and phishing</h3>
+<p>A customer may be tricked into entering credentials into a fake site, disclosing them to an impersonator, or approving an action they do not understand. Credentials may also be exposed through malware, compromised devices, or data breaches elsewhere.</p>
+<p><strong>Defensive implication:</strong> a successful password check does not, by itself, establish that the legitimate customer is present. Risk signals, strong authentication, customer confirmation, and transaction-level controls still matter.</p>
+<h3 id="credential-stuffing">Credential stuffing</h3>
+<p>Credential stuffing is different from guessing a password. An attacker tests username-and-password pairs obtained from another service's breach, relying on password reuse. OWASP distinguishes credential stuffing from brute force and password spraying.</p>
+<p><strong>Potential signals:</strong> repeated authentication attempts, the same source infrastructure testing multiple accounts, distributed low-volume attempts, unusual failure-to-success patterns, and successful logins from previously unseen contexts. No single signal proves credential stuffing.</p>
+<h3 id="account-recovery-abuse">Account recovery abuse</h3>
+<p>Password-reset, phone-number-change, email-change, and customer-support processes can become alternate routes into an account. If an attacker can manipulate or defeat a recovery process, the normal login controls may be bypassed.</p>
+<p><strong>Investigation question:</strong> were recovery details or authentication factors changed shortly before the suspicious session or transaction? Review the full recovery workflow, not just the final login event.</p>
+<h3 id="session-theft-or-hijacking">Session theft or hijacking</h3>
+<p>After a user authenticates, an application commonly issues a session identifier or token. The application uses it to associate later requests with that authenticated session. If an attacker obtains or reuses a valid session token, they may be able to act as the user without repeating the original login.</p>
+<p>OWASP notes that a session token is effectively equivalent to the authentication method used to establish that session. Its disclosure, capture, prediction, or fixation can enable session hijacking.</p>
+<p><strong>Important distinction:</strong> session hijacking is not the same as password theft. An attacker using a valid session may not generate a new password-authentication event. That is one reason investigations must include session creation, renewal, validation, revocation, and application audit events—not only login logs.</p>
+<h3 id="device-or-browser-identity-manipulation">Device or browser identity manipulation</h3>
+<p>Applications may use device and connection characteristics as risk signals. These can include browser and operating-system details, IP reputation, connection characteristics, and application-specific device registration data.</p>
+<p>These signals have limitations. Client-supplied values can be altered, some attributes are shared by many users, and legitimate customers change devices or networks. A matching device fingerprint is not proof of a legitimate customer; a changed fingerprint is not proof of fraud.</p>
+<p>Treat device identity as one input to a broader risk assessment, not as an unforgeable identity credential.</p>
+<h2 id="3-from-access-to-financial-loss">3. From access to financial loss</h2>
+<p>A simplified illustrative sequence might look like this:</p>
+<ol>
+<li>An attacker obtains access through one of the routes described above.</li>
+<li>The attacker establishes or reuses an authenticated session.</li>
+<li>The attacker explores account functions or changes account details.</li>
+<li>The attacker attempts a beneficiary addition or payment.</li>
+<li>The bank's controls approve, challenge, delay, or decline the activity.</li>
+<li>The activity is detected through monitoring, customer reporting, or downstream investigation.</li>
+</ol>
+<p>This is a <strong>hypothetical teaching scenario</strong>, not a description of a particular bank incident. Real attack paths vary. Some fraud attempts stop at authentication; others involve social engineering, mule accounts, remote access scams, or abuse of legitimate customer actions.</p>
+<h2 id="4-how-a-fraud-or-soc-analyst-should-investigate">4. How a fraud or SOC analyst should investigate</h2>
+<p>Start with a timeline. Preserve original timestamps and time zones, and record the source system for every event.</p>
+<table>
+<thead>
+<tr>
+<th>Evidence area</th>
+<th>Questions to answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customer and account</td>
+<td>Which account was affected? Were contact or recovery details changed?</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Were there successes, failures, step-up challenges, resets, or factor changes?</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>When was the session created, renewed, used, and revoked? Is there a safe correlation identifier?</td>
+</tr>
+<tr>
+<td>Device and connection</td>
+<td>Was the device previously seen? Did network or client attributes change? Are these signals reliable for this channel?</td>
+</tr>
+<tr>
+<td>Application activity</td>
+<td>Which screens, APIs, profile changes, and sensitive actions were recorded?</td>
+</tr>
+<tr>
+<td>Beneficiary and payment</td>
+<td>When was the payee added? When was the payment initiated, approved, processed, or reversed?</td>
+</tr>
+<tr>
+<td>Customer contact</td>
+<td>Was the customer contacted? What did they confirm, deny, or report?</td>
+</tr>
+<tr>
+<td>Control decisions</td>
+<td>Which rules, challenges, limits, or manual decisions applied? What evidence supported each decision?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="correlate-events-do-not-rely-on-one-log">Correlate events, do not rely on one log</h3>
+<p>A useful investigation joins records using available, privacy-safe identifiers such as internal event IDs, account references protected under policy, transaction references, and hashed or otherwise protected session-correlation values.</p>
+<p>Do not assume every platform shares the same clock, identifier, or definition of a login. Validate timestamp offsets, ingestion delays, duplicate events, missing telemetry, and differences between an authentication event and an application session event.</p>
+<h3 id="if-a-suspicious-session-is-not-visible-in-the-expected-login-logs">If a suspicious session is not visible in the expected login logs</h3>
+<p>Do not immediately conclude that the attacker bypassed authentication. First establish what the log source actually records.</p>
+<p>Check, where available and authorised:</p>
+<ul>
+<li>Identity provider and authentication service events.</li>
+<li>Application gateway, API gateway, and backend audit events.</li>
+<li>Session-store creation, lookup, renewal, invalidation, and expiry events.</li>
+<li>Mobile application and device-registration events.</li>
+<li>Step-up authentication and transaction-authorisation records.</li>
+<li>Log ingestion health, retention, filtering, sampling, and time synchronisation.</li>
+</ul>
+<p>A session can be created or used in a component whose events are not represented in the specific login dashboard being reviewed. Equally, a missing record may be caused by a logging gap or pipeline failure. These are investigation hypotheses until corroborated.</p>
+<p><strong>Never log or circulate raw session tokens, passwords, OTPs, full payment credentials, or other secrets.</strong> Use approved correlation identifiers and protect customer data according to organisational policy.</p>
+<h2 id="5-what-helps-reduce-the-risk">5. What helps reduce the risk?</h2>
+<p>No single control prevents every form of account takeover. Controls should be layered and proportionate to the risk.</p>
+<ul>
+<li><strong>Phishing-resistant authentication:</strong> offer strong MFA, preferably phishing-resistant options where supported and practical. MFA reduces risk but does not eliminate session theft, social engineering, or every recovery-path weakness.</li>
+<li><strong>Risk-based step-up:</strong> challenge sensitive actions when context or behaviour changes, rather than relying only on the initial login decision.</li>
+<li><strong>Secure session management:</strong> use unpredictable session identifiers, protect them in transit and at rest, renew them after authentication and privilege changes, enforce server-side expiry, and invalidate sessions on logout or compromise.</li>
+<li><strong>Recovery-flow protection:</strong> apply strong identity verification, notifications, cooling-off or additional checks for high-risk changes, and monitoring for recovery abuse.</li>
+<li><strong>Transaction monitoring:</strong> assess beneficiary changes and payment behaviour with appropriate contextual signals and controls.</li>
+<li><strong>Customer visibility:</strong> provide clear alerts and a way to review and revoke active sessions or report suspicious activity.</li>
+<li><strong>Telemetry and audit quality:</strong> record authentication and security-relevant actions, protect logs, monitor ingestion health, and ensure investigators can correlate events without exposing secrets.</li>
+</ul>
+<p>OWASP's session-management guidance and credential-stuffing guidance provide implementation detail for several of these controls. The appropriate design depends on the application's architecture, threat model, regulatory obligations, and customer experience.</p>
+<h2 id="6-key-lessons">6. Key lessons</h2>
+<ol>
+<li>Account takeover is an outcome with multiple possible attack paths.</li>
+<li>A valid credential check does not prove that the legitimate customer is operating the session.</li>
+<li>A stolen session can be used without a fresh password login, so authentication logs alone may be insufficient.</li>
+<li>Device fingerprints and IP addresses are risk signals, not definitive identity proof.</li>
+<li>Investigations should connect identity, authentication, session, application, beneficiary, transaction, and customer-contact evidence.</li>
+<li>Missing logs are a telemetry question to investigate—not proof of a sophisticated bypass.</li>
+<li>Strong authentication, secure session handling, recovery controls, transaction monitoring, and good audit telemetry work together.</li>
+</ol>
+<h2 id="7-references-and-further-reading">7. References and further reading</h2>
+<p>These references support the technical distinctions and defensive recommendations in this explainer:</p>
+<ol>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html">OWASP Session Management Cheat Sheet</a> — session identifiers, session hijacking, renewal, expiry, and safe session logging.</li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html">OWASP Credential Stuffing Prevention Cheat Sheet</a> — credential stuffing versus brute force and password spraying, MFA, device signals, and layered mitigation.</li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html">OWASP Logging Cheat Sheet</a> — security event logging and protection of sensitive log data.</li>
+</ol>
+<h2 id="scope-and-limitations">Scope and limitations</h2>
+<p>This is a general educational explanation, not a report of a specific breach or a claim about the controls used by any named bank. The sequence in section 3 is hypothetical. Actual investigations must be based on the organisation's evidence, approved procedures, and applicable legal and regulatory requirements.</p>
+<p><em>Last reviewed: 31 October 2026.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+        © 2024 - 2026 by
+        <a href="https://privacyskillvault.com/" rel="home">privacyskillvault.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../../javascripts/psv-navigation.js"></script>
+      
+        <script src="../../../javascripts/tools-workbench-v2.js"></script>
+      
+    
+  </body>
+</html>
