@@ -6,7 +6,7 @@ This page is the Windows x64 OPNsense implementation. For an Apple-silicon Mac-o
 
 ## 1. Windows OPNsense topology
 
-Create one x86-64 OPNsense VM with six adapters:
+Create one x86-64 OPNsense VM with seven adapters (WAN plus six internal segments):
 
 | Role | Network | Address |
 |---|---|---|
@@ -23,7 +23,7 @@ The SENSOR capture path is separate. Do not assume a routed SENSOR interface rec
 
 On Windows x64 use the selected hypervisor. Starting allocation: 2–4 vCPU, 4 GB RAM and 20 GB disk. OPNsense recommends at least 4 GB RAM and an 8 GB virtual disk for virtual installation; allocate more for IDS/log retention.
 
-- Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six NICs and attach each to its intended switch.
+- Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six internal NICs plus the WAN NIC and attach each to its intended switch.
 - VMware Workstation: add six NICs; WAN on NAT, internal roles on separate host-only networks.
 - VirtualBox: follow [VirtualBox Host Setup](platform-virtualbox.md); WAN on NAT, MGMT host-only, remaining segments named Internal Networks.
 
