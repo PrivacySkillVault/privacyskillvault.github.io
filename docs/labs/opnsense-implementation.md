@@ -132,7 +132,7 @@ If AD DS is deployed, add narrow rules from ENDPOINT net to PSV_DC_DNS:
 - TCP dynamic RPC range only if required for domain operations/GPO/remote management; scope destination to the DC.
 - UDP/123 to the designated NTP source.
 
-If AD DS is deployed, allow DNS only to the DC and do not permit arbitrary Internet DNS or firewall Unbound as a bypass. If AD DS is not deployed and Unbound is selected, instead allow ENDPOINT net to This Firewall on UDP/53 and TCP/53. Do not enable both patterns unless the host roles explicitly require them. Add SIEM agent/forwarder access later, only after Stage 8 and only to PSV_SIEM/required service ports.
+If AD DS is deployed, allow DNS only to the DC and do not permit arbitrary Internet DNS or firewall Unbound as a bypass. If AD DS is not deployed and Unbound is selected, instead allow ENDPOINT net to This Firewall on UDP/53 and TCP/53. Do not enable both patterns unless the host roles explicitly require them. Add endpoint agent/forwarder access later, only after Stage 8, on this ENDPOINT ingress interface and only to the selected PSV_SIEM address/required ports.
 
 ### REDTEAM interface
 
@@ -152,13 +152,7 @@ After Stage 8, add only the selected SIEM agent flow from 10.10.50.10: Elastic t
 
 ### SERVER interface
 
-Allow only required service-to-service flows:
-- Endpoints to DC/DNS for AD services.
-- If non-domain SERVER hosts use Unbound, allow only the required SERVER hosts to This Firewall on UDP/53 and TCP/53.
-- Firewall/router devices to PSV_LOG_RELAY on the selected syslog transport/port.
-- Relay/sensor/endpoint agents to the selected SIEM on the product-specific ports.
-- Management workstation to SIEM UI/API only where required.
-Do not permit REDTEAM/DMZ to access server management ports.
+Apply rules here only to traffic that actually enters from SERVER. If non-domain SERVER hosts use Unbound, allow only the required SERVER hosts to This Firewall on UDP/53 and TCP/53. If a SERVER host must reach a different subnet/service, add the narrow source/destination/port rule. Hosts on the same SERVER subnet communicate at Layer 2 and are not filtered by the router; enforce host firewalls between them. OPNsense-originated remote syslog is configured under the system remote-logging settings, not as a SERVER-interface ingress rule. Endpoint-to-SIEM rules belong on ENDPOINT, sensor-to-SIEM rules on SENSOR-MGMT, and management UI rules on MGMT. Do not permit REDTEAM/DMZ to access server management ports.
 
 ## 8. NAT and controlled update egress
 
