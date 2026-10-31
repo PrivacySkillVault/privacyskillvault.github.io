@@ -41,11 +41,12 @@ For Hyper-V, confirm supported Windows edition, CPU SLAT, firmware virtualisatio
 | Splunk Universal Forwarder | Supported platforms in current Splunk matrix | Do not assume ARM64 support; check the exact Darwin architecture table |
 | Elastic Stack | Supported x64 Linux deployment | ARM64 Linux components are supported where listed in Elastic's current support matrix |
 | Wazuh central components | Supported x64 Linux | Supported 64-bit ARM Linux on listed OS versions |
+| OPNsense | Yes, x86-64 guest on supported hypervisor | No native ARM64 guest; use physical x86-64 appliance or ARM64 Linux router alternative |
 | Security Onion | Yes, x86-64 only | No; ARM is explicitly unsupported |
 | Zeek / Suricata | Supported Linux builds | ARM builds where the selected release/package supports them |
 | OWASP Juice Shop | Docker image/platform must match guest | Verify the published ARM64 image manifest |
 
-**Apple Silicon limitation:** VMware Fusion and Oracle VirtualBox on Apple Silicon support ARM64 guests only; x86/x64 guest operating systems are not supported. VirtualBox on Apple Silicon has additional limitations and is not a substitute for the Windows x64 host for OPNsense, Security Onion or Splunk Enterprise. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.
+**Apple Silicon limitation:** VMware Fusion and Oracle VirtualBox on Apple Silicon support ARM64 guests only; x86/x64 guest operating systems are not supported. OPNsense is x86-64 only. Use the separate ARM64 Linux router guide for a Mac-only virtual lab. Splunk Enterprise and Security Onion are not native ARM64 guest deployments. VirtualBox on Apple Silicon has additional limitations and is not a substitute for the Windows x64 host for OPNsense, Security Onion or Splunk Enterprise. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.
 
 ## 3. Practical planning allocations
 
@@ -76,6 +77,7 @@ Run one major SIEM stack at a time. Reserve memory for the host OS and hyperviso
 - [Microsoft Hyper-V host requirements](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements)
 - [Microsoft Windows 11 ARM ISO](https://learn.microsoft.com/en-us/windows/arm/iso)
 - [Broadcom Fusion ARM guest compatibility](https://knowledge.broadcom.com/external/article/315602)
+- [OPNsense supported hardware architectures](https://docs.opnsense.org/manual/hardware.html)
 - [Oracle VirtualBox host/guest architecture support](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/Introduction.html)
 - [Oracle VirtualBox downloads](https://www.virtualbox.org/wiki/Downloads)
 - [Splunk Enterprise 10.6 on-premises system requirements](https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.6/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises)
