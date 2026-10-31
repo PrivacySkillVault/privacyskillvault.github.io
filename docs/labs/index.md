@@ -1,82 +1,75 @@
 # Enterprise-style cybersecurity home lab
 
-<badge color="warning">Dependency-ordered build programme — reference guides, not yet hardware-tested</badge>
+<badge color="warning">VM-based dual-SIEM build programme — design baseline, not yet hardware-tested</badge>
 
-This programme has two distinct host tracks: Windows x64 and Apple-silicon Mac ARM64. They share security objectives, but not identical firewall appliances, guest architectures or hypervisor networking.
+This programme builds an enterprise-style segmented lab using virtual machines. The Windows x64 host runs the selected hypervisor and management tools; guest operating systems, firewalls, endpoints, collectors and SIEM products run inside VMs. The Apple-silicon Mac is a separate ARM64 track.
 
-**Build rule:** complete each stage and its acceptance gate before proceeding. A SIEM is not installed until firewall, endpoint and network telemetry sources exist, produce events, and have a verified forwarding path.
+**Primary architecture:** OPNsense firewall, Windows Server AD DS/DNS, Windows 11 endpoint, Ubuntu Vector broker, Elastic Security, Splunk Enterprise, Ubuntu Zeek/Suricata sensor, Kali and an isolated vulnerable DMZ target. The full design, resource plan, IP matrix, port policy and dual-output pipeline are documented in the [Enterprise Dual-SIEM VM Lab Runbook](enterprise-dual-siem-vm-lab.md).
 
-## Correct dependency order
+## Canonical build order
 
 | Stage | Build activity | Required outcome |
 |---:|---|---|
-| 0 | [Hardware and compatibility](requirements.md) | Host architecture, RAM, storage, guest and product support recorded |
-| 1 | [Windows host](platform-windows.md) or [Mac host](platform-macos.md) | Hypervisor installed; test VM boots and snapshot restore works |
-| 2 | [Network design](network-design.md) and [hypervisor implementation](hypervisor-network-implementation.md) | Segments, actual virtual switches, adapter mapping and isolation boundaries documented |
-| 3 | [Windows OPNsense firewall](firewall-routing.md), [implementation runbook](opnsense-implementation.md), [policy matrix](firewall-policy-matrix.md) or [Mac ARM router](mac-arm-routing.md) plus [Mac router implementation](mac-arm-router-implementation.md) | Routing, default-deny policy, DNS/DHCP/NTP and egress controls validated |
-| 4 | [Operating systems and identity](operating-systems.md) | Domain controller, endpoints, Linux hosts, Kali and target deployed |
-| 5 | [Endpoint telemetry](windows-endpoint-telemetry.md) and [cross-platform implementation](endpoint-telemetry-implementation.md) | Windows Security/Sysmon and Linux/macOS source events verified locally |
-| 6 | [Network monitoring](network-monitoring.md) and [sensor implementation](network-sensor-implementation.md) | Firewall IDS, Suricata and Zeek visibility proven; logs written locally |
-| 7 | [Syslog relay implementation](syslog-relay-implementation.md) and [telemetry pipeline](telemetry-pipeline.md) | Firewall/router events reach the relay; endpoint events and sensor files are verified locally |
-| 8 | [Elastic](elastic-siem.md), [Splunk](splunk-siem.md) or [Wazuh](wazuh-soc.md) plus [collector implementation](siem-collector-implementation.md) | Install one SIEM, configure collectors/agents, and prove end-to-end ingestion |
-| 9 | [Security Onion](security-onion.md) — optional x86-64 alternative | Dedicated NSM/SOC deployment after network visibility is ready |
-| 10 | [Penetration testing](penetration-testing.md) | Scope, isolation, target and telemetry gates passed |
-| 11 | [SOC validation](soc-exercises.md) | End-to-end detection, investigation, evidence and cleanup demonstrated |
+| 0 | [Hardware & Compatibility](requirements.md) | Host capacity, architecture and support verified |
+| 1 | [Windows Host Setup](platform-windows.md) | One hypervisor installed; test VM snapshot/restore works |
+| 2 | [Network Design](network-design.md) and [Hypervisor Network Implementation](hypervisor-network-implementation.md) | Isolated segments, adapter mapping and capture design proven |
+| 3 | [OPNsense Implementation](opnsense-implementation.md) and [Firewall Policy Matrix](firewall-policy-matrix.md) | Routing, DNS, DHCP, NTP and default-deny policy validated |
+| 4 | [Operating Systems & Identity](operating-systems.md) | All guest OSs installed inside VMs |
+| 5 | AD DS/DNS and DMZ applications | Domain join and isolated targets verified |
+| 6 | [Endpoint Telemetry](endpoint-telemetry-implementation.md) | Windows/Linux events exist locally |
+| 7 | [Network Monitoring](network-monitoring.md) and [Sensor Implementation](network-sensor-implementation.md) | Packet visibility, Zeek and Suricata events proven |
+| 8 | [Syslog Relay](syslog-relay-implementation.md) and [Telemetry Pipeline](telemetry-pipeline.md) | Firewall and sensor events reach the broker |
+| 9 | [Elastic SIEM](elastic-siem.md) | Elastic raw event ingestion verified |
+| 10 | [Splunk SIEM](splunk-siem.md) | Splunk raw event ingestion verified |
+| 11 | Dual-output Vector and endpoint coexistence | Same controlled sources searchable in both SIEMs |
+| 12 | [Penetration Testing](penetration-testing.md) and [SOC Exercises](soc-exercises.md) | Controlled detection and investigation validated |
+| 13 | Operations and recovery | Backups, retention, health and restore tests documented |
 
-Do not skip ahead to a SIEM because its installer is available. A running service or online agent does not prove that the required events are being collected.
+Do not skip gates. A service showing active, an agent showing online, or a successful documentation build does not prove end-to-end telemetry.
 
 ## Platform tracks
 
-### Windows x64 PC
+### Windows x64 PC — primary full build
 
-This is the full x86-64 track. Choose one primary hypervisor: Hyper-V, VMware Workstation or VirtualBox. Run OPNsense as an x86-64 firewall VM with WAN plus separate internal network adapters. Start Suricata in alert-only IDS mode on relevant internal interfaces. Add a Zeek sensor only after a real packet mirror/tap or offline PCAP path is verified.
+Choose exactly one hypervisor: VMware Workstation Pro (default Type-2 path), Hyper-V or VirtualBox. Run OPNsense x86-64 as a VM. Deploy x86-64 Windows/Linux/Kali guests and supported x86-64 SIEM components. Keep the WAN NIC on hypervisor NAT; do not bridge REDTEAM or DMZ to home Wi-Fi.
 
-This track supports Windows Server/Windows 11 x64, Ubuntu x86-64, Kali x86-64, Splunk Enterprise on a supported x64 OS, and Security Onion x86-64 when hardware meets vendor requirements.
+### Apple-silicon Mac — separate ARM64 build
 
-### Apple-silicon Mac
+Use VMware Fusion and ARM64 guest images. Use Ubuntu ARM64 with nftables as the router path; OPNsense and Security Onion are not ARM64 guest targets. Do not assume Splunk Enterprise is supported natively on ARM64. Verify Elastic components and every endpoint agent against current support matrices.
 
-Use VMware Fusion or another hypervisor supporting ARM64 guests. Use ARM64 Ubuntu, Kali and Windows 11 ARM images. OPNsense is x86-64 only; do not attempt to install it as an ARM64 guest. For a Mac-only isolated lab use the [ARM64 Linux router/firewall path](mac-arm-routing.md). It uses Ubuntu Server ARM64 and nftables; it is not an OPNsense replacement. Splunk Enterprise and Security Onion are not native ARM64 guest targets.
+### Cross-host operation
 
-### Combining Windows and Mac
-
-Fusion host-only networks and Windows hypervisor private networks are local to their host; they do not automatically form one shared enterprise network. Start with two independently isolated labs. A single cross-host VLAN design requires a separate physical firewall/switch architecture. Never bridge REDTEAM or DMZ onto home Wi-Fi.
-
-## Data-flow model
-
-    Endpoint events ───────────────> endpoint agent / forwarder ─┐
-    Firewall rule logs ────────────> syslog relay ───────────────┤
-    Firewall Suricata EVE alerts ──> syslog relay ───────────────┤
-    Zeek / sensor Suricata files ──> sensor collector/agent ─────┤
-                                                                v
-                                                     One selected SIEM
-                                                                |
-                                                      searches/detections
-                                                                |
-                                                      SOC investigation
-
-Every arrow must be configured and tested. A firewall does not automatically export logs, and a sensor does not automatically send data to a SIEM.
+Fusion host-only networks and Windows hypervisor private networks are local to their host. They do not automatically form one shared VLAN. Keep two isolated lab islands unless a separate physical VLAN/firewall design is built and reviewed.
 
 ## Resource planning
 
-These are home-lab starting allocations, not universal vendor minimums:
+Planning values only; check current vendor requirements and host capacity before deployment.
 
-| Component | Starting allocation |
+| Component | Home-lab starting allocation |
 |---|---|
-| Windows Server AD DS/DNS | 2–4 vCPU, 6–8 GB RAM, 80 GB disk |
-| Windows 11 endpoint | 2–4 vCPU, 6–8 GB RAM, 80 GB disk |
-| Ubuntu endpoint | 2 vCPU, 2–4 GB RAM, 40–60 GB disk |
-| Kali | 2–4 vCPU, 4–8 GB RAM, 60 GB disk |
-| Linux syslog relay | 2 vCPU, 2–4 GB RAM, 30–50 GB disk |
-| Zeek/Suricata sensor | 4 vCPU, 8 GB RAM, SSD-backed log storage |
-| Elastic single-node learning stack | 4–8 vCPU, 12–16 GB RAM, 150–200 GB disk |
-| Splunk Enterprise learning stack | 4 vCPU, 8–12 GB RAM, 100–150 GB disk; check current release requirements |
-| Wazuh all-in-one | Use current official sizing; current quickstart reference is 4 vCPU, 8 GiB RAM, 50 GB for 90 days of indexed alert data |
-| Security Onion Standalone | Vendor bare minimum: 4 CPU cores, 24 GB RAM, 200 GB storage, 2 NICs |
+| OPNsense VM | 2 vCPU, 4 GB RAM |
+| Windows Server AD DS/DNS | 2–4 vCPU, 6–8 GB RAM |
+| Windows 11 endpoint | 2–4 vCPU, 6–8 GB RAM |
+| Ubuntu Vector broker | 2–4 vCPU, 4–8 GB RAM |
+| Elastic single-node learning stack | 4–8 vCPU, 12–16 GB RAM |
+| Splunk Enterprise learning stack | 4 vCPU, 8–12 GB RAM |
+| Zeek/Suricata sensor | 4–8 vCPU, 8–16 GB RAM |
+| Kali | 2–4 vCPU, 4–8 GB RAM |
+| DMZ Ubuntu target | 2–4 vCPU, 4 GB RAM |
 
-Run one major SIEM stack at a time. Security Onion is a separate, resource-intensive platform.
+A 64 GB host should use staged operation and stop idle VMs; simultaneous operation is not guaranteed. 96 GB is more practical and 128 GB preferred for running both SIEMs and all supporting VMs concurrently. Storage needs headroom for indexes, snapshots, PCAP and log retention.
+
+## Data-flow model
+
+- Windows endpoint: Elastic Agent → Elastic; Splunk UF → Splunk, after coexistence and duplicate tests.
+- Firewall/router: syslog → Vector broker → Elasticsearch and Splunk HEC.
+- Sensor: Zeek/Suricata files → supported agent or broker input → both SIEMs.
+- Linux target: local audit/journal → selected supported collection path → both SIEMs.
+
+Vector is not a universal mandatory hop for every endpoint. Kafka and Logstash are not part of the initial design. Port 5044 is not opened unless a Beats input is deliberately deployed.
 
 ## Evidence standard
 
-For every stage record host/guest architecture, versions, checksums, VM resources, adapter mapping, IPs/routes, firewall rules, source event, collector receipt, SIEM document, timestamps, expected/actual results, rollback and cleanup. Never publish employer logs, customer data, credentials, tokens or private certificates.
+For every stage record host/guest architecture, versions, checksums, VM resources, adapter mapping, IPs/routes, firewall rules, source event, broker receipt, SIEM document, timestamps, expected/actual results, rollback and cleanup. Screenshots labelled as genuine lab evidence must be captured from the actual running VM. Official vendor screenshots and diagrams must be labelled as references or illustrations. Never publish credentials, tokens, private keys, employer logs or customer data.
 
-**Status:** These are build instructions. Do not label a stage “lab-tested” until executed on the target hardware with sanitised evidence.
+**Status:** architecture and runbooks are documentation, not proof of hardware execution. Mark a stage lab-tested only after its acceptance gate passes on the target host.

@@ -1,8 +1,12 @@
 # SIEM collector implementation — Elastic, Splunk and Wazuh
 
-<badge color="warning">Stage 8 — configure only after all pre-SIEM source gates pass</badge>
+<badge color="warning">Dual-SIEM build — staged validation required</badge>
 
-This guide connects the already-proven local event sources and relay files to one selected SIEM. Do not install all three SIEMs at once. Pick one, configure one source at a time, prove raw event ingestion, then add the next source.
+This guide contains source-specific collection examples. For the complete dual-SIEM VM architecture, port matrix and deployment sequence, follow the [Enterprise Dual-SIEM VM Lab Runbook](enterprise-dual-siem-vm-lab.md).
+
+The final design may send approved endpoint events directly to Elastic and Splunk using their respective supported agents/forwarders, while firewall/router and selected sensor/file sources pass through Vector for dual output. Do not force every event through one broker. Build and validate one SIEM first, then the other, and only then enable both destinations. Wazuh is an alternative stack, not a third mandatory concurrent SIEM.
+
+Do not install all agents on every host by default. Avoid duplicate collection by ensuring that each source has one defined path per destination. Agent coexistence is subject to exact OS/architecture/vendor support and measured resource use.
 
 **Prerequisites:** [Master Build Sequence](build-sequence.md) Stages 0–7 pass; the [syslog relay](syslog-relay-implementation.md), [network sensor](network-sensor-implementation.md) and [endpoint telemetry](endpoint-telemetry-implementation.md) acceptance gates are complete.
 
@@ -249,6 +253,20 @@ Wazuh macOS uses Unified Logging. Configure the macOS localfile block as describ
 - Decoder and rule behaviour are understood; an event may be ingested without triggering an alert.
 - Hostname, timestamp, source file/channel and raw message are preserved.
 - No source is collected twice unintentionally.
+
+## 4A. Dual-SIEM broker design (Vector)
+
+For the dual-SIEM build, use Vector on the dedicated broker VM as a controlled fan-out point for firewall syslog and explicitly selected sensor/Linux log files. The broker should have:
+- Inputs bound only to the intended lab-facing interface and protocol.
+- Separate source identifiers and datasets for firewall, Zeek, Suricata and Linux logs.
+- Elasticsearch output with TLS certificate validation and least-privilege credentials.
+- Splunk HEC output with TLS validation, a dedicated HEC token and explicit target index/sourcetype.
+- Bounded disk buffering, retry/backpressure behavior, disk monitoring and documented recovery.
+- No secrets committed to the repository or embedded in screenshots.
+
+Do not configure TCP/5044 unless a Beats protocol input is deliberately enabled. Do not add Kafka/9092 to the initial lab. Use the exact Vector component schema for the pinned Vector release; validate the config with that release's CLI before starting the service. Test each output separately, then stop one SIEM temporarily to verify buffering/retry and recovery. Measure actual delivery delay; do not assume a fixed two-second SLA.
+
+Endpoint events follow a separate path: Elastic Agent to Fleet/Elastic and Splunk UF to Splunk. On a disposable Windows VM, install and validate one agent at a time, then verify the same controlled event in both products. Check duplicates, service health, CPU/RAM and reboot behavior before broad rollout.
 
 ## 5. Source-by-source rollout order
 

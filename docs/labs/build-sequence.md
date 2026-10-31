@@ -1,140 +1,141 @@
-# Master build sequence — dependency gates
+# Master build sequence — enterprise dual-SIEM VM lab
 
-<badge color="warning">Canonical execution order — reference guide, not yet hardware-tested</badge>
+<badge color="warning">Canonical dependency order — design baseline, not yet hardware-tested</badge>
 
-This is the authoritative Phase 6 order. Follow it from an empty host. Product pages contain installation details; this page defines prerequisites and pass/fail gates. If a gate fails, stop and fix it.
+This sequence builds the Windows x64 enterprise-style lab entirely inside VMs. The Windows host runs the selected hypervisor and management tools only. Follow the [Enterprise Dual-SIEM VM Lab Runbook](enterprise-dual-siem-vm-lab.md) for the architecture, IP plan, port matrix, policy model, deployment details and validation criteria.
 
-## Stage 0 — select platform and verify support
+## Stage 0 — host capacity and compatibility
 
 1. Complete [Hardware & Compatibility](requirements.md).
-2. Record CPU architecture, host OS/build, RAM, free SSD space and hypervisor version.
-3. Choose one primary Windows hypervisor.
-4. On Apple Silicon, use ARM64 guest images only.
-5. Decide whether Windows and Mac remain separate lab islands or will later be joined using a physical firewall/VLAN design.
+2. Record CPU architecture/model, host OS/build, physical RAM, free SSD/NVMe capacity and hypervisor version.
+3. Confirm firmware virtualization support and Windows edition compatibility.
+4. Choose exactly one primary hypervisor.
+5. Check every guest and product against its current OS/architecture support matrix.
+6. Decide whether the Apple-silicon Mac remains a separate ARM64 lab island.
 
-**Gate 0:** every guest and product has a supported architecture. OPNsense and Security Onion are x86-64. Splunk Enterprise requires a supported x64 platform. Apple Silicon cannot run these x86-64 guests natively.
+**Gate 0:** capacity and architecture are known. Do not plan simultaneous execution of all VMs on a host that cannot support their combined memory and storage requirements.
 
-## Stage 1 — host and hypervisor
+## Stage 1 — hypervisor installation and test VM
 
-Follow [Windows Host Setup](platform-windows.md), [Mac Host Setup](platform-macos.md), and [VirtualBox Host Setup](platform-virtualbox.md) if selected.
+Follow [Windows Host Setup](platform-windows.md) and the selected hypervisor guide.
 
-1. Install one hypervisor from its official source.
-2. Create VM, ISO, export, evidence and backup folders on SSD.
-3. Download official guest images and verify checksums/signatures.
-4. Create one small Ubuntu test VM of the correct architecture.
-5. Verify boot, networking and time.
+1. Install the hypervisor from its official source.
+2. Create VM, ISO, export, evidence and backup folders on local SSD.
+3. Download official guest images and verify checksums/signatures where published.
+4. Create one small test VM of the intended guest architecture.
+5. Verify boot, network behavior and time.
 6. Snapshot, restore and boot again.
 
-**Gate 1:** host reboot does not break the hypervisor; test guest boots/restores; no guest is bridged to the physical LAN without an explicit design.
+**Gate 1:** host reboot does not break the hypervisor; test guest boots/restores; no guest is bridged to the physical LAN unintentionally.
 
-## Stage 2 — design and create networks
+## Stage 2 — virtual networks and sensor visibility
 
-Follow [Network Design](network-design.md), [Hypervisor Network Implementation](hypervisor-network-implementation.md) and the [Firewall Policy Matrix](firewall-policy-matrix.md). Check example subnets against home LAN, VPN and existing routes. Create and verify the actual virtual switches before attaching guests.
+Follow [Network Design](network-design.md) and [Hypervisor Network Implementation](hypervisor-network-implementation.md). Use the six PSV segments: MGMT, ENDPOINT, SERVER/SOC, REDTEAM, SENSOR-MGMT and DMZ, plus a NAT-backed WAN for the firewall.
 
-| Segment | Example subnet | Purpose |
-|---|---|---|
-| MGMT | 10.10.10.0/24 | Admin workstation and management UIs |
-| ENDPOINT | 10.10.20.0/24 | Windows/Linux/Mac test endpoints |
-| SERVER | 10.10.30.0/24 | AD DS/DNS, syslog relay and selected SIEM |
-| REDTEAM | 10.10.40.0/24 | Kali assessment source |
-| SENSOR-MGMT | 10.10.50.0/24 | Sensor administration only; capture NIC is separate/no IP |
-| DMZ | 10.10.60.0/24 | Vulnerable targets |
+Create and verify actual virtual networks before attaching guests. Record adapter number, switch name, MAC, subnet and role. A capture NIC must be connected to a proven mirror/tap or an explicit offline PCAP workflow; promiscuous mode alone is not proof of packet mirroring.
 
-**Gate 2:** segments exist; VM NICs are mapped; no DHCP overlap, subnet overlap or unintended bridged adapter.
+**Gate 2:** no subnet overlap, DHCP collision, unintended bridge or unverified capture path. REDTEAM and DMZ cannot reach the home LAN.
 
-## Stage 3 — routing and firewall
+## Stage 3 — firewall, DNS, DHCP, NTP and segmentation
 
-### Windows x64
-Follow [OPNsense Firewall & Routing](firewall-routing.md) and the [detailed OPNsense implementation runbook](opnsense-implementation.md). Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.
+Follow [OPNsense Implementation](opnsense-implementation.md), [Firewall Policy Matrix](firewall-policy-matrix.md), and the separate [Mac ARM Router Implementation](mac-arm-router-implementation.md) only for the Mac track.
 
-### Apple Silicon Mac
-Follow [Mac ARM Router & Firewall](mac-arm-routing.md) and the [detailed ARM64 router implementation](mac-arm-router-implementation.md). Use Ubuntu Server ARM64 with Netplan and nftables on separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.
+1. Install OPNsense x86-64 as a VM on the Windows x64 track.
+2. Attach WAN to hypervisor NAT and each internal interface to its intended private segment.
+3. Identify interfaces by MAC address; do not assume adapter order.
+4. Configure gateway addresses and static/reserved infrastructure addressing.
+5. Configure DNS/DHCP/NTP deliberately.
+6. Apply default-deny inter-segment rules and narrow AD, management, telemetry and update flows.
+7. Enable logging on validation rules.
 
-**Gate 3:** verify DHCP/static addressing, DNS, gateway, allowed and denied TCP flows, firewall logs and routes. Kali/DMZ must not reach home LAN or MGMT.
+**Gate 3:** test permitted and denied TCP flows, DNS, NTP, routes and firewall logs. Kali/DMZ must not reach host management or home LAN.
 
-## Stage 4 — operating systems and identity
+## Stage 4 — install guest operating systems
 
-Follow [Operating Systems & Identity](operating-systems.md).
+Follow [Operating Systems & Identity](operating-systems.md) and the detailed dual-SIEM runbook.
 
-Windows x64 track: Windows Server on SERVER; create a private lab-only AD domain such as lab.psv.test; Windows 11 x64 on ENDPOINT; Ubuntu; Kali on REDTEAM; vulnerable target on DMZ.
+Deploy the firewall, domain controller, Windows endpoint, collector, Elastic, Splunk, sensor, DMZ target and Kali VMs. Install OSs only inside their respective VMs. Set hostnames before domain join/certificate generation. Configure static addressing, DNS, NTP, guest tools and clean snapshots.
 
-Mac ARM64 track: Ubuntu Server ARM64, Kali ARM64 and architecture-compatible target VM/container. Windows 11 ARM is optional only after verifying the exact agent/driver support. Do not assume x64 agents work on Windows ARM.
+**Gate 4:** every VM has the expected OS/build/architecture, IP, route, DNS, time and NIC mapping.
 
-**Gate 4:** record hostnames, OS versions, architecture, IPs, routes, DNS, time and NICs. Domain join works where used. Kali reaches only its scoped target. DMZ has no unrestricted Internet/home-LAN path.
+## Stage 5 — identity and target applications
 
-## Stage 5 — generate endpoint telemetry locally
+1. Promote the Windows Server VM to AD DS/DNS for a private lab-only domain.
+2. Configure DNS forwarders and test records.
+3. Create lab OUs, users and groups.
+4. Join the Windows endpoint after DNS points to the DC.
+5. Configure a separate member server/service for Kerberoasting exercises; do not invent an SPN for a service that does not exist.
+6. Deploy Nginx and deliberately vulnerable applications in the isolated DMZ. Do not publish vulnerable services to the physical WAN.
 
-Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md) and the [Cross-platform Endpoint Telemetry Implementation](endpoint-telemetry-implementation.md).
+**Gate 5:** domain authentication works; target applications are reachable only from authorized lab segments.
 
-1. Configure Windows Advanced Audit Policy through a lab-only GPO.
-2. Install/configure Sysmon using Microsoft's current instructions and a reviewed configuration.
-3. Generate a benign process-creation event and verify it in the local Sysmon Operational channel.
-4. Generate a controlled Windows Security event and verify it locally.
-5. On Linux, enable required auditd/journald sources and verify local records.
-6. On macOS, use only telemetry sources supported by the chosen agent and OS version.
+## Stage 6 — local endpoint telemetry
 
-**Gate 5:** raw source event exists locally with host, timestamp and event identity. Do not troubleshoot SIEM ingestion before this passes.
+Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md) and [Cross-platform Endpoint Telemetry Implementation](endpoint-telemetry-implementation.md).
 
-## Stage 6 — firewall and network monitoring
+Configure Windows Advanced Audit Policy and Sysmon, Linux auditd/journald, and required sensor logs. Verify known events locally before installing agents.
 
-Follow [Network Monitoring](network-monitoring.md) and the [Zeek/Suricata sensor implementation](network-sensor-implementation.md). Prove packet visibility before installing analyzers.
+**Gate 6:** each source event exists locally with timestamp, host identity and event/channel details.
 
-1. On Windows OPNsense, enable Suricata in alert-only IDS mode on relevant internal interfaces, not only WAN. WAN capture after NAT may lose original internal source identity.
-2. Enable logging on the firewall rules used for pass/block tests.
-3. Generate known allowed and denied connections; verify firewall logs show rule and endpoints.
-4. Enable OPNsense Suricata EVE/syslog output and verify the local alert.
-5. Install Zeek only after a real packet mirror/tap is configured. Hyper-V port mirroring works only when source and destination adapters share the relevant virtual switch; Workstation/Fusion/VirtualBox promiscuous mode is not a universal SPAN.
-6. Generate known DNS/HTTP traffic and verify Zeek logs and Suricata EVE JSON locally.
-7. Record exactly which segments/interfaces are visible.
+## Stage 7 — firewall and network monitoring
 
-On Mac ARM, use supported ARM64 Zeek/Suricata builds only after verifying packet visibility. Verify nftables firewall logs locally.
+Follow [Network Monitoring](network-monitoring.md) and [Zeek & Suricata Sensor Implementation](network-sensor-implementation.md).
 
-**Gate 6:** firewall pass/block events, IDS alerts, Zeek logs (if enabled) and endpoint events exist locally. Packet visibility is proven with a known flow.
+1. Enable and verify firewall pass/block logging.
+2. Prove packet visibility on the sensor capture NIC.
+3. Configure Suricata EVE JSON and Zeek logs.
+4. Generate known DNS/HTTP traffic and verify local sensor output.
+5. Record exactly which segments and directions the sensor can observe.
 
-## Stage 7 — telemetry collection and forwarding
+**Gate 7:** known packet flows are visible and local firewall/Suricata/Zeek records exist. If mirror visibility is unavailable, use documented PCAP replay; do not claim live network monitoring.
 
-Follow the [rsyslog relay implementation](syslog-relay-implementation.md) and [Telemetry Collection & Forwarding](telemetry-pipeline.md).
+## Stage 8 — syslog and broker foundation
 
-1. Create a Linux syslog relay on SERVER.
-2. Configure OPNsense or the Mac Linux router to send firewall events to the relay.
-3. Verify messages arrive and are written to the expected per-source files.
-4. Verify Zeek/Suricata files exist, are readable and rotate safely.
-5. Configure log rotation, disk limits, file permissions, source identity and timestamps on the relay and sensor.
-6. Keep endpoint collection explicit: Windows Event Channels/Sysmon, Linux journald/auditd and macOS Unified Logging where supported. Prove each event exists locally.
-7. Do not configure SIEM-specific agents/forwarders yet; the destination SIEM does not exist at this stage.
+Follow [Syslog Relay Implementation](syslog-relay-implementation.md), [Telemetry Pipeline](telemetry-pipeline.md) and the [Enterprise Dual-SIEM VM Lab Runbook](enterprise-dual-siem-vm-lab.md).
 
-**Gate 7:** firewall/router events arrive at the relay and are written to the correct source-specific files; Zeek/Suricata files exist locally on the sensor; endpoint source events exist locally; timestamps and host identity are preserved. This gate proves source generation and pre-SIEM relay only—not SIEM ingestion.
+1. Configure firewall/router syslog to the broker/relay.
+2. Install Vector using a pinned supported release.
+3. Configure source-specific inputs, file permissions, rotation, timestamps and bounded buffering.
+4. Validate Vector configuration and one test event.
+5. Do not open 5044 unless a Beats input is actually configured.
+6. Do not deploy Kafka in the initial build.
 
-## Stage 8 — install one SIEM and connect sources
+**Gate 8:** a unique test event arrives at the broker with correct sender identity and timestamp. Queue, disk and retry behavior are understood.
 
-Choose one stack per iteration. For the exact source-specific agent/forwarder inputs, file paths, event channels and verification queries, follow the [SIEM Collector Implementation Runbook](siem-collector-implementation.md).
+## Stage 9 — Elastic deployment
 
-- [Elastic](elastic-siem.md): Fleet/Elastic Agent, Windows and System integrations, Filestream for firewall/sensor files.
-- [Splunk](splunk-siem.md): Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.
-- [Wazuh](wazuh-soc.md): central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Prefer relay-file-plus-agent; direct manager syslog is an optional, explicitly configured input with source allowlisting, depending on the installed release.
+Follow [Elastic SIEM](elastic-siem.md). Install Elasticsearch, Kibana and Fleet Server on the dedicated VM using one exact compatible release. Configure trusted certificates with correct DNS/IP SANs. Enroll one test endpoint and prove a raw event in Discover.
 
-For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; install supported agents/forwarders on endpoints, relay and sensor; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections. On the Mac router track, forward nftables messages from its local rsyslog file to the SERVER relay over the configured restricted transport, or collect the local file with a supported agent. Do not assume an agent supports ARM64 without checking its matrix.
+**Gate 9:** raw events and required fields are searchable; Fleet health alone is insufficient.
 
-**Gate 8:** every required source has a raw searchable SIEM event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.
+## Stage 10 — Splunk deployment
 
-## Stage 9 — optional Security Onion
+Follow [Splunk SIEM](splunk-siem.md). Install Splunk Enterprise on the supported x86-64 VM, create intended indexes, configure TCP/9997 receiving and HTTPS HEC/8088. Install required add-ons according to their actual search-time/index-time roles. Verify a raw event in the correct index.
 
-Security Onion is x86-64 only and resource intensive. Build on Windows x64 or dedicated x86-64 hardware after network and packet visibility stages. It is an alternative integrated NSM/SOC platform, not an ARM Mac guest or a prerequisite for other SIEMs.
+**Gate 10:** a known event is searchable with correct host, source, sourcetype and timestamp.
 
-## Stage 10 — controlled penetration testing
+## Stage 11 — dual-output and endpoint coexistence
 
-Follow [Penetration Testing](penetration-testing.md). Define target IPs/ports and test window; re-check Kali REDTEAM isolation and DMZ egress; record baseline firewall/endpoint/sensor events; run only the lab-owned test; correlate firewall, IDS, Zeek, endpoint and SIEM records; remove temporary rules and restore the target.
+Configure Vector outputs to Elasticsearch and Splunk HEC with TLS, least-privilege credentials, explicit index/dataset mapping and bounded retry/buffering. Test each output independently, then simulate one destination being unavailable.
 
-**Gate 10:** scope and isolation pass before scanning. Unexpected reachability is a stop condition.
+On a disposable Windows endpoint, enroll Elastic Agent first, verify data, then install Splunk UF and verify the same test event in Splunk. Measure resource use, latency and duplicates. Do not install both agents on every VM by default.
 
-## Stage 11 — SOC validation
+**Gate 11:** the same unique source event is present in both SIEMs without unexplained gaps or duplicates. Failure/recovery behavior is measured, not assumed.
 
-Follow [SOC Validation Exercises](soc-exercises.md). Test benign process creation, account/group change, DNS/HTTP and blocked network activity. Preserve source event, relay record, SIEM document, query, rule/version, alert, timeline, analyst conclusion and cleanup.
+## Stage 12 — controlled purple-team validation
 
-## Stage 12 — operations and recovery
+Follow [Penetration Testing](penetration-testing.md) and [SOC Validation Exercises](soc-exercises.md). Use only lab-owned targets and explicit scope. Validate firewall, IDS, Zeek, Windows, Linux and AD detections. A custom User-Agent does not automatically trigger Suricata; auditd requires matching rules; event IDs are not guaranteed unless source policy and test behavior are configured.
 
-Back up firewall configuration, AD/system state, SIEM configuration and required data separately from snapshots. Document retention, patch windows, credential rotation, agent health, storage growth and restore tests. Re-test segmentation after hypervisor/firewall/NIC changes.
+**Gate 12:** each exercise has source evidence, SIEM raw event, query/rule, alert result, timestamp comparison and cleanup record in both SIEMs where applicable.
+
+## Stage 13 — operations and recovery
+
+Back up firewall, AD, SIEM and broker configurations separately from VM snapshots. Document retention, disk limits, updates, credentials, agent health, restore procedures and evidence sanitization. Re-test segmentation after hypervisor or NIC changes.
+
+## Apple-silicon Mac track
+
+Keep the Mac as a separate ARM64 lab island using VMware Fusion and ARM64 guests. Use the Ubuntu ARM64/nftables router path, not OPNsense. Do not assume Splunk Enterprise or Security Onion is supported as an ARM64 guest. Verify every agent and integration against the exact support matrix.
 
 ## Stop conditions
 
-Stop if a guest has an unexpected bridged NIC, Kali/DMZ can reach home LAN, interface mapping is uncertain, source events are absent, sensor feed is unproven, collector files are empty, or product architecture is unsupported. Fix the dependency; do not bypass it by disabling security controls.
+Stop if an unsupported guest/product is selected, a VM is unexpectedly bridged, REDTEAM/DMZ can reach home LAN, DNS/time is incorrect, source events are absent, packet visibility is unproven, broker queues are unbounded, certificates do not validate, or either SIEM cannot ingest the controlled event. Do not bypass a failed gate by disabling security controls.
