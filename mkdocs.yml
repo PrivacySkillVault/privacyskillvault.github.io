@@ -33,7 +33,7 @@ extra_css:
   - stylesheets/extra.css
 extra_javascript:
   - javascripts/psv-navigation.js
-  - javascripts/tools.js?v=20261031-2
+  - javascripts/tools-workbench-v2.js
 markdown_extensions:
   - admonition
   - pymdownx.details
