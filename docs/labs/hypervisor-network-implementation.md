@@ -84,14 +84,15 @@ If a WAN adapter already exists, connect that adapter to the switch with Connect
 
 Hyper-V port mirroring copies traffic sent/received by source adapters to a destination adapter. Source and destination adapters must be connected to the same virtual switch. This is not a global mirror across unrelated switches.
 
-Example, where the monitored adapter and sensor capture adapter share the same switch:
+Example: attach a sensor capture NIC to the same virtual switch as the monitored endpoint adapter, then set mirror roles. Replace adapter names with the actual names shown by Get-VMNetworkAdapter:
 
 ~~~powershell
+Add-VMNetworkAdapter -VMName "PSV-SENSOR" -Name "CAPTURE-ENDPOINT" -SwitchName "PSV-ENDPOINT"
 Get-VMNetworkAdapter -VMName "PSV-WIN11" |
     Format-Table VMName,Name,SwitchName,MacAddress
 
-Set-VMNetworkAdapter -VMName "PSV-WIN11" -Name "MONITORED" -PortMirroring Source
-Set-VMNetworkAdapter -VMName "PSV-SENSOR" -Name "CAPTURE" -PortMirroring Destination
+Set-VMNetworkAdapter -VMName "PSV-WIN11" -Name "ENDPOINT" -PortMirroring Source
+Set-VMNetworkAdapter -VMName "PSV-SENSOR" -Name "CAPTURE-ENDPOINT" -PortMirroring Destination
 
 Get-VMNetworkAdapter -VMName "PSV-WIN11" |
     Format-Table Name,SwitchName,PortMirroring
