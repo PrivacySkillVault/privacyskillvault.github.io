@@ -74,9 +74,12 @@ Install using the Microsoft Sysmon default configuration for the first smoke tes
 
 ~~~powershell
 New-Item -ItemType Directory -Path C:\CyberLab\Tools\Sysmon -Force | Out-Null
-# Extract the official Sysmon ZIP into this directory before running the next commands.
+# Change the source path if the browser saved the official ZIP elsewhere.
+Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\Sysmon.zip" -DestinationPath C:\CyberLab\Tools\Sysmon -Force
 cd C:\CyberLab\Tools\Sysmon
-Get-AuthenticodeSignature .\Sysmon64.exe | Format-List Status,SignerCertificate
+$Signature = Get-AuthenticodeSignature .\Sysmon64.exe
+if ($Signature.Status -ne 'Valid') { throw 'Sysmon signature validation failed; do not install this binary.' }
+$Signature | Format-List Status,SignerCertificate
 .\Sysmon64.exe -accepteula -i
 Get-Service Sysmon64
 Get-WinEvent -ListLog 'Microsoft-Windows-Sysmon/Operational'
