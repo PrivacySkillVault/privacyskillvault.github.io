@@ -37,7 +37,7 @@ After applying, verify the interface status and address on the dashboard and und
 1. Attach a dedicated admin workstation VM to MGMT.
 2. Configure it as 10.10.10.10/24 with gateway 10.10.10.1, or use a reservation.
 3. Open the OPNsense GUI at https://10.10.10.1 from that workstation.
-4. Complete the initial setup wizard, set a unique strong admin password and configure hostname/domain/timezone/NTP.
+4. Complete the initial setup wizard, set a unique strong admin password and configure hostname/domain/timezone/NTP. For the relay example, set the system hostname to PSV-OPNSENSE01 so the relay can distinguish this firewall from the isolated Mac router track.
 5. Use HTTPS and the generated certificate; do not permanently disable browser certificate checks.
 6. Restrict GUI/SSH to the MGMT interface and named admin host only.
 7. Save an encrypted configuration backup before creating the remaining policy.
