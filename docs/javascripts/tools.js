@@ -2053,10 +2053,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
     }, true);
 
-    window.addEventListener("popstate", function () {
+    function syncToolRouteFromLocation() {
       const h = window.location.hash || "";
       if (h.startsWith("#tool/")) {
-        const id = h.replace("#tool/", "").trim();
+        const id = h.slice("#tool/".length).trim();
         if (TOOLS.some(t => t.id === id)) {
           activeToolId = id;
           currentView = "tool";
@@ -2066,7 +2066,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
       currentView = "catalog";
       render();
-    });
+    }
+    // Support browser Back/Forward and direct/shared #tool/<id> links.
+    window.addEventListener("popstate", syncToolRouteFromLocation);
+    window.addEventListener("hashchange", syncToolRouteFromLocation);
   }
 
   function init() {
