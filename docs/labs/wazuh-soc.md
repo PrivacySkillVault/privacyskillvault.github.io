@@ -4,6 +4,12 @@
 
 The all-in-one Wazuh deployment places manager, indexer and dashboard on one Linux host for learning. It is not a highly available production architecture.
 
+## Mandatory prerequisites — complete before installing Wazuh
+
+Do not start this SIEM until Stages 0–7 in [Master Build Sequence](build-sequence.md) pass. Firewall logs must be received and written by the Linux syslog relay; Zeek/Suricata files must exist locally; endpoint source events must be verified. Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
+
+Install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor the relay and sensor files explicitly. Do not rely on a direct Wazuh manager syslog listener across versions: Wazuh 5.0 removes it, so the relay-file-plus-agent pattern is the portable design. Check exact release and OS/architecture support before installing.
+
 ## 1. Prepare the server
 
 Use a fresh supported Ubuntu Server VM on the Windows PC or Mac. Wazuh central components support 64-bit Intel, AMD and ARM Linux on the operating systems listed in the current support matrix. For a 1–25 agent quickstart, Wazuh currently recommends 4 vCPU, 8 GiB RAM and 50 GB storage for 90 days of indexed alert data; use more disk for raw logs and longer retention. Run Wazuh separately from Elastic and Splunk initially.
@@ -80,3 +86,4 @@ Check manager/indexer/dashboard service logs, agent connectivity, DNS, firewall,
 - [Wazuh installation guide](https://documentation.wazuh.com/current/installation-guide/index.html)
 - [Agent deployment and enrolment](https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/index.html)
 - [File Integrity Monitoring](https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html)
+- [Wazuh syslog input migration for 5.0](https://github.com/wazuh/wazuh/blob/main/docs/guide/migration/syslog-input-4x-to-5x.md)

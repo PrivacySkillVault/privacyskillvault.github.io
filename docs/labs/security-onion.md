@@ -4,6 +4,10 @@
 
 Security Onion is a separate network security monitoring platform. It is not an add-on to the Elastic/Wazuh VM. Use a dedicated x86-64 host/VM on the Windows PC and consult the current Security Onion 3 hardware and installation documentation before allocating resources. It does not support Apple-silicon ARM as a native deployment target.
 
+## Dependency order
+
+Complete network segmentation, firewall policy, endpoint telemetry and packet visibility before installing Security Onion. It is an optional integrated x86-64 NSM/SOC platform, not a prerequisite for Elastic/Splunk/Wazuh and not an ARM Mac guest. Complete Stages 0–6 in [Master Build Sequence](build-sequence.md) first.
+
 ## 1. Resource and topology
 
 For a small standalone learning deployment, start with the vendor's current minimums as the floor, not a production sizing target. Security Onion can require substantial RAM, CPU, disk I/O and storage. Allocate a dedicated VM or spare x86-64 PC; do not run it alongside other full SIEM stacks on a 64 GB host.

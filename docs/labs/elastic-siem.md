@@ -2,6 +2,12 @@
 
 <badge color="warning">Build guide — not yet lab-tested</badge>
 
+## Mandatory prerequisites — complete before installing Elastic
+
+Do not start this SIEM until Stages 0–7 in [Master Build Sequence](build-sequence.md) pass. OPNsense firewall/Suricata events must already reach the Linux syslog relay; Zeek/Suricata files must exist on the sensor; Windows Security/Sysmon and Linux events must exist locally. Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
+
+For firewall and sensor logs, install Elastic Agent on the relay/sensor and use the supported Custom Logs (Filestream) integration for written log files. Use the Windows and System integrations for endpoints. A Fleet Server being online does not prove that syslog or JSON files are ingested. Verify each raw event and data stream separately.
+
 ## 1. Topology and sizing
 
 Use a fresh supported Ubuntu Server VM on the Windows x64 PC: 4–8 vCPU, 12–16 GB RAM and 150–200 GB SSD-backed virtual disk as a home-lab starting point. Run Elastic alone initially. This is a single-node learning deployment, not production HA. Keep Elasticsearch and Kibana on the same version. Check the current Elastic support matrix for the selected OS and architecture.
@@ -123,6 +129,7 @@ Unenrol agents through Fleet, stop services cleanly and retain only sanitised ev
 - [Elasticsearch Debian package](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-with-debian-package)
 - [Kibana Debian package](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-kibana-with-debian-package)
 - [Elastic Fleet](https://www.elastic.co/docs/reference/fleet)
+- [Elastic Custom Logs (Filestream)](https://www.elastic.co/docs/reference/integrations/filestream)
 - [Elastic Windows integration](https://www.elastic.co/docs/reference/integrations/windows)
 - [Elastic System integration](https://www.elastic.co/docs/reference/integrations/system)
 - [Elastic Support Matrix](https://www.elastic.co/support/matrix)

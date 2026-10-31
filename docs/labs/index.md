@@ -1,153 +1,82 @@
 # Enterprise-style cybersecurity home lab
 
-<badge color="warning">Build guide — not yet lab-tested</badge>
+<badge color="warning">Dependency-ordered build programme — reference guides, not yet hardware-tested</badge>
 
-This programme builds a segmented, multi-OS cybersecurity environment using a Windows x64 PC and an Apple-silicon MacBook. It is split into independent labs so you can build and validate each platform and product without trying to run every stack simultaneously.
+This programme has two distinct host tracks: Windows x64 and Apple-silicon Mac ARM64. They share security objectives, but not identical firewall appliances, guest architectures or hypervisor networking.
 
-**Evidence rule:** these are reference build instructions. They are not claims that PSV has installed or tested the environment. Mark a lab **Lab-tested** only after recording host hardware, exact software versions, commands, observed results, evidence and cleanup.
+**Build rule:** complete each stage and its acceptance gate before proceeding. A SIEM is not installed until firewall, endpoint and network telemetry sources exist, produce events, and have a verified forwarding path.
 
-## Target architecture
+## Correct dependency order
 
-```mermaid
-flowchart TB
-  subgraph HOSTS["Physical hosts"]
-    WIN["Windows x64 PC\nHyper-V / VMware Workstation"]
-    MAC["Apple Silicon MacBook\nVMware Fusion"]
-  end
-  subgraph MGMT["Management 10.10.10.0/24"]
-    ADMIN["Admin workstation / browser"]
-  end
-  subgraph SERVER["Server 10.10.30.0/24"]
-    DC["Windows Server\nAD DS + DNS"]
-    LINUX["Ubuntu Server"]
-    SIEM["Elastic / Splunk / Wazuh\nOne stack at a time"]
-  end
-  subgraph ENDPOINT["Endpoint 10.10.20.0/24"]
-    W11["Windows 11\nSysmon + endpoint agent"]
-    UB["Ubuntu\nauditd + agent"]
-    ARM["macOS / Windows ARM\nwhere supported"]
-  end
-  subgraph RED["Red team 10.10.40.0/24"]
-    KALI["Kali Linux"]
-  end
-  subgraph DMZ["DMZ 10.10.60.0/24"]
-    JUICE["OWASP Juice Shop\nintentionally vulnerable target"]
-  end
-  subgraph SENSOR["Sensor 10.10.50.0/24"]
-    ZEEK["Zeek / Suricata"]
-    SO["Security Onion\nx86-64 only"]
-  end
-  WIN --- MGMT
-  MAC --- MGMT
-  SERVER --- ENDPOINT
-  ENDPOINT --- SENSOR
-  RED --- DMZ
-```
+| Stage | Build activity | Required outcome |
+|---:|---|---|
+| 0 | [Hardware and compatibility](requirements.md) | Host architecture, RAM, storage, guest and product support recorded |
+| 1 | [Windows host](platform-windows.md) or [Mac host](platform-macos.md) | Hypervisor installed; test VM boots and snapshot restore works |
+| 2 | [Network design](network-design.md) | Segments, addressing, adapter mapping and isolation boundaries documented |
+| 3 | [Windows OPNsense firewall](firewall-routing.md) or [Mac ARM router](mac-arm-routing.md) | Routing, default-deny policy, DNS/DHCP/NTP and egress controls validated |
+| 4 | [Operating systems and identity](operating-systems.md) | Domain controller, endpoints, Linux hosts, Kali and target deployed |
+| 5 | [Endpoint telemetry](windows-endpoint-telemetry.md) | Windows Security/Sysmon and Linux/macOS source events verified locally |
+| 6 | [Network monitoring](network-monitoring.md) | Firewall IDS, Suricata and Zeek visibility proven; logs written locally |
+| 7 | [Telemetry collection and forwarding](telemetry-pipeline.md) | Firewall syslog, endpoint events and sensor logs reach relay/collector |
+| 8 | [Elastic](elastic-siem.md), [Splunk](splunk-siem.md) or [Wazuh](wazuh-soc.md) | One SIEM installed; each source ingested and searched successfully |
+| 9 | [Security Onion](security-onion.md) — optional x86-64 alternative | Dedicated NSM/SOC deployment after network visibility is ready |
+| 10 | [Penetration testing](penetration-testing.md) | Scope, isolation, target and telemetry gates passed |
+| 11 | [SOC validation](soc-exercises.md) | End-to-end detection, investigation, evidence and cleanup demonstrated |
 
-This is a logical design. It does not create network isolation by itself. Implement the segments and firewall rules in the hypervisor or dedicated lab router/firewall and test isolation before running any assessment.
+Do not skip ahead to a SIEM because its installer is available. A running service or online agent does not prove that the required events are being collected.
 
-## Build order
+## Platform tracks
 
-| Order | Lab | Outcome |
-|---|---|---|
-| 0 | [Hardware and compatibility](requirements.md) | Confirm which workloads fit each host |
-| 1 | [Windows host setup](platform-windows.md) | Hypervisor, storage and virtual switches |
-| 1A | [VirtualBox host setup](platform-virtualbox.md) | Windows x64 VirtualBox installation, host-only/internal networks and OPNsense NIC mapping |
-| 1B | [End-to-end build sequence](build-sequence.md) | Ordered deployment gates from host preparation to SOC capstone |
-| 2 | [Mac Apple-silicon setup](platform-macos.md) | ARM virtualisation and supported guest images |
-| 3 | [Network design](network-design.md) | Segments, routing, firewall policy and isolation tests |
-| 3A | [OPNsense firewall](firewall-routing.md) | Routed interfaces, DHCP, DNS, NAT and default-deny rules |
-| 4 | [Operating systems and identity](operating-systems.md) | Windows Server, Windows client, Ubuntu and Kali |
-| 5 | [Elastic SIEM](elastic-siem.md) | Elasticsearch, Kibana, Fleet and endpoint telemetry |
-| 6 | [Splunk SIEM](splunk-siem.md) | Splunk Enterprise and Universal Forwarder |
-| 7 | [Wazuh SOC](wazuh-soc.md) | Manager, indexer, dashboard and agents |
-| 8 | [Network monitoring](network-monitoring.md) | Zeek, Suricata and packet visibility |
-| 9 | [Security Onion](security-onion.md) | Standalone x86-64 network security monitoring |
-| 10 | [Penetration-testing lab](penetration-testing.md) | Kali, OWASP Juice Shop and isolated targets |
-| 11 | [SOC validation exercises](soc-exercises.md) | Event generation, ingestion, detection and investigation |
+### Windows x64 PC
 
-Build and validate one SIEM at a time. Security Onion is a separate, resource-intensive platform; do not co-host it with all other stacks on a constrained PC.
+This is the full x86-64 track. Choose one primary hypervisor: Hyper-V, VMware Workstation or VirtualBox. Run OPNsense as an x86-64 firewall VM with WAN plus separate internal network adapters. Start Suricata in alert-only IDS mode on relevant internal interfaces. Add a Zeek sensor only after a real packet mirror/tap or offline PCAP path is verified.
 
-## Platform allocation
+This track supports Windows Server/Windows 11 x64, Ubuntu x86-64, Kali x86-64, Splunk Enterprise on a supported x64 OS, and Security Onion x86-64 when hardware meets vendor requirements.
 
-### Windows x64 PC — primary host
+### Apple-silicon Mac
 
-Use this host for x86-64 Windows Server, Windows 11, Ubuntu, Splunk Enterprise, Security Onion and the primary SIEM labs. Choose Hyper-V, VMware Workstation or VirtualBox as the primary hypervisor for a given build. The dedicated VirtualBox guide documents a tested-by-design network layout but remains untested until executed on physical hardware. Security Onion requires x86-64 and its standalone deployment has a vendor bare minimum of 4 CPU cores, 24 GB RAM, 200 GB storage and 2 NICs.
+Use VMware Fusion or another hypervisor supporting ARM64 guests. Use ARM64 Ubuntu, Kali and Windows 11 ARM images. OPNsense is x86-64 only; do not attempt to install it as an ARM64 guest. For a Mac-only isolated lab use the [ARM64 Linux router/firewall path](mac-arm-routing.md). It uses Ubuntu Server ARM64 and nftables; it is not an OPNsense replacement. Splunk Enterprise and Security Onion are not native ARM64 guest targets.
 
-### Apple-silicon MacBook — ARM64 host
+### Combining Windows and Mac
 
-Use ARM64 guest images for Ubuntu, Kali and Windows 11 ARM. Elastic and Wazuh components can run on supported ARM64 Linux releases; check each component's support matrix. Splunk Enterprise does not support ARM architecture. VMware Fusion on Apple Silicon does not run x86-64 guest operating systems.
+Fusion host-only networks and Windows hypervisor private networks are local to their host; they do not automatically form one shared enterprise network. Start with two independently isolated labs. A single cross-host VLAN design requires a separate physical firewall/switch architecture. Never bridge REDTEAM or DMZ onto home Wi-Fi.
 
-Windows 11 ARM in Fusion has limitations including unavailable nested-virtualisation-dependent features such as WSL2 and VBS. Use a separate Linux VM for Docker-based vulnerable targets rather than relying on Docker Desktop inside this Windows ARM guest.
+## Data-flow model
+
+    Endpoint events ───────────────> endpoint agent / forwarder ─┐
+    Firewall rule logs ────────────> syslog relay ───────────────┤
+    Firewall Suricata EVE alerts ──> syslog relay ───────────────┤
+    Zeek / sensor Suricata files ──> sensor collector/agent ─────┤
+                                                                v
+                                                     One selected SIEM
+                                                                |
+                                                      searches/detections
+                                                                |
+                                                      SOC investigation
+
+Every arrow must be configured and tested. A firewall does not automatically export logs, and a sensor does not automatically send data to a SIEM.
 
 ## Resource planning
 
-These are home-lab starting allocations, not universal vendor minimums. Reserve at least 8–12 GB RAM for a Windows host with 64 GB RAM and leave additional headroom for hypervisor overhead.
+These are home-lab starting allocations, not universal vendor minimums:
 
-| VM/service | vCPU | RAM | Disk |
-|---|---:|---:|---:|
-| Windows Server AD DS/DNS | 2–4 | 6–8 GB | 80 GB |
-| Windows 11 endpoint | 2–4 | 6–8 GB | 80 GB |
-| Ubuntu endpoint/server | 2 | 2–4 GB | 40–60 GB |
-| Kali | 2–4 | 4–8 GB | 60–80 GB |
-| Elastic single-node lab | 4–8 | 12–16 GB | 150–200 GB |
-| Splunk Enterprise lab | 4 | 8–12 GB | 100–150 GB |
-| Wazuh all-in-one (1–25 agents) | 4 | 8 GiB | 50 GB / 90 days indexed alerts |
-| Security Onion Standalone | 4+ | 24–32 GB | 200+ GB, 2 NICs |
-| OWASP Juice Shop target | 2 | 2–4 GB | 20 GB |
+| Component | Starting allocation |
+|---|---|
+| Windows Server AD DS/DNS | 2–4 vCPU, 6–8 GB RAM, 80 GB disk |
+| Windows 11 endpoint | 2–4 vCPU, 6–8 GB RAM, 80 GB disk |
+| Ubuntu endpoint | 2 vCPU, 2–4 GB RAM, 40–60 GB disk |
+| Kali | 2–4 vCPU, 4–8 GB RAM, 60 GB disk |
+| Linux syslog relay | 2 vCPU, 2–4 GB RAM, 30–50 GB disk |
+| Zeek/Suricata sensor | 4 vCPU, 8 GB RAM, SSD-backed log storage |
+| Elastic single-node learning stack | 4–8 vCPU, 12–16 GB RAM, 150–200 GB disk |
+| Splunk Enterprise learning stack | 4 vCPU, 8–12 GB RAM, 100–150 GB disk; check current release requirements |
+| Wazuh all-in-one | Use current official sizing; current quickstart reference is 4 vCPU, 8 GiB RAM, 50 GB for 90 days of indexed alert data |
+| Security Onion Standalone | Vendor bare minimum: 4 CPU cores, 24 GB RAM, 200 GB storage, 2 NICs |
 
-Do not allocate all host memory to VMs. Run Elastic, Splunk, Wazuh and Security Onion sequentially. The 64 GB Windows PC is the main SIEM and Security Onion host. A 16 GB MacBook is best limited to one small ARM Linux VM; 24–36 GB provides more flexibility.
+Run one major SIEM stack at a time. Security Onion is a separate, resource-intensive platform.
 
-## Network address plan
+## Evidence standard
 
-Use private RFC1918 ranges and check for overlap with your home LAN, work VPN, corporate routes or other local networks before configuring them.
+For every stage record host/guest architecture, versions, checksums, VM resources, adapter mapping, IPs/routes, firewall rules, source event, collector receipt, SIEM document, timestamps, expected/actual results, rollback and cleanup. Never publish employer logs, customer data, credentials, tokens or private certificates.
 
-| Segment | Subnet | Purpose |
-|---|---|---|
-| MGMT | 10.10.10.0/24 | Admin workstation and management interfaces |
-| ENDPOINT | 10.10.20.0/24 | Windows, Linux and Mac endpoints |
-| SERVER | 10.10.30.0/24 | AD DS/DNS and SIEM servers |
-| REDTEAM | 10.10.40.0/24 | Kali and authorised assessment source |
-| SENSOR | 10.10.50.0/24 | Passive capture and monitoring |
-| DMZ | 10.10.60.0/24 | Intentionally vulnerable applications |
-
-Suggested addresses: lab router/firewall .1 per subnet; domain controller 10.10.30.10; Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22; Kali 10.10.40.10; Juice Shop 10.10.60.20. Assign a gateway only when a router/firewall exists on that segment.
-
-## Network security policy
-
-Start with default-deny between segments. Allow only required management, DNS/NTP and telemetry flows. Kali may access only explicitly authorised target IPs/ports. Vulnerable targets must not be bridged to the home LAN. A sensor capture NIC should receive mirrored traffic and must not route or provide management access.
-
-A virtual switch is Layer 2 connectivity, not a firewall. Hyper-V private switches and Fusion host-only networks do not automatically connect across the two physical hosts. Cross-host integration requires an explicit lab router/firewall or a separate telemetry path.
-
-## End-to-end execution runbook
-
-Use the [End-to-end lab build sequence](build-sequence.md) as the master checklist. It links the host setup, OPNsense segmentation, operating-system deployment, endpoint telemetry, one-at-a-time SIEM installation, network monitoring, penetration-testing exercises and SOC validation into a controlled build order. Complete each acceptance gate before moving to the next stage.
-
-## Lab evidence standard
-
-Each lab write-up should record:
-1. Host CPU architecture, RAM and free SSD.
-2. Hypervisor and version.
-3. Guest OS edition/build/architecture and ISO checksum.
-4. VM CPU/RAM/disk/NIC settings and snapshots.
-5. Network segments, addresses, routes and firewall rules.
-6. Product versions, licence mode and install method.
-7. Verification commands, raw source events and SIEM copies.
-8. Expected versus actual results, troubleshooting and cleanup.
-
-Never publish real customer data, employer logs, internal IPs, production credentials or tokens.
-
-## Official documentation
-
-- [VMware Fusion and Workstation FAQ](https://www.vmware.com/docs/desktop-hypervisor-faqs)
-- [Oracle VirtualBox downloads](https://www.virtualbox.org/wiki/Downloads)
-- [Oracle VirtualBox networking manual](https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html)
-- [Microsoft Hyper-V host requirements](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements)
-- [Microsoft Windows 11 ARM ISO](https://learn.microsoft.com/en-us/windows/arm/iso)
-- [Kali official downloads and verification](https://www.kali.org/docs/introduction/download-official-kali-linux-images/)
-- [Elastic self-managed installation](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/tutorial-self-managed-install)
-- [Splunk Enterprise system requirements](https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.6/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises)
-- [Wazuh Quickstart](https://documentation.wazuh.com/current/quickstart.html)
-- [Security Onion hardware requirements](https://docs.securityonion.net/en/3/dev/hardware/)
-
-**Programme status:** documentation is under construction. No VM, SIEM or sensor is claimed to have been installed or tested by this page.
+**Status:** These are build instructions. Do not label a stage “lab-tested” until executed on the target hardware with sanitised evidence.

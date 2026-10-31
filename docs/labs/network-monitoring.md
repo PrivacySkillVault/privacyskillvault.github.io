@@ -1,115 +1,104 @@
-# Lab 8 — Network monitoring with Zeek and Suricata
+# Lab — Network monitoring before SIEM
 
-<badge color="warning">Build guide — not yet lab-tested</badge>
+<badge color="warning">Mandatory source stage — build and validate before SIEM</badge>
 
-This lab introduces passive network visibility. Use a dedicated Linux sensor VM on the Windows x64 PC. Start with a single virtual interface receiving test traffic; add a second sniffing interface only after you understand the hypervisor's port-mirroring capability.
+This lab builds and proves network telemetry sources. Do not postpone it until after Elastic, Splunk or Wazuh. A SIEM cannot ingest firewall/IDS/Zeek data that has not been generated and exposed to a collector.
 
-## 1. Understand the sensor topology
+## 1. Visibility model
 
-A sensor requires a traffic source. Installing Zeek or Suricata does not automatically make it see traffic from other VMs.
+There are two distinct sources:
+1. **Firewall telemetry:** OPNsense rule pass/block events and OPNsense Suricata IDS alerts. The firewall generates these and exports them through remote syslog/EVE syslog.
+2. **Packet-sensor telemetry:** Zeek connection/DNS logs and standalone Suricata EVE JSON. The sensor must actually receive packets. Installing the software or enabling promiscuous mode does not create a mirror.
 
-Preferred enterprise-style design:
-- Sensor management NIC on MGMT.
-- Sensor capture NIC on a dedicated SENSOR segment receiving a mirror/SPAN feed from the virtual switch or lab firewall.
-- Capture NIC has no IP address, default gateway or forwarding.
-- The firewall/router mirrors only the selected lab VLANs.
+Start with firewall logging and OPNsense IDS. Add Zeek only after the packet feed is proven.
 
-If the hypervisor cannot mirror traffic to a VM NIC, use a Linux bridge/router VM as an explicit traffic path or run a single-host test with packet capture on the endpoint. Do not claim network-wide visibility from a sensor that only sees its own traffic.
+## 2. Windows x64 — OPNsense IDS
 
-## 2. Prepare Ubuntu sensor
+Complete [Firewall & Routing](firewall-routing.md) first.
 
-Use a supported Ubuntu Server x86-64 VM with 4 vCPU, 8 GB RAM and sufficient disk for logs/PCAP. Attach the management NIC first. Add the capture NIC only when the mirror path is configured.
+1. Enable logging on firewall rules used for allow/deny tests.
+2. Enable Suricata in alert-only IDS mode on internal interfaces carrying the traffic.
+3. Set HOME_NET to the lab subnets.
+4. Update the selected ruleset and check service health.
+5. Generate known allowed and denied flows.
+6. Verify firewall logs and IDS alerts locally.
+7. Enable EVE/syslog output and prove an alert reaches the relay.
 
-Identify interfaces:
+Do not begin with IPS blocking. Measure CPU, packet loss, false positives and recovery first. OPNsense documents capture-mode and driver/offload requirements.
 
-```bash
-ip -br link
-ip -br address
-ip route
-```
+## 3. Zeek sensor topology
 
-Record which interface is management and which is capture. Do not guess interface names.
+Use a supported Ubuntu Server sensor VM. Suggested starting resources: 4 vCPU, 8 GB RAM and SSD-backed log storage.
 
-For a dedicated capture interface, remove any IP configuration using the network manager actually configured on that guest. Confirm the capture NIC has no IPv4/IPv6 address and no default route before enabling passive capture. Do not remove the management route.
+- Management NIC: MGMT, static/reserved address and management route.
+- Capture NIC: only a validated mirror/tap or explicit inline capture path; no IP, gateway or forwarding.
+- An empty SENSOR virtual network does not supply traffic.
 
-## 3. Install Zeek
+Visibility options:
+- **Hyper-V:** configure virtual switch port mirroring only when source and destination adapters share the relevant switch. Set source/destination roles and verify with known traffic.
+- **VMware Workstation/Fusion:** do not assume a universal SPAN feature. Use a supported physical mirror/tap, OPNsense IDS for routed visibility or offline lab PCAP.
+- **VirtualBox:** promiscuous mode is not a global mirror across internal networks. Use offline PCAP or a separately validated topology.
 
-Use the official Zeek installation documentation for the Ubuntu release and supported package repository. Repository instructions and package versions change; follow the current installation page rather than adding an unverified third-party PPA.
+Record exactly which segments/interfaces are visible. A sensor on one segment cannot see all other segments without a real feed.
 
-After installation, verify:
+## 4. Install and verify Zeek
 
-```bash
-zeek --version
-zeek -N
-```
+Install Zeek using official instructions for the exact Ubuntu release and architecture. Record package version and method.
 
-For an offline PCAP test:
+    zeek --version
+    zeek -N
 
-```bash
-mkdir -p ~/zeek-test && cd ~/zeek-test
-zeek -r /path/to/lab-capture.pcap
-ls -lah
-```
+For a lab-owned PCAP:
 
-The PCAP must be generated from your own lab. Inspect logs such as conn.log, dns.log and http.log where protocol traffic exists. The presence and exact fields depend on the traffic and Zeek scripts loaded.
+    mkdir -p ~/zeek-test
+    cd ~/zeek-test
+    zeek -r /path/to/lab-capture.pcap
+    ls -lah
 
-For live capture, use the exact interface identified earlier and the supported ZeekControl/deployment configuration for your installed release. Do not start a live capture on the management NIC by accident.
+Inspect conn.log and dns.log when those protocols exist in the PCAP. Enable Zeek's documented JSON logging policy before forwarding. Verify JSON records contain expected timestamp, source/destination and protocol fields.
 
-## 4. Install Suricata
+For live capture, use the exact interface identified by MAC and supported ZeekControl/deployment method. Do not capture on the management NIC accidentally.
 
-Use the official Suricata installation guide for the OS and release. After installation:
+## 5. Install and verify standalone Suricata (optional)
 
-```bash
-suricata --build-info
-suricata --list-runmodes
-```
+Use official Suricata packages for the guest OS and architecture. Record version and ruleset.
 
-For a safe offline PCAP check:
+    suricata --build-info
+    suricata --list-runmodes
 
-```bash
-sudo suricata -r /path/to/lab-capture.pcap -l ./suricata-output
-```
+For offline PCAP:
 
-Inspect eve.json and fast.log. A rule match depends on the traffic and ruleset; no alert is expected for arbitrary traffic.
+    sudo suricata -r /path/to/lab-capture.pcap -l ./suricata-output
+    ls -lah ./suricata-output
 
-For live capture, follow the current Suricata guide for selecting the interface, run mode, rule update and service configuration. Verify the capture interface is the correct NIC.
+Inspect eve.json. EVE contains JSON events such as alerts, anomalies and protocol metadata when enabled/applicable. Arbitrary traffic is not expected to trigger an alert; use documented safe test traffic.
 
-## 5. Rule management and updates
+For live capture, confirm interface and run mode. Validate packet counters and dropped-packet metrics.
 
-Use the official ET Open rules or another rule source whose licence and update method you understand. Update rules using the supported Suricata update tooling for your package. Validate configuration before restart:
+## 6. Local log validation
 
-```bash
-sudo suricata -T -c /etc/suricata/suricata.yaml
-```
+Before forwarding:
+- Zeek logs exist and are JSON if configured.
+- Suricata eve.json exists and contains expected event types.
+- Collector can read the files.
+- Rotation/retention is configured.
+- Sensor host/interface/capture scope are documented.
+- Timestamp and event identity are preserved.
 
-Do not copy random IDS rules from untrusted repositories. A rule alert is a signal requiring triage, not proof of compromise.
+Do not store full PCAP continuously until retention, capacity and sensitive-data handling are planned.
 
-## 6. Forward logs to SIEM
+## 7. Forwarding prerequisites
 
-Forward Zeek and Suricata JSON logs using Elastic Agent integrations or another supported collector. Confirm file paths, permissions, dataset names and integration versions. Ingest a known lab PCAP, then verify:
-- Source sensor hostname.
-- Event timestamp.
-- Source/destination IP and port.
-- Protocol and event type.
-- Rule signature and category where applicable.
-- Original log source and parser.
+Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md). The later SIEM collector monitors Zeek/Suricata files on the sensor. OPNsense firewall/IDS syslog flows through the Linux relay.
 
-Avoid ingesting full PCAP continuously until storage and retention are planned. PCAP can contain sensitive credentials or user content; capture only lab traffic and protect the files.
+The SIEM build is blocked until firewall pass/block events, OPNsense Suricata alerts, endpoint source events and (if selected) proven Zeek/Suricata sensor logs exist.
 
-## 7. Validation exercise
+## References
 
-1. Generate a benign DNS query from a lab endpoint to the lab DNS resolver.
-2. Capture traffic on the mirrored interface.
-3. Confirm Zeek logs the DNS transaction.
-4. Confirm Suricata processes the capture and writes EVE output.
-5. Forward logs to the selected SIEM.
-6. Correlate endpoint process event, DNS record and network sensor event by host/IP and time.
-7. Document visibility gaps and any asymmetric routing or dropped packets.
-
-## 8. References
-
+- [OPNsense IDS/IPS and Suricata](https://docs.opnsense.org/manual/ips.html)
+- [OPNsense remote logging](https://docs.opnsense.org/manual/settingsmenu.html)
 - [Zeek documentation](https://docs.zeek.org/en/current/)
 - [Zeek installation](https://docs.zeek.org/en/current/install.html)
+- [Zeek JSON logs](https://docs.zeek.org/en/current/tutorial/logs.html)
 - [Suricata documentation](https://docs.suricata.io/en/latest/)
-- [Suricata installation guide](https://docs.suricata.io/en/latest/install.html)
-- [Suricata rule management](https://docs.suricata.io/en/latest/rule-management/index.html)
+- [Suricata EVE JSON](https://docs.suricata.io/en/latest/output/eve/eve-json-output.html)
