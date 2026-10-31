@@ -18,15 +18,15 @@
     <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">3 PUBLISHED ARTICLES</p><h2>Latest in Cyber Fraud</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="account-takeover-explained/">
-      <div class="psv-story-card__art psv-story-art--ato" aria-hidden="true"><span class="psv-story-art__label">ACCOUNT TAKEOVER</span><span class="psv-thumb-glyph">◈</span></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="../../assets/blog/account-takeover-explained.svg" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>How Does a Banking Account Takeover Actually Work?</h3><p>From exposed credentials to stolen sessions, understand common routes into digital banking accounts and the evidence investigators should connect.</p><div class="psv-story-card__footer"><small>31 OCT 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
 <a class="psv-story-card" href="device-fingerprinting-in-banking/">
-      <div class="psv-story-card__art psv-story-art--fraud" aria-hidden="true"><span class="psv-story-art__label">DEVICE INTELLIGENCE</span><span class="psv-thumb-glyph">⌁</span></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="../../assets/blog/device-fingerprinting-in-banking.svg" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Device Fingerprinting in Banking: What It Can—and Cannot—Prove</h3><p>A practical guide to device signals, device binding, spoofing limits, and how fraud teams should interpret a device match.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
 <a class="psv-story-card" href="investigating-suspicious-bank-transfer/">
-      <div class="psv-story-card__art psv-story-art--payment" aria-hidden="true"><span class="psv-story-art__label">PAYMENT TIMELINE</span><span class="psv-thumb-glyph">↗</span></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="../../assets/blog/investigating-suspicious-bank-transfer.svg" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Investigating a Suspicious Bank Transfer: Build the Timeline Before the Theory</h3><p>Connect login, session, beneficiary, authentication, and payment evidence without jumping to conclusions.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
     </div>
