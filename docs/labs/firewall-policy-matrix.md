@@ -79,7 +79,7 @@ Do not enable all rows simultaneously. Select one SIEM, follow its version-speci
 ## 5. Syslog relay
 
 For the relay runbook's isolated TCP example:
-- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only.
+- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only. The Windows and Mac examples are separate lab islands and may reuse 10.10.30.1; if both send to one relay, first assign unique non-overlapping source IPs/subnets.
 - Deny TCP/514 from WAN, home LAN, REDTEAM, DMZ and unrelated clients.
 - If syslog crosses an untrusted or multi-host network, use TLS and validate certificates. TCP alone is not encryption or sender authentication.
 
