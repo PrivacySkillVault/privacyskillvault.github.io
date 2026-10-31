@@ -71,7 +71,14 @@ Add-VMNetworkAdapter -VMName "PSV-OPNSENSE" -Name "DMZ" -SwitchName "PSV-DMZ"
 Get-VMNetworkAdapter -VMName "PSV-OPNSENSE" | Format-Table Name,SwitchName,MacAddress
 ~~~
 
-Connect the WAN adapter to the chosen NAT/uplink separately. Record all MAC addresses and map interfaces by MAC inside OPNsense; never assume adapter enumeration order.
+Add the WAN adapter to the NAT switch (if the VM does not already have a WAN adapter):
+
+~~~powershell
+Add-VMNetworkAdapter -VMName "PSV-OPNSENSE" -Name "WAN" -SwitchName "PSV-WAN-NAT"
+Get-VMNetworkAdapter -VMName "PSV-OPNSENSE" | Format-Table Name,SwitchName,MacAddress
+~~~
+
+If a WAN adapter already exists, connect that adapter to the switch with Connect-VMNetworkAdapter instead of adding a duplicate. Configure OPNsense WAN as 192.168.250.2/24 with gateway 192.168.250.1 and a deliberately selected upstream DNS resolver. Record all MAC addresses and map interfaces by MAC inside OPNsense; never assume adapter enumeration order.
 
 ## 3. Hyper-V — configure port mirroring
 
