@@ -1795,10 +1795,19 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const target = e.target && e.target.closest ? e.target.closest("[data-psv-action]") : null;
       if (!target) return;
 
+      const action = target.getAttribute("data-psv-action");
+
+      // Let real tool-card anchors update the URL normally. The hashchange
+      // handler below then opens the tool, preserving copy-link and Back/Forward
+      // behaviour without relying on a synthetic click or a blocked default.
+      if (action === "open-tool" && target.tagName === "A" &&
+          (target.getAttribute("href") || "").startsWith("#tool/")) {
+        e.stopPropagation();
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
-
-      const action = target.getAttribute("data-psv-action");
 
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
