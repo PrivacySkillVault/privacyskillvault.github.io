@@ -111,7 +111,7 @@ Choose one stack per iteration:
 
 - [Elastic](elastic-siem.md): Fleet/Elastic Agent, Windows and System integrations, Filestream for firewall/sensor files.
 - [Splunk](splunk-siem.md): Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.
-- [Wazuh](wazuh-soc.md): central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Use relay-file-plus-agent rather than relying on direct manager syslog listener across versions.
+- [Wazuh](wazuh-soc.md): central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Prefer relay-file-plus-agent; direct manager syslog is an optional, explicitly configured input with source allowlisting, depending on the installed release.
 
 For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; install supported agents/forwarders on endpoints, relay and sensor; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections. On the Mac router track, forward nftables messages from its local rsyslog file to the SERVER relay over the configured restricted transport, or collect the local file with a supported agent. Do not assume an agent supports ARM64 without checking its matrix.
 
