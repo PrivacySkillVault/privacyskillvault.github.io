@@ -353,6 +353,31 @@ sudo systemctl status rsyslog --no-pager
 
 Generate a blocked test flow, confirm the unique PSV-ROUTER prefix in the local file, then on PSV-LOG01 run `sudo grep 'PSV-ROUTER-' /var/log/remote/psv-mac-router.log` and confirm the same message arrives with the PSV-MAC-RTR01 identity. Confirm the forwarding queue remains bounded and monitor rsyslog errors. TCP/514 is permitted only on the isolated lab segment; use the TLS configuration in the relay guide on shared or untrusted paths.
 
+Create /etc/logrotate.d/psv-router:
+
+~~~text
+/var/log/psv-router-firewall.log {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 syslog adm
+    postrotate
+        /usr/bin/systemctl kill -s HUP rsyslog.service >/dev/null 2>&1 || true
+    endscript
+}
+~~~
+
+Dry-run and verify the actual file path/owner:
+
+~~~bash
+sudo logrotate -d /etc/logrotate.d/psv-router
+sudo ls -l /var/log/psv-router-firewall.log
+df -h /var/log
+~~~
+
 Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
 
 ## 8. Acceptance tests
