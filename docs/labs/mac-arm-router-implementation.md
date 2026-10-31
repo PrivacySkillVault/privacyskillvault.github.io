@@ -293,11 +293,10 @@ The nftables rules emit kernel log messages with unique prefixes. Confirm them:
 sudo journalctl -k -g 'PSV-ROUTER-' --since '10 minutes ago'
 ~~~
 
-Create /etc/rsyslog.d/30-psv-router.conf:
+Create /etc/rsyslog.d/30-psv-router-local.conf. Keep local writing before forwarding, and do not stop processing here:
 
 ~~~text
 :msg, contains, "PSV-ROUTER-" /var/log/psv-router-firewall.log
-& stop
 ~~~
 
 Validate and restart:
@@ -315,7 +314,7 @@ Ubuntu normally configures rsyslog to read the system journal and/or kernel log.
 grep -R -E 'module\\(load="(imjournal|imklog)"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
 ~~~
 
-Create /etc/rsyslog.d/30-psv-router-forward.conf to forward only the tagged nftables records to the SERVER relay. The relay must already allow this router's SERVER-facing source address and hostname. Replace the relay IP/port if your deployment differs:
+Create /etc/rsyslog.d/40-psv-router-forward.conf to forward only the tagged nftables records to the SERVER relay. The later filename ensures the local file action above runs first. The relay must already allow this router's SERVER-facing source address and hostname. Replace the relay IP/port if your deployment differs:
 
 ~~~text
 if ($msg contains "PSV-ROUTER-") then {
