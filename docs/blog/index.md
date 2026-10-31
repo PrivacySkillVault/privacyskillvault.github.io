@@ -21,7 +21,7 @@
     <div class="psv-journal-sidebar-note"><strong>How we publish</strong><p>Every article is researched, cross-checked, and written to explain—not simply repeat—the source material.</p><a href="editorial-standards/">Editorial standards →</a></div>
   </aside>
 
-  <main class="psv-journal-main">
+  <section class="psv-journal-main">
     <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">THE LATEST</p><h2>Featured story</h2></div><span class="psv-journal-count">01 PUBLISHED STORY</span></div>
     <a class="psv-story-feature" href="cyber-fraud/account-takeover-explained/">
       <div class="psv-story-art psv-story-art--ato" aria-hidden="true"><span class="psv-story-art__label">IDENTITY / SESSION / TRUST</span><div class="psv-ato-orbit psv-ato-orbit--a"></div><div class="psv-ato-orbit psv-ato-orbit--b"></div><div class="psv-ato-lock"><span>◈</span></div><b class="psv-ato-node psv-ato-node--one">01</b><b class="psv-ato-node psv-ato-node--two">02</b><b class="psv-ato-node psv-ato-node--three">03</b><span class="psv-story-art__foot">ACCOUNT TAKEOVER · EXPLAINED</span></div>
@@ -38,5 +38,5 @@
       <a href="security-explainers/" class="psv-topic-card"><span class="psv-topic-icon">◇</span><span><strong>Security Explainers</strong><small>Concepts, protocols and defensive controls</small></span><b>↗</b></a>
     </div>
     <div class="psv-journal-bottom-note"><span>PSV JOURNAL</span><p>Clarity over noise. Evidence over assumptions.</p></div>
-  </main>
+  </section>
 </div>
