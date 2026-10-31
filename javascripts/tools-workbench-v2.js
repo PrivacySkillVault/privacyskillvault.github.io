@@ -1220,6 +1220,22 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-tool-card-v2{min-width:0;min-height:190px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:1rem;gap:.65rem;cursor:pointer}
       #psv-app .psv-tool-card-v2 .psv-card-title{color:var(--md-default-fg-color)}
       #psv-app .psv-tool-card-v2 .psv-card-foot{margin-top:auto}
+
+      #psv-app .psv-advanced-panel{margin:1.25rem 0;padding:clamp(1rem,2vw,1.5rem);border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
+      #psv-app .psv-advanced-panel h2{margin-top:0;color:var(--md-default-fg-color);font-size:1.2rem}
+      #psv-app .psv-advanced-panel>p{color:var(--md-default-fg-color--light);font-size:.85rem;line-height:1.65}
+      #psv-app .psv-advanced-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0}
+      #psv-app .psv-advanced-panel label{display:flex;flex-direction:column;gap:.35rem;min-width:0;font-size:.78rem;font-weight:650}
+      #psv-app .psv-advanced-panel input,#psv-app .psv-advanced-panel textarea,#psv-app .psv-advanced-panel select{width:100%;max-width:100%;box-sizing:border-box;padding:.65rem .75rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);font:inherit;font-size:.85rem}
+      #psv-app .psv-advanced-panel input[type=file]{padding:.5rem}
+      #psv-app .psv-advanced-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+      #psv-app .psv-advanced-actions button{padding:.6rem .9rem;border:1px solid var(--md-accent-fg-color);border-radius:6px;background:var(--md-accent-fg-color);color:var(--md-primary-bg-color);font:inherit;font-size:.8rem;font-weight:650;cursor:pointer}
+      #psv-app .psv-advanced-actions button[data-psv-action="share-mode"]{background:var(--md-default-bg-color);color:var(--md-default-fg-color);border-color:var(--md-default-fg-color--lightest)}
+      #psv-app .psv-advanced-actions button.active{border-color:var(--md-accent-fg-color);box-shadow:inset 0 -2px var(--md-accent-fg-color)}
+      #psv-app .psv-advanced-output{overflow:auto;max-height:420px;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);white-space:pre-wrap;overflow-wrap:anywhere;font-size:.78rem;line-height:1.6}
+      #psv-app .psv-advanced-muted{color:var(--md-default-fg-color--light);font-size:.75rem}
+      #psv-app .psv-init-error-detail{white-space:pre-wrap;overflow-wrap:anywhere}
+      @media(max-width:650px){#psv-app .psv-advanced-grid{grid-template-columns:1fr}}
       #psv-app .psv-advanced-head{max-width:100%}
       @media(max-width:1100px){#psv-app .psv-cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(max-width:900px){#psv-app .psv-workflow-grid{grid-template-columns:1fr}#psv-app .psv-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
