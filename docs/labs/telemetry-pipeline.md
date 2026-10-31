@@ -84,7 +84,7 @@ This gate proves source generation and pre-SIEM relay only. It does not claim SI
 
 **Splunk:** use Universal Forwarder on relay and sensor to monitor written files, and a Windows Universal Forwarder for Event Log channels. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog, rather than direct UDP/TCP input on Splunk Enterprise as the default production pattern. Verify every forwarder host architecture.
 
-**Wazuh:** install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Current Wazuh documentation notes that Wazuh 5.0 removes the manager's direct syslog listener; relay-file-plus-agent avoids depending on direct listener support across versions. Check the exact release documentation.
+**Wazuh:** install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Wazuh manager releases document a direct syslog input mode, but the recommended portable lab pattern here is relay-file-plus-agent. If direct manager syslog is deliberately selected, follow the exact release's remote-input configuration, require an explicit allowed-ips list and restrict the listener at the firewall.
 
 ## 8. Network policy
 
