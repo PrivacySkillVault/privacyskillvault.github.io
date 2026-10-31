@@ -63,6 +63,16 @@ ruleset(name="PSV-REMOTE") {
         stop
     }
 
+    # Temporary controlled test sender; remove this branch after validation.
+    if ($fromhost-ip == "10.10.30.99") then {
+        action(type="omfile"
+               file="/var/log/remote/psv-test.log"
+               template="PSVRemoteLine"
+               fileCreateMode="0640"
+               dirCreateMode="0750")
+        stop
+    }
+
     # Unknown sources are not mixed into trusted source files.
     stop
 }
@@ -96,7 +106,7 @@ A successful TCP handshake proves only reachability, not syslog parsing or file 
 
 ## 5. Send a controlled test message
 
-From a Linux source with logger:
+From a Linux test sender temporarily assigned 10.10.30.99/24 on SERVER (or change the test branch to that sender's actual static IP):
 
 ~~~bash
 logger --tcp --server 10.10.30.30 --port 514 --tag PSV-RELAY-TEST "PSV relay test id=UNIQUE-TEST-ID"
@@ -105,11 +115,11 @@ logger --tcp --server 10.10.30.30 --port 514 --tag PSV-RELAY-TEST "PSV relay tes
 Use a unique test ID and check the file matching the source-IP branch:
 
 ~~~bash
-sudo grep 'UNIQUE-TEST-ID' /var/log/remote/psv-opnsense.log
+sudo grep 'UNIQUE-TEST-ID' /var/log/remote/psv-test.log
 sudo tail -n 20 /var/log/remote/psv-opnsense.log
 ~~~
 
-Unknown sources should not be written. Add only known source IPs and repeat. Confirm hostname, source IP, application/tag, message and timestamp.
+Unknown sources should not be written. Remove the temporary .99 test branch after validation, then add only real firewall/router sources. Confirm hostname, source IP, application/tag, message and timestamp.
 
 ## 6. OPNsense forwarding
 
