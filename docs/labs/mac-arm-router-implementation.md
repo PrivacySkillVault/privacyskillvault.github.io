@@ -164,6 +164,12 @@ table inet filter {
     ct state established,related accept
     iifname "mgmt0" ip saddr $mgmt_admin tcp dport 22 ct state new accept
     iifname "mgmt0" ip saddr 10.10.10.0/24 ip protocol icmp limit rate 5/second accept
+
+    # Uncomment these three rules only when dnsmasq is enabled on these interfaces.
+    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 67 accept
+    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 53 accept
+    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } tcp dport 53 accept
+
     limit rate 5/second log prefix "PSV-ROUTER-INPUT-DROP " flags all counter
     counter drop
   }
