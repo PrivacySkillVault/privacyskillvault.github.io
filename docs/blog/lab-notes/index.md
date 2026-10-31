@@ -1,7 +1,20 @@
-# Lab Notes
-
-Hands-on notes from controlled cybersecurity environments: setup, configuration, test methodology, observations, troubleshooting, and validation.
-
-A lab note will state its host platform, software versions, network assumptions, test data, expected result, observed result, and known limitations where relevant. Planned work will not be presented as completed testing.
-
-No articles have been published in this topic yet.
+<div class="psv-journal-shell psv-journal-shell--category">
+  <aside class="psv-journal-sidebar" aria-label="Journal categories">
+    <p class="psv-journal-side-label">EXPLORE</p>
+    <a class="psv-journal-side-link" href="../"><span class="psv-side-mark">◈</span> All stories</a>
+    <a class="psv-journal-side-link" href="../cyber-fraud/"><span class="psv-side-mark">⌁</span> Cyber Fraud</a>
+    <a class="psv-journal-side-link " href="../threat-analysis/"><span class="psv-side-mark">⌖</span> Threat Analysis</a>
+    <a class="psv-journal-side-link " href="../soc-investigations/"><span class="psv-side-mark">⌘</span> SOC Investigations</a>
+    <a class="psv-journal-side-link " href="../vulnerabilities/"><span class="psv-side-mark">⛨</span> Vulnerabilities</a>
+    <a class="psv-journal-side-link is-active" href="../lab-notes/"><span class="psv-side-mark">⌬</span> Lab Notes</a>
+    <a class="psv-journal-side-link " href="../security-explainers/"><span class="psv-side-mark">◇</span> Security Explainers</a>
+    <div class="psv-journal-sidebar-note"><strong>PSV editorial promise</strong><p>We publish researched explainers, not copied headlines or unverified claims.</p><a href="../editorial-standards/">Editorial standards →</a></div>
+  </aside>
+  <main class="psv-journal-main psv-category-main">
+    <a class="psv-journal-back" href="../">← All journal stories</a>
+    <p class="psv-journal-kicker">JOURNAL CATEGORY / 05</p>
+    <h1>Lab Notes</h1>
+    <p class="psv-category-deck">Hands-on experiments, configurations, troubleshooting, and validation from controlled security environments.</p>
+    <div class="psv-journal-empty"><span>⌬</span><h2>Stories are being researched</h2><p>There are no published articles in this category yet. New stories will appear here after their sources and technical details have been reviewed.</p><a href="../">Browse all journal stories →</a></div>
+  </main>
+</div>

@@ -1,6 +1,8 @@
 # How Does a Banking Account Takeover Actually Work?
 
-<small>Cyber Fraud · Foundational explainer · Published: 31 October 2026</small>
+<small>CYBER FRAUD · FOUNDATIONAL EXPLAINER · 31 OCT 2026</small>
+
+<p class="psv-article-breadcrumb"><a href="../">← Cyber Fraud</a><span> / </span><a href="../../">Cyber Journal</a></p>
 
 Account takeover (ATO) is the unauthorised use of a legitimate customer's account. In digital banking, it can lead to unauthorised profile changes, new payees, payment instructions, or other actions available to the compromised account.
 
