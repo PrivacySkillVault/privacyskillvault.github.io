@@ -13,9 +13,9 @@ This programme has two distinct host tracks: Windows x64 and Apple-silicon Mac A
 | 0 | [Hardware and compatibility](requirements.md) | Host architecture, RAM, storage, guest and product support recorded |
 | 1 | [Windows host](platform-windows.md) or [Mac host](platform-macos.md) | Hypervisor installed; test VM boots and snapshot restore works |
 | 2 | [Network design](network-design.md) and [hypervisor implementation](hypervisor-network-implementation.md) | Segments, actual virtual switches, adapter mapping and isolation boundaries documented |
-| 3 | [Windows OPNsense firewall](firewall-routing.md) or [Mac ARM router](mac-arm-routing.md) plus [Mac router implementation](mac-arm-router-implementation.md) | Routing, default-deny policy, DNS/DHCP/NTP and egress controls validated |
+| 3 | [Windows OPNsense firewall](firewall-routing.md), [policy matrix](firewall-policy-matrix.md) or [Mac ARM router](mac-arm-routing.md) plus [Mac router implementation](mac-arm-router-implementation.md) | Routing, default-deny policy, DNS/DHCP/NTP and egress controls validated |
 | 4 | [Operating systems and identity](operating-systems.md) | Domain controller, endpoints, Linux hosts, Kali and target deployed |
-| 5 | [Endpoint telemetry](windows-endpoint-telemetry.md) | Windows Security/Sysmon and Linux/macOS source events verified locally |
+| 5 | [Endpoint telemetry](windows-endpoint-telemetry.md) and [cross-platform implementation](endpoint-telemetry-implementation.md) | Windows Security/Sysmon and Linux/macOS source events verified locally |
 | 6 | [Network monitoring](network-monitoring.md) and [sensor implementation](network-sensor-implementation.md) | Firewall IDS, Suricata and Zeek visibility proven; logs written locally |
 | 7 | [Syslog relay implementation](syslog-relay-implementation.md) and [telemetry pipeline](telemetry-pipeline.md) | Firewall/router events reach the relay; endpoint events and sensor files are verified locally |
 | 8 | [Elastic](elastic-siem.md), [Splunk](splunk-siem.md) or [Wazuh](wazuh-soc.md) | Install one SIEM, configure collectors/agents, and prove end-to-end ingestion |
