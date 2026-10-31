@@ -203,7 +203,8 @@ Use syslog format for one-line syslog text and json for single-line JSON records
 Validate XML and restart the agent:
 
 ~~~bash
-sudo /var/ossec/bin/wazuh-logcollector -t
+sudo apt install -y libxml2-utils
+sudo xmllint --noout /var/ossec/etc/ossec.conf
 sudo systemctl restart wazuh-agent
 sudo systemctl status wazuh-agent --no-pager
 sudo tail -n 100 /var/ossec/logs/ossec.log
