@@ -2175,7 +2175,7 @@
 <p>This guide configures a dedicated Linux relay on SERVER to receive firewall/router syslog and write bounded, source-specific files. It does not install a SIEM agent. The pre-SIEM acceptance gate is that messages arrive from known sources and are written to the correct files with timestamps and source identity intact.</p>
 <h2 id="1-addressing-and-firewall-prerequisites">1. Addressing and firewall prerequisites<a class="headerlink" href="#1-addressing-and-firewall-prerequisites" title="Permanent link">&para;</a></h2>
 <p>Example relay: PSV-LOG01, 10.10.30.30/24, gateway 10.10.30.1. Use a static address or DHCP reservation. Configure authoritative lab DNS and NTP. Do not use these example addresses if they overlap your existing network.</p>
-<p>Create an allowlist containing exact source IPs: OPNsense firewall interface address used for syslog, Mac ARM router SERVER-facing address if used, and other devices only when explicitly added.</p>
+<p>Create an allowlist containing exact source IPs: OPNsense firewall SERVER interface address used for syslog, Mac ARM router SERVER-facing address if used, and other devices only when explicitly added. The OPNsense and Mac tracks are separate lab islands and both examples may use 10.10.30.1. If both send to one relay, use distinct source subnets/IPs or preserve and match a deliberately configured sender hostname. These sample rules require the OPNsense hostname PSV-OPNSENSE01 and Mac router hostname PSV-MAC-RTR01; configure and verify those identities before enabling the rules.</p>
 <p>The example uses TCP/514 on an isolated lab network. TCP syslog without TLS is not confidential or authenticated; restrict it to a private isolated segment and source allowlist. For any untrusted/inter-host network, configure TLS with certificates and hostname validation using current rsyslog GTLS documentation. Do not describe plain TCP as encrypted.</p>
 <h2 id="2-install-rsyslog-and-verify-host-identity">2. Install rsyslog and verify host identity<a class="headerlink" href="#2-install-rsyslog-and-verify-host-identity" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
@@ -2189,49 +2189,49 @@
 </span></code></pre></div>
 <p>Ensure the relay clock is synchronized. Configure the OS NTP client appropriate to the Ubuntu release and use the lab's authoritative time source where available.</p>
 <h2 id="3-configure-a-restricted-tcp-listener">3. Configure a restricted TCP listener<a class="headerlink" href="#3-configure-a-restricted-tcp-listener" title="Permanent link">&para;</a></h2>
-<p>Create /etc/rsyslog.d/10-psv-input.conf:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>module(load="imtcp")
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>input(type="imtcp" address="10.10.30.30" port="514" ruleset="PSV-REMOTE")
+<p>Create /etc/rsyslog.d/10-psv-remote-rules.conf and place the following template and ruleset in it. The ruleset must be defined before the input references it:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>template(name="PSVRemoteLine" type="string"
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>         string="source-time=%timereported:::date-rfc3339% received-time=%timegenerated:::date-rfc3339% fromhost-ip=%fromhost-ip% hostname=%hostname% app=%programname% msg=%msg%\n")
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>ruleset(name="PSV-REMOTE") {
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    if (($fromhost-ip == "10.10.30.1") and ($hostname == "PSV-OPNSENSE01")) then {
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        action(type="omfile"
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>               file="/var/log/remote/psv-opnsense.log"
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>               template="PSVRemoteLine"
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>               fileCreateMode="0640"
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>               dirCreateMode="0750")
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        stop
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    }
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    if (($fromhost-ip == "10.10.30.1") and ($hostname == "PSV-MAC-RTR01")) then {
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        action(type="omfile"
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>               file="/var/log/remote/psv-mac-router.log"
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>               template="PSVRemoteLine"
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>               fileCreateMode="0640"
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>               dirCreateMode="0750")
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        stop
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    }
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>    # Temporary controlled test sender; remove this branch after validation.
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    if ($fromhost-ip == "10.10.30.99") then {
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>        action(type="omfile"
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>               file="/var/log/remote/psv-test.log"
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>               template="PSVRemoteLine"
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>               fileCreateMode="0640"
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>               dirCreateMode="0750")
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        stop
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    }
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>    # Unknown sources are not mixed into trusted source files.
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    stop
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>}
+</span></code></pre></div>
+<p>Now create /etc/rsyslog.d/20-psv-input.conf:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>module(load="imtcp")
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>input(type="imtcp" address="10.10.30.30" port="514" ruleset="PSV-REMOTE")
 </span></code></pre></div>
 <p>Replace the bind address with the relay's actual SERVER interface address. Binding to 0.0.0.0 is not recommended because it may expose the port on management/WAN interfaces.</p>
-<p>Create /etc/rsyslog.d/20-psv-remote-rules.conf:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>template(name="PSVRemoteLine" type="string"
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>         string="source-time=%timereported:::date-rfc3339% received-time=%timegenerated:::date-rfc3339% fromhost-ip=%fromhost-ip% hostname=%hostname% app=%programname% msg=%msg%\n")
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>ruleset(name="PSV-REMOTE") {
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    if ($fromhost-ip == "10.10.30.1") then {
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        action(type="omfile"
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>               file="/var/log/remote/psv-opnsense.log"
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>               template="PSVRemoteLine"
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>               fileCreateMode="0640"
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>               dirCreateMode="0750")
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        stop
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    }
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    if ($fromhost-ip == "10.10.30.2") then {
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        action(type="omfile"
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>               file="/var/log/remote/psv-mac-router.log"
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>               template="PSVRemoteLine"
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>               fileCreateMode="0640"
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>               dirCreateMode="0750")
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        stop
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    }
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    # Temporary controlled test sender; remove this branch after validation.
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    if ($fromhost-ip == "10.10.30.99") then {
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>        action(type="omfile"
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>               file="/var/log/remote/psv-test.log"
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>               template="PSVRemoteLine"
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>               fileCreateMode="0640"
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>               dirCreateMode="0750")
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>        stop
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>    }
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>    # Unknown sources are not mixed into trusted source files.
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>    stop
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>}
-</span></code></pre></div>
-<p>Replace example source IPs with actual addresses observed on the wire. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP allowlisting is a network control, not cryptographic authentication.</p>
+<p>Replace example source IPs and hostnames with the actual values observed on the wire. Configure OPNsense's system hostname as PSV-OPNSENSE01 for this sample and the Mac router as PSV-MAC-RTR01. The duplicated 10.10.30.1 examples work only when the Windows and Mac tracks remain separate; a shared relay requires unique, non-overlapping router source addresses. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP and hostname matching are routing filters, not cryptographic authentication.</p>
 <p>Create the directory and validate:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>install<span class="w"> </span>-d<span class="w"> </span>-o<span class="w"> </span>syslog<span class="w"> </span>-g<span class="w"> </span>adm<span class="w"> </span>-m<span class="w"> </span><span class="m">0750</span><span class="w"> </span>/var/log/remote
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>rsyslogd<span class="w"> </span>-N1
@@ -2318,6 +2318,7 @@
 <ul>
 <li><a href="https://www.rsyslog.com/doc/">rsyslog documentation</a></li>
 <li><a href="https://www.rsyslog.com/doc/configuration/modules/imtcp.html">rsyslog TCP input module</a></li>
+<li><a href="https://docs.rsyslog.com/doc/concepts/multi_ruleset.html">rsyslog multiple rulesets — input binding order</a></li>
 <li><a href="https://www.rsyslog.com/doc/concepts/ns_gtls.html">rsyslog TLS documentation</a></li>
 <li><a href="https://docs.opnsense.org/manual/settingsmenu.html">OPNsense remote logging</a></li>
 <li><a href="https://ubuntu.com/server/docs">Ubuntu Server documentation</a></li>

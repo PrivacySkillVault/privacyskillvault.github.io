@@ -2151,6 +2151,7 @@
 <h1 id="mac-arm64-lab-linux-router-and-firewall">Mac ARM64 lab — Linux router and firewall<a class="headerlink" href="#mac-arm64-lab-linux-router-and-firewall" title="Permanent link">&para;</a></h1>
 <p><badge color="warning">Mac-only alternative — not OPNsense, not yet hardware-tested</badge></p>
 <p>Apple-silicon Macs cannot run OPNsense as an ARM64 guest because OPNsense supports x86-64. This guide uses Ubuntu Server ARM64 with nftables for a segmented Mac-only lab. It is not a feature-equivalent OPNsense replacement. If OPNsense is mandatory, use a separate x86-64 physical appliance or the Windows x64 OPNsense VM.</p>
+<p>For exact MAC-matched Netplan, IPv4/IPv6 forwarding policy, nftables rules, dnsmasq scopes, local logging, rsyslog forwarding and recovery steps, follow the <a href="../mac-arm-router-implementation/">Apple Silicon ARM64 Router Implementation Runbook</a>. This overview defines the architecture; the implementation runbook is the executable reference.</p>
 <h2 id="1-preconditions">1. Preconditions<a class="headerlink" href="#1-preconditions" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Apple-silicon Mac and VMware Fusion.</li>

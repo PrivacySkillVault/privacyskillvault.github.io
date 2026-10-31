@@ -2163,14 +2163,23 @@
 <li>Download official Windows 11 x64 media.</li>
 <li>Create VM: 2–4 vCPU, 6–8 GB RAM, 80 GB disk, Generation 2, virtual TPM and Secure Boot as required by Windows 11/hypervisor, NIC on ENDPOINT.</li>
 <li>Install a Windows edition that supports the domain-join features you intend to practise. Patch and install guest tools.</li>
+<li>Rename the endpoint and reboot:</li>
+</ol>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">Rename-Computer</span> <span class="n">-NewName</span> <span class="s2">"PSV-W11-01"</span> <span class="n">-Restart</span>
+</span></code></pre></div>
+<ol>
 <li>Set DNS to 10.10.30.10. Verify the domain controller resolves.</li>
 <li>Join the lab domain:</li>
 </ol>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">Add-Computer</span> <span class="n">-DomainName</span> <span class="s2">"lab.psv.test"</span> <span class="n">-Credential</span> <span class="p">(</span><span class="nb">Get-Credential</span><span class="p">)</span> <span class="n">-Restart</span>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">Add-Computer</span> <span class="n">-DomainName</span> <span class="s2">"lab.psv.test"</span> <span class="n">-Credential</span> <span class="p">(</span><span class="nb">Get-Credential</span><span class="p">)</span> <span class="n">-Restart</span>
 </span></code></pre></div>
-<p>Use a delegated join account rather than Domain Admin for routine joining. Verify after reboot:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">systeminfo</span> <span class="p">|</span> <span class="n">findstr</span> <span class="p">/</span><span class="n">B</span> <span class="p">/</span><span class="n">C</span><span class="p">:</span><span class="s2">"Domain"</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">nltest</span> <span class="p">/</span><span class="n">dsgetdc</span><span class="p">:</span><span class="n">lab</span><span class="p">.</span><span class="n">psv</span><span class="p">.</span><span class="n">test</span>
+<p>Use a delegated join account rather than Domain Admin for routine joining. On PSV-DC01, create the lab workstation OU and move the joined endpoint computer object into it (replace the computer name if yours differs):</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">New-ADOrganizationalUnit</span> <span class="n">-Name</span> <span class="s2">"Lab-Workstations"</span> <span class="n">-Path</span> <span class="s2">"DC=lab,DC=psv,DC=test"</span> <span class="n">-ProtectedFromAccidentalDeletion</span> <span class="nv">$true</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">Get-ADComputer</span> <span class="s2">"PSV-W11-01"</span> <span class="p">|</span> <span class="nb">Move-ADObject</span> <span class="n">-TargetPath</span> <span class="s2">"OU=Lab-Workstations,DC=lab,DC=psv,DC=test"</span>
+</span></code></pre></div>
+<p>Verify after reboot:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">systeminfo</span> <span class="p">|</span> <span class="n">findstr</span> <span class="p">/</span><span class="n">B</span> <span class="p">/</span><span class="n">C</span><span class="p">:</span><span class="s2">"Domain"</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">nltest</span> <span class="p">/</span><span class="n">dsgetdc</span><span class="p">:</span><span class="n">lab</span><span class="p">.</span><span class="n">psv</span><span class="p">.</span><span class="n">test</span>
 </span></code></pre></div>
 <p>If joining fails, investigate DNS, time skew, routing, firewall policy and join permissions; do not disable security controls as a shortcut.</p>
 <h2 id="c-apply-windows-audit-policy-with-group-policy">C. Apply Windows audit policy with Group Policy<a class="headerlink" href="#c-apply-windows-audit-policy-with-group-policy" title="Permanent link">&para;</a></h2>
@@ -2183,36 +2192,41 @@
 <li><strong>Logon/Logoff → Audit Logon:</strong> Success and Failure for this lab OU.</li>
 <li>Under <strong>Administrative Templates → System → Audit Process Creation</strong>, enable <strong>Include command line in process creation events</strong> if you need Event 4688 command-line evidence. Command lines can contain secrets; keep this lab-only and sanitise evidence.</li>
 <li>If practising PowerShell logging, enable <strong>Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging</strong> on the lab OU only. Script contents can contain sensitive data.</li>
-<li>On the endpoint run <code>gpupdate /force</code>, then <code>gpresult /h C:\\Temp\\gpresult.html</code>. Confirm the policy applied.</li>
-<li>Make a controlled local group membership change on the disposable endpoint. Confirm Event ID 4732 and TargetSid <code>S-1-5-32-544</code> for the built-in local Administrators group. The event proves a group membership change occurred; it does not prove malicious intent.</li>
+<li>On the endpoint create the output folder, refresh policy, and verify the applied policy:</li>
 </ol>
+<p><div class="language-powershell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">New-Item</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Path</span> <span class="n">C</span><span class="p">:\</span><span class="n">Temp</span> <span class="n">-Force</span> <span class="p">|</span> <span class="nb">Out-Null</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">gpresult</span> <span class="p">/</span><span class="nb">h </span><span class="n">C</span><span class="p">:\</span><span class="n">Temp</span><span class="p">\</span><span class="n">gpresult</span><span class="p">.</span><span class="n">html</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">gpresult</span> <span class="p">/</span><span class="nb">r</span>
+</span></code></pre></div>
+6. Make a controlled local group membership change on the disposable endpoint. Confirm Event ID 4732 and TargetSid <code>S-1-5-32-544</code> for the built-in local Administrators group. The event proves a group membership change occurred; it does not prove malicious intent.</p>
 <p>Do not apply this test GPO to production systems. Audit policy changes should be approved, event volume measured, and the GPO unlinked/removed after the lab if no longer required.</p>
 <h2 id="c-ubuntu-server-on-either-host">C. Ubuntu Server on either host<a class="headerlink" href="#c-ubuntu-server-on-either-host" title="Permanent link">&para;</a></h2>
 <p>Download the matching architecture ISO from Ubuntu and verify its published SHA-256 checksum. Create a VM with 2 vCPU, 2–4 GB RAM, 40–60 GB disk, and the appropriate SERVER or ENDPOINT NIC. Install a named non-root user; enable OpenSSH only if needed.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>sudo<span class="w"> </span>reboot
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>uname<span class="w"> </span>-m
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>cat<span class="w"> </span>/etc/os-release
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>lsblk<span class="w"> </span>-f
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>ip<span class="w"> </span>route
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>systemctl<span class="w"> </span>--failed
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sudo<span class="w"> </span>reboot
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>uname<span class="w"> </span>-m
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>cat<span class="w"> </span>/etc/os-release
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>lsblk<span class="w"> </span>-f
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>ip<span class="w"> </span>route
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>systemctl<span class="w"> </span>--failed
 </span></code></pre></div>
 <p>Expected architecture: x86_64 on Windows PC; aarch64 on Apple Silicon Mac.</p>
 <p>Optional audit telemetry:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>auditd<span class="w"> </span>audispd-plugins
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>auditd
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>sudo<span class="w"> </span>auditctl<span class="w"> </span>-s
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>auditd<span class="w"> </span>audispd-plugins
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>auditd
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>sudo<span class="w"> </span>auditctl<span class="w"> </span>-s
 </span></code></pre></div>
 <p>Add only the audit rules needed for the exercise and measure event volume before forwarding.</p>
 <h2 id="d-kali-linux">D. Kali Linux<a class="headerlink" href="#d-kali-linux" title="Permanent link">&para;</a></h2>
 <p>Download the official Kali image matching the host/guest architecture and verify the checksum. Create a VM with 2–4 vCPU, 4–8 GB RAM and 60 GB disk. Attach it only to REDTEAM; use temporary NAT only for updates and disconnect it before testing.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>sudo<span class="w"> </span>reboot
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>uname<span class="w"> </span>-m
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>cat<span class="w"> </span>/etc/os-release
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>ip<span class="w"> </span>route
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>full-upgrade<span class="w"> </span>-y
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>reboot
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>uname<span class="w"> </span>-m
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>cat<span class="w"> </span>/etc/os-release
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>ip<span class="w"> </span>route
 </span></code></pre></div>
 <p>Use Kali repositories for tools. Start with Nmap, Wireshark, Burp Suite Community and browser developer tools. Test only lab-owned targets.</p>
 <h2 id="e-windows-11-arm-on-the-mac">E. Windows 11 ARM on the Mac<a class="headerlink" href="#e-windows-11-arm-on-the-mac" title="Permanent link">&para;</a></h2>

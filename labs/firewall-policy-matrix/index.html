@@ -2165,6 +2165,11 @@
 <td>MGMT</td>
 </tr>
 <tr>
+<td>Sensor management host (capture NICs separate/no IP)</td>
+<td style="text-align: right;">10.10.50.10</td>
+<td>SENSOR-MGMT</td>
+</tr>
+<tr>
 <td>Windows endpoint</td>
 <td style="text-align: right;">DHCP/reservation in 10.10.20.0/24</td>
 <td>ENDPOINT</td>
@@ -2226,6 +2231,16 @@
 <td>SENSOR capture NIC</td>
 <td>any routed network</td>
 <td>Deny; capture NIC is not a management interface</td>
+</tr>
+<tr>
+<td>SENSOR-MGMT host</td>
+<td>DNS/NTP and selected SIEM</td>
+<td>Allow only the selected resolver/time source and one SIEM agent path</td>
+</tr>
+<tr>
+<td>SENSOR-MGMT host</td>
+<td>Internet</td>
+<td>Deny by default; temporary update egress only from the named sensor host</td>
 </tr>
 <tr>
 <td>WAN</td>
@@ -2314,6 +2329,7 @@
 </tbody>
 </table>
 <p>Some Windows versions/roles use additional ports. The dynamic RPC range can be narrowed on the DC only if the change is supported, documented and consistently applied. Do not arbitrarily open or shrink it. Verify DNS SRV lookup, domain join, Group Policy, Kerberos authentication and administrative tools after adding rules.</p>
+<p><strong>DNS when AD DS is not deployed:</strong> if clients use OPNsense Unbound or the Mac router's dnsmasq resolver, allow only the relevant client subnet to the router's own interface address on UDP/53 and TCP/53. Configure Unbound access lists or bind dnsmasq only to the intended internal interfaces. Do not allow arbitrary client DNS directly to public resolvers. If AD DS is deployed, domain members should use the DC DNS address; do not silently fall back to the router/public DNS because that can break AD SRV discovery.</p>
 <h2 id="4-siem-and-telemetry-ports-only-enable-selected-stack">4. SIEM and telemetry ports — only enable selected stack<a class="headerlink" href="#4-siem-and-telemetry-ports-only-enable-selected-stack" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2396,7 +2412,7 @@
 <p>Do not enable all rows simultaneously. Select one SIEM, follow its version-specific guide, then add only the required rules. Some Elastic deployments use different ports/paths depending on Fleet topology. Consult the product's port documentation.</p>
 <h2 id="5-syslog-relay">5. Syslog relay<a class="headerlink" href="#5-syslog-relay" title="Permanent link">&para;</a></h2>
 <p>For the relay runbook's isolated TCP example:
-- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only.
+- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only. The Windows and Mac examples are separate lab islands and may reuse 10.10.30.1; if both send to one relay, first assign unique non-overlapping source IPs/subnets.
 - Deny TCP/514 from WAN, home LAN, REDTEAM, DMZ and unrelated clients.
 - If syslog crosses an untrusted or multi-host network, use TLS and validate certificates. TCP alone is not encryption or sender authentication.</p>
 <h2 id="6-management-access">6. Management access<a class="headerlink" href="#6-management-access" title="Permanent link">&para;</a></h2>
