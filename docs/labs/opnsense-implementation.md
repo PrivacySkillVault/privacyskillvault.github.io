@@ -147,6 +147,8 @@ Allow sensor administration only from PSV_MGMT_ADMIN to the sensor's management 
 
 For the example sensor management host 10.10.50.10, add only the DNS/time flow matching your design: if it uses Unbound, allow that host to This Firewall on UDP/53 and TCP/53; if it uses AD DNS/time, allow it to 10.10.30.10 on TCP/UDP 53 and UDP/123. For temporary OS/package updates, add a time-bounded rule from 10.10.50.10 only to WAN on TCP/80,443 and UDP/123, then remove it. Do not permit the whole SENSOR-MGMT subnet to unrestricted Internet access.
 
+After Stage 8, add only the selected SIEM agent flow from 10.10.50.10: Elastic to Fleet Server/Elasticsearch (typically TCP/8220 and the configured Elasticsearch endpoint), Splunk Universal Forwarder to the receiver (TCP/9997), or Wazuh agent to manager (TCP/1514 and TCP/1515 only during enrollment). Use the actual server addresses/ports from the policy matrix and selected deployment. Do not enable all three paths.
+
 ### SERVER interface
 
 Allow only required service-to-service flows:
