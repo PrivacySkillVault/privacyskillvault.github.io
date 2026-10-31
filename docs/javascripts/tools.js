@@ -467,7 +467,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   let searchQuery = "";
   let activeToolId = "ioc";
   let selectedOptionIdx = 0;
-  const userInputs = {};
+  const userInputs = {};\n  let lastHashRecord = null;
 
   function esc(str) {
     return String(str || "")
@@ -1660,7 +1660,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const plain=file?await file.arrayBuffer():new TextEncoder().encode(text).buffer;
         const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveShareKey(pass,salt);
         const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,plain);
-        const b64=a=>btoa(String.fromCharCode(...a));
+        const b64=a=>{let out="";for(let i=0;i<a.length;i+=0x8000)out+=String.fromCharCode(...a.subarray(i,i+0x8000));return btoa(out);};
         const pkg={format:"PSV-ENC-1",cipher:"AES-256-GCM",kdf:"PBKDF2-SHA-256",iterations:310000,salt:b64(salt),iv:b64(iv),kind:file?"file":"text",filename:file?file.name:undefined,mime:file?file.type:undefined,ciphertext:b64(new Uint8Array(encrypted))};
         downloadText((file?file.name:"psv-secure-note")+".psvenc",JSON.stringify(pkg), "application/json");
         out.textContent="Encrypted package created and downloaded. Share the passphrase separately. PSV has not received the plaintext or encrypted package.";
@@ -1877,6 +1877,35 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         }).catch(() => {
           target.textContent = "Copy failed — select output manually";
         });
+      } else if (action === "export-case" || action === "copy-case") {
+        const report=caseReport();
+        const out=document.getElementById("case-output");
+        if(out) out.textContent=report;
+        if(action==="export-case") downloadText((document.getElementById("case-id").value||"incident-case").replace(/[^a-z0-9_-]/gi,"_")+".md",report,"text/markdown;charset=utf-8");
+        else if(navigator.clipboard?.writeText) navigator.clipboard.writeText(report).then(()=>{if(out)out.textContent="Case report copied.\n\n"+report;}).catch(()=>{if(out)out.textContent="Clipboard unavailable. Use Download Markdown case report.";});
+      } else if (action === "hash-file") {
+        const file=document.getElementById("evidence-file")?.files[0],out=document.getElementById("evidence-output");
+        if(!file||!out){if(out)out.textContent="Select a file first.";return;}
+        out.textContent="Calculating SHA-256 locally…";
+        try {
+          const digest=await crypto.subtle.digest("SHA-256",await file.arrayBuffer());
+          const hex=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
+          lastHashRecord={filename:file.name,size_bytes:file.size,last_modified:new Date(file.lastModified).toISOString(),sha256:hex,calculated_at_utc:new Date().toISOString()};
+          out.textContent="SHA-256: "+hex+"\nFile: "+file.name+"\nSize: "+file.size+" bytes\nCalculated (UTC): "+lastHashRecord.calculated_at_utc+"\n\nA digest supports integrity comparison; it does not prove provenance or authenticity.";
+        } catch(e){out.textContent="Hash calculation failed: "+e.message;}
+      } else if (action === "export-hash") {
+        const out=document.getElementById("evidence-output");
+        if(!lastHashRecord){if(out)out.textContent="Calculate a hash before exporting the record.";return;}
+        downloadText("evidence-integrity-record.json",JSON.stringify(lastHashRecord,null,2),"application/json");
+      } else if (action === "share-mode") {
+        const app=document.getElementById("psv-app"); if(app) app.dataset.shareMode=target.getAttribute("data-mode")==="decrypt"?"decrypt":"encrypt";
+        document.querySelectorAll("[data-psv-action='share-mode']").forEach(el=>el.classList.toggle("active",el===target));
+        const run=document.querySelector("[data-psv-action='share-run']"); if(run)run.textContent=app?.dataset.shareMode==="decrypt"?"Decrypt package":"Encrypt & download package";
+      } else if (action === "share-run") {
+        await runShare();
+      } else if (action === "share-clear") {
+        ["share-file","share-text","share-pass","share-package"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+        const out=document.getElementById("share-output");if(out)out.textContent="Fields cleared.";
       } else if (action === "pivot-ti") {
         const ind = target.getAttribute("data-indicator") || "1.1.1.1";
         activeToolId = "ti";
@@ -1905,6 +1934,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           restored.focus();
           restored.setSelectionRange(pos, pos);
         }
+      } else if (e.target && e.target.id === "evidence-file") {
+        const file=e.target.files[0],meta=document.getElementById("evidence-file-meta");
+        lastHashRecord=null;
+        if(meta)meta.textContent=file?file.name+" · "+file.size+" bytes · last modified "+new Date(file.lastModified).toISOString():"No file selected.";
+        const out=document.getElementById("evidence-output");if(out)out.textContent="File selected. Select Calculate SHA-256.";
       } else if (e.target && e.target.id === "psv-tool-editor") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
         userInputs[tool.id] = e.target.value;
