@@ -203,3 +203,46 @@ body:has(.psv-journal-shell) .md-content__inner>h1:first-child~p:last-child{colo
 .psv-article-breadcrumb{display:flex;gap:.45rem;align-items:center;margin:.1rem 0 1.8rem!important;color:var(--psv-muted);font:650 .68rem/1.4 ui-monospace,monospace;letter-spacing:.04em}
 .psv-article-breadcrumb a{color:var(--psv-primary)!important;text-decoration:none}
 .psv-article-breadcrumb a:hover{text-decoration:underline}
+
+
+/* =========================================================
+   CYBER JOURNAL — requested visual refinements
+   ========================================================= */
+
+/* Keep the journal focused on the stories; remove the sidebar promo card. */
+body:has(.psv-journal-shell) .psv-journal-sidebar-note{display:none!important}
+
+/* A more compact featured-story card with a tighter visual/text balance. */
+.psv-story-feature{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);max-width:1040px}
+.psv-story-feature .psv-story-art{min-height:210px}
+.psv-story-feature__body{padding:1.2rem 1.35rem}
+.md-typeset .psv-story-feature h3{font-size:clamp(1.15rem,1.65vw,1.5rem);margin:.55rem 0 .45rem}
+.md-typeset .psv-story-feature__body>p{font-size:.82rem;line-height:1.65}
+.psv-story-read{margin-top:.8rem}
+.psv-story-date{margin-top:.9rem}
+
+/* Article pages: use a centered reading column rather than a narrow left rail. */
+body:has(.psv-article-breadcrumb) .md-sidebar--primary,
+body:has(.psv-article-breadcrumb) .md-sidebar--secondary{display:none!important}
+body:has(.psv-article-breadcrumb) .md-content{width:100%;max-width:none!important;margin:0 auto!important}
+body:has(.psv-article-breadcrumb) .md-content__inner{box-sizing:border-box;width:100%;max-width:1080px;margin:0 auto!important;padding:2rem clamp(1rem,4vw,3rem) 4rem!important}
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child{max-width:900px;margin:0 auto .65rem!important;font-size:clamp(2rem,3.8vw,3rem);line-height:1.14;letter-spacing:-.045em}
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child+small,
+body:has(.psv-article-breadcrumb) .psv-article-breadcrumb{display:block;max-width:820px;margin-left:auto!important;margin-right:auto!important}
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~h2,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~h3,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~p,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~ul,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~ol,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~table,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~blockquote,
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~hr{box-sizing:border-box;width:100%;max-width:820px;margin-left:auto!important;margin-right:auto!important}
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~h2{margin-top:2.1rem!important;padding-bottom:.45rem}
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~p{line-height:1.85}
+body:has(.psv-article-breadcrumb) .md-content__inner>h1:first-child~table{display:block;overflow-x:auto}
+@media(max-width:700px){
+  .psv-story-feature{grid-template-columns:1fr}
+  .psv-story-feature .psv-story-art{min-height:175px}
+  .psv-story-feature__body{padding:1.05rem}
+  body:has(.psv-article-breadcrumb) .md-content__inner{padding:1.2rem .9rem 2.5rem!important}
+}
