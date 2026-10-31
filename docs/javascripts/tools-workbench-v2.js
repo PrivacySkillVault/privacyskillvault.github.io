@@ -1092,11 +1092,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
       @media (max-width: 800px) { .psv-related-grid { grid-template-columns: repeat(2, 1fr); } }
 
-      /* PSV investigation workbench refresh */
-      #psv-app.psv-workbench-v2{max-width:1440px;margin:0 auto;padding:1.5rem clamp(.75rem,2vw,2rem) 4rem;color:var(--md-default-fg-color)}
-      #psv-app.psv-workbench-v2 .psv-command-hero{padding:clamp(1.4rem,3vw,2.6rem);border:1px solid rgba(59,130,246,.28);border-radius:18px;background:radial-gradient(circle at 85% 10%,rgba(37,99,235,.22),transparent 35%),linear-gradient(135deg,#081326,#0b1426 65%,#101d34);margin-bottom:2rem}
-      #psv-app.psv-workbench-v2 .psv-command-hero .psv-hero-h1{color:#f8fafc}
-      #psv-app.psv-workbench-v2 .psv-command-hero .psv-hero-desc{color:#c1ccdc;max-width:760px}
+      /* Keep the Tools page visually consistent with the shared PSV article layout. */
+      #psv-app.psv-workbench-v2{max-width:100%;margin:0;padding:0 0 2.5rem;color:var(--md-default-fg-color)}
+      #psv-app .psv-tools-intro{margin:0 0 2rem;padding:0 0 1.25rem;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+      #psv-app .psv-tools-intro h1{margin:.25rem 0 .65rem;font-size:2rem;font-weight:700;letter-spacing:-.02em;color:var(--md-default-fg-color)}
+      #psv-app .psv-tools-intro>p{max-width:850px;color:var(--md-default-fg-color--light);font-size:.95rem;line-height:1.7}
+      #psv-app .psv-tools-intro .psv-tools-note{margin:.9rem 0 0;padding:.7rem .9rem;border-left:3px solid var(--md-accent-fg-color);background:var(--md-code-bg-color);font-size:.8rem}
+      #psv-app .psv-tool-directory{margin:1.5rem 0 2.4rem}
       #psv-app .psv-trust-line{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;color:#93c5fd;font:700 .7rem "Roboto Mono",monospace;margin:1.2rem 0}
       #psv-app .psv-command-stats{display:flex;flex-wrap:wrap;gap:2rem;border-top:1px solid rgba(148,163,184,.2);padding-top:1rem}
       #psv-app .psv-command-stats div{display:grid;gap:.15rem}
@@ -1601,7 +1603,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       return catOk && (!searchQuery || hay.includes(searchQuery));
     });
     const groups = [
-      {id:"all",label:"All capabilities"},
+      {id:"all",label:"All tools"},
       {id:"soc",label:"SOC & Detection"},
       {id:"ti",label:"Threat Intelligence"},
       {id:"dfir",label:"DFIR & Incident Response"},
@@ -1610,29 +1612,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     ];
     root.innerHTML = `
       <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
-        <section class="psv-command-hero">
+        <header class="psv-tools-intro">
           <div class="psv-eyebrow">PRIVACY SKILL VAULT / SECURITY OPERATIONS</div>
-          <h1 class="psv-hero-h1">Investigation <span>Workbench</span></h1>
-          <p class="psv-hero-desc">A practical browser-based workspace for SOC triage, threat analysis, digital forensics, incident response, detection engineering and authorised security testing.</p>
-          <div class="psv-trust-line"><span>● LOCAL-FIRST UTILITIES</span><span>● EXPLICIT EXTERNAL LOOKUPS</span><span>● NO PSV CASE STORAGE</span></div>
-          <div class="psv-command-stats">
-            <div><strong>${TOOLS.length}</strong><span>Interactive tools</span></div>
-            <div><strong>3</strong><span>Investigation workflows</span></div>
-            <div><strong>0</strong><span>Evidence uploads to PSV</span></div>
-          </div>
-        </section>
-
-        <section class="psv-workflow-section">
-          <div class="psv-section-head"><div><span class="psv-eyebrow">START HERE</span><h2>Investigation workflows</h2></div><p>Move from alert triage to evidence handling and reporting.</p></div>
-          <div class="psv-workflow-grid">
-            <a class="psv-workflow-card" href="#tool/case" data-psv-action="open-tool" data-tool="case"><span class="psv-workflow-icon">01 / CASE</span><strong>Open incident workspace</strong><small>Scope · assets · UTC timeline · actions · case report</small><b>Start case →</b></a>
-            <a class="psv-workflow-card" href="#tool/evidence" data-psv-action="open-tool" data-tool="evidence"><span class="psv-workflow-icon">02 / INTEGRITY</span><strong>Verify evidence integrity</strong><small>Calculate SHA-256 locally and create a basic integrity record</small><b>Hash evidence →</b></a>
-            <a class="psv-workflow-card psv-workflow-secure" href="#tool/share" data-psv-action="open-tool" data-tool="share"><span class="psv-workflow-icon">03 / SECURE TRANSFER</span><strong>Secure evidence sharing</strong><small>Encrypt text or a small file before sharing the package separately</small><b>Encrypt evidence →</b></a>
-          </div>
-        </section>
+          <h1>Security Tools</h1>
+          <p>Practical browser-based utilities for security monitoring, threat analysis, digital forensics, detection engineering and incident response.</p>
+          <p class="psv-tools-note">Local processing is used wherever possible. External threat-intelligence lookups are opt-in and disclose the provider before sending an indicator. Do not enter confidential, regulated or employer-sensitive data.</p>
+        </header>
 
         <section class="psv-tool-directory">
-          <div class="psv-section-head"><div><span class="psv-eyebrow">TOOL DIRECTORY</span><h2>Analyst capabilities</h2></div><p>Search by task, evidence type, technique or workflow.</p></div>
+          <div class="psv-section-head"><div><span class="psv-eyebrow">TOOL DIRECTORY</span><h2>Browse tools</h2></div><p>Search by task, evidence type, event ID, technique or workflow.</p></div>
           <input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search: IOC, phishing, Windows event, YARA, CVSS, timeline, encryption…" value="${esc(searchQuery)}" />
           <div class="psv-cat-pills">
             ${groups.map(c=>`<button type="button" class="psv-pill ${activeCat===c.id?"active":""}" data-psv-action="set-cat" data-cat="${c.id}">${c.label} <span>${c.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===c.id).length}</span></button>`).join("")}
@@ -1649,7 +1637,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         </section>
 
         <section class="psv-operator-reference">
-          <div class="psv-section-head"><div><span class="psv-eyebrow">LOCAL TOOLING STACK</span><h2>Tools to run in your own lab</h2></div><p>These require installed engines, agents or lab infrastructure; a web page cannot safely reproduce them.</p></div>
+          <div class="psv-section-head"><div><span class="psv-eyebrow">LOCAL TOOLING STACK</span><h2>Tools for your own lab</h2></div><p>These require installed engines, agents or lab infrastructure; they are not embedded web tools.</p></div>
           <div class="psv-reference-grid">
             <article><strong>SOC / SIEM / Case Management</strong><p>Elastic Security · Splunk Enterprise · Wazuh · Microsoft Sentinel · Google Security Operations · Sigma CLI · TheHive · DFIR-IRIS</p></article>
             <article><strong>Network / Packet Analysis</strong><p>Wireshark · Zeek · Suricata · tcpdump · Arkime · NetworkMiner · Brim</p></article>
@@ -1659,117 +1647,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <article><strong>Malware / Reverse Engineering</strong><p>YARA · capa · Ghidra · REMnux · FLARE-VM · Detect It Easy · FLOSS · x64dbg</p></article>
           </div>
         </section>
-        <p class="psv-workbench-disclaimer"><strong>Operational boundary:</strong> Browser utilities assist analysis; they are not a SIEM, EDR, packet-capture engine, malware sandbox or authoritative threat-intelligence platform. Use only on data and systems you are authorised to examine. Never paste regulated, customer, credential or employer-confidential data into this public website.</p>
+        <p class="psv-workbench-disclaimer"><strong>Operational boundary:</strong> Browser utilities assist analysis; they are not a SIEM, EDR, packet-capture engine, malware sandbox or authoritative threat-intelligence platform. Use only on data and systems you are authorised to examine.</p>
       </div>
     `;
-  }
-
-  function renderAdvancedTool(root, tool) {
-    const isCase=tool.id==="case", isShare=tool.id==="share", isEvidence=tool.id==="evidence";
-    const title=isCase?"Incident case workspace":isShare?"Encrypted evidence sharing":"Evidence integrity checker";
-    const description=isCase?"Build a consistent incident record and UTC event timeline. Export locally as Markdown.":isShare?"Encrypt or decrypt a text/file package in this browser. Share the encrypted file and passphrase through separate approved channels.":"Calculate a SHA-256 digest of a selected local file without uploading it.";
-    root.innerHTML=`
-      <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
-        <div class="psv-advanced-head"><button class="psv-back-btn" data-psv-action="back-catalog">← Back to workbench</button><span class="psv-eyebrow">LOCAL-FIRST / ${esc(tool.badge)}</span></div>
-        <section class="psv-advanced-panel">
-          <h1>${title}</h1><p>${description}</p>
-          <div class="psv-privacy-strip"><strong>Privacy:</strong> All processing happens in your browser. No case, evidence file or plaintext is uploaded to PSV. Keep sensitive material in approved enterprise systems.</div>
-          ${isCase?`
-            <div class="psv-form-grid">
-              <label>Case ID<input id="case-id" value="INC-2026-0001" maxlength="80"></label>
-              <label>Incident title<input id="case-title" placeholder="Suspected account compromise" maxlength="200"></label>
-              <label>Severity<select id="case-severity"><option>P1 - Critical</option><option>P2 - High</option><option>P3 - Medium</option><option>P4 - Low</option><option>Undetermined</option></select></label>
-              <label>Status<select id="case-status"><option>Investigating</option><option>Contained</option><option>Eradication</option><option>Recovery</option><option>Closed</option></select></label>
-              <label>Affected assets<textarea id="case-assets" placeholder="Hostname, IP, user, cloud resource — one per line"></textarea></label>
-              <label>Detection source<textarea id="case-source" placeholder="SIEM alert ID, EDR detection, report source"></textarea></label>
-              <label>Incident summary<textarea id="case-summary" placeholder="What happened? What is confirmed vs suspected?"></textarea></label>
-              <label>Actions taken<textarea id="case-actions" placeholder="UTC time — action — owner — outcome"></textarea></label>
-              <label class="psv-form-wide">Evidence references<textarea id="case-evidence" placeholder="Evidence ID, source, collector, acquisition time, SHA-256, storage reference. Do not embed confidential evidence here."></textarea></label>
-              <label class="psv-form-wide">Timeline entries<textarea id="case-timeline" placeholder="2026-10-31T10:15:00Z | Source | Event description | Confidence"></textarea></label>
-            </div>
-            <div class="psv-action-bar"><button class="psv-btn-run" data-psv-action="export-case">Download Markdown case report</button><button class="psv-btn-util" data-psv-action="copy-case">Copy report</button></div>
-            <div id="case-output" class="psv-output-container" aria-live="polite">Complete the fields and export the case record. This tool does not persist the case after you leave the page.</div>
-          `:isEvidence?`
-            <label class="psv-file-label">Select evidence file<input id="evidence-file" type="file"></label>
-            <div id="evidence-file-meta" class="psv-tool-note">No file selected.</div>
-            <div class="psv-action-bar"><button class="psv-btn-run" data-psv-action="hash-file">Calculate SHA-256</button><button class="psv-btn-util" data-psv-action="export-hash">Download integrity record</button></div>
-            <div id="evidence-output" class="psv-output-container" aria-live="polite">Select a file to calculate its digest. For forensic images or very large files, use validated forensic tooling.</div>
-          `: `
-            <div class="psv-mode-tabs"><button class="psv-pill active" data-psv-action="share-mode" data-mode="encrypt">Encrypt</button><button class="psv-pill" data-psv-action="share-mode" data-mode="decrypt">Decrypt</button></div>
-            <label class="psv-file-label">Optional file (max 25 MB)<input id="share-file" type="file"></label>
-            <label class="psv-share-label">Text to encrypt / decrypted text<textarea id="share-text" rows="7" placeholder="Paste text here, or choose a file. Decryption accepts the JSON package below."></textarea></label>
-            <label class="psv-share-label">Passphrase<input id="share-pass" type="password" autocomplete="new-password" placeholder="Use a unique passphrase of at least 14 characters"></label>
-            <label class="psv-share-label">Encrypted package (decrypt mode)<textarea id="share-package" rows="5" placeholder="Paste the complete JSON package here when decrypting"></textarea></label>
-            <div class="psv-tool-note">AES-256-GCM · PBKDF2-SHA-256 · 310,000 iterations · random salt and IV. Package metadata contains no plaintext. There is no password recovery. Browser memory is not a managed evidence vault.</div>
-            <div class="psv-action-bar"><button class="psv-btn-run" data-psv-action="share-run">Encrypt & download package</button><button class="psv-btn-util" data-psv-action="share-clear">Clear fields</button></div>
-            <div id="share-output" class="psv-output-container" aria-live="polite">Choose Encrypt or Decrypt. The passphrase must be shared separately from the encrypted package.</div>
-          `}
-        </section>
-      </div>`;
-  }
-
-  function downloadText(filename, content, type) {
-    const blob=new Blob([content],{type:type||"text/plain;charset=utf-8"});
-    const url=URL.createObjectURL(blob), a=document.createElement("a");
-    a.href=url; a.download=filename; a.click();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-  }
-
-  function caseReport() {
-    const val=id=>(document.getElementById(id)?.value||"").trim();
-    const lines=[
-      "# SOC Incident Case Record","",
-      "- **Case ID:** "+val("case-id"),
-      "- **Title:** "+val("case-title"),
-      "- **Severity:** "+val("case-severity"),
-      "- **Status:** "+val("case-status"),
-      "- **Generated (UTC):** "+new Date().toISOString(),"",
-      "## Incident summary",val("case-summary")||"Not provided","",
-      "## Detection source",val("case-source")||"Not provided","",
-      "## Affected assets",val("case-assets")||"Not provided","",
-      "## UTC timeline",val("case-timeline")||"Not provided","",
-      "## Actions taken",val("case-actions")||"Not provided","",
-      "## Evidence references",val("case-evidence")||"Not provided","",
-      "## Analyst notes","Distinguish confirmed facts, hypotheses and unknowns. Preserve original evidence and chain-of-custody records in approved systems.",""
-    ];
-    return lines.join("\n");
-  }
-
-  async function deriveShareKey(pass,salt) {
-    const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);
-    return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
-  }
-
-  async function runShare() {
-    const mode=document.querySelector("#psv-app")?.dataset.shareMode||"encrypt";
-    const pass=document.getElementById("share-pass")?.value||"";
-    const out=document.getElementById("share-output");
-    if(!out)return;
-    if(pass.length<14){out.textContent="Passphrase must contain at least 14 characters.";return;}
-    try {
-      if(mode==="decrypt"){
-        const pkg=JSON.parse(document.getElementById("share-package").value);
-        if(pkg.format!=="PSV-ENC-1"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.cipher!=="AES-256-GCM"||pkg.iterations!==310000||!["text","file"].includes(pkg.kind)||typeof pkg.ciphertext!=="string"||pkg.ciphertext.length>36*1024*1024)throw new Error("Unsupported, invalid or oversized package.");
-        const salt=Uint8Array.from(atob(pkg.salt),c=>c.charCodeAt(0)),iv=Uint8Array.from(atob(pkg.iv),c=>c.charCodeAt(0)),data=Uint8Array.from(atob(pkg.ciphertext),c=>c.charCodeAt(0));
-        if(salt.length!==16||iv.length!==12||data.length<16)throw new Error("Invalid encryption parameters or ciphertext.");
-        const key=await deriveShareKey(pass,salt),plain=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,data);
-        const bytes=new Uint8Array(plain);
-        if(pkg.kind==="text"){const text=new TextDecoder().decode(bytes);document.getElementById("share-text").value=text;out.textContent="Decryption successful. Plaintext is displayed in the text field; it has not been uploaded.";}
-        else {const blob=new Blob([bytes],{type:"application/octet-stream"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=(pkg.filename||"decrypted-evidence.bin").replace(/[\\/\\0]/g,"_");a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);out.textContent="Decryption successful. The file download has started.";}
-      } else {
-        const file=document.getElementById("share-file").files[0],text=document.getElementById("share-text").value;
-        if(file&&file.size>25*1024*1024)throw new Error("File exceeds 25 MB. Use an approved managed transfer method for larger evidence.");
-        if(!file&&!text)throw new Error("Select a file or enter text.");
-        const plain=file?await file.arrayBuffer():new TextEncoder().encode(text).buffer;
-        if(plain.byteLength>25*1024*1024)throw new Error("Text or file exceeds 25 MB. Use an approved managed transfer method for larger evidence.");
-        const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveShareKey(pass,salt);
-        const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,plain);
-        const b64=a=>{let out="";for(let i=0;i<a.length;i+=0x8000)out+=String.fromCharCode(...a.subarray(i,i+0x8000));return btoa(out);};
-        const pkg={format:"PSV-ENC-1",cipher:"AES-256-GCM",kdf:"PBKDF2-SHA-256",iterations:310000,salt:b64(salt),iv:b64(iv),kind:file?"file":"text",filename:file?file.name:undefined,mime:file?file.type:undefined,ciphertext:b64(new Uint8Array(encrypted))};
-        downloadText((file?file.name:"psv-secure-note")+".psvenc",JSON.stringify(pkg), "application/json");
-        out.textContent="Encrypted package created and downloaded. Share the passphrase separately. PSV has not received the plaintext or encrypted package.";
-      }
-    } catch(e) {out.textContent="Operation failed: "+(e.message||"Invalid package or incorrect passphrase.");}
   }
 
   function renderSingleToolView(root) {
