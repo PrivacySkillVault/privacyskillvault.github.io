@@ -85,6 +85,7 @@ nav:
       - Network Monitoring: labs/network-monitoring.md
       - Zeek & Suricata Sensor Implementation: labs/network-sensor-implementation.md
       - Syslog Relay Implementation: labs/syslog-relay-implementation.md
+      - SIEM Collector Implementation: labs/siem-collector-implementation.md
       - Telemetry Collection & Forwarding: labs/telemetry-pipeline.md
       - End-to-end Build Sequence: labs/build-sequence.md
       - Elastic SIEM: labs/elastic-siem.md
