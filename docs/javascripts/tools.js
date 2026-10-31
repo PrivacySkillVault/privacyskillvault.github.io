@@ -9,7 +9,6 @@
     { id: "dfir", label: "DFIR & Forensics" },
     { id: "network", label: "Network & Email" },
     { id: "util", label: "Incident & Utilities" },
-    { id: "pentest", label: "Pentest & Validation" }
   ];
 
   const SIGMA_TEMPLATES = [
@@ -1120,7 +1119,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-advanced-panel>p{color:var(--md-default-fg-color--light)}
       #psv-app .psv-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0}
       #psv-app .psv-form-grid label,#psv-app .psv-share-label{display:flex;flex-direction:column;gap:.4rem;font-size:.82rem;font-weight:650}
-      #psv-app .psv-form-grid input,#psv-app .psv-form-grid textarea,#psv-app .psv-form-grid select,#psv-app .psv-share-label input,#psv-app .psv-share-label textarea{width:100%;padding:.7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);font:400 .85rem inherit}
+      #psv-app .psv-form-grid input,#psv-app .psv-form-grid textarea,#psv-app .psv-form-grid select,#psv-app .psv-share-label input,#psv-app .psv-share-label textarea{width:100%;padding:.7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);font:400 .85rem Arial,sans-serif}
       #psv-app .psv-form-grid textarea{min-height:100px}
       #psv-app .psv-form-wide{grid-column:1/-1}
       #psv-app .psv-file-label{display:block;margin:1.2rem 0;padding:1rem;border:1px dashed #64748b;border-radius:9px;font-weight:650}
@@ -1554,7 +1553,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       {id:"ti",label:"Threat Intelligence"},
       {id:"dfir",label:"DFIR & Incident Response"},
       {id:"network",label:"Network, Email & Vulnerability"},
-      {id:"pentest",label:"Pentest & Validation"},
       {id:"util",label:"Reporting & Utilities"}
     ];
     root.innerHTML = `
@@ -1698,7 +1696,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     try {
       if(mode==="decrypt"){
         const pkg=JSON.parse(document.getElementById("share-package").value);
-        if(pkg.format!=="PSV-ENC-1"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.cipher!=="AES-256-GCM")throw new Error("Unsupported or invalid package format.");
+        if(pkg.format!=="PSV-ENC-1"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.cipher!=="AES-256-GCM"||pkg.iterations!==310000||typeof pkg.ciphertext!=="string"||pkg.ciphertext.length>36*1024*1024)throw new Error("Unsupported, invalid or oversized package.");
         const salt=Uint8Array.from(atob(pkg.salt),c=>c.charCodeAt(0)),iv=Uint8Array.from(atob(pkg.iv),c=>c.charCodeAt(0)),data=Uint8Array.from(atob(pkg.ciphertext),c=>c.charCodeAt(0));
         const key=await deriveShareKey(pass,salt),plain=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,data);
         const bytes=new Uint8Array(plain);
@@ -1858,7 +1856,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   if (!window.__psvCaptureBound) {
     window.__psvCaptureBound = true;
 
-    window.addEventListener("click", function (e) {
+    window.addEventListener("click", async function (e) {
       const target = e.target && e.target.closest ? e.target.closest("[data-psv-action]") : null;
       if (!target) return;
 
