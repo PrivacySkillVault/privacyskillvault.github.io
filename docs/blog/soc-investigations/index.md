@@ -18,11 +18,11 @@
     <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in SOC Investigations</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="investigating-suspicious-powershell/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/3803517/pexels-photo-3803517.jpeg?cs=srgb&dl=pexels-brett-sayles-3803517.jpg&fm=jpg" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380603/pexels-photo-5380603.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Tima Miroshnichenko on Pexels" loading="lazy" decoding="async" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>How to Investigate Suspicious PowerShell Activity</h3><p>A practical triage workflow using process lineage, Event 4104, Sysmon, network activity, and host context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
 <a class="psv-story-card" href="triaging-suspicious-login-alert/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5935794/pexels-photo-5935794.jpeg?cs=srgb&dl=pexels-sora-shimazaki-5935794.jpg&fm=jpg" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380582/pexels-photo-5380582.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Tima Miroshnichenko on Pexels" loading="lazy" decoding="async" alt="" decoding="async" loading="lazy" alt="" loading="lazy"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>Triage a Suspicious Login Alert Without Jumping to Conclusions</h3><p>Separate failed attempts, successful authentication, session creation, and account activity while building a defensible timeline.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
     </div>
