@@ -1081,6 +1081,57 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
       @media (max-width: 800px) { .psv-related-grid { grid-template-columns: repeat(2, 1fr); } }
     `;
+
+      /* PSV investigation workbench refresh */
+      #psv-app.psv-workbench-v2{max-width:1440px;margin:0 auto;padding:1.5rem clamp(.75rem,2vw,2rem) 4rem;color:var(--md-default-fg-color)}
+      #psv-app.psv-workbench-v2 .psv-command-hero{padding:clamp(1.4rem,3vw,2.6rem);border:1px solid rgba(59,130,246,.28);border-radius:18px;background:radial-gradient(circle at 85% 10%,rgba(37,99,235,.22),transparent 35%),linear-gradient(135deg,#081326,#0b1426 65%,#101d34);margin-bottom:2rem}
+      #psv-app.psv-workbench-v2 .psv-command-hero .psv-hero-h1{color:#f8fafc}
+      #psv-app.psv-workbench-v2 .psv-command-hero .psv-hero-desc{color:#c1ccdc;max-width:760px}
+      #psv-app .psv-trust-line{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;color:#93c5fd;font:700 .7rem "Roboto Mono",monospace;margin:1.2rem 0}
+      #psv-app .psv-command-stats{display:flex;flex-wrap:wrap;gap:2rem;border-top:1px solid rgba(148,163,184,.2);padding-top:1rem}
+      #psv-app .psv-command-stats div{display:grid;gap:.15rem}
+      #psv-app .psv-command-stats strong{font-size:1.5rem;color:#60a5fa}
+      #psv-app .psv-command-stats span{font-size:.78rem;color:#cbd5e1}
+      #psv-app .psv-workflow-section,#psv-app .psv-tool-directory,#psv-app .psv-operator-reference{margin:2.4rem 0}
+      #psv-app .psv-section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+      #psv-app .psv-section-head h2{margin:.15rem 0;font-size:1.45rem}
+      #psv-app .psv-section-head>p{max-width:440px;color:var(--md-default-fg-color--light);font-size:.85rem;margin:0}
+      #psv-app .psv-workflow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+      #psv-app .psv-workflow-card{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem;min-height:180px;padding:1.2rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:13px;background:var(--md-code-bg-color);color:var(--md-default-fg-color);text-align:left;cursor:pointer}
+      #psv-app .psv-workflow-card:hover{border-color:#3b82f6;transform:translateY(-2px)}
+      #psv-app .psv-workflow-card strong{font-size:1.05rem}
+      #psv-app .psv-workflow-card small{color:var(--md-default-fg-color--light);line-height:1.5}
+      #psv-app .psv-workflow-card b{color:#3b82f6;margin-top:auto;font-size:.82rem}
+      #psv-app .psv-workflow-icon{font:700 .68rem "Roboto Mono",monospace;color:#60a5fa}
+      #psv-app .psv-workflow-secure{border-color:rgba(16,185,129,.4)}
+      #psv-app .psv-tool-card-v2{width:100%;min-height:190px;color:var(--md-default-fg-color);font:inherit}
+      #psv-app .psv-tool-card-v2 .psv-card-title{color:var(--md-default-fg-color);font-size:1rem}
+      #psv-app .psv-tool-card-v2 .psv-card-desc{color:var(--md-default-fg-color--light);font-size:.82rem;line-height:1.55}
+      #psv-app .psv-tool-card-v2 .psv-card-head{width:100%}
+      #psv-app .psv-tool-card-v2 .psv-card-foot{width:100%;margin-top:auto}
+      #psv-app .psv-reference-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+      #psv-app .psv-reference-grid article{padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
+      #psv-app .psv-reference-grid article strong{font-size:.9rem}
+      #psv-app .psv-reference-grid article p{font-size:.8rem;line-height:1.55;color:var(--md-default-fg-color--light);margin:.45rem 0 0}
+      #psv-app .psv-workbench-disclaimer{padding:1rem;border-left:3px solid #d97706;background:var(--md-code-bg-color);font-size:.82rem;line-height:1.6}
+      #psv-app .psv-empty-state{padding:1.5rem;color:var(--md-default-fg-color--light)}
+      #psv-app .psv-advanced-panel{max-width:1050px;margin:1.2rem auto;padding:clamp(1rem,3vw,2rem);border:1px solid var(--md-default-fg-color--lightest);border-radius:15px;background:var(--md-code-bg-color)}
+      #psv-app .psv-advanced-panel h1{font-size:clamp(1.6rem,3vw,2.3rem);margin:.5rem 0}
+      #psv-app .psv-advanced-panel>p{color:var(--md-default-fg-color--light)}
+      #psv-app .psv-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.2rem 0}
+      #psv-app .psv-form-grid label,#psv-app .psv-share-label{display:flex;flex-direction:column;gap:.4rem;font-size:.82rem;font-weight:650}
+      #psv-app .psv-form-grid input,#psv-app .psv-form-grid textarea,#psv-app .psv-form-grid select,#psv-app .psv-share-label input,#psv-app .psv-share-label textarea{width:100%;padding:.7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);font:400 .85rem inherit}
+      #psv-app .psv-form-grid textarea{min-height:100px}
+      #psv-app .psv-form-wide{grid-column:1/-1}
+      #psv-app .psv-file-label{display:block;margin:1.2rem 0;padding:1rem;border:1px dashed #64748b;border-radius:9px;font-weight:650}
+      #psv-app .psv-file-label input{display:block;margin-top:.6rem;max-width:100%}
+      #psv-app .psv-share-label{margin:1rem 0}
+      #psv-app .psv-mode-tabs{display:flex;gap:.5rem;margin:1rem 0}
+      #psv-app .psv-output-container{white-space:pre-wrap;overflow-wrap:anywhere;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:9px;background:var(--md-default-bg-color);font: .82rem/1.6 "Roboto Mono",monospace}
+      #psv-app .psv-tool-note{margin:1rem 0;padding:.8rem;background:var(--md-default-bg-color);border-radius:8px;font-size:.78rem;line-height:1.55;color:var(--md-default-fg-color--light)}
+      #psv-app .psv-advanced-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:1050px;margin:0 auto}
+      @media(max-width:900px){#psv-app .psv-workflow-grid{grid-template-columns:1fr}#psv-app .psv-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#psv-app .psv-section-head{align-items:flex-start;flex-direction:column}}
+      @media(max-width:620px){#psv-app .psv-form-grid,#psv-app .psv-reference-grid{grid-template-columns:1fr}#psv-app .psv-form-wide{grid-column:auto}#psv-app .psv-command-stats{gap:1rem}#psv-app .psv-advanced-head{align-items:flex-start;flex-direction:column}}
     document.head.appendChild(style);
   }
 
