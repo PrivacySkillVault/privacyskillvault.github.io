@@ -200,6 +200,7 @@ Use current rsyslog TLS documentation for exact parameter names; they are releas
 
 - [rsyslog documentation](https://www.rsyslog.com/doc/)
 - [rsyslog TCP input module](https://www.rsyslog.com/doc/configuration/modules/imtcp.html)
+- [rsyslog multiple rulesets — input binding order](https://docs.rsyslog.com/doc/concepts/multi_ruleset.html)
 - [rsyslog TLS documentation](https://www.rsyslog.com/doc/concepts/ns_gtls.html)
 - [OPNsense remote logging](https://docs.opnsense.org/manual/settingsmenu.html)
 - [Ubuntu Server documentation](https://ubuntu.com/server/docs)
