@@ -8,7 +8,7 @@ The all-in-one Wazuh deployment places manager, indexer and dashboard on one Lin
 
 Do not start this SIEM until Stages 0–7 in [Master Build Sequence](build-sequence.md) pass. Firewall logs must be received and written by the Linux syslog relay; Zeek/Suricata files must exist locally; endpoint source events must be verified. Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
 
-Install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor the relay and sensor files explicitly. Wazuh manager releases document a direct syslog input mode as well as the normal secure agent channel. For this lab, prefer the relay-file-plus-agent pattern because it gives durable source-specific files and consistent collection across versions. If you choose direct manager syslog, verify the exact release's remote-input configuration, restrict allowed source IPs, and use TLS or a trusted isolated network. Do not assume direct syslog is removed or enabled by default.
+Install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor the relay and sensor files explicitly. Wazuh manager releases document a direct syslog input mode as well as the normal secure agent channel. For this lab, prefer the relay-file-plus-agent pattern because it gives durable source-specific files and consistent collection across versions. If you choose direct manager syslog, verify the exact release's remote-input configuration and restrict allowed source IPs at the host and network firewalls. The Wazuh syslog input is plain TCP/UDP; if transport encryption is required, terminate TLS at a dedicated relay and use the relay-file-plus-agent/secure-agent path instead. Do not assume direct syslog is removed or enabled by default.
 
 ## 1. Prepare the server
 
@@ -51,7 +51,7 @@ Wazuh manager supports a syslog remote input in documented releases. This is sep
 </remote>
 ~~~
 
-Replace the source and listener addresses with actual values. Restrict TCP/514 at host and network firewalls. Validate XML/configuration and restart the manager using the release-specific procedure. Direct syslog input does not replace endpoint agents for Windows Event Channels or macOS Unified Logging. Do not enable this listener on an untrusted interface.
+Replace the source and listener addresses with actual values. Restrict TCP/514 at host and network firewalls. This Wazuh syslog listener is plain TCP, not TLS. If encryption is required, use the TLS-capable relay and agent path instead. Validate XML/configuration and restart the manager using the release-specific procedure. Direct syslog input does not replace endpoint agents for Windows Event Channels or macOS Unified Logging. Do not enable this listener on an untrusted interface.
 
 ## 4. Enrol Windows endpoint
 
