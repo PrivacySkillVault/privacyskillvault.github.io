@@ -1562,8 +1562,115 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     `;
   }
 
+  function renderAdvancedTool(root, tool) {
+    const isCase=tool.id==="case", isShare=tool.id==="share", isEvidence=tool.id==="evidence";
+    const title=isCase?"Incident case workspace":isShare?"Encrypted evidence sharing":"Evidence integrity checker";
+    const description=isCase?"Build a consistent incident record and UTC event timeline. Export locally as Markdown.":isShare?"Encrypt or decrypt a text/file package in this browser. Share the encrypted file and passphrase through separate approved channels.":"Calculate a SHA-256 digest of a selected local file without uploading it.";
+    root.innerHTML=`
+      <div id="psv-app" class="psv-workbench-v2">
+        <div class="psv-advanced-head"><button class="psv-back-btn" data-psv-action="back-catalog">← Back to workbench</button><span class="psv-eyebrow">LOCAL-FIRST / ${esc(tool.badge)}</span></div>
+        <section class="psv-advanced-panel">
+          <h1>${title}</h1><p>${description}</p>
+          <div class="psv-privacy-strip"><strong>Privacy:</strong> All processing happens in your browser. No case, evidence file or plaintext is uploaded to PSV. Keep sensitive material in approved enterprise systems.</div>
+          ${isCase?`
+            <div class="psv-form-grid">
+              <label>Case ID<input id="case-id" value="INC-2026-0001" maxlength="80"></label>
+              <label>Incident title<input id="case-title" placeholder="Suspected account compromise" maxlength="200"></label>
+              <label>Severity<select id="case-severity"><option>P1 - Critical</option><option>P2 - High</option><option>P3 - Medium</option><option>P4 - Low</option><option>Undetermined</option></select></label>
+              <label>Status<select id="case-status"><option>Investigating</option><option>Contained</option><option>Eradication</option><option>Recovery</option><option>Closed</option></select></label>
+              <label>Affected assets<textarea id="case-assets" placeholder="Hostname, IP, user, cloud resource — one per line"></textarea></label>
+              <label>Detection source<textarea id="case-source" placeholder="SIEM alert ID, EDR detection, report source"></textarea></label>
+              <label>Incident summary<textarea id="case-summary" placeholder="What happened? What is confirmed vs suspected?"></textarea></label>
+              <label>Actions taken<textarea id="case-actions" placeholder="UTC time — action — owner — outcome"></textarea></label>
+              <label class="psv-form-wide">Evidence references<textarea id="case-evidence" placeholder="Evidence ID, source, collector, acquisition time, SHA-256, storage reference. Do not embed confidential evidence here."></textarea></label>
+              <label class="psv-form-wide">Timeline entries<textarea id="case-timeline" placeholder="2026-10-31T10:15:00Z | Source | Event description | Confidence"></textarea></label>
+            </div>
+            <div class="psv-action-bar"><button class="psv-btn-run" data-psv-action="export-case">Download Markdown case report</button><button class="psv-btn-util" data-psv-action="copy-case">Copy report</button></div>
+            <div id="case-output" class="psv-output-container" aria-live="polite">Complete the fields and export the case record. This tool does not persist the case after you leave the page.</div>
+          `:isEvidence?`
+            <label class="psv-file-label">Select evidence file<input id="evidence-file" type="file"></label>
+            <div id="evidence-file-meta" class="psv-tool-note">No file selected.</div>
+            <div class="psv-action-bar"><button class="psv-btn-run" data-psv-action="hash-file">Calculate SHA-256</button><button class="psv-btn-util" data-psv-action="export-hash">Download integrity record</button></div>
+            <div id="evidence-output" class="psv-output-container" aria-live="polite">Select a file to calculate its digest. For forensic images or very large files, use validated forensic tooling.</div>
+          `: `
+            <div class="psv-mode-tabs"><button class="psv-pill active" data-psv-action="share-mode" data-mode="encrypt">Encrypt</button><button class="psv-pill" data-psv-action="share-mode" data-mode="decrypt">Decrypt</button></div>
+            <label class="psv-file-label">Optional file (max 25 MB)<input id="share-file" type="file"></label>
+            <label class="psv-share-label">Text to encrypt / decrypted text<textarea id="share-text" rows="7" placeholder="Paste text here, or choose a file. Decryption accepts the JSON package below."></textarea></label>
+            <label class="psv-share-label">Passphrase<input id="share-pass" type="password" autocomplete="new-password" placeholder="Use a unique passphrase of at least 14 characters"></label>
+            <label class="psv-share-label">Encrypted package (decrypt mode)<textarea id="share-package" rows="5" placeholder="Paste the complete JSON package here when decrypting"></textarea></label>
+            <div class="psv-tool-note">AES-256-GCM · PBKDF2-SHA-256 · 310,000 iterations · random salt and IV. Package metadata contains no plaintext. There is no password recovery. Browser memory is not a managed evidence vault.</div>
+            <div class="psv-action-bar"><button class="psv-btn-run" data-psv-action="share-run">Encrypt & download package</button><button class="psv-btn-util" data-psv-action="share-clear">Clear fields</button></div>
+            <div id="share-output" class="psv-output-container" aria-live="polite">Choose Encrypt or Decrypt. The passphrase must be shared separately from the encrypted package.</div>
+          `}
+        </section>
+      </div>`;
+  }
+
+  function downloadText(filename, content, type) {
+    const blob=new Blob([content],{type:type||"text/plain;charset=utf-8"});
+    const url=URL.createObjectURL(blob), a=document.createElement("a");
+    a.href=url; a.download=filename; a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+
+  function caseReport() {
+    const val=id=>(document.getElementById(id)?.value||"").trim();
+    const lines=[
+      "# SOC Incident Case Record","",
+      "- **Case ID:** "+val("case-id"),
+      "- **Title:** "+val("case-title"),
+      "- **Severity:** "+val("case-severity"),
+      "- **Status:** "+val("case-status"),
+      "- **Generated (UTC):** "+new Date().toISOString(),"",
+      "## Incident summary",val("case-summary")||"Not provided","",
+      "## Detection source",val("case-source")||"Not provided","",
+      "## Affected assets",val("case-assets")||"Not provided","",
+      "## UTC timeline",val("case-timeline")||"Not provided","",
+      "## Actions taken",val("case-actions")||"Not provided","",
+      "## Evidence references",val("case-evidence")||"Not provided","",
+      "## Analyst notes","Distinguish confirmed facts, hypotheses and unknowns. Preserve original evidence and chain-of-custody records in approved systems.",""
+    ];
+    return lines.join("\n");
+  }
+
+  async function deriveShareKey(pass,salt) {
+    const material=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);
+    return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+  }
+
+  async function runShare() {
+    const mode=document.querySelector("#psv-app")?.dataset.shareMode||"encrypt";
+    const pass=document.getElementById("share-pass")?.value||"";
+    const out=document.getElementById("share-output");
+    if(!out)return;
+    if(pass.length<14){out.textContent="Passphrase must contain at least 14 characters.";return;}
+    try {
+      if(mode==="decrypt"){
+        const pkg=JSON.parse(document.getElementById("share-package").value);
+        if(pkg.format!=="PSV-ENC-1"||pkg.kdf!=="PBKDF2-SHA-256"||pkg.cipher!=="AES-256-GCM")throw new Error("Unsupported or invalid package format.");
+        const salt=Uint8Array.from(atob(pkg.salt),c=>c.charCodeAt(0)),iv=Uint8Array.from(atob(pkg.iv),c=>c.charCodeAt(0)),data=Uint8Array.from(atob(pkg.ciphertext),c=>c.charCodeAt(0));
+        const key=await deriveShareKey(pass,salt),plain=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,data);
+        const bytes=new Uint8Array(plain);
+        if(pkg.kind==="text"){const text=new TextDecoder().decode(bytes);document.getElementById("share-text").value=text;out.textContent="Decryption successful. Plaintext is displayed in the text field; it has not been uploaded.";}
+        else {const blob=new Blob([bytes],{type:pkg.mime||"application/octet-stream"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=pkg.filename||"decrypted-evidence.bin";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);out.textContent="Decryption successful. The file download has started.";}
+      } else {
+        const file=document.getElementById("share-file").files[0],text=document.getElementById("share-text").value;
+        if(file&&file.size>25*1024*1024)throw new Error("File exceeds 25 MB. Use an approved managed transfer method for larger evidence.");
+        if(!file&&!text)throw new Error("Select a file or enter text.");
+        const plain=file?await file.arrayBuffer():new TextEncoder().encode(text).buffer;
+        const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveShareKey(pass,salt);
+        const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,plain);
+        const b64=a=>btoa(String.fromCharCode(...a));
+        const pkg={format:"PSV-ENC-1",cipher:"AES-256-GCM",kdf:"PBKDF2-SHA-256",iterations:310000,salt:b64(salt),iv:b64(iv),kind:file?"file":"text",filename:file?file.name:undefined,mime:file?file.type:undefined,ciphertext:b64(new Uint8Array(encrypted))};
+        downloadText((file?file.name:"psv-secure-note")+".psvenc",JSON.stringify(pkg), "application/json");
+        out.textContent="Encrypted package created and downloaded. Share the passphrase separately. PSV has not received the plaintext or encrypted package.";
+      }
+    } catch(e) {out.textContent="Operation failed: "+(e.message||"Invalid package or incorrect passphrase.");}
+  }
+
   function renderSingleToolView(root) {
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
+    if (["case","share","evidence"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
     const currentInput = userInputs[tool.id] !== undefined ? userInputs[tool.id] : tool.sample;
     const relatedTools = (tool.related || []).map(rid => TOOLS.find(t => t.id === rid)).filter(Boolean);
 
