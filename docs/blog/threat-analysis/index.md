@@ -1,7 +1,20 @@
-# Threat Analysis
-
-Plain-language analysis of malware, ransomware, threat activity, attack techniques, and security developments.
-
-Articles in this section will distinguish vendor-confirmed indicators and behaviours from analyst assessment. Where an incident is discussed, the original advisory or research report will be linked and its publication date checked.
-
-No articles have been published in this topic yet.
+<div class="psv-journal-shell psv-journal-shell--category">
+  <aside class="psv-journal-sidebar" aria-label="Journal categories">
+    <p class="psv-journal-side-label">EXPLORE</p>
+    <a class="psv-journal-side-link" href="../"><span class="psv-side-mark">◈</span> All stories</a>
+    <a class="psv-journal-side-link" href="../cyber-fraud/"><span class="psv-side-mark">⌁</span> Cyber Fraud</a>
+    <a class="psv-journal-side-link is-active" href="../threat-analysis/"><span class="psv-side-mark">⌖</span> Threat Analysis</a>
+    <a class="psv-journal-side-link " href="../soc-investigations/"><span class="psv-side-mark">⌘</span> SOC Investigations</a>
+    <a class="psv-journal-side-link " href="../vulnerabilities/"><span class="psv-side-mark">⛨</span> Vulnerabilities</a>
+    <a class="psv-journal-side-link " href="../lab-notes/"><span class="psv-side-mark">⌬</span> Lab Notes</a>
+    <a class="psv-journal-side-link " href="../security-explainers/"><span class="psv-side-mark">◇</span> Security Explainers</a>
+    <div class="psv-journal-sidebar-note"><strong>PSV editorial promise</strong><p>We publish researched explainers, not copied headlines or unverified claims.</p><a href="../editorial-standards/">Editorial standards →</a></div>
+  </aside>
+  <main class="psv-journal-main psv-category-main">
+    <a class="psv-journal-back" href="../">← All journal stories</a>
+    <p class="psv-journal-kicker">JOURNAL CATEGORY / 02</p>
+    <h1>Threat Analysis</h1>
+    <p class="psv-category-deck">Malware, ransomware, threat actors, and emerging campaigns—explained with technical context and careful source verification.</p>
+    <div class="psv-journal-empty"><span>⌖</span><h2>Stories are being researched</h2><p>There are no published articles in this category yet. New stories will appear here after their sources and technical details have been reviewed.</p><a href="../">Browse all journal stories →</a></div>
+  </main>
+</div>
