@@ -25,7 +25,23 @@
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/blog/cyber-fraud/device-fingerprinting-in-banking/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/cyber-fraud/investigating-suspicious-bank-transfer/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/blog/lab-notes/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/lab-notes/windows-sysmon-telemetry-lab/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/lab-notes/zeek-network-visibility-lab/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
@@ -33,7 +49,23 @@
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/blog/security-explainers/dns-resolution-explained/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/security-explainers/mfa-passkeys-explained/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/blog/soc-investigations/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/soc-investigations/investigating-suspicious-powershell/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/soc-investigations/triaging-suspicious-login-alert/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
@@ -41,7 +73,23 @@
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/blog/threat-analysis/living-off-the-land/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/threat-analysis/ransomware-attack-chain/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/blog/vulnerabilities/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/vulnerabilities/cve-cvss-cwe-cpe-explained/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/vulnerabilities/prioritising-vulnerabilities-beyond-cvss/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
