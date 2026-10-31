@@ -277,3 +277,22 @@ body:has(.psv-journal-shell) .md-content__inner>h1:first-child{display:none!impo
  .psv-story-art__label,.psv-story-art__foot{font-size:.36rem}
  .psv-story-date{font-size:.49rem}
 }
+
+
+/* CYBER JOURNAL — slimmer category rail, consistently across all journal pages. */
+.psv-journal-shell{grid-template-columns:184px minmax(0,1fr)!important;column-gap:1.55rem!important}
+.psv-journal-sidebar{max-width:184px;padding:.2rem 0}
+.psv-journal-side-label{margin:0 0 .5rem .55rem;font-size:.59rem;letter-spacing:.11em}
+.psv-journal-side-link{gap:.52rem;margin:.1rem 0;padding:.56rem .58rem;font-size:.76rem;line-height:1.35}
+.psv-side-mark{width:16px;font-size:.92rem}
+.psv-journal-side-link small{font-size:.58rem}
+@media(max-width:900px){
+ .psv-journal-shell{grid-template-columns:164px minmax(0,1fr)!important;column-gap:1.1rem!important}
+ .psv-journal-sidebar{max-width:164px}
+ .psv-journal-side-link{padding:.52rem .48rem;font-size:.72rem}
+}
+@media(max-width:700px){
+ .psv-journal-shell{grid-template-columns:1fr!important;gap:1.1rem!important}
+ .psv-journal-sidebar{max-width:none}
+ .psv-journal-side-link{padding:.5rem .6rem;font-size:.7rem}
+}
