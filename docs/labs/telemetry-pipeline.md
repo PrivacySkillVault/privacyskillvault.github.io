@@ -49,7 +49,7 @@ Generate one allowed and one blocked test flow. Confirm the relay receives both 
 
 ## 4. Mac router logging
 
-For the nftables router, first prove firewall messages appear locally in journald. Configure rsyslog to write only the unique nftables log prefix/facility to a dedicated file. Then configure the selected SIEM agent to monitor that file. nftables does not automatically forward logs remotely.
+For the nftables router, first prove firewall messages appear locally in journald. Configure rsyslog to write only the unique nftables log prefix/facility to a dedicated file. Then configure rsyslog to forward those records to the SERVER relay over the restricted TCP/TLS transport configured for the lab; retain a local copy for troubleshooting. Alternatively, collect the local file with a supported agent after the SIEM is installed. nftables does not automatically forward logs remotely. Do not assume an Elastic, Splunk or Wazuh agent supports the exact ARM64 OS/release until its support matrix confirms it.
 
 ## 5. Prepare Zeek and Suricata files
 
@@ -62,17 +62,19 @@ On the sensor, prove the files exist before adding a collector:
 
 Zeek supports JSON log output; Suricata EVE writes JSON events. Do not send full PCAP as routine SIEM events; PCAP needs separate access, storage and retention controls.
 
-## 6. Test sources and relay before SIEM
+## 6. Pre-SIEM acceptance gate — source and relay only
 
 Verify:
 1. Firewall test event appears in the relay file.
-2. Suricata IDS alert appears in local EVE/syslog and relay output.
+2. Suricata IDS alert appears in local EVE/syslog and, where configured, the relay output.
 3. Zeek DNS/connection event appears in its local JSON file if Zeek is enabled.
 4. Windows Sysmon/Security event exists locally.
 5. Linux audit/journal event exists locally.
-6. Hostname, source timestamp and event identity are preserved.
+6. macOS Unified Logging or Mac-router nftables event exists locally when that track is used.
+7. Hostname, source timestamp and event identity are preserved.
+8. Relay and sensor files have rotation, bounded disk use and correct collector read permissions.
 
-This gate proves source generation and relay. SIEM-specific agents/forwarders are configured after the selected SIEM server is ready.
+This gate proves source generation and pre-SIEM relay only. It does not claim SIEM ingestion. SIEM-specific agents/forwarders and end-to-end searches are configured after the selected SIEM server is ready.
 
 ## 7. SIEM-specific collector pattern
 
