@@ -224,16 +224,16 @@ interface=redteam0
 interface=dmz0
 bind-interfaces
 
-dhcp-range=mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
-dhcp-option=mgmt0,option:router,10.10.10.1
-dhcp-range=endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
-dhcp-option=endpoint0,option:router,10.10.20.1
-dhcp-range=server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
-dhcp-option=server0,option:router,10.10.30.1
-dhcp-range=redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
-dhcp-option=redteam0,option:router,10.10.40.1
-dhcp-range=dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
-dhcp-option=dmz0,option:router,10.10.60.1
+dhcp-range=interface:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
+dhcp-option=tag:interface:mgmt0,option:router,10.10.10.1
+dhcp-range=interface:endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
+dhcp-option=tag:interface:endpoint0,option:router,10.10.20.1
+dhcp-range=interface:server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
+dhcp-option=tag:interface:server0,option:router,10.10.30.1
+dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
+dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
+dhcp-range=interface:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
+dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
 ~~~
 
 For an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
