@@ -125,6 +125,21 @@ sourcetype = suricata:eve:json
 
 Paths for Zeek change with package/deployment method; use the exact active directory. Configure one stanza per file/source if they need different sourcetypes. Check permissions and monitor checkpoints. Avoid monitoring both an original and a duplicate copy of the same file.
 
+For JSON sourcetypes, add search-time JSON extraction on the Splunk search tier (for example, in /opt/splunk/etc/system/local/props.conf):
+
+~~~ini
+[zeek:conn:json]
+KV_MODE = json
+
+[zeek:dns:json]
+KV_MODE = json
+
+[suricata:eve:json]
+KV_MODE = json
+~~~
+
+Restart/reload the relevant Splunk service using the documented procedure and verify fields in a raw event. Do not set INDEXED_EXTRACTIONS unless you deliberately want index-time JSON extraction and have assessed its storage/licensing/performance implications.
+
 Restart using the installed forwarder's supported command:
 
 ~~~bash
