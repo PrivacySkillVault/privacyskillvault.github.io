@@ -2038,7 +2038,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       root.setAttribute("data-psv-mounted", "true");
     } catch (error) {
       console.error("[PSV Tools] Workspace initialisation failed:", error);
-      root.innerHTML = '<section class="psv-init-error" role="alert"><h2>Security tools could not start</h2><p>The page loaded, but the tools application encountered an error during startup.</p><p>Open your browser developer console and check messages beginning with <code>[PSV Tools]</code>.</p><button type="button" onclick="window.location.reload()">Reload tools</button></section>';
+      const detail = error && (error.stack || error.message) ? String(error.stack || error.message) : String(error);
+      root.innerHTML = '<section class="psv-init-error" role="alert"><h2>Security tools could not start</h2><p>The application encountered this startup error:</p><pre class="psv-init-error-detail"></pre><p>Please share the error text above when reporting this issue.</p><button type="button" onclick="window.location.reload()">Reload tools</button></section>';
+      const detailNode = root.querySelector(".psv-init-error-detail");
+      if (detailNode) detailNode.textContent = detail;
     }
   }
 
