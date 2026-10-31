@@ -146,7 +146,7 @@ sudo apt install -y nftables rsyslog tcpdump
 sudo systemctl enable --now nftables
 ~~~
 
-Create /etc/nftables.conf. Replace the admin IP and DMZ target with real static addresses. The example only permits REDTEAM to the named DMZ target on sample TCP ports 80/443/8080. Change ports to the exact target services. Add narrowly scoped AD, DNS, SIEM and telemetry rules only after identifying exact source, destination and port. Do not open entire subnets to any service.
+Create /etc/nftables.conf on this dedicated router VM only. The first line flushes the entire nftables ruleset; do not use this file on a general-purpose Ubuntu host, a Docker host or a system with other firewall owners. Replace the admin IP and DMZ target with real static addresses. The example only permits REDTEAM to the named DMZ target on sample TCP ports 80/443/8080. Change ports to the exact target services. Add narrowly scoped AD, DNS, SIEM and telemetry rules only after identifying exact source, destination and port. Do not open entire subnets to any service.
 
 ~~~nft
 #!/usr/sbin/nft -f
@@ -177,7 +177,7 @@ table inet filter {
 
     # Optional temporary update egress for trusted lab segments only.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
-    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept\n    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
 
     limit rate 5/second log prefix "PSV-ROUTER-FWD-DROP " flags all counter
     counter drop
