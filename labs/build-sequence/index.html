@@ -2177,11 +2177,11 @@
 <li>Configure OPNsense or the Mac Linux router to send firewall events to the relay.</li>
 <li>Verify messages arrive and are written to the expected per-source files.</li>
 <li>Verify Zeek/Suricata files exist, are readable and rotate safely.</li>
-<li>Prepare the chosen SIEM's agent/forwarder path on relay and sensor.</li>
-<li>Keep endpoint collection explicit: Windows Event Channels/Sysmon, Linux journald/auditd and macOS Unified Logging where supported.</li>
-<li>Verify source → relay/file → collector with identity and timestamp intact.</li>
+<li>Configure log rotation, disk limits, file permissions, source identity and timestamps on the relay and sensor.</li>
+<li>Keep endpoint collection explicit: Windows Event Channels/Sysmon, Linux journald/auditd and macOS Unified Logging where supported. Prove each event exists locally.</li>
+<li>Do not configure SIEM-specific agents/forwarders yet; the destination SIEM does not exist at this stage.</li>
 </ol>
-<p><strong>Gate 7:</strong> each required source reaches the relay/collector before SIEM installation. Only required source IPs and ports are allowed.</p>
+<p><strong>Gate 7:</strong> firewall/router events arrive at the relay and are written to the correct source-specific files; Zeek/Suricata files exist locally on the sensor; endpoint source events exist locally; timestamps and host identity are preserved. This gate proves source generation and pre-SIEM relay only—not SIEM ingestion.</p>
 <h2 id="stage-8-install-one-siem-and-connect-sources">Stage 8 — install one SIEM and connect sources<a class="headerlink" href="#stage-8-install-one-siem-and-connect-sources" title="Permanent link">&para;</a></h2>
 <p>Choose one stack per iteration:</p>
 <ul>
@@ -2189,8 +2189,8 @@
 <li><a href="../splunk-siem/">Splunk</a>: Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.</li>
 <li><a href="../wazuh-soc/">Wazuh</a>: central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Use relay-file-plus-agent rather than relying on direct manager syslog listener across versions.</li>
 </ul>
-<p>For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections.</p>
-<p><strong>Gate 8:</strong> every required source has a raw searchable event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.</p>
+<p>For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; install supported agents/forwarders on endpoints, relay and sensor; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections. On the Mac router track, forward nftables messages from its local rsyslog file to the SERVER relay over the configured restricted transport, or collect the local file with a supported agent. Do not assume an agent supports ARM64 without checking its matrix.</p>
+<p><strong>Gate 8:</strong> every required source has a raw searchable SIEM event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.</p>
 <h2 id="stage-9-optional-security-onion">Stage 9 — optional Security Onion<a class="headerlink" href="#stage-9-optional-security-onion" title="Permanent link">&para;</a></h2>
 <p>Security Onion is x86-64 only and resource intensive. Build on Windows x64 or dedicated x86-64 hardware after network and packet visibility stages. It is an alternative integrated NSM/SOC platform, not an ARM Mac guest or a prerequisite for other SIEMs.</p>
 <h2 id="stage-10-controlled-penetration-testing">Stage 10 — controlled penetration testing<a class="headerlink" href="#stage-10-controlled-penetration-testing" title="Permanent link">&para;</a></h2>

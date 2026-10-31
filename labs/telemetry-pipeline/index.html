@@ -953,10 +953,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-test-sources-and-relay-before-siem" class="md-nav__link">
+  <a href="#6-pre-siem-acceptance-gate-source-and-relay-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Test sources and relay before SIEM
+        6. Pre-SIEM acceptance gate — source and relay only
       
     </span>
   </a>
@@ -1853,10 +1853,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-test-sources-and-relay-before-siem" class="md-nav__link">
+  <a href="#6-pre-siem-acceptance-gate-source-and-relay-only" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Test sources and relay before SIEM
+        6. Pre-SIEM acceptance gate — source and relay only
       
     </span>
   </a>
@@ -1996,7 +1996,7 @@
 <p>Enable the Log option on the individual firewall rules whose pass/block decisions must be investigated. Rule logging is not automatically enabled for every rule. For IDS, enable EVE syslog output and configure a remote target for Suricata.</p>
 <p>Generate one allowed and one blocked test flow. Confirm the relay receives both with source, timestamp, interface/rule context and action preserved.</p>
 <h2 id="4-mac-router-logging">4. Mac router logging<a class="headerlink" href="#4-mac-router-logging" title="Permanent link">&para;</a></h2>
-<p>For the nftables router, first prove firewall messages appear locally in journald. Configure rsyslog to write only the unique nftables log prefix/facility to a dedicated file. Then configure the selected SIEM agent to monitor that file. nftables does not automatically forward logs remotely.</p>
+<p>For the nftables router, first prove firewall messages appear locally in journald. Configure rsyslog to write only the unique nftables log prefix/facility to a dedicated file. Then configure rsyslog to forward those records to the SERVER relay over the restricted TCP/TLS transport configured for the lab; retain a local copy for troubleshooting. Alternatively, collect the local file with a supported agent after the SIEM is installed. nftables does not automatically forward logs remotely. Do not assume an Elastic, Splunk or Wazuh agent supports the exact ARM64 OS/release until its support matrix confirms it.</p>
 <h2 id="5-prepare-zeek-and-suricata-files">5. Prepare Zeek and Suricata files<a class="headerlink" href="#5-prepare-zeek-and-suricata-files" title="Permanent link">&para;</a></h2>
 <p>On the sensor, prove the files exist before adding a collector:
 - Zeek JSON logs such as conn.log and dns.log.
@@ -2005,15 +2005,17 @@
 - Log rotation and retention.
 - Sensor hostname, interface and capture scope recorded.</p>
 <p>Zeek supports JSON log output; Suricata EVE writes JSON events. Do not send full PCAP as routine SIEM events; PCAP needs separate access, storage and retention controls.</p>
-<h2 id="6-test-sources-and-relay-before-siem">6. Test sources and relay before SIEM<a class="headerlink" href="#6-test-sources-and-relay-before-siem" title="Permanent link">&para;</a></h2>
+<h2 id="6-pre-siem-acceptance-gate-source-and-relay-only">6. Pre-SIEM acceptance gate — source and relay only<a class="headerlink" href="#6-pre-siem-acceptance-gate-source-and-relay-only" title="Permanent link">&para;</a></h2>
 <p>Verify:
 1. Firewall test event appears in the relay file.
-2. Suricata IDS alert appears in local EVE/syslog and relay output.
+2. Suricata IDS alert appears in local EVE/syslog and, where configured, the relay output.
 3. Zeek DNS/connection event appears in its local JSON file if Zeek is enabled.
 4. Windows Sysmon/Security event exists locally.
 5. Linux audit/journal event exists locally.
-6. Hostname, source timestamp and event identity are preserved.</p>
-<p>This gate proves source generation and relay. SIEM-specific agents/forwarders are configured after the selected SIEM server is ready.</p>
+6. macOS Unified Logging or Mac-router nftables event exists locally when that track is used.
+7. Hostname, source timestamp and event identity are preserved.
+8. Relay and sensor files have rotation, bounded disk use and correct collector read permissions.</p>
+<p>This gate proves source generation and pre-SIEM relay only. It does not claim SIEM ingestion. SIEM-specific agents/forwarders and end-to-end searches are configured after the selected SIEM server is ready.</p>
 <h2 id="7-siem-specific-collector-pattern">7. SIEM-specific collector pattern<a class="headerlink" href="#7-siem-specific-collector-pattern" title="Permanent link">&para;</a></h2>
 <p><strong>Elastic:</strong> install Elastic Agent on relay and sensor. Use Custom Logs (Filestream) for written rsyslog, Zeek and Suricata files. Use Windows and System integrations for endpoint sources. A TCP/UDP integration is a separate listener design; do not assume Fleet being online means syslog is ingested.</p>
 <p><strong>Splunk:</strong> use Universal Forwarder on relay and sensor to monitor written files, and a Windows Universal Forwarder for Event Log channels. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog, rather than direct UDP/TCP input on Splunk Enterprise as the default production pattern. Verify every forwarder host architecture.</p>
