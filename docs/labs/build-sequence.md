@@ -107,7 +107,7 @@ Follow the [rsyslog relay implementation](syslog-relay-implementation.md) and [T
 
 ## Stage 8 — install one SIEM and connect sources
 
-Choose one stack per iteration:
+Choose one stack per iteration. For the exact source-specific agent/forwarder inputs, file paths, event channels and verification queries, follow the [SIEM Collector Implementation Runbook](siem-collector-implementation.md).
 
 - [Elastic](elastic-siem.md): Fleet/Elastic Agent, Windows and System integrations, Filestream for firewall/sensor files.
 - [Splunk](splunk-siem.md): Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.
