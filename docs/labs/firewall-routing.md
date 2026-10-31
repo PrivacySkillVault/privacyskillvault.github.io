@@ -4,7 +4,9 @@
 
 This page is the Windows x64 OPNsense implementation. For an Apple-silicon Mac-only build use [Mac ARM Router & Firewall](mac-arm-routing.md). OPNsense supports x86-64, not ARM64.
 
-For the full interface assignment, Kea DHCPv4, DNS resolver selection, aliases, least-privilege rules, remote logging, IDS and recovery procedure, follow the [OPNsense Implementation Runbook](opnsense-implementation.md).\n\n## 1. Windows OPNsense topology
+For the full interface assignment, Kea DHCPv4, DNS resolver selection, aliases, least-privilege rules, remote logging, IDS and recovery procedure, follow the [OPNsense Implementation Runbook](opnsense-implementation.md).
+
+## 1. Windows OPNsense topology
 
 Create one x86-64 OPNsense VM with seven adapters (WAN plus six internal segments):
 
