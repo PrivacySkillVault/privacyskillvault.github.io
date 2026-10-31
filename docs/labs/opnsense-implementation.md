@@ -58,7 +58,8 @@ Under Services → Kea DHCP → Kea DHCPv4 (menu labels may vary by release):
    - DMZ 10.10.60.0/24, pool 10.10.60.100 - 10.10.60.150, router 10.10.60.1.
 5. In each subnet's DHCP option data, configure the **Routers (gateway)** field as that interface's firewall IP. Configure **DNS servers** explicitly; do not rely on Auto collect when the scope needs a DNS server other than the firewall:
    - If AD DS is deployed, domain-member ENDPOINT clients must receive 10.10.30.10 as DNS, not public DNS. Disable Auto collect for that subnet if it would overwrite the desired DNS setting.
-   - If there is no AD DNS, use the firewall's Unbound address on that subnet and configure Unbound access lists.
+   - Non-domain REDTEAM/DMZ clients should use the firewall's Unbound address only if name resolution is required; otherwise omit DNS from their DHCP options. Do not expose the DC DNS service to REDTEAM/DMZ unless the exercise explicitly requires it.
+   - If there is no AD DNS, use the firewall's Unbound address on each required client subnet and configure Unbound access lists.
    - Configure **Domain name** only for the intended lab domain (for example, lab.psv.test); do not advertise an unrelated suffix.
    - Set NTP servers deliberately if you provide a lab NTP source.
    - Keep MGMT, SERVER and SENSOR-MGMT on static addresses/reservations in this baseline; do not create DHCP pools there.
