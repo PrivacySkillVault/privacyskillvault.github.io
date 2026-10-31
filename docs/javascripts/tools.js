@@ -1598,12 +1598,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         <section class="psv-operator-reference">
           <div class="psv-section-head"><div><span class="psv-eyebrow">LOCAL TOOLING STACK</span><h2>Tools to run in your own lab</h2></div><p>These require installed engines, agents or lab infrastructure; a web page cannot safely reproduce them.</p></div>
           <div class="psv-reference-grid">
-            <article><strong>SOC / SIEM</strong><p>Elastic Security · Splunk Enterprise · Wazuh · Microsoft Sentinel (tenant) · Sigma CLI</p></article>
-            <article><strong>Network / Packet</strong><p>Wireshark · Zeek · Suricata · tcpdump · Arkime · NetworkMiner</p></article>
-            <article><strong>DFIR / Endpoint</strong><p>Velociraptor · KAPE · Autopsy / Sleuth Kit · Volatility 3 · Plaso / log2timeline · Hayabusa</p></article>
-            <article><strong>Threat intelligence</strong><p>MISP · OpenCTI · Yeti · STIX/TAXII clients · local YARA rule repositories</p></article>
-            <article><strong>Pentesting (authorised)</strong><p>Nmap · Nuclei · Burp Suite · OWASP ZAP · Metasploit · sqlmap · ffuf · testssl.sh</p></article>
-            <article><strong>Malware analysis</strong><p>YARA · capa · Ghidra · REMnux · FLARE-VM · Detect It Easy · FLOSS</p></article>
+            <article><strong>SOC / SIEM / Case Management</strong><p>Elastic Security · Splunk Enterprise · Wazuh · Microsoft Sentinel · Google Security Operations · Sigma CLI · TheHive · DFIR-IRIS</p></article>
+            <article><strong>Network / Packet Analysis</strong><p>Wireshark · Zeek · Suricata · tcpdump · Arkime · NetworkMiner · Brim</p></article>
+            <article><strong>Endpoint / DFIR</strong><p>Velociraptor · KAPE · Autopsy / Sleuth Kit · Volatility 3 · Plaso · Hayabusa · Chainsaw · Eric Zimmerman tools</p></article>
+            <article><strong>Threat Intelligence Platforms & Feeds</strong><p>MISP · OpenCTI · Yeti · AlienVault OTX · ThreatFox · URLhaus · MalwareBazaar · GreyNoise · STIX/TAXII</p></article>
+            <article><strong>Authorised Pentesting & Validation</strong><p>Nmap · Nuclei · Greenbone / OpenVAS · Nessus · Burp Suite · OWASP ZAP · Metasploit · sqlmap · ffuf · testssl.sh</p></article>
+            <article><strong>Malware / Reverse Engineering</strong><p>YARA · capa · Ghidra · REMnux · FLARE-VM · Detect It Easy · FLOSS · x64dbg</p></article>
           </div>
         </section>
         <p class="psv-workbench-disclaimer"><strong>Operational boundary:</strong> Browser utilities assist analysis; they are not a SIEM, EDR, packet-capture engine, malware sandbox or authoritative threat-intelligence platform. Use only on data and systems you are authorised to examine. Never paste regulated, customer, credential or employer-confidential data into this public website.</p>
