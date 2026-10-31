@@ -18,6 +18,8 @@ This stage creates and proves the data path before installing Elastic, Splunk or
 
 Do not install competing agents to collect the same source unless duplicate ingestion is intentional.
 
+For a reproducible relay listener, source allowlist, per-source file routing, log rotation, firewall policy and TLS decision, follow the [Linux Syslog Relay Implementation Runbook](syslog-relay-implementation.md). The steps below describe the required design and acceptance gate.
+
 ## 2. Create a Linux syslog relay
 
 On Windows track create PSV-LOG01 on SERVER, for example 10.10.30.30/24. On Mac track use an ARM64 Ubuntu Server VM on SERVER. Configure static/reserved addressing, correct DNS/NTP and restricted management.
