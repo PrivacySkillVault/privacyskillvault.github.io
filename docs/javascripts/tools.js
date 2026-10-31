@@ -466,7 +466,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   let searchQuery = "";
   let activeToolId = "ioc";
   let selectedOptionIdx = 0;
-  const userInputs = {};\n  let lastHashRecord = null;
+  const userInputs = {};
+  let lastHashRecord = null;
 
   function esc(str) {
     return String(str || "")
