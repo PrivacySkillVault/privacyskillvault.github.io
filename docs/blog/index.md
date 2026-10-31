@@ -18,15 +18,6 @@
       <div class="psv-story-feature__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>How Does a Banking Account Takeover Actually Work?</h3><p>From exposed credentials to stolen sessions, understand the common routes into a digital banking account—and the evidence investigators should connect before drawing conclusions.</p><span class="psv-story-read">Read the story <b>↗</b></span><small class="psv-story-date">31 OCT 2026 <i>·</i> 9 MIN READ</small></div>
     </a>
 
-    <div class="psv-journal-section-head psv-journal-section-head--latest"><div><p class="psv-journal-kicker">EXPLORE THE JOURNAL</p><h2>Browse by topic</h2></div></div>
-    <div class="psv-topic-grid">
-      <a href="cyber-fraud/" class="psv-topic-card"><span class="psv-topic-icon">⌁</span><span><strong>Cyber Fraud</strong><small>Account takeover, payment fraud, identity abuse</small></span><b>↗</b></a>
-      <a href="threat-analysis/" class="psv-topic-card"><span class="psv-topic-icon">⌖</span><span><strong>Threat Analysis</strong><small>Malware, ransomware, campaigns and actors</small></span><b>↗</b></a>
-      <a href="soc-investigations/" class="psv-topic-card"><span class="psv-topic-icon">⌘</span><span><strong>SOC Investigations</strong><small>Detection, triage, evidence and response</small></span><b>↗</b></a>
-      <a href="vulnerabilities/" class="psv-topic-card"><span class="psv-topic-icon">⛨</span><span><strong>Vulnerabilities</strong><small>Exposure, exploitability and remediation</small></span><b>↗</b></a>
-      <a href="lab-notes/" class="psv-topic-card"><span class="psv-topic-icon">⌬</span><span><strong>Lab Notes</strong><small>Hands-on experiments and validation</small></span><b>↗</b></a>
-      <a href="security-explainers/" class="psv-topic-card"><span class="psv-topic-icon">◇</span><span><strong>Security Explainers</strong><small>Concepts, protocols and defensive controls</small></span><b>↗</b></a>
-    </div>
-    <div class="psv-journal-bottom-note"><span>PSV JOURNAL</span><p>Clarity over noise. Evidence over assumptions.</p></div>
+
   </section>
 </div>
