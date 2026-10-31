@@ -12,12 +12,23 @@
   </aside>
   <section class="psv-journal-main psv-category-main">
     <a class="psv-journal-back" href="../">← All journal stories</a>
-    <p class="psv-journal-kicker">JOURNAL CATEGORY / 01</p><h1>Cyber Fraud</h1>
+    <p class="psv-journal-kicker">JOURNAL CATEGORY / 01</p>
+    <h1>Cyber Fraud</h1>
     <p class="psv-category-deck">Understand the methods behind digital financial crime—and how fraud and security teams identify, investigate, and disrupt suspicious activity.</p>
-    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">1 ARTICLE</p><h2>Latest in Cyber Fraud</h2></div><span class="psv-journal-count">UPDATED 31 OCT 2026</span></div>
-    <a class="psv-story-card" href="account-takeover-explained/">
-      <div class="psv-story-card__art psv-story-art--ato" aria-hidden="true"><span class="psv-story-art__label">IDENTITY / SESSION / TRUST</span><div class="psv-ato-orbit psv-ato-orbit--a"></div><div class="psv-ato-orbit psv-ato-orbit--b"></div><div class="psv-ato-lock"><span>◈</span></div><b class="psv-ato-node psv-ato-node--one">01</b><b class="psv-ato-node psv-ato-node--two">02</b><b class="psv-ato-node psv-ato-node--three">03</b></div>
-      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> FOUNDATIONAL EXPLAINER</span><h3>How Does a Banking Account Takeover Actually Work?</h3><p>Explore credential theft, account recovery abuse, session hijacking, device signals, and the evidence needed to build a reliable investigation timeline.</p><div class="psv-story-card__footer"><small>31 OCT 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
+    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">3 PUBLISHED ARTICLES</p><h2>Latest in Cyber Fraud</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
+    <div class="psv-journal-story-list">
+<a class="psv-story-card" href="cyber-fraud/account-takeover-explained/">
+      <div class="psv-story-card__art psv-story-art--ato" aria-hidden="true"><span class="psv-story-art__label">ACCOUNT TAKEOVER</span><span class="psv-thumb-glyph">◈</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>How Does a Banking Account Takeover Actually Work?</h3><p>From exposed credentials to stolen sessions, understand common routes into digital banking accounts and the evidence investigators should connect.</p><div class="psv-story-card__footer"><small>31 OCT 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
     </a>
+<a class="psv-story-card" href="cyber-fraud/device-fingerprinting-in-banking/">
+      <div class="psv-story-card__art psv-story-art--fraud" aria-hidden="true"><span class="psv-story-art__label">DEVICE INTELLIGENCE</span><span class="psv-thumb-glyph">⌁</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Device Fingerprinting in Banking: What It Can—and Cannot—Prove</h3><p>A practical guide to device signals, device binding, spoofing limits, and how fraud teams should interpret a device match.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="cyber-fraud/investigating-suspicious-bank-transfer/">
+      <div class="psv-story-card__art psv-story-art--payment" aria-hidden="true"><span class="psv-story-art__label">PAYMENT TIMELINE</span><span class="psv-thumb-glyph">↗</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Investigating a Suspicious Bank Transfer: Build the Timeline Before the Theory</h3><p>Connect login, session, beneficiary, authentication, and payment evidence without jumping to conclusions.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+    </div>
   </section>
 </div>
