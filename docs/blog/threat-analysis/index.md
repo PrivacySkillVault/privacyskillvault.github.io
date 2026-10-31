@@ -15,6 +15,16 @@
     <p class="psv-journal-kicker">JOURNAL CATEGORY / 02</p>
     <h1>Threat Analysis</h1>
     <p class="psv-category-deck">Malware, ransomware, threat actors, and emerging campaigns—explained with technical context and careful source verification.</p>
-    <div class="psv-journal-empty"><span>⌖</span><h2>Stories are being researched</h2><p>There are no published articles in this category yet. New stories will appear here after their sources and technical details have been reviewed.</p><a href="../">Browse all journal stories →</a></div>
+    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">2 PUBLISHED ARTICLES</p><h2>Latest in Threat Analysis</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
+    <div class="psv-journal-story-list">
+<a class="psv-story-card" href="threat-analysis/ransomware-attack-chain/">
+      <div class="psv-story-card__art psv-story-art--ransom" aria-hidden="true"><span class="psv-story-art__label">RANSOMWARE</span><span class="psv-thumb-glyph">▧</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>A Ransomware Attack, Step by Step: What Happens Before Files Are Encrypted?</h3><p>Understand common intrusion stages, where defenders can detect them, and why recovery starts before encryption.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 10 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+<a class="psv-story-card" href="threat-analysis/living-off-the-land/">
+      <div class="psv-story-card__art psv-story-art--lotl" aria-hidden="true"><span class="psv-story-art__label">LIVING OFF THE LAND</span><span class="psv-thumb-glyph">⌘</span></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>Living off the Land: Why Legitimate Tools Can Look Suspicious</h3><p>How attackers abuse built-in utilities, why simple blocklists fail, and how to investigate behaviour and context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small><span>Read story ↗</span></div></div>
+    </a>
+    </div>
   </section>
 </div>
