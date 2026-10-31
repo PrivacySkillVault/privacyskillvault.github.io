@@ -122,7 +122,11 @@ Use Microsoft's official Windows 11 ARM ISO and a virtualisation application tha
 
 Do not install x64 Windows media in an ARM VM. Confirm that every endpoint agent, driver and security product supports Windows ARM before relying on it.
 
-## F. Baseline evidence
+## F. Mac endpoint telemetry considerations
+
+macOS host and guest telemetry uses Apple's Unified Logging system and other OS-specific sources; it is not Windows Event Log. Use an agent only when the vendor documents support for the exact macOS release and Apple-silicon architecture. Wazuh documents collection from macOS Unified Logging; Elastic Agent and other products must be checked against their current macOS support matrix. Do not assume Sysmon for Windows, Windows Event Channel integrations or x64 endpoint agents work on macOS/Windows ARM.
+
+## G. Baseline evidence
 
 For each VM record ISO URL/checksum, OS build, architecture, hypervisor/version, CPU/RAM/disk, virtual NIC and IP. Patch the VM, create a clean snapshot, and verify it restores. A snapshot is not a backup, especially for domain controllers or SIEM databases.
 
