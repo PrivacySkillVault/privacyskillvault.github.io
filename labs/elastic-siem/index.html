@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/elastic-siem/">
       
       
-        <link rel="prev" href="../operating-systems/">
+        <link rel="prev" href="../build-sequence/">
       
       
         <link rel="next" href="../splunk-siem/">
@@ -614,62 +614,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform-virtualbox/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VirtualBox Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-sequence/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    End-to-end Build Sequence
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../platform-macos/" class="md-nav__link">
         
   
@@ -678,6 +622,34 @@
     
   
     Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
   
 
     
@@ -733,7 +705,35 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
   
 
     
@@ -762,6 +762,118 @@
     
   
     Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -840,6 +952,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#mandatory-prerequisites-complete-before-installing-elastic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mandatory prerequisites — complete before installing Elastic
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#1-topology-and-sizing" class="md-nav__link">
@@ -1023,34 +1146,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../network-monitoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../security-onion/" class="md-nav__link">
         
   
@@ -1058,7 +1153,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1115,34 +1210,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1742,6 +1809,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#mandatory-prerequisites-complete-before-installing-elastic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mandatory prerequisites — complete before installing Elastic
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1-topology-and-sizing" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1870,6 +1948,9 @@
 
 <h1 id="lab-5-elastic-siem-fleet-and-endpoint-telemetry">Lab 5 — Elastic SIEM, Fleet and endpoint telemetry<a class="headerlink" href="#lab-5-elastic-siem-fleet-and-endpoint-telemetry" title="Permanent link">&para;</a></h1>
 <p><badge color="warning">Build guide — not yet lab-tested</badge></p>
+<h2 id="mandatory-prerequisites-complete-before-installing-elastic">Mandatory prerequisites — complete before installing Elastic<a class="headerlink" href="#mandatory-prerequisites-complete-before-installing-elastic" title="Permanent link">&para;</a></h2>
+<p>Do not start this SIEM until Stages 0–7 in <a href="../build-sequence/">Master Build Sequence</a> pass. OPNsense firewall/Suricata events must already reach the Linux syslog relay; Zeek/Suricata files must exist on the sensor; Windows Security/Sysmon and Linux events must exist locally. Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>.</p>
+<p>For firewall and sensor logs, install Elastic Agent on the relay/sensor and use the supported Custom Logs (Filestream) integration for written log files. Use the Windows and System integrations for endpoints. A Fleet Server being online does not prove that syslog or JSON files are ingested. Verify each raw event and data stream separately.</p>
 <h2 id="1-topology-and-sizing">1. Topology and sizing<a class="headerlink" href="#1-topology-and-sizing" title="Permanent link">&para;</a></h2>
 <p>Use a fresh supported Ubuntu Server VM on the Windows x64 PC: 4–8 vCPU, 12–16 GB RAM and 150–200 GB SSD-backed virtual disk as a home-lab starting point. Run Elastic alone initially. This is a single-node learning deployment, not production HA. Keep Elasticsearch and Kibana on the same version. Check the current Elastic support matrix for the selected OS and architecture.</p>
 <h2 id="2-install-elasticsearch-9x-from-the-official-apt-repository">2. Install Elasticsearch 9.x from the official APT repository<a class="headerlink" href="#2-install-elasticsearch-9x-from-the-official-apt-repository" title="Permanent link">&para;</a></h2>
@@ -1955,6 +2036,7 @@
 <li><a href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-with-debian-package">Elasticsearch Debian package</a></li>
 <li><a href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-kibana-with-debian-package">Kibana Debian package</a></li>
 <li><a href="https://www.elastic.co/docs/reference/fleet">Elastic Fleet</a></li>
+<li><a href="https://www.elastic.co/docs/reference/integrations/filestream">Elastic Custom Logs (Filestream)</a></li>
 <li><a href="https://www.elastic.co/docs/reference/integrations/windows">Elastic Windows integration</a></li>
 <li><a href="https://www.elastic.co/docs/reference/integrations/system">Elastic System integration</a></li>
 <li><a href="https://www.elastic.co/support/matrix">Elastic Support Matrix</a></li>

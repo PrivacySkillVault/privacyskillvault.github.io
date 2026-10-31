@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/network-monitoring/">
       
       
-        <link rel="prev" href="../wazuh-soc/">
+        <link rel="prev" href="../windows-endpoint-telemetry/">
       
       
-        <link rel="next" href="../security-onion/">
+        <link rel="next" href="../telemetry-pipeline/">
       
       
         
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lab-8-network-monitoring-with-zeek-and-suricata" class="md-skip">
+        <a href="#lab-network-monitoring-before-siem" class="md-skip">
           Skip to content
         </a>
       
@@ -614,62 +614,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform-virtualbox/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VirtualBox Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-sequence/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    End-to-end Build Sequence
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../platform-macos/" class="md-nav__link">
         
   
@@ -678,6 +622,34 @@
     
   
     Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
   
 
     
@@ -733,7 +705,35 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
   
 
     
@@ -762,6 +762,253 @@
     
   
     Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visibility-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visibility model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-windows-x64-opnsense-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Windows x64 — OPNsense IDS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-zeek-sensor-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Zeek sensor topology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-install-and-verify-zeek" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Install and verify Zeek
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-install-and-verify-standalone-suricata-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Install and verify standalone Suricata (optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-local-log-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Local log validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-forwarding-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Forwarding prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -863,169 +1110,6 @@
                 
   
   
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-understand-the-sensor-topology" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Understand the sensor topology
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-prepare-ubuntu-sensor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Prepare Ubuntu sensor
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-install-zeek" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Install Zeek
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-install-suricata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Install Suricata
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-rule-management-and-updates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Rule management and updates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-forward-logs-to-siem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Forward logs to SIEM
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-validation-exercise" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Validation exercise
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. References
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
@@ -1036,7 +1120,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1093,34 +1177,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1720,10 +1776,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-understand-the-sensor-topology" class="md-nav__link">
+  <a href="#1-visibility-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Understand the sensor topology
+        1. Visibility model
       
     </span>
   </a>
@@ -1731,10 +1787,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-prepare-ubuntu-sensor" class="md-nav__link">
+  <a href="#2-windows-x64-opnsense-ids" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Prepare Ubuntu sensor
+        2. Windows x64 — OPNsense IDS
       
     </span>
   </a>
@@ -1742,10 +1798,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-install-zeek" class="md-nav__link">
+  <a href="#3-zeek-sensor-topology" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Install Zeek
+        3. Zeek sensor topology
       
     </span>
   </a>
@@ -1753,10 +1809,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-install-suricata" class="md-nav__link">
+  <a href="#4-install-and-verify-zeek" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Install Suricata
+        4. Install and verify Zeek
       
     </span>
   </a>
@@ -1764,10 +1820,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-rule-management-and-updates" class="md-nav__link">
+  <a href="#5-install-and-verify-standalone-suricata-optional" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Rule management and updates
+        5. Install and verify standalone Suricata (optional)
       
     </span>
   </a>
@@ -1775,10 +1831,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-forward-logs-to-siem" class="md-nav__link">
+  <a href="#6-local-log-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Forward logs to SIEM
+        6. Local log validation
       
     </span>
   </a>
@@ -1786,10 +1842,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-validation-exercise" class="md-nav__link">
+  <a href="#7-forwarding-prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Validation exercise
+        7. Forwarding prerequisites
       
     </span>
   </a>
@@ -1797,10 +1853,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-references" class="md-nav__link">
+  <a href="#references" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. References
+        References
       
     </span>
   </a>
@@ -1824,80 +1880,83 @@
 
 
 
-<h1 id="lab-8-network-monitoring-with-zeek-and-suricata">Lab 8 — Network monitoring with Zeek and Suricata<a class="headerlink" href="#lab-8-network-monitoring-with-zeek-and-suricata" title="Permanent link">&para;</a></h1>
-<p><badge color="warning">Build guide — not yet lab-tested</badge></p>
-<p>This lab introduces passive network visibility. Use a dedicated Linux sensor VM on the Windows x64 PC. Start with a single virtual interface receiving test traffic; add a second sniffing interface only after you understand the hypervisor's port-mirroring capability.</p>
-<h2 id="1-understand-the-sensor-topology">1. Understand the sensor topology<a class="headerlink" href="#1-understand-the-sensor-topology" title="Permanent link">&para;</a></h2>
-<p>A sensor requires a traffic source. Installing Zeek or Suricata does not automatically make it see traffic from other VMs.</p>
-<p>Preferred enterprise-style design:
-- Sensor management NIC on MGMT.
-- Sensor capture NIC on a dedicated SENSOR segment receiving a mirror/SPAN feed from the virtual switch or lab firewall.
-- Capture NIC has no IP address, default gateway or forwarding.
-- The firewall/router mirrors only the selected lab VLANs.</p>
-<p>If the hypervisor cannot mirror traffic to a VM NIC, use a Linux bridge/router VM as an explicit traffic path or run a single-host test with packet capture on the endpoint. Do not claim network-wide visibility from a sensor that only sees its own traffic.</p>
-<h2 id="2-prepare-ubuntu-sensor">2. Prepare Ubuntu sensor<a class="headerlink" href="#2-prepare-ubuntu-sensor" title="Permanent link">&para;</a></h2>
-<p>Use a supported Ubuntu Server x86-64 VM with 4 vCPU, 8 GB RAM and sufficient disk for logs/PCAP. Attach the management NIC first. Add the capture NIC only when the mirror path is configured.</p>
-<p>Identify interfaces:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ip<span class="w"> </span>-br<span class="w"> </span>link
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>ip<span class="w"> </span>route
-</span></code></pre></div>
-<p>Record which interface is management and which is capture. Do not guess interface names.</p>
-<p>For a dedicated capture interface, remove any IP configuration using the network manager actually configured on that guest. Confirm the capture NIC has no IPv4/IPv6 address and no default route before enabling passive capture. Do not remove the management route.</p>
-<h2 id="3-install-zeek">3. Install Zeek<a class="headerlink" href="#3-install-zeek" title="Permanent link">&para;</a></h2>
-<p>Use the official Zeek installation documentation for the Ubuntu release and supported package repository. Repository instructions and package versions change; follow the current installation page rather than adding an unverified third-party PPA.</p>
-<p>After installation, verify:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>zeek<span class="w"> </span>--version
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>zeek<span class="w"> </span>-N
-</span></code></pre></div>
-<p>For an offline PCAP test:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/zeek-test<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/zeek-test
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>zeek<span class="w"> </span>-r<span class="w"> </span>/path/to/lab-capture.pcap
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>ls<span class="w"> </span>-lah
-</span></code></pre></div>
-<p>The PCAP must be generated from your own lab. Inspect logs such as conn.log, dns.log and http.log where protocol traffic exists. The presence and exact fields depend on the traffic and Zeek scripts loaded.</p>
-<p>For live capture, use the exact interface identified earlier and the supported ZeekControl/deployment configuration for your installed release. Do not start a live capture on the management NIC by accident.</p>
-<h2 id="4-install-suricata">4. Install Suricata<a class="headerlink" href="#4-install-suricata" title="Permanent link">&para;</a></h2>
-<p>Use the official Suricata installation guide for the OS and release. After installation:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>suricata<span class="w"> </span>--build-info
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>suricata<span class="w"> </span>--list-runmodes
-</span></code></pre></div>
-<p>For a safe offline PCAP check:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>suricata<span class="w"> </span>-r<span class="w"> </span>/path/to/lab-capture.pcap<span class="w"> </span>-l<span class="w"> </span>./suricata-output
-</span></code></pre></div>
-<p>Inspect eve.json and fast.log. A rule match depends on the traffic and ruleset; no alert is expected for arbitrary traffic.</p>
-<p>For live capture, follow the current Suricata guide for selecting the interface, run mode, rule update and service configuration. Verify the capture interface is the correct NIC.</p>
-<h2 id="5-rule-management-and-updates">5. Rule management and updates<a class="headerlink" href="#5-rule-management-and-updates" title="Permanent link">&para;</a></h2>
-<p>Use the official ET Open rules or another rule source whose licence and update method you understand. Update rules using the supported Suricata update tooling for your package. Validate configuration before restart:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>suricata<span class="w"> </span>-T<span class="w"> </span>-c<span class="w"> </span>/etc/suricata/suricata.yaml
-</span></code></pre></div>
-<p>Do not copy random IDS rules from untrusted repositories. A rule alert is a signal requiring triage, not proof of compromise.</p>
-<h2 id="6-forward-logs-to-siem">6. Forward logs to SIEM<a class="headerlink" href="#6-forward-logs-to-siem" title="Permanent link">&para;</a></h2>
-<p>Forward Zeek and Suricata JSON logs using Elastic Agent integrations or another supported collector. Confirm file paths, permissions, dataset names and integration versions. Ingest a known lab PCAP, then verify:
-- Source sensor hostname.
-- Event timestamp.
-- Source/destination IP and port.
-- Protocol and event type.
-- Rule signature and category where applicable.
-- Original log source and parser.</p>
-<p>Avoid ingesting full PCAP continuously until storage and retention are planned. PCAP can contain sensitive credentials or user content; capture only lab traffic and protect the files.</p>
-<h2 id="7-validation-exercise">7. Validation exercise<a class="headerlink" href="#7-validation-exercise" title="Permanent link">&para;</a></h2>
+<h1 id="lab-network-monitoring-before-siem">Lab — Network monitoring before SIEM<a class="headerlink" href="#lab-network-monitoring-before-siem" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Mandatory source stage — build and validate before SIEM</badge></p>
+<p>This lab builds and proves network telemetry sources. Do not postpone it until after Elastic, Splunk or Wazuh. A SIEM cannot ingest firewall/IDS/Zeek data that has not been generated and exposed to a collector.</p>
+<h2 id="1-visibility-model">1. Visibility model<a class="headerlink" href="#1-visibility-model" title="Permanent link">&para;</a></h2>
+<p>There are two distinct sources:
+1. <strong>Firewall telemetry:</strong> OPNsense rule pass/block events and OPNsense Suricata IDS alerts. The firewall generates these and exports them through remote syslog/EVE syslog.
+2. <strong>Packet-sensor telemetry:</strong> Zeek connection/DNS logs and standalone Suricata EVE JSON. The sensor must actually receive packets. Installing the software or enabling promiscuous mode does not create a mirror.</p>
+<p>Start with firewall logging and OPNsense IDS. Add Zeek only after the packet feed is proven.</p>
+<h2 id="2-windows-x64-opnsense-ids">2. Windows x64 — OPNsense IDS<a class="headerlink" href="#2-windows-x64-opnsense-ids" title="Permanent link">&para;</a></h2>
+<p>Complete <a href="../firewall-routing/">Firewall &amp; Routing</a> first.</p>
 <ol>
-<li>Generate a benign DNS query from a lab endpoint to the lab DNS resolver.</li>
-<li>Capture traffic on the mirrored interface.</li>
-<li>Confirm Zeek logs the DNS transaction.</li>
-<li>Confirm Suricata processes the capture and writes EVE output.</li>
-<li>Forward logs to the selected SIEM.</li>
-<li>Correlate endpoint process event, DNS record and network sensor event by host/IP and time.</li>
-<li>Document visibility gaps and any asymmetric routing or dropped packets.</li>
+<li>Enable logging on firewall rules used for allow/deny tests.</li>
+<li>Enable Suricata in alert-only IDS mode on internal interfaces carrying the traffic.</li>
+<li>Set HOME_NET to the lab subnets.</li>
+<li>Update the selected ruleset and check service health.</li>
+<li>Generate known allowed and denied flows.</li>
+<li>Verify firewall logs and IDS alerts locally.</li>
+<li>Enable EVE/syslog output and prove an alert reaches the relay.</li>
 </ol>
-<h2 id="8-references">8. References<a class="headerlink" href="#8-references" title="Permanent link">&para;</a></h2>
+<p>Do not begin with IPS blocking. Measure CPU, packet loss, false positives and recovery first. OPNsense documents capture-mode and driver/offload requirements.</p>
+<h2 id="3-zeek-sensor-topology">3. Zeek sensor topology<a class="headerlink" href="#3-zeek-sensor-topology" title="Permanent link">&para;</a></h2>
+<p>Use a supported Ubuntu Server sensor VM. Suggested starting resources: 4 vCPU, 8 GB RAM and SSD-backed log storage.</p>
 <ul>
+<li>Management NIC: MGMT, static/reserved address and management route.</li>
+<li>Capture NIC: only a validated mirror/tap or explicit inline capture path; no IP, gateway or forwarding.</li>
+<li>An empty SENSOR virtual network does not supply traffic.</li>
+</ul>
+<p>Visibility options:
+- <strong>Hyper-V:</strong> configure virtual switch port mirroring only when source and destination adapters share the relevant switch. Set source/destination roles and verify with known traffic.
+- <strong>VMware Workstation/Fusion:</strong> do not assume a universal SPAN feature. Use a supported physical mirror/tap, OPNsense IDS for routed visibility or offline lab PCAP.
+- <strong>VirtualBox:</strong> promiscuous mode is not a global mirror across internal networks. Use offline PCAP or a separately validated topology.</p>
+<p>Record exactly which segments/interfaces are visible. A sensor on one segment cannot see all other segments without a real feed.</p>
+<h2 id="4-install-and-verify-zeek">4. Install and verify Zeek<a class="headerlink" href="#4-install-and-verify-zeek" title="Permanent link">&para;</a></h2>
+<p>Install Zeek using official instructions for the exact Ubuntu release and architecture. Record package version and method.</p>
+<div class="language-text highlight"><pre><span></span><code>zeek --version
+zeek -N
+</code></pre></div>
+<p>For a lab-owned PCAP:</p>
+<div class="language-text highlight"><pre><span></span><code>mkdir -p ~/zeek-test
+cd ~/zeek-test
+zeek -r /path/to/lab-capture.pcap
+ls -lah
+</code></pre></div>
+<p>Inspect conn.log and dns.log when those protocols exist in the PCAP. Enable Zeek's documented JSON logging policy before forwarding. Verify JSON records contain expected timestamp, source/destination and protocol fields.</p>
+<p>For live capture, use the exact interface identified by MAC and supported ZeekControl/deployment method. Do not capture on the management NIC accidentally.</p>
+<h2 id="5-install-and-verify-standalone-suricata-optional">5. Install and verify standalone Suricata (optional)<a class="headerlink" href="#5-install-and-verify-standalone-suricata-optional" title="Permanent link">&para;</a></h2>
+<p>Use official Suricata packages for the guest OS and architecture. Record version and ruleset.</p>
+<div class="language-text highlight"><pre><span></span><code>suricata --build-info
+suricata --list-runmodes
+</code></pre></div>
+<p>For offline PCAP:</p>
+<div class="language-text highlight"><pre><span></span><code>sudo suricata -r /path/to/lab-capture.pcap -l ./suricata-output
+ls -lah ./suricata-output
+</code></pre></div>
+<p>Inspect eve.json. EVE contains JSON events such as alerts, anomalies and protocol metadata when enabled/applicable. Arbitrary traffic is not expected to trigger an alert; use documented safe test traffic.</p>
+<p>For live capture, confirm interface and run mode. Validate packet counters and dropped-packet metrics.</p>
+<h2 id="6-local-log-validation">6. Local log validation<a class="headerlink" href="#6-local-log-validation" title="Permanent link">&para;</a></h2>
+<p>Before forwarding:
+- Zeek logs exist and are JSON if configured.
+- Suricata eve.json exists and contains expected event types.
+- Collector can read the files.
+- Rotation/retention is configured.
+- Sensor host/interface/capture scope are documented.
+- Timestamp and event identity are preserved.</p>
+<p>Do not store full PCAP continuously until retention, capacity and sensitive-data handling are planned.</p>
+<h2 id="7-forwarding-prerequisites">7. Forwarding prerequisites<a class="headerlink" href="#7-forwarding-prerequisites" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>. The later SIEM collector monitors Zeek/Suricata files on the sensor. OPNsense firewall/IDS syslog flows through the Linux relay.</p>
+<p>The SIEM build is blocked until firewall pass/block events, OPNsense Suricata alerts, endpoint source events and (if selected) proven Zeek/Suricata sensor logs exist.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://docs.opnsense.org/manual/ips.html">OPNsense IDS/IPS and Suricata</a></li>
+<li><a href="https://docs.opnsense.org/manual/settingsmenu.html">OPNsense remote logging</a></li>
 <li><a href="https://docs.zeek.org/en/current/">Zeek documentation</a></li>
 <li><a href="https://docs.zeek.org/en/current/install.html">Zeek installation</a></li>
+<li><a href="https://docs.zeek.org/en/current/tutorial/logs.html">Zeek JSON logs</a></li>
 <li><a href="https://docs.suricata.io/en/latest/">Suricata documentation</a></li>
-<li><a href="https://docs.suricata.io/en/latest/install.html">Suricata installation guide</a></li>
-<li><a href="https://docs.suricata.io/en/latest/rule-management/index.html">Suricata rule management</a></li>
+<li><a href="https://docs.suricata.io/en/latest/output/eve/eve-json-output.html">Suricata EVE JSON</a></li>
 </ul>
 
 

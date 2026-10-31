@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/network-design/">
       
       
-        <link rel="prev" href="../platform-macos/">
+        <link rel="prev" href="../platform-virtualbox/">
       
       
         <link rel="next" href="../firewall-routing/">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lab-3-network-design-segmentation-and-routing" class="md-skip">
+        <a href="#lab-network-design-and-segmentation" class="md-skip">
           Skip to content
         </a>
       
@@ -614,62 +614,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform-virtualbox/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VirtualBox Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-sequence/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    End-to-end Build Sequence
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../platform-macos/" class="md-nav__link">
         
   
@@ -678,6 +622,34 @@
     
   
     Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
   
 
     
@@ -758,10 +730,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-segments-and-ip-plan" class="md-nav__link">
+  <a href="#1-logical-segments-and-example-address-plan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Segments and IP plan
+        1. Logical segments and example address plan
       
     </span>
   </a>
@@ -769,10 +741,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-hyper-v-implementation" class="md-nav__link">
+  <a href="#2-windows-x64-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Hyper-V implementation
+        2. Windows x64 implementation
       
     </span>
   </a>
@@ -780,10 +752,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-vmware-workstation-implementation" class="md-nav__link">
+  <a href="#3-apple-silicon-mac-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. VMware Workstation implementation
+        3. Apple-silicon Mac implementation
       
     </span>
   </a>
@@ -791,10 +763,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-vmware-fusion-implementation" class="md-nav__link">
+  <a href="#4-minimum-inter-segment-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. VMware Fusion implementation
+        4. Minimum inter-segment policy
       
     </span>
   </a>
@@ -802,10 +774,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-static-addressing" class="md-nav__link">
+  <a href="#5-update-egress" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Static addressing
+        5. Update egress
       
     </span>
   </a>
@@ -813,10 +785,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-firewall-policy-default-deny" class="md-nav__link">
+  <a href="#6-validate-segmentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Firewall policy — default deny
+        6. Validate segmentation
       
     </span>
   </a>
@@ -824,32 +796,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-prove-isolation-before-testing" class="md-nav__link">
+  <a href="#7-cross-host-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Prove isolation before testing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-cross-host-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Cross-host design
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-validation-and-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. Validation and rollback
+        7. Cross-host integration
       
     </span>
   </a>
@@ -890,7 +840,35 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
   
 
     
@@ -919,6 +897,118 @@
     
   
     Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -1023,34 +1113,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../network-monitoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../security-onion/" class="md-nav__link">
         
   
@@ -1058,7 +1120,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1115,34 +1177,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1742,10 +1776,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-segments-and-ip-plan" class="md-nav__link">
+  <a href="#1-logical-segments-and-example-address-plan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Segments and IP plan
+        1. Logical segments and example address plan
       
     </span>
   </a>
@@ -1753,10 +1787,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-hyper-v-implementation" class="md-nav__link">
+  <a href="#2-windows-x64-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Hyper-V implementation
+        2. Windows x64 implementation
       
     </span>
   </a>
@@ -1764,10 +1798,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-vmware-workstation-implementation" class="md-nav__link">
+  <a href="#3-apple-silicon-mac-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. VMware Workstation implementation
+        3. Apple-silicon Mac implementation
       
     </span>
   </a>
@@ -1775,10 +1809,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-vmware-fusion-implementation" class="md-nav__link">
+  <a href="#4-minimum-inter-segment-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. VMware Fusion implementation
+        4. Minimum inter-segment policy
       
     </span>
   </a>
@@ -1786,10 +1820,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-static-addressing" class="md-nav__link">
+  <a href="#5-update-egress" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Static addressing
+        5. Update egress
       
     </span>
   </a>
@@ -1797,10 +1831,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-firewall-policy-default-deny" class="md-nav__link">
+  <a href="#6-validate-segmentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Firewall policy — default deny
+        6. Validate segmentation
       
     </span>
   </a>
@@ -1808,32 +1842,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-prove-isolation-before-testing" class="md-nav__link">
+  <a href="#7-cross-host-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Prove isolation before testing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-cross-host-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Cross-host design
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-validation-and-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. Validation and rollback
+        7. Cross-host integration
       
     </span>
   </a>
@@ -1868,109 +1880,80 @@
 
 
 
-<h1 id="lab-3-network-design-segmentation-and-routing">Lab 3 — Network design, segmentation and routing<a class="headerlink" href="#lab-3-network-design-segmentation-and-routing" title="Permanent link">&para;</a></h1>
-<p><badge color="warning">Build guide — validate isolation before connecting targets</badge></p>
-<p>This guide defines the network layout used by all subsequent PSV labs. Build the networks first and prove isolation before installing Kali or vulnerable applications.</p>
-<h2 id="1-segments-and-ip-plan">1. Segments and IP plan<a class="headerlink" href="#1-segments-and-ip-plan" title="Permanent link">&para;</a></h2>
-<p>Use the plan in the <a href="../#network-address-plan">lab overview</a>. The example uses 10.10.0.0/16 subnets; check for conflicts with your actual LAN, VPN and routes first.</p>
+<h1 id="lab-network-design-and-segmentation">Lab — Network design and segmentation<a class="headerlink" href="#lab-network-design-and-segmentation" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Architecture baseline — validate on the selected hypervisor</badge></p>
+<p>This page defines the logical networks used by both host tracks. The Windows and Mac implementations are not interchangeable. Follow the <a href="../build-sequence/">Master Build Sequence</a>.</p>
+<h2 id="1-logical-segments-and-example-address-plan">1. Logical segments and example address plan<a class="headerlink" href="#1-logical-segments-and-example-address-plan" title="Permanent link">&para;</a></h2>
+<p>Check for overlap with home LAN, VPN, corporate routes and other VM networks before using these examples.</p>
 <table>
 <thead>
 <tr>
-<th>Network</th>
-<th>Example subnet</th>
-<th>Windows Hyper-V</th>
-<th>VMware Workstation</th>
-<th>VMware Fusion</th>
+<th>Segment</th>
+<th>Subnet</th>
+<th>Purpose</th>
+<th>Example gateway</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Management</td>
+<td>MGMT</td>
 <td>10.10.10.0/24</td>
-<td>Internal</td>
-<td>Host-only</td>
-<td>Host-only/private, if available</td>
+<td>Admin workstation and management interfaces</td>
+<td>10.10.10.1</td>
 </tr>
 <tr>
-<td>Endpoint</td>
+<td>ENDPOINT</td>
 <td>10.10.20.0/24</td>
-<td>Private</td>
-<td>Custom host-only</td>
-<td>Custom private, if available</td>
+<td>Windows/Linux/Mac test endpoints</td>
+<td>10.10.20.1</td>
 </tr>
 <tr>
-<td>Server</td>
+<td>SERVER</td>
 <td>10.10.30.0/24</td>
-<td>Private</td>
-<td>Custom host-only</td>
-<td>Custom private, if available</td>
+<td>AD DS/DNS, syslog relay and selected SIEM</td>
+<td>10.10.30.1</td>
 </tr>
 <tr>
-<td>Red team</td>
+<td>REDTEAM</td>
 <td>10.10.40.0/24</td>
-<td>Private</td>
-<td>Custom host-only</td>
-<td>Custom private, if available</td>
+<td>Kali assessment source</td>
+<td>10.10.40.1</td>
+</tr>
+<tr>
+<td>SENSOR</td>
+<td>10.10.50.0/24</td>
+<td>Sensor management/capture design</td>
+<td>Not a general client gateway</td>
 </tr>
 <tr>
 <td>DMZ</td>
 <td>10.10.60.0/24</td>
-<td>Private</td>
-<td>Custom host-only</td>
-<td>Custom private, if available</td>
-</tr>
-<tr>
-<td>Update egress</td>
-<td>NAT only</td>
-<td>Controlled NAT adapter</td>
-<td>VMnet8 NAT</td>
-<td>Shared/NAT</td>
+<td>Vulnerable targets</td>
+<td>10.10.60.1</td>
 </tr>
 </tbody>
 </table>
-<p>The names above are logical labels. Map them to the actual switch/network names available in your hypervisor and record the mapping.</p>
-<h2 id="2-hyper-v-implementation">2. Hyper-V implementation<a class="headerlink" href="#2-hyper-v-implementation" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Open Hyper-V Manager → Virtual Switch Manager.</li>
-<li>Create an <strong>Internal</strong> switch named <code>PSV-MGMT</code>.</li>
-<li>Create <strong>Private</strong> switches named <code>PSV-ENDPOINT</code>, <code>PSV-SERVER</code>, <code>PSV-REDTEAM</code>, and <code>PSV-DMZ</code>.</li>
-<li>Do not enable host sharing or attach a physical adapter to the Private switches.</li>
-<li>Attach each VM NIC only to the segment it needs.</li>
-<li>If inter-segment routing is required, deploy a dedicated router/firewall VM with one NIC per segment, configure explicit policies and verify there is no unintended forwarding.</li>
-<li>Do not enable Windows Internet Connection Sharing as a shortcut between lab and home networks.</li>
-</ol>
-<h2 id="3-vmware-workstation-implementation">3. VMware Workstation implementation<a class="headerlink" href="#3-vmware-workstation-implementation" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Open Virtual Network Editor as administrator.</li>
-<li>Keep VMnet1 host-only for management.</li>
-<li>Use VMnet8 NAT only for controlled package updates.</li>
-<li>Add custom host-only networks for endpoint, server, red-team and DMZ segments.</li>
-<li>Disable DHCP on segments where you will use static addressing or a dedicated DHCP server. Avoid two DHCP servers on one subnet.</li>
-<li>Keep the attacker and vulnerable targets on non-bridged host-only networks.</li>
-<li>If using a router/firewall VM, connect one virtual NIC to each required segment and enforce default-deny rules.</li>
-</ol>
-<h2 id="4-vmware-fusion-implementation">4. VMware Fusion implementation<a class="headerlink" href="#4-vmware-fusion-implementation" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Open Fusion network settings and inspect the actual network modes available in your installed release.</li>
-<li>Identify shared/NAT and host-only networks.</li>
-<li>Use host-only/private networks for isolated test VMs where the version supports them.</li>
-<li>Do not assume Fusion exposes the same number of custom segments as Workstation. If it does not, run a smaller standalone Mac lab or connect through a separately configured lab firewall/router.</li>
-<li>Do not bridge an intentionally vulnerable target to Wi-Fi/Ethernet.</li>
-<li>For cross-host lab integration, use a dedicated physical lab router with isolated VLANs or a carefully configured firewall appliance. Do not treat the home router as a lab firewall.</li>
-</ol>
-<h2 id="5-static-addressing">5. Static addressing<a class="headerlink" href="#5-static-addressing" title="Permanent link">&para;</a></h2>
-<p>For each segment, document:
-- Subnet and mask.
-- Gateway address (only if a router/firewall exists).
-- DHCP range and reservations.
-- DNS server.
-- NTP source.
-- Allowed source/destination/port rules.
-- Whether host-to-VM access is allowed.
-- Whether Internet egress is allowed and when.</p>
-<p>Do not assign a gateway on an isolated network unless that gateway exists. A static address alone does not provide DNS, Internet access or routing.</p>
-<h2 id="6-firewall-policy-default-deny">6. Firewall policy — default deny<a class="headerlink" href="#6-firewall-policy-default-deny" title="Permanent link">&para;</a></h2>
-<p>Start with no inter-segment forwarding. Add specific flows only as required.</p>
+<p>Suggested Windows-track addresses: DC 10.10.30.10; syslog relay 10.10.30.30; Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22; Kali 10.10.40.10; Juice Shop 10.10.60.20. Use only the address for the SIEM currently being built.</p>
+<p>A sensor may have a management NIC with an IP on MGMT and a passive capture NIC with no IP, gateway or forwarding. Do not attach the sniffing NIC to an ordinary routed network and assume it is receiving mirrored traffic.</p>
+<h2 id="2-windows-x64-implementation">2. Windows x64 implementation<a class="headerlink" href="#2-windows-x64-implementation" title="Permanent link">&para;</a></h2>
+<p>Choose exactly one hypervisor and record actual switch names.</p>
+<ul>
+<li><strong>Hyper-V:</strong> create an Internal switch for MGMT and Private switches for ENDPOINT, SERVER, REDTEAM and DMZ. Private is VM-to-VM only; Internal also permits host-to-VM. Do not create an External switch for Kali or vulnerable targets. Hyper-V port mirroring requires source and destination adapters to be configured on the same virtual switch; explicitly set and verify roles.</li>
+<li><strong>VMware Workstation:</strong> use host-only networks for isolated segments and NAT only for controlled updates. Do not use Bridged for REDTEAM or DMZ. Do not assume a universal SPAN/mirror feature.</li>
+<li><strong>VirtualBox:</strong> use Host-only for host management and named Internal Networks for VM-only segments; NAT only for firewall WAN/update. Promiscuous mode is not a global mirror. See <a href="../platform-virtualbox/">VirtualBox Host Setup</a>.</li>
+</ul>
+<h2 id="3-apple-silicon-mac-implementation">3. Apple-silicon Mac implementation<a class="headerlink" href="#3-apple-silicon-mac-implementation" title="Permanent link">&para;</a></h2>
+<p>Use ARM64 guests. Fusion NAT, Host-only and custom networks are distinct and are not automatically connected to Windows hypervisor switches.</p>
+<p>For a segmented Mac-only build:
+1. Keep Fusion NAT as the router VM's WAN/update interface only.
+2. Create independent private/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ using features actually exposed by the installed Fusion release.
+3. Disable Fusion DHCP on networks where the Linux router provides DHCP, or use static addresses consistently.
+4. Deploy the ARM64 Ubuntu router in <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>.
+5. Attach each guest only to its intended segment.
+6. Do not use Bridged networking for REDTEAM or DMZ.</p>
+<p>If the installed Fusion version cannot create enough independent networks, stop. Do not collapse all VMs onto one host-only network and call it segmentation.</p>
+<h2 id="4-minimum-inter-segment-policy">4. Minimum inter-segment policy<a class="headerlink" href="#4-minimum-inter-segment-policy" title="Permanent link">&para;</a></h2>
+<p>Start with default-deny and add only flows required by the current stage.</p>
 <table>
 <thead>
 <tr>
@@ -1983,106 +1966,84 @@
 <tbody>
 <tr>
 <td>Admin workstation</td>
-<td>Management interfaces</td>
-<td>Admin access</td>
-<td>Allow only required ports</td>
+<td>Firewall/VM management</td>
+<td>Administration</td>
+<td>Allow named admin IPs/ports only</td>
 </tr>
 <tr>
-<td>Endpoint</td>
+<td>ENDPOINT</td>
+<td>Domain controller</td>
+<td>DNS/Kerberos/LDAP/SMB/RPC as required</td>
+<td>Allow documented AD ports to DC only</td>
+</tr>
+<tr>
+<td>Lab hosts</td>
 <td>DNS/NTP</td>
-<td>Name/time services</td>
-<td>Allow to designated servers</td>
+<td>Name/time</td>
+<td>Allow designated resolver/time source</td>
 </tr>
 <tr>
-<td>Endpoint</td>
-<td>Elastic Fleet/outputs</td>
-<td>Telemetry</td>
-<td>Allow documented agent destinations</td>
+<td>Firewall/router</td>
+<td>Syslog relay</td>
+<td>Firewall/IDS logs</td>
+<td>Allow configured TCP/UDP/TLS listener only</td>
 </tr>
 <tr>
-<td>Endpoint</td>
-<td>Splunk receiver</td>
-<td>Forwarded events</td>
-<td>Allow configured receiving port only</td>
-</tr>
-<tr>
-<td>Endpoint</td>
-<td>Wazuh manager</td>
-<td>Agent communication</td>
-<td>Allow documented Wazuh ports only</td>
+<td>Relay/sensor/endpoint</td>
+<td>Selected SIEM</td>
+<td>Log forwarding</td>
+<td>Allow documented agent/receiver ports only</td>
 </tr>
 <tr>
 <td>Kali</td>
 <td>DMZ target</td>
 <td>Authorised testing</td>
-<td>Allow only target IPs and test ports</td>
+<td>Allow only scoped target IPs/ports</td>
 </tr>
 <tr>
-<td>Sensor mgmt NIC</td>
-<td>Management</td>
-<td>Sensor administration</td>
-<td>Allow from admin workstation</td>
+<td>DMZ</td>
+<td>MGMT/SERVER/ENDPOINT/home LAN</td>
+<td>None by default</td>
+<td>Deny</td>
 </tr>
 <tr>
-<td>Sensor sniff NIC</td>
-<td>Mirrored traffic</td>
-<td>Passive capture</td>
-<td>No IP/gateway; no forwarding</td>
-</tr>
-<tr>
-<td>Vulnerable target</td>
-<td>Home LAN</td>
+<td>REDTEAM</td>
+<td>Home LAN/MGMT</td>
 <td>None</td>
 <td>Deny</td>
 </tr>
 <tr>
-<td>Vulnerable target</td>
-<td>Internet</td>
-<td>Normally none</td>
-<td>Deny except temporary controlled update window</td>
+<td>Capture NIC</td>
+<td>Routed destinations</td>
+<td>Passive capture</td>
+<td>No IP, gateway or forwarding</td>
 </tr>
 </tbody>
 </table>
-<p>Port numbers must be taken from the exact versions and configuration you install. Do not copy a generic list without checking whether the product uses TLS, custom ports, Fleet, forwarders, or an alternative receiver.</p>
-<h2 id="7-prove-isolation-before-testing">7. Prove isolation before testing<a class="headerlink" href="#7-prove-isolation-before-testing" title="Permanent link">&para;</a></h2>
-<p>On Kali, inspect routes:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ip<span class="w"> </span>-br<span class="w"> </span>address
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ip<span class="w"> </span>route
-</span></code></pre></div>
-<p>On a Windows target:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">Get-NetIPConfiguration</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">Get-NetRoute</span> <span class="n">-AddressFamily</span> <span class="n">IPv4</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">Get-NetFirewallProfile</span>
-</span></code></pre></div>
-<p>Run controlled connectivity checks:
-- Kali can reach the assigned vulnerable target IP.
-- Kali cannot reach your home router or unrelated LAN hosts.
-- The target cannot initiate connections to the home LAN.
-- Management access works only from the admin host.
-- Endpoint telemetry reaches only the SIEM receiver required for the current lab.</p>
-<p>A failed ping is not conclusive proof of isolation because ICMP may be blocked. Check routes, firewall rules, virtual switch membership and a targeted TCP connection test. Record the results.</p>
-<h2 id="8-cross-host-design">8. Cross-host design<a class="headerlink" href="#8-cross-host-design" title="Permanent link">&para;</a></h2>
-<p>Hyper-V private switches and Fusion host-only networks are local to each host. They are not automatically interconnected.</p>
-<p>For a two-host shared lab, use one of:
-- A dedicated managed switch and lab firewall/router with separate VLANs, if the PC and Mac have suitable wired adapters.
-- A dedicated firewall VM with carefully controlled host-only uplinks and an explicit inter-host tunnel.
-- Separate per-host labs with data forwarded to a SIEM reachable through the management segment.</p>
-<p>Do not extend the red-team/DMZ Layer 2 segment onto your home Wi-Fi. Keep the routing point controlled and logged.</p>
-<h2 id="9-validation-and-rollback">9. Validation and rollback<a class="headerlink" href="#9-validation-and-rollback" title="Permanent link">&para;</a></h2>
-<p>Before proceeding:
-- [ ] Network segments exist and are named.
-- [ ] Each VM NIC is attached to the intended segment.
-- [ ] Kali and vulnerable targets are not bridged.
-- [ ] No accidental DHCP overlap exists.
-- [ ] No default route leaks from the DMZ/red-team network.
-- [ ] SIEM endpoints are reachable only on required ports.
-- [ ] Sensor sniff interface has no default gateway.
-- [ ] Isolation tests are recorded.</p>
-<p>If isolation fails, power off the attacker and target VMs, disconnect their NICs, correct the switch/firewall configuration, and retest. Do not continue with offensive exercises until isolation is demonstrated.</p>
+<p>Do not guess Active Directory ports. Use Microsoft's current port documentation and test the exact services enabled, including dynamic RPC requirements.</p>
+<h2 id="5-update-egress">5. Update egress<a class="headerlink" href="#5-update-egress" title="Permanent link">&para;</a></h2>
+<p>Permit OS/package updates from designated infrastructure VMs during a maintenance window. Remove update access from Kali and vulnerable targets before assessments. Do not expose management interfaces on WAN or use Internet Connection Sharing as a shortcut.</p>
+<h2 id="6-validate-segmentation">6. Validate segmentation<a class="headerlink" href="#6-validate-segmentation" title="Permanent link">&para;</a></h2>
+<p>On Linux:</p>
+<div class="language-text highlight"><pre><span></span><code>ip -br address
+ip route
+ip neigh
+</code></pre></div>
+<p>On Windows:</p>
+<div class="language-text highlight"><pre><span></span><code>Get-NetIPConfiguration
+Get-NetRoute -AddressFamily IPv4
+Get-NetFirewallProfile
+</code></pre></div>
+<p>Test allowed and denied TCP paths to known IPs/ports. Inspect routes and firewall logs. A failed ping alone is not proof because ICMP may be blocked independently.</p>
+<p>Record source/destination IP and port, expected rule, observed verdict, route/NIC, timestamp and result.</p>
+<h2 id="7-cross-host-integration">7. Cross-host integration<a class="headerlink" href="#7-cross-host-integration" title="Permanent link">&para;</a></h2>
+<p>Hyper-V private switches and Fusion host-only networks are local to their hosts. The safe default is two isolated lab islands with their own routing and SIEM ingestion.</p>
+<p>A shared cross-host enterprise design is a separate project requiring an x86-64 firewall appliance, managed switch, VLAN plan, suitable physical NICs and explicit management/telemetry policy. Do not bridge REDTEAM or DMZ onto home Wi-Fi.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/virtual-switch">Hyper-V virtual switches</a></li>
-<li><a href="https://www.vmware.com/docs/desktop-hypervisor-faqs">VMware desktop hypervisor FAQ</a></li>
+<li><a href="https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html">Broadcom Fusion networking types</a></li>
+<li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html">Oracle VirtualBox networking</a></li>
 </ul>
 
 

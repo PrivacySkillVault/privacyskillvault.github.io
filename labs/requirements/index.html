@@ -716,62 +716,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform-virtualbox/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VirtualBox Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-sequence/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    End-to-end Build Sequence
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../platform-macos/" class="md-nav__link">
         
   
@@ -780,6 +724,34 @@
     
   
     Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
   
 
     
@@ -835,7 +807,35 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
   
 
     
@@ -864,6 +864,118 @@
     
   
     Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -968,34 +1080,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../network-monitoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../security-onion/" class="md-nav__link">
         
   
@@ -1003,7 +1087,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1060,34 +1144,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1841,6 +1897,11 @@
 <td>Supported 64-bit ARM Linux on listed OS versions</td>
 </tr>
 <tr>
+<td>OPNsense</td>
+<td>Yes, x86-64 guest on supported hypervisor</td>
+<td>No native ARM64 guest; use physical x86-64 appliance or ARM64 Linux router alternative</td>
+</tr>
+<tr>
 <td>Security Onion</td>
 <td>Yes, x86-64 only</td>
 <td>No; ARM is explicitly unsupported</td>
@@ -1857,7 +1918,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Apple Silicon limitation:</strong> VMware Fusion and Oracle VirtualBox on Apple Silicon support ARM64 guests only; x86/x64 guest operating systems are not supported. VirtualBox on Apple Silicon has additional limitations and is not a substitute for the Windows x64 host for OPNsense, Security Onion or Splunk Enterprise. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.</p>
+<p><strong>Apple Silicon limitation:</strong> VMware Fusion and Oracle VirtualBox on Apple Silicon support ARM64 guests only; x86/x64 guest operating systems are not supported. OPNsense is x86-64 only. Use the separate ARM64 Linux router guide for a Mac-only virtual lab. Splunk Enterprise and Security Onion are not native ARM64 guest deployments. VirtualBox on Apple Silicon has additional limitations and is not a substitute for the Windows x64 host for OPNsense, Security Onion or Splunk Enterprise. Windows 11 ARM guests have additional Fusion limitations: VBS, WSL2, Windows Sandbox and Windows Defender Application Guard require nested virtualisation and are not available in this configuration.</p>
 <h2 id="3-practical-planning-allocations">3. Practical planning allocations<a class="headerlink" href="#3-practical-planning-allocations" title="Permanent link">&para;</a></h2>
 <p>These are home-lab planning recommendations, not vendor minimums for every component.</p>
 <ul>
@@ -1885,6 +1946,7 @@
 <li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/host-hardware-requirements">Microsoft Hyper-V host requirements</a></li>
 <li><a href="https://learn.microsoft.com/en-us/windows/arm/iso">Microsoft Windows 11 ARM ISO</a></li>
 <li><a href="https://knowledge.broadcom.com/external/article/315602">Broadcom Fusion ARM guest compatibility</a></li>
+<li><a href="https://docs.opnsense.org/manual/hardware.html">OPNsense supported hardware architectures</a></li>
 <li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/Introduction.html">Oracle VirtualBox host/guest architecture support</a></li>
 <li><a href="https://www.virtualbox.org/wiki/Downloads">Oracle VirtualBox downloads</a></li>
 <li><a href="https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.6/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises">Splunk Enterprise 10.6 on-premises system requirements</a></li>

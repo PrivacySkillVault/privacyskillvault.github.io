@@ -18,7 +18,7 @@
         <link rel="prev" href="../network-design/">
       
       
-        <link rel="next" href="../operating-systems/">
+        <link rel="next" href="../mac-arm-routing/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>OPNsense Firewall & Routing - Privacy Skill Vault</title>
+        <title>Windows OPNsense Firewall & IDS - Privacy Skill Vault</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lab-3a-opnsense-virtual-firewall-routing-and-dhcp" class="md-skip">
+        <a href="#lab-firewall-routing-ids-and-firewall-log-generation" class="md-skip">
           Skip to content
         </a>
       
@@ -614,62 +614,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform-virtualbox/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VirtualBox Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-sequence/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    End-to-end Build Sequence
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../platform-macos/" class="md-nav__link">
         
   
@@ -678,6 +622,34 @@
     
   
     Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
   
 
     
@@ -742,7 +714,7 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
   
 
     
@@ -760,7 +732,7 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
   
 
     
@@ -786,10 +758,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-design" class="md-nav__link">
+  <a href="#1-windows-opnsense-topology" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Design
+        1. Windows OPNsense topology
       
     </span>
   </a>
@@ -805,23 +777,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Create the firewall VM">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#virtualbox-adapter-mapping-windows-x64-host" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        VirtualBox adapter mapping (Windows x64 host)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -836,10 +791,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-configure-interface-addresses" class="md-nav__link">
+  <a href="#4-dns-dhcp-and-time" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Configure interface addresses
+        4. DNS, DHCP and time
       
     </span>
   </a>
@@ -847,10 +802,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-configure-dns-and-dhcp" class="md-nav__link">
+  <a href="#5-least-privilege-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Configure DNS and DHCP
+        5. Least-privilege policy
       
     </span>
   </a>
@@ -858,10 +813,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-firewall-policy-remove-broad-defaults" class="md-nav__link">
+  <a href="#6-generate-firewall-logs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Firewall policy — remove broad defaults
+        6. Generate firewall logs
       
     </span>
   </a>
@@ -869,10 +824,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-nat-and-update-access" class="md-nav__link">
+  <a href="#7-enable-suricata-ids-in-alert-only-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. NAT and update access
+        7. Enable Suricata IDS in alert-only mode
       
     </span>
   </a>
@@ -880,10 +835,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-validate-before-connecting-kali-or-vulnerable-targets" class="md-nav__link">
+  <a href="#8-enable-evesyslog-for-later-forwarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Validate before connecting Kali or vulnerable targets
+        8. Enable EVE/syslog for later forwarding
       
     </span>
   </a>
@@ -891,10 +846,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-backup-and-rollback" class="md-nav__link">
+  <a href="#9-validation-and-backup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Backup and rollback
+        9. Validation and backup
       
     </span>
   </a>
@@ -928,6 +883,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../operating-systems/" class="md-nav__link">
         
   
@@ -936,6 +919,118 @@
     
   
     Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -1040,34 +1135,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../network-monitoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../security-onion/" class="md-nav__link">
         
   
@@ -1075,7 +1142,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1132,34 +1199,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1759,10 +1798,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-design" class="md-nav__link">
+  <a href="#1-windows-opnsense-topology" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Design
+        1. Windows OPNsense topology
       
     </span>
   </a>
@@ -1778,23 +1817,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Create the firewall VM">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#virtualbox-adapter-mapping-windows-x64-host" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        VirtualBox adapter mapping (Windows x64 host)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1809,10 +1831,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-configure-interface-addresses" class="md-nav__link">
+  <a href="#4-dns-dhcp-and-time" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Configure interface addresses
+        4. DNS, DHCP and time
       
     </span>
   </a>
@@ -1820,10 +1842,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-configure-dns-and-dhcp" class="md-nav__link">
+  <a href="#5-least-privilege-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Configure DNS and DHCP
+        5. Least-privilege policy
       
     </span>
   </a>
@@ -1831,10 +1853,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-firewall-policy-remove-broad-defaults" class="md-nav__link">
+  <a href="#6-generate-firewall-logs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Firewall policy — remove broad defaults
+        6. Generate firewall logs
       
     </span>
   </a>
@@ -1842,10 +1864,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-nat-and-update-access" class="md-nav__link">
+  <a href="#7-enable-suricata-ids-in-alert-only-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. NAT and update access
+        7. Enable Suricata IDS in alert-only mode
       
     </span>
   </a>
@@ -1853,10 +1875,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-validate-before-connecting-kali-or-vulnerable-targets" class="md-nav__link">
+  <a href="#8-enable-evesyslog-for-later-forwarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Validate before connecting Kali or vulnerable targets
+        8. Enable EVE/syslog for later forwarding
       
     </span>
   </a>
@@ -1864,10 +1886,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-backup-and-rollback" class="md-nav__link">
+  <a href="#9-validation-and-backup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Backup and rollback
+        9. Validation and backup
       
     </span>
   </a>
@@ -1902,208 +1924,140 @@
 
 
 
-<h1 id="lab-3a-opnsense-virtual-firewall-routing-and-dhcp">Lab 3A — OPNsense virtual firewall, routing and DHCP<a class="headerlink" href="#lab-3a-opnsense-virtual-firewall-routing-and-dhcp" title="Permanent link">&para;</a></h1>
-<p><badge color="warning">Build guide — not yet lab-tested</badge></p>
-<p>OPNsense provides the routed boundary between lab segments. It is a dedicated x86-64 firewall VM on the Windows PC. OPNsense's current installer supports x86-64, not Apple-silicon ARM. Do not try to install it as an ARM guest in VMware Fusion.</p>
-<h2 id="1-design">1. Design<a class="headerlink" href="#1-design" title="Permanent link">&para;</a></h2>
-<p>Use six virtual NICs on the firewall VM:</p>
+<h1 id="lab-firewall-routing-ids-and-firewall-log-generation">Lab — Firewall, routing, IDS and firewall-log generation<a class="headerlink" href="#lab-firewall-routing-ids-and-firewall-log-generation" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Mandatory before telemetry forwarding — reference guide, not yet hardware-tested</badge></p>
+<p>This page is the Windows x64 OPNsense implementation. For an Apple-silicon Mac-only build use <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>. OPNsense supports x86-64, not ARM64.</p>
+<h2 id="1-windows-opnsense-topology">1. Windows OPNsense topology<a class="headerlink" href="#1-windows-opnsense-topology" title="Permanent link">&para;</a></h2>
+<p>Create one x86-64 OPNsense VM with six adapters:</p>
 <table>
 <thead>
 <tr>
-<th>OPNsense interface</th>
-<th>Virtual network</th>
+<th>Role</th>
+<th>Network</th>
 <th>Address</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>WAN</td>
-<td>Hypervisor NAT / update egress</td>
-<td>DHCP from NAT</td>
+<td>Hypervisor NAT only</td>
+<td>DHCP from hypervisor NAT</td>
 </tr>
 <tr>
 <td>MGMT</td>
-<td>Internal/host-only management</td>
+<td>Internal/host-only</td>
 <td>10.10.10.1/24</td>
 </tr>
 <tr>
 <td>ENDPOINT</td>
-<td>Private endpoint segment</td>
+<td>Private/host-only</td>
 <td>10.10.20.1/24</td>
 </tr>
 <tr>
 <td>SERVER</td>
-<td>Private server segment</td>
+<td>Private/host-only</td>
 <td>10.10.30.1/24</td>
 </tr>
 <tr>
 <td>REDTEAM</td>
-<td>Private attacker segment</td>
+<td>Private/host-only</td>
 <td>10.10.40.1/24</td>
 </tr>
 <tr>
 <td>DMZ</td>
-<td>Private vulnerable-target segment</td>
+<td>Private/host-only</td>
 <td>10.10.60.1/24</td>
 </tr>
 </tbody>
 </table>
-<p>The SENSOR capture network is separate and passive. Do not route the mirrored capture NIC through OPNsense. Use a virtual switch mirror/SPAN feed to the sensor's dedicated capture NIC.</p>
+<p>The SENSOR capture path is separate. Do not assume a routed SENSOR interface receives copies of all packets. Use OPNsense IDS on relevant routed interfaces or a separately verified mirror/tap for Zeek.</p>
 <h2 id="2-create-the-firewall-vm">2. Create the firewall VM<a class="headerlink" href="#2-create-the-firewall-vm" title="Permanent link">&para;</a></h2>
-<p>On Hyper-V:
-1. Create a Generation 2 VM named PSV-FW01.
-2. Allocate 2 vCPU, 4 GB RAM and 20 GB disk as a starting lab allocation. OPNsense documentation lists 3 GB RAM minimum and 8 GB disk recommended.
-3. Disable Secure Boot for this VM, as required by the OPNsense Hyper-V documentation.
-4. Add six virtual NICs and attach them to the networks in the table above. The first adapter may be used as WAN and the next as MGMT, but do not assume order; map each adapter by MAC address and switch name.
-5. Attach the official OPNsense DVD ISO and boot.</p>
-<p>On VMware Workstation:
-1. Create a FreeBSD-compatible VM with 2 vCPU, 4 GB RAM, 20 GB disk.
-2. Add six virtual NICs and attach each to the correct NAT/host-only network.
-3. Keep WAN on VMnet8 NAT; do not bridge WAN or any lab network to your physical home LAN.
-4. Attach the official OPNsense DVD ISO.</p>
-<p>Hyper-V Generation 1/2 and VMware virtual installation are documented by OPNsense. If your hypervisor does not expose enough isolated virtual networks, build fewer segments first and expand after validation.</p>
-<h3 id="virtualbox-adapter-mapping-windows-x64-host">VirtualBox adapter mapping (Windows x64 host)<a class="headerlink" href="#virtualbox-adapter-mapping-windows-x64-host" title="Permanent link">&para;</a></h3>
-<p>For VirtualBox, create the firewall VM on the Windows x64 PC and attach these adapters before first boot:</p>
-<table>
-<thead>
-<tr>
-<th>VirtualBox adapter</th>
-<th>Attachment</th>
-<th>Name</th>
-<th>OPNsense role</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>NAT</td>
-<td>—</td>
-<td>WAN</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Host-only Adapter</td>
-<td>The dedicated MGMT host-only network</td>
-<td>MGMT</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Internal Network</td>
-<td><code>PSV-ENDPOINT</code></td>
-<td>ENDPOINT</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Internal Network</td>
-<td><code>PSV-SERVER</code></td>
-<td>SERVER</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Internal Network</td>
-<td><code>PSV-REDTEAM</code></td>
-<td>REDTEAM</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Internal Network</td>
-<td><code>PSV-DMZ</code></td>
-<td>DMZ</td>
-</tr>
-</tbody>
-</table>
-<p>Create the MGMT host-only network with the Windows host at <code>10.10.10.2/24</code> and disable the VirtualBox DHCP server on it; OPNsense uses <code>10.10.10.1/24</code>. Create the four internal networks using exactly the names above. The OPNsense WAN should be VirtualBox NAT, not Bridged Adapter. Follow <a href="../platform-virtualbox/">VirtualBox Host Setup</a> for detailed setup and verification.</p>
-<p>Record each virtual NIC MAC address and map the OPNsense interfaces by MAC at the console. VirtualBox adapter number does not guarantee guest interface name/order. Do not guess interface assignments. VirtualBox's NAT mode provides outbound access for the firewall WAN; it is not a shared LAN for the other lab VMs.</p>
+<p>On Windows x64 use the selected hypervisor. Starting allocation: 2–4 vCPU, 4 GB RAM and 20 GB disk. OPNsense recommends at least 4 GB RAM and an 8 GB virtual disk for virtual installation; allocate more for IDS/log retention.</p>
+<ul>
+<li>Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six NICs and attach each to its intended switch.</li>
+<li>VMware Workstation: add six NICs; WAN on NAT, internal roles on separate host-only networks.</li>
+<li>VirtualBox: follow <a href="../platform-virtualbox/">VirtualBox Host Setup</a>; WAN on NAT, MGMT host-only, remaining segments named Internal Networks.</li>
+</ul>
+<p>Record every virtual NIC MAC before boot. At OPNsense console map roles by MAC and link state. Adapter number is not a reliable interface identifier.</p>
 <h2 id="3-install-opnsense">3. Install OPNsense<a class="headerlink" href="#3-install-opnsense" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Download the current x86-64 DVD ISO from the official OPNsense download site.</li>
-<li>Verify the published checksum.</li>
-<li>Boot the VM from the ISO.</li>
-<li>At the live console, log in with installer user and the password shown in the official installation guide (currently documented as opnsense).</li>
-<li>Select Quick/Easy Install and the virtual disk. This erases the selected virtual disk.</li>
-<li>Set a new root password when prompted.</li>
-<li>Complete installation and reboot, detaching the ISO.</li>
-<li>At the console, assign WAN and MGMT first. Identify NIC names using the console interface list and compare MAC addresses with the hypervisor. Add ENDPOINT, SERVER, REDTEAM and DMZ as optional interfaces.</li>
-<li>Configure MGMT as 10.10.10.1/24. Configure WAN for DHCP from the hypervisor NAT network.</li>
-<li>From the admin workstation on MGMT, browse to the firewall's HTTPS management address.</li>
+<li>Download the current x86-64 DVD ISO from the official OPNsense site and verify its checksum.</li>
+<li>Boot and follow the current official installer. Installation erases the selected virtual disk.</li>
+<li>Set a strong unique administrative password.</li>
+<li>Reboot and detach the ISO.</li>
+<li>Assign WAN and internal interfaces using the MAC mapping.</li>
+<li>Configure WAN by DHCP from hypervisor NAT and internal addresses from the topology table.</li>
+<li>From MGMT, open the OPNsense HTTPS UI. Do not expose GUI/SSH on WAN.</li>
 </ol>
-<p>Change the default root password immediately. The installer credentials are for initial setup only.</p>
-<h2 id="4-configure-interface-addresses">4. Configure interface addresses<a class="headerlink" href="#4-configure-interface-addresses" title="Permanent link">&para;</a></h2>
-<p>In the OPNsense web UI, open Interfaces → Assignments. Confirm the device-to-interface mapping before enabling each interface. Enable and assign static IPv4 addresses:</p>
-<ul>
-<li>MGMT: 10.10.10.1/24</li>
-<li>ENDPOINT: 10.10.20.1/24</li>
-<li>SERVER: 10.10.30.1/24</li>
-<li>REDTEAM: 10.10.40.1/24</li>
-<li>DMZ: 10.10.60.1/24</li>
-</ul>
-<p>Do not configure a gateway on internal interfaces. The WAN receives its gateway from the NAT network. Apply each interface change and verify its address from the console and UI.</p>
-<h2 id="5-configure-dns-and-dhcp">5. Configure DNS and DHCP<a class="headerlink" href="#5-configure-dns-and-dhcp" title="Permanent link">&para;</a></h2>
+<h2 id="4-dns-dhcp-and-time">4. DNS, DHCP and time<a class="headerlink" href="#4-dns-dhcp-and-time" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Enable Unbound DNS under Services → Unbound DNS. Keep the resolver listening only on the firewall interfaces that need DNS.</li>
-<li>Confirm the access list includes the lab subnets; add explicit ACLs only where required.</li>
-<li>Configure DHCP scopes only for networks that need dynamic addressing:</li>
-<li>ENDPOINT: 10.10.20.100–10.10.20.199</li>
-<li>REDTEAM: 10.10.40.100–10.10.40.149</li>
-<li>DMZ: 10.10.60.100–10.10.60.149</li>
-<li>Set each scope's DNS server and default gateway to the OPNsense interface address for that subnet.</li>
-<li>Keep SERVER addresses static/reserved for DC, SIEM and infrastructure systems.</li>
-<li>Do not run another DHCP server on the same virtual network.</li>
+<li>Configure Unbound DNS to listen only on required internal interfaces.</li>
+<li>Create DHCP scopes only for client networks; keep DC, relay and SIEM static/reserved.</li>
+<li>Do not run a second DHCP service on the same segment.</li>
+<li>Use a consistent time source/timezone for all guests.</li>
+<li>For AD DS, domain clients use the domain controller for DNS; configure upstream resolution deliberately.</li>
 </ol>
-<h2 id="6-firewall-policy-remove-broad-defaults">6. Firewall policy — remove broad defaults<a class="headerlink" href="#6-firewall-policy-remove-broad-defaults" title="Permanent link">&para;</a></h2>
-<p>OPNsense creates a default allow rule on the initial LAN interface. Review and replace broad default allow rules before connecting other segments. Do not simply copy the default LAN policy to every interface.</p>
-<p>Create narrowly scoped rules, in this order, using the actual source/destination objects:</p>
-<p><strong>MGMT</strong>
-- Allow admin workstation IP to OPNsense HTTPS management.
-- Allow admin workstation to required management ports on lab servers.
-- Allow MGMT clients to the firewall DNS resolver and NTP source.
-- Do not allow all MGMT-to-all traffic without a reason.</p>
-<p><strong>ENDPOINT</strong>
-- Allow DNS to 10.10.20.1 and NTP to the approved lab time source.
-- Allow telemetry to the SIEM host and only the configured agent/forwarder destination ports.
-- Allow domain clients to the domain controller for AD DS/DNS services required by domain operation; use Microsoft's current port documentation to define the exact rules.
-- Deny access to REDTEAM and DMZ unless an exercise explicitly needs it.</p>
-<p><strong>SERVER</strong>
-- Allow the domain controller to DNS/NTP and approved update destinations.
-- Allow management access from MGMT.
-- Allow endpoint-to-SIEM traffic only on required collector/agent ports.
-- Deny unsolicited inbound access from REDTEAM and DMZ.</p>
-<p><strong>REDTEAM</strong>
-- Allow Kali to the explicit target IPs/ports in the written assessment scope.
-- Deny access to MGMT, home LAN, WAN and all other lab networks by default.
-- Permit temporary NAT egress only for Kali updates; disable/remove it before assessment.</p>
-<p><strong>DMZ</strong>
-- Allow only the service ports required for the vulnerable target.
-- Deny DMZ-to-MGMT, SERVER, ENDPOINT and home LAN by default.
-- Do not allow unsolicited inbound from WAN.</p>
-<p>OPNsense uses stateful rules and evaluates policy by interface. Rules should be validated using live firewall logs and packet captures. Never remove the only management allow rule while connected remotely; retain console access and a rollback plan.</p>
-<h2 id="7-nat-and-update-access">7. NAT and update access<a class="headerlink" href="#7-nat-and-update-access" title="Permanent link">&para;</a></h2>
-<p>Use automatic outbound NAT for the lab's temporary update path. Confirm only the networks intended for updates can reach WAN. Keep vulnerable targets without Internet egress during testing. Do not expose OPNsense Web GUI or SSH on WAN.</p>
-<h2 id="8-validate-before-connecting-kali-or-vulnerable-targets">8. Validate before connecting Kali or vulnerable targets<a class="headerlink" href="#8-validate-before-connecting-kali-or-vulnerable-targets" title="Permanent link">&para;</a></h2>
-<p>From a Windows endpoint, verify:
-- DHCP address, gateway and DNS are correct.
-- The domain controller and SIEM are reachable only on required ports.
-- Internet access is absent unless an update window is enabled.</p>
-<p>From Kali:
-- Its route points to 10.10.40.1.
-- It can reach only the authorised target service.
-- It cannot reach the admin workstation, domain controller management ports, home router or other LAN hosts.</p>
-<p>From the firewall:
-- Check live firewall logs for allowed and blocked flows.
-- Confirm the expected rule matched.
-- Check interface status and gateway health.</p>
-<p>A failed ping alone does not prove isolation. Test routes, firewall logs and specific TCP connections.</p>
-<h2 id="9-backup-and-rollback">9. Backup and rollback<a class="headerlink" href="#9-backup-and-rollback" title="Permanent link">&para;</a></h2>
-<p>Export an encrypted OPNsense configuration backup after the initial working setup and after major rule changes. Store it outside the VM. Keep console access available before changing management rules. If connectivity is lost, use the hypervisor console to restore interface assignments or the saved configuration.</p>
+<h2 id="5-least-privilege-policy">5. Least-privilege policy<a class="headerlink" href="#5-least-privilege-policy" title="Permanent link">&para;</a></h2>
+<p>Retain a safe management path and console access before narrowing rules.</p>
+<ul>
+<li>MGMT: allow only named admin workstation to firewall and server management ports.</li>
+<li>ENDPOINT: allow DNS/NTP, required AD DS traffic to DC, and later telemetry to relay/SIEM on explicit ports.</li>
+<li>SERVER: allow management from MGMT, required endpoint-to-server services and relay-to-SIEM forwarding.</li>
+<li>REDTEAM: allow Kali only to the written target IP/ports in DMZ; deny home LAN, MGMT and unrelated destinations.</li>
+<li>DMZ: allow only target service ports; deny initiation to MGMT, SERVER, ENDPOINT and home LAN.</li>
+<li>WAN: no inbound management. Update egress is temporary and controlled.</li>
+</ul>
+<p>Do not guess Active Directory ports. Use Microsoft's current port documentation and test the exact services enabled, including dynamic RPC.</p>
+<h2 id="6-generate-firewall-logs">6. Generate firewall logs<a class="headerlink" href="#6-generate-firewall-logs" title="Permanent link">&para;</a></h2>
+<p>OPNsense does not necessarily log every pass rule by default. Edit the specific firewall rules used for allow/deny exercises and enable the rule's Log option.</p>
+<ol>
+<li>Generate a known allowed connection, such as endpoint DNS to the lab resolver.</li>
+<li>Generate a known denied connection, such as REDTEAM to a prohibited MGMT address.</li>
+<li>Open the live firewall log and verify source, destination, port, interface, rule/action and timestamp.</li>
+<li>Save sanitised evidence.</li>
+</ol>
+<p>If a rule is not logged, inspect its Log setting and live-log filters before concluding enforcement failed.</p>
+<h2 id="7-enable-suricata-ids-in-alert-only-mode">7. Enable Suricata IDS in alert-only mode<a class="headerlink" href="#7-enable-suricata-ids-in-alert-only-mode" title="Permanent link">&para;</a></h2>
+<p>OPNsense Intrusion Detection is based on Suricata. Start with IDS/alert-only; do not begin with inline IPS blocking.</p>
+<ol>
+<li>Open Services → Intrusion Detection.</li>
+<li>Enable the service and select the internal interfaces carrying traffic of interest. WAN-only capture may show NAT-translated addresses.</li>
+<li>Set HOME_NET to the lab subnets actually protected.</li>
+<li>Enable a reviewed ruleset such as ET Open and understand its licence/update process.</li>
+<li>Update rules and check service health.</li>
+<li>Generate controlled test traffic and verify the service processes packets and produces the expected alert when the selected rule matches.</li>
+<li>Confirm the alert in the OPNsense IDS view and local log.</li>
+</ol>
+<p>OPNsense offers different capture modes and driver requirements. IDS is the safer initial mode. IPS/netmap can interrupt traffic and may require disabling hardware offloads; do not enable IPS until exact release, NIC driver and recovery access are validated.</p>
+<h2 id="8-enable-evesyslog-for-later-forwarding">8. Enable EVE/syslog for later forwarding<a class="headerlink" href="#8-enable-evesyslog-for-later-forwarding" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Enable EVE syslog output in Intrusion Detection if available in the installed release.</li>
+<li>In System → Settings → Logging → Remote, add the Linux relay destination.</li>
+<li>Select Suricata/application filters where the UI provides them and choose the transport/port configured on the relay.</li>
+<li>Apply changes.</li>
+<li>Generate a known IDS event and confirm it reaches the relay.</li>
+</ol>
+<p>Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a> for the complete relay and SIEM collector setup. Do not install a SIEM before the source-to-relay test passes.</p>
+<h2 id="9-validation-and-backup">9. Validation and backup<a class="headerlink" href="#9-validation-and-backup" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] NIC roles mapped by MAC.</li>
+<li>[ ] Internal addresses, DHCP and DNS correct.</li>
+<li>[ ] Broad allow rules narrowed.</li>
+<li>[ ] Allowed and denied flows visible in firewall logs.</li>
+<li>[ ] REDTEAM/DMZ cannot reach home LAN or MGMT.</li>
+<li>[ ] Suricata IDS sees intended internal traffic.</li>
+<li>[ ] EVE/syslog test event reaches relay.</li>
+<li>[ ] Encrypted configuration backup exported outside the VM.</li>
+</ul>
+<p>If isolation fails, disconnect Kali and DMZ guests and correct the network/firewall mapping before continuing.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
+<li><a href="https://docs.opnsense.org/manual/hardware.html">OPNsense hardware and architecture support</a></li>
 <li><a href="https://docs.opnsense.org/manual/virtuals.html">OPNsense virtual installation</a></li>
-<li><a href="https://docs.oracle.com/en/virtualization/virtualbox/7.2/user/networkingdetails.html">Oracle VirtualBox networking modes</a></li>
-<li><a href="https://docs.opnsense.org/manual/how-tos/installova.html">OPNsense VirtualBox OVA installation notes</a></li>
-<li><a href="https://docs.opnsense.org/manual/install.html">OPNsense initial installation</a></li>
 <li><a href="https://docs.opnsense.org/manual/interfaces.html">OPNsense interface assignments</a></li>
 <li><a href="https://docs.opnsense.org/manual/firewall.html">OPNsense firewall rules</a></li>
-<li><a href="https://docs.opnsense.org/manual/unbound.html">OPNsense Unbound DNS</a></li>
+<li><a href="https://docs.opnsense.org/manual/ips.html">OPNsense IDS/IPS and Suricata</a></li>
+<li><a href="https://docs.opnsense.org/manual/settingsmenu.html">OPNsense remote logging</a></li>
 </ul>
 
 

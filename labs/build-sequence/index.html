@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/build-sequence/">
       
       
-        <link rel="prev" href="../platform-virtualbox/">
+        <link rel="prev" href="../telemetry-pipeline/">
       
       
-        <link rel="next" href="../platform-macos/">
+        <link rel="next" href="../elastic-siem/">
       
       
         
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#end-to-end-lab-build-sequence-and-acceptance-gates" class="md-skip">
+        <a href="#master-build-sequence-dependency-gates" class="md-skip">
           Skip to content
         </a>
       
@@ -614,6 +614,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../platform-virtualbox/" class="md-nav__link">
         
   
@@ -622,6 +650,202 @@
     
   
     VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
   
 
     
@@ -702,10 +926,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#0-select-the-host-path" class="md-nav__link">
+  <a href="#stage-0-select-platform-and-verify-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        0. Select the host path
+        Stage 0 — select platform and verify support
       
     </span>
   </a>
@@ -713,10 +937,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-install-and-baseline-the-hypervisor" class="md-nav__link">
+  <a href="#stage-1-host-and-hypervisor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install and baseline the hypervisor
+        Stage 1 — host and hypervisor
       
     </span>
   </a>
@@ -724,22 +948,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-build-the-isolated-virtual-networks" class="md-nav__link">
+  <a href="#stage-2-design-and-create-networks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Build the isolated virtual networks
+        Stage 2 — design and create networks
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Build the isolated virtual networks">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-routing-and-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3 — routing and firewall
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 3 — routing and firewall">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-deploy-opnsense" class="md-nav__link">
+  <a href="#windows-x64" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1 Deploy OPNsense
+        Windows x64
       
     </span>
   </a>
@@ -747,10 +982,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-apply-minimum-firewall-policy" class="md-nav__link">
+  <a href="#apple-silicon-mac" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 Apply minimum firewall policy
+        Apple Silicon Mac
       
     </span>
   </a>
@@ -763,71 +998,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-install-operating-systems-and-identity-services" class="md-nav__link">
+  <a href="#stage-4-operating-systems-and-identity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Install operating systems and identity services
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. Install operating systems and identity services">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-windows-server-and-active-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.1 Windows Server and Active Directory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-windows-11-endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.2 Windows 11 endpoint
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-ubuntu-endpointserver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.3 Ubuntu endpoint/server
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-kali-and-vulnerable-target" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.4 Kali and vulnerable target
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-add-endpoint-telemetry-before-installing-a-siem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Add endpoint telemetry before installing a SIEM
+        Stage 4 — operating systems and identity
       
     </span>
   </a>
@@ -835,60 +1009,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-install-one-siem-stack-at-a-time" class="md-nav__link">
+  <a href="#stage-5-generate-endpoint-telemetry-locally" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Install one SIEM stack at a time
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="5. Install one SIEM stack at a time">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#option-a-elastic-stack-fleet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option A — Elastic Stack + Fleet
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-b-splunk-enterprise-universal-forwarder" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B — Splunk Enterprise + Universal Forwarder
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-c-wazuh-all-in-one" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option C — Wazuh all-in-one
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-add-network-monitoring-as-a-separate-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Add network monitoring as a separate build
+        Stage 5 — generate endpoint telemetry locally
       
     </span>
   </a>
@@ -896,10 +1020,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-security-onion-is-an-optional-dedicated-x86-64-build" class="md-nav__link">
+  <a href="#stage-6-firewall-and-network-monitoring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Security Onion is an optional dedicated x86-64 build
+        Stage 6 — firewall and network monitoring
       
     </span>
   </a>
@@ -907,10 +1031,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-run-the-penetration-testing-exercises" class="md-nav__link">
+  <a href="#stage-7-telemetry-collection-and-forwarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Run the penetration-testing exercises
+        Stage 7 — telemetry collection and forwarding
       
     </span>
   </a>
@@ -918,10 +1042,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-complete-soc-validation-and-evidence" class="md-nav__link">
+  <a href="#stage-8-install-one-siem-and-connect-sources" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Complete SOC validation and evidence
+        Stage 8 — install one SIEM and connect sources
       
     </span>
   </a>
@@ -929,10 +1053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#10-operational-maintenance-and-reset" class="md-nav__link">
+  <a href="#stage-9-optional-security-onion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Operational maintenance and reset
+        Stage 9 — optional Security Onion
       
     </span>
   </a>
@@ -940,10 +1064,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#final-acceptance-checklist" class="md-nav__link">
+  <a href="#stage-10-controlled-penetration-testing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Final acceptance checklist
+        Stage 10 — controlled penetration testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-11-soc-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 11 — SOC validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-12-operations-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 12 — operations and recovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stop-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop conditions
       
     </span>
   </a>
@@ -954,118 +1111,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../platform-macos/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Mac Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../network-design/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Design
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../firewall-routing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    OPNsense Firewall & Routing
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../operating-systems/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Operating Systems & Identity
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1162,34 +1207,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../network-monitoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../security-onion/" class="md-nav__link">
         
   
@@ -1197,7 +1214,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1254,34 +1271,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1881,10 +1870,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#0-select-the-host-path" class="md-nav__link">
+  <a href="#stage-0-select-platform-and-verify-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        0. Select the host path
+        Stage 0 — select platform and verify support
       
     </span>
   </a>
@@ -1892,10 +1881,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-install-and-baseline-the-hypervisor" class="md-nav__link">
+  <a href="#stage-1-host-and-hypervisor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install and baseline the hypervisor
+        Stage 1 — host and hypervisor
       
     </span>
   </a>
@@ -1903,22 +1892,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-build-the-isolated-virtual-networks" class="md-nav__link">
+  <a href="#stage-2-design-and-create-networks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Build the isolated virtual networks
+        Stage 2 — design and create networks
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Build the isolated virtual networks">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-routing-and-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3 — routing and firewall
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stage 3 — routing and firewall">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-deploy-opnsense" class="md-nav__link">
+  <a href="#windows-x64" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1 Deploy OPNsense
+        Windows x64
       
     </span>
   </a>
@@ -1926,10 +1926,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-apply-minimum-firewall-policy" class="md-nav__link">
+  <a href="#apple-silicon-mac" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 Apply minimum firewall policy
+        Apple Silicon Mac
       
     </span>
   </a>
@@ -1942,71 +1942,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-install-operating-systems-and-identity-services" class="md-nav__link">
+  <a href="#stage-4-operating-systems-and-identity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Install operating systems and identity services
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. Install operating systems and identity services">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-windows-server-and-active-directory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.1 Windows Server and Active Directory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-windows-11-endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.2 Windows 11 endpoint
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-ubuntu-endpointserver" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.3 Ubuntu endpoint/server
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-kali-and-vulnerable-target" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.4 Kali and vulnerable target
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-add-endpoint-telemetry-before-installing-a-siem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Add endpoint telemetry before installing a SIEM
+        Stage 4 — operating systems and identity
       
     </span>
   </a>
@@ -2014,60 +1953,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-install-one-siem-stack-at-a-time" class="md-nav__link">
+  <a href="#stage-5-generate-endpoint-telemetry-locally" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Install one SIEM stack at a time
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="5. Install one SIEM stack at a time">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#option-a-elastic-stack-fleet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option A — Elastic Stack + Fleet
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-b-splunk-enterprise-universal-forwarder" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B — Splunk Enterprise + Universal Forwarder
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-c-wazuh-all-in-one" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option C — Wazuh all-in-one
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-add-network-monitoring-as-a-separate-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Add network monitoring as a separate build
+        Stage 5 — generate endpoint telemetry locally
       
     </span>
   </a>
@@ -2075,10 +1964,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-security-onion-is-an-optional-dedicated-x86-64-build" class="md-nav__link">
+  <a href="#stage-6-firewall-and-network-monitoring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Security Onion is an optional dedicated x86-64 build
+        Stage 6 — firewall and network monitoring
       
     </span>
   </a>
@@ -2086,10 +1975,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-run-the-penetration-testing-exercises" class="md-nav__link">
+  <a href="#stage-7-telemetry-collection-and-forwarding" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Run the penetration-testing exercises
+        Stage 7 — telemetry collection and forwarding
       
     </span>
   </a>
@@ -2097,10 +1986,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-complete-soc-validation-and-evidence" class="md-nav__link">
+  <a href="#stage-8-install-one-siem-and-connect-sources" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Complete SOC validation and evidence
+        Stage 8 — install one SIEM and connect sources
       
     </span>
   </a>
@@ -2108,10 +1997,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#10-operational-maintenance-and-reset" class="md-nav__link">
+  <a href="#stage-9-optional-security-onion" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Operational maintenance and reset
+        Stage 9 — optional Security Onion
       
     </span>
   </a>
@@ -2119,10 +2008,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#final-acceptance-checklist" class="md-nav__link">
+  <a href="#stage-10-controlled-penetration-testing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Final acceptance checklist
+        Stage 10 — controlled penetration testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-11-soc-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 11 — SOC validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-12-operations-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 12 — operations and recovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stop-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stop conditions
       
     </span>
   </a>
@@ -2146,333 +2068,140 @@
 
 
 
-<h1 id="end-to-end-lab-build-sequence-and-acceptance-gates">End-to-end lab build sequence and acceptance gates<a class="headerlink" href="#end-to-end-lab-build-sequence-and-acceptance-gates" title="Permanent link">&para;</a></h1>
-<p><badge color="warning">Execution runbook — not yet lab-tested</badge></p>
-<p>Use this runbook as the master sequence for building the PSV home lab from an empty host. The linked lab pages contain the product-specific installation commands and settings. Complete the gates in order; do not install every platform and SIEM at once.</p>
-<h2 id="0-select-the-host-path">0. Select the host path<a class="headerlink" href="#0-select-the-host-path" title="Permanent link">&para;</a></h2>
-<p>Choose one primary host for x86-64 infrastructure:</p>
-<ul>
-<li><strong>Windows x64 PC:</strong> Hyper-V, VMware Workstation or <a href="../platform-virtualbox/">VirtualBox</a>. OPNsense, Windows Server, Windows 11 x64, Splunk Enterprise and Security Onion belong on this host where the exact release support matrix allows.</li>
-<li><strong>Apple-silicon Mac:</strong> VMware Fusion or VirtualBox for ARM64 guests only. Use ARM64 Ubuntu/Kali/Windows images. Do not plan x86-64 OPNsense, Security Onion or Splunk Enterprise on this host.</li>
-</ul>
-<p>Read <a href="../requirements/">Hardware &amp; Compatibility</a> and the selected <a href="../platform-windows/">Windows host</a>, <a href="../platform-virtualbox/">VirtualBox host</a> or <a href="../platform-macos/">Mac host</a> guide first.</p>
-<p><strong>Gate 0 — host ready</strong></p>
-<ul>
-<li>Host architecture, OS build, RAM, CPU virtualisation and free SSD space recorded.</li>
-<li>Firmware virtualisation enabled.</li>
-<li>Host data backed up and BitLocker recovery key available where applicable.</li>
-<li>Exact hypervisor version and guest architecture selected.</li>
-<li>Enough RAM remains for the host OS; do not allocate all physical memory to VMs.</li>
-</ul>
-<h2 id="1-install-and-baseline-the-hypervisor">1. Install and baseline the hypervisor<a class="headerlink" href="#1-install-and-baseline-the-hypervisor" title="Permanent link">&para;</a></h2>
+<h1 id="master-build-sequence-dependency-gates">Master build sequence — dependency gates<a class="headerlink" href="#master-build-sequence-dependency-gates" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Canonical execution order — reference guide, not yet hardware-tested</badge></p>
+<p>This is the authoritative Phase 6 order. Follow it from an empty host. Product pages contain installation details; this page defines prerequisites and pass/fail gates. If a gate fails, stop and fix it.</p>
+<h2 id="stage-0-select-platform-and-verify-support">Stage 0 — select platform and verify support<a class="headerlink" href="#stage-0-select-platform-and-verify-support" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Install only the chosen hypervisor on the primary Windows host.</li>
-<li>Create the VM storage folders and set the hypervisor's default VM path.</li>
-<li>Download guest images from official vendor pages only.</li>
-<li>Verify published SHA-256 checksums where provided; record image filename, version, architecture and checksum.</li>
-<li>Create one small Ubuntu test VM and boot it.</li>
-<li>Install guest OS updates and verify guest tools/integration components from the hypervisor vendor.</li>
-<li>Take a clean baseline snapshot and test restore.</li>
+<li>Complete <a href="../requirements/">Hardware &amp; Compatibility</a>.</li>
+<li>Record CPU architecture, host OS/build, RAM, free SSD space and hypervisor version.</li>
+<li>Choose one primary Windows hypervisor.</li>
+<li>On Apple Silicon, use ARM64 guest images only.</li>
+<li>Decide whether Windows and Mac remain separate lab islands or will later be joined using a physical firewall/VLAN design.</li>
 </ol>
-<p>Use the exact platform guide for network creation and host-specific caveats.</p>
-<p><strong>Gate 1 — hypervisor works</strong></p>
-<ul>
-<li>Test VM boots after a host reboot.</li>
-<li>Guest architecture matches the intended host/guest pairing.</li>
-<li>Snapshot restore works.</li>
-<li>No guest is connected to a physical bridged network unless the topology explicitly requires it.</li>
-</ul>
-<h2 id="2-build-the-isolated-virtual-networks">2. Build the isolated virtual networks<a class="headerlink" href="#2-build-the-isolated-virtual-networks" title="Permanent link">&para;</a></h2>
-<p>Use the <a href="../network-design/">Network Design</a> address plan. Before using the suggested ranges, check for overlap with the home LAN, VPN routes and other networks.</p>
+<p><strong>Gate 0:</strong> every guest and product has a supported architecture. OPNsense and Security Onion are x86-64. Splunk Enterprise requires a supported x64 platform. Apple Silicon cannot run these x86-64 guests natively.</p>
+<h2 id="stage-1-host-and-hypervisor">Stage 1 — host and hypervisor<a class="headerlink" href="#stage-1-host-and-hypervisor" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../platform-windows/">Windows Host Setup</a>, <a href="../platform-macos/">Mac Host Setup</a>, and <a href="../platform-virtualbox/">VirtualBox Host Setup</a> if selected.</p>
+<ol>
+<li>Install one hypervisor from its official source.</li>
+<li>Create VM, ISO, export, evidence and backup folders on SSD.</li>
+<li>Download official guest images and verify checksums/signatures.</li>
+<li>Create one small Ubuntu test VM of the correct architecture.</li>
+<li>Verify boot, networking and time.</li>
+<li>Snapshot, restore and boot again.</li>
+</ol>
+<p><strong>Gate 1:</strong> host reboot does not break the hypervisor; test guest boots/restores; no guest is bridged to the physical LAN without an explicit design.</p>
+<h2 id="stage-2-design-and-create-networks">Stage 2 — design and create networks<a class="headerlink" href="#stage-2-design-and-create-networks" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../network-design/">Network Design</a>. Check example subnets against home LAN, VPN and existing routes.</p>
 <table>
 <thead>
 <tr>
 <th>Segment</th>
-<th>Subnet</th>
-<th>Function</th>
+<th>Example subnet</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>MGMT</td>
 <td>10.10.10.0/24</td>
-<td>Host/admin access to lab management</td>
+<td>Admin workstation and management UIs</td>
 </tr>
 <tr>
 <td>ENDPOINT</td>
 <td>10.10.20.0/24</td>
-<td>Windows/Linux endpoints</td>
+<td>Windows/Linux/Mac test endpoints</td>
 </tr>
 <tr>
 <td>SERVER</td>
 <td>10.10.30.0/24</td>
-<td>AD DS/DNS and SIEM servers</td>
+<td>AD DS/DNS, syslog relay and selected SIEM</td>
 </tr>
 <tr>
 <td>REDTEAM</td>
 <td>10.10.40.0/24</td>
-<td>Kali and authorised test source</td>
+<td>Kali assessment source</td>
 </tr>
 <tr>
 <td>SENSOR</td>
 <td>10.10.50.0/24</td>
-<td>Passive monitoring path, if explicitly implemented</td>
+<td>Sensor management/capture design</td>
 </tr>
 <tr>
 <td>DMZ</td>
 <td>10.10.60.0/24</td>
-<td>Intentionally vulnerable targets</td>
+<td>Vulnerable targets</td>
 </tr>
 </tbody>
 </table>
-<p>Do not assume a virtual switch enforces security policy. Layer-2 networks require a router/firewall for controlled inter-subnet traffic.</p>
-<h3 id="21-deploy-opnsense">2.1 Deploy OPNsense<a class="headerlink" href="#21-deploy-opnsense" title="Permanent link">&para;</a></h3>
-<p>Follow <a href="../firewall-routing/">OPNsense Firewall &amp; Routing</a> and its hypervisor-specific adapter mapping. Use a dedicated firewall VM with separate virtual NICs for WAN, MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Do not add a sensor NIC to the routing path merely to make it reachable.</p>
-<p>Configure:</p>
-<ul>
-<li>WAN on the hypervisor's NAT/update network only.</li>
-<li>MGMT at 10.10.10.1/24.</li>
-<li>ENDPOINT at 10.10.20.1/24.</li>
-<li>SERVER at 10.10.30.1/24.</li>
-<li>REDTEAM at 10.10.40.1/24.</li>
-<li>DMZ at 10.10.60.1/24.</li>
-</ul>
-<p>Map interfaces by MAC address. Do not assume adapter order equals OPNsense interface order.</p>
-<h3 id="22-apply-minimum-firewall-policy">2.2 Apply minimum firewall policy<a class="headerlink" href="#22-apply-minimum-firewall-policy" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Change default credentials immediately.</li>
-<li>Restrict firewall GUI/SSH to the admin workstation on MGMT.</li>
-<li>Enable DNS resolver only on required lab interfaces.</li>
-<li>Create DHCP scopes only on segments that need them. Keep domain controller and SIEM server addresses static or reserved.</li>
-<li>Start with default-deny between segments.</li>
-<li>Add narrow rules for DNS, NTP, Active Directory, management and telemetry only after confirming the selected product's current port documentation.</li>
-<li>Permit Kali to reach only the explicitly scoped target IP/ports.</li>
-<li>Deny DMZ-to-MGMT/SERVER/ENDPOINT and deny all lab-to-home-LAN access.</li>
-<li>Permit temporary outbound updates only when required; disable update egress for vulnerable targets before exercises.</li>
-<li>Export an encrypted firewall configuration backup.</li>
-</ol>
-<p><strong>Gate 2 — isolation proven</strong></p>
-<ul>
-<li>Every VM has only the intended NICs.</li>
-<li>DHCP, gateway and DNS are correct.</li>
-<li>Allowed flows work on the required ports.</li>
-<li>Denied flows are blocked and visible in firewall logs.</li>
-<li>Kali cannot reach the host's physical LAN, home router or management network.</li>
-<li>Juice Shop and other vulnerable targets have no direct bridged or unrestricted Internet path.</li>
-<li>Evidence includes route tables, firewall rules/logs and specific TCP tests. Ping failure alone is not proof.</li>
-</ul>
-<h2 id="3-install-operating-systems-and-identity-services">3. Install operating systems and identity services<a class="headerlink" href="#3-install-operating-systems-and-identity-services" title="Permanent link">&para;</a></h2>
+<p><strong>Gate 2:</strong> segments exist; VM NICs are mapped; no DHCP overlap, subnet overlap or unintended bridged adapter.</p>
+<h2 id="stage-3-routing-and-firewall">Stage 3 — routing and firewall<a class="headerlink" href="#stage-3-routing-and-firewall" title="Permanent link">&para;</a></h2>
+<h3 id="windows-x64">Windows x64<a class="headerlink" href="#windows-x64" title="Permanent link">&para;</a></h3>
+<p>Follow <a href="../firewall-routing/">OPNsense Firewall &amp; Routing</a>. Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.</p>
+<h3 id="apple-silicon-mac">Apple Silicon Mac<a class="headerlink" href="#apple-silicon-mac" title="Permanent link">&para;</a></h3>
+<p>Follow <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>. Use Ubuntu Server ARM64 with nftables and separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.</p>
+<p><strong>Gate 3:</strong> verify DHCP/static addressing, DNS, gateway, allowed and denied TCP flows, firewall logs and routes. Kali/DMZ must not reach home LAN or MGMT.</p>
+<h2 id="stage-4-operating-systems-and-identity">Stage 4 — operating systems and identity<a class="headerlink" href="#stage-4-operating-systems-and-identity" title="Permanent link">&para;</a></h2>
 <p>Follow <a href="../operating-systems/">Operating Systems &amp; Identity</a>.</p>
-<p>Recommended first set:</p>
-<table>
-<thead>
-<tr>
-<th>VM name</th>
-<th>OS / role</th>
-<th>Network</th>
-<th>Suggested address</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PSV-DC01</td>
-<td>Windows Server, AD DS + DNS</td>
-<td>SERVER</td>
-<td>10.10.30.10</td>
-</tr>
-<tr>
-<td>PSV-W11-01</td>
-<td>Windows 11 x64 endpoint</td>
-<td>ENDPOINT</td>
-<td>DHCP reservation</td>
-</tr>
-<tr>
-<td>PSV-UBU-01</td>
-<td>Ubuntu Server endpoint</td>
-<td>ENDPOINT</td>
-<td>DHCP reservation</td>
-</tr>
-<tr>
-<td>PSV-KALI-01</td>
-<td>Kali Linux assessment source</td>
-<td>REDTEAM</td>
-<td>10.10.40.10</td>
-</tr>
-<tr>
-<td>PSV-SIEM01</td>
-<td>One selected SIEM host</td>
-<td>SERVER</td>
-<td>10.10.30.20–22</td>
-</tr>
-<tr>
-<td>PSV-JUICE01</td>
-<td>OWASP Juice Shop target</td>
-<td>DMZ</td>
-<td>10.10.60.20</td>
-</tr>
-</tbody>
-</table>
-<p>These are example names and addresses for a synthetic lab. Confirm no subnet conflicts before using them.</p>
-<h3 id="31-windows-server-and-active-directory">3.1 Windows Server and Active Directory<a class="headerlink" href="#31-windows-server-and-active-directory" title="Permanent link">&para;</a></h3>
+<p>Windows x64 track: Windows Server on SERVER; create a private lab-only AD domain such as lab.psv.test; Windows 11 x64 on ENDPOINT; Ubuntu; Kali on REDTEAM; vulnerable target on DMZ.</p>
+<p>Mac ARM64 track: Ubuntu Server ARM64, Kali ARM64 and architecture-compatible target VM/container. Windows 11 ARM is optional only after verifying the exact agent/driver support. Do not assume x64 agents work on Windows ARM.</p>
+<p><strong>Gate 4:</strong> record hostnames, OS versions, architecture, IPs, routes, DNS, time and NICs. Domain join works where used. Kali reaches only its scoped target. DMZ has no unrestricted Internet/home-LAN path.</p>
+<h2 id="stage-5-generate-endpoint-telemetry-locally">Stage 5 — generate endpoint telemetry locally<a class="headerlink" href="#stage-5-generate-endpoint-telemetry-locally" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../windows-endpoint-telemetry/">Windows Endpoint Telemetry</a>.</p>
 <ol>
-<li>Install a supported Windows Server evaluation or licensed image on a Generation 2/UEFI VM.</li>
-<li>Set hostname <code>PSV-DC01</code>, static IP <code>10.10.30.10/24</code>, gateway <code>10.10.30.1</code>, and DNS initially to itself only after DNS service is installed; during initial setup follow Microsoft's domain-controller DNS guidance.</li>
-<li>Apply updates and set time synchronisation.</li>
-<li>Install the AD DS and DNS roles using Server Manager or the supported PowerShell workflow.</li>
-<li>Promote the server as a new forest using a reserved lab-only DNS domain such as <code>psv.lab</code>. Never use a real public domain you do not own.</li>
-<li>Set a strong Directory Services Restore Mode password and store it securely.</li>
-<li>Verify DNS forward and reverse lookups and domain-controller health using Microsoft's supported diagnostic tools.</li>
-<li>Create a dedicated lab OU and synthetic test users/groups. Do not reuse personal or employer accounts.</li>
+<li>Configure Windows Advanced Audit Policy through a lab-only GPO.</li>
+<li>Install/configure Sysmon using Microsoft's current instructions and a reviewed configuration.</li>
+<li>Generate a benign process-creation event and verify it in the local Sysmon Operational channel.</li>
+<li>Generate a controlled Windows Security event and verify it locally.</li>
+<li>On Linux, enable required auditd/journald sources and verify local records.</li>
+<li>On macOS, use only telemetry sources supported by the chosen agent and OS version.</li>
 </ol>
-<h3 id="32-windows-11-endpoint">3.2 Windows 11 endpoint<a class="headerlink" href="#32-windows-11-endpoint" title="Permanent link">&para;</a></h3>
+<p><strong>Gate 5:</strong> raw source event exists locally with host, timestamp and event identity. Do not troubleshoot SIEM ingestion before this passes.</p>
+<h2 id="stage-6-firewall-and-network-monitoring">Stage 6 — firewall and network monitoring<a class="headerlink" href="#stage-6-firewall-and-network-monitoring" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../network-monitoring/">Network Monitoring</a>.</p>
 <ol>
-<li>Install supported Windows 11 x64 media on an x64 host VM.</li>
-<li>Configure UEFI, virtual TPM and Secure Boot as required by the hypervisor and Windows release.</li>
-<li>Set hostname <code>PSV-W11-01</code>; point DNS to <code>10.10.30.10</code> when joining the lab domain.</li>
-<li>Install updates and verify domain name resolution.</li>
-<li>Join <code>psv.lab</code> using a delegated lab join account.</li>
-<li>Reboot and verify domain sign-in and Group Policy application.</li>
-<li>Take a clean endpoint snapshot before adding Sysmon or agents.</li>
+<li>On Windows OPNsense, enable Suricata in alert-only IDS mode on relevant internal interfaces, not only WAN. WAN capture after NAT may lose original internal source identity.</li>
+<li>Enable logging on the firewall rules used for pass/block tests.</li>
+<li>Generate known allowed and denied connections; verify firewall logs show rule and endpoints.</li>
+<li>Enable OPNsense Suricata EVE/syslog output and verify the local alert.</li>
+<li>Install Zeek only after a real packet mirror/tap is configured. Hyper-V port mirroring works only when source and destination adapters share the relevant virtual switch; Workstation/Fusion/VirtualBox promiscuous mode is not a universal SPAN.</li>
+<li>Generate known DNS/HTTP traffic and verify Zeek logs and Suricata EVE JSON locally.</li>
+<li>Record exactly which segments/interfaces are visible.</li>
 </ol>
-<h3 id="33-ubuntu-endpointserver">3.3 Ubuntu endpoint/server<a class="headerlink" href="#33-ubuntu-endpointserver" title="Permanent link">&para;</a></h3>
+<p>On Mac ARM, use supported ARM64 Zeek/Suricata builds only after verifying packet visibility. Verify nftables firewall logs locally.</p>
+<p><strong>Gate 6:</strong> firewall pass/block events, IDS alerts, Zeek logs (if enabled) and endpoint events exist locally. Packet visibility is proven with a known flow.</p>
+<h2 id="stage-7-telemetry-collection-and-forwarding">Stage 7 — telemetry collection and forwarding<a class="headerlink" href="#stage-7-telemetry-collection-and-forwarding" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>.</p>
 <ol>
-<li>Install the correct x86-64 or ARM64 Ubuntu Server ISO for the host.</li>
-<li>Set hostname, static/reserved IP, gateway, DNS and time synchronisation.</li>
-<li>Create a named sudo user; disable direct root SSH login.</li>
-<li>Install only required packages and enable SSH only from MGMT.</li>
-<li>Install/configure auditd if the monitoring exercise requires Linux audit events.</li>
-<li>Verify journald/authentication logs and audit records locally before installing a SIEM agent.</li>
+<li>Create a Linux syslog relay on SERVER.</li>
+<li>Configure OPNsense or the Mac Linux router to send firewall events to the relay.</li>
+<li>Verify messages arrive and are written to the expected per-source files.</li>
+<li>Verify Zeek/Suricata files exist, are readable and rotate safely.</li>
+<li>Prepare the chosen SIEM's agent/forwarder path on relay and sensor.</li>
+<li>Keep endpoint collection explicit: Windows Event Channels/Sysmon, Linux journald/auditd and macOS Unified Logging where supported.</li>
+<li>Verify source → relay/file → collector with identity and timestamp intact.</li>
 </ol>
-<h3 id="34-kali-and-vulnerable-target">3.4 Kali and vulnerable target<a class="headerlink" href="#34-kali-and-vulnerable-target" title="Permanent link">&para;</a></h3>
-<ol>
-<li>Install official Kali image on REDTEAM only.</li>
-<li>Install Kali updates while temporary update egress is enabled, then remove that egress.</li>
-<li>Install assessment tools from official repositories and record versions.</li>
-<li>Deploy OWASP Juice Shop on a dedicated DMZ VM/container host. Bind its service to the lab interface, not the host's public or home-LAN interface.</li>
-<li>Verify Kali can reach only the Juice Shop target service required for the exercise.</li>
-<li>Do not scan public systems, employer networks or home devices as part of this lab.</li>
-</ol>
-<p><strong>Gate 3 — OS baseline complete</strong></p>
+<p><strong>Gate 7:</strong> each required source reaches the relay/collector before SIEM installation. Only required source IPs and ports are allowed.</p>
+<h2 id="stage-8-install-one-siem-and-connect-sources">Stage 8 — install one SIEM and connect sources<a class="headerlink" href="#stage-8-install-one-siem-and-connect-sources" title="Permanent link">&para;</a></h2>
+<p>Choose one stack per iteration:</p>
 <ul>
-<li>All hostnames, OS versions, architectures, addresses and NICs recorded.</li>
-<li>Domain controller and domain client resolve DNS correctly.</li>
-<li>Endpoint logs exist locally before forwarding.</li>
-<li>Kali and vulnerable target remain isolated.</li>
-<li>Baseline snapshots and recovery method documented.</li>
+<li><a href="../elastic-siem/">Elastic</a>: Fleet/Elastic Agent, Windows and System integrations, Filestream for firewall/sensor files.</li>
+<li><a href="../splunk-siem/">Splunk</a>: Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.</li>
+<li><a href="../wazuh-soc/">Wazuh</a>: central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Use relay-file-plus-agent rather than relying on direct manager syslog listener across versions.</li>
 </ul>
-<h2 id="4-add-endpoint-telemetry-before-installing-a-siem">4. Add endpoint telemetry before installing a SIEM<a class="headerlink" href="#4-add-endpoint-telemetry-before-installing-a-siem" title="Permanent link">&para;</a></h2>
-<ol>
-<li>On Windows, enable/install Sysmon using Microsoft's current instructions. Windows 11 may provide Sysmon as an optional feature; check before installing the standalone package to avoid duplicate installations.</li>
-<li>Confirm Sysmon Event ID 1 appears in the Sysmon Operational channel after launching Notepad.</li>
-<li>Configure Windows Security auditing using the lab Group Policy and record the exact audit subcategories enabled.</li>
-<li>On Ubuntu, enable auditd only for the selected test rules and confirm records locally.</li>
-<li>Record source event channel, event ID, time, host, user and relevant process fields.</li>
-<li>Take a snapshot after the endpoint telemetry baseline is stable.</li>
-</ol>
-<p>Use <a href="../windows-endpoint-telemetry/">Windows Endpoint Telemetry</a> for the Sysmon-to-Elastic reference walkthrough.</p>
-<p><strong>Gate 4 — source events proven</strong></p>
-<ul>
-<li>Raw local Windows Sysmon event exists.</li>
-<li>Required Windows Security events are generated by controlled actions.</li>
-<li>Linux auth/audit records exist.</li>
-<li>Source timestamps and host identity are recorded.</li>
-<li>No SIEM troubleshooting begins until local event generation is proven.</li>
-</ul>
-<h2 id="5-install-one-siem-stack-at-a-time">5. Install one SIEM stack at a time<a class="headerlink" href="#5-install-one-siem-stack-at-a-time" title="Permanent link">&para;</a></h2>
-<p>Choose the product lab that matches the learning objective. Do not run Elastic, Splunk, Wazuh and Security Onion concurrently on a constrained PC.</p>
-<h3 id="option-a-elastic-stack-fleet">Option A — Elastic Stack + Fleet<a class="headerlink" href="#option-a-elastic-stack-fleet" title="Permanent link">&para;</a></h3>
-<p>Follow <a href="../elastic-siem/">Elastic SIEM</a>. Use a supported Linux release/architecture and a single-node learning deployment. Keep Elasticsearch and Kibana on the same compatible version family. Enrol one Windows and one Linux endpoint, add only the integrations required, and inspect raw events before assuming field mappings.</p>
-<h3 id="option-b-splunk-enterprise-universal-forwarder">Option B — Splunk Enterprise + Universal Forwarder<a class="headerlink" href="#option-b-splunk-enterprise-universal-forwarder" title="Permanent link">&para;</a></h3>
-<p>Follow <a href="../splunk-siem/">Splunk SIEM</a>. Install Enterprise on a supported x86-64 Windows/Linux platform. Enable a receiving port only on the lab interface. Install a compatible Universal Forwarder on the Windows endpoint and validate the raw Sysmon event before relying on field extractions or CIM fields. Check the current Splunk licence and support matrix.</p>
-<h3 id="option-c-wazuh-all-in-one">Option C — Wazuh all-in-one<a class="headerlink" href="#option-c-wazuh-all-in-one" title="Permanent link">&para;</a></h3>
-<p>Follow <a href="../wazuh-soc/">Wazuh SOC</a>. Use a supported x86-64 or ARM64 Linux build only when all Wazuh components in the selected release support it. The all-in-one quickstart is a learning deployment, not a production HA design. Enrol Windows/Linux agents and explicitly configure the log sources/capabilities being tested.</p>
-<p>For each SIEM:</p>
-<ol>
-<li>Record OS and product versions, package source, licence and VM resource allocation.</li>
-<li>Install from the official vendor repository/package.</li>
-<li>Configure authentication and TLS; do not disable security controls to make setup easier.</li>
-<li>Bind management UI to the lab management path and restrict it to MGMT.</li>
-<li>Configure the receiver/agent path using the product's current documentation.</li>
-<li>Forward one known benign event.</li>
-<li>Search for the raw event, inspect actual field names and measure ingestion delay.</li>
-<li>Run positive and negative tests from the Phase 5 detection content.</li>
-<li>Export sanitised configuration/evidence and take a snapshot.</li>
-</ol>
-<p><strong>Gate 5 — SIEM ingestion proven</strong></p>
-<ul>
-<li>SIEM service health is good.</li>
-<li>Endpoint agent/forwarder is enrolled and policy applied.</li>
-<li>Local source event and SIEM document are correlated.</li>
-<li>Host, timestamp, event code and process/user context are usable.</li>
-<li>Positive and negative detection tests are recorded.</li>
-<li>Ingestion delay and missing telemetry are documented.</li>
-</ul>
-<h2 id="6-add-network-monitoring-as-a-separate-build">6. Add network monitoring as a separate build<a class="headerlink" href="#6-add-network-monitoring-as-a-separate-build" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../network-monitoring/">Network Monitoring</a>. Install Zeek and Suricata on a supported Linux VM or use the documented gateway integration. Confirm the selected interface actually receives packets before configuring detections.</p>
-<ul>
-<li>Capture a known DNS query and HTTP request to the DMZ target.</li>
-<li>Confirm packet counters increase.</li>
-<li>Confirm Zeek writes connection/DNS logs.</li>
-<li>Confirm Suricata writes EVE JSON records.</li>
-<li>Compare sensor metadata with endpoint events by timestamp and address.</li>
-<li>Document capture loss, interface offload and visibility limitations.</li>
-</ul>
-<p>A promiscuous-mode NIC does not automatically receive all traffic from all virtual networks. If no supported mirror/tap is configured, describe the sensor's actual visibility accurately.</p>
-<h2 id="7-security-onion-is-an-optional-dedicated-x86-64-build">7. Security Onion is an optional dedicated x86-64 build<a class="headerlink" href="#7-security-onion-is-an-optional-dedicated-x86-64-build" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../security-onion/">Security Onion</a> only on the Windows x64 host or supported x86-64 hardware. Check the current official hardware minimums and release requirements before allocating resources. The published standalone baseline is resource intensive; do not run it concurrently with every other SIEM on a constrained machine.</p>
-<p>Use the dedicated management and sniffing interfaces required by the chosen deployment. Validate packet visibility and storage before enabling broad ingestion. Security Onion is not an Apple Silicon ARM guest target.</p>
-<h2 id="8-run-the-penetration-testing-exercises">8. Run the penetration-testing exercises<a class="headerlink" href="#8-run-the-penetration-testing-exercises" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../penetration-testing/">Penetration Testing</a> after the network isolation gate passes.</p>
-<ol>
-<li>Confirm Kali's only assessment path is REDTEAM.</li>
-<li>Record the written scope: target IP, ports, test window and allowed techniques.</li>
-<li>Confirm the target is the lab-owned Juice Shop instance.</li>
-<li>Capture baseline target service state.</li>
-<li>Perform only the controlled test described in the lab guide.</li>
-<li>Record tool version, command, time, output and target response.</li>
-<li>Confirm endpoint/SIEM/network sensor telemetry for the activity.</li>
-<li>Stop the test, disable temporary update egress and restore the target if required.</li>
-</ol>
-<p>Never use this lab to scan a public IP, corporate network or third-party service without explicit written authorisation.</p>
-<h2 id="9-complete-soc-validation-and-evidence">9. Complete SOC validation and evidence<a class="headerlink" href="#9-complete-soc-validation-and-evidence" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../soc-exercises/">SOC Validation Exercises</a>. Use synthetic users, benign process launches and controlled group membership changes. Do not use malware or real customer/employee data.</p>
-<p>For each exercise preserve:</p>
-<ul>
-<li>Lab case ID and scope.</li>
-<li>Host and VM details.</li>
-<li>Original local event.</li>
-<li>SIEM raw document and query.</li>
-<li>Detection rule/version and positive/negative result.</li>
-<li>Timeline with timezone and ingestion delay.</li>
-<li>Network capture/Zeek/Suricata record where applicable.</li>
-<li>Firewall log and isolation test.</li>
-<li>Cleanup result and reviewer notes.</li>
-</ul>
-<h2 id="10-operational-maintenance-and-reset">10. Operational maintenance and reset<a class="headerlink" href="#10-operational-maintenance-and-reset" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Apply OS and product updates during a defined maintenance window; snapshot/export first.</li>
-<li>Back up SIEM configuration and important lab data separately from snapshots.</li>
-<li>Monitor CPU, RAM, disk capacity, disk latency, agent health and ingest queues.</li>
-<li>Rotate lab credentials and remove unused enrollment tokens.</li>
-<li>Delete temporary accounts, test files, containers and firewall exceptions after exercises.</li>
-<li>Re-test network isolation after hypervisor, firewall or virtual NIC changes.</li>
-<li>Keep all evidence synthetic and sanitised.</li>
-</ul>
-<h2 id="final-acceptance-checklist">Final acceptance checklist<a class="headerlink" href="#final-acceptance-checklist" title="Permanent link">&para;</a></h2>
-<ul>
-<li>[ ] Host and hypervisor compatibility verified.</li>
-<li>[ ] All VMs use the intended architecture and isolated virtual networks.</li>
-<li>[ ] OPNsense interface mapping verified by MAC.</li>
-<li>[ ] Inter-segment firewall policy tested and logged.</li>
-<li>[ ] AD DS/DNS and domain join verified (if included).</li>
-<li>[ ] Windows and Linux source events generated locally.</li>
-<li>[ ] One SIEM stack installed and ingestion validated.</li>
-<li>[ ] Network monitoring visibility demonstrated with known traffic (if included).</li>
-<li>[ ] Kali-to-target scope verified; no home-LAN reachability.</li>
-<li>[ ] Positive and negative detection tests recorded.</li>
-<li>[ ] Backup, rollback and cleanup tested.</li>
-</ul>
-<p><strong>Status rule:</strong> The presence of these instructions or a successful MkDocs build does not prove a working lab. Mark a lab as tested only after performing the steps on the target hardware and publishing reproducible, sanitised evidence.</p>
+<p>For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections.</p>
+<p><strong>Gate 8:</strong> every required source has a raw searchable event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.</p>
+<h2 id="stage-9-optional-security-onion">Stage 9 — optional Security Onion<a class="headerlink" href="#stage-9-optional-security-onion" title="Permanent link">&para;</a></h2>
+<p>Security Onion is x86-64 only and resource intensive. Build on Windows x64 or dedicated x86-64 hardware after network and packet visibility stages. It is an alternative integrated NSM/SOC platform, not an ARM Mac guest or a prerequisite for other SIEMs.</p>
+<h2 id="stage-10-controlled-penetration-testing">Stage 10 — controlled penetration testing<a class="headerlink" href="#stage-10-controlled-penetration-testing" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../penetration-testing/">Penetration Testing</a>. Define target IPs/ports and test window; re-check Kali REDTEAM isolation and DMZ egress; record baseline firewall/endpoint/sensor events; run only the lab-owned test; correlate firewall, IDS, Zeek, endpoint and SIEM records; remove temporary rules and restore the target.</p>
+<p><strong>Gate 10:</strong> scope and isolation pass before scanning. Unexpected reachability is a stop condition.</p>
+<h2 id="stage-11-soc-validation">Stage 11 — SOC validation<a class="headerlink" href="#stage-11-soc-validation" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../soc-exercises/">SOC Validation Exercises</a>. Test benign process creation, account/group change, DNS/HTTP and blocked network activity. Preserve source event, relay record, SIEM document, query, rule/version, alert, timeline, analyst conclusion and cleanup.</p>
+<h2 id="stage-12-operations-and-recovery">Stage 12 — operations and recovery<a class="headerlink" href="#stage-12-operations-and-recovery" title="Permanent link">&para;</a></h2>
+<p>Back up firewall configuration, AD/system state, SIEM configuration and required data separately from snapshots. Document retention, patch windows, credential rotation, agent health, storage growth and restore tests. Re-test segmentation after hypervisor/firewall/NIC changes.</p>
+<h2 id="stop-conditions">Stop conditions<a class="headerlink" href="#stop-conditions" title="Permanent link">&para;</a></h2>
+<p>Stop if a guest has an unexpected bridged NIC, Kali/DMZ can reach home LAN, interface mapping is uncertain, source events are absent, sensor feed is unproven, collector files are empty, or product architecture is unsupported. Fix the dependency; do not bypass it by disabling security controls.</p>
 
 
 

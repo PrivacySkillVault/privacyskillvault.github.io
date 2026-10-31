@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/platform-macos/">
       
       
-        <link rel="prev" href="../build-sequence/">
+        <link rel="prev" href="../platform-windows/">
       
       
-        <link rel="next" href="../network-design/">
+        <link rel="next" href="../platform-virtualbox/">
       
       
         
@@ -611,62 +611,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../platform-virtualbox/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VirtualBox Host Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-sequence/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    End-to-end Build Sequence
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -796,10 +740,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-snapshot-and-verify" class="md-nav__link">
+  <a href="#7-create-the-isolated-fusion-networks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Snapshot and verify
+        7. Create the isolated Fusion networks
       
     </span>
   </a>
@@ -807,10 +751,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-references" class="md-nav__link">
+  <a href="#8-snapshot-and-verify" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. References
+        8. Snapshot and verify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. References
       
     </span>
   </a>
@@ -821,6 +776,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -868,7 +851,35 @@
   <span class="md-ellipsis">
     
   
-    OPNsense Firewall & Routing
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
   
 
     
@@ -897,6 +908,118 @@
     
   
     Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
   
 
     
@@ -1001,34 +1124,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../network-monitoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network Monitoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../security-onion/" class="md-nav__link">
         
   
@@ -1036,7 +1131,7 @@
   <span class="md-ellipsis">
     
   
-    Security Onion
+    Security Onion (Optional x86-64)
   
 
     
@@ -1093,34 +1188,6 @@
     
   
     SOC Validation Exercises
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Windows Endpoint Telemetry Lab
   
 
     
@@ -1786,10 +1853,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-snapshot-and-verify" class="md-nav__link">
+  <a href="#7-create-the-isolated-fusion-networks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Snapshot and verify
+        7. Create the isolated Fusion networks
       
     </span>
   </a>
@@ -1797,10 +1864,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-references" class="md-nav__link">
+  <a href="#8-snapshot-and-verify" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. References
+        8. Snapshot and verify
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. References
       
     </span>
   </a>
@@ -1896,7 +1974,19 @@
 <h2 id="6-configure-virtual-networking">6. Configure virtual networking<a class="headerlink" href="#6-configure-virtual-networking" title="Permanent link">&para;</a></h2>
 <p>Identify Fusion's shared/NAT and host-only networks. Use NAT only for temporary OS updates and host-only/private networking for lab traffic. Do not connect Kali or intentionally vulnerable targets to bridged networking.</p>
 <p>Fusion host-only networks and Windows Hyper-V private switches are local to each host. They are not automatically Layer-2 connected. Cross-host connectivity needs a deliberate lab firewall/router or separate isolated labs forwarding telemetry over a controlled management network.</p>
-<h2 id="7-snapshot-and-verify">7. Snapshot and verify<a class="headerlink" href="#7-snapshot-and-verify" title="Permanent link">&para;</a></h2>
+<h2 id="7-create-the-isolated-fusion-networks">7. Create the isolated Fusion networks<a class="headerlink" href="#7-create-the-isolated-fusion-networks" title="Permanent link">&para;</a></h2>
+<p>Fusion provides NAT and Host-only networking by default. Fusion Pro also supports custom virtual networks through its Network preferences, but do not assume an arbitrary number of networks exists before creating and inspecting them.</p>
+<ol>
+<li>Shut down VMs before changing network layout.</li>
+<li>Open VMware Fusion → Settings/Preferences → Network. Unlock the settings if prompted.</li>
+<li>Use the <strong>+</strong> control to add a custom network. Give it a descriptive name (for example, PSV-ENDPOINT); repeat for the segments your installed release permits.</li>
+<li>Inspect each network's subnet and DHCP setting. Record the actual vmnet name, subnet, host connectivity and DHCP status.</li>
+<li>Use the default NAT network only for the router's WAN/update path.</li>
+<li>Use separate custom/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Disable Fusion DHCP on internal networks served by the router; do not create duplicate DHCP services.</li>
+<li>If the installed Fusion version cannot provide enough independent networks, stop and use a dedicated physical firewall/managed-switch design or reduce the lab to a clearly documented smaller topology. Do not claim segmentation when all guests share one host-only network.</li>
+</ol>
+<p>Attach the ARM64 router VM to WAN plus each independent internal network. Map adapters to roles by MAC address and verify with <code>ip -br link</code> before applying Netplan. Keep Kali and vulnerable targets off Bridged networking.</p>
+<h2 id="8-snapshot-and-verify">8. Snapshot and verify<a class="headerlink" href="#8-snapshot-and-verify" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Shut down each VM cleanly.</li>
 <li>Create a baseline snapshot.</li>
@@ -1905,9 +1995,11 @@
 <li>Verify Kali/target cannot reach the home LAN.</li>
 <li>Record Fusion version, macOS build, ISO checksum, VM settings and network plan.</li>
 </ol>
-<h2 id="8-references">8. References<a class="headerlink" href="#8-references" title="Permanent link">&para;</a></h2>
+<h2 id="9-references">9. References<a class="headerlink" href="#9-references" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://knowledge.broadcom.com/external/article/315602">Broadcom: Arm guest OS compatibility in Fusion on Apple Silicon</a></li>
+<li><a href="https://knowledge.broadcom.com/external/article/303393">Broadcom: Understanding networking types in VMware Fusion</a></li>
+<li><a href="https://knowledge.broadcom.com/external/article/311759">Broadcom: Add custom Fusion networks</a></li>
 <li><a href="https://compatibilityguide.broadcom.com/">Broadcom Compatibility Guide</a></li>
 <li><a href="https://www.kali.org/docs/virtualization/install-vmware-silicon-host/">Kali on VMware Fusion / Apple Silicon</a></li>
 <li><a href="https://www.kali.org/docs/introduction/download-official-kali-linux-images/">Kali official image verification</a></li>

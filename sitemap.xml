@@ -2,162 +2,170 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://privacyskillvault.com/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/about/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/blog/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/detection-engineering/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/detection-engineering/windows-local-admin-membership/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/detection-engineering/windows-powershell-encoded-command/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/detection-engineering/fixtures/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/investigations/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/investigations/account-takeover-playbook/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/investigations/payment-fraud-playbook/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/investigations/scheduled-task-powershell/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/build-sequence/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/elastic-siem/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/firewall-routing/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/mac-arm-routing/</loc>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/network-design/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/network-monitoring/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/operating-systems/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/penetration-testing/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/platform-macos/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/platform-virtualbox/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/platform-windows/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/requirements/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/security-onion/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/soc-exercises/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/splunk-siem/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/telemetry-pipeline/</loc>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/wazuh-soc/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/windows-endpoint-telemetry/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/d01/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/d02/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/d03/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/d04/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/learn/d05/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/operational-templates/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/operational-templates/detection-change-record/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/operational-templates/fraud-case-record/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/operational-templates/incident-report/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/standards/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/tools/</loc>
-         <lastmod>2026-10-30</lastmod>
+         <lastmod>2026-10-31</lastmod>
     </url>
 </urlset>
