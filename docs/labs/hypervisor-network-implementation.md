@@ -44,7 +44,20 @@ foreach ($name in $segments) {
 Get-VMSwitch | Where-Object Name -Like "PSV-*" | Format-Table Name,SwitchType
 ~~~
 
-Private switches allow only attached VMs to communicate. Use Internal switches only when the host must participate; then apply Windows Firewall rules to the host vNIC. Create an External switch only for a deliberate WAN uplink. Never connect REDTEAM or DMZ directly to an External switch.
+Private switches allow only attached VMs to communicate. Use Internal switches only when the host must participate; then apply Windows Firewall rules to the host vNIC.
+
+For the firewall WAN, prefer a dedicated Hyper-V NAT uplink on an Internal switch rather than exposing the firewall VM directly to the physical LAN. Create it once (run as Administrator):
+
+~~~powershell
+New-VMSwitch -Name "PSV-WAN-NAT" -SwitchType Internal
+New-NetIPAddress -IPAddress 192.168.250.1 -PrefixLength 24 -InterfaceAlias "vEthernet (PSV-WAN-NAT)"
+New-NetNat -Name "PSV-WAN-NAT" -InternalIPInterfaceAddressPrefix 192.168.250.0/24
+Get-NetNat -Name "PSV-WAN-NAT"
+~~~
+
+Assign the OPNsense WAN adapter to PSV-WAN-NAT and configure its WAN address statically as 192.168.250.2/24, gateway 192.168.250.1. Select an appropriate upstream DNS resolver deliberately. Confirm the host's physical interface has Internet access and that Windows host firewall permits only required host-side traffic. This creates a double-NAT path through the host's physical network; it is for controlled updates, not inbound access. If a NAT object with that name already exists, inspect it rather than creating a duplicate. To remove this lab NAT later, first disconnect the VM WAN adapter, then remove the NAT object and switch deliberately.
+
+An External switch is an alternative only when you deliberately want the firewall WAN attached to a physical network. Bind it to the selected physical NIC, understand host-sharing consequences and keep REDTEAM/DMZ off it. Never connect REDTEAM or DMZ directly to an External switch.
 
 Add named adapters to the OPNsense VM (replace VM name/switch names if yours differ):
 
