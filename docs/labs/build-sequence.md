@@ -29,7 +29,7 @@ Follow [Windows Host Setup](platform-windows.md), [Mac Host Setup](platform-maco
 
 ## Stage 2 — design and create networks
 
-Follow [Network Design](network-design.md) and [Hypervisor Network Implementation](hypervisor-network-implementation.md). Check example subnets against home LAN, VPN and existing routes. Create and verify the actual virtual switches before attaching guests.
+Follow [Network Design](network-design.md), [Hypervisor Network Implementation](hypervisor-network-implementation.md) and the [Firewall Policy Matrix](firewall-policy-matrix.md). Check example subnets against home LAN, VPN and existing routes. Create and verify the actual virtual switches before attaching guests.
 
 | Segment | Example subnet | Purpose |
 |---|---|---|
@@ -64,7 +64,7 @@ Mac ARM64 track: Ubuntu Server ARM64, Kali ARM64 and architecture-compatible tar
 
 ## Stage 5 — generate endpoint telemetry locally
 
-Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md).
+Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md) and the [Cross-platform Endpoint Telemetry Implementation](endpoint-telemetry-implementation.md).
 
 1. Configure Windows Advanced Audit Policy through a lab-only GPO.
 2. Install/configure Sysmon using Microsoft's current instructions and a reviewed configuration.
