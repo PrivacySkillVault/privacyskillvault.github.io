@@ -1,0 +1,2836 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/labs/siem-collector-implementation/">
+      
+      
+        <link rel="prev" href="../telemetry-pipeline/">
+      
+      
+        <link rel="next" href="../build-sequence/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>SIEM Collector Implementation - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#siem-collector-implementation-elastic-splunk-and-wazuh" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href="../.." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../../standards/" class="psv-global-nav__link">Standards</a></li>
+        <li><a href="../../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../" class="psv-global-nav__link psv-global-nav__link--active">Labs</a></li>
+        <li><a href="../../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-inventory-before-installing-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Inventory before installing an agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-elastic-fleet-and-filestream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Elastic — Fleet and Filestream
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Elastic — Fleet and Filestream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Create policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-linux-relay-and-sensor-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Linux relay and sensor files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-windows-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Windows endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-macos-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 macOS endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-splunk-universal-forwarder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Splunk — Universal Forwarder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Splunk — Universal Forwarder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-configure-the-receiver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Configure the receiver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-linux-universal-forwarder-outputsconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Linux Universal Forwarder — outputs.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-linux-universal-forwarder-inputsconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Linux Universal Forwarder — inputs.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-windows-universal-forwarder-inputsconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Windows Universal Forwarder — inputs.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-verify-splunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Verify Splunk
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-wazuh-agent-logcollector-and-custom-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Wazuh — agent Logcollector and custom files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Wazuh — agent Logcollector and custom files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-linux-relay-and-sensor-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Linux relay and sensor agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-windows-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Windows agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-macos-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 macOS agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-verify-wazuh-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Verify Wazuh ingestion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-source-by-source-rollout-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Source-by-source rollout order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-common-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Common troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-security-and-acceptance-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Security and acceptance gate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elastic-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../splunk-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wazuh-soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh SOC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-onion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Onion (Optional x86-64)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../penetration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../soc-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOC Validation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/account-takeover-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/payment-fraud-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Fraud Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Detection Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/fixtures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Test Fixtures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-powershell-encoded-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell Encoded Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-local-admin-membership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Administrators Group Change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operational Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/detection-change-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Change & Validation Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/fraud-case-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fraud Investigation Case Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/incident-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cybersecurity Incident Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-inventory-before-installing-an-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Inventory before installing an agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-elastic-fleet-and-filestream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Elastic — Fleet and Filestream
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Elastic — Fleet and Filestream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Create policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-linux-relay-and-sensor-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Linux relay and sensor files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-windows-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Windows endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-macos-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 macOS endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-splunk-universal-forwarder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Splunk — Universal Forwarder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Splunk — Universal Forwarder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-configure-the-receiver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Configure the receiver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-linux-universal-forwarder-outputsconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Linux Universal Forwarder — outputs.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-linux-universal-forwarder-inputsconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Linux Universal Forwarder — inputs.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-windows-universal-forwarder-inputsconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Windows Universal Forwarder — inputs.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-verify-splunk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Verify Splunk
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-wazuh-agent-logcollector-and-custom-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Wazuh — agent Logcollector and custom files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Wazuh — agent Logcollector and custom files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-linux-relay-and-sensor-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Linux relay and sensor agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-windows-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Windows agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-macos-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 macOS agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-verify-wazuh-ingestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Verify Wazuh ingestion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-source-by-source-rollout-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Source-by-source rollout order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-common-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Common troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-security-and-acceptance-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Security and acceptance gate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="siem-collector-implementation-elastic-splunk-and-wazuh">SIEM collector implementation — Elastic, Splunk and Wazuh<a class="headerlink" href="#siem-collector-implementation-elastic-splunk-and-wazuh" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Stage 8 — configure only after all pre-SIEM source gates pass</badge></p>
+<p>This guide connects the already-proven local event sources and relay files to one selected SIEM. Do not install all three SIEMs at once. Pick one, configure one source at a time, prove raw event ingestion, then add the next source.</p>
+<p><strong>Prerequisites:</strong> <a href="../build-sequence/">Master Build Sequence</a> Stages 0–7 pass; the <a href="../syslog-relay-implementation/">syslog relay</a>, <a href="../network-sensor-implementation/">network sensor</a> and <a href="../endpoint-telemetry-implementation/">endpoint telemetry</a> acceptance gates are complete.</p>
+<h2 id="1-inventory-before-installing-an-agent">1. Inventory before installing an agent<a class="headerlink" href="#1-inventory-before-installing-an-agent" title="Permanent link">&para;</a></h2>
+<p>Create a source inventory:</p>
+<table>
+<thead>
+<tr>
+<th>Host</th>
+<th>Source</th>
+<th>Local path/channel</th>
+<th>Format</th>
+<th>Expected identity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PSV-LOG01</td>
+<td>Firewall syslog</td>
+<td>/var/log/remote/psv-opnsense.log</td>
+<td>syslog text</td>
+<td>source IP + hostname</td>
+</tr>
+<tr>
+<td>PSV-LOG01</td>
+<td>Mac router syslog</td>
+<td>/var/log/remote/psv-mac-router.log</td>
+<td>syslog text</td>
+<td>source IP + hostname</td>
+</tr>
+<tr>
+<td>PSV-SENSOR01</td>
+<td>Zeek</td>
+<td>active Zeek conn/dns logs</td>
+<td>JSON if enabled</td>
+<td>sensor hostname</td>
+</tr>
+<tr>
+<td>PSV-SENSOR01</td>
+<td>Suricata</td>
+<td>/var/log/suricata/eve.json</td>
+<td>JSON lines</td>
+<td>sensor hostname</td>
+</tr>
+<tr>
+<td>PSV-W11-01</td>
+<td>Windows Security</td>
+<td>Security event channel</td>
+<td>Windows Event Log</td>
+<td>endpoint hostname</td>
+</tr>
+<tr>
+<td>PSV-W11-01</td>
+<td>Sysmon</td>
+<td>Microsoft-Windows-Sysmon/Operational</td>
+<td>Windows Event Log</td>
+<td>endpoint hostname</td>
+</tr>
+<tr>
+<td>Linux endpoint</td>
+<td>audit/journal</td>
+<td>auditd/journald</td>
+<td>native source</td>
+<td>endpoint hostname</td>
+</tr>
+<tr>
+<td>Mac endpoint</td>
+<td>Unified Logging</td>
+<td>macOS ULS</td>
+<td>native source</td>
+<td>Mac hostname</td>
+</tr>
+</tbody>
+</table>
+<p>Actual file paths depend on the installed service configuration. Confirm paths with the source host before configuring a collector. Do not monitor an empty example directory.</p>
+<h2 id="2-elastic-fleet-and-filestream">2. Elastic — Fleet and Filestream<a class="headerlink" href="#2-elastic-fleet-and-filestream" title="Permanent link">&para;</a></h2>
+<p>Use supported Elastic Stack/Agent versions and an OS/architecture listed in the current Elastic Support Matrix. Keep Elasticsearch, Kibana, Fleet Server and Elastic Agent on compatible release versions. Do not assume an Elastic Agent package for ARM64 implies every integration is supported on that OS.</p>
+<h3 id="21-create-policies">2.1 Create policies<a class="headerlink" href="#21-create-policies" title="Permanent link">&para;</a></h3>
+<p>In Kibana:
+1. Open Management → Fleet.
+2. Confirm Fleet Server is healthy and its URL/certificate is reachable from the agent host.
+3. Create separate policies for Windows endpoints, Linux relay/sensor and macOS endpoints where their integrations differ.
+4. Use the generated enrollment command on each host; protect enrollment tokens.
+5. Confirm the agent is enrolled and the policy is applied before adding integrations.</p>
+<h3 id="22-linux-relay-and-sensor-files">2.2 Linux relay and sensor files<a class="headerlink" href="#22-linux-relay-and-sensor-files" title="Permanent link">&para;</a></h3>
+<p>For the Linux policy, add the <strong>Custom Logs (Filestream)</strong> integration. Configure paths for files that actually exist, for example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/var/log/remote/psv-*.log
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/opt/zeek/logs/current/*.log
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>/var/log/suricata/eve.json
+</span></code></pre></div>
+<p>Use separate inputs/datasets where possible so source types remain distinguishable. Enable JSON decoding for Zeek and Suricata JSON lines using the integration's current JSON parser settings. Keep plain rsyslog text as plain text; do not force JSON decoding on it.</p>
+<p>Ensure the Elastic Agent service account can read active and rotated files. Grant only group read access to the specific log directories. Do not make all logs world-readable. If logs rotate, test that the agent continues reading new files and does not re-ingest the entire file unexpectedly.</p>
+<h3 id="23-windows-endpoint">2.3 Windows endpoint<a class="headerlink" href="#23-windows-endpoint" title="Permanent link">&para;</a></h3>
+<p>Add the Windows integration to the Windows endpoint policy. Enable Security event collection and the Sysmon Operational channel. Verify local events first. Do not assume Sysmon data is included just because the Windows integration is installed; inspect the integration's channel configuration and agent policy.</p>
+<h3 id="24-macos-endpoint">2.4 macOS endpoint<a class="headerlink" href="#24-macos-endpoint" title="Permanent link">&para;</a></h3>
+<p>Check the exact macOS version and ARM64 support. Add the macOS Security Events integration only where supported. Grant only the documented permissions and validate the actual categories collected. Do not promise full Unified Logging visibility; macOS privacy and permissions affect what can be read.</p>
+<h3 id="25-verify">2.5 Verify<a class="headerlink" href="#25-verify" title="Permanent link">&para;</a></h3>
+<p>In Discover:
+1. Select the time range covering the test event.
+2. Search the actual data stream and dataset created by the integration.
+3. Open the raw document.
+4. Verify @timestamp, host.name, event.dataset, source/destination fields and original message.
+5. Compare event time with source and relay timestamps.
+6. Record ingest delay and any duplicate event count.</p>
+<p>Agent online or Fleet healthy is not proof of file ingestion. Check agent diagnostics and integration errors if no data arrives.</p>
+<h2 id="3-splunk-universal-forwarder">3. Splunk — Universal Forwarder<a class="headerlink" href="#3-splunk-universal-forwarder" title="Permanent link">&para;</a></h2>
+<p>Use Splunk Enterprise on a supported x86-64 Windows/Linux server. Verify the Universal Forwarder OS/architecture matrix for each endpoint; do not assume Windows ARM or all macOS ARM versions are supported.</p>
+<h3 id="31-configure-the-receiver">3.1 Configure the receiver<a class="headerlink" href="#31-configure-the-receiver" title="Permanent link">&para;</a></h3>
+<p>On Splunk Enterprise, enable receiving on TCP/9997 (or the chosen port) and create indexes such as:
+- psv_windows
+- psv_network
+- psv_firewall</p>
+<p>Create only indexes needed for the current exercise. Set retention and storage limits deliberately. Restrict TCP/9997 to approved forwarder hosts.</p>
+<h3 id="32-linux-universal-forwarder-outputsconf">3.2 Linux Universal Forwarder — outputs.conf<a class="headerlink" href="#32-linux-universal-forwarder-outputsconf" title="Permanent link">&para;</a></h3>
+<p>On each Linux relay/sensor forwarder, configure the system-local outputs file (package path commonly /opt/splunkforwarder/etc/system/local/outputs.conf):</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[tcpout]</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">defaultGroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv-indexers</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">[tcpout:psv-indexers]</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="na">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.10.30.21:9997</span>
+</span></code></pre></div>
+<p>Replace the address with the actual Splunk receiver. Protect the configuration directory and use Splunk's documented TLS options if the path is not fully isolated. Do not store cleartext passwords in config files.</p>
+<h3 id="33-linux-universal-forwarder-inputsconf">3.3 Linux Universal Forwarder — inputs.conf<a class="headerlink" href="#33-linux-universal-forwarder-inputsconf" title="Permanent link">&para;</a></h3>
+<p>Create inputs in /opt/splunkforwarder/etc/system/local/inputs.conf after confirming the real paths:</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">[monitor:///var/log/remote/psv-opnsense.log]</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv_firewall</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="na">sourcetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv:firewall:syslog</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">[monitor:///opt/zeek/logs/current/conn.log]</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv_network</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="na">sourcetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">zeek:conn:json</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">[monitor:///opt/zeek/logs/current/dns.log]</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv_network</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="na">sourcetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">zeek:dns:json</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">[monitor:///var/log/suricata/eve.json]</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv_network</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="na">sourcetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">suricata:eve:json</span>
+</span></code></pre></div>
+<p>Paths for Zeek change with package/deployment method; use the exact active directory. Configure one stanza per file/source if they need different sourcetypes. Check permissions and monitor checkpoints. Avoid monitoring both an original and a duplicate copy of the same file.</p>
+<p>For JSON sourcetypes, add search-time JSON extraction on the Splunk search tier (for example, in /opt/splunk/etc/system/local/props.conf):</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">[zeek:conn:json]</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">KV_MODE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">json</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">[zeek:dns:json]</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="na">KV_MODE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">json</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">[suricata:eve:json]</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="na">KV_MODE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">json</span>
+</span></code></pre></div>
+<p>Restart/reload the relevant Splunk service using the documented procedure and verify fields in a raw event. Do not set INDEXED_EXTRACTIONS unless you deliberately want index-time JSON extraction and have assessed its storage/licensing/performance implications.</p>
+<p>Restart using the installed forwarder's supported command:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>/opt/splunkforwarder/bin/splunk<span class="w"> </span>restart
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sudo<span class="w"> </span>/opt/splunkforwarder/bin/splunk<span class="w"> </span>list<span class="w"> </span>forward-server
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>sudo<span class="w"> </span>/opt/splunkforwarder/bin/splunk<span class="w"> </span>list<span class="w"> </span>monitor
+</span></code></pre></div>
+<h3 id="34-windows-universal-forwarder-inputsconf">3.4 Windows Universal Forwarder — inputs.conf<a class="headerlink" href="#34-windows-universal-forwarder-inputsconf" title="Permanent link">&para;</a></h3>
+<p>Install the supported Windows x64 Universal Forwarder. Configure the receiving host through the installer wizard or outputs.conf. A starting Sysmon channel stanza is:</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[WinEventLog://Microsoft-Windows-Sysmon/Operational]</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv_windows</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">[WinEventLog://Security]</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="na">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">0</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="na">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">psv_windows</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="na">renderXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+</span></code></pre></div>
+<p>Use the exact stanza syntax supported by the installed UF version. Security log access requires the correct service account privileges. Do not collect every Windows channel by default; select the channels needed for the exercise.</p>
+<h3 id="35-verify-splunk">3.5 Verify Splunk<a class="headerlink" href="#35-verify-splunk" title="Permanent link">&para;</a></h3>
+<p>Start with:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>index=psv_firewall earliest=-15m
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>| stats count by host source sourcetype
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>index=psv_network earliest=-15m
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>| stats count by host source sourcetype
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>index=psv_windows earliest=-15m
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>| stats count by host source sourcetype
+</span></code></pre></div>
+<p>Inspect raw events before writing field-dependent searches. JSON sourcetype names do not automatically guarantee correct JSON field extraction; configure and verify the appropriate search-time parsing. Confirm _time, host, source, sourcetype and event-specific fields.</p>
+<h2 id="4-wazuh-agent-logcollector-and-custom-files">4. Wazuh — agent Logcollector and custom files<a class="headerlink" href="#4-wazuh-agent-logcollector-and-custom-files" title="Permanent link">&para;</a></h2>
+<p>Use a supported Wazuh server and agent version. Wazuh agent secure communications use the documented secure channel (TCP/1514 by default); enrollment normally uses TCP/1515. Verify the installed version and firewall port reference.</p>
+<h3 id="41-linux-relay-and-sensor-agents">4.1 Linux relay and sensor agents<a class="headerlink" href="#41-linux-relay-and-sensor-agents" title="Permanent link">&para;</a></h3>
+<p>On the relay/sensor, back up /var/ossec/etc/ossec.conf. Add only the actual files that exist:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>/var/log/remote/psv-opnsense.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">&lt;log_format&gt;</span>syslog<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>/opt/zeek/logs/current/conn.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">&lt;log_format&gt;</span>json<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>/opt/zeek/logs/current/dns.log<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="nt">&lt;log_format&gt;</span>json<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nt">&lt;/localfile&gt;</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>/var/log/suricata/eve.json<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">  </span><span class="nt">&lt;log_format&gt;</span>json<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="nt">&lt;/localfile&gt;</span>
+</span></code></pre></div>
+<p>Use syslog format for one-line syslog text and json for single-line JSON records. If the actual Zeek logs are not JSON, change the Zeek configuration or use a supported parser; do not label ASCII as JSON. Configure file permissions so the Wazuh agent can read the logs without granting world access.</p>
+<p>Validate XML and restart the agent:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libxml2-utils
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sudo<span class="w"> </span>xmllint<span class="w"> </span>--noout<span class="w"> </span>/var/ossec/etc/ossec.conf
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-agent
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>wazuh-agent<span class="w"> </span>--no-pager
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>sudo<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>/var/ossec/logs/ossec.log
+</span></code></pre></div>
+<p>If the installed version does not provide the same validation flag, consult that version's CLI help and validate using its documented method.</p>
+<h3 id="42-windows-agent">4.2 Windows agent<a class="headerlink" href="#42-windows-agent" title="Permanent link">&para;</a></h3>
+<p>The Wazuh Windows agent collects standard Windows channels; configure Sysmon Operational explicitly if it is not already included by the selected policy. Back up the Windows agent configuration, add the correct EventChannel localfile block, restart the Wazuh service and verify agent logs.</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">&lt;localfile&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&lt;location&gt;</span>Microsoft-Windows-Sysmon/Operational<span class="nt">&lt;/location&gt;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&lt;log_format&gt;</span>eventchannel<span class="nt">&lt;/log_format&gt;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nt">&lt;/localfile&gt;</span>
+</span></code></pre></div>
+<h3 id="43-macos-agent">4.3 macOS agent<a class="headerlink" href="#43-macos-agent" title="Permanent link">&para;</a></h3>
+<p>Wazuh macOS uses Unified Logging. Configure the macOS localfile block as described in <a href="../endpoint-telemetry-implementation/">Endpoint Telemetry Implementation</a>. Verify that the exact query returns local events and that the manager receives them. macOS privacy controls may limit fields/categories.</p>
+<h3 id="44-verify-wazuh-ingestion">4.4 Verify Wazuh ingestion<a class="headerlink" href="#44-verify-wazuh-ingestion" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Agent status is active and last keepalive is current.</li>
+<li>The raw test record is visible in the manager/dashboard.</li>
+<li>Decoder and rule behaviour are understood; an event may be ingested without triggering an alert.</li>
+<li>Hostname, timestamp, source file/channel and raw message are preserved.</li>
+<li>No source is collected twice unintentionally.</li>
+</ul>
+<h2 id="5-source-by-source-rollout-order">5. Source-by-source rollout order<a class="headerlink" href="#5-source-by-source-rollout-order" title="Permanent link">&para;</a></h2>
+<p>Connect in this order and do not add the next source until the current one passes:
+1. One relay firewall test event.
+2. One OPNsense IDS/EVE event.
+3. One Zeek DNS or connection event.
+4. One Suricata EVE flow/alert event.
+5. One Windows Security event.
+6. One Sysmon process event.
+7. One Linux audit/journal event.
+8. One macOS Unified Logging event, if the Mac track is used.</p>
+<p>For each, capture source event, collector log/offset, SIEM raw event, timestamp delta, host identity and parsing. Then run a positive and negative detection test.</p>
+<h2 id="6-common-troubleshooting">6. Common troubleshooting<a class="headerlink" href="#6-common-troubleshooting" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Check in order</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent online, no data</td>
+<td>Local source exists → path/channel configured → permissions → agent diagnostics → receiver/index/data stream</td>
+</tr>
+<tr>
+<td>Only newest events</td>
+<td>File input start position/offset, file rotation and retention</td>
+</tr>
+<tr>
+<td>Duplicate events</td>
+<td>Multiple agents, duplicate monitor stanzas, overlapping file paths, relay forwarding loops</td>
+</tr>
+<tr>
+<td>Wrong hostname</td>
+<td>Source host metadata vs relay hostname; preserve original sender in syslog template</td>
+</tr>
+<tr>
+<td>Wrong timestamp</td>
+<td>Source timestamp vs receive timestamp vs SIEM ingest time; check NTP and timezone</td>
+</tr>
+<tr>
+<td>JSON not parsed</td>
+<td>Confirm source is one JSON object per line; verify parser/sourcetype and raw message</td>
+</tr>
+<tr>
+<td>Missing fields</td>
+<td>Inspect raw event and installed integration/version; do not assume a field mapping</td>
+</tr>
+<tr>
+<td>Disk/queue growth</td>
+<td>Agent queue, receiver health, disk capacity, retention and backpressure</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-security-and-acceptance-gate">7. Security and acceptance gate<a class="headerlink" href="#7-security-and-acceptance-gate" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Only one SIEM stack selected.</li>
+<li>[ ] Agent/forwarder OS and architecture support verified.</li>
+<li>[ ] TLS and certificate trust configured for non-isolated paths.</li>
+<li>[ ] Credentials/enrollment tokens stored securely and not committed.</li>
+<li>[ ] Firewall permits only required agent-to-server ports.</li>
+<li>[ ] Collector reads only intended files/channels.</li>
+<li>[ ] Every source has a raw searchable event.</li>
+<li>[ ] Host, event time, source identity and original payload preserved.</li>
+<li>[ ] Ingest delay measured; duplicates and gaps checked.</li>
+<li>[ ] Retention, queueing, disk thresholds and agent health monitored.</li>
+<li>[ ] Positive/negative test evidence captured and sanitized.</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/docs/reference/integrations/filestream">Elastic Custom Logs Filestream</a></li>
+<li><a href="https://www.elastic.co/docs/reference/integrations/windows">Elastic Windows integration</a></li>
+<li><a href="https://www.elastic.co/docs/reference/integrations/macos">Elastic macOS Security Events</a></li>
+<li><a href="https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Configurationfiles">Splunk Universal Forwarder configuration files</a></li>
+<li><a href="https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/Monitorfilesanddirectories">Splunk monitor inputs</a></li>
+<li><a href="https://docs.splunk.com/Documentation/Forwarder/latest/Forwarder/MonitorWindowseventlogdata">Splunk Windows Event Log inputs</a></li>
+<li><a href="https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/localfile.html">Wazuh localfile configuration</a></li>
+<li><a href="https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/remote.html">Wazuh remote input configuration</a></li>
+<li><a href="https://documentation.wazuh.com/current/getting-started/architecture.html">Wazuh required ports</a></li>
+<li><a href="https://www.elastic.co/support/matrix">Elastic Support Matrix</a></li>
+<li><a href="https://www.splunk.com/en_us/download/universal-forwarder.html">Splunk platform support</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/psv-navigation.js"></script>
+      
+        <script src="../../javascripts/tools.js"></script>
+      
+    
+  </body>
+</html>

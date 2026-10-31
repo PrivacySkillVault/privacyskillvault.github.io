@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/build-sequence/">
       
       
-        <link rel="prev" href="../telemetry-pipeline/">
+        <link rel="prev" href="../siem-collector-implementation/">
       
       
         <link rel="next" href="../elastic-siem/">
@@ -698,6 +698,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../firewall-routing/" class="md-nav__link">
         
   
@@ -726,6 +754,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../mac-arm-routing/" class="md-nav__link">
         
   
@@ -734,6 +790,62 @@
     
   
     Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
   
 
     
@@ -810,6 +922,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../network-monitoring/" class="md-nav__link">
         
   
@@ -838,6 +978,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../telemetry-pipeline/" class="md-nav__link">
         
   
@@ -846,6 +1042,34 @@
     
   
     Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
   
 
     
@@ -2092,7 +2316,7 @@
 </ol>
 <p><strong>Gate 1:</strong> host reboot does not break the hypervisor; test guest boots/restores; no guest is bridged to the physical LAN without an explicit design.</p>
 <h2 id="stage-2-design-and-create-networks">Stage 2 — design and create networks<a class="headerlink" href="#stage-2-design-and-create-networks" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../network-design/">Network Design</a>. Check example subnets against home LAN, VPN and existing routes.</p>
+<p>Follow <a href="../network-design/">Network Design</a>, <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a> and the <a href="../firewall-policy-matrix/">Firewall Policy Matrix</a>. Check example subnets against home LAN, VPN and existing routes. Create and verify the actual virtual switches before attaching guests.</p>
 <table>
 <thead>
 <tr>
@@ -2123,9 +2347,9 @@
 <td>Kali assessment source</td>
 </tr>
 <tr>
-<td>SENSOR</td>
+<td>SENSOR-MGMT</td>
 <td>10.10.50.0/24</td>
-<td>Sensor management/capture design</td>
+<td>Sensor administration only; capture NIC is separate/no IP</td>
 </tr>
 <tr>
 <td>DMZ</td>
@@ -2137,9 +2361,9 @@
 <p><strong>Gate 2:</strong> segments exist; VM NICs are mapped; no DHCP overlap, subnet overlap or unintended bridged adapter.</p>
 <h2 id="stage-3-routing-and-firewall">Stage 3 — routing and firewall<a class="headerlink" href="#stage-3-routing-and-firewall" title="Permanent link">&para;</a></h2>
 <h3 id="windows-x64">Windows x64<a class="headerlink" href="#windows-x64" title="Permanent link">&para;</a></h3>
-<p>Follow <a href="../firewall-routing/">OPNsense Firewall &amp; Routing</a>. Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.</p>
+<p>Follow <a href="../firewall-routing/">OPNsense Firewall &amp; Routing</a> and the <a href="../opnsense-implementation/">detailed OPNsense implementation runbook</a>. Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.</p>
 <h3 id="apple-silicon-mac">Apple Silicon Mac<a class="headerlink" href="#apple-silicon-mac" title="Permanent link">&para;</a></h3>
-<p>Follow <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>. Use Ubuntu Server ARM64 with nftables and separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.</p>
+<p>Follow <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a> and the <a href="../mac-arm-router-implementation/">detailed ARM64 router implementation</a>. Use Ubuntu Server ARM64 with Netplan and nftables on separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.</p>
 <p><strong>Gate 3:</strong> verify DHCP/static addressing, DNS, gateway, allowed and denied TCP flows, firewall logs and routes. Kali/DMZ must not reach home LAN or MGMT.</p>
 <h2 id="stage-4-operating-systems-and-identity">Stage 4 — operating systems and identity<a class="headerlink" href="#stage-4-operating-systems-and-identity" title="Permanent link">&para;</a></h2>
 <p>Follow <a href="../operating-systems/">Operating Systems &amp; Identity</a>.</p>
@@ -2147,7 +2371,7 @@
 <p>Mac ARM64 track: Ubuntu Server ARM64, Kali ARM64 and architecture-compatible target VM/container. Windows 11 ARM is optional only after verifying the exact agent/driver support. Do not assume x64 agents work on Windows ARM.</p>
 <p><strong>Gate 4:</strong> record hostnames, OS versions, architecture, IPs, routes, DNS, time and NICs. Domain join works where used. Kali reaches only its scoped target. DMZ has no unrestricted Internet/home-LAN path.</p>
 <h2 id="stage-5-generate-endpoint-telemetry-locally">Stage 5 — generate endpoint telemetry locally<a class="headerlink" href="#stage-5-generate-endpoint-telemetry-locally" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../windows-endpoint-telemetry/">Windows Endpoint Telemetry</a>.</p>
+<p>Follow <a href="../windows-endpoint-telemetry/">Windows Endpoint Telemetry</a> and the <a href="../endpoint-telemetry-implementation/">Cross-platform Endpoint Telemetry Implementation</a>.</p>
 <ol>
 <li>Configure Windows Advanced Audit Policy through a lab-only GPO.</li>
 <li>Install/configure Sysmon using Microsoft's current instructions and a reviewed configuration.</li>
@@ -2158,7 +2382,7 @@
 </ol>
 <p><strong>Gate 5:</strong> raw source event exists locally with host, timestamp and event identity. Do not troubleshoot SIEM ingestion before this passes.</p>
 <h2 id="stage-6-firewall-and-network-monitoring">Stage 6 — firewall and network monitoring<a class="headerlink" href="#stage-6-firewall-and-network-monitoring" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../network-monitoring/">Network Monitoring</a>.</p>
+<p>Follow <a href="../network-monitoring/">Network Monitoring</a> and the <a href="../network-sensor-implementation/">Zeek/Suricata sensor implementation</a>. Prove packet visibility before installing analyzers.</p>
 <ol>
 <li>On Windows OPNsense, enable Suricata in alert-only IDS mode on relevant internal interfaces, not only WAN. WAN capture after NAT may lose original internal source identity.</li>
 <li>Enable logging on the firewall rules used for pass/block tests.</li>
@@ -2171,7 +2395,7 @@
 <p>On Mac ARM, use supported ARM64 Zeek/Suricata builds only after verifying packet visibility. Verify nftables firewall logs locally.</p>
 <p><strong>Gate 6:</strong> firewall pass/block events, IDS alerts, Zeek logs (if enabled) and endpoint events exist locally. Packet visibility is proven with a known flow.</p>
 <h2 id="stage-7-telemetry-collection-and-forwarding">Stage 7 — telemetry collection and forwarding<a class="headerlink" href="#stage-7-telemetry-collection-and-forwarding" title="Permanent link">&para;</a></h2>
-<p>Follow <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>.</p>
+<p>Follow the <a href="../syslog-relay-implementation/">rsyslog relay implementation</a> and <a href="../telemetry-pipeline/">Telemetry Collection &amp; Forwarding</a>.</p>
 <ol>
 <li>Create a Linux syslog relay on SERVER.</li>
 <li>Configure OPNsense or the Mac Linux router to send firewall events to the relay.</li>
@@ -2183,11 +2407,11 @@
 </ol>
 <p><strong>Gate 7:</strong> firewall/router events arrive at the relay and are written to the correct source-specific files; Zeek/Suricata files exist locally on the sensor; endpoint source events exist locally; timestamps and host identity are preserved. This gate proves source generation and pre-SIEM relay only—not SIEM ingestion.</p>
 <h2 id="stage-8-install-one-siem-and-connect-sources">Stage 8 — install one SIEM and connect sources<a class="headerlink" href="#stage-8-install-one-siem-and-connect-sources" title="Permanent link">&para;</a></h2>
-<p>Choose one stack per iteration:</p>
+<p>Choose one stack per iteration. For the exact source-specific agent/forwarder inputs, file paths, event channels and verification queries, follow the <a href="../siem-collector-implementation/">SIEM Collector Implementation Runbook</a>.</p>
 <ul>
 <li><a href="../elastic-siem/">Elastic</a>: Fleet/Elastic Agent, Windows and System integrations, Filestream for firewall/sensor files.</li>
 <li><a href="../splunk-siem/">Splunk</a>: Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.</li>
-<li><a href="../wazuh-soc/">Wazuh</a>: central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Use relay-file-plus-agent rather than relying on direct manager syslog listener across versions.</li>
+<li><a href="../wazuh-soc/">Wazuh</a>: central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Prefer relay-file-plus-agent; direct manager syslog is an optional, explicitly configured input with source allowlisting, depending on the installed release.</li>
 </ul>
 <p>For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; install supported agents/forwarders on endpoints, relay and sensor; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections. On the Mac router track, forward nftables messages from its local rsyslog file to the SERVER relay over the configured restricted transport, or collect the local file with a supported agent. Do not assume an agent supports ARM64 without checking its matrix.</p>
 <p><strong>Gate 8:</strong> every required source has a raw searchable SIEM event with correct source/host/time fields and measured ingest delay. Agent online alone does not pass.</p>

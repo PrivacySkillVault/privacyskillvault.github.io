@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/telemetry-pipeline/">
       
       
-        <link rel="prev" href="../network-monitoring/">
+        <link rel="prev" href="../syslog-relay-implementation/">
       
       
-        <link rel="next" href="../build-sequence/">
+        <link rel="next" href="../siem-collector-implementation/">
       
       
         
@@ -698,6 +698,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../firewall-routing/" class="md-nav__link">
         
   
@@ -726,6 +754,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../mac-arm-routing/" class="md-nav__link">
         
   
@@ -734,6 +790,62 @@
     
   
     Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
   
 
     
@@ -810,6 +922,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../network-monitoring/" class="md-nav__link">
         
   
@@ -818,6 +958,62 @@
     
   
     Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
   
 
     
@@ -1011,6 +1207,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1975,6 +2199,7 @@
 </tbody>
 </table>
 <p>Do not install competing agents to collect the same source unless duplicate ingestion is intentional.</p>
+<p>For a reproducible relay listener, source allowlist, per-source file routing, log rotation, firewall policy and TLS decision, follow the <a href="../syslog-relay-implementation/">Linux Syslog Relay Implementation Runbook</a>. The steps below describe the required design and acceptance gate.</p>
 <h2 id="2-create-a-linux-syslog-relay">2. Create a Linux syslog relay<a class="headerlink" href="#2-create-a-linux-syslog-relay" title="Permanent link">&para;</a></h2>
 <p>On Windows track create PSV-LOG01 on SERVER, for example 10.10.30.30/24. On Mac track use an ARM64 Ubuntu Server VM on SERVER. Configure static/reserved addressing, correct DNS/NTP and restricted management.</p>
 <p>Install the distribution-supported rsyslog package. Configure it to receive syslog only on the lab-facing interface and only from known firewall/router source addresses. Prefer TCP for an isolated lab; use TLS when logs cross a network you do not fully trust. Do not expose the listener to home LAN or Internet.</p>
@@ -2005,6 +2230,7 @@
 - Log rotation and retention.
 - Sensor hostname, interface and capture scope recorded.</p>
 <p>Zeek supports JSON log output; Suricata EVE writes JSON events. Do not send full PCAP as routine SIEM events; PCAP needs separate access, storage and retention controls.</p>
+<p>Before proceeding, complete the <a href="../endpoint-telemetry-implementation/">Cross-platform Endpoint Telemetry Implementation Runbook</a> and <a href="../network-sensor-implementation/">Network Sensor Implementation Runbook</a>, and verify their local acceptance gates.</p>
 <h2 id="6-pre-siem-acceptance-gate-source-and-relay-only">6. Pre-SIEM acceptance gate — source and relay only<a class="headerlink" href="#6-pre-siem-acceptance-gate-source-and-relay-only" title="Permanent link">&para;</a></h2>
 <p>Verify:
 1. Firewall test event appears in the relay file.
@@ -2016,10 +2242,11 @@
 7. Hostname, source timestamp and event identity are preserved.
 8. Relay and sensor files have rotation, bounded disk use and correct collector read permissions.</p>
 <p>This gate proves source generation and pre-SIEM relay only. It does not claim SIEM ingestion. SIEM-specific agents/forwarders and end-to-end searches are configured after the selected SIEM server is ready.</p>
+<p>For the detailed configuration of Elastic Filestream, Splunk Universal Forwarder inputs/outputs and Wazuh Logcollector, use the <a href="../siem-collector-implementation/">SIEM Collector Implementation Runbook</a>.</p>
 <h2 id="7-siem-specific-collector-pattern">7. SIEM-specific collector pattern<a class="headerlink" href="#7-siem-specific-collector-pattern" title="Permanent link">&para;</a></h2>
 <p><strong>Elastic:</strong> install Elastic Agent on relay and sensor. Use Custom Logs (Filestream) for written rsyslog, Zeek and Suricata files. Use Windows and System integrations for endpoint sources. A TCP/UDP integration is a separate listener design; do not assume Fleet being online means syslog is ingested.</p>
 <p><strong>Splunk:</strong> use Universal Forwarder on relay and sensor to monitor written files, and a Windows Universal Forwarder for Event Log channels. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog, rather than direct UDP/TCP input on Splunk Enterprise as the default production pattern. Verify every forwarder host architecture.</p>
-<p><strong>Wazuh:</strong> install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Current Wazuh documentation notes that Wazuh 5.0 removes the manager's direct syslog listener; relay-file-plus-agent avoids depending on direct listener support across versions. Check the exact release documentation.</p>
+<p><strong>Wazuh:</strong> install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Wazuh manager releases document a direct syslog input mode, but the recommended portable lab pattern here is relay-file-plus-agent. If direct manager syslog is deliberately selected, follow the exact release's remote-input configuration, require an explicit allowed-ips list and restrict the listener at the firewall.</p>
 <h2 id="8-network-policy">8. Network policy<a class="headerlink" href="#8-network-policy" title="Permanent link">&para;</a></h2>
 <p>Permit only:
 - Firewall/router source addresses → relay listener port.

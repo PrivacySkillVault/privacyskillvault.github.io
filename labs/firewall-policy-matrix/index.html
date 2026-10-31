@@ -1,0 +1,2506 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/labs/firewall-policy-matrix/">
+      
+      
+        <link rel="prev" href="../mac-arm-router-implementation/">
+      
+      
+        <link rel="next" href="../operating-systems/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Firewall Policy Matrix - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab-firewall-policy-matrix-least-privilege-flows" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href="../.." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../../standards/" class="psv-global-nav__link">Standards</a></li>
+        <li><a href="../../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../" class="psv-global-nav__link psv-global-nav__link--active">Labs</a></li>
+        <li><a href="../../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-address-and-role-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Address and role assumptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-default-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Default policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ad-dsdns-client-to-domain-controller-flows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. AD DS/DNS client-to-domain-controller flows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-siem-and-telemetry-ports-only-enable-selected-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. SIEM and telemetry ports — only enable selected stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-syslog-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Syslog relay
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-management-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Management access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-rule-creation-and-validation-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Rule creation and validation sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-negative-tests-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Negative tests — required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elastic-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../splunk-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wazuh-soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh SOC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-onion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Onion (Optional x86-64)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../penetration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../soc-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOC Validation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/account-takeover-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../investigations/payment-fraud-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Fraud Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Detection Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/fixtures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Test Fixtures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-powershell-encoded-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell Encoded Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../detection-engineering/windows-local-admin-membership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Administrators Group Change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operational Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/detection-change-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Change & Validation Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/fraud-case-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fraud Investigation Case Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational-templates/incident-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cybersecurity Incident Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-address-and-role-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Address and role assumptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-default-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Default policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ad-dsdns-client-to-domain-controller-flows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. AD DS/DNS client-to-domain-controller flows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-siem-and-telemetry-ports-only-enable-selected-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. SIEM and telemetry ports — only enable selected stack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-syslog-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Syslog relay
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-management-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Management access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-rule-creation-and-validation-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Rule creation and validation sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-negative-tests-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Negative tests — required
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lab-firewall-policy-matrix-least-privilege-flows">Lab firewall policy matrix — least-privilege flows<a class="headerlink" href="#lab-firewall-policy-matrix-least-privilege-flows" title="Permanent link">&para;</a></h1>
+<p><badge color="warning">Policy design reference — adapt to enabled services and verify with packet/log tests</badge></p>
+<p>This page defines the intended inter-segment policy before writing individual OPNsense/nftables rules. It is not a substitute for inspecting the actual services enabled on each VM. Start with deny-by-default between segments, then add only the required flows below. Keep WAN management closed.</p>
+<h2 id="1-address-and-role-assumptions">1. Address and role assumptions<a class="headerlink" href="#1-address-and-role-assumptions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th style="text-align: right;">Example address</th>
+<th>Segment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OPNsense internal gateways</td>
+<td style="text-align: right;">.1 in each subnet</td>
+<td>all internal segments</td>
+</tr>
+<tr>
+<td>PSV-DC01 (AD DS/DNS)</td>
+<td style="text-align: right;">10.10.30.10</td>
+<td>SERVER</td>
+</tr>
+<tr>
+<td>PSV-LOG01 (syslog relay)</td>
+<td style="text-align: right;">10.10.30.30</td>
+<td>SERVER</td>
+</tr>
+<tr>
+<td>SIEM host (one at a time)</td>
+<td style="text-align: right;">Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22</td>
+<td>SERVER</td>
+</tr>
+<tr>
+<td>Management workstation</td>
+<td style="text-align: right;">10.10.10.10</td>
+<td>MGMT</td>
+</tr>
+<tr>
+<td>Windows endpoint</td>
+<td style="text-align: right;">DHCP/reservation in 10.10.20.0/24</td>
+<td>ENDPOINT</td>
+</tr>
+<tr>
+<td>Kali</td>
+<td style="text-align: right;">DHCP/reservation in 10.10.40.0/24</td>
+<td>REDTEAM</td>
+</tr>
+<tr>
+<td>Vulnerable target</td>
+<td style="text-align: right;">10.10.60.20</td>
+<td>DMZ</td>
+</tr>
+</tbody>
+</table>
+<p>Replace these addresses consistently if your actual plan differs. Do not copy a sample rule before checking source/destination interface and address.</p>
+<h2 id="2-default-policy">2. Default policy<a class="headerlink" href="#2-default-policy" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Destination</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MGMT admin workstation</td>
+<td>router/server management</td>
+<td>Allow only required management ports</td>
+</tr>
+<tr>
+<td>ENDPOINT</td>
+<td>DC/DNS</td>
+<td>Allow only domain/DNS/NTP services actually used</td>
+</tr>
+<tr>
+<td>ENDPOINT</td>
+<td>relay/SIEM</td>
+<td>Allow selected agent/forwarder destinations after SIEM stage</td>
+</tr>
+<tr>
+<td>REDTEAM</td>
+<td>named DMZ target</td>
+<td>Allow only approved test ports during a test window</td>
+</tr>
+<tr>
+<td>REDTEAM</td>
+<td>MGMT/SERVER/ENDPOINT/home LAN</td>
+<td>Deny</td>
+</tr>
+<tr>
+<td>DMZ</td>
+<td>MGMT/SERVER/ENDPOINT/home LAN</td>
+<td>Deny initiation</td>
+</tr>
+<tr>
+<td>SENSOR capture NIC</td>
+<td>any routed network</td>
+<td>Deny; capture NIC is not a management interface</td>
+</tr>
+<tr>
+<td>WAN</td>
+<td>router/VM management</td>
+<td>Deny inbound</td>
+</tr>
+<tr>
+<td>Internal segments</td>
+<td>Internet</td>
+<td>Deny by default; temporary controlled update egress only</td>
+</tr>
+</tbody>
+</table>
+<p>Use stateful return traffic for allowed sessions. Log selected deny rules and selected test allow rules; do not enable noisy logging on every packet indefinitely.</p>
+<h2 id="3-ad-dsdns-client-to-domain-controller-flows">3. AD DS/DNS client-to-domain-controller flows<a class="headerlink" href="#3-ad-dsdns-client-to-domain-controller-flows" title="Permanent link">&para;</a></h2>
+<p>The following are common AD DS dependencies, not a command to open every port unconditionally. Select based on installed roles/features and Microsoft guidance.</p>
+<table>
+<thead>
+<tr>
+<th>Protocol</th>
+<th style="text-align: right;">Port</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP/UDP</td>
+<td style="text-align: right;">53</td>
+<td>DNS</td>
+</tr>
+<tr>
+<td>TCP/UDP</td>
+<td style="text-align: right;">88</td>
+<td>Kerberos</td>
+</tr>
+<tr>
+<td>TCP/UDP</td>
+<td style="text-align: right;">389</td>
+<td>LDAP</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">445</td>
+<td>SMB/SYSVOL/Group Policy</td>
+</tr>
+<tr>
+<td>TCP/UDP</td>
+<td style="text-align: right;">464</td>
+<td>Kerberos password change</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">135</td>
+<td>RPC endpoint mapper</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">49152–65535</td>
+<td>Modern Windows dynamic RPC range (default)</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">3268</td>
+<td>Global Catalog, if used</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">3269</td>
+<td>Global Catalog over TLS, if used</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">636</td>
+<td>LDAP over TLS, if configured</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td style="text-align: right;">123</td>
+<td>NTP to the selected time source</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td style="text-align: right;">9389</td>
+<td>AD Web Services, if management tools require it</td>
+</tr>
+</tbody>
+</table>
+<p>Some Windows versions/roles use additional ports. The dynamic RPC range can be narrowed on the DC only if the change is supported, documented and consistently applied. Do not arbitrarily open or shrink it. Verify DNS SRV lookup, domain join, Group Policy, Kerberos authentication and administrative tools after adding rules.</p>
+<h2 id="4-siem-and-telemetry-ports-only-enable-selected-stack">4. SIEM and telemetry ports — only enable selected stack<a class="headerlink" href="#4-siem-and-telemetry-ports-only-enable-selected-stack" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Stack/component</th>
+<th style="text-align: right;">Typical port</th>
+<th>Initiator → destination</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Elastic Fleet Server</td>
+<td style="text-align: right;">TCP 8220</td>
+<td>Elastic Agents → Fleet Server</td>
+<td>Confirm configured Fleet URL/port</td>
+</tr>
+<tr>
+<td>Elastic Elasticsearch API</td>
+<td style="text-align: right;">TCP 9200</td>
+<td>Fleet Server/agents as configured → Elasticsearch</td>
+<td>Restrict to required hosts; TLS/auth</td>
+</tr>
+<tr>
+<td>Kibana</td>
+<td style="text-align: right;">TCP 5601</td>
+<td>MGMT workstation → Kibana</td>
+<td>Management only</td>
+</tr>
+<tr>
+<td>Splunk receiver</td>
+<td style="text-align: right;">TCP 9997</td>
+<td>Universal Forwarders → Splunk Enterprise</td>
+<td>Configure receiving explicitly</td>
+</tr>
+<tr>
+<td>Splunk Web</td>
+<td style="text-align: right;">TCP 8000</td>
+<td>MGMT workstation → Splunk</td>
+<td>Management only</td>
+</tr>
+<tr>
+<td>Splunk management API</td>
+<td style="text-align: right;">TCP 8089</td>
+<td>Admin/forwarder management paths only</td>
+<td>Never expose to untrusted networks</td>
+</tr>
+<tr>
+<td>Wazuh agent channel</td>
+<td style="text-align: right;">TCP 1514</td>
+<td>Agents → Wazuh manager</td>
+<td>Secure agent channel; verify release</td>
+</tr>
+<tr>
+<td>Wazuh enrollment</td>
+<td style="text-align: right;">TCP 1515</td>
+<td>New agents → Wazuh manager</td>
+<td>Restrict; can be disabled after enrollment depending on design</td>
+</tr>
+<tr>
+<td>Wazuh syslog input</td>
+<td style="text-align: right;">TCP/UDP 514</td>
+<td>Approved syslog senders → manager</td>
+<td>Optional direct syslog input; configure allowed-ips and verify exact release</td>
+</tr>
+<tr>
+<td>Wazuh indexer</td>
+<td style="text-align: right;">TCP 9200</td>
+<td>Wazuh components → indexer</td>
+<td>Internal only; TLS/auth</td>
+</tr>
+<tr>
+<td>Wazuh dashboard</td>
+<td style="text-align: right;">TCP 443 or configured port</td>
+<td>MGMT workstation → dashboard</td>
+<td>Use actual deployment port</td>
+</tr>
+</tbody>
+</table>
+<p>Do not enable all rows simultaneously. Select one SIEM, follow its version-specific guide, then add only the required rules. Some Elastic deployments use different ports/paths depending on Fleet topology. Consult the product's port documentation.</p>
+<h2 id="5-syslog-relay">5. Syslog relay<a class="headerlink" href="#5-syslog-relay" title="Permanent link">&para;</a></h2>
+<p>For the relay runbook's isolated TCP example:
+- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only.
+- Deny TCP/514 from WAN, home LAN, REDTEAM, DMZ and unrelated clients.
+- If syslog crosses an untrusted or multi-host network, use TLS and validate certificates. TCP alone is not encryption or sender authentication.</p>
+<h2 id="6-management-access">6. Management access<a class="headerlink" href="#6-management-access" title="Permanent link">&para;</a></h2>
+<p>Permit SSH/RDP/HTTPS only from the named MGMT admin workstation to named hosts. Avoid broad any-to-any management rules. Keep hypervisor host management protected by host OS firewall and strong authentication. Do not expose RDP, SSH, Kibana, Splunk Web, Wazuh dashboard or firewall GUI on WAN.</p>
+<h2 id="7-rule-creation-and-validation-sequence">7. Rule creation and validation sequence<a class="headerlink" href="#7-rule-creation-and-validation-sequence" title="Permanent link">&para;</a></h2>
+<p>For OPNsense:
+1. Create aliases for lab subnets, servers, management host and approved targets.
+2. Create rules on the interface where traffic enters; OPNsense rules are evaluated on ingress interface.
+3. Add the narrowest source, destination, protocol and destination port.
+4. Enable logging for explicit validation rules.
+5. Apply and inspect rule order; a broad pass rule above a narrow block can invalidate the design.
+6. Test allowed and denied flows from the source host.
+7. Confirm the live firewall log records expected interface, rule, action and tuple.
+8. Export an encrypted configuration backup after the policy is stable.</p>
+<p>For the Mac nftables router:
+1. Use interface-specific input/forward rules and explicit source/destination sets.
+2. Keep default-drop policies.
+3. Add only the required flows to the ruleset; syntax-check before applying.
+4. Check counters and unique log prefixes for both allowed and denied flows.
+5. Re-run the policy tests after reboot.</p>
+<h2 id="8-negative-tests-required">8. Negative tests — required<a class="headerlink" href="#8-negative-tests-required" title="Permanent link">&para;</a></h2>
+<ul>
+<li>ENDPOINT cannot connect to router SSH or management UI.</li>
+<li>REDTEAM cannot connect to MGMT, DC management ports or home LAN.</li>
+<li>DMZ cannot initiate to SERVER, ENDPOINT or MGMT.</li>
+<li>Unapproved hosts cannot reach the syslog relay listener.</li>
+<li>No SIEM management port is reachable from REDTEAM or DMZ.</li>
+<li>No IPv6 route bypasses the IPv4 policy.</li>
+<li>No VM has a second bridged/NAT adapter that bypasses the firewall.</li>
+</ul>
+<p>A failed ping is not sufficient. Test the actual TCP/UDP service ports and inspect firewall counters/logs. Record test source, destination, port, time, expected result, actual result and rule identifier.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/config-firewall-for-ad-domains-and-trusts">Microsoft Active Directory and Active Directory Domain Services port requirements</a></li>
+<li><a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements">Microsoft Windows dynamic port range</a></li>
+<li><a href="https://docs.opnsense.org/manual/firewall.html">OPNsense firewall rules</a></li>
+<li><a href="https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/remote.html">Wazuh remote syslog configuration</a></li>
+<li><a href="https://docs.splunk.com/Documentation/Splunk/latest/Forwarding/Enableareceiver">Splunk receiving and forwarding</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html">Elastic networking requirements</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../../javascripts/psv-navigation.js"></script>
+      
+        <script src="../../javascripts/tools.js"></script>
+      
+    
+  </body>
+</html>

@@ -57,7 +57,23 @@
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/labs/endpoint-telemetry-implementation/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/firewall-policy-matrix/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/labs/firewall-routing/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/hypervisor-network-implementation/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/mac-arm-router-implementation/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
@@ -73,7 +89,15 @@
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/labs/network-sensor-implementation/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/labs/operating-systems/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/opnsense-implementation/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
@@ -101,11 +125,19 @@
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/labs/siem-collector-implementation/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/labs/soc-exercises/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>
          <loc>https://privacyskillvault.com/labs/splunk-siem/</loc>
+         <lastmod>2026-10-31</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/labs/syslog-relay-implementation/</loc>
          <lastmod>2026-10-31</lastmod>
     </url>
     <url>

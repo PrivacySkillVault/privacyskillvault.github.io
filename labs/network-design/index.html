@@ -18,7 +18,7 @@
         <link rel="prev" href="../platform-virtualbox/">
       
       
-        <link rel="next" href="../firewall-routing/">
+        <link rel="next" href="../hypervisor-network-implementation/">
       
       
         
@@ -833,6 +833,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../firewall-routing/" class="md-nav__link">
         
   
@@ -861,6 +889,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../mac-arm-routing/" class="md-nav__link">
         
   
@@ -869,6 +925,62 @@
     
   
     Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
   
 
     
@@ -945,6 +1057,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../network-monitoring/" class="md-nav__link">
         
   
@@ -973,6 +1113,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../telemetry-pipeline/" class="md-nav__link">
         
   
@@ -981,6 +1177,34 @@
     
   
     Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
   
 
     
@@ -1920,10 +2144,10 @@
 <td>10.10.40.1</td>
 </tr>
 <tr>
-<td>SENSOR</td>
+<td>SENSOR-MGMT</td>
 <td>10.10.50.0/24</td>
-<td>Sensor management/capture design</td>
-<td>Not a general client gateway</td>
+<td>Sensor administration only</td>
+<td>10.10.50.1 if routed</td>
 </tr>
 <tr>
 <td>DMZ</td>
@@ -1934,11 +2158,11 @@
 </tbody>
 </table>
 <p>Suggested Windows-track addresses: DC 10.10.30.10; syslog relay 10.10.30.30; Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22; Kali 10.10.40.10; Juice Shop 10.10.60.20. Use only the address for the SIEM currently being built.</p>
-<p>A sensor may have a management NIC with an IP on MGMT and a passive capture NIC with no IP, gateway or forwarding. Do not attach the sniffing NIC to an ordinary routed network and assume it is receiving mirrored traffic.</p>
+<p>A sensor has a management NIC with an IP on SENSOR-MGMT (or a deliberately chosen MGMT subnet) and one or more separate capture NICs with no IP, gateway, DNS registration or forwarding. Capture NICs receive traffic only through a verified Hyper-V port mirror, physical SPAN/TAP, inline sensor path or offline PCAP. SENSOR-MGMT is not the capture network. Do not attach a sniffing NIC to an ordinary routed network and assume it receives mirrored traffic.</p>
 <h2 id="2-windows-x64-implementation">2. Windows x64 implementation<a class="headerlink" href="#2-windows-x64-implementation" title="Permanent link">&para;</a></h2>
 <p>Choose exactly one hypervisor and record actual switch names.</p>
 <ul>
-<li><strong>Hyper-V:</strong> create an Internal switch for MGMT and Private switches for ENDPOINT, SERVER, REDTEAM and DMZ. Private is VM-to-VM only; Internal also permits host-to-VM. Do not create an External switch for Kali or vulnerable targets. Hyper-V port mirroring requires source and destination adapters to be configured on the same virtual switch; explicitly set and verify roles.</li>
+<li><strong>Hyper-V:</strong> create an Internal switch for MGMT and Private switches for ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Create a separate Internal NAT uplink for OPNsense WAN using the documented Hyper-V NAT configuration in <a href="../hypervisor-network-implementation/">Hypervisor Network Implementation</a>. Private is VM-to-VM only; Internal also permits host-to-VM. Do not create an External switch for Kali or vulnerable targets. Hyper-V port mirroring requires source and destination adapters to be configured on the same virtual switch; explicitly set and verify roles.</li>
 <li><strong>VMware Workstation:</strong> use host-only networks for isolated segments and NAT only for controlled updates. Do not use Bridged for REDTEAM or DMZ. Do not assume a universal SPAN/mirror feature.</li>
 <li><strong>VirtualBox:</strong> use Host-only for host management and named Internal Networks for VM-only segments; NAT only for firewall WAN/update. Promiscuous mode is not a global mirror. See <a href="../platform-virtualbox/">VirtualBox Host Setup</a>.</li>
 </ul>
@@ -1946,7 +2170,7 @@
 <p>Use ARM64 guests. Fusion NAT, Host-only and custom networks are distinct and are not automatically connected to Windows hypervisor switches.</p>
 <p>For a segmented Mac-only build:
 1. Keep Fusion NAT as the router VM's WAN/update interface only.
-2. Create independent private/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ using features actually exposed by the installed Fusion release.
+2. Create independent private/host-only networks for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ using features actually exposed by the installed Fusion release.
 3. Disable Fusion DHCP on networks where the Linux router provides DHCP, or use static addresses consistently.
 4. Deploy the ARM64 Ubuntu router in <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>.
 5. Attach each guest only to its intended segment.

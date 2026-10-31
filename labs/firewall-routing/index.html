@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://privacyskillvault.com/labs/firewall-routing/">
       
       
-        <link rel="prev" href="../network-design/">
+        <link rel="prev" href="../hypervisor-network-implementation/">
       
       
-        <link rel="next" href="../mac-arm-routing/">
+        <link rel="next" href="../opnsense-implementation/">
       
       
         
@@ -695,6 +695,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -883,6 +911,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../mac-arm-routing/" class="md-nav__link">
         
   
@@ -891,6 +947,62 @@
     
   
     Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
   
 
     
@@ -967,6 +1079,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../network-monitoring/" class="md-nav__link">
         
   
@@ -995,6 +1135,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../telemetry-pipeline/" class="md-nav__link">
         
   
@@ -1003,6 +1199,34 @@
     
   
     Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
   
 
     
@@ -1927,8 +2151,9 @@
 <h1 id="lab-firewall-routing-ids-and-firewall-log-generation">Lab — Firewall, routing, IDS and firewall-log generation<a class="headerlink" href="#lab-firewall-routing-ids-and-firewall-log-generation" title="Permanent link">&para;</a></h1>
 <p><badge color="warning">Mandatory before telemetry forwarding — reference guide, not yet hardware-tested</badge></p>
 <p>This page is the Windows x64 OPNsense implementation. For an Apple-silicon Mac-only build use <a href="../mac-arm-routing/">Mac ARM Router &amp; Firewall</a>. OPNsense supports x86-64, not ARM64.</p>
+<p>For the full interface assignment, Kea DHCPv4, DNS resolver selection, aliases, least-privilege rules, remote logging, IDS and recovery procedure, follow the <a href="../opnsense-implementation/">OPNsense Implementation Runbook</a>.</p>
 <h2 id="1-windows-opnsense-topology">1. Windows OPNsense topology<a class="headerlink" href="#1-windows-opnsense-topology" title="Permanent link">&para;</a></h2>
-<p>Create one x86-64 OPNsense VM with six adapters:</p>
+<p>Create one x86-64 OPNsense VM with seven adapters (WAN plus six internal segments):</p>
 <table>
 <thead>
 <tr>
@@ -1964,6 +2189,11 @@
 <td>10.10.40.1/24</td>
 </tr>
 <tr>
+<td>SENSOR-MGMT</td>
+<td>Private/host-only</td>
+<td>10.10.50.1/24</td>
+</tr>
+<tr>
 <td>DMZ</td>
 <td>Private/host-only</td>
 <td>10.10.60.1/24</td>
@@ -1974,9 +2204,9 @@
 <h2 id="2-create-the-firewall-vm">2. Create the firewall VM<a class="headerlink" href="#2-create-the-firewall-vm" title="Permanent link">&para;</a></h2>
 <p>On Windows x64 use the selected hypervisor. Starting allocation: 2–4 vCPU, 4 GB RAM and 20 GB disk. OPNsense recommends at least 4 GB RAM and an 8 GB virtual disk for virtual installation; allocate more for IDS/log retention.</p>
 <ul>
-<li>Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six NICs and attach each to its intended switch.</li>
-<li>VMware Workstation: add six NICs; WAN on NAT, internal roles on separate host-only networks.</li>
-<li>VirtualBox: follow <a href="../platform-virtualbox/">VirtualBox Host Setup</a>; WAN on NAT, MGMT host-only, remaining segments named Internal Networks.</li>
+<li>Hyper-V: create Generation 2 VM; follow current OPNsense Hyper-V notes for Secure Boot. Add six internal NICs plus the WAN NIC and attach each to its intended switch.</li>
+<li>VMware Workstation: add seven NICs; WAN on NAT, six internal roles on separate host-only networks.</li>
+<li>VirtualBox: follow <a href="../platform-virtualbox/">VirtualBox Host Setup</a>; WAN on NAT, MGMT host-only, remaining internal segments (including SENSOR-MGMT) named Internal Networks.</li>
 </ul>
 <p>Record every virtual NIC MAC before boot. At OPNsense console map roles by MAC and link state. Adapter number is not a reliable interface identifier.</p>
 <h2 id="3-install-opnsense">3. Install OPNsense<a class="headerlink" href="#3-install-opnsense" title="Permanent link">&para;</a></h2>
@@ -1997,6 +2227,7 @@
 <li>Use a consistent time source/timezone for all guests.</li>
 <li>For AD DS, domain clients use the domain controller for DNS; configure upstream resolution deliberately.</li>
 </ol>
+<p>For the exact source/destination/port matrix, including AD DS dependencies and the selected SIEM's common receiver ports, use the <a href="../firewall-policy-matrix/">Firewall Policy Matrix</a>. The table is a design aid: enable only the rows required by the chosen services and verify every rule.</p>
 <h2 id="5-least-privilege-policy">5. Least-privilege policy<a class="headerlink" href="#5-least-privilege-policy" title="Permanent link">&para;</a></h2>
 <p>Retain a safe management path and console access before narrowing rules.</p>
 <ul>
