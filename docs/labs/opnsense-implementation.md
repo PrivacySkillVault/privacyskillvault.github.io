@@ -119,7 +119,7 @@ OPNsense rules are applied on the interface where traffic enters. Add rules to t
 
 1. Allow PSV_MGMT_ADMIN to the firewall GUI on TCP/443.
 2. Allow PSV_MGMT_ADMIN to firewall SSH on TCP/22 only if SSH administration is required.
-3. Allow MGMT admin host to the named server management ports that are actually needed.
+3. Allow MGMT admin host to the named server management ports that are actually needed, including TCP/22 and/or TCP/443 to the sensor management host 10.10.50.10 if sensor administration is required.
 4. Deny/log other management access from non-admin clients.
 5. If Unbound is the DNS service for MGMT, allow MGMT net to This Firewall on UDP/53 and TCP/53 only; do not allow arbitrary external DNS.
 6. Do not allow MGMT to reach the home LAN unless explicitly required.
@@ -144,7 +144,7 @@ Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENS
 
 ### SENSOR-MGMT interface
 
-Allow sensor administration only from PSV_MGMT_ADMIN to the sensor's management address on required SSH/HTTPS ports. Do not use this interface as a capture feed. The sensor's capture NIC is separate, has no IP/default gateway and must receive a verified mirror/tap feed.
+The rule allowing PSV_MGMT_ADMIN to reach sensor management host 10.10.50.10 on required SSH/HTTPS ports must be created on the **MGMT ingress interface**, because MGMT is the source. Do not create that source rule on SENSOR-MGMT. This interface is for traffic initiated by the sensor management host. Do not use it as a capture feed. The sensor's capture NIC is separate, has no IP/default gateway and must receive a verified mirror/tap feed.
 
 For the example sensor management host 10.10.50.10, add only the DNS/time flow matching your design: if it uses Unbound, allow that host to This Firewall on UDP/53 and TCP/53; if it uses AD DNS/time, allow it to 10.10.30.10 on TCP/UDP 53 and UDP/123. For temporary OS/package updates, add a time-bounded rule from 10.10.50.10 only to WAN on TCP/80,443 and UDP/123, then remove it. Do not permit the whole SENSOR-MGMT subnet to unrestricted Internet access.
 
