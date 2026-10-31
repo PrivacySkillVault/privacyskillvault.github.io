@@ -13,6 +13,7 @@ This page defines the intended inter-segment policy before writing individual OP
 | PSV-LOG01 (syslog relay) | 10.10.30.30 | SERVER |
 | SIEM host (one at a time) | Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22 | SERVER |
 | Management workstation | 10.10.10.10 | MGMT |
+| Sensor management host (capture NICs separate/no IP) | 10.10.50.10 | SENSOR-MGMT |
 | Windows endpoint | DHCP/reservation in 10.10.20.0/24 | ENDPOINT |
 | Kali | DHCP/reservation in 10.10.40.0/24 | REDTEAM |
 | Vulnerable target | 10.10.60.20 | DMZ |
@@ -30,6 +31,8 @@ Replace these addresses consistently if your actual plan differs. Do not copy a 
 | REDTEAM | MGMT/SERVER/ENDPOINT/home LAN | Deny |
 | DMZ | MGMT/SERVER/ENDPOINT/home LAN | Deny initiation |
 | SENSOR capture NIC | any routed network | Deny; capture NIC is not a management interface |
+| SENSOR-MGMT host | DNS/NTP and selected SIEM | Allow only the selected resolver/time source and one SIEM agent path |
+| SENSOR-MGMT host | Internet | Deny by default; temporary update egress only from the named sensor host |
 | WAN | router/VM management | Deny inbound |
 | Internal segments | Internet | Deny by default; temporary controlled update egress only |
 
