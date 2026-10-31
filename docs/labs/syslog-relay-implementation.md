@@ -29,16 +29,9 @@ Ensure the relay clock is synchronized. Configure the OS NTP client appropriate 
 
 ## 3. Configure a restricted TCP listener
 
-Create /etc/rsyslog.d/10-psv-input.conf:
+Create /etc/rsyslog.d/10-psv-remote-rules.conf first. Define the ruleset before the input that references it:
 
-~~~text
-module(load="imtcp")
-input(type="imtcp" address="10.10.30.30" port="514" ruleset="PSV-REMOTE")
-~~~
-
-Replace the bind address with the relay's actual SERVER interface address. Binding to 0.0.0.0 is not recommended because it may expose the port on management/WAN interfaces.
-
-Create /etc/rsyslog.d/20-psv-remote-rules.conf:
+Create /etc/rsyslog.d/20-psv-input.conf only after the ruleset file exists:
 
 ~~~text
 template(name="PSVRemoteLine" type="string"
