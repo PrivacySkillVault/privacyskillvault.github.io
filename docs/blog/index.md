@@ -38,6 +38,6 @@
     </a>
     </div>
     <nav class="psv-journal-pagination" aria-label="Journal pages"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link" href="page/2/">2</a><span class="psv-page-status">Page 1 of 2</span><a class="psv-page-next" href="page/2/">Older articles →</a></nav>
-  
+    <p class="psv-journal-photo-note">Article thumbnails are illustrative stock photographs, not evidence from actual incidents. <a href="image-credits/">Image sources &amp; credits</a>.</p>
   </section>
 </div>
