@@ -248,7 +248,7 @@ Keep the VM console open. Confirm router SSH works from the named MGMT admin hos
 
 Start with static addresses. Do not run Fusion DHCP and dnsmasq DHCP on the same internal L2 segment.
 
-If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. This sample does not define DNS options because the correct resolver differs by topology:
+If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. This sample explicitly tags DHCP scopes by the receiving interface. The standalone DNS options point clients at the router's interface address; replace the ENDPOINT DNS option with the AD DNS address when domain services are deployed:
 
 ~~~ini
 interface=mgmt0
@@ -260,18 +260,20 @@ bind-interfaces
 # On Ubuntu with systemd-resolved, use the upstream resolver list rather than the local stub file.
 resolv-file=/run/systemd/resolve/resolv.conf
 
-dhcp-range=interface:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
-dhcp-option=tag:interface:mgmt0,option:router,10.10.10.1
-dhcp-range=interface:endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
-dhcp-option=tag:interface:endpoint0,option:router,10.10.20.1
-# If AD DS/DNS is deployed, uncomment this so domain members use the DC, not dnsmasq/public DNS.
-# dhcp-option=tag:interface:endpoint0,option:dns-server,10.10.30.10
-dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
-dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
-dhcp-range=interface:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
-dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
+dhcp-range=tag:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
+dhcp-option=tag:mgmt0,option:router,10.10.10.1
+dhcp-option=tag:mgmt0,option:dns-server,10.10.10.1
+dhcp-range=tag:endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
+dhcp-option=tag:endpoint0,option:router,10.10.20.1
+# Standalone endpoint DNS; if AD DS/DNS is deployed, replace 10.10.20.1 with 10.10.30.10.
+dhcp-option=tag:endpoint0,option:dns-server,10.10.20.1
+dhcp-range=tag:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
+dhcp-option=tag:redteam0,option:router,10.10.40.1
+dhcp-option=tag:redteam0,option:dns-server,10.10.40.1
+dhcp-range=tag:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
+dhcp-option=tag:dmz0,option:router,10.10.60.1
 # Explicitly advertise the router as DNS for a standalone, non-domain DMZ.
-dhcp-option=tag:interface:dmz0,option:dns-server,10.10.60.1
+dhcp-option=tag:dmz0,option:dns-server,10.10.60.1
 ~~~
 
 By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. The SERVER subnet remains static/reservation-only: do not create a DHCP scope there for the domain controller, relay, SIEM or infrastructure. If AD DS is deployed, explicitly set DHCP option 6 for domain-member scopes to the DC DNS address (10.10.30.10), and configure the DC to forward non-domain queries as designed. Do not advertise dnsmasq/public DNS to domain members. Keep SENSOR-MGMT static and do not run DHCP on a capture-only NIC.
