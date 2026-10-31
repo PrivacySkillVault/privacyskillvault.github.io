@@ -2015,27 +2015,41 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function init() {
-    if (!/\/tools(?:\/|$)/.test(window.location.pathname)) {
-      const injectedStyles = document.getElementById("psv-hiderox-royal-css");
-      if (injectedStyles) injectedStyles.remove();
-      return;
-    }
-    const h = window.location.hash || "";
-    if (h.startsWith("#tool/")) {
-      const id = h.replace("#tool/", "").trim();
-      if (TOOLS.some(t => t.id === id)) {
-        activeToolId = id;
-        currentView = "tool";
+    // The mount point is the reliable page identity. Do not depend on a
+    // particular domain, trailing slash, or MkDocs URL canonicalisation.
+    const root = getRoot();
+    if (!root) return;
+    try {
+      const h = window.location.hash || "";
+      if (h.startsWith("#tool/")) {
+        let id = h.slice("#tool/".length);
+        try { id = decodeURIComponent(id); } catch (_) {}
+        id = id.trim();
+        if (TOOLS.some(t => t.id === id)) {
+          activeToolId = id;
+          currentView = "tool";
+        } else {
+          currentView = "catalog";
+        }
+      } else {
+        currentView = "catalog";
       }
+      render();
+      root.setAttribute("data-psv-mounted", "true");
+    } catch (error) {
+      console.error("[PSV Tools] Workspace initialisation failed:", error);
+      root.innerHTML = '<section class="psv-init-error" role="alert"><h2>Security tools could not start</h2><p>The page loaded, but the tools application encountered an error during startup.</p><p>Open your browser developer console and check messages beginning with <code>[PSV Tools]</code>.</p><button type="button" onclick="window.location.reload()">Reload tools</button></section>';
     }
-    render();
   }
 
-  if (typeof document$ !== "undefined") {
+  // MkDocs Material instant navigation and ordinary browser page loads.
+  if (typeof document$ !== "undefined" && document$ && typeof document$.subscribe === "function") {
     document$.subscribe(() => init());
-  } else if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
   } else {
     init();
   }
+  window.addEventListener("pageshow", init);
 })();
