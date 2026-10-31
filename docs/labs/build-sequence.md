@@ -29,7 +29,7 @@ Follow [Windows Host Setup](platform-windows.md), [Mac Host Setup](platform-maco
 
 ## Stage 2 — design and create networks
 
-Follow [Network Design](network-design.md). Check example subnets against home LAN, VPN and existing routes.
+Follow [Network Design](network-design.md), [Hypervisor Network Implementation](hypervisor-network-implementation.md) and the [Firewall Policy Matrix](firewall-policy-matrix.md). Check example subnets against home LAN, VPN and existing routes. Create and verify the actual virtual switches before attaching guests.
 
 | Segment | Example subnet | Purpose |
 |---|---|---|
@@ -37,7 +37,7 @@ Follow [Network Design](network-design.md). Check example subnets against home L
 | ENDPOINT | 10.10.20.0/24 | Windows/Linux/Mac test endpoints |
 | SERVER | 10.10.30.0/24 | AD DS/DNS, syslog relay and selected SIEM |
 | REDTEAM | 10.10.40.0/24 | Kali assessment source |
-| SENSOR | 10.10.50.0/24 | Sensor management/capture design |
+| SENSOR-MGMT | 10.10.50.0/24 | Sensor administration only; capture NIC is separate/no IP |
 | DMZ | 10.10.60.0/24 | Vulnerable targets |
 
 **Gate 2:** segments exist; VM NICs are mapped; no DHCP overlap, subnet overlap or unintended bridged adapter.
@@ -45,10 +45,10 @@ Follow [Network Design](network-design.md). Check example subnets against home L
 ## Stage 3 — routing and firewall
 
 ### Windows x64
-Follow [OPNsense Firewall & Routing](firewall-routing.md). Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.
+Follow [OPNsense Firewall & Routing](firewall-routing.md) and the [detailed OPNsense implementation runbook](opnsense-implementation.md). Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.
 
 ### Apple Silicon Mac
-Follow [Mac ARM Router & Firewall](mac-arm-routing.md). Use Ubuntu Server ARM64 with nftables and separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.
+Follow [Mac ARM Router & Firewall](mac-arm-routing.md) and the [detailed ARM64 router implementation](mac-arm-router-implementation.md). Use Ubuntu Server ARM64 with Netplan and nftables on separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.
 
 **Gate 3:** verify DHCP/static addressing, DNS, gateway, allowed and denied TCP flows, firewall logs and routes. Kali/DMZ must not reach home LAN or MGMT.
 
@@ -64,7 +64,7 @@ Mac ARM64 track: Ubuntu Server ARM64, Kali ARM64 and architecture-compatible tar
 
 ## Stage 5 — generate endpoint telemetry locally
 
-Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md).
+Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md) and the [Cross-platform Endpoint Telemetry Implementation](endpoint-telemetry-implementation.md).
 
 1. Configure Windows Advanced Audit Policy through a lab-only GPO.
 2. Install/configure Sysmon using Microsoft's current instructions and a reviewed configuration.
@@ -77,7 +77,7 @@ Follow [Windows Endpoint Telemetry](windows-endpoint-telemetry.md).
 
 ## Stage 6 — firewall and network monitoring
 
-Follow [Network Monitoring](network-monitoring.md).
+Follow [Network Monitoring](network-monitoring.md) and the [Zeek/Suricata sensor implementation](network-sensor-implementation.md). Prove packet visibility before installing analyzers.
 
 1. On Windows OPNsense, enable Suricata in alert-only IDS mode on relevant internal interfaces, not only WAN. WAN capture after NAT may lose original internal source identity.
 2. Enable logging on the firewall rules used for pass/block tests.
@@ -93,7 +93,7 @@ On Mac ARM, use supported ARM64 Zeek/Suricata builds only after verifying packet
 
 ## Stage 7 — telemetry collection and forwarding
 
-Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
+Follow the [rsyslog relay implementation](syslog-relay-implementation.md) and [Telemetry Collection & Forwarding](telemetry-pipeline.md).
 
 1. Create a Linux syslog relay on SERVER.
 2. Configure OPNsense or the Mac Linux router to send firewall events to the relay.
@@ -107,11 +107,11 @@ Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
 
 ## Stage 8 — install one SIEM and connect sources
 
-Choose one stack per iteration:
+Choose one stack per iteration. For the exact source-specific agent/forwarder inputs, file paths, event channels and verification queries, follow the [SIEM Collector Implementation Runbook](siem-collector-implementation.md).
 
 - [Elastic](elastic-siem.md): Fleet/Elastic Agent, Windows and System integrations, Filestream for firewall/sensor files.
 - [Splunk](splunk-siem.md): Enterprise on supported x64; Universal Forwarder monitors endpoint, relay and sensor files. Use rsyslog/syslog-ng plus UF or Splunk Connect for Syslog, not direct Splunk UDP input as default.
-- [Wazuh](wazuh-soc.md): central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Use relay-file-plus-agent rather than relying on direct manager syslog listener across versions.
+- [Wazuh](wazuh-soc.md): central stack plus agents on endpoints, relay and sensor; Logcollector monitors firewall/sensor files. Prefer relay-file-plus-agent; direct manager syslog is an optional, explicitly configured input with source allowlisting, depending on the installed release.
 
 For each stack, confirm current OS/architecture support and licence; configure TLS/authentication; install supported agents/forwarders on endpoints, relay and sensor; connect one source at a time; inspect raw events and parsed fields; measure ingestion delay; check duplicates; then add detections. On the Mac router track, forward nftables messages from its local rsyslog file to the SERVER relay over the configured restricted transport, or collect the local file with a supported agent. Do not assume an agent supports ARM64 without checking its matrix.
 

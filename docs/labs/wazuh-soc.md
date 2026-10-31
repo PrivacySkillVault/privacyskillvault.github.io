@@ -8,7 +8,7 @@ The all-in-one Wazuh deployment places manager, indexer and dashboard on one Lin
 
 Do not start this SIEM until Stages 0–7 in [Master Build Sequence](build-sequence.md) pass. Firewall logs must be received and written by the Linux syslog relay; Zeek/Suricata files must exist locally; endpoint source events must be verified. Follow [Telemetry Collection & Forwarding](telemetry-pipeline.md).
 
-Install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor the relay and sensor files explicitly. Do not rely on a direct Wazuh manager syslog listener across versions: Wazuh 5.0 removes it, so the relay-file-plus-agent pattern is the portable design. Check exact release and OS/architecture support before installing.
+Install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor the relay and sensor files explicitly. Wazuh manager releases document a direct syslog input mode as well as the normal secure agent channel. For this lab, prefer the relay-file-plus-agent pattern because it gives durable source-specific files and consistent collection across versions. If you choose direct manager syslog, verify the exact release's remote-input configuration and restrict allowed source IPs at the host and network firewalls. The Wazuh syslog input is plain TCP/UDP; if transport encryption is required, terminate TLS at a dedicated relay and use the relay-file-plus-agent/secure-agent path instead. Do not assume direct syslog is removed or enabled by default.
 
 ## 1. Prepare the server
 
@@ -37,7 +37,23 @@ sudo systemctl status wazuh-dashboard --no-pager
 
 5. Access the dashboard over the management network using HTTPS and the generated trust material. Do not permanently disable certificate validation.
 
-## 3. Enrol Windows endpoint
+## 3. Optional direct syslog input (only if deliberately selected)
+
+Wazuh manager supports a syslog remote input in documented releases. This is separate from the secure agent channel (normally TCP/1514). Configure only after checking the installed release's documentation. Example manager configuration fragment for a dedicated lab manager, with source allowlisting:
+
+~~~xml
+<remote>
+  <connection>syslog</connection>
+  <port>514</port>
+  <protocol>tcp</protocol>
+  <allowed-ips>10.10.30.1</allowed-ips>
+  <local_ip>10.10.30.21</local_ip>
+</remote>
+~~~
+
+Replace the source and listener addresses with actual values. Restrict TCP/514 at host and network firewalls. This Wazuh syslog listener is plain TCP, not TLS. If encryption is required, use the TLS-capable relay and agent path instead. Validate XML/configuration and restart the manager using the release-specific procedure. Direct syslog input does not replace endpoint agents for Windows Event Channels or macOS Unified Logging. Do not enable this listener on an untrusted interface.
+
+## 4. Enrol Windows endpoint
 
 1. In the dashboard, open Agents → Deploy new agent.
 2. Select Windows and the current agent package.
@@ -48,14 +64,14 @@ sudo systemctl status wazuh-dashboard --no-pager
 
 Generated commands may contain registration secrets and internal addresses. Never publish them.
 
-## 4. Enrol Linux endpoint
+## 5. Enrol Linux endpoint
 
 1. Open Deploy new agent and select the correct Linux distribution and architecture.
 2. Follow the current repository and package instructions.
 3. Configure the manager address and enrol the agent.
 4. Enable/start the agent and verify it appears active.
 
-## 5. Validate telemetry
+## 6. Validate telemetry
 
 - Check agent status and last keepalive.
 - Inspect manager and agent logs for connection or decoder errors.
@@ -65,7 +81,7 @@ Generated commands may contain registration secrets and internal addresses. Neve
 
 Installing an agent does not automatically enable every capability. File Integrity Monitoring, vulnerability detection, Security Configuration Assessment, command auditing and log collection have separate configuration and coverage requirements.
 
-## 6. First exercises
+## 7. First exercises
 
 1. Configure FIM for a dedicated lab directory using the current Wazuh FIM documentation.
 2. Create, modify and delete a harmless test file.
@@ -76,7 +92,7 @@ Installing an agent does not automatically enable every capability. File Integri
 
 Use a version-controlled copy of custom rules. Validate configuration before restarting services. Do not paste unreviewed example rules into a production manager.
 
-## 7. Troubleshooting and cleanup
+## 8. Troubleshooting and cleanup
 
 Check manager/indexer/dashboard service logs, agent connectivity, DNS, firewall, certificates, disk and memory. Unenrol agents through the supported workflow. Do not delete indexer data directories manually while services are running.
 
@@ -86,4 +102,4 @@ Check manager/indexer/dashboard service logs, agent connectivity, DNS, firewall,
 - [Wazuh installation guide](https://documentation.wazuh.com/current/installation-guide/index.html)
 - [Agent deployment and enrolment](https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/index.html)
 - [File Integrity Monitoring](https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/index.html)
-- [Wazuh syslog input migration for 5.0](https://github.com/wazuh/wazuh/blob/main/docs/guide/migration/syslog-input-4x-to-5x.md)
+- [Wazuh remote configuration and syslog input](https://documentation.wazuh.com/current/user-manual/reference/ossec-conf/remote.html)

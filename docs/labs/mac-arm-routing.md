@@ -42,6 +42,8 @@ Record the actual Fusion network names and verify subnets before configuring gue
 
 Expected architecture is aarch64. Record every NIC MAC and map it to its Fusion network before configuration. Do not guess interface names.
 
+For the full MAC-matched Netplan YAML, persistent IPv4 forwarding, explicit IPv6 policy, nftables baseline, DHCP/DNS decision, logging and rollback procedure, use the [Mac ARM Router Implementation Runbook](mac-arm-router-implementation.md).
+
 ## 4. Configure interface addressing
 
 Use Netplan MAC matching so Linux interface enumeration changes do not silently swap network roles. Configure:

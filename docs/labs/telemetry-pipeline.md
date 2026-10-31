@@ -18,6 +18,8 @@ This stage creates and proves the data path before installing Elastic, Splunk or
 
 Do not install competing agents to collect the same source unless duplicate ingestion is intentional.
 
+For a reproducible relay listener, source allowlist, per-source file routing, log rotation, firewall policy and TLS decision, follow the [Linux Syslog Relay Implementation Runbook](syslog-relay-implementation.md). The steps below describe the required design and acceptance gate.
+
 ## 2. Create a Linux syslog relay
 
 On Windows track create PSV-LOG01 on SERVER, for example 10.10.30.30/24. On Mac track use an ARM64 Ubuntu Server VM on SERVER. Configure static/reserved addressing, correct DNS/NTP and restricted management.
@@ -62,6 +64,8 @@ On the sensor, prove the files exist before adding a collector:
 
 Zeek supports JSON log output; Suricata EVE writes JSON events. Do not send full PCAP as routine SIEM events; PCAP needs separate access, storage and retention controls.
 
+Before proceeding, complete the [Cross-platform Endpoint Telemetry Implementation Runbook](endpoint-telemetry-implementation.md) and [Network Sensor Implementation Runbook](network-sensor-implementation.md), and verify their local acceptance gates.
+
 ## 6. Pre-SIEM acceptance gate — source and relay only
 
 Verify:
@@ -76,13 +80,15 @@ Verify:
 
 This gate proves source generation and pre-SIEM relay only. It does not claim SIEM ingestion. SIEM-specific agents/forwarders and end-to-end searches are configured after the selected SIEM server is ready.
 
+For the detailed configuration of Elastic Filestream, Splunk Universal Forwarder inputs/outputs and Wazuh Logcollector, use the [SIEM Collector Implementation Runbook](siem-collector-implementation.md).
+
 ## 7. SIEM-specific collector pattern
 
 **Elastic:** install Elastic Agent on relay and sensor. Use Custom Logs (Filestream) for written rsyslog, Zeek and Suricata files. Use Windows and System integrations for endpoint sources. A TCP/UDP integration is a separate listener design; do not assume Fleet being online means syslog is ingested.
 
 **Splunk:** use Universal Forwarder on relay and sensor to monitor written files, and a Windows Universal Forwarder for Event Log channels. Splunk's validated architecture guidance recommends a syslog receiver such as rsyslog/syslog-ng plus a forwarder, or Splunk Connect for Syslog, rather than direct UDP/TCP input on Splunk Enterprise as the default production pattern. Verify every forwarder host architecture.
 
-**Wazuh:** install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Current Wazuh documentation notes that Wazuh 5.0 removes the manager's direct syslog listener; relay-file-plus-agent avoids depending on direct listener support across versions. Check the exact release documentation.
+**Wazuh:** install Wazuh agents on endpoints, relay and sensor. Configure Logcollector to monitor firewall and sensor files. Wazuh manager releases document a direct syslog input mode, but the recommended portable lab pattern here is relay-file-plus-agent. If direct manager syslog is deliberately selected, follow the exact release's remote-input configuration, require an explicit allowed-ips list and restrict the listener at the firewall.
 
 ## 8. Network policy
 
