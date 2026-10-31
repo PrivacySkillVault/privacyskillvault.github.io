@@ -11,11 +11,11 @@ This page defines the intended inter-segment policy before writing individual OP
 | OPNsense internal gateways | .1 in each subnet | all internal segments |
 | PSV-DC01 (AD DS/DNS) | 10.10.30.10 | SERVER |
 | PSV-LOG01 (syslog relay) | 10.10.30.30 | SERVER |
-| SIEM host (Elastic/Splunk/Wazuh, one at a time) | 10.10.30.21 | SERVER |
+| SIEM host (one at a time) | Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22 | SERVER |
 | Management workstation | 10.10.10.10 | MGMT |
 | Windows endpoint | DHCP/reservation in 10.10.20.0/24 | ENDPOINT |
 | Kali | DHCP/reservation in 10.10.40.0/24 | REDTEAM |
-| Vulnerable target | 10.10.60.10 | DMZ |
+| Vulnerable target | 10.10.60.20 | DMZ |
 
 Replace these addresses consistently if your actual plan differs. Do not copy a sample rule before checking source/destination interface and address.
 
