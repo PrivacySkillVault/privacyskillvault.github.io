@@ -80,7 +80,9 @@ Verify:
 
 This gate proves source generation and pre-SIEM relay only. It does not claim SIEM ingestion. SIEM-specific agents/forwarders and end-to-end searches are configured after the selected SIEM server is ready.
 
-For the detailed configuration of Elastic Filestream, Splunk Universal Forwarder inputs/outputs and Wazuh Logcollector, use the [SIEM Collector Implementation Runbook](siem-collector-implementation.md).\n\n## 7. SIEM-specific collector pattern
+For the detailed configuration of Elastic Filestream, Splunk Universal Forwarder inputs/outputs and Wazuh Logcollector, use the [SIEM Collector Implementation Runbook](siem-collector-implementation.md).
+
+## 7. SIEM-specific collector pattern
 
 **Elastic:** install Elastic Agent on relay and sensor. Use Custom Logs (Filestream) for written rsyslog, Zeek and Suricata files. Use Windows and System integrations for endpoint sources. A TCP/UDP integration is a separate listener design; do not assume Fleet being online means syslog is ingested.
 
