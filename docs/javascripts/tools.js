@@ -8,7 +8,8 @@
     { id: "ti", label: "Threat Intelligence" },
     { id: "dfir", label: "DFIR & Forensics" },
     { id: "network", label: "Network & Email" },
-    { id: "util", label: "Governance & Utilities" }
+    { id: "util", label: "Incident & Utilities" },
+    { id: "pentest", label: "Pentest & Validation" }
   ];
 
   const SIGMA_TEMPLATES = [
@@ -388,6 +389,57 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         { q: "Does editing the vector string or clicking presets recalculate the score in real time?", a: "Yes. Click any preset pill above or change any metric token in the input box (e.g., AV:N to AV:L) to watch Base, Temporal, and Environmental scores recalculate." }
       ],
       related: ["ti", "severity", "report", "ioc"]
+    },
+    {
+      id: "case",
+      cat: "dfir",
+      badge: "CASE",
+      shortTitle: "Incident Case Workspace",
+      title: "SOC Incident Case Workspace",
+      desc: "Create a structured incident record, track scope and response actions, build a UTC timeline, and export a Markdown case report locally.",
+      options: [],
+      actionLabel: "Build Incident Case",
+      sample: "",
+      whatItDoes: "Creates a local working incident record with case metadata, affected assets, evidence references, timeline and response actions.",
+      whyItMatters: "Consistent case notes improve handovers, auditability and incident coordination.",
+      howItWorks: "The workspace formats your entries in the browser and exports a Markdown file. It does not save cases to a PSV server or replace an approved case-management system.",
+      bestPractices: ["Use UTC for all event times and retain original source timestamps.", "Record evidence provenance, collector, acquisition time and cryptographic hashes.", "Keep personal data and regulated evidence in approved enterprise systems."],
+      faqs: [{q:"Is this a case-management backend?",a:"No. It is a local report builder. Download the report and store it in your approved case repository."}],
+      related: ["report","timestamp","ioc"]
+    },
+    {
+      id: "share",
+      cat: "dfir",
+      badge: "LOCK",
+      shortTitle: "Secure Evidence Share",
+      title: "Encrypted Evidence Sharing",
+      desc: "Encrypt text or small evidence files in your browser using AES-256-GCM with a PBKDF2-derived key. Download an encrypted package to share separately.",
+      options: [],
+      actionLabel: "Encrypt Package",
+      sample: "",
+      whatItDoes: "Encrypts supplied text or a file locally with AES-256-GCM and a passphrase-derived key. Decryption is performed in the browser using the passphrase.",
+      whyItMatters: "Evidence and incident details should not be sent as plain text or uploaded to public file-sharing services.",
+      howItWorks: "Uses Web Crypto PBKDF2-SHA-256 (310,000 iterations) to derive an AES-256-GCM key, a random 16-byte salt and 12-byte IV. The encrypted package is downloaded; PSV does not receive the content.",
+      bestPractices: ["Use a unique passphrase of at least 14 characters and share it through a separate approved channel.", "Do not send the passphrase in the same email or message as the encrypted package.", "Follow organisational evidence retention, classification and approved transfer policies; this browser tool is not a substitute for managed secure transfer."],
+      faqs: [{q:"Does PSV store or transmit the evidence?",a:"No upload endpoint is used by this feature. Encryption and decryption run in your browser; the encrypted package is downloaded to your device."},{q:"Can I recover a lost passphrase?",a:"No. There is no password reset or recovery mechanism. A lost passphrase means the package cannot be decrypted."}],
+      related: ["case","report"]
+    },
+    {
+      id: "evidence",
+      cat: "dfir",
+      badge: "SHA",
+      shortTitle: "Evidence Integrity",
+      title: "Evidence SHA-256 Integrity Checker",
+      desc: "Calculate a SHA-256 digest for a selected local file and export a simple integrity record without uploading the file.",
+      options: [],
+      actionLabel: "Calculate SHA-256",
+      sample: "",
+      whatItDoes: "Calculates a SHA-256 digest of a file selected from your device and creates a basic evidence integrity record.",
+      whyItMatters: "Cryptographic hashes help demonstrate that a collected file has not changed between documented checkpoints.",
+      howItWorks: "Reads the selected file in browser memory and uses the Web Crypto SHA-256 digest API. The file is not uploaded.",
+      bestPractices: ["Hash the original evidence as early as practical and record acquisition method, time, collector and source.", "A matching hash supports integrity comparison but does not prove authenticity, lawful acquisition or chain of custody.", "For large forensic images, use validated forensic tooling and write blockers rather than a browser page."],
+      faqs: [{q:"Does a hash prove evidence is genuine?",a:"No. A hash detects changes relative to a known digest; it does not establish provenance or authenticity."}],
+      related: ["case","share","timestamp"]
     }
   ];
 
@@ -1442,78 +1494,70 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   function renderCatalogView(root) {
     const filtered = TOOLS.filter(t => {
       const catOk = activeCat === "all" || t.cat === activeCat;
-      const qOk = !searchQuery || t.title.toLowerCase().includes(searchQuery) || t.desc.toLowerCase().includes(searchQuery);
-      return catOk && qOk;
+      const hay = (t.title + " " + t.desc + " " + t.shortTitle).toLowerCase();
+      return catOk && (!searchQuery || hay.includes(searchQuery));
     });
-
+    const groups = [
+      {id:"all",label:"All capabilities"},
+      {id:"soc",label:"SOC & Detection"},
+      {id:"ti",label:"Threat Intelligence"},
+      {id:"dfir",label:"DFIR & Incident Response"},
+      {id:"network",label:"Network, Email & Vulnerability"},
+      {id:"pentest",label:"Pentest & Validation"},
+      {id:"util",label:"Reporting & Utilities"}
+    ];
     root.innerHTML = `
-      <div id="psv-app">
-        <div class="psv-hero-split">
-          <div>
-            <div class="psv-eyebrow">// INTERACTIVE SECURITY TOOLS</div>
-            <h1 class="psv-hero-h1">Free <span>Security Tools</span><br>Built for Defenders.</h1>
-            <p class="psv-hero-desc">13 browser-based SOC, DFIR, and detection-support tools. Most processing stays in your browser; the Threat Intel Hub contacts public providers only after you select Enrich Indicator.</p>
-            <div class="psv-stats-bar">
-              <div class="psv-stat-cell"><div class="psv-stat-val">13</div><div class="psv-stat-lbl">Security Tools</div></div>
-              <div class="psv-stat-cell"><div class="psv-stat-val">Local</div><div class="psv-stat-lbl">Most Processing</div></div>
-              <div class="psv-stat-cell"><div class="psv-stat-val">Opt-in</div><div class="psv-stat-lbl">External Lookups</div></div>
-            </div>
+      <div id="psv-app" class="psv-workbench-v2">
+        <section class="psv-command-hero">
+          <div class="psv-eyebrow">PRIVACY SKILL VAULT / SECURITY OPERATIONS</div>
+          <h1 class="psv-hero-h1">Investigation <span>Workbench</span></h1>
+          <p class="psv-hero-desc">A practical browser-based workspace for SOC triage, threat analysis, digital forensics, incident response, detection engineering and authorised security testing.</p>
+          <div class="psv-trust-line"><span>● LOCAL-FIRST UTILITIES</span><span>● EXPLICIT EXTERNAL LOOKUPS</span><span>● NO PSV CASE STORAGE</span></div>
+          <div class="psv-command-stats">
+            <div><strong>${TOOLS.length}</strong><span>Interactive tools</span></div>
+            <div><strong>3</strong><span>Investigation workflows</span></div>
+            <div><strong>0</strong><span>Evidence uploads to PSV</span></div>
           </div>
+        </section>
 
-          <div class="psv-preview-box">
-            <div class="psv-preview-top">
-              <span>PSV // QUICK-LAUNCH MATRIX</span>
-              <span>CLICK TO OPEN</span>
-            </div>
-            <div class="psv-preview-mini-grid">
-              ${TOOLS.slice(0, 9).map(t => `
-                <button type="button" class="psv-mini-tile" data-psv-action="open-tool" data-tool="${esc(t.id)}">
-                  <span>[${esc(t.badge)}]</span>${esc(t.shortTitle)}
-                </button>
-              `).join("")}
-            </div>
+        <section class="psv-workflow-section">
+          <div class="psv-section-head"><div><span class="psv-eyebrow">START HERE</span><h2>Investigation workflows</h2></div><p>Move from alert triage to evidence handling and reporting.</p></div>
+          <div class="psv-workflow-grid">
+            <button class="psv-workflow-card" data-psv-action="open-tool" data-tool="case"><span class="psv-workflow-icon">01 / CASE</span><strong>Open incident workspace</strong><small>Scope · assets · UTC timeline · actions · case report</small><b>Start case →</b></button>
+            <button class="psv-workflow-card" data-psv-action="open-tool" data-tool="evidence"><span class="psv-workflow-icon">02 / INTEGRITY</span><strong>Verify evidence integrity</strong><small>Calculate SHA-256 locally and create a basic integrity record</small><b>Hash evidence →</b></button>
+            <button class="psv-workflow-card psv-workflow-secure" data-psv-action="open-tool" data-tool="share"><span class="psv-workflow-icon">03 / SECURE TRANSFER</span><strong>Secure evidence sharing</strong><small>Encrypt text or a small file before sharing the package separately</small><b>Encrypt evidence →</b></button>
           </div>
-        </div>
+        </section>
 
-        <div class="psv-catalog-window">
-          <div class="psv-window-bar">
-            <div class="psv-window-dots">
-              <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
-              <span style="margin-left:0.5rem;">PSV // SECURITY-TOOLS-CATALOG</span>
-            </div>
-            <span>13 TOOLS · BROWSER-BASED · EXTERNAL LOOKUPS ARE OPT-IN</span>
+        <section class="psv-tool-directory">
+          <div class="psv-section-head"><div><span class="psv-eyebrow">TOOL DIRECTORY</span><h2>Analyst capabilities</h2></div><p>Search by task, evidence type, technique or workflow.</p></div>
+          <input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search: IOC, phishing, Windows event, YARA, CVSS, timeline, encryption…" value="${esc(searchQuery)}" />
+          <div class="psv-cat-pills">
+            ${groups.map(c=>`<button type="button" class="psv-pill ${activeCat===c.id?"active":""}" data-psv-action="set-cat" data-cat="${c.id}">${c.label} <span>${c.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===c.id).length}</span></button>`).join("")}
           </div>
-
-          <div class="psv-catalog-body">
-            <input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search 13 tools (e.g. ioc, sigma, sysmon, yara, phishing, cvss, timestamp)..." value="${esc(searchQuery)}" />
-
-            <div class="psv-cat-pills">
-              ${CATEGORIES.map(c => {
-                const count = c.id === "all" ? TOOLS.length : TOOLS.filter(t => t.cat === c.id).length;
-                return `<button type="button" class="psv-pill ${activeCat === c.id ? "active" : ""}" data-psv-action="set-cat" data-cat="${esc(c.id)}">${esc(c.label)} (${count})</button>`;
-              }).join("")}
-            </div>
-
-            <div class="psv-cards-grid">
-              ${filtered.map(t => `
-                <div class="psv-tool-card" role="button" tabindex="0" data-psv-action="open-tool" data-tool="${esc(t.id)}">
-                  <div>
-                    <div class="psv-card-head">
-                      <span class="psv-card-badge">${esc(t.badge)}</span>
-                      <span class="psv-card-cat-lbl">${esc(t.cat.toUpperCase())}</span>
-                    </div>
-                    <h3 class="psv-card-title">${esc(t.title)}</h3>
-                    <p class="psv-card-desc">${esc(t.desc)}</p>
-                  </div>
-                  <div class="psv-card-foot">
-                    <span class="psv-client-tag">● Browser-based</span>
-                    <span class="psv-open-link">Open Tool →</span>
-                  </div>
-                </div>
-              `).join("")}
-            </div>
+          <div class="psv-cards-grid">
+            ${filtered.map(t=>`
+              <button type="button" class="psv-tool-card psv-tool-card-v2" data-psv-action="open-tool" data-tool="${esc(t.id)}">
+                <span class="psv-card-head"><span class="psv-card-badge">${esc(t.badge)}</span><span class="psv-card-cat-lbl">${esc(t.cat.toUpperCase())}</span></span>
+                <strong class="psv-card-title">${esc(t.title)}</strong>
+                <span class="psv-card-desc">${esc(t.desc)}</span>
+                <span class="psv-card-foot"><span class="psv-client-tag">● ${["ti"].includes(t.id)?"External lookup on request":"Browser-side"}</span><span class="psv-open-link">Open tool →</span></span>
+              </button>`).join("") || '<p class="psv-empty-state">No matching tools. Try a different search term or category.</p>'}
           </div>
-        </div>
+        </section>
+
+        <section class="psv-operator-reference">
+          <div class="psv-section-head"><div><span class="psv-eyebrow">LOCAL TOOLING STACK</span><h2>Tools to run in your own lab</h2></div><p>These require installed engines, agents or lab infrastructure; a web page cannot safely reproduce them.</p></div>
+          <div class="psv-reference-grid">
+            <article><strong>SOC / SIEM</strong><p>Elastic Security · Splunk Enterprise · Wazuh · Microsoft Sentinel (tenant) · Sigma CLI</p></article>
+            <article><strong>Network / Packet</strong><p>Wireshark · Zeek · Suricata · tcpdump · Arkime · NetworkMiner</p></article>
+            <article><strong>DFIR / Endpoint</strong><p>Velociraptor · KAPE · Autopsy / Sleuth Kit · Volatility 3 · Plaso / log2timeline · Hayabusa</p></article>
+            <article><strong>Threat intelligence</strong><p>MISP · OpenCTI · Yeti · STIX/TAXII clients · local YARA rule repositories</p></article>
+            <article><strong>Pentesting (authorised)</strong><p>Nmap · Nuclei · Burp Suite · OWASP ZAP · Metasploit · sqlmap · ffuf · testssl.sh</p></article>
+            <article><strong>Malware analysis</strong><p>YARA · capa · Ghidra · REMnux · FLARE-VM · Detect It Easy · FLOSS</p></article>
+          </div>
+        </section>
+        <p class="psv-workbench-disclaimer"><strong>Operational boundary:</strong> Browser utilities assist analysis; they are not a SIEM, EDR, packet-capture engine, malware sandbox or authoritative threat-intelligence platform. Use only on data and systems you are authorised to examine. Never paste regulated, customer, credential or employer-confidential data into this public website.</p>
       </div>
     `;
   }
