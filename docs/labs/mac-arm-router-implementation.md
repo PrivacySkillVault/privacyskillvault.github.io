@@ -195,6 +195,9 @@ table inet filter {
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 88, 389, 464 } ct state new accept
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport { 53, 88, 135, 389, 445, 464, 636, 3268, 3269, 9389 } ct state new accept
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport 49152-65535 ct state new accept
+    # If the sensor management host uses AD DNS/NTP, allow only these services to the DC:
+    # iifname "sensormgmt0" ip saddr 10.10.50.10 oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 123 } ct state new accept
+    # iifname "sensormgmt0" ip saddr 10.10.50.10 oifname "server0" ip daddr 10.10.30.10 tcp dport 53 ct state new accept
 
     # Select ONE SIEM path and replace the sample manager IP/ports with the actual deployment.
     # Wazuh agent secure channel + enrollment (Wazuh manager example 10.10.30.22).
