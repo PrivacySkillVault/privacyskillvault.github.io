@@ -1,4 +1,4 @@
-:root{--psv-bg:#f7f9fc;--psv-surface:#fff;--psv-border:#d9e1ec;--psv-text:#172033;--psv-muted:#586579;--psv-primary:#1f6feb;--psv-radius:10px;--psv-content-width:1120px}
+:root{--psv-bg:#f7f9fc;--psv-surface:#fff;--psv-border:#d9e1ec;--psv-text:#172033;--psv-muted:#586579;--psv-primary:#1f6feb;--psv-radius:10px;--psv-content-width:1360px}
 [data-md-color-scheme="slate"]{--psv-bg:#0b0f14;--psv-surface:#161b22;--psv-border:#30363d;--psv-text:#e6edf3;--psv-muted:#9ba7b4;--psv-primary:#58a6ff}
 body{background:var(--psv-bg);color:var(--psv-text);font-family:Roboto,"Helvetica Neue",Arial,sans-serif}
 .md-typeset,.md-header,.md-nav{font-family:Roboto,"Helvetica Neue",Arial,sans-serif}
@@ -44,3 +44,23 @@ body{background:var(--psv-bg);color:var(--psv-text);font-family:Roboto,"Helvetic
 /* Visible keyboard focus for interactive security-tool cards and controls */
 #psv-app [data-psv-action]:focus-visible{outline:3px solid #58a6ff;outline-offset:3px;border-radius:7px}
 #psv-app .psv-tool-card[role="button"]:focus-visible{border-color:#58a6ff;box-shadow:0 0 0 3px rgba(88,166,255,.28)}
+
+
+/* Desktop/tablet layout refinements */
+.md-nav--primary > .md-nav__title{display:none!important}
+@media (min-width:768px) and (max-width:1219px){
+  .md-grid{max-width:100%;width:100%}
+  .md-content__inner{margin:0 1.15rem}
+}
+@media (min-width:1220px){
+  .md-grid{max-width:1360px}
+}
+
+/* Blog is an editorial destination, not part of the documentation tree */
+.psv-blog-page .md-sidebar--primary,
+.psv-blog-page .md-sidebar--secondary{display:none!important}
+.psv-blog-page .md-content{max-width:980px;margin-left:auto;margin-right:auto}
+.psv-blog-page .md-content__inner{padding-left:1.5rem;padding-right:1.5rem}
+@media(max-width:767px){
+  .psv-blog-page .md-content__inner{padding-left:.9rem;padding-right:.9rem}
+}
