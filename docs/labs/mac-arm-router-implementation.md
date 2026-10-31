@@ -154,7 +154,7 @@ flush ruleset
 
 define wan_if = "wan0"
 define mgmt_admin = 10.10.10.10
-define dmz_target = 10.10.60.10
+define dmz_target = 10.10.60.20
 
 table inet filter {
   chain input {
@@ -181,9 +181,30 @@ table inet filter {
 
     iifname "redteam0" oifname "dmz0" ip daddr $dmz_target tcp dport { 80, 443, 8080 } ct state new accept
 
+    # Sensor management: permit the named MGMT admin host to reach sensor management services only.
+    # iifname "mgmt0" oifname "sensormgmt0" ip saddr $mgmt_admin ip daddr 10.10.50.0/24 tcp dport { 22, 443 } ct state new accept
+
+    # Optional AD DS flows — uncomment only if a lab DC exists at 10.10.30.10.
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 88, 389, 464 } ct state new accept
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport { 53, 88, 135, 389, 445, 464, 636, 3268, 3269, 9389 } ct state new accept
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport 49152-65535 ct state new accept
+
+    # Select ONE SIEM path and replace the sample manager IP/ports with the actual deployment.
+    # Wazuh agent secure channel + enrollment (disable enrollment rule after rollout if not needed).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 1515 } ct state new accept
+    # Elastic Agent to Fleet Server/Elasticsearch (use separate destination IPs if deployed separately).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 8220, 9200 } ct state new accept
+    # Splunk Universal Forwarder to receiver.
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
+    # Management UI access from the named admin host only; use only the selected UI port.
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.21 tcp dport { 443, 5601, 8000 } ct state new accept
+    # Sensor management agent to the selected SIEM; capture-only NICs have no IP and are not routed.
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 8220, 9200, 9997 } ct state new accept
+
     # Optional temporary update egress for trusted lab segments only.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
-    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept\n    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
 
     limit rate 5/second log prefix "PSV-ROUTER-FWD-DROP " flags all counter
     counter drop
@@ -229,6 +250,8 @@ interface=server0
 interface=redteam0
 interface=dmz0
 bind-interfaces
+# On Ubuntu with systemd-resolved, use the upstream resolver list rather than the local stub file.
+resolv-file=/run/systemd/resolve/resolv.conf
 
 dhcp-range=interface:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
 dhcp-option=tag:interface:mgmt0,option:router,10.10.10.1
@@ -238,13 +261,11 @@ dhcp-range=interface:server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
 dhcp-option=tag:interface:server0,option:router,10.10.30.1
 dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
 dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
-dhcp-range=interface:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
+dhcp-range=interface:dmz0,10.10.60.200,10.10.60.150,255.255.255.0,12h
 dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
 ~~~
 
-For an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
-
-After enabling DHCP/DNS, uncomment the matching UDP/67 and UDP/TCP/53 rules in /etc/nftables.conf for the interfaces listed above, syntax-check the ruleset, and apply it. Without these input rules, nftables' default-drop input policy will block DHCP and DNS requests to dnsmasq. Do not enable those rules if dnsmasq is not listening on those interfaces.
+By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. If this router serves an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS; configure the appropriate DHCP DNS option for those domain clients or use static reservations. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
 
 Validate:
 
