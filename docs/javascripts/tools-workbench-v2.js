@@ -1171,6 +1171,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-btn-run{background:var(--md-primary-fg-color);border:1px solid var(--md-primary-fg-color);color:var(--md-primary-bg-color)}
       #psv-app .psv-btn-util,#psv-app .psv-back-btn{background:var(--md-code-bg-color);border:1px solid var(--psv-tool-border);color:var(--md-default-fg-color)}
       #psv-app [data-psv-action]{cursor:pointer}
+      #psv-app a.psv-workflow-card,#psv-app a.psv-tool-card-v2,#psv-app a.psv-related-card{display:flex;text-decoration:none!important;color:var(--md-default-fg-color)!important}
+      #psv-app a.psv-workflow-card:hover,#psv-app a.psv-tool-card-v2:hover,#psv-app a.psv-related-card:hover{text-decoration:none!important}
+      #psv-app a.psv-tool-card-v2 .psv-card-title,#psv-app a.psv-related-card .psv-card-title{color:var(--md-default-fg-color)}
+
       #psv-app .psv-section-head h2{color:var(--md-default-fg-color);border:0}
       #psv-app .psv-section-head>p{color:var(--md-default-fg-color--light)}
       #psv-app .psv-workflow-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -1625,9 +1629,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         <section class="psv-workflow-section">
           <div class="psv-section-head"><div><span class="psv-eyebrow">START HERE</span><h2>Investigation workflows</h2></div><p>Move from alert triage to evidence handling and reporting.</p></div>
           <div class="psv-workflow-grid">
-            <button class="psv-workflow-card" data-psv-action="open-tool" data-tool="case"><span class="psv-workflow-icon">01 / CASE</span><strong>Open incident workspace</strong><small>Scope · assets · UTC timeline · actions · case report</small><b>Start case →</b></button>
-            <button class="psv-workflow-card" data-psv-action="open-tool" data-tool="evidence"><span class="psv-workflow-icon">02 / INTEGRITY</span><strong>Verify evidence integrity</strong><small>Calculate SHA-256 locally and create a basic integrity record</small><b>Hash evidence →</b></button>
-            <button class="psv-workflow-card psv-workflow-secure" data-psv-action="open-tool" data-tool="share"><span class="psv-workflow-icon">03 / SECURE TRANSFER</span><strong>Secure evidence sharing</strong><small>Encrypt text or a small file before sharing the package separately</small><b>Encrypt evidence →</b></button>
+            <a class="psv-workflow-card" href="#tool/case" data-psv-action="open-tool" data-tool="case"><span class="psv-workflow-icon">01 / CASE</span><strong>Open incident workspace</strong><small>Scope · assets · UTC timeline · actions · case report</small><b>Start case →</b></a>
+            <a class="psv-workflow-card" href="#tool/evidence" data-psv-action="open-tool" data-tool="evidence"><span class="psv-workflow-icon">02 / INTEGRITY</span><strong>Verify evidence integrity</strong><small>Calculate SHA-256 locally and create a basic integrity record</small><b>Hash evidence →</b></a>
+            <a class="psv-workflow-card psv-workflow-secure" href="#tool/share" data-psv-action="open-tool" data-tool="share"><span class="psv-workflow-icon">03 / SECURE TRANSFER</span><strong>Secure evidence sharing</strong><small>Encrypt text or a small file before sharing the package separately</small><b>Encrypt evidence →</b></a>
           </div>
         </section>
 
@@ -1639,12 +1643,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           </div>
           <div class="psv-cards-grid">
             ${filtered.map(t=>`
-              <button type="button" class="psv-tool-card psv-tool-card-v2" data-psv-action="open-tool" data-tool="${esc(t.id)}">
+              <a class="psv-tool-card psv-tool-card-v2" href="#tool/${encodeURIComponent(t.id)}" data-psv-action="open-tool" data-tool="${esc(t.id)}">
                 <span class="psv-card-head"><span class="psv-card-badge">${esc(t.badge)}</span><span class="psv-card-cat-lbl">${esc(t.cat.toUpperCase())}</span></span>
                 <strong class="psv-card-title">${esc(t.title)}</strong>
                 <span class="psv-card-desc">${esc(t.desc)}</span>
                 <span class="psv-card-foot"><span class="psv-client-tag">● ${["ti"].includes(t.id)?"External lookup on request":"Browser-side"}</span><span class="psv-open-link">Open tool →</span></span>
-              </button>`).join("") || '<p class="psv-empty-state">No matching tools. Try a different search term or category.</p>'}
+              </a>`).join("") || '<p class="psv-empty-state">No matching tools. Try a different search term or category.</p>'}
           </div>
         </section>
 
@@ -1878,7 +1882,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <h3>Related Security Tools</h3>
             <div class="psv-related-grid">
               ${relatedTools.map(rt => `
-                <div class="psv-tool-card" role="button" tabindex="0" data-psv-action="open-tool" data-tool="${esc(rt.id)}">
+                <a class="psv-tool-card psv-related-card" href="#tool/${encodeURIComponent(rt.id)}" data-psv-action="open-tool" data-tool="${esc(rt.id)}">
                   <div>
                     <div class="psv-card-head">
                       <span class="psv-card-badge">${esc(rt.badge)}</span>
@@ -1887,7 +1891,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                     <p class="psv-card-desc" style="font-size:0.75rem;margin-bottom:0.5rem;">${esc(rt.desc)}</p>
                   </div>
                   <span class="psv-open-link" style="font-size:0.74rem;">Open Tool →</span>
-                </div>
+                </a>
               `).join("")}
             </div>
           </div>
