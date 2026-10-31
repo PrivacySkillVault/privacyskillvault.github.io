@@ -492,6 +492,46 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const style = document.createElement("style");
     style.id = "psv-hiderox-royal-css";
     style.textContent = `
+      /* Vault-style directory layout, aligned with the shared PSV Material theme. */
+      #psv-app .psv-tools-intro{margin:0 0 1.6rem;padding:0 0 1.2rem;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+      #psv-app .psv-tools-intro h1{margin:.25rem 0 .6rem;font-size:2rem;font-weight:700;letter-spacing:-.02em;color:var(--md-default-fg-color)}
+      #psv-app .psv-tools-intro>p{max-width:900px;color:var(--md-default-fg-color--light);font-size:.92rem;line-height:1.7}
+      #psv-app .psv-tools-trust{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;margin:.9rem 0;color:var(--md-default-fg-color--light);font-size:.76rem;font-weight:600}
+      #psv-app .psv-tools-trust span:first-child{color:var(--md-default-fg-color)}
+      #psv-app .psv-tools-note{margin:.8rem 0 0;padding:.75rem .9rem;border-left:3px solid var(--md-accent-fg-color);background:var(--md-code-bg-color);font-size:.78rem}
+      #psv-app .psv-vault-layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:1.5rem;align-items:start}
+      #psv-app .psv-vault-sidebar{position:sticky;top:1rem;padding:.9rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
+      #psv-app .psv-vault-sidebar-title{padding:.25rem .45rem .7rem;color:var(--md-default-fg-color--light);font:700 .68rem "Roboto Mono",monospace;letter-spacing:.08em}
+      #psv-app .psv-vault-category{display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;padding:.65rem .55rem;border:0;border-radius:7px;background:transparent;color:var(--md-default-fg-color);text-align:left;cursor:pointer}
+      #psv-app .psv-vault-category:hover{background:var(--md-default-bg-color)}
+      #psv-app .psv-vault-category.active{background:var(--md-default-bg-color);box-shadow:inset 3px 0 var(--md-accent-fg-color)}
+      #psv-app .psv-vault-category strong,#psv-app .psv-vault-category small{display:block}
+      #psv-app .psv-vault-category strong{font-size:.8rem;font-weight:650}
+      #psv-app .psv-vault-category small{margin-top:.12rem;color:var(--md-default-fg-color--light);font-size:.67rem;line-height:1.4}
+      #psv-app .psv-vault-count{min-width:1.55rem;padding:.12rem .35rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:999px;text-align:center;font:600 .68rem "Roboto Mono",monospace}
+      #psv-app .psv-vault-sidebar-note{margin-top:.8rem;padding:.75rem;border-top:1px solid var(--md-default-fg-color--lightest);font-size:.74rem}
+      #psv-app .psv-vault-sidebar-note p{margin:.35rem 0 0;color:var(--md-default-fg-color--light);line-height:1.55}
+      #psv-app .psv-vault-main{min-width:0}
+      #psv-app .psv-vault-main-head{display:flex;justify-content:space-between;align-items:end;margin:.1rem 0 .7rem}
+      #psv-app .psv-vault-main-head h2{margin:.15rem 0;font-size:1.35rem;border:0;padding:0}
+      #psv-app .psv-vault-main-head p{margin:0;color:var(--md-default-fg-color--light);font-size:.76rem}
+      #psv-app .psv-vault-search-label{display:block;margin:.7rem 0 .35rem;font-size:.75rem;font-weight:650}
+      #psv-app .psv-vault-search-wrap{position:relative}
+      #psv-app .psv-vault-search-wrap>span{position:absolute;left:.85rem;top:.48rem;color:var(--md-default-fg-color--light);font-size:1.2rem}
+      #psv-app .psv-vault-search-wrap .psv-search-bar{margin:0 0 1rem;padding:.72rem .9rem .72rem 2.25rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);font:inherit}
+      #psv-app .psv-cards-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+      #psv-app .psv-tool-card-v2{min-height:180px;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:9px;background:var(--md-code-bg-color);text-decoration:none;color:var(--md-default-fg-color);transition:border-color .15s ease,transform .15s ease}
+      #psv-app .psv-tool-card-v2:hover{border-color:var(--md-accent-fg-color);transform:translateY(-2px)}
+      #psv-app .psv-tool-card-v2:focus-visible{outline:3px solid var(--md-accent-fg-color);outline-offset:3px}
+      #psv-app .psv-tool-card-v2 .psv-card-title{font-size:.95rem;line-height:1.4}
+      #psv-app .psv-tool-card-v2 .psv-card-desc{font-size:.76rem;line-height:1.55}
+      #psv-app .psv-tool-card-v2 .psv-card-cat-lbl{font-size:.62rem}
+      #psv-app .psv-tool-card-v2 .psv-card-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto}
+      #psv-app .psv-tool-card-v2 .psv-client-tag{font-size:.65rem}
+      #psv-app .psv-tool-card-v2 .psv-open-link{font-size:.74rem;font-weight:700;white-space:nowrap}
+      #psv-app .psv-operator-reference{margin-top:2.4rem}
+      @media(max-width:900px){#psv-app .psv-vault-layout{grid-template-columns:1fr}#psv-app .psv-vault-sidebar{position:static;display:flex;flex-wrap:wrap;gap:.35rem;padding:.65rem}#psv-app .psv-vault-sidebar-title{width:100%;padding:.15rem .3rem .3rem}#psv-app .psv-vault-category{width:auto;flex:1 1 180px;border:1px solid var(--md-default-fg-color--lightest)}#psv-app .psv-vault-sidebar-note{display:none}}
+      @media(max-width:620px){#psv-app .psv-cards-grid{grid-template-columns:1fr}#psv-app .psv-tools-intro h1{font-size:1.7rem}#psv-app .psv-vault-category{flex-basis:100%}}
       /* Keep the shared MkDocs header, sidebars, article width and page canvas intact. */
       #psv-workbench-root {
         width: 100%;
@@ -1599,51 +1639,64 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   function renderCatalogView(root) {
     const filtered = TOOLS.filter(t => {
       const catOk = activeCat === "all" || t.cat === activeCat;
-      const hay = (t.title + " " + t.desc + " " + t.shortTitle).toLowerCase();
+      const hay = (t.title + " " + t.desc + " " + t.shortTitle + " " + t.badge).toLowerCase();
       return catOk && (!searchQuery || hay.includes(searchQuery));
     });
     const groups = [
-      {id:"all",label:"All tools"},
-      {id:"soc",label:"SOC & Detection"},
-      {id:"ti",label:"Threat Intelligence"},
-      {id:"dfir",label:"DFIR & Incident Response"},
-      {id:"network",label:"Network, Email & Vulnerability"},
-      {id:"util",label:"Reporting & Utilities"}
+      {id:"all",label:"All tools",hint:"Complete directory"},
+      {id:"soc",label:"SOC & Detection",hint:"Events, rules and log analysis"},
+      {id:"ti",label:"Threat Intelligence",hint:"Indicators and enrichment"},
+      {id:"dfir",label:"DFIR & Forensics",hint:"Evidence and incident response"},
+      {id:"network",label:"Network & Email",hint:"Headers and vulnerability scoring"},
+      {id:"util",label:"Incident Utilities",hint:"Timestamps, reports and triage"}
     ];
     root.innerHTML = `
       <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
         <header class="psv-tools-intro">
           <div class="psv-eyebrow">PRIVACY SKILL VAULT / SECURITY OPERATIONS</div>
           <h1>Security Tools</h1>
-          <p>Practical browser-based utilities for security monitoring, threat analysis, digital forensics, detection engineering and incident response.</p>
-          <p class="psv-tools-note">Local processing is used wherever possible. External threat-intelligence lookups are opt-in and disclose the provider before sending an indicator. Do not enter confidential, regulated or employer-sensitive data.</p>
+          <p>A practical collection of browser-based security utilities for SOC analysis, threat intelligence, digital forensics, detection engineering and incident response.</p>
+          <div class="psv-tools-trust"><span>● Browser-side processing where possible</span><span>● No account required</span><span>● External lookups are opt-in</span></div>
+          <p class="psv-tools-note"><strong>Privacy:</strong> Do not paste customer data, credentials, production secrets or employer-confidential telemetry. Threat-intelligence lookups send the submitted indicator to the named external provider only after you choose to run the lookup.</p>
         </header>
 
-        <section class="psv-tool-directory">
-          <div class="psv-section-head"><div><span class="psv-eyebrow">TOOL DIRECTORY</span><h2>Browse tools</h2></div><p>Search by task, evidence type, event ID, technique or workflow.</p></div>
-          <input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search: IOC, phishing, Windows event, YARA, CVSS, timeline, encryption…" value="${esc(searchQuery)}" />
-          <div class="psv-cat-pills">
-            ${groups.map(c=>`<button type="button" class="psv-pill ${activeCat===c.id?"active":""}" data-psv-action="set-cat" data-cat="${c.id}">${c.label} <span>${c.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===c.id).length}</span></button>`).join("")}
-          </div>
-          <div class="psv-cards-grid">
-            ${filtered.map(t=>`
-              <a class="psv-tool-card psv-tool-card-v2" href="#tool/${encodeURIComponent(t.id)}" data-psv-action="open-tool" data-tool="${esc(t.id)}">
-                <span class="psv-card-head"><span class="psv-card-badge">${esc(t.badge)}</span><span class="psv-card-cat-lbl">${esc(t.cat.toUpperCase())}</span></span>
-                <strong class="psv-card-title">${esc(t.title)}</strong>
-                <span class="psv-card-desc">${esc(t.desc)}</span>
-                <span class="psv-card-foot"><span class="psv-client-tag">● ${["ti"].includes(t.id)?"External lookup on request":"Browser-side"}</span><span class="psv-open-link">Open tool →</span></span>
-              </a>`).join("") || '<p class="psv-empty-state">No matching tools. Try a different search term or category.</p>'}
-          </div>
-        </section>
+        <div class="psv-vault-layout">
+          <aside class="psv-vault-sidebar" aria-label="Security tool categories">
+            <div class="psv-vault-sidebar-title">TOOL CATEGORIES</div>
+            ${groups.map(c=>`
+              <button type="button" class="psv-vault-category ${activeCat===c.id?"active":""}" data-psv-action="set-cat" data-cat="${c.id}" aria-pressed="${activeCat===c.id}">
+                <span><strong>${c.label}</strong><small>${c.hint}</small></span>
+                <span class="psv-vault-count">${c.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===c.id).length}</span>
+              </button>`).join("")}
+            <div class="psv-vault-sidebar-note"><strong>Local tooling</strong><p>Some enterprise tools require a separately installed SIEM, sensor, forensic engine or lab. This page does not replace those systems.</p></div>
+          </aside>
+
+          <section class="psv-vault-main" aria-label="Security tools">
+            <div class="psv-vault-main-head">
+              <div><span class="psv-eyebrow">TOOL DIRECTORY</span><h2>${groups.find(c=>c.id===activeCat)?.label||"All tools"}</h2><p>${filtered.length} tool${filtered.length===1?"":"s"} available in this view</p></div>
+            </div>
+            <label class="psv-vault-search-label" for="psv-cat-search">Search tools</label>
+            <div class="psv-vault-search-wrap"><span aria-hidden="true">⌕</span><input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search by tool, task, event ID, technique or indicator…" value="${esc(searchQuery)}" /></div>
+            <div class="psv-cards-grid">
+              ${filtered.map(t=>`
+                <a class="psv-tool-card psv-tool-card-v2" href="#tool/${encodeURIComponent(t.id)}" data-psv-action="open-tool" data-tool="${esc(t.id)}">
+                  <span class="psv-card-head"><span class="psv-card-badge">${esc(t.badge)}</span><span class="psv-card-cat-lbl">${esc((groups.find(c=>c.id===t.cat)||{}).label||t.cat)}</span></span>
+                  <strong class="psv-card-title">${esc(t.title)}</strong>
+                  <span class="psv-card-desc">${esc(t.desc)}</span>
+                  <span class="psv-card-foot"><span class="psv-client-tag">● ${t.id==="ti"?"External lookup on request":"Browser-side utility"}</span><span class="psv-open-link">Open tool <span aria-hidden="true">→</span></span></span>
+                </a>`).join("") || '<div class="psv-empty-state">No tools match your search. Clear the search or select another category.</div>'}
+            </div>
+          </section>
+        </div>
 
         <section class="psv-operator-reference">
-          <div class="psv-section-head"><div><span class="psv-eyebrow">LOCAL TOOLING STACK</span><h2>Tools for your own lab</h2></div><p>These require installed engines, agents or lab infrastructure; they are not embedded web tools.</p></div>
+          <div class="psv-section-head"><div><span class="psv-eyebrow">EXTEND YOUR LAB</span><h2>Enterprise security tooling</h2></div><p>These products require separate installation, licensing, infrastructure or configured data sources.</p></div>
           <div class="psv-reference-grid">
             <article><strong>SOC / SIEM / Case Management</strong><p>Elastic Security · Splunk Enterprise · Wazuh · Microsoft Sentinel · Google Security Operations · Sigma CLI · TheHive · DFIR-IRIS</p></article>
             <article><strong>Network / Packet Analysis</strong><p>Wireshark · Zeek · Suricata · tcpdump · Arkime · NetworkMiner · Brim</p></article>
-            <article><strong>Endpoint / DFIR</strong><p>Velociraptor · KAPE · Autopsy / Sleuth Kit · Volatility 3 · Plaso · Hayabusa · Chainsaw · Eric Zimmerman tools</p></article>
-            <article><strong>Threat Intelligence Platforms & Feeds</strong><p>MISP · OpenCTI · Yeti · AlienVault OTX · ThreatFox · URLhaus · MalwareBazaar · GreyNoise · STIX/TAXII</p></article>
-            <article><strong>Authorised Pentesting & Validation</strong><p>Nmap · Nuclei · Greenbone / OpenVAS · Nessus · Burp Suite · OWASP ZAP · Metasploit · sqlmap · ffuf · testssl.sh</p></article>
+            <article><strong>Endpoint / DFIR</strong><p>Velociraptor · KAPE · Autopsy / Sleuth Kit · Volatility 3 · Plaso · Hayabusa · Chainsaw</p></article>
+            <article><strong>Threat Intelligence</strong><p>MISP · OpenCTI · Yeti · AlienVault OTX · ThreatFox · URLhaus · MalwareBazaar · GreyNoise</p></article>
+            <article><strong>Authorised Security Testing</strong><p>Nmap · Nuclei · Greenbone / OpenVAS · Nessus · Burp Suite · OWASP ZAP · Metasploit</p></article>
             <article><strong>Malware / Reverse Engineering</strong><p>YARA · capa · Ghidra · REMnux · FLARE-VM · Detect It Easy · FLOSS · x64dbg</p></article>
           </div>
         </section>
@@ -1795,10 +1848,19 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const target = e.target && e.target.closest ? e.target.closest("[data-psv-action]") : null;
       if (!target) return;
 
+      const action = target.getAttribute("data-psv-action");
+
+      // Let real tool-card anchors update the URL normally. The hashchange
+      // handler below then opens the tool, preserving copy-link and Back/Forward
+      // behaviour without relying on a synthetic click or a blocked default.
+      if (action === "open-tool" && target.tagName === "A" &&
+          (target.getAttribute("href") || "").startsWith("#tool/")) {
+        e.stopPropagation();
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
-
-      const action = target.getAttribute("data-psv-action");
 
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
