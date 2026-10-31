@@ -13,6 +13,7 @@ This page defines the intended inter-segment policy before writing individual OP
 | PSV-LOG01 (syslog relay) | 10.10.30.30 | SERVER |
 | SIEM host (one at a time) | Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22 | SERVER |
 | Management workstation | 10.10.10.10 | MGMT |
+| Sensor management host (capture NICs separate/no IP) | 10.10.50.10 | SENSOR-MGMT |
 | Windows endpoint | DHCP/reservation in 10.10.20.0/24 | ENDPOINT |
 | Kali | DHCP/reservation in 10.10.40.0/24 | REDTEAM |
 | Vulnerable target | 10.10.60.20 | DMZ |
@@ -30,6 +31,8 @@ Replace these addresses consistently if your actual plan differs. Do not copy a 
 | REDTEAM | MGMT/SERVER/ENDPOINT/home LAN | Deny |
 | DMZ | MGMT/SERVER/ENDPOINT/home LAN | Deny initiation |
 | SENSOR capture NIC | any routed network | Deny; capture NIC is not a management interface |
+| SENSOR-MGMT host | DNS/NTP and selected SIEM | Allow only the selected resolver/time source and one SIEM agent path |
+| SENSOR-MGMT host | Internet | Deny by default; temporary update egress only from the named sensor host |
 | WAN | router/VM management | Deny inbound |
 | Internal segments | Internet | Deny by default; temporary controlled update egress only |
 
@@ -56,6 +59,8 @@ The following are common AD DS dependencies, not a command to open every port un
 
 Some Windows versions/roles use additional ports. The dynamic RPC range can be narrowed on the DC only if the change is supported, documented and consistently applied. Do not arbitrarily open or shrink it. Verify DNS SRV lookup, domain join, Group Policy, Kerberos authentication and administrative tools after adding rules.
 
+**DNS when AD DS is not deployed:** if clients use OPNsense Unbound or the Mac router's dnsmasq resolver, allow only the relevant client subnet to the router's own interface address on UDP/53 and TCP/53. Configure Unbound access lists or bind dnsmasq only to the intended internal interfaces. Do not allow arbitrary client DNS directly to public resolvers. If AD DS is deployed, domain members should use the DC DNS address; do not silently fall back to the router/public DNS because that can break AD SRV discovery.
+
 ## 4. SIEM and telemetry ports — only enable selected stack
 
 | Stack/component | Typical port | Initiator → destination | Notes |
@@ -77,7 +82,7 @@ Do not enable all rows simultaneously. Select one SIEM, follow its version-speci
 ## 5. Syslog relay
 
 For the relay runbook's isolated TCP example:
-- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only.
+- Allow TCP/514 from the exact OPNsense/Mac-router source addresses to PSV-LOG01 only. The Windows and Mac examples are separate lab islands and may reuse 10.10.30.1; if both send to one relay, first assign unique non-overlapping source IPs/subnets.
 - Deny TCP/514 from WAN, home LAN, REDTEAM, DMZ and unrelated clients.
 - If syslog crosses an untrusted or multi-host network, use TLS and validate certificates. TCP alone is not encryption or sender authentication.
 

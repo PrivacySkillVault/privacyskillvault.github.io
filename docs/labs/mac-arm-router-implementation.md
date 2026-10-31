@@ -27,7 +27,14 @@ Create VM PSV-MAC-RTR01 with ARM64 Ubuntu Server, 2–4 vCPU, 4–8 GB RAM and a
 
 The exact number and naming of custom networks depend on the Fusion release. If the installed Fusion version cannot provide separate isolated networks, stop and redesign; do not collapse them into one host-only segment.
 
-Boot Ubuntu and confirm ARM64:
+Boot Ubuntu, set the guest hostname, and confirm ARM64:
+
+~~~bash
+sudo hostnamectl set-hostname PSV-MAC-RTR01
+hostnamectl
+~~~
+
+Use this exact hostname in the relay's source-identification rule. The SERVER interface in this example is 10.10.30.1/24.
 
 ~~~bash
 uname -m
@@ -112,6 +119,16 @@ networkctl status wan0
 
 There must be exactly one default route through WAN. Internal interfaces must not have default gateways. If connectivity is lost, use the console and restore the last known-good YAML or snapshot.
 
+Before attaching client VMs, reserve/document these static addresses (change them consistently if your inventory differs):
+- MGMT admin workstation: 10.10.10.10/24, gateway 10.10.10.1; DNS 10.10.10.1 unless domain-joined, then use 10.10.30.10.
+- AD domain controller, if deployed: 10.10.30.10/24; DNS points to itself after promotion.
+- Syslog relay: 10.10.30.30/24, gateway 10.10.30.1.
+- Selected SIEM only: Elastic 10.10.30.20; Splunk 10.10.30.21; Wazuh 10.10.30.22.
+- Sensor management NIC: 10.10.50.10/24, gateway 10.10.50.1; capture NICs have no IP address, gateway or DNS.
+- DMZ test target: 10.10.60.20/24, gateway 10.10.60.1.
+
+Keep the Windows x64 and Mac labs as separate isolated islands when using these same sample addresses. Do not connect both overlapping subnets to one shared L2 network or shared relay without assigning unique, non-overlapping addresses.
+
 ## 4. IPv4 forwarding and IPv6 policy
 
 This reference profile is IPv4-only. IPv6 must not provide an unfiltered alternate route. If IPv6 is required, design equivalent IPv6 input/forward rules, router advertisements, DNS and logging before enabling it.
@@ -165,10 +182,10 @@ table inet filter {
     iifname "mgmt0" ip saddr $mgmt_admin tcp dport 22 ct state new accept
     iifname "mgmt0" ip saddr 10.10.10.0/24 ip protocol icmp limit rate 5/second accept
 
-    # Uncomment these three rules only when dnsmasq is enabled on these interfaces.
-    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 67 accept
-    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 53 accept
-    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } tcp dport 53 accept
+    # Uncomment only when dnsmasq is enabled. DHCP is offered on MGMT, ENDPOINT, REDTEAM and DMZ only; SERVER is static/reservation-only.
+    # iifname { "mgmt0", "endpoint0", "redteam0", "dmz0" } udp dport 67 accept
+    # iifname { "mgmt0", "endpoint0", "server0", "sensormgmt0", "redteam0", "dmz0" } udp dport 53 accept
+    # iifname { "mgmt0", "endpoint0", "server0", "sensormgmt0", "redteam0", "dmz0" } tcp dport 53 accept
 
     limit rate 5/second log prefix "PSV-ROUTER-INPUT-DROP " flags all counter
     counter drop
@@ -188,23 +205,39 @@ table inet filter {
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 88, 389, 464 } ct state new accept
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport { 53, 88, 135, 389, 445, 464, 636, 3268, 3269, 9389 } ct state new accept
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.10 tcp dport 49152-65535 ct state new accept
+    # If the sensor management host uses AD DNS/NTP, allow only these services to the DC:
+    # iifname "sensormgmt0" ip saddr 10.10.50.10 oifname "server0" ip daddr 10.10.30.10 udp dport { 53, 123 } ct state new accept
+    # iifname "sensormgmt0" ip saddr 10.10.50.10 oifname "server0" ip daddr 10.10.30.10 tcp dport 53 ct state new accept
 
     # Select ONE SIEM path and replace the sample manager IP/ports with the actual deployment.
-    # Wazuh agent secure channel + enrollment (disable enrollment rule after rollout if not needed).
-    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 1515 } ct state new accept
-    # Elastic Agent to Fleet Server/Elasticsearch (use separate destination IPs if deployed separately).
-    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 8220, 9200 } ct state new accept
-    # Splunk Universal Forwarder to receiver.
+    # Wazuh agent secure channel + enrollment (Wazuh manager example 10.10.30.22).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.22 tcp dport { 1514, 1515 } ct state new accept
+    # Elastic Agent to Fleet Server/Elasticsearch (Elastic example 10.10.30.20; split destinations if separate).
+    # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.20 tcp dport { 8220, 9200 } ct state new accept
+    # Splunk Universal Forwarder to receiver (Splunk example 10.10.30.21).
     # iifname "endpoint0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
-    # Management UI access from the named admin host only; use only the selected UI port.
-    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.21 tcp dport { 443, 5601, 8000 } ct state new accept
+    # Management UI access from the named admin host only; uncomment only the selected product rule.
+    # Elastic Kibana:
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.20 tcp dport 5601 ct state new accept
+    # Splunk Web:
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.21 tcp dport 8000 ct state new accept
+    # Wazuh Dashboard:
+    # iifname "mgmt0" ip saddr $mgmt_admin oifname "server0" ip daddr 10.10.30.22 tcp dport 443 ct state new accept
     # Sensor management agent to the selected SIEM; capture-only NICs have no IP and are not routed.
-    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport { 1514, 8220, 9200, 9997 } ct state new accept
+    # Wazuh sensor agent:
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.22 tcp dport 1514 ct state new accept
+    # Elastic sensor agent:
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.20 tcp dport { 8220, 9200 } ct state new accept
+    # Splunk sensor forwarder:
+    # iifname "sensormgmt0" oifname "server0" ip daddr 10.10.30.21 tcp dport 9997 ct state new accept
 
-    # Optional temporary update egress for trusted lab segments only.
+    # Optional temporary update egress for trusted lab segments only. Remove after patching.
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
     iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport 53 ct state new accept
+    # Optional sensor OS/package updates: sensor management host only (10.10.50.10). Remove after maintenance.
+    iifname "sensormgmt0" oifname $wan_if ip saddr 10.10.50.10 tcp dport { 80, 443 } ct state new accept
+    iifname "sensormgmt0" oifname $wan_if ip saddr 10.10.50.10 udp dport 123 ct state new accept
 
     limit rate 5/second log prefix "PSV-ROUTER-FWD-DROP " flags all counter
     counter drop
@@ -218,12 +251,12 @@ table inet filter {
 table ip nat {
   chain postrouting {
     type nat hook postrouting priority srcnat; policy accept;
-    oifname "wan0" ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } masquerade
+    oifname "wan0" ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24, 10.10.50.10/32 } masquerade
   }
 }
 ~~~
 
-This is a restrictive learning baseline, not a universal enterprise policy. Router-originated output is permissive in this sample; harden it for your chosen services. The optional update-egress rules permit only web, DNS and NTP from trusted segments. Remove them for a fully offline lab. There is deliberately no DMZ-to-trusted, REDTEAM-to-trusted or SENSOR-MGMT-to-client forwarding rule.
+This is a restrictive learning baseline, not a universal enterprise policy. Router-originated output is permissive in this sample; harden it for your chosen services. The optional update-egress rules permit only web, DNS and NTP from trusted segments. Remove them for a fully offline lab. There is deliberately no DMZ-to-trusted, REDTEAM-to-trusted or SENSOR-MGMT-to-client forwarding rule. The only optional SENSOR-MGMT egress is the single sensor host's temporary package-update rule.
 
 Syntax-check before applying:
 
@@ -241,31 +274,36 @@ Keep the VM console open. Confirm router SSH works from the named MGMT admin hos
 
 Start with static addresses. Do not run Fusion DHCP and dnsmasq DHCP on the same internal L2 segment.
 
-If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. This sample does not define DNS options because the correct resolver differs by topology:
+If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. Remove `interface=sensormgmt0` if that optional adapter is not present. The SENSOR-MGMT interface is DNS-only/static; do not create a DHCP range for it. This sample explicitly tags DHCP scopes by the receiving interface. The standalone DNS options point clients at the router's interface address; replace the ENDPOINT DNS option with the AD DNS address when domain services are deployed:
 
 ~~~ini
 interface=mgmt0
 interface=endpoint0
 interface=server0
+interface=sensormgmt0
 interface=redteam0
 interface=dmz0
 bind-interfaces
 # On Ubuntu with systemd-resolved, use the upstream resolver list rather than the local stub file.
 resolv-file=/run/systemd/resolve/resolv.conf
 
-dhcp-range=interface:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
-dhcp-option=tag:interface:mgmt0,option:router,10.10.10.1
-dhcp-range=interface:endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
-dhcp-option=tag:interface:endpoint0,option:router,10.10.20.1
-dhcp-range=interface:server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
-dhcp-option=tag:interface:server0,option:router,10.10.30.1
-dhcp-range=interface:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
-dhcp-option=tag:interface:redteam0,option:router,10.10.40.1
-dhcp-range=interface:dmz0,10.10.60.200,10.10.60.150,255.255.255.0,12h
-dhcp-option=tag:interface:dmz0,option:router,10.10.60.1
+dhcp-range=tag:mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
+dhcp-option=tag:mgmt0,option:router,10.10.10.1
+dhcp-option=tag:mgmt0,option:dns-server,10.10.10.1
+dhcp-range=tag:endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
+dhcp-option=tag:endpoint0,option:router,10.10.20.1
+# Standalone endpoint DNS; if AD DS/DNS is deployed, replace 10.10.20.1 with 10.10.30.10.
+dhcp-option=tag:endpoint0,option:dns-server,10.10.20.1
+dhcp-range=tag:redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
+dhcp-option=tag:redteam0,option:router,10.10.40.1
+dhcp-option=tag:redteam0,option:dns-server,10.10.40.1
+dhcp-range=tag:dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
+dhcp-option=tag:dmz0,option:router,10.10.60.1
+# Explicitly advertise the router as DNS for a standalone, non-domain DMZ.
+dhcp-option=tag:dmz0,option:dns-server,10.10.60.1
 ~~~
 
-By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. If this router serves an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS; configure the appropriate DHCP DNS option for those domain clients or use static reservations. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
+By default, dnsmasq offers its own interface address as the DNS server and forwards queries using its upstream resolver list. The resolv-file line above points at Ubuntu systemd-resolved's upstream list; verify that file exists and contains the intended upstream servers. The SERVER and SENSOR-MGMT subnets remain static/reservation-only: do not create DHCP scopes there. The sensor management host example is 10.10.50.10/24 with gateway/DNS 10.10.50.1; capture NICs have no address, gateway or DHCP. If AD DS is deployed, explicitly set DHCP option 6 for domain-member scopes to the DC DNS address (10.10.30.10), and configure the DC to forward non-domain queries as designed. Do not advertise dnsmasq/public DNS to domain members. The optional sensor update rules permit only 10.10.50.10 to HTTP/HTTPS and NTP; remove them after maintenance.
 
 Validate:
 
@@ -274,9 +312,21 @@ sudo dnsmasq --test
 sudo systemctl enable --now dnsmasq
 sudo systemctl status dnsmasq --no-pager
 sudo journalctl -u dnsmasq -n 100 --no-pager
+sudo ss -lunp | grep -E ':(53|67)( |$)'
 ~~~
 
-## 7. Local firewall logs
+On a Linux DHCP client, renew the lease using the network manager/client appropriate to that guest, then verify:
+
+~~~bash
+ip -4 address
+ip route
+resolvectl status
+dig @10.10.20.1 example.com
+~~~
+
+Replace 10.10.20.1 with that guest's segment DNS address. For a Windows guest use `ipconfig /release`, `ipconfig /renew`, `ipconfig /all`, and `nslookup example.com 10.10.20.1`. In an AD domain, query the DC DNS directly for the domain controller SRV record and confirm the expected DC is returned. A DHCP lease alone does not prove DNS is correct.
+
+## 7. Local firewall logs and relay forwarding
 
 The nftables rules emit kernel log messages with unique prefixes. Confirm them:
 
@@ -284,11 +334,10 @@ The nftables rules emit kernel log messages with unique prefixes. Confirm them:
 sudo journalctl -k -g 'PSV-ROUTER-' --since '10 minutes ago'
 ~~~
 
-Create /etc/rsyslog.d/30-psv-router.conf:
+Create /etc/rsyslog.d/30-psv-router-local.conf. Keep local writing before forwarding, and do not stop processing here:
 
 ~~~text
 :msg, contains, "PSV-ROUTER-" /var/log/psv-router-firewall.log
-& stop
 ~~~
 
 Validate and restart:
@@ -298,7 +347,79 @@ sudo rsyslogd -N1
 sudo systemctl restart rsyslog
 ~~~
 
-Generate a known blocked flow and verify the record in /var/log/psv-router-firewall.log. Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
+Generate a known blocked flow and verify the record in /var/log/psv-router-firewall.log.
+
+Ubuntu normally configures rsyslog to read the system journal and/or kernel log. Confirm the installed configuration has a working journal/kernel input; do not load a duplicate input module if it is already enabled:
+
+~~~bash
+grep -R -E 'module\(load="(imjournal|imklog)"' /etc/rsyslog.conf /etc/rsyslog.d/*.conf
+~~~
+
+ 
+If neither journal nor kernel input is enabled, add the following once (do not duplicate an existing module) to /etc/rsyslog.d/05-psv-journal-input.conf:
+
+~~~text
+module(load="imjournal" StateFile="imjournal.state")
+~~~
+
+Validate the complete configuration with rsyslogd -N1 and confirm a test kernel log record is received before proceeding.
+
+Create /etc/rsyslog.d/40-psv-router-forward.conf to forward only the tagged nftables records to the SERVER relay. The later filename ensures the local file action above runs first. The relay must already allow this router's SERVER-facing source address and hostname. Replace the relay IP/port if your deployment differs:
+
+~~~text
+if ($msg contains "PSV-ROUTER-") then {
+    action(
+        type="omfwd"
+        target="10.10.30.30"
+        port="514"
+        protocol="tcp"
+        template="RSYSLOG_SyslogProtocol23Format"
+        queue.type="LinkedList"
+        queue.filename="psv-router-fwd"
+        queue.maxDiskSpace="1g"
+        queue.saveOnShutdown="on"
+        action.resumeRetryCount="-1"
+    )
+    stop
+}
+~~~
+
+Validate and restart:
+
+~~~bash
+sudo rsyslogd -N1
+sudo systemctl restart rsyslog
+sudo systemctl status rsyslog --no-pager
+~~~
+
+Generate a blocked test flow, confirm the unique PSV-ROUTER prefix in the local file, then on PSV-LOG01 run `sudo grep 'PSV-ROUTER-' /var/log/remote/psv-mac-router.log` and confirm the same message arrives with the PSV-MAC-RTR01 identity. Confirm the forwarding queue remains bounded and monitor rsyslog errors. TCP/514 is permitted only on the isolated lab segment; use the TLS configuration in the relay guide on shared or untrusted paths.
+
+Create /etc/logrotate.d/psv-router:
+
+~~~text
+/var/log/psv-router-firewall.log {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 syslog adm
+    postrotate
+        /usr/bin/systemctl kill -s HUP rsyslog.service >/dev/null 2>&1 || true
+    endscript
+}
+~~~
+
+Dry-run and verify the actual file path/owner:
+
+~~~bash
+sudo logrotate -d /etc/logrotate.d/psv-router
+sudo ls -l /var/log/psv-router-firewall.log
+df -h /var/log
+~~~
+
+Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
 
 ## 8. Acceptance tests
 
@@ -328,4 +449,5 @@ Before each change: snapshot the VM, keep console access, save current Netplan/n
 - [Ubuntu Server networking documentation](https://ubuntu.com/server/docs)
 - [Netplan documentation](https://netplan.readthedocs.io/)
 - [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page)
+- [dnsmasq manual — DHCP ranges, interface tags and options](https://dnsmasq.org/docs/dnsmasq-man.html)
 - [Broadcom Fusion network types](https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html)

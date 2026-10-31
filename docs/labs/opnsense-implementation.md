@@ -35,9 +35,9 @@ After applying, verify the interface status and address on the dashboard and und
 ## 3. Initial firewall GUI access and administration
 
 1. Attach a dedicated admin workstation VM to MGMT.
-2. Configure it as 10.10.10.10/24 with gateway 10.10.10.1, or use a reservation.
+2. Configure it as 10.10.10.10/24 with gateway 10.10.10.1, or use a reservation. Set DNS to the DC (10.10.30.10) if this workstation is domain-joined; otherwise use the OPNsense MGMT interface/Unbound address (10.10.10.1).
 3. Open the OPNsense GUI at https://10.10.10.1 from that workstation.
-4. Complete the initial setup wizard, set a unique strong admin password and configure hostname/domain/timezone/NTP.
+4. Complete the initial setup wizard, set a unique strong admin password and configure hostname/domain/timezone/NTP. For the relay example, set the system hostname to PSV-OPNSENSE01 so the relay can distinguish this firewall from the isolated Mac router track.
 5. Use HTTPS and the generated certificate; do not permanently disable browser certificate checks.
 6. Restrict GUI/SSH to the MGMT interface and named admin host only.
 7. Save an encrypted configuration backup before creating the remaining policy.
@@ -52,17 +52,22 @@ Under Services → Kea DHCP → Kea DHCPv4 (menu labels may vary by release):
 1. Enable the DHCPv4 service.
 2. Select only internal interfaces that should issue leases (typically ENDPOINT, REDTEAM and DMZ; use static/reservations for servers and infrastructure).
 3. Enable the basic DHCP firewall rules if the service offers that option.
-4. Create one subnet per selected interface:
-   - ENDPOINT 10.10.20.0/24, pool 10.10.20.100–10.10.20.199, router 10.10.20.1.
-   - REDTEAM 10.10.40.0/24, pool 10.10.40.100–10.10.40.150, router 10.10.40.1.
-   - DMZ 10.10.60.0/24, pool 10.10.60.200–10.10.60.150, router 10.10.60.1.
-5. Configure DNS server options deliberately:
-   - If AD DS is deployed, domain-joined Windows clients must use the DC DNS address (example 10.10.30.10), not public DNS.
-   - If there is no AD DNS, use the firewall's Unbound address on the relevant interface and configure Unbound access lists.
-6. Configure the domain name/search suffix only for the intended domain.
-7. Save/apply and inspect the Kea service log.
+4. Create one subnet per selected interface in the Subnets tab, select its interface, enter the subnet CIDR, add the pool as `start - end`, and set the gateway:
+   - ENDPOINT 10.10.20.0/24, pool 10.10.20.100 - 10.10.20.199, router 10.10.20.1.
+   - REDTEAM 10.10.40.0/24, pool 10.10.40.100 - 10.10.40.150, router 10.10.40.1.
+   - DMZ 10.10.60.0/24, pool 10.10.60.100 - 10.10.60.150, router 10.10.60.1.
+5. In each subnet's DHCP option data, configure the **Routers (gateway)** field as that interface's firewall IP. Configure **DNS servers** explicitly; do not rely on Auto collect when the scope needs a DNS server other than the firewall:
+   - If AD DS is deployed, domain-member ENDPOINT clients must receive 10.10.30.10 as DNS, not public DNS. Disable Auto collect for that subnet if it would overwrite the desired DNS setting.
+   - Non-domain REDTEAM/DMZ clients should use the firewall's Unbound address only if name resolution is required; otherwise omit DNS from their DHCP options. Do not expose the DC DNS service to REDTEAM/DMZ unless the exercise explicitly requires it.
+   - If there is no AD DNS, use the firewall's Unbound address on each required client subnet and configure Unbound access lists.
+   - Configure **Domain name** only for the intended lab domain (for example, lab.psv.test); do not advertise an unrelated suffix.
+   - Set NTP servers deliberately if you provide a lab NTP source.
+   - Keep MGMT, SERVER and SENSOR-MGMT on static addresses/reservations in this baseline; do not create DHCP pools there.
+6. Save/apply and inspect the Kea service log.
 
 Keep SERVER infrastructure hosts on static addresses or explicit reservations. Do not hand out dynamic addresses to the DC, relay, SIEM or firewall. If the DHCP UI automatically adds rules, inspect them and confirm they do not permit unrelated services.
+
+From one test client on each DHCP-enabled segment, renew its lease and verify the assigned address, gateway and DNS server. On Windows run `ipconfig /release`, `ipconfig /renew`, `ipconfig /all`, then `nslookup example.com <expected-DNS-IP>`. On Linux use the guest's DHCP client/network manager, then check `ip -4 address`, `ip route`, `resolvectl status` and `dig @<expected-DNS-IP> example.com`. If AD DS is used, query `_ldap._tcp.dc._msdcs.lab.psv.test` against 10.10.30.10 and confirm the correct DC SRV record. Check the Kea lease table and logs if the client receives no lease.
 
 ## 5. Configure DNS — choose the correct resolver
 
@@ -93,6 +98,7 @@ Under Firewall → Aliases create named aliases for:
 - PSV_MGMT_ADMIN — 10.10.10.10.
 - PSV_DC_DNS — 10.10.30.10 (only if AD DS is deployed).
 - PSV_LOG_RELAY — 10.10.30.30.
+- PSV_SENSOR_HOST — 10.10.50.10 (sensor management NIC only; capture NICs have no IP).
 - PSV_SIEM — the one selected SIEM host.
 - PSV_DMZ_TARGET — the approved target address (example 10.10.60.20).
 - PSV_MGMT_NET, PSV_ENDPOINT_NET, PSV_SERVER_NET, PSV_REDTEAM_NET, PSV_SENSOR_MGMT_NET and PSV_DMZ_NET.
@@ -114,9 +120,10 @@ OPNsense rules are applied on the interface where traffic enters. Add rules to t
 
 1. Allow PSV_MGMT_ADMIN to the firewall GUI on TCP/443.
 2. Allow PSV_MGMT_ADMIN to firewall SSH on TCP/22 only if SSH administration is required.
-3. Allow MGMT admin host to the named server management ports that are actually needed.
+3. Allow MGMT admin host to the named server management ports that are actually needed, including TCP/22 and/or TCP/443 to the sensor management host 10.10.50.10 if sensor administration is required.
 4. Deny/log other management access from non-admin clients.
-5. Do not allow MGMT to reach the home LAN unless explicitly required.
+5. If the MGMT workstation is domain-joined, allow its DNS only to the DC on UDP/TCP 53. If it is not domain-joined and Unbound is its resolver, allow MGMT net to This Firewall on UDP/53 and TCP/53 only. Do not allow arbitrary external DNS.
+6. Do not allow MGMT to reach the home LAN unless explicitly required.
 
 ### ENDPOINT interface
 
@@ -126,28 +133,27 @@ If AD DS is deployed, add narrow rules from ENDPOINT net to PSV_DC_DNS:
 - TCP dynamic RPC range only if required for domain operations/GPO/remote management; scope destination to the DC.
 - UDP/123 to the designated NTP source.
 
-Add DNS rules to the DC only. Do not permit ENDPOINT to query arbitrary Internet DNS directly when domain DNS is required. Add SIEM agent/forwarder access later, only after Stage 8 and only to PSV_SIEM/required service ports.
+If AD DS is deployed, allow DNS only to the DC and do not permit arbitrary Internet DNS or firewall Unbound as a bypass. If AD DS is not deployed and Unbound is selected, instead allow ENDPOINT net to This Firewall on UDP/53 and TCP/53. Do not enable both patterns unless the host roles explicitly require them. Add endpoint agent/forwarder access later, only after Stage 8, on this ENDPOINT ingress interface and only to the selected PSV_SIEM address/required ports.
 
 ### REDTEAM interface
 
-Allow only the approved assessment source(s) to PSV_DMZ_TARGET on the explicitly selected test ports. Use a time-bounded rule and enable logging. Deny REDTEAM to MGMT, SERVER, ENDPOINT, SENSOR-MGMT and the home LAN.
+Allow only the approved assessment source(s) to PSV_DMZ_TARGET on the explicitly selected test ports. Use a time-bounded rule and enable logging. If REDTEAM clients require DNS, allow REDTEAM net to This Firewall on UDP/53 and TCP/53 only; otherwise omit DNS from the DHCP scope. Deny REDTEAM to MGMT, SERVER, ENDPOINT, SENSOR-MGMT and the home LAN.
 
 ### DMZ interface
 
-Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENSOR-MGMT or the home LAN. Allow only narrowly required egress (for example, package updates) during a controlled maintenance window. Remove update egress before assessments.
+Do not permit DMZ-initiated connections to MGMT, SERVER, ENDPOINT, REDTEAM, SENSOR-MGMT or the home LAN. Allow only narrowly required egress (for example, package updates) during a controlled maintenance window. If DMZ clients require DNS for a controlled update window, allow DMZ net to This Firewall on UDP/53 and TCP/53 only; otherwise do not advertise a resolver in DHCP. Remove update egress before assessments.
 
 ### SENSOR-MGMT interface
 
-Allow sensor administration only from PSV_MGMT_ADMIN to the sensor's management address on required SSH/HTTPS ports. Do not use this interface as a capture feed. The sensor's capture NIC is separate, has no IP/default gateway and must receive a verified mirror/tap feed.
+The rule allowing PSV_MGMT_ADMIN to reach sensor management host 10.10.50.10 on required SSH/HTTPS ports must be created on the **MGMT ingress interface**, because MGMT is the source. Do not create that source rule on SENSOR-MGMT. This interface is for traffic initiated by the sensor management host. Do not use it as a capture feed. The sensor's capture NIC is separate, has no IP/default gateway and must receive a verified mirror/tap feed.
+
+For the example sensor management host 10.10.50.10, add only the DNS/time flow matching your design: if it uses Unbound, allow that host to This Firewall on UDP/53 and TCP/53; if it uses AD DNS/time, allow it to 10.10.30.10 on TCP/UDP 53 and UDP/123. For temporary OS/package updates, add a time-bounded rule from 10.10.50.10 only to WAN on TCP/80,443 and UDP/123, then remove it. Do not permit the whole SENSOR-MGMT subnet to unrestricted Internet access.
+
+After Stage 8, add only the selected SIEM agent flow from 10.10.50.10: Elastic to Fleet Server/Elasticsearch (typically TCP/8220 and the configured Elasticsearch endpoint), Splunk Universal Forwarder to the receiver (TCP/9997), or Wazuh agent to manager (TCP/1514 and TCP/1515 only during enrollment). Use the actual server addresses/ports from the policy matrix and selected deployment. Do not enable all three paths.
 
 ### SERVER interface
 
-Allow only required service-to-service flows:
-- Endpoints to DC/DNS for AD services.
-- Firewall/router devices to PSV_LOG_RELAY on the selected syslog transport/port.
-- Relay/sensor/endpoint agents to the selected SIEM on the product-specific ports.
-- Management workstation to SIEM UI/API only where required.
-Do not permit REDTEAM/DMZ to access server management ports.
+Apply rules here only to traffic that actually enters from SERVER. If non-domain SERVER hosts use Unbound, allow only the required SERVER hosts to This Firewall on UDP/53 and TCP/53. If a SERVER host must reach a different subnet/service, add the narrow source/destination/port rule. Hosts on the same SERVER subnet communicate at Layer 2 and are not filtered by the router; enforce host firewalls between them. OPNsense-originated remote syslog is configured under the system remote-logging settings, not as a SERVER-interface ingress rule. Endpoint-to-SIEM rules belong on ENDPOINT, sensor-to-SIEM rules on SENSOR-MGMT, and management UI rules on MGMT. Do not permit REDTEAM/DMZ to access server management ports.
 
 ## 8. NAT and controlled update egress
 

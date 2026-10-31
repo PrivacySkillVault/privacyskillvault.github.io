@@ -42,14 +42,27 @@ nslookup -type=SRV _ldap._tcp.dc._msdcs.lab.psv.test
 1. Download official Windows 11 x64 media.
 2. Create VM: 2–4 vCPU, 6–8 GB RAM, 80 GB disk, Generation 2, virtual TPM and Secure Boot as required by Windows 11/hypervisor, NIC on ENDPOINT.
 3. Install a Windows edition that supports the domain-join features you intend to practise. Patch and install guest tools.
-4. Set DNS to 10.10.30.10. Verify the domain controller resolves.
-5. Join the lab domain:
+4. Rename the endpoint and reboot:
+
+   ```powershell
+   Rename-Computer -NewName "PSV-W11-01" -Restart
+   ```
+
+5. Set DNS to 10.10.30.10. Verify the domain controller resolves.
+6. Join the lab domain:
 
 ```powershell
 Add-Computer -DomainName "lab.psv.test" -Credential (Get-Credential) -Restart
 ```
 
-Use a delegated join account rather than Domain Admin for routine joining. Verify after reboot:
+Use a delegated join account rather than Domain Admin for routine joining. On PSV-DC01, create the lab workstation OU and move the joined endpoint computer object into it (replace the computer name if yours differs):
+
+~~~powershell
+New-ADOrganizationalUnit -Name "Lab-Workstations" -Path "DC=lab,DC=psv,DC=test" -ProtectedFromAccidentalDeletion $true
+Get-ADComputer "PSV-W11-01" | Move-ADObject -TargetPath "OU=Lab-Workstations,DC=lab,DC=psv,DC=test"
+~~~
+
+Verify after reboot:
 
 ```powershell
 systeminfo | findstr /B /C:"Domain"
@@ -69,7 +82,14 @@ After the Windows endpoint is joined to the lab domain, use Group Policy Managem
    - **Logon/Logoff → Audit Logon:** Success and Failure for this lab OU.
 3. Under **Administrative Templates → System → Audit Process Creation**, enable **Include command line in process creation events** if you need Event 4688 command-line evidence. Command lines can contain secrets; keep this lab-only and sanitise evidence.
 4. If practising PowerShell logging, enable **Administrative Templates → Windows Components → Windows PowerShell → Turn on PowerShell Script Block Logging** on the lab OU only. Script contents can contain sensitive data.
-5. On the endpoint run `gpupdate /force`, then `gpresult /h C:\\Temp\\gpresult.html`. Confirm the policy applied.
+5. On the endpoint create the output folder, refresh policy, and verify the applied policy:
+
+   ```powershell
+   New-Item -ItemType Directory -Path C:\Temp -Force | Out-Null
+   gpupdate /force
+   gpresult /h C:\Temp\gpresult.html
+   gpresult /r
+   ```
 6. Make a controlled local group membership change on the disposable endpoint. Confirm Event ID 4732 and TargetSid `S-1-5-32-544` for the built-in local Administrators group. The event proves a group membership change occurred; it does not prove malicious intent.
 
 Do not apply this test GPO to production systems. Audit policy changes should be approved, event volume measured, and the GPO unlinked/removed after the lab if no longer required.

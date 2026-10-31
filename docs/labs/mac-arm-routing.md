@@ -4,6 +4,8 @@
 
 Apple-silicon Macs cannot run OPNsense as an ARM64 guest because OPNsense supports x86-64. This guide uses Ubuntu Server ARM64 with nftables for a segmented Mac-only lab. It is not a feature-equivalent OPNsense replacement. If OPNsense is mandatory, use a separate x86-64 physical appliance or the Windows x64 OPNsense VM.
 
+For exact MAC-matched Netplan, IPv4/IPv6 forwarding policy, nftables rules, dnsmasq scopes, local logging, rsyslog forwarding and recovery steps, follow the [Apple Silicon ARM64 Router Implementation Runbook](mac-arm-router-implementation.md). This overview defines the architecture; the implementation runbook is the executable reference.
+
 ## 1. Preconditions
 
 - Apple-silicon Mac and VMware Fusion.
