@@ -78,7 +78,7 @@ input(type="imtcp" address="10.10.30.30" port="514" ruleset="PSV-REMOTE")
 
 Replace the bind address with the relay's actual SERVER interface address. Binding to 0.0.0.0 is not recommended because it may expose the port on management/WAN interfaces.
 
-Replace example source IPs and hostnames with the actual values observed on the wire. Configure OPNsense's system hostname as PSV-OPNSENSE01 for this sample and the Mac router as PSV-MAC-RTR01. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP and hostname matching are routing filters, not cryptographic authentication.
+Replace example source IPs and hostnames with the actual values observed on the wire. Configure OPNsense's system hostname as PSV-OPNSENSE01 for this sample and the Mac router as PSV-MAC-RTR01. The duplicated 10.10.30.1 examples work only when the Windows and Mac tracks remain separate; a shared relay requires unique, non-overlapping router source addresses. If OPNsense syslog source IP differs from its gateway, use the address observed at the relay. Source-IP and hostname matching are routing filters, not cryptographic authentication.
 
 Create the directory and validate:
 
