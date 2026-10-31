@@ -97,6 +97,7 @@ Under Firewall → Aliases create named aliases for:
 - PSV_MGMT_ADMIN — 10.10.10.10.
 - PSV_DC_DNS — 10.10.30.10 (only if AD DS is deployed).
 - PSV_LOG_RELAY — 10.10.30.30.
+- PSV_SENSOR_HOST — 10.10.50.10 (sensor management NIC only; capture NICs have no IP).
 - PSV_SIEM — the one selected SIEM host.
 - PSV_DMZ_TARGET — the approved target address (example 10.10.60.20).
 - PSV_MGMT_NET, PSV_ENDPOINT_NET, PSV_SERVER_NET, PSV_REDTEAM_NET, PSV_SENSOR_MGMT_NET and PSV_DMZ_NET.
