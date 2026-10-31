@@ -75,8 +75,8 @@ This is a starting allowlist, not a blanket instruction to open every port from 
 | Lab guests | Approved DNS server | TCP/UDP 53 | DNS |
 | Lab guests | Approved NTP source | UDP 123 | Time |
 | Domain endpoints | ad-dc01 | DNS 53, Kerberos 88, LDAP 389/636 as configured, SMB 445, RPC endpoint mapper 135 and required dynamic RPC range | AD; use Microsoft's current port guidance and validate actual roles |
-| Firewall | soc-collector | TCP 6514 preferred for TLS syslog; TCP 5514 only if explicitly configured as isolated-lab plaintext | Firewall logs |
-| Sensor | soc-collector | TCP 5514 or a separately documented file/agent path | Sensor/host logs |
+| Firewall | soc-collector | TCP 514 for the documented isolated-lab rsyslog baseline; use TCP 6514 only after a TLS listener and matching sender trust are configured | Firewall logs |
+| Sensor | soc-collector | TCP 514 or a separately documented file/agent path | Sensor/host logs |
 | Windows endpoints | soc-elastic | TCP 8220 to Fleet Server; TCP 9200 only if the configured Agent output requires direct Elasticsearch | Elastic Agent |
 | Windows endpoints | soc-splunk | TCP 9997 | Splunk UF forwarding |
 | soc-collector | soc-elastic | TCP 9200 with TLS/auth | Elasticsearch API/bulk ingest |
