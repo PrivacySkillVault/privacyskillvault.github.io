@@ -45,7 +45,7 @@ Follow [Network Design](network-design.md), [Hypervisor Network Implementation](
 ## Stage 3 — routing and firewall
 
 ### Windows x64
-Follow [OPNsense Firewall & Routing](firewall-routing.md). Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.
+Follow [OPNsense Firewall & Routing](firewall-routing.md) and the [detailed OPNsense implementation runbook](opnsense-implementation.md). Create an x86-64 OPNsense VM with WAN on hypervisor NAT and internal adapters for MGMT, ENDPOINT, SERVER, REDTEAM, SENSOR-MGMT and DMZ. Map interfaces by MAC, not assumed adapter order. Configure DNS/DHCP only where required, default-deny between segments, narrowly scoped AD/management/telemetry rules, temporary update egress and encrypted configuration backup.
 
 ### Apple Silicon Mac
 Follow [Mac ARM Router & Firewall](mac-arm-routing.md) and the [detailed ARM64 router implementation](mac-arm-router-implementation.md). Use Ubuntu Server ARM64 with Netplan and nftables on separate Fusion private networks. This is not OPNsense. If Fusion cannot create enough isolated networks, stop; do not collapse all guests onto one host-only network and call it segmented.
