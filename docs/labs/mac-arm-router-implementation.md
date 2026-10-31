@@ -172,8 +172,8 @@ table inet filter {
     iifname "mgmt0" ip saddr $mgmt_admin tcp dport 22 ct state new accept
     iifname "mgmt0" ip saddr 10.10.10.0/24 ip protocol icmp limit rate 5/second accept
 
-    # Uncomment these three rules only when dnsmasq is enabled on these interfaces.
-    # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 67 accept
+    # Uncomment only when dnsmasq is enabled. DHCP is offered on MGMT, ENDPOINT, REDTEAM and DMZ only; SERVER is static/reservation-only.
+    # iifname { "mgmt0", "endpoint0", "redteam0", "dmz0" } udp dport 67 accept
     # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } udp dport 53 accept
     # iifname { "mgmt0", "endpoint0", "server0", "redteam0", "dmz0" } tcp dport 53 accept
 
