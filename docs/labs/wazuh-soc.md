@@ -37,7 +37,23 @@ sudo systemctl status wazuh-dashboard --no-pager
 
 5. Access the dashboard over the management network using HTTPS and the generated trust material. Do not permanently disable certificate validation.
 
-## 3. Optional direct syslog input (only if deliberately selected)\n\nWazuh manager supports a syslog remote input in documented releases. This is separate from the secure agent channel (normally TCP/1514). Configure only after checking the installed release's documentation. Example manager configuration fragment for a dedicated lab manager, with source allowlisting:\n\n~~~xml\n<remote>\n  <connection>syslog</connection>\n  <port>514</port>\n  <protocol>tcp</protocol>\n  <allowed-ips>10.10.30.1</allowed-ips>\n  <local_ip>10.10.30.21</local_ip>\n</remote>\n~~~\n\nReplace the source and listener addresses with actual values. Restrict TCP/514 at host and network firewalls. Validate XML/configuration and restart the manager using the release-specific procedure. Direct syslog input does not replace endpoint agents for Windows Event Channels or macOS Unified Logging. Do not enable this listener on an untrusted interface.\n\n## 4. Enrol Windows endpoint
+## 3. Optional direct syslog input (only if deliberately selected)
+
+Wazuh manager supports a syslog remote input in documented releases. This is separate from the secure agent channel (normally TCP/1514). Configure only after checking the installed release's documentation. Example manager configuration fragment for a dedicated lab manager, with source allowlisting:
+
+~~~xml
+<remote>
+  <connection>syslog</connection>
+  <port>514</port>
+  <protocol>tcp</protocol>
+  <allowed-ips>10.10.30.1</allowed-ips>
+  <local_ip>10.10.30.21</local_ip>
+</remote>
+~~~
+
+Replace the source and listener addresses with actual values. Restrict TCP/514 at host and network firewalls. Validate XML/configuration and restart the manager using the release-specific procedure. Direct syslog input does not replace endpoint agents for Windows Event Channels or macOS Unified Logging. Do not enable this listener on an untrusted interface.
+
+## 4. Enrol Windows endpoint
 
 1. In the dashboard, open Agents → Deploy new agent.
 2. Select Windows and the current agent package.
