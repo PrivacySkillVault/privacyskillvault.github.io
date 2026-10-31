@@ -1,0 +1,302 @@
+# Apple Silicon Mac — ARM64 Ubuntu router implementation
+
+<badge color="warning">Reference configuration — validate from VM console before relying on it</badge>
+
+This is the Mac-only routing/firewall implementation for Apple Silicon. It uses an ARM64 Ubuntu Server guest with Netplan, nftables and optional dnsmasq. It is **not OPNsense** and does not provide its GUI/plugins. OPNsense is x86-64; do not install its x86-64 image as a native ARM64 guest.
+
+## 1. Prerequisites and safety
+
+- Apple Silicon Mac and a supported VMware Fusion release.
+- Ubuntu Server ARM64 image verified from the official Ubuntu source.
+- One Fusion NAT network for WAN and distinct isolated networks for MGMT, ENDPOINT, SERVER, REDTEAM and DMZ.
+- A VM console path. Do not perform first firewall/network changes over the only SSH session.
+- A written interface-to-network-to-MAC inventory and a clean VM snapshot.
+
+Fusion NAT is only the upstream virtual network; it is not the lab's security policy. Never attach REDTEAM or DMZ directly to Bridged networking. Fusion NAT, host-only and bridged networks do not automatically mirror packets.
+
+## 2. Create the VM and adapters
+
+Create VM PSV-MAC-RTR01 with ARM64 Ubuntu Server, 2–4 vCPU, 4–8 GB RAM and at least 40 GB disk. Add:
+1. WAN — Fusion NAT.
+2. MGMT — dedicated private network.
+3. ENDPOINT — dedicated private network.
+4. SERVER — dedicated private network.
+5. REDTEAM — dedicated private network.
+6. DMZ — dedicated private network.
+7. SENSOR-MGMT — optional, dedicated private network for sensor administration only.
+
+The exact number and naming of custom networks depend on the Fusion release. If the installed Fusion version cannot provide separate isolated networks, stop and redesign; do not collapse them into one host-only segment.
+
+Boot Ubuntu and confirm ARM64:
+
+~~~bash
+uname -m
+ip -br link
+ip -br address
+ip route
+~~~
+
+Expected architecture: aarch64. Record every adapter MAC and map it to its Fusion network. Never assume Linux interface enumeration matches the order displayed in Fusion.
+
+## 3. Netplan — stable interface names by MAC
+
+Create /etc/netplan/60-psv-router.yaml. Replace every placeholder with the real lowercase MAC address. Remove the SENSOR-MGMT stanza if that adapter is not present.
+
+~~~yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    wan0:
+      match:
+        macaddress: "REPLACE-WAN-MAC"
+      set-name: wan0
+      dhcp4: true
+      dhcp6: false
+      accept-ra: false
+    mgmt0:
+      match:
+        macaddress: "REPLACE-MGMT-MAC"
+      set-name: mgmt0
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.10.10.1/24]
+    endpoint0:
+      match:
+        macaddress: "REPLACE-ENDPOINT-MAC"
+      set-name: endpoint0
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.10.20.1/24]
+    server0:
+      match:
+        macaddress: "REPLACE-SERVER-MAC"
+      set-name: server0
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.10.30.1/24]
+    redteam0:
+      match:
+        macaddress: "REPLACE-REDTEAM-MAC"
+      set-name: redteam0
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.10.40.1/24]
+    dmz0:
+      match:
+        macaddress: "REPLACE-DMZ-MAC"
+      set-name: dmz0
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.10.60.1/24]
+    sensormgmt0:
+      match:
+        macaddress: "REPLACE-SENSOR-MGMT-MAC"
+      set-name: sensormgmt0
+      dhcp4: false
+      dhcp6: false
+      addresses: [10.10.50.1/24]
+~~~
+
+If WAN is static, replace DHCP with the actual Fusion NAT address, prefix and DNS learned from that virtual network. Do not guess gateway values. Validate and apply from the VM console:
+
+~~~bash
+sudo netplan generate
+sudo netplan try
+# Confirm only after checking interface names and connectivity.
+sudo netplan apply
+ip -br address
+ip route
+networkctl status wan0
+~~~
+
+There must be exactly one default route through WAN. Internal interfaces must not have default gateways. If connectivity is lost, use the console and restore the last known-good YAML or snapshot.
+
+## 4. IPv4 forwarding and IPv6 policy
+
+This reference profile is IPv4-only. IPv6 must not provide an unfiltered alternate route. If IPv6 is required, design equivalent IPv6 input/forward rules, router advertisements, DNS and logging before enabling it.
+
+Create /etc/sysctl.d/60-psv-router.conf:
+
+~~~ini
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=0
+net.ipv6.conf.default.forwarding=0
+net.ipv6.conf.all.disable_ipv6=1
+net.ipv6.conf.default.disable_ipv6=1
+~~~
+
+Apply and verify:
+
+~~~bash
+sudo sysctl --system
+sysctl net.ipv4.ip_forward
+sysctl net.ipv6.conf.all.disable_ipv6
+~~~
+
+Expected IPv4 forwarding is 1 and IPv6 disable is 1 for this profile.
+
+## 5. nftables baseline
+
+Install packages:
+
+~~~bash
+sudo apt update
+sudo apt install -y nftables rsyslog tcpdump
+sudo systemctl enable --now nftables
+~~~
+
+Create /etc/nftables.conf. Replace the admin IP and DMZ target with real static addresses. The example only permits REDTEAM to the named DMZ target on sample TCP ports 80/443/8080. Change ports to the exact target services. Add narrowly scoped AD, DNS, SIEM and telemetry rules only after identifying exact source, destination and port. Do not open entire subnets to any service.
+
+~~~nft
+#!/usr/sbin/nft -f
+flush ruleset
+
+define wan_if = "wan0"
+define mgmt_admin = 10.10.10.10
+define dmz_target = 10.10.60.10
+
+table inet filter {
+  chain input {
+    type filter hook input priority filter; policy drop;
+    iifname "lo" accept
+    ct state invalid drop
+    ct state established,related accept
+    iifname "mgmt0" ip saddr $mgmt_admin tcp dport 22 ct state new accept
+    iifname "mgmt0" ip saddr 10.10.10.0/24 ip protocol icmp limit rate 5/second accept
+    limit rate 5/second log prefix "PSV-ROUTER-INPUT-DROP " flags all counter
+    counter drop
+  }
+
+  chain forward {
+    type filter hook forward priority filter; policy drop;
+    ct state invalid drop
+    ct state established,related accept
+
+    iifname "redteam0" oifname "dmz0" ip daddr $dmz_target tcp dport { 80, 443, 8080 } ct state new accept
+
+    # Optional temporary update egress for trusted lab segments only.
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } tcp dport { 80, 443 } ct state new accept
+    iifname { "mgmt0", "endpoint0", "server0" } oifname $wan_if ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } udp dport { 53, 123 } ct state new accept
+
+    limit rate 5/second log prefix "PSV-ROUTER-FWD-DROP " flags all counter
+    counter drop
+  }
+
+  chain output {
+    type filter hook output priority filter; policy accept;
+  }
+}
+
+table ip nat {
+  chain postrouting {
+    type nat hook postrouting priority srcnat; policy accept;
+    oifname "wan0" ip saddr { 10.10.10.0/24, 10.10.20.0/24, 10.10.30.0/24 } masquerade
+  }
+}
+~~~
+
+This is a restrictive learning baseline, not a universal enterprise policy. Router-originated output is permissive in this sample; harden it for your chosen services. The optional update-egress rules permit only web, DNS and NTP from trusted segments. Remove them for a fully offline lab. There is deliberately no DMZ-to-trusted, REDTEAM-to-trusted or SENSOR-MGMT-to-client forwarding rule.
+
+Syntax-check before applying:
+
+~~~bash
+sudo nft -c -f /etc/nftables.conf
+sudo nft -f /etc/nftables.conf
+sudo nft list ruleset
+sudo systemctl enable nftables
+sudo systemctl status nftables --no-pager
+~~~
+
+Keep the VM console open. Confirm router SSH works from the named MGMT admin host and is denied from ENDPOINT, REDTEAM and DMZ. Do not assume a failed ping proves a firewall rule.
+
+## 6. DHCP and DNS — only after static routing works
+
+Start with static addresses. Do not run Fusion DHCP and dnsmasq DHCP on the same internal L2 segment.
+
+If dnsmasq is selected, install it and create /etc/dnsmasq.d/psv-lab.conf. This sample does not define DNS options because the correct resolver differs by topology:
+
+~~~ini
+interface=mgmt0
+interface=endpoint0
+interface=server0
+interface=redteam0
+interface=dmz0
+bind-interfaces
+
+dhcp-range=mgmt0,10.10.10.100,10.10.10.150,255.255.255.0,12h
+dhcp-option=mgmt0,option:router,10.10.10.1
+dhcp-range=endpoint0,10.10.20.100,10.10.20.199,255.255.255.0,12h
+dhcp-option=endpoint0,option:router,10.10.20.1
+dhcp-range=server0,10.10.30.100,10.10.30.150,255.255.255.0,12h
+dhcp-option=server0,option:router,10.10.30.1
+dhcp-range=redteam0,10.10.40.100,10.10.40.150,255.255.255.0,12h
+dhcp-option=redteam0,option:router,10.10.40.1
+dhcp-range=dmz0,10.10.60.100,10.10.60.150,255.255.255.0,12h
+dhcp-option=dmz0,option:router,10.10.60.1
+~~~
+
+For an AD domain, domain members must use AD DNS (for example, 10.10.30.10), not public DNS. Configure forwarding/conditional forwarding deliberately. Add a SENSOR-MGMT scope only if there are clients there; never offer DHCP on a capture-only NIC.
+
+Validate:
+
+~~~bash
+sudo dnsmasq --test
+sudo systemctl enable --now dnsmasq
+sudo systemctl status dnsmasq --no-pager
+sudo journalctl -u dnsmasq -n 100 --no-pager
+~~~
+
+## 7. Local firewall logs
+
+The nftables rules emit kernel log messages with unique prefixes. Confirm them:
+
+~~~bash
+sudo journalctl -k -g 'PSV-ROUTER-' --since '10 minutes ago'
+~~~
+
+Create /etc/rsyslog.d/30-psv-router.conf:
+
+~~~text
+:msg, contains, "PSV-ROUTER-" /var/log/psv-router-firewall.log
+& stop
+~~~
+
+Validate and restart:
+
+~~~bash
+sudo rsyslogd -N1
+sudo systemctl restart rsyslog
+~~~
+
+Generate a known blocked flow and verify the record in /var/log/psv-router-firewall.log. Configure logrotate with bounded retention and correct permissions before forwarding or collecting this file. Do not configure SIEM agents at this stage.
+
+## 8. Acceptance tests
+
+From each guest, record Windows ipconfig /all or Linux ip -br address and ip route. Verify:
+- Each guest reaches its own router gateway.
+- DNS/NTP use the intended lab services.
+- REDTEAM reaches only the approved DMZ target and declared ports.
+- DMZ cannot initiate to MGMT, ENDPOINT, SERVER or home LAN.
+- ENDPOINT cannot access router management ports.
+- Router SSH is reachable only from the named MGMT admin host.
+- IPv6 is not an unfiltered alternate route.
+- nftables counters and logs reflect allowed and denied tests.
+- After reboot, Netplan, forwarding, nftables and optional DHCP/DNS persist.
+
+Use TCP/UDP tests for real services and inspect counters/logs. Ping alone is insufficient.
+
+## 9. Fusion packet-visibility limitation
+
+This router does not create a SPAN feed. Capture on router interfaces with tcpdump for routed-boundary traffic, or use an external managed-switch SPAN/TAP. Traffic switched locally between guests on the same Fusion virtual network may never traverse the router and will not appear on router interfaces. Offline PCAP is valid for deterministic analysis but must be labelled offline, not live monitoring.
+
+## 10. Recovery procedure
+
+Before each change: snapshot the VM, keep console access, save current Netplan/nftables files, run validation commands, change one subsystem at a time, and re-run all acceptance tests after recovery. If access is lost, restore from console or revert the snapshot.
+
+## References
+
+- [Ubuntu Server networking documentation](https://ubuntu.com/server/docs)
+- [Netplan documentation](https://netplan.readthedocs.io/)
+- [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page)
+- [Broadcom Fusion network types](https://knowledge.broadcom.com/external/article/303393/understanding-networking-types-in-vmware.html)
