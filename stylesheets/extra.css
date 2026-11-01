@@ -754,3 +754,64 @@ body:has(.psv-journal-shell) .psv-story-feature{
     white-space:nowrap;
   }
 }
+
+
+/* CYBER JOURNAL — balanced editorial card proportions.
+   Keep the story column readable instead of stretching each row
+   across every available pixel on wide desktop screens. */
+body:has(.psv-journal-shell) .psv-journal-story-list{
+  align-items:flex-start!important;
+  width:100%!important;
+  max-width:980px!important;
+}
+body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card{
+  width:100%!important;
+  max-width:980px!important;
+  min-height:132px!important;
+  height:auto!important;
+  grid-template-columns:148px minmax(0,1fr)!important;
+}
+body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card>.psv-story-card__art{
+  width:148px!important;
+  min-width:148px!important;
+  min-height:132px!important;
+  height:auto!important;
+}
+body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card>.psv-story-card__body{
+  min-height:132px!important;
+  height:auto!important;
+  padding:.75rem .9rem!important;
+}
+body:has(.psv-journal-shell) .psv-story-feature{
+  width:100%!important;
+  max-width:980px!important;
+}
+body:has(.psv-journal-shell) .md-typeset .psv-journal-story-list>.psv-story-card h3{
+  font-size:1rem;
+  line-height:1.3;
+}
+body:has(.psv-journal-shell) .md-typeset .psv-journal-story-list>.psv-story-card .psv-story-card__body>p{
+  font-size:.72rem;
+  line-height:1.45;
+}
+@media(max-width:700px){
+  body:has(.psv-journal-shell) .psv-journal-story-list,
+  body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card,
+  body:has(.psv-journal-shell) .psv-story-feature{
+    width:100%!important;
+    max-width:100%!important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card{
+    grid-template-columns:104px minmax(0,1fr)!important;
+    min-height:132px!important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card>.psv-story-card__art{
+    width:104px!important;
+    min-width:104px!important;
+    min-height:132px!important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-story-list>.psv-story-card>.psv-story-card__body{
+    min-height:132px!important;
+    padding:.7rem .72rem!important;
+  }
+}
