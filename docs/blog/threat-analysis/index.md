@@ -19,6 +19,5 @@
       <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>Living off the Land: Why Legitimate Tools Can Look Suspicious</h3><p>How attackers abuse built-in utilities, why simple blocklists fail, and how to investigate behaviour and context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
     </a>
     </div>
-  </section
   </section>
 </div>
