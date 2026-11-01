@@ -910,3 +910,32 @@ body:has(.psv-article-breadcrumb) .md-content__inner > .md-typeset__scrollwrap >
     min-width:620px;
   }
 }
+
+/* FINAL FIX — MkDocs output for these article tables is a direct
+   <table> child of article.md-content__inner.md-typeset.
+   There is NO .md-typeset__scrollwrap around these rendered tables.
+   Centre the table element itself in the article reading column. */
+body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:820px!important;
+  margin:1.25rem auto 1.5rem!important;
+  overflow-x:auto!important;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table th,
+body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table td{
+  box-sizing:border-box;
+}
+@media(max-width:700px){
+  body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table{
+    max-width:100%!important;
+    min-width:0;
+  }
+  body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table thead,
+  body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table tbody{
+    min-width:620px;
+  }
+}
