@@ -615,3 +615,26 @@ body:has(.psv-journal-shell) .md-content__inner{
 }
 .psv-journal-side-link.is-active{font-weight:600}
 .psv-side-mark{width:15px;font-size:.85rem}
+
+
+/* Use the same outer content width as every other PSV page. */
+body:has(.psv-journal-shell) .md-content__inner{
+  box-sizing:border-box;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:1.4rem 0 3rem;
+}
+body:has(.psv-journal-shell) .md-content{
+  width:100%;
+  max-width:none!important;
+  min-width:0;
+}
+body:has(.psv-journal-shell) .md-content__inner>.md-typeset__scrollwrap{
+  width:100%;
+  max-width:none;
+}
+.psv-journal-shell{
+  width:100%;
+  max-width:100%;
+}
