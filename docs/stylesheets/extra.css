@@ -566,3 +566,32 @@ body:has(.psv-journal-shell) .md-content__inner{
     row-gap:1rem;
   }
 }
+
+
+/* Journal category navigation: match the native MkDocs Material sidebar. */
+.psv-journal-sidebar{font-family:inherit;font-size:.8rem;line-height:1.4}
+.psv-journal-side-label{display:none}
+.psv-journal-side-link{
+  gap:.45rem;
+  margin:.08rem 0;
+  padding:.42rem .55rem;
+  border:0;
+  border-radius:.2rem;
+  color:var(--psv-muted)!important;
+  font-family:inherit;
+  font-size:.8rem;
+  font-weight:400;
+  line-height:1.4;
+  transition:color .12s,background-color .12s;
+}
+.psv-journal-side-link:hover{background:var(--psv-surface);color:var(--psv-text)!important}
+.psv-journal-side-link.is-active{
+  border:0;
+  background:rgba(31,111,235,.09);
+  color:var(--psv-primary)!important;
+  font-weight:600;
+}
+.psv-side-mark{width:16px;font-size:.9rem;opacity:.85}
+.psv-journal-side-link small{font-size:.62rem}
+.psv-journal-sidebar-note{display:none!important}
+.psv-journal-shell--category .psv-journal-sidebar{top:1rem}
