@@ -1,7 +1,7 @@
 <div class="psv-journal-shell psv-journal-shell--category">
   <aside class="psv-journal-sidebar" aria-label="Journal categories">
     <a class="psv-journal-side-link" href="../"><span class="psv-side-mark">◈</span> All stories</a>
-    <a class="psv-journal-side-link is-active" href="./"><span class="psv-side-mark">⌁</span> Cyber Fraud <small>01</small></a>
+    <a class="psv-journal-side-link is-active" href="./"><span class="psv-side-mark">⌁</span> Cyber Fraud </a>
     <a class="psv-journal-side-link" href="../threat-analysis/"><span class="psv-side-mark">⌖</span> Threat Analysis</a>
     <a class="psv-journal-side-link" href="../soc-investigations/"><span class="psv-side-mark">⌘</span> SOC Investigations</a>
     <a class="psv-journal-side-link" href="../vulnerabilities/"><span class="psv-side-mark">⛨</span> Vulnerabilities</a>
