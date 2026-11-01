@@ -1,0 +1,12 @@
+{
+  "name": "psv-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Server-side API foundation for Privacy Skill Vault SOC tools",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
