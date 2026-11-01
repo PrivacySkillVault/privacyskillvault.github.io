@@ -595,3 +595,23 @@ body:has(.psv-journal-shell) .md-content__inner{
 .psv-journal-side-link small{font-size:.62rem}
 .psv-journal-sidebar-note{display:none!important}
 .psv-journal-shell--category .psv-journal-sidebar{top:1rem}
+
+
+/* Match MkDocs Material navigation scale and rhythm exactly. */
+.psv-journal-sidebar{
+  font-family:inherit;
+  font-size:.7rem;
+  line-height:1.3;
+}
+.psv-journal-side-link{
+  gap:.4rem;
+  margin-top:.075em;
+  margin-bottom:.075em;
+  padding:.25em .6em;
+  border-radius:.2rem;
+  font-size:inherit;
+  line-height:1.3;
+  font-weight:400;
+}
+.psv-journal-side-link.is-active{font-weight:600}
+.psv-side-mark{width:15px;font-size:.85rem}
