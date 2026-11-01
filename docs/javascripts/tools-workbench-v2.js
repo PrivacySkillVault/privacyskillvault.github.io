@@ -2071,6 +2071,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (action === "set-cat") {
         activeCat = target.getAttribute("data-cat") || "all";
+        currentView = "catalog";
+        try { history.pushState({}, "", window.location.pathname); } catch (err) {}
         render();
       } else if (action === "set-opt") {
         const idx = parseInt(target.getAttribute("data-opt") || "0", 10);
