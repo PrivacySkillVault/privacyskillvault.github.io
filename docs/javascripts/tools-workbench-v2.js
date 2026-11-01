@@ -1428,13 +1428,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           return '<p>Parsed '+rows.length+' JSON record(s).</p><table class="psv-out-table"><thead><tr>'+keys.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+keys.map(k=>'<td>'+esc(row&&row[k]!==undefined?(typeof row[k]==="object"?JSON.stringify(row[k]):String(row[k])):"")+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
         }
         if (selectedOptionIdx === 1) {
-          const lines=input.split(/\\r?\\n/).filter(Boolean);
+          const lines=input.split(/\r?\n/).filter(Boolean);
           if(lines.length<2)throw new Error("CSV needs a header row and at least one data row.");
           const parseLine=line=>{const out=[];let v="",quoted=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'&&quoted&&line[i+1]==='"'){v+='"';i++;}else if(c==='"'){quoted=!quoted;}else if(c===','&&!quoted){out.push(v);v="";}else{v+=c;}}if(quoted)throw new Error("Unclosed quoted CSV field.");out.push(v);return out;};
           const headers=parseLine(lines[0]),records=lines.slice(1).map(line=>parseLine(line));
           return '<p>Parsed '+records.length+' CSV record(s).</p><table class="psv-out-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+records.map(row=>'<tr>'+headers.map((_,i)=>'<td>'+esc(row[i]||"")+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
         }
-        const records=input.split(/\\r?\\n/).filter(Boolean).map(line=>{const obj={};const rx=/([A-Za-z_][\\w.-]*)=(?:"([^"]*)"|'([^']*)'|(\\S+))/g;let m;while((m=rx.exec(line))!==null)obj[m[1]]=m[2]??m[3]??m[4];return obj;});
+        const records=input.split(/\r?\n/).filter(Boolean).map(line=>{const obj={};const rx=/([A-Za-z_][\w.-]*)=(?:"([^"]*)"|'([^']*)'|(\S+))/g;let m;while((m=rx.exec(line))!==null)obj[m[1]]=m[2]??m[3]??m[4];return obj;});
         return '<p>Parsed '+records.length+' key=value record(s).</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(JSON.stringify(records,null,2))+'</pre>';
       } catch(err) { return '<div role="alert">Parse error: '+esc(err.message)+'</div>'; }
     }
