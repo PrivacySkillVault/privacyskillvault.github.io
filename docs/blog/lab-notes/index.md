@@ -19,5 +19,6 @@
       <div class="psv-story-card__body"><span class="psv-story-category">LAB NOTES <i>·</i> EXPLAINER</span><h3>Lab Notes: Understanding Network Activity with Zeek Logs</h3><p>Learn what conn.log, dns.log, and http.log can tell you, how to correlate them, and what encrypted traffic hides.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
     </div>
+    <nav class="psv-journal-pagination" aria-label="lab notes pages"><span class="psv-page-link is-current" aria-current="page">1</span></nav>
   </section>
 </div>
