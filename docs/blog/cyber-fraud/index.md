@@ -1,6 +1,5 @@
 <div class="psv-journal-shell psv-journal-shell--category">
   <aside class="psv-journal-sidebar" aria-label="Journal categories">
-    <p class="psv-journal-side-label">EXPLORE</p>
     <a class="psv-journal-side-link" href="../"><span class="psv-side-mark">◈</span> All stories</a>
     <a class="psv-journal-side-link is-active" href="./"><span class="psv-side-mark">⌁</span> Cyber Fraud <small>01</small></a>
     <a class="psv-journal-side-link" href="../threat-analysis/"><span class="psv-side-mark">⌖</span> Threat Analysis</a>
@@ -8,14 +7,8 @@
     <a class="psv-journal-side-link" href="../vulnerabilities/"><span class="psv-side-mark">⛨</span> Vulnerabilities</a>
     <a class="psv-journal-side-link" href="../lab-notes/"><span class="psv-side-mark">⌬</span> Lab Notes</a>
     <a class="psv-journal-side-link" href="../security-explainers/"><span class="psv-side-mark">◇</span> Security Explainers</a>
-    <div class="psv-journal-sidebar-note"><strong>Investigate with context</strong><p>Fraud signals are evidence to assess, not conclusions by themselves.</p><a href="../editorial-standards/">Editorial standards →</a></div>
   </aside>
   <section class="psv-journal-main psv-category-main">
-    <a class="psv-journal-back" href="../">← All journal stories</a>
-    <p class="psv-journal-kicker">JOURNAL CATEGORY / 01</p>
-    <h1>Cyber Fraud</h1>
-    <p class="psv-category-deck">Understand the methods behind digital financial crime—and how fraud and security teams identify, investigate, and disrupt suspicious activity.</p>
-    <div class="psv-journal-section-head"><div><p class="psv-journal-kicker">3 PUBLISHED ARTICLES</p><h2>Latest in Cyber Fraud</h2></div><span class="psv-journal-count">UPDATED 01 NOV 2026</span></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="account-takeover-explained/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5483240/pexels-photo-5483240.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by cottonbro studio on Pexels" loading="lazy" decoding="async"></div>
