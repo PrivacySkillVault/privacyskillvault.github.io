@@ -23,6 +23,5 @@
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Investigating a Suspicious Bank Transfer: Build the Timeline Before the Theory</h3><p>Connect login, session, beneficiary, authentication, and payment evidence without jumping to conclusions.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
     </div>
-  </section
   </section>
 </div>
