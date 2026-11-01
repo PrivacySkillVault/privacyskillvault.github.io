@@ -522,3 +522,47 @@ body:has(.psv-journal-shell) .md-content__inner>h1:first-child{display:none!impo
   .psv-journal-story-list>.psv-story-card .psv-story-card__footer>span{font-size:.58rem;white-space:nowrap}
   .psv-journal-page-top{margin-bottom:.75rem}
 }
+
+
+/* CYBER JOURNAL — align the full journal frame with the site's 1360px grid. */
+body:has(.psv-journal-shell) .md-content__inner{
+  box-sizing:border-box;
+  width:100%;
+  max-width:1360px;
+  margin:0 auto;
+  padding:1.1rem 1rem 3rem;
+}
+.psv-journal-shell{
+  grid-template-columns:200px minmax(0,1fr);
+  column-gap:1.6rem;
+  width:100%;
+  max-width:100%;
+}
+.psv-journal-sidebar{
+  min-width:0;
+  margin-left:0;
+}
+.psv-journal-main{
+  min-width:0;
+  width:100%;
+}
+.psv-journal-story-list,
+.psv-story-feature{
+  width:100%;
+  max-width:none;
+}
+@media(max-width:900px){
+  .psv-journal-shell{
+    grid-template-columns:180px minmax(0,1fr);
+    column-gap:1.1rem;
+  }
+}
+@media(max-width:700px){
+  body:has(.psv-journal-shell) .md-content__inner{
+    padding:.7rem .8rem 2rem;
+  }
+  .psv-journal-shell{
+    grid-template-columns:minmax(0,1fr);
+    row-gap:1rem;
+  }
+}
