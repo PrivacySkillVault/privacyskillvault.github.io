@@ -20,6 +20,10 @@
 
     <div class="psv-journal-section-head psv-journal-section-head--latest"><div><h2>Latest stories</h2></div></div>
     <div class="psv-journal-story-list">
+<a class="psv-story-card" href="vulnerabilities/chatgpt-shared-link-cross-frame-vulnerability/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34804016/pexels-photo-34804016.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> WEB SECURITY</span><h3>When a Shared ChatGPT Link Becomes an Attack Surface</h3><p>A cross-frame messaging flaw turned a trusted Preview feature into a route for code execution in a signed-in session. Here is what happened and what defenders should learn.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
+    </a>
 <a class="psv-story-card" href="cyber-fraud/device-fingerprinting-in-banking/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5475763/pexels-photo-5475763.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Antoni Shkraba on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Device Fingerprinting in Banking: What It Can—and Cannot—Prove</h3><p>A practical guide to device signals, device binding, spoofing limits, and how fraud teams should interpret a device match.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
@@ -40,12 +44,8 @@
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380603/pexels-photo-5380603.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Tima Miroshnichenko on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>How to Investigate Suspicious PowerShell Activity</h3><p>A practical triage workflow using process lineage, Event 4104, Sysmon, network activity, and host context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
-<a class="psv-story-card" href="soc-investigations/triaging-suspicious-login-alert/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380582/pexels-photo-5380582.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Tima Miroshnichenko on Pexels" loading="lazy" decoding="async"></div>
-      <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>Triage a Suspicious Login Alert Without Jumping to Conclusions</h3><p>Separate failed attempts, successful authentication, session creation, and account activity while building a defensible timeline.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
-    </a>
-    </div>
-    <nav class="psv-journal-pagination" aria-label="Journal pages"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link" href="page/2/">2</a><span class="psv-page-status">Page 1 of 2</span><a class="psv-page-next" href="page/2/">Older articles →</a></nav>
+</div>
+    <nav class="psv-journal-pagination" aria-label="Journal pages"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link" href="page/2/">2</a><a class="psv-page-link" href="page/3/">3</a><span class="psv-page-status">Page 1 of 3</span><a class="psv-page-next" href="page/2/">Older articles →</a></nav>
     <p class="psv-journal-photo-note">Article thumbnails are illustrative stock photographs, not evidence from actual incidents. <a href="image-credits/">Image sources &amp; credits</a>.</p>
   </section>
 </div>
