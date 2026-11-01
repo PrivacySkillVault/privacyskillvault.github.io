@@ -19,6 +19,5 @@
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>How to Prioritise Vulnerabilities Beyond the CVSS Score</h3><p>Combine severity, active exploitation, exposure, asset criticality, and remediation feasibility into a defensible decision.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
     </div>
-  </section
   </section>
 </div>
