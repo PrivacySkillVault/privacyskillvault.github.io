@@ -19,6 +19,5 @@
       <div class="psv-story-card__body"><span class="psv-story-category">SECURITY EXPLAINERS <i>·</i> EXPLAINER</span><h3>MFA, OTPs and Passkeys: What Actually Makes Authentication Stronger?</h3><p>Understand authentication factors, OTP limitations, phishing-resistant passkeys, and why recovery flows still matter.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
     </a>
     </div>
-  </section
   </section>
 </div>
