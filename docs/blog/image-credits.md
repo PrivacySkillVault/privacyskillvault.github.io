@@ -17,6 +17,7 @@ The Cyber Journal uses editorial stock photographs from Pexels. Each photograph 
 | zeek network visibility lab | cottonbro studio | [View on Pexels](https://www.pexels.com/photo/employee-working-through-the-tangle-of-cables-behind-the-computer-6804585/) |
 | dns resolution explained | Daniil Komov | [View on Pexels](https://www.pexels.com/photo/close-up-of-computer-screen-with-code-displayed-34803966/) |
 | mfa passkeys explained | Mario Amé | [View on Pexels](https://www.pexels.com/photo/person-using-black-dell-laptop-computer-4078343/) |
+| shared ChatGPT link vulnerability | Daniil Komov | [View on Pexels](https://www.pexels.com/photo/modern-workspace-with-laptop-and-code-display-34804016/) |
 
 Pexels states that its photos and videos may be used free of charge on websites and blogs; attribution is not required but is appreciated. Review the [Pexels licence](https://www.pexels.com/license/) and [terms of service](https://www.pexels.com/terms-of-service/).
 
