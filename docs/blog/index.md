@@ -21,7 +21,7 @@
     <div class="psv-journal-section-head psv-journal-section-head--latest"><div><h2>Latest stories</h2></div></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="vulnerabilities/chatgpt-shared-link-cross-frame-vulnerability/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34804016/pexels-photo-34804016.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34804001/pexels-photo-34804001.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> WEB SECURITY</span><h3>When a Shared ChatGPT Link Becomes an Attack Surface</h3><p>A cross-frame messaging flaw turned a trusted Preview feature into a route for code execution in a signed-in session. Here is what happened and what defenders should learn.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
 <a class="psv-story-card" href="cyber-fraud/device-fingerprinting-in-banking/">
