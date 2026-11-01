@@ -11,7 +11,7 @@
   <section class="psv-journal-main psv-category-main">
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="chatgpt-shared-link-cross-frame-vulnerability/">
-      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34804016/pexels-photo-34804016.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34803966/pexels-photo-34803966.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> WEB SECURITY</span><h3>When a Shared ChatGPT Link Becomes an Attack Surface</h3><p>A cross-frame messaging flaw turned a trusted Preview feature into a route for code execution in a signed-in session. Here is what happened and what defenders should learn.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
 <a class="psv-story-card" href="cve-cvss-cwe-cpe-explained/">
