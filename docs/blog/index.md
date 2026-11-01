@@ -18,7 +18,7 @@
       <div class="psv-story-feature__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>How Does a Banking Account Takeover Actually Work?</h3><p>From exposed credentials to stolen sessions, understand the common routes into a digital banking account—and the evidence investigators should connect before drawing conclusions.</p><small class="psv-story-date">31 OCT 2026 <i>·</i> 9 MIN READ</small></div>
     </a>
 
-    <div class="psv-journal-section-head psv-journal-section-head--latest"><div><h2>Latest stories</h2></div><span class="psv-journal-count">13 ARTICLES · 6 CATEGORIES</span></div>
+    <div class="psv-journal-section-head psv-journal-section-head--latest"><div><h2>Latest stories</h2></div></div>
     <div class="psv-journal-story-list">
 <a class="psv-story-card" href="cyber-fraud/device-fingerprinting-in-banking/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5475763/pexels-photo-5475763.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Antoni Shkraba on Pexels" loading="lazy" decoding="async"></div>
