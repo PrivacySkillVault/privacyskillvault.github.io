@@ -440,7 +440,40 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       faqs: [{q:"Does a hash prove evidence is genuine?",a:"No. A hash detects changes relative to a known digest; it does not establish provenance or authenticity."}],
       related: ["case","share","timestamp"]
     }
-  ];
+    ,{
+      id: "spl",
+      cat: "soc",
+      badge: "SPL",
+      shortTitle: "Splunk SPL Builder",
+      title: "Splunk SPL Query Builder",
+      desc: "Generate editable SPL from a structured, analyst-controlled query specification. Validate field names and index/sourcetype against your environment before running.",
+      options: ["Failed logons by source IP", "Successful logons after failures", "Process execution search", "Network connection search"],
+      actionLabel: "Generate SPL Query",
+      sample: "index=wineventlog sourcetype=WinEventLog:Security EventCode=4625",
+      whatItDoes: "Builds common Splunk Search Processing Language (SPL) hunting queries from selected use cases and editable environment fields.",
+      whyItMatters: "Reusable query patterns reduce repetitive query authoring during triage. Generated SPL is a starting point and must be adapted to the local CIM, indexes, sourcetypes and field extractions.",
+      howItWorks: "Uses local templates and escaped field/value inputs. It does not connect to Splunk, execute searches, or validate the query against your deployment.",
+      bestPractices: ["Confirm index and sourcetype names in your Splunk environment.", "Use the narrowest practical time range and add exclusions only after validating expected behaviour.", "Test query performance and results on representative data before operational use."],
+      faqs: [{q:"Does this execute searches in Splunk?",a:"No. It generates query text locally. Copy it into an authorised Splunk search environment and validate the results."}],
+      related: ["events","regex","ioc"]
+    },
+    {
+      id: "parser",
+      cat: "soc",
+      badge: "LOG",
+      shortTitle: "Log Parser & Normaliser",
+      title: "SOC Log Parser & Normaliser",
+      desc: "Parse JSON, CSV and common key=value log lines locally, inspect extracted fields and normalise records for investigation.",
+      options: ["JSON", "CSV", "Key = Value"],
+      actionLabel: "Parse Log Data",
+      sample: "{\"timestamp\":\"2026-11-01T10:15:00Z\",\"src_ip\":\"203.0.113.10\",\"event_id\":4625,\"user\":\"analyst\"}",
+      whatItDoes: "Parses JSON arrays/objects, CSV with a header row, and simple key=value records in the browser.",
+      whyItMatters: "Analysts often receive logs in inconsistent formats. Quick field extraction helps identify useful pivots before building SIEM searches.",
+      howItWorks: "Uses the browser JSON parser, a quoted CSV state machine, or key=value tokenisation. Parsing is local and does not upload data.",
+      bestPractices: ["Preserve the original evidence and work on a copy.", "Check delimiters, quoted values, multiline fields and timezone assumptions.", "This is a convenience parser, not a replacement for production ingestion pipelines or schema validation."],
+      faqs: [{q:"Does it support every vendor log format?",a:"No. It supports JSON, basic header-based CSV and simple key=value lines. Use a dedicated parser for CEF, LEEF, W3C, XML or vendor-specific formats."}],
+      related: ["regex","json","timestamp","ioc"]
+    }  ];
 
   const EVENT_DB = [
     { id: "4624", source: "Windows Security", title: "An account was successfully logged on", mitre: "T1078 / T1021", fields: "TargetUserName, IpAddress, LogonType (2=Interactive, 3=Network/SMB, 10=RDP), AuthenticationPackageName", kql: 'event.code: "4624" and winlog.event_data.LogonType: ("3" or "10") and not source.ip: "127.0.0.1"', fp: "Exclude machine accounts ending in $ for routine Type 3 domain controller traffic." },
@@ -1372,6 +1405,38 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const input = (rawInput || "").trim();
     if (!input) {
       return `<div style="color:#94a3b8;padding:0.5rem;">Input is empty. Click <strong>Load Sample</strong> above or paste your own telemetry.</div>`;
+    }
+
+    if (tool.id === "spl") {
+      const presets = [
+        `index=wineventlog sourcetype=WinEventLog:Security EventCode=4625 | stats count as failures dc(user) as distinct_users values(user) as users by IpAddress | where failures >= 5 | sort - failures`,
+        `index=wineventlog sourcetype=WinEventLog:Security (EventCode=4625 OR EventCode=4624) | eval outcome=if(EventCode=4625,"failure","success") | stats count(eval(outcome="failure")) as failures count(eval(outcome="success")) as successes earliest(_time) as first_seen latest(_time) as last_seen by user, IpAddress | where failures >= 5 AND successes > 0 | convert ctime(first_seen) ctime(last_seen)`,
+        `index=* (EventCode=4688 OR event_id=4688) | table _time host user New_Process_Name Process_Command_Line Parent_Process_Name | sort - _time`,
+        `index=* (dest_ip=* OR DestinationIp=*) | stats count values(dest_port) as ports values(action) as actions by src_ip dest_ip | sort - count`
+      ];
+      const query = presets[Math.min(selectedOptionIdx,3)];
+      return '<div class="psv-tool-note"><strong>Generated template — review before execution.</strong> Replace example indexes, sourcetypes and field names with those present in your deployment. This builder does not connect to Splunk or validate field availability.</div><pre class="psv-query-output" style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(query)+'</pre><p>Selected use case: '+esc(tool.options[selectedOptionIdx]||tool.options[0])+'</p>';
+    }
+
+    if (tool.id === "parser") {
+      try {
+        if (selectedOptionIdx === 0) {
+          const parsed=JSON.parse(input);
+          const rows=Array.isArray(parsed)?parsed:[parsed];
+          if(!rows.length)return '<p>No records found.</p>';
+          const keys=Array.from(new Set(rows.flatMap(x=>x&&typeof x==="object"?Object.keys(x):[])));
+          return '<p>Parsed '+rows.length+' JSON record(s).</p><table class="psv-out-table"><thead><tr>'+keys.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+keys.map(k=>'<td>'+esc(row&&row[k]!==undefined?(typeof row[k]==="object"?JSON.stringify(row[k]):String(row[k])):"")+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+        }
+        if (selectedOptionIdx === 1) {
+          const lines=input.split(/\\r?\\n/).filter(Boolean);
+          if(lines.length<2)throw new Error("CSV needs a header row and at least one data row.");
+          const parseLine=line=>{const out=[];let v="",quoted=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'&&quoted&&line[i+1]==='"'){v+='"';i++;}else if(c==='"'){quoted=!quoted;}else if(c===','&&!quoted){out.push(v);v="";}else{v+=c;}}if(quoted)throw new Error("Unclosed quoted CSV field.");out.push(v);return out;};
+          const headers=parseLine(lines[0]),records=lines.slice(1).map(line=>parseLine(line));
+          return '<p>Parsed '+records.length+' CSV record(s).</p><table class="psv-out-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+records.map(row=>'<tr>'+headers.map((_,i)=>'<td>'+esc(row[i]||"")+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+        }
+        const records=input.split(/\\r?\\n/).filter(Boolean).map(line=>{const obj={};const rx=/([A-Za-z_][\\w.-]*)=(?:"([^"]*)"|'([^']*)'|(\\S+))/g;let m;while((m=rx.exec(line))!==null)obj[m[1]]=m[2]??m[3]??m[4];return obj;});
+        return '<p>Parsed '+records.length+' key=value record(s).</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(JSON.stringify(records,null,2))+'</pre>';
+      } catch(err) { return '<div role="alert">Parse error: '+esc(err.message)+'</div>'; }
     }
 
     if (tool.id === "ioc") {
