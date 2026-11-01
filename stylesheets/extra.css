@@ -638,3 +638,119 @@ body:has(.psv-journal-shell) .md-content__inner>.md-typeset__scrollwrap{
   width:100%;
   max-width:100%;
 }
+
+
+/* =========================================================
+   CYBER JOURNAL — one authoritative layout for every listing
+   (home, archive and all six category pages).
+   Match the global PSV 1360px grid and keep the category rail
+   and story column identical on every journal listing.
+   ========================================================= */
+@media (min-width:1220px){
+  body:has(.psv-journal-shell) .md-grid{
+    width:100%!important;
+    max-width:1360px!important;
+  }
+}
+body:has(.psv-journal-shell) .md-main__inner{
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:1360px!important;
+  margin:0 auto!important;
+}
+body:has(.psv-journal-shell) .md-content{
+  box-sizing:border-box;
+  flex:1 1 auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+}
+body:has(.psv-journal-shell) .md-content__inner{
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:1.4rem 1rem 3rem!important;
+}
+body:has(.psv-journal-shell) .md-content__inner>.md-typeset__scrollwrap,
+body:has(.psv-journal-shell) .md-content__inner>.md-typeset__scrollwrap>.md-typeset{
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:none!important;
+}
+body:has(.psv-journal-shell) .psv-journal-shell{
+  display:grid!important;
+  grid-template-columns:200px minmax(0,1fr)!important;
+  align-items:start;
+  gap:1.6rem!important;
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+}
+body:has(.psv-journal-shell) .psv-journal-sidebar{
+  box-sizing:border-box;
+  width:200px!important;
+  min-width:0!important;
+  max-width:200px!important;
+  margin:0!important;
+}
+body:has(.psv-journal-shell) .psv-journal-main{
+  box-sizing:border-box;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+}
+body:has(.psv-journal-shell) .psv-journal-story-list,
+body:has(.psv-journal-shell) .psv-story-feature{
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:none!important;
+}
+@media (min-width:768px) and (max-width:1219px){
+  body:has(.psv-journal-shell) .md-grid,
+  body:has(.psv-journal-shell) .md-main__inner{
+    width:100%!important;
+    max-width:100%!important;
+  }
+  body:has(.psv-journal-shell) .md-content__inner{
+    padding-left:1.15rem!important;
+    padding-right:1.15rem!important;
+  }
+}
+@media (max-width:900px){
+  body:has(.psv-journal-shell) .psv-journal-shell{
+    grid-template-columns:184px minmax(0,1fr)!important;
+    gap:1.1rem!important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-sidebar{
+    width:184px!important;
+    max-width:184px!important;
+  }
+}
+@media (max-width:700px){
+  body:has(.psv-journal-shell) .md-content__inner{
+    padding:.7rem .8rem 2rem!important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-shell{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:1rem!important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-sidebar{
+    position:static!important;
+    display:flex!important;
+    flex-direction:row!important;
+    width:100%!important;
+    max-width:none!important;
+    gap:.35rem!important;
+    overflow-x:auto;
+    padding:.2rem 0 .65rem;
+    border-bottom:1px solid var(--psv-border);
+    scrollbar-width:thin;
+  }
+  body:has(.psv-journal-shell) .psv-journal-side-link{
+    flex:0 0 auto;
+    white-space:nowrap;
+  }
+}
