@@ -19,6 +19,5 @@
       <div class="psv-story-card__body"><span class="psv-story-category">SOC INVESTIGATIONS <i>·</i> EXPLAINER</span><h3>Triage a Suspicious Login Alert Without Jumping to Conclusions</h3><p>Separate failed attempts, successful authentication, session creation, and account activity while building a defensible timeline.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
     </a>
     </div>
-  </section
   </section>
 </div>
