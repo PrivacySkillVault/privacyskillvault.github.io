@@ -1336,6 +1336,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
        #psv-app .psv-tool-page-head>p{max-width:unset!important;margin:.35rem 0 0!important;font-size:.8rem!important;line-height:1.6!important;color:var(--md-default-fg-color--light)!important}
        #psv-app .psv-section-head h2{font-size:1rem!important;font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;color:var(--md-typeset-color)!important}
        #psv-app .psv-section-head>p{font-size:.8rem!important;line-height:1.6!important;color:var(--md-default-fg-color--light)!important}
+       /* Apply the Investigation-page type scale to every standard tool view,
+          not only the advanced Incident Case Workspace header. */
+       #psv-app .psv-tool-page .psv-tool-hero h1,
+       #psv-app .psv-tool-page .psv-tool-page-head h1{margin:0 0 .55rem!important;font-family:inherit!important;font-size:1.8rem!important;font-weight:700!important;line-height:1.3!important;letter-spacing:-.02em!important;color:var(--md-typeset-color)!important}
+       #psv-app .psv-tool-page .psv-tool-hero>p,
+       #psv-app .psv-tool-page .psv-tool-page-head>p{max-width:unset!important;margin:0 auto .9rem!important;font-family:inherit!important;font-size:.9rem!important;font-weight:400!important;line-height:1.72!important;color:var(--md-default-fg-color--light)!important}
+       #psv-app .psv-tool-page .psv-doc-section h3{margin:1.1rem 0 .45rem!important;font-family:inherit!important;font-size:1.15rem!important;font-weight:700!important;line-height:1.4!important;letter-spacing:-.01em!important;color:var(--md-typeset-color)!important}
+       #psv-app .psv-tool-page .psv-doc-section>p,
+       #psv-app .psv-tool-page .psv-doc-section li,
+       #psv-app .psv-tool-page .psv-faq-item>p{font-family:inherit!important;font-size:.9rem!important;font-weight:400!important;line-height:1.72!important;color:var(--md-typeset-color)!important}
+       #psv-app .psv-tool-page .psv-advanced-panel h2{font-family:inherit!important;font-size:1.25rem!important;font-weight:700!important;line-height:1.4!important;letter-spacing:-.02em!important;color:var(--md-typeset-color)!important}
+       #psv-app .psv-tool-page .psv-advanced-panel>p{font-family:inherit!important;font-size:.9rem!important;line-height:1.72!important;color:var(--md-default-fg-color--light)!important}
 #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
