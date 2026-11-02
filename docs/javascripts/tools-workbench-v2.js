@@ -1385,6 +1385,43 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{font-weight:700!important;box-shadow:none!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{font-size:.65rem!important;color:var(--md-default-fg-color--lighter)!important}
+      /* Align vertical rhythm with the native left-hand navigation. */
+      .md-sidebar--secondary .psv-tool-sidebar .md-nav__title{
+        display:block!important;
+        position:static!important;
+        margin:0 0 .55rem!important;
+        padding:0 .6rem!important;
+        line-height:1.3!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-accordion{
+        display:block!important;
+        margin:0!important;
+        padding:0!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{
+        display:block!important;
+        margin:0!important;
+        padding:0!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{
+        min-height:0!important;
+        margin:0!important;
+        padding:.2em .6em!important;
+        line-height:1.3!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{
+        display:block!important;
+        margin:0!important;
+        padding:0 0 0 .6rem!important;
+        border:0!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{
+        min-height:0!important;
+        margin:0!important;
+        padding:.2em .6em .2em 1.2em!important;
+        line-height:1.3!important;
+      }
+
 
 
       #psv-app .psv-back-bar{display:none!important}
