@@ -1953,7 +1953,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <h1>${esc(tool.title)}</h1>
             <p>${esc(tool.desc)}</p>
             <div class="psv-hero-badges">
-              <span class="psv-pill-badge">Browser-based processing</span>
+              <span class="psv-pill-badge">${tool.id === "ti" ? "Server-side API lookup" : "Browser-based processing"}</span>
               <span class="psv-pill-badge">${tool.id === "ti" ? "External requests on explicit action" : "No external lookup performed by this tool"}</span>
             </div>
           </div>
