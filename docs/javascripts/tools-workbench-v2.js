@@ -1920,7 +1920,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
     if (["case","share","evidence"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
     const currentInput = userInputs[tool.id] !== undefined ? userInputs[tool.id] : tool.sample;
-    const relatedTools = (tool.related || []).map(rid => TOOLS.find(t => t.id === rid)).filter(Boolean);
 
     root.innerHTML = `
       <div id="psv-app">
@@ -2014,23 +2013,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             `).join("")}
           </div>
 
-          <div class="psv-doc-section">
-            <h3>Related Security Tools</h3>
-            <div class="psv-related-grid">
-              ${relatedTools.map(rt => `
-                <a class="psv-tool-card psv-related-card" href="#tool/${encodeURIComponent(rt.id)}" data-psv-action="open-tool" data-tool="${esc(rt.id)}">
-                  <div>
-                    <div class="psv-card-head">
-                      <span class="psv-card-badge">${esc(rt.badge)}</span>
-                    </div>
-                    <h4 class="psv-card-title" style="font-size:0.92rem;">${esc(rt.title)}</h4>
-                    <p class="psv-card-desc" style="font-size:0.75rem;margin-bottom:0.5rem;">${esc(rt.desc)}</p>
-                  </div>
-                  <span class="psv-open-link" style="font-size:0.74rem;">Open Tool →</span>
-                </a>
-              `).join("")}
-            </div>
-          </div>
         </div>
       </div>
     `;
