@@ -33,9 +33,9 @@ Expected: HTTP 200, `Cache-Control: no-store`, and a JSON payload with `status: 
 
 Do not add provider keys to browser JavaScript, MkDocs files, GitHub commits, issue comments, or chat messages. Add them only as encrypted Vercel environment variables after confirming provider account access and terms.
 
-Provider adapters are intentionally not exposed yet. Before enabling public lookup or submission routes, implement distributed rate limiting/abuse controls, strict input validation, provider-specific timeouts and response limits, safe error handling, and audit logging that excludes credentials and sensitive submitted data. CORS is not authentication.
+The lookup route validates public IPv4/IPv6 addresses, domains, file hashes and CVE IDs; rejects private/reserved IPv4 ranges; applies provider-specific timeouts and response-size limits; isolates provider failures; and returns sanitized errors. A small in-memory per-instance throttle is only a best-effort guard: it is not distributed and does not replace a shared rate-limit service, authentication, or bot/abuse controls. CORS is not authentication. Do not treat this public endpoint as a production multi-tenant service until shared rate limiting and stronger abuse controls are added.
 
-Sandbox submissions (URLScan, ANY.RUN, Hybrid Analysis) must require an explicit user confirmation because submitted URLs/files may be shared with third parties. VirusTotal use must be checked against the account's license and current service terms before activation.
+This release uses urlscan search only; it does not submit URLs for scanning. Any future sandbox submissions (urlscan, ANY.RUN, Hybrid Analysis) must require explicit user confirmation because submitted URLs/files may be shared with third parties. VirusTotal use must be checked against the account's license and current service terms before activation.
 
 ## Secure Share
 
