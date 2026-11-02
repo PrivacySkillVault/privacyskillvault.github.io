@@ -1325,6 +1325,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       /* Tools page layout: retain the same MkDocs canvas and left navigation as Investigations. */
       #psv-app.psv-tool-workspace-layout{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(230px,270px)!important;gap:1.5rem!important;align-items:start!important;width:100%!important;max-width:100%!important;margin:0!important}
       #psv-app .psv-tool-workspace-main{grid-column:1!important;grid-row:1!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
+      /* Keep the native MkDocs left navigation visible while the Tools workspace scrolls. */
+      body:has(#psv-workbench-root) .md-sidebar--primary{position:sticky!important;top:calc(var(--md-header-height, 2.4rem) + .5rem)!important;align-self:start!important;height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;max-height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;overflow-y:auto!important;overscroll-behavior:contain}
+
       #psv-app .psv-tool-page{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;text-align:left!important}
       #psv-app .psv-tool-hero{text-align:left!important;margin:0 0 1.25rem!important;padding:0!important}
       #psv-app .psv-tool-hero h1{margin:.1rem 0 .55rem!important;font-size:clamp(1.65rem,2.4vw,2.15rem)!important;line-height:1.25!important;letter-spacing:-.025em!important}
