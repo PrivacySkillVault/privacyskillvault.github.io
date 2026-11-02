@@ -1449,7 +1449,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const indicator = parsed.value;
     outputElement.innerHTML = '<div role="status">Querying configured threat-intelligence providers through the PSV API…</div>';
     try {
-      const response = await fetch("https://psv-api.vercel.app/api/lookup", {
+      const response = await fetch("https://api.privacyskillvault.com/api/lookup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ indicator })
