@@ -1349,6 +1349,140 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
        #psv-app .psv-faq-item>p,
        #psv-app .psv-advanced-panel>p{margin:1.2em 0!important;font-family:inherit!important;font-size:1em!important;font-weight:400!important;line-height:1.72!important;text-align:left!important;color:var(--psv-text)!important}
        #psv-app .psv-advanced-panel{text-align:left!important}
+
+/* Final Threat Intel Hub polish: match PSV page typography and responsive results. */
+#psv-app .psv-tool-page .psv-tool-hero h1,
+#psv-app .psv-tool-page .psv-tool-page-head h1{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:clamp(1.65rem,2.2vw,2rem)!important;
+  font-weight:700!important;
+  line-height:1.25!important;
+  letter-spacing:-.025em!important;
+  margin:0 0 .65rem!important;
+}
+#psv-app .psv-tool-page .psv-tool-hero>p,
+#psv-app .psv-tool-page .psv-tool-page-head>p{
+  max-width:820px!important;
+  margin:0 0 1rem!important;
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.95rem!important;
+  line-height:1.7!important;
+  font-weight:400!important;
+  color:var(--psv-muted)!important;
+}
+#psv-app .psv-tool-page .psv-hero-badges{gap:.5rem!important}
+#psv-app .psv-tool-page .psv-pill-badge{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.74rem!important;
+  font-weight:600!important;
+  letter-spacing:0!important;
+}
+#psv-app .psv-tool-page .psv-field-label{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.75rem!important;
+  font-weight:700!important;
+  letter-spacing:.055em!important;
+  line-height:1.45!important;
+}
+#psv-app .psv-tool-page .psv-privacy-strip{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.84rem!important;
+  line-height:1.65!important;
+}
+#psv-app .psv-tool-page .psv-editor{
+  font-family:"Roboto Mono",SFMono-Regular,Consolas,monospace!important;
+  font-size:.84rem!important;
+  line-height:1.65!important;
+}
+#psv-app .psv-tool-page .psv-btn-run,
+#psv-app .psv-tool-page .psv-btn-util,
+#psv-app .psv-tool-page .psv-opt-pill{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.82rem!important;
+  font-weight:600!important;
+}
+#psv-app .psv-tool-page .psv-output-container{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.9rem!important;
+  line-height:1.7!important;
+  letter-spacing:normal!important;
+}
+#psv-app .psv-tool-page .psv-output-container [role="status"],
+#psv-app .psv-tool-page .psv-output-container .psv-ti-data-note{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.88rem!important;
+  line-height:1.7!important;
+  letter-spacing:normal!important;
+}
+#psv-app .psv-tool-page .psv-out-table{
+  width:100%!important;
+  min-width:760px!important;
+  table-layout:fixed!important;
+  border-collapse:collapse!important;
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.86rem!important;
+  line-height:1.65!important;
+  letter-spacing:normal!important;
+}
+#psv-app .psv-tool-page .psv-out-table th,
+#psv-app .psv-tool-page .psv-out-table td{
+  padding:.8rem .9rem!important;
+  vertical-align:top!important;
+  overflow-wrap:anywhere!important;
+  white-space:normal!important;
+}
+#psv-app .psv-tool-page .psv-out-table th:nth-child(1),
+#psv-app .psv-tool-page .psv-out-table td:nth-child(1){width:180px!important}
+#psv-app .psv-tool-page .psv-out-table th:nth-child(2),
+#psv-app .psv-tool-page .psv-out-table td:nth-child(2){width:165px!important}
+#psv-app .psv-tool-page .psv-out-table th{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.82rem!important;
+  font-weight:700!important;
+}
+#psv-app .psv-tool-page .psv-out-table td{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.86rem!important;
+  font-weight:400!important;
+}
+#psv-app .psv-tool-page .psv-out-table code,
+#psv-app .psv-tool-page .psv-out-table .mono{
+  font-family:"Roboto Mono",SFMono-Regular,Consolas,monospace!important;
+}
+#psv-app .psv-ti-provider-card__head strong{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.9rem!important;
+  font-weight:700!important;
+}
+#psv-app .psv-ti-provider-card__head span{
+  max-width:55%!important;
+  font-size:.78rem!important;
+  line-height:1.5!important;
+}
+#psv-app .psv-ti-provider-card__findings{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.88rem!important;
+  line-height:1.7!important;
+}
+#psv-app .psv-ti-provider-card__findings a{font-weight:600!important}
+#psv-app .psv-tool-page .psv-doc-section h3{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:1.15rem!important;
+  font-weight:700!important;
+}
+#psv-app .psv-tool-page .psv-doc-section p,
+#psv-app .psv-tool-page .psv-doc-section li,
+#psv-app .psv-tool-page .psv-faq-item>p{
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.92rem!important;
+  line-height:1.72!important;
+}
+@media(max-width:800px){
+  #psv-app .psv-ti-results-table{display:none!important}
+  #psv-app .psv-ti-provider-cards{display:block!important}
+  #psv-app .psv-tool-page .psv-tool-hero h1{font-size:1.65rem!important}
+  #psv-app .psv-tool-page .psv-tool-hero>p{font-size:.9rem!important}
+}
 #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
