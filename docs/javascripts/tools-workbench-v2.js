@@ -590,6 +590,24 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-operator-reference{margin-top:2.4rem}
       @media(max-width:900px){#psv-app .psv-vault-layout,#psv-app .psv-tool-workspace-layout{grid-template-columns:minmax(0,1fr)}#psv-app .psv-vault-sidebar,#psv-app .psv-tool-sidebar{position:static;grid-column:1;grid-row:2;display:flex;flex-wrap:wrap;gap:.35rem;max-height:none;padding:.65rem}#psv-app .psv-vault-sidebar-title{width:100%;padding:.15rem .3rem .3rem}#psv-app .psv-vault-category{width:auto;flex:1 1 180px;border:1px solid var(--md-default-fg-color--lightest)}#psv-app .psv-vault-sidebar-note{display:none}}
       @media(max-width:620px){#psv-app .psv-cards-grid{grid-template-columns:1fr}#psv-app .psv-tools-intro h1{font-size:1.7rem}#psv-app .psv-vault-category{flex-basis:100%}}
+      body:has(#psv-workbench-root) .md-grid{max-width:1600px;width:100%}
+      body:has(#psv-workbench-root) .md-content{width:100%;max-width:none!important;margin:0!important}
+      body:has(#psv-workbench-root) .md-content__inner{width:100%;max-width:none!important;margin:0!important;padding-left:clamp(1rem,2vw,2rem)!important;padding-right:clamp(1rem,2vw,2rem)!important}
+      #psv-app .psv-tool-workspace-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:2rem;align-items:start;width:100%}
+      #psv-app .psv-tool-workspace-main{grid-column:1;grid-row:1;min-width:0}
+      #psv-app .psv-tool-sidebar{grid-column:2;grid-row:1;position:sticky;top:1.25rem;align-self:start;width:100%;max-height:calc(100vh - 2.5rem);overflow:auto;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:9px;background:var(--md-code-bg-color);font-family:inherit}
+      #psv-app .psv-vault-sidebar-title{font-family:inherit;font-size:.78rem;font-weight:700;letter-spacing:0;color:var(--md-default-fg-color)}
+      #psv-app .psv-category-group{border-bottom:1px solid var(--md-default-fg-color--lightest)}
+      #psv-app .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.8rem .45rem;cursor:pointer;list-style:none;font:600 .88rem/1.4 Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--md-default-fg-color)}
+      #psv-app .psv-category-group>summary::-webkit-details-marker{display:none}
+      #psv-app .psv-category-group>summary:after{content:"⌄";margin-left:auto;color:var(--md-default-fg-color--light);transition:transform .15s}
+      #psv-app .psv-category-group[open]>summary:after{transform:rotate(180deg)}
+      #psv-app .psv-category-tools{padding:0 .25rem .55rem}
+      #psv-app .psv-sidebar-tool{display:block;width:100%;padding:.55rem .6rem;border:0;border-radius:6px;background:transparent;color:var(--md-default-fg-color--light);text-align:left;font:400 .82rem/1.45 Roboto,"Helvetica Neue",Arial,sans-serif;cursor:pointer}
+      #psv-app .psv-sidebar-tool:hover,#psv-app .psv-sidebar-tool.active{background:var(--md-default-bg-color);color:var(--md-default-fg-color)}
+      #psv-app .psv-sidebar-tool.active{box-shadow:inset 3px 0 var(--md-accent-fg-color);font-weight:700}
+      #psv-app .psv-back-bar{display:none}
+      @media(max-width:900px){body:has(#psv-workbench-root) .md-grid{max-width:100%}#psv-app .psv-tool-workspace-layout{grid-template-columns:minmax(0,1fr)}#psv-app .psv-tool-workspace-main{grid-column:1;grid-row:1}#psv-app .psv-tool-sidebar{grid-column:1;grid-row:2;position:static;max-height:none;margin-top:1.5rem}}
       /* Keep the shared MkDocs header, sidebars, article width and page canvas intact. */
       #psv-workbench-root {
         width: 100%;
@@ -1772,30 +1790,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function renderCatalogView(root) {
-    const groups=[{id:"all",label:"All tools",hint:"Complete directory"},{id:"soc",label:"SOC & Detection",hint:"Events, rules and log analysis"},{id:"ti",label:"Threat Intelligence",hint:"Indicators and enrichment"},{id:"dfir",label:"DFIR & Forensics",hint:"Evidence and incident response"},{id:"network",label:"Network & Email",hint:"Headers and vulnerability scoring"},{id:"util",label:"Incident Utilities",hint:"Timestamps, reports and triage"}];
-    const filtered=TOOLS.filter(t=>(activeCat==="all"||t.cat===activeCat)&&(!searchQuery||(t.title+" "+t.desc+" "+t.shortTitle+" "+t.badge).toLowerCase().includes(searchQuery)));
-    root.innerHTML=`
-      <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
-        <header class="psv-tools-intro">
-          <h1>Security Tools</h1>
-        </header>
-        <div class="psv-vault-layout">
-          <section class="psv-vault-main" aria-label="Security tools">
-            <label class="psv-vault-search-label" for="psv-cat-search">Find a tool</label>
-            <div class="psv-vault-search-wrap"><span aria-hidden="true">⌕</span><input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search tools, event IDs, tasks or indicators…" value="${esc(searchQuery)}" /></div>
-            <nav class="psv-tool-directory" aria-label="Available tools">
-              ${filtered.map(t=>`<a class="psv-directory-row" href="#tool/${encodeURIComponent(t.id)}" data-psv-action="open-tool" data-tool="${esc(t.id)}"><span class="psv-directory-badge">${esc(t.badge)}</span><span class="psv-directory-copy"><strong>${esc(t.title)}</strong><small>${esc(t.desc)}</small></span><span class="psv-directory-open">Open workspace <span aria-hidden="true">→</span></span></a>`).join("")||'<div class="psv-empty-state">No tools match your search. Clear the search or select another category.</div>'}
-            </nav>
-          </section>
-          <aside class="psv-vault-sidebar" aria-label="Tool category navigation">
-            <div class="psv-vault-sidebar-title">CATEGORIES</div>
-            ${groups.map(c=>`<button type="button" class="psv-vault-category ${activeCat===c.id?"active":""}" data-psv-action="set-cat" data-cat="${c.id}" aria-pressed="${activeCat===c.id}"><span><strong>${c.label}</strong><small>${c.hint}</small></span><span class="psv-vault-count">${c.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===c.id).length}</span></button>`).join("")}
-            <div class="psv-sidebar-tool-list"><div class="psv-vault-sidebar-title">TOOLS IN THIS CATEGORY</div>${TOOLS.filter(t=>activeCat==="all"||t.cat===activeCat).map(t=>`<button type="button" class="psv-sidebar-tool" data-psv-action="open-tool" data-tool="${esc(t.id)}">${esc(t.shortTitle||t.title)}</button>`).join("")}</div>
-          </aside>
-        </div>
-      </div>`;
+    activeToolId = TOOLS.some(t => t.id === activeToolId) ? activeToolId : "ioc";
+    currentView = "tool";
+    renderSingleToolView(root);
   }
-
   function downloadText(filename, content, mime) {
     const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -2030,14 +2028,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   function attachToolSidebar(root, selectedTool) {
     const app=root.querySelector("#psv-app"),page=app&&app.querySelector(".psv-tool-page");
     if(!app||!page||app.querySelector(".psv-tool-sidebar"))return;
-    const groups=[{id:"all",label:"All tools"},{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
-    const group=groups.find(g=>g.id===selectedTool.cat)||groups[0];
-    const items=TOOLS.filter(t=>selectedTool.cat==="all"||t.cat===selectedTool.cat);
-    const aside=document.createElement("aside");aside.className="psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories and navigation");
-    aside.innerHTML=`<div class="psv-vault-sidebar-title">TOOL CATEGORIES</div>
-      ${groups.map(g=>`<button type="button" class="psv-vault-category ${g.id===selectedTool.cat?"active":""}" data-psv-action="set-cat" data-cat="${g.id}" aria-pressed="${g.id===selectedTool.cat}"><span><strong>${g.label}</strong></span><span class="psv-vault-count">${g.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===g.id).length}</span></button>`).join("")}
-      <div class="psv-sidebar-tool-list"><div class="psv-vault-sidebar-title">${group.label.toUpperCase()}</div>${items.map(t=>`<button type="button" class="psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div>
-      <button type="button" class="psv-sidebar-back" data-psv-action="back-catalog">← All tools</button>`;
+    const groups=[{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
+    const aside=document.createElement("aside");aside.className="psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
+    aside.innerHTML=`<div class="psv-vault-sidebar-title">TOOL CATEGORIES</div><div class="psv-category-accordion">
+      ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="psv-category-tools">${items.map(t=>`<button type="button" class="psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
+      </div>`;
     app.classList.add("psv-tool-workspace-layout");page.classList.add("psv-tool-workspace-main");app.appendChild(aside);
   }
 
@@ -2057,7 +2052,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     window.__psvCaptureBound = true;
 
     window.addEventListener("click", async function (e) {
-      const target = e.target && e.target.closest ? e.target.closest("[data-psv-action]") : null;
+      const eventElement = e.target instanceof Element ? e.target : (e.target && e.target.parentElement);
+      const target = eventElement && eventElement.closest ? eventElement.closest("#psv-app [data-psv-action]") : null;
       if (!target) return;
 
       const action = target.getAttribute("data-psv-action");
@@ -2080,15 +2076,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       } else if (action === "back-catalog") {
-        currentView = "catalog";
+        currentView = "tool"; activeToolId = "ioc";
         try { history.pushState({}, "", window.location.pathname); } catch (err) {}
-        render();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        render(); window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (action === "set-cat") {
-        activeCat = target.getAttribute("data-cat") || "all";
-        currentView = "catalog";
-        try { history.pushState({}, "", window.location.pathname); } catch (err) {}
-        render();
+        const first = TOOLS.find(t => t.cat === target.getAttribute("data-cat"));
+        if (first) { activeToolId = first.id; currentView = "tool"; render(); }
       } else if (action === "set-opt") {
         const idx = parseInt(target.getAttribute("data-opt") || "0", 10);
         selectedOptionIdx = idx;
@@ -2240,7 +2233,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           currentView = "catalog";
         }
       } else {
-        currentView = "catalog";
+        currentView = "tool";
+        activeToolId = TOOLS.some(t => t.id === activeToolId) ? activeToolId : "ioc";
       }
       render();
       root.setAttribute("data-psv-mounted", "true");
