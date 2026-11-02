@@ -7,7 +7,23 @@ const ALLOWED_ORIGINS = new Set([
   "https://www.privacyskillvault.com"
 ]);
 const MAX_BODY_BYTES = 2048;
-const TIMEOUT_MS = 9000;
+const TIMEOUT_MS = 8000;
+const RATE_WINDOW_MS = 60_000;
+const RATE_LIMIT = 20;
+const requestBuckets = new Map();
+
+function isRateLimited(req) {
+  const clientIp = req.headers && req.headers["x-real-ip"];
+  const key = typeof clientIp === "string" && clientIp ? clientIp : "unknown-client";
+  const now = Date.now();
+  const current = requestBuckets.get(key);
+  if (!current || now - current.startedAt >= RATE_WINDOW_MS) {
+    requestBuckets.set(key, { startedAt: now, count: 1 });
+    return false;
+  }
+  current.count += 1;
+  return current.count > RATE_LIMIT;
+}
 
 function json(res, status, payload) {
   return res.status(status).json(payload);
@@ -214,6 +230,7 @@ async function handler(req, res) {
     res.setHeader("Allow", "POST, OPTIONS");
     return json(res, 405, { error: "Method not allowed" });
   }
+  if (isRateLimited(req)) return json(res, 429, { error: "PSV lookup rate limit reached. Try again in one minute." });
 
   const raw = typeof req.body === "string" ? req.body : JSON.stringify(req.body || {});
   if (Buffer.byteLength(raw, "utf8") > MAX_BODY_BYTES) return json(res, 413, { error: "Request too large" });
@@ -247,3 +264,4 @@ async function handler(req, res) {
 module.exports = handler;
 module.exports.normalizeIndicator = normalizeIndicator;
 module.exports.publicError = publicError;
+module.exports.isRateLimited = isRateLimited;
