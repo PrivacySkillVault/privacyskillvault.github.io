@@ -1322,7 +1322,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-category-group .psv-sidebar-tool.active{font-weight:650}
        /* Native MkDocs Material secondary-navigation styling; only reset control defaults. */
        .md-sidebar--secondary .psv-tool-sidebar{padding:0!important;border:0!important;background:transparent!important}
-       .md-sidebar--secondary .psv-tool-sidebar>.psv-category-accordion{margin-top:.55rem!important}
+       .md-sidebar--secondary .psv-tool-sidebar>.psv-category-accordion{margin-top:.85rem!important}
        .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{margin:0}
        .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none}
        .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link::-webkit-details-marker{display:none}
