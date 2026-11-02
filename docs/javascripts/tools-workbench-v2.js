@@ -2094,7 +2094,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const groups=[{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
     const previous=document.querySelector(".md-sidebar--secondary .psv-tool-sidebar");
     if(previous)previous.remove();
-    const aside=document.createElement("nav");aside.className="md-nav psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
+    const aside=document.createElement("nav");aside.className="md-nav md-nav--secondary psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
     aside.innerHTML=`<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
       ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="md-nav__item psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary class="md-nav__link"><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="md-nav psv-category-tools">${items.map(t=>`<button type="button" class="md-nav__link psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
       </div>`;
