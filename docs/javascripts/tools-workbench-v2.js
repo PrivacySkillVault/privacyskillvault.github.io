@@ -952,21 +952,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
 
       .psv-tool-hero { text-align: center; margin-bottom: 1.85rem; }
-      .psv-tool-hero-icon {
-        width: 54px;
-        height: 54px;
-        margin: 0 auto 0.9rem auto;
-        border-radius: 13px;
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
-        font-size: 1rem;
-        font-weight: 800;
-        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
-      }
       .psv-tool-hero h1 {
         font-size: clamp(1.85rem, 3.5vw, 2.5rem);
         font-weight: 800;
@@ -1836,7 +1821,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function renderAdvancedTool(root, tool) {
     const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>';
-    const header = '<header class="psv-tool-page-head"><span class="psv-card-badge">'+esc(tool.badge)+'</span><h1>'+esc(tool.title)+'</h1><p>'+esc(tool.desc)+'</p></header>';
+    const header = '<header class="psv-tool-page-head"><h1>'+esc(tool.title)+'</h1><p>'+esc(tool.desc)+'</p></header>';
     let body = "";
     if (tool.id === "case") {
       body = '<section class="psv-advanced-panel"><h2>Incident details</h2><p>Build a local incident record. Export the report and store it only in your approved case repository.</p><div class="psv-advanced-grid">'+
@@ -1929,7 +1914,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           </div>
 
           <div class="psv-tool-hero">
-            <div class="psv-tool-hero-icon">${esc(tool.badge)}</div>
             <h1>${esc(tool.title)}</h1>
             <p>${esc(tool.desc)}</p>
             <div class="psv-hero-badges">
