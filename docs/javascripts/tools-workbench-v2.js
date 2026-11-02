@@ -1356,6 +1356,25 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool{display:block!important;width:100%!important;margin:0!important;padding:.34rem .45rem!important;border:0!important;border-radius:4px!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;text-align:left!important;font-family:inherit!important;font-size:.6rem!important;font-weight:400!important;line-height:1.4!important;letter-spacing:0!important;cursor:pointer!important;transition:color .15s,background .15s}
       body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool:hover,body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool.active{background:transparent!important;color:var(--md-accent-fg-color)!important}
       body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool.active{box-shadow:inset 2px 0 var(--md-accent-fg-color)!important;font-weight:600!important;padding-left:.6rem!important}
+      /* Match the native MkDocs Material navigation typography on the left. */
+      .md-sidebar--secondary .psv-tool-sidebar,
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary,
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool{
+        font-family:inherit!important;
+        font-size:var(--md-nav-font-size,.7rem)!important;
+        line-height:1.5!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-sidebar-title{
+        font-family:inherit!important;
+        font-size:var(--md-nav-font-size,.7rem)!important;
+        line-height:1.5!important;
+        letter-spacing:0!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{
+        font-family:inherit!important;
+        font-size:var(--md-nav-font-size,.7rem)!important;
+      }
+
       #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
