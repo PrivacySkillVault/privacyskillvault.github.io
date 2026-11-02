@@ -1299,6 +1299,35 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       @media(max-width:900px){#psv-app .psv-workflow-grid{grid-template-columns:1fr}#psv-app .psv-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(max-width:620px){#psv-app .psv-cards-grid,#psv-app .psv-reference-grid,#psv-app .psv-form-grid{grid-template-columns:1fr}#psv-app .psv-form-wide{grid-column:auto}#psv-app .psv-command-stats{gap:1rem}}
 
+      /* Final PSV page-alignment overrides: one page title, one content heading. */
+      body:has(#psv-workbench-root) .md-content__inner > h1:first-child{display:none!important}
+      #psv-app,#psv-app button,#psv-app input,#psv-app select,#psv-app textarea{font-family:Roboto,"Helvetica Neue",Arial,sans-serif}
+      #psv-app .psv-vault-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:1.5rem;align-items:start}
+      #psv-app .psv-vault-main{grid-column:1;grid-row:1;min-width:0}
+      #psv-app .psv-vault-sidebar{grid-column:2;grid-row:1;align-self:start;position:sticky;top:1.25rem;margin:0}
+      #psv-app .psv-tool-workspace-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:1.5rem;align-items:start}
+      #psv-app .psv-tool-workspace-main{grid-column:1;grid-row:1;min-width:0}
+      #psv-app .psv-tool-sidebar{grid-column:2;grid-row:1;align-self:start;position:sticky;top:1.25rem;margin:0}
+      #psv-app .psv-vault-sidebar-title{font-family:inherit;font-size:.75rem;font-weight:700;letter-spacing:0;color:var(--md-default-fg-color);text-transform:none}
+      #psv-app .psv-vault-category,#psv-app .psv-sidebar-tool,#psv-app .psv-sidebar-back{font-family:inherit;font-size:.82rem;line-height:1.45}
+      #psv-app .psv-vault-category strong{font-family:inherit;font-size:.82rem;font-weight:600}
+      #psv-app .psv-vault-category small{font-family:inherit;font-size:.72rem}
+      #psv-app .psv-vault-count{font-family:inherit;font-size:.72rem}
+      #psv-app .psv-tools-intro{margin:0 0 1rem;padding:0;border:0}
+      #psv-app .psv-tools-intro h1{margin:0 0 .75rem;font-family:inherit;font-size:1.8rem;font-weight:700;letter-spacing:-.02em;line-height:1.3;color:var(--md-default-fg-color)}
+      #psv-app .psv-vault-search-label{margin:0 0 .35rem;font-family:inherit;font-size:.82rem;font-weight:600}
+      #psv-app .psv-vault-search-wrap .psv-search-bar{width:100%;font-family:inherit;font-size:.9rem}
+      #psv-app .psv-directory-row{font-family:inherit}
+      #psv-app .psv-directory-copy strong{font-family:inherit;font-size:.9rem;font-weight:600}
+      #psv-app .psv-directory-copy small{font-family:inherit;font-size:.8rem;line-height:1.55}
+      #psv-app .psv-directory-open{font-family:inherit;font-size:.78rem;font-weight:600}
+      #psv-app .psv-tool-page-head h1,#psv-app .psv-tool-hero h1{font-family:inherit;font-weight:700}
+      @media(max-width:900px){
+        #psv-app .psv-vault-layout,#psv-app .psv-tool-workspace-layout{grid-template-columns:minmax(0,1fr)}
+        #psv-app .psv-vault-main,#psv-app .psv-tool-workspace-main{grid-column:1;grid-row:1}
+        #psv-app .psv-vault-sidebar,#psv-app .psv-tool-sidebar{grid-column:1;grid-row:2;position:static;max-height:none;align-self:stretch}
+      }
+
     `;
     document.head.appendChild(style);
   }
@@ -1748,15 +1777,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     root.innerHTML=`
       <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
         <header class="psv-tools-intro">
-          <div class="psv-eyebrow">PRIVACY SKILL VAULT / SECURITY OPERATIONS</div>
           <h1>Security Tools</h1>
-          <p>Choose an investigation utility. The selected tool opens in the main workspace while categories and related tools remain available on the right.</p>
-          <div class="psv-tools-trust"><span>● Browser-side processing where possible</span><span>● No account required</span><span>● External lookups are opt-in</span></div>
-          <p class="psv-tools-note"><strong>Privacy:</strong> Do not paste customer data, credentials, production secrets or employer-confidential telemetry. External lookups send indicators to named providers only after you choose to run them.</p>
         </header>
         <div class="psv-vault-layout">
           <section class="psv-vault-main" aria-label="Security tools">
-            <div class="psv-vault-main-head"><div><span class="psv-eyebrow">ANALYST WORKSPACE / TOOL DIRECTORY</span><h2>${groups.find(c=>c.id===activeCat)?.label||"All tools"}</h2><p>${filtered.length} tool${filtered.length===1?"":"s"} available</p></div></div>
             <label class="psv-vault-search-label" for="psv-cat-search">Find a tool</label>
             <div class="psv-vault-search-wrap"><span aria-hidden="true">⌕</span><input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search tools, event IDs, tasks or indicators…" value="${esc(searchQuery)}" /></div>
             <nav class="psv-tool-directory" aria-label="Available tools">
@@ -1769,7 +1793,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <div class="psv-sidebar-tool-list"><div class="psv-vault-sidebar-title">TOOLS IN THIS CATEGORY</div>${TOOLS.filter(t=>activeCat==="all"||t.cat===activeCat).map(t=>`<button type="button" class="psv-sidebar-tool" data-psv-action="open-tool" data-tool="${esc(t.id)}">${esc(t.shortTitle||t.title)}</button>`).join("")}</div>
           </aside>
         </div>
-        <p class="psv-workbench-disclaimer"><strong>Operational boundary:</strong> Browser utilities assist analysis; they are not a SIEM, EDR, packet-capture engine, malware sandbox or authoritative threat-intelligence platform. Use only on data and systems you are authorised to examine.</p>
       </div>`;
   }
 
@@ -1837,6 +1860,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         '<p class="psv-advanced-muted">Share the passphrase through a separate approved channel. Lost passphrases cannot be recovered. Follow organisational evidence-transfer policies.</p></section>';
     }
     root.innerHTML = '<div id="psv-app" class="psv-workbench-v2"><div class="psv-tool-page">'+back+header+body+'</div></div>';
+    attachToolSidebar(root, tool);
   }
 
   async function runShare() {
@@ -1892,9 +1916,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         <div class="psv-tool-page">
           <div class="psv-back-bar">
             <button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools (${TOOLS.length})</button>
-            <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
-              ${TOOLS.map(t => `<button type="button" class="psv-opt-pill ${t.id === tool.id ? "active" : ""}" style="padding:0.28rem 0.6rem;font-size:0.71rem;" data-psv-action="open-tool" data-tool="${esc(t.id)}">${esc(t.badge)}</button>`).join("")}
-            </div>
           </div>
 
           <div class="psv-tool-hero">
@@ -2041,26 +2062,20 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
       const action = target.getAttribute("data-psv-action");
 
-      // Let real tool-card anchors update the URL normally. The hashchange
-      // handler below then opens the tool, preserving copy-link and Back/Forward
-      // behaviour without relying on a synthetic click or a blocked default.
-      if (action === "open-tool" && target.tagName === "A" &&
-          (target.getAttribute("href") || "").startsWith("#tool/")) {
-        e.stopPropagation();
-        return;
-      }
-
       e.preventDefault();
       e.stopPropagation();
 
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
-        if (tid) {
+        if (tid && TOOLS.some(t => t.id === tid)) {
           tiLookupSequence++;
           activeToolId = tid;
           selectedOptionIdx = 0;
           currentView = "tool";
-          try { history.pushState({ tool: tid }, "", "#tool/" + tid); } catch (err) {}
+          const nextHash = "#tool/" + encodeURIComponent(tid);
+          try {
+            if (window.location.hash !== nextHash) history.pushState({ tool: tid }, "", nextHash);
+          } catch (err) {}
           render();
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
