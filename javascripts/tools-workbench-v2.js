@@ -1333,6 +1333,22 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
        #psv-app .psv-tool-page .psv-faq-item>p{font-family:inherit!important;font-size:.9rem!important;font-weight:400!important;line-height:1.72!important;color:var(--md-typeset-color)!important}
        #psv-app .psv-tool-page .psv-advanced-panel h2{font-family:inherit!important;font-size:1.25rem!important;font-weight:700!important;line-height:1.4!important;letter-spacing:-.02em!important;color:var(--md-typeset-color)!important}
        #psv-app .psv-tool-page .psv-advanced-panel>p{font-family:inherit!important;font-size:.9rem!important;line-height:1.72!important;color:var(--md-default-fg-color--light)!important}
+       /* Match the native .md-typeset hierarchy used by Investigations. */
+       #psv-app .psv-tool-page{width:100%!important;max-width:none!important;margin:0!important;text-align:left!important}
+       #psv-app .psv-tool-hero{margin:0 0 1.6rem!important;text-align:left!important}
+       #psv-app .psv-tool-hero h1,
+       #psv-app .psv-tool-page-head h1{margin:0 0 .8em!important;font-family:inherit!important;font-size:1.5625em!important;font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;text-align:left!important;color:var(--psv-text)!important}
+       #psv-app .psv-tool-hero>p,
+       #psv-app .psv-tool-page-head>p{max-width:850px!important;margin:1.2em 0!important;font-family:inherit!important;font-size:1em!important;font-weight:400!important;line-height:1.72!important;text-align:left!important;color:var(--psv-muted)!important}
+       #psv-app .psv-hero-badges{justify-content:flex-start!important}
+       #psv-app .psv-doc-section{margin:1.6em 0!important;text-align:left!important}
+       #psv-app .psv-doc-section h3,
+       #psv-app .psv-advanced-panel h2{margin:1.6em 0 .8em!important;padding:0 0 .35em!important;border:0!important;border-bottom:1px solid var(--psv-border)!important;font-family:inherit!important;font-size:1.25em!important;font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;text-align:left!important;color:var(--psv-text)!important}
+       #psv-app .psv-doc-section p,
+       #psv-app .psv-doc-section li,
+       #psv-app .psv-faq-item>p,
+       #psv-app .psv-advanced-panel>p{margin:1.2em 0!important;font-family:inherit!important;font-size:1em!important;font-weight:400!important;line-height:1.72!important;text-align:left!important;color:var(--psv-text)!important}
+       #psv-app .psv-advanced-panel{text-align:left!important}
 #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
