@@ -1385,45 +1385,50 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{font-weight:700!important;box-shadow:none!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{font-size:.65rem!important;color:var(--md-default-fg-color--lighter)!important}
-      /* Align vertical rhythm with the native left-hand navigation. */
-      .md-sidebar--secondary .psv-tool-sidebar .md-nav__title{
-        display:block!important;
-        position:static!important;
-        margin:0 0 .55rem!important;
-        padding:0 .6rem!important;
-        line-height:1.3!important;
+      /* Right rail: preserve the full native TOC title height and left-nav rhythm. */
+      .md-sidebar--secondary .psv-tool-sidebar{font:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;line-height:1.5!important}
+      .md-sidebar--secondary .psv-tool-sidebar>.md-nav__title{
+        display:block!important;position:relative!important;inset:auto!important;
+        box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:2.6rem!important;
+        margin:0 0 .35rem!important;padding:.65rem .8rem!important;
+        overflow:visible!important;white-space:normal!important;
+        color:var(--md-default-fg-color)!important;
+        font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
+        font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;
       }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-accordion{
-        display:block!important;
-        margin:0!important;
-        padding:0!important;
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{
-        display:block!important;
-        margin:0!important;
-        padding:0!important;
-      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-accordion{display:block!important;margin:0!important;padding:0!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{display:block!important;margin:0!important;padding:0!important;border:0!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{
-        min-height:0!important;
-        margin:0!important;
-        padding:.2em .6em!important;
-        line-height:1.3!important;
+        display:flex!important;align-items:center!important;justify-content:space-between!important;
+        box-sizing:border-box!important;width:100%!important;min-height:2rem!important;
+        margin:0!important;padding:.35rem .8rem!important;
+        color:var(--md-default-fg-color--light)!important;background:transparent!important;
+        font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
+        font-weight:400!important;line-height:1.4!important;text-align:left!important;
+        cursor:pointer!important;list-style:none!important;
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link::-webkit-details-marker{display:none!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link:hover,
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group[open]>summary.md-nav__link{
+        color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important
       }
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{
-        display:block!important;
-        margin:0!important;
-        padding:0 0 0 .6rem!important;
-        border:0!important;
+        display:block!important;margin:0!important;padding:0 0 .2rem 1rem!important;border:0!important
       }
       .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{
-        min-height:0!important;
-        margin:0!important;
-        padding:.2em .6em .2em 1.2em!important;
-        line-height:1.3!important;
+        display:block!important;box-sizing:border-box!important;width:100%!important;min-height:2rem!important;
+        margin:0!important;padding:.35rem .8rem!important;border:0!important;border-radius:0!important;
+        color:var(--md-default-fg-color--light)!important;background:transparent!important;
+        font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
+        font-weight:400!important;line-height:1.4!important;text-align:left!important;
+        cursor:pointer!important;
       }
-
-
-
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{
+        color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important
+      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{font-weight:700!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{font:inherit!important;font-size:.85em!important;color:var(--md-default-fg-color--lighter)!important}
       #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
