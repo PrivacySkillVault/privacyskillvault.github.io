@@ -535,7 +535,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-sidebar-tool{display:block;width:100%;padding:.45rem .5rem;border:0;border-radius:5px;background:transparent;color:var(--md-default-fg-color--light);text-align:left;font-size:.72rem;cursor:pointer}
       #psv-app .psv-sidebar-tool:hover,#psv-app .psv-sidebar-tool.active{background:var(--md-default-bg-color);color:var(--md-default-fg-color)}
       #psv-app .psv-sidebar-tool.active{box-shadow:inset 2px 0 var(--md-accent-fg-color);font-weight:700}
-      #psv-app .psv-tool-workspace-layout{display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:1.5rem;align-items:start}
+      #psv-app .psv-tool-workspace-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:1.5rem;align-items:start}
       #psv-app .psv-tool-workspace-main{min-width:0;grid-column:1;grid-row:1}
       #psv-app .psv-tool-sidebar{position:sticky;top:1.25rem;grid-column:2;grid-row:1;max-height:calc(100vh - 2.5rem);overflow:auto;padding:.8rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:9px;background:var(--md-code-bg-color)}
       #psv-app .psv-sidebar-back{width:100%;margin-top:.8rem;padding:.6rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px;background:transparent;color:var(--md-default-fg-color);text-align:left;cursor:pointer}
@@ -557,8 +557,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-tools-trust{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;margin:.9rem 0;color:var(--md-default-fg-color--light);font-size:.76rem;font-weight:600}
       #psv-app .psv-tools-trust span:first-child{color:var(--md-default-fg-color)}
       #psv-app .psv-tools-note{margin:.8rem 0 0;padding:.75rem .9rem;border-left:3px solid var(--md-accent-fg-color);background:var(--md-code-bg-color);font-size:.78rem}
-      #psv-app .psv-vault-layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:1.5rem;align-items:start}
-      #psv-app .psv-vault-sidebar{position:sticky;top:1rem;padding:.9rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
+      #psv-app .psv-vault-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:1.5rem;align-items:start}
+      #psv-app .psv-vault-sidebar,#psv-app .psv-tool-sidebar{position:sticky;top:1.25rem;max-height:calc(100vh - 2.5rem);overflow:auto;padding:.9rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
       #psv-app .psv-vault-sidebar-title{padding:.25rem .45rem .7rem;color:var(--md-default-fg-color--light);font:700 .68rem "Roboto Mono",monospace;letter-spacing:.08em}
       #psv-app .psv-vault-category{display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;padding:.65rem .55rem;border:0;border-radius:7px;background:transparent;color:var(--md-default-fg-color);text-align:left;cursor:pointer}
       #psv-app .psv-vault-category:hover{background:var(--md-default-bg-color)}
@@ -588,7 +588,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-tool-card-v2 .psv-client-tag{font-size:.65rem}
       #psv-app .psv-tool-card-v2 .psv-open-link{font-size:.74rem;font-weight:700;white-space:nowrap}
       #psv-app .psv-operator-reference{margin-top:2.4rem}
-      @media(max-width:900px){#psv-app .psv-vault-layout{grid-template-columns:1fr}#psv-app .psv-vault-sidebar{position:static;display:flex;flex-wrap:wrap;gap:.35rem;padding:.65rem}#psv-app .psv-vault-sidebar-title{width:100%;padding:.15rem .3rem .3rem}#psv-app .psv-vault-category{width:auto;flex:1 1 180px;border:1px solid var(--md-default-fg-color--lightest)}#psv-app .psv-vault-sidebar-note{display:none}}
+      @media(max-width:900px){#psv-app .psv-vault-layout,#psv-app .psv-tool-workspace-layout{grid-template-columns:minmax(0,1fr)}#psv-app .psv-vault-sidebar,#psv-app .psv-tool-sidebar{position:static;grid-column:1;grid-row:2;display:flex;flex-wrap:wrap;gap:.35rem;max-height:none;padding:.65rem}#psv-app .psv-vault-sidebar-title{width:100%;padding:.15rem .3rem .3rem}#psv-app .psv-vault-category{width:auto;flex:1 1 180px;border:1px solid var(--md-default-fg-color--lightest)}#psv-app .psv-vault-sidebar-note{display:none}}
       @media(max-width:620px){#psv-app .psv-cards-grid{grid-template-columns:1fr}#psv-app .psv-tools-intro h1{font-size:1.7rem}#psv-app .psv-vault-category{flex-basis:100%}}
       /* Keep the shared MkDocs header, sidebars, article width and page canvas intact. */
       #psv-workbench-root {
