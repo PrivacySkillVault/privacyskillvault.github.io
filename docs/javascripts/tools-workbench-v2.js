@@ -1388,13 +1388,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       /* Right rail: preserve the full native TOC title height and left-nav rhythm. */
       .md-sidebar--secondary .psv-tool-sidebar{font:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;line-height:1.5!important}
       .md-sidebar--secondary .psv-tool-sidebar>.md-nav__title{
-        display:block!important;position:relative!important;inset:auto!important;
-        box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:2.6rem!important;
-        margin:0 0 .35rem!important;padding:.65rem .8rem!important;
+        display:inline-block!important;position:static!important;inset:auto!important;
+        box-sizing:border-box!important;width:max-content!important;max-width:100%!important;
+        height:auto!important;min-height:0!important;max-height:none!important;
+        margin:0 0 .35rem!important;padding:.2rem .6rem!important;
         overflow:visible!important;white-space:normal!important;
-        color:var(--md-default-fg-color)!important;
+        background:var(--md-default-bg-color)!important;
+        color:var(--md-default-fg-color--light)!important;
         font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
-        font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;
+        font-weight:600!important;line-height:1.5!important;letter-spacing:normal!important;
       }
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-accordion{display:block!important;margin:0!important;padding:0!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{display:block!important;margin:0!important;padding:0!important;border:0!important}
