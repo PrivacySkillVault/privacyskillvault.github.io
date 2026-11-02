@@ -1323,11 +1323,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-directory-open{font-family:inherit;font-size:.78rem;font-weight:600}
       #psv-app .psv-tool-page-head h1,#psv-app .psv-tool-hero h1{font-family:inherit;font-weight:700}
       /* Use the native MkDocs three-column canvas: primary nav | workspace | secondary nav. */
-      body.psv-tools-three-column .md-main__inner.md-grid{display:grid!important;grid-template-columns:12rem minmax(0,1fr) 13rem!important;column-gap:1.25rem!important;width:100%!important;max-width:100%!important;margin:0 auto!important;padding-left:1.25rem!important;padding-right:1.25rem!important;box-sizing:border-box!important}
-      body:has(#psv-workbench-root) .md-sidebar--primary{grid-column:1!important;grid-row:1!important;position:sticky!important;top:calc(var(--md-header-height, 2.4rem) + .5rem)!important;align-self:start!important;height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;max-height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;overflow-y:auto!important;overscroll-behavior:contain}
+      body.psv-tools-three-column .md-main__inner.md-grid{display:grid!important;grid-template-columns:var(--md-sidebar-width,12.1rem) minmax(0,1fr) var(--md-sidebar-width,12.1rem)!important;column-gap:1.25rem!important;width:100%!important;max-width:100%!important;margin:0 auto!important;padding-left:1.25rem!important;padding-right:1.25rem!important;box-sizing:border-box!important}
+      body:has(#psv-workbench-root) .md-sidebar--primary{grid-column:1!important;grid-row:1!important;width:var(--md-sidebar-width,12.1rem)!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;position:sticky!important;top:calc(var(--md-header-height, 2.4rem) + .5rem)!important;align-self:start!important;height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;max-height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;overflow-y:auto!important;overscroll-behavior:contain}
       body.psv-tools-three-column .md-content{grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
       body.psv-tools-three-column .md-content__inner{width:100%!important;max-width:none!important;margin:0!important;padding-left:0!important;padding-right:0!important;box-sizing:border-box!important}
-      body.psv-tools-three-column .md-sidebar--secondary{display:block!important;grid-column:3!important;grid-row:1!important;position:sticky!important;top:calc(var(--md-header-height, 2.4rem) + .5rem)!important;align-self:start!important;width:100%!important;height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;max-height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;overflow-y:auto!important;overscroll-behavior:contain}
+      body.psv-tools-three-column .md-sidebar--secondary{display:block!important;grid-column:3!important;grid-row:1!important;width:var(--md-sidebar-width,12.1rem)!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;position:sticky!important;top:calc(var(--md-header-height, 2.4rem) + .5rem)!important;align-self:start!important;width:100%!important;height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;max-height:calc(100vh - var(--md-header-height, 2.4rem) - .75rem)!important;overflow-y:auto!important;overscroll-behavior:contain}
       body.psv-tools-three-column .md-sidebar--secondary .md-sidebar__scrollwrap,body.psv-tools-three-column .md-sidebar--secondary .md-sidebar__inner{width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important}
       #psv-app.psv-tool-workspace-layout{display:block!important;width:100%!important;max-width:none!important;margin:0!important}
       #psv-app .psv-tool-workspace-main{display:block!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
@@ -1356,7 +1356,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       @media(max-width:76.24em){
-        body.psv-tools-three-column .md-main__inner.md-grid{grid-template-columns:12rem minmax(0,1fr)!important;column-gap:1rem!important}
+        body.psv-tools-three-column .md-main__inner.md-grid{grid-template-columns:var(--md-sidebar-width,12.1rem) minmax(0,1fr)!important;column-gap:1rem!important}
         body.psv-tools-three-column .md-sidebar--secondary{display:none!important}
         body.psv-tools-three-column .md-content{grid-column:2!important}
       }
