@@ -939,3 +939,23 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
     min-width:620px;
   }
 }
+
+
+/* Threat Intel Hub: keep the desktop comparison table, use readable
+   provider cards on phones so provider names and indicators never wrap
+   into narrow table columns. */
+#psv-app .psv-ti-results-table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+#psv-app .psv-ti-results-table .psv-out-table{min-width:680px}
+#psv-app .psv-ti-provider-cards{display:none}
+#psv-app .psv-ti-data-note{margin-top:1rem}
+#psv-app .psv-ti-provider-card{padding:1rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest);overflow-wrap:anywhere}
+#psv-app .psv-ti-provider-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;margin-bottom:.65rem}
+#psv-app .psv-ti-provider-card__head strong{font-size:.95rem;color:var(--md-default-fg-color)}
+#psv-app .psv-ti-provider-card__head span{font:600 .78rem "Roboto Mono",SFMono-Regular,Consolas,monospace;color:var(--md-default-fg-color--light);overflow-wrap:anywhere;text-align:right}
+#psv-app .psv-ti-provider-card__findings{font-size:.86rem;line-height:1.75;color:var(--md-default-fg-color);overflow-wrap:anywhere}
+#psv-app .psv-ti-provider-card__findings ul{padding-left:1.2rem}
+#psv-app .psv-ti-provider-card__findings hr{margin:.75rem 0;border:0;border-top:1px solid var(--md-default-fg-color--lightest)}
+@media(max-width:700px){
+  #psv-app .psv-ti-results-table{display:none}
+  #psv-app .psv-ti-provider-cards{display:block}
+}

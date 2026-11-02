@@ -142,7 +142,9 @@ async function abuseIpdb(indicator, env) {
 }
 
 async function otx(indicator, env) {
-  if (!env.OTX_API_KEY) return null;
+  // OTX indicator endpoints support IPs, domains and file hashes, not CVE IDs.
+  // CVE enrichment is handled by NVD; skip OTX rather than issuing a malformed domain lookup.
+  if (indicator.isCve || !env.OTX_API_KEY) return null;
   const pathType = indicator.type === "IPv4" || indicator.type === "IPv6" ? indicator.type : indicator.type === "file" ? "file" : "domain";
   const url = "https://otx.alienvault.com/api/v1/indicators/" + pathType + "/" + encodeURIComponent(indicator.value) + "/general";
   const body = await fetchJson(url, { headers: { "X-OTX-API-KEY": env.OTX_API_KEY } });
