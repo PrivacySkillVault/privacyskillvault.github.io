@@ -1497,10 +1497,20 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           return "<strong>" + escValue(page.domain || task.url) + "</strong> · " + escValue(task.time) + "<br>IP: " + escValue(page.ip) + " · Country: " + escValue(page.country) + "<br>" + link;
         }).join("<hr>");
       };
+      const providerRows = providers.map(([name,key]) => ({
+        name,
+        key,
+        findings: renderProvider(key)
+      }));
+      const desktopTable = '<div class="psv-ti-results-table"><table class="psv-out-table"><thead><tr><th>Provider</th><th>Indicator</th><th>Findings</th></tr></thead><tbody>' +
+        providerRows.map(row => "<tr><td>" + row.name + "</td><td>" + esc(indicator) + "</td><td>" + row.findings + "</td></tr>").join("") +
+        '</tbody></table></div>';
+      const mobileCards = '<div class="psv-ti-provider-cards">' + providerRows.map(row =>
+        '<section class="psv-ti-provider-card"><div class="psv-ti-provider-card__head"><strong>' + row.name + '</strong><span>' + esc(indicator) + '</span></div><div class="psv-ti-provider-card__findings">' + row.findings + '</div></section>'
+      ).join("") + '</div>';
       outputElement.innerHTML = '<div role="status"><strong>Lookup completed.</strong> These results are supporting intelligence, not a definitive malicious/benign verdict. Provider failures and quota limits are shown separately.</div>' +
-        '<table class="psv-out-table"><thead><tr><th>Provider</th><th>Indicator</th><th>Findings</th></tr></thead><tbody>' +
-        providers.map(([name,key]) => "<tr><td>" + name + "</td><td>" + esc(indicator) + "</td><td>" + renderProvider(key) + "</td></tr>").join("") +
-        '</tbody></table><p>Only the indicator entered above is sent to the configured providers. Do not submit employer-confidential indicators unless your organisation permits external sharing.</p>';
+        desktopTable + mobileCards +
+        '<p class="psv-ti-data-note">Only the indicator entered above is sent to the configured providers. Do not submit employer-confidential indicators unless your organisation permits external sharing.</p>';
     } catch (error) {
       if (requestId !== tiLookupSequence) return;
       outputElement.innerHTML = '<div role="alert" class="psv-ti-error">Threat-intelligence lookup failed: ' + esc(error && error.message ? error.message : "Network error") + '</div>';
