@@ -1374,6 +1374,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         font-family:inherit!important;
         font-size:var(--md-nav-font-size,.7rem)!important;
       }
+      /* Match the left rail by reusing MkDocs Material navigation classes. */
+      .md-sidebar--secondary .psv-tool-sidebar{font-size:.7rem!important;line-height:1.3!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-sidebar-title{font-size:.7rem!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important;color:var(--md-default-fg-color)!important;padding:.2rem .6rem!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{border:0!important;margin:0!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:1.8rem!important;margin:0!important;padding:.2rem .6rem!important;border-radius:.1rem!important;font:inherit!important;color:var(--md-default-fg-color--light)!important;background:transparent!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-category-group[open]>summary.md-nav__link{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{padding:0 0 0 .55rem!important;margin:0!important;border:0!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{display:block!important;width:100%!important;min-height:1.7rem!important;margin:0!important;padding:.2rem .6rem!important;border:0!important;border-radius:.1rem!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;text-align:left!important;font:inherit!important;line-height:1.3!important;cursor:pointer!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{font-weight:700!important;box-shadow:none!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{font-size:.65rem!important;color:var(--md-default-fg-color--lighter)!important}
+
 
       #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
@@ -2082,9 +2094,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const groups=[{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
     const previous=document.querySelector(".md-sidebar--secondary .psv-tool-sidebar");
     if(previous)previous.remove();
-    const aside=document.createElement("aside");aside.className="psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
-    aside.innerHTML=`<div class="psv-vault-sidebar-title">TOOL CATEGORIES</div><div class="psv-category-accordion">
-      ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="psv-category-tools">${items.map(t=>`<button type="button" class="psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
+    const aside=document.createElement("nav");aside.className="md-nav psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
+    aside.innerHTML=`<div class="md-nav__title psv-vault-sidebar-title">Tool categories</div><div class="md-nav__list psv-category-accordion">
+      ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="md-nav__item psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary class="md-nav__link"><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="md-nav psv-category-tools">${items.map(t=>`<button type="button" class="md-nav__link psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
       </div>`;
     app.classList.remove("psv-tool-workspace-layout");
     page.classList.remove("psv-tool-workspace-main");
