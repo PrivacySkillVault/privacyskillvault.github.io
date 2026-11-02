@@ -100,7 +100,7 @@ level: critical`
       badge: "INT",
       shortTitle: "Threat Intel Hub",
       title: "Multi-Source Threat Intel Hub",
-      desc: "Look up public IPv4 indicators with Shodan InternetDB and RDAP, or domain indicators with RDAP and Cloudflare DNS. Optional links open external OSINT searches.",
+      desc: "Enrich public IPs, domains, file hashes and CVEs through server-side AbuseIPDB, AlienVault OTX, NVD and urlscan.io integrations.",
       options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (cloudflare.com)"],
       actionLabel: "Enrich Indicator",
       sample: "1.1.1.1",
@@ -113,7 +113,7 @@ level: critical`
         "Use the optional VirusTotal, AbuseIPDB, and URLScan links for additional provider-specific context; corroborate findings before drawing conclusions."
       ],
       faqs: [
-        { q: "Do I need an API key for Shodan InternetDB or RDAP?", a: "No. Shodan InternetDB, ICANN RDAP, and Cloudflare DoH are keyless public endpoints that run directly from your browser." }
+        { q: "Are provider API keys exposed to my browser?", a: "No. AbuseIPDB, OTX, NVD and urlscan credentials are held as server-side Vercel environment variables. The browser sends only the selected indicator to the PSV API." }
       ],
       related: ["ioc", "headers", "cvss", "events"]
     },
@@ -1421,6 +1421,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       return { value, isIp: true };
     }
     if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(value)) return null;
+    if (/^CVE-\d{4}-\d{4,}$/i.test(value)) return { value: value.toUpperCase(), isIp: false, isCve: true };
+    if (/^(?:[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64})$/i.test(value)) return { value, isIp: false, isHash: true };
     if (value.length > 253 || value.length < 4 || !value.includes(".")) return null;
     const labels = value.split(".");
     if (["example.com", "example.net", "example.org"].some(domain => value === domain || value.endsWith("." + domain))) return null;
@@ -1440,50 +1442,69 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   async function runThreatIntelLookup(rawInput, outputElement) {
     const parsed = normalizeThreatIndicator(rawInput);
     if (!parsed) {
-      outputElement.innerHTML = '<div role="alert" class="psv-ti-error">Invalid input. Enter one public IPv4 address or a valid domain name. URLs are accepted, but only their hostname is queried.</div>';
+      outputElement.innerHTML = '<div role="alert" class="psv-ti-error">Enter one public IPv4/IPv6 address, domain, file hash, or CVE ID. Private and reserved IP ranges are not queried.</div>';
       return;
     }
     const requestId = ++tiLookupSequence;
     const indicator = parsed.value;
-    outputElement.innerHTML = '<div role="status">Sending the requested indicator to the disclosed public services…</div>';
-    const jobs = [];
-    if (parsed.isIp) jobs.push(["Shodan InternetDB", fetchThreatJson("https://internetdb.shodan.io/" + encodeURIComponent(indicator))]);
-    jobs.push(["RDAP", fetchThreatJson("https://rdap.org/" + (parsed.isIp ? "ip/" : "domain/") + encodeURIComponent(indicator), { headers: { accept: "application/rdap+json, application/json" } })]);
-    if (!parsed.isIp) jobs.push(["Cloudflare DNS", fetchThreatJson("https://cloudflare-dns.com/dns-query?name=" + encodeURIComponent(indicator) + "&type=A", { headers: { accept: "application/dns-json" } })]);
-    const settled = await Promise.allSettled(jobs.map(job => job[1]));
-    if (requestId !== tiLookupSequence || document.getElementById("psv-tool-result-box") !== outputElement || activeToolId !== "ti" || currentView !== "tool") return;
-    const results = {};
-    jobs.forEach((job, index) => {
-      const result = settled[index];
-      results[job[0]] = result.status === "fulfilled"
-        ? { ok: true, ...result.value }
-        : { ok: false, error: result.reason && result.reason.message ? result.reason.message : "Request failed" };
-    });
-    const cell = name => {
-      const r = results[name];
-      if (!r) return "Not applicable";
-      if (!r.ok) return '<span class="psv-ti-error">Lookup failed: ' + esc(r.error) + '</span>';
-      if (r.notFound) return "No record returned by provider (HTTP 404).";
-      const d = r.data || {};
-      if (name === "Shodan InternetDB") return "Open ports: " + esc((d.ports || []).join(", ") || "None listed") + "<br>Hostnames: " + esc((d.hostnames || []).join(", ") || "None listed") + "<br>CVEs: " + esc((d.vulns || []).join(", ") || "None listed");
-      if (name === "RDAP") return "Name/handle: " + esc(d.ldhName || d.handle || indicator) + "<br>Status: " + esc(Array.isArray(d.status) ? d.status.join(", ") : "Not supplied") + "<br>Country: " + esc(d.country || "Not supplied");
-      const answers = Array.isArray(d.Answer) ? d.Answer : [];
-      return answers.length ? answers.map(a => esc(a.name) + " → " + esc(a.data) + " (TTL " + esc(a.TTL) + ")").join("<br>") : "No A-record answer returned (DNS status: " + esc(d.Status) + ").";
-    };
-    const pivot = encodeURIComponent(indicator);
-    outputElement.innerHTML = `
-      <div role="status"><strong>Lookup completed.</strong> Provider responses are not a verdict that an indicator is malicious or benign.</div>
-      <table class="psv-out-table"><thead><tr><th>Service</th><th>Indicator</th><th>Provider response</th></tr></thead><tbody>
-        ${parsed.isIp ? '<tr><td>Shodan InternetDB</td><td>' + esc(indicator) + '</td><td>' + cell("Shodan InternetDB") + '</td></tr>' : ''}
-        <tr><td>RDAP</td><td>${esc(indicator)}</td><td>${cell("RDAP")}</td></tr>
-        ${!parsed.isIp ? '<tr><td>Cloudflare DNS (A)</td><td>' + esc(indicator) + '</td><td>' + cell("Cloudflare DNS") + '</td></tr>' : ''}
-      </tbody></table>
-      <p>Optional external pivots (opening a link also shares the indicator with that provider):
-        <a href="https://www.virustotal.com/gui/search/${pivot}" target="_blank" rel="noopener noreferrer">VirusTotal</a> ·
-        <a href="https://www.abuseipdb.com/check/${pivot}" target="_blank" rel="noopener noreferrer">AbuseIPDB</a> ·
-        <a href="https://urlscan.io/search/#${pivot}" target="_blank" rel="noopener noreferrer">URLScan</a> ·
-        <a href="https://www.shodan.io/search?query=${pivot}" target="_blank" rel="noopener noreferrer">Shodan</a>
-      </p>`;
+    outputElement.innerHTML = '<div role="status">Querying configured threat-intelligence providers through the PSV API…</div>';
+    try {
+      const response = await fetch("https://psv-api.vercel.app/api/lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ indicator })
+      });
+      let payload = {};
+      try { payload = await response.json(); } catch (_) {}
+      if (!response.ok) throw new Error(payload.error || ("PSV API returned HTTP " + response.status));
+      if (requestId !== tiLookupSequence || document.getElementById("psv-tool-result-box") !== outputElement || activeToolId !== "ti" || currentView !== "tool") return;
+
+      const providers = [
+        ["AbuseIPDB", "abuseipdb"],
+        ["AlienVault OTX", "otx"],
+        ["NVD", "nvd"],
+        ["urlscan.io", "urlscan"]
+      ];
+      const escValue = value => esc(value === undefined || value === null || value === "" ? "Not supplied" : String(value));
+      const renderProvider = key => {
+        const item = payload.results && payload.results[key];
+        if (!item) return "No response";
+        if (item.status === "not_applicable_or_not_configured") return "Not applicable for this indicator or provider not configured.";
+        if (item.status === "error") return '<span class="psv-ti-error">' + escValue(item.message) + '</span>';
+        const d = item.data || {};
+        if (key === "abuseipdb") return [
+          "Abuse confidence: " + escValue(d.abuseConfidenceScore) + "%",
+          "Total reports: " + escValue(d.totalReports),
+          "Country: " + escValue(d.countryCode),
+          "ISP: " + escValue(d.isp),
+          "Usage: " + escValue(d.usageType),
+          "Tor: " + escValue(d.isTor),
+          "Last reported: " + escValue(d.lastReportedAt)
+        ].join("<br>");
+        if (key === "otx") {
+          const pulses = (d.pulses || []).map(p => "<li><strong>" + escValue(p.name) + "</strong> — " + escValue(p.description) + "</li>").join("");
+          return "Pulse count: " + escValue(d.pulseCount) + (pulses ? "<ul>" + pulses + "</ul>" : "<br>No pulse summaries returned.");
+        }
+        if (key === "nvd") {
+          if (!d.vulnerabilities || !d.vulnerabilities.length) return "No CVE record returned.";
+          return d.vulnerabilities.map(v => "<strong>" + escValue(v.id) + "</strong> — " + escValue(v.baseSeverity) + " / " + escValue(v.baseScore) + "<br>" + escValue(v.description) + "<br><small>Status: " + escValue(v.vulnStatus) + " · Published: " + escValue(v.published) + "</small>").join("<hr>");
+        }
+        const rows = d.results || [];
+        if (!rows.length) return "No matching scan results returned.";
+        return rows.map(r => {
+          const task = r.task || {}, page = r.page || {};
+          const link = task.uuid ? '<a href="https://urlscan.io/result/' + encodeURIComponent(task.uuid) + '/" target="_blank" rel="noopener noreferrer">Open scan result</a>' : "";
+          return "<strong>" + escValue(page.domain || task.url) + "</strong> · " + escValue(task.time) + "<br>IP: " + escValue(page.ip) + " · Country: " + escValue(page.country) + "<br>" + link;
+        }).join("<hr>");
+      };
+      outputElement.innerHTML = '<div role="status"><strong>Lookup completed.</strong> These results are supporting intelligence, not a definitive malicious/benign verdict. Provider failures and quota limits are shown separately.</div>' +
+        '<table class="psv-out-table"><thead><tr><th>Provider</th><th>Indicator</th><th>Findings</th></tr></thead><tbody>' +
+        providers.map(([name,key]) => "<tr><td>" + name + "</td><td>" + esc(indicator) + "</td><td>" + renderProvider(key) + "</td></tr>").join("") +
+        '</tbody></table><p>Only the indicator entered above is sent to the configured providers. Do not submit employer-confidential indicators unless your organisation permits external sharing.</p>';
+    } catch (error) {
+      if (requestId !== tiLookupSequence) return;
+      outputElement.innerHTML = '<div role="alert" class="psv-ti-error">Threat-intelligence lookup failed: ' + esc(error && error.message ? error.message : "Network error") + '</div>';
+    }
   }
 
   function computeDynamicOutput(tool, rawInput) {
