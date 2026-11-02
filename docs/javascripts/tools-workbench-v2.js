@@ -104,13 +104,13 @@ level: critical`
       options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (cloudflare.com)"],
       actionLabel: "Enrich Indicator",
       sample: "1.1.1.1",
-      whatItDoes: "Queries Shodan InternetDB for public IPv4 open-port and CVE data; queries RDAP for registry name/handle, status, and country when supplied; and queries Cloudflare DNS-over-HTTPS for A-record answers on domains. Optional links open VirusTotal, AbuseIPDB, URLScan, and Shodan searches.",
+      whatItDoes: "Queries configured AbuseIPDB and AlienVault OTX integrations for supported public indicators, NVD for CVE records, and urlscan.io for existing IP/domain scan results. Provider responses are normalized for investigation review.",
       whyItMatters: "Combining selected public-provider responses can speed up initial indicator triage. Treat the results as supporting context and corroborate them with authoritative telemetry and additional sources.",
-      howItWorks: "After you explicitly select Enrich Indicator, the browser sends the submitted public indicator to the relevant provider endpoints: Shodan InternetDB for IPv4 only, RDAP for IPv4 or domains, and Cloudflare DNS-over-HTTPS for domain A records. No provider lookup runs while you type.",
+      howItWorks: "After you explicitly select Enrich Indicator, the browser sends one validated indicator to the PSV API. Provider credentials remain on the server; each configured provider is queried independently, and provider failures are isolated. No lookup runs while you type.",
       bestPractices: [
         "Check open ports and CVEs on external IPs before escalating perimeter scan alerts.",
         "RDAP output is limited to fields returned by the registry; this view does not calculate domain age or establish ownership.",
-        "Use the optional VirusTotal, AbuseIPDB, and URLScan links for additional provider-specific context; corroborate findings before drawing conclusions."
+        "Correlate provider findings with bank-approved telemetry and internal SIEM/EDR evidence; do not treat reputation scores as proof of compromise."
       ],
       faqs: [
         { q: "Are provider API keys exposed to my browser?", a: "No. AbuseIPDB, OTX, NVD and urlscan credentials are held as server-side Vercel environment variables. The browser sends only the selected indicator to the PSV API." }
