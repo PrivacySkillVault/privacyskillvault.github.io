@@ -1794,29 +1794,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     currentView = "tool";
     renderSingleToolView(root);
   }
-    const filtered=TOOLS.filter(t=>(activeCat==="all"||t.cat===activeCat)&&(!searchQuery||(t.title+" "+t.desc+" "+t.shortTitle+" "+t.badge).toLowerCase().includes(searchQuery)));
-    root.innerHTML=`
-      <div id="psv-app" class="psv-workbench-v2" data-share-mode="encrypt">
-        <header class="psv-tools-intro">
-          <h1>Security Tools</h1>
-        </header>
-        <div class="psv-vault-layout">
-          <section class="psv-vault-main" aria-label="Security tools">
-            <label class="psv-vault-search-label" for="psv-cat-search">Find a tool</label>
-            <div class="psv-vault-search-wrap"><span aria-hidden="true">⌕</span><input type="search" id="psv-cat-search" class="psv-search-bar" aria-label="Search security tools" placeholder="Search tools, event IDs, tasks or indicators…" value="${esc(searchQuery)}" /></div>
-            <nav class="psv-tool-directory" aria-label="Available tools">
-              ${filtered.map(t=>`<a class="psv-directory-row" href="#tool/${encodeURIComponent(t.id)}" data-psv-action="open-tool" data-tool="${esc(t.id)}"><span class="psv-directory-badge">${esc(t.badge)}</span><span class="psv-directory-copy"><strong>${esc(t.title)}</strong><small>${esc(t.desc)}</small></span><span class="psv-directory-open">Open workspace <span aria-hidden="true">→</span></span></a>`).join("")||'<div class="psv-empty-state">No tools match your search. Clear the search or select another category.</div>'}
-            </nav>
-          </section>
-          <aside class="psv-vault-sidebar" aria-label="Tool category navigation">
-            <div class="psv-vault-sidebar-title">CATEGORIES</div>
-            ${groups.map(c=>`<button type="button" class="psv-vault-category ${activeCat===c.id?"active":""}" data-psv-action="set-cat" data-cat="${c.id}" aria-pressed="${activeCat===c.id}"><span><strong>${c.label}</strong><small>${c.hint}</small></span><span class="psv-vault-count">${c.id==="all"?TOOLS.length:TOOLS.filter(t=>t.cat===c.id).length}</span></button>`).join("")}
-            <div class="psv-sidebar-tool-list"><div class="psv-vault-sidebar-title">TOOLS IN THIS CATEGORY</div>${TOOLS.filter(t=>activeCat==="all"||t.cat===activeCat).map(t=>`<button type="button" class="psv-sidebar-tool" data-psv-action="open-tool" data-tool="${esc(t.id)}">${esc(t.shortTitle||t.title)}</button>`).join("")}</div>
-          </aside>
-        </div>
-      </div>`;
-  }
-
   function downloadText(filename, content, mime) {
     const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
