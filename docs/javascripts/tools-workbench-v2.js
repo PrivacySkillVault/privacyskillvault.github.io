@@ -1329,6 +1329,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
        .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{padding-left:.6rem}
        .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{display:block;width:100%;margin:0;border:0;padding:.2rem .6rem;background:transparent;font:inherit;text-align:left;cursor:pointer}
        .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{margin-left:auto;padding-left:.5rem;font:inherit;font-size:.85em}
+       /* Match Tools page typography to standard MkDocs content pages. */
+       #psv-app .psv-tools-intro h1,
+       #psv-app .psv-tool-page-head h1{font-size:1.25rem!important;font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;color:var(--md-typeset-color)!important}
+       #psv-app .psv-tools-intro>p,
+       #psv-app .psv-tool-page-head>p{max-width:unset!important;margin:.35rem 0 0!important;font-size:.8rem!important;line-height:1.6!important;color:var(--md-default-fg-color--light)!important}
+       #psv-app .psv-section-head h2{font-size:1rem!important;font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;color:var(--md-typeset-color)!important}
+       #psv-app .psv-section-head>p{font-size:.8rem!important;line-height:1.6!important;color:var(--md-default-fg-color--light)!important}
 #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
