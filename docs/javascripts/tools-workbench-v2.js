@@ -1322,113 +1322,32 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-directory-copy small{font-family:inherit;font-size:.8rem;line-height:1.55}
       #psv-app .psv-directory-open{font-family:inherit;font-size:.78rem;font-weight:600}
       #psv-app .psv-tool-page-head h1,#psv-app .psv-tool-hero h1{font-family:inherit;font-weight:700}
-      /* Keep MkDocs Material in control of the page columns. */
-      #psv-app .psv-category-group{margin:.15rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
-      #psv-app .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;list-style:none}
-      #psv-app .psv-category-group>summary::-webkit-details-marker{display:none}
-      #psv-app .psv-category-tools{padding:.1rem 0 .45rem .45rem}
-      #psv-app .psv-category-group .psv-sidebar-tool{display:block;width:100%;padding:.38rem .35rem;border:0;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;font-size:.78rem;line-height:1.4;text-align:left;cursor:pointer}
-      #psv-app .psv-category-group .psv-sidebar-tool:hover,#psv-app .psv-category-group .psv-sidebar-tool.active{background:var(--md-default-bg-color);color:var(--md-accent-fg-color)}
-      #psv-app .psv-category-group .psv-sidebar-tool.active{font-weight:650}
-      .md-sidebar--secondary .psv-tool-sidebar{padding:0 .35rem}
-      .md-sidebar--secondary .psv-vault-sidebar-title{margin:0 0 .65rem;padding:.25rem .2rem;color:var(--md-default-fg-color--light);font-size:.72rem;font-weight:600;letter-spacing:.04em}
-#psv-app.psv-tool-workspace-layout{display:block!important;width:100%!important;max-width:none!important;margin:0!important}
-      #psv-app .psv-tool-workspace-main{display:block!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
-
-      #psv-app .psv-tool-page{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;text-align:left!important}
-      #psv-app .psv-tool-hero{text-align:left!important;margin:0 0 1.25rem!important;padding:0!important}
-      #psv-app .psv-tool-hero h1{margin:.1rem 0 .55rem!important;font-size:clamp(1.65rem,2.4vw,2.15rem)!important;line-height:1.25!important;letter-spacing:-.025em!important}
-      #psv-app .psv-tool-hero p{max-width:78ch;margin:.25rem 0 .8rem!important;font-size:.9rem!important;line-height:1.6!important}
-      #psv-app .psv-hero-badges{justify-content:flex-start!important}
-      #psv-app .psv-terminal-box{width:100%!important;max-width:none!important;margin:1rem 0 1.5rem!important}
-      #psv-app .psv-term-body{padding:clamp(.85rem,1.5vw,1.25rem)!important}
-      /* Match native MkDocs navigation typography and keep the rail visually quiet. */
-      body.psv-tools-three-column .md-sidebar--secondary .psv-tool-sidebar{display:block!important;position:static!important;width:100%!important;max-height:none!important;overflow:visible!important;margin:0!important;padding:.65rem 0 .65rem .65rem!important;border:0!important;border-left:1px solid var(--md-default-fg-color--lightest)!important;border-radius:0!important;background:transparent!important;font-family:inherit!important;font-size:.6rem!important;line-height:1.4!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-vault-sidebar-title{margin:0 0 .35rem!important;padding:.25rem .35rem .55rem!important;font-family:inherit!important;font-size:.6rem!important;font-weight:600!important;line-height:1.3!important;letter-spacing:0!important;color:var(--md-default-fg-color--light)!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-group{margin:0!important;border:0!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-group>summary{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:.5rem!important;margin:0!important;padding:.42rem .35rem!important;border-radius:4px!important;cursor:pointer!important;list-style:none!important;font-family:inherit!important;font-size:.6rem!important;font-weight:400!important;line-height:1.4!important;letter-spacing:0!important;color:var(--md-default-fg-color--light)!important;transition:color .15s,background .15s}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-group>summary::-webkit-details-marker{display:none!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-group>summary:after{content:"";width:.38rem;height:.38rem;flex:0 0 .38rem;margin-left:.45rem;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .15s}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-group[open]>summary:after{transform:rotate(225deg) translate(-1px,-1px)}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-group>summary:hover,body.psv-tools-three-column .psv-tool-sidebar .psv-category-group[open]>summary{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-vault-count{display:inline-flex;align-items:center;justify-content:center;min-width:1.2rem;height:1.2rem;margin-left:auto;padding:0 .25rem;border:0!important;border-radius:999px!important;background:transparent!important;color:var(--md-default-fg-color--lighter)!important;font-family:inherit!important;font-size:.55rem!important;font-weight:400!important;line-height:1!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-category-tools{padding:0 0 .3rem .7rem!important;margin:0 0 .2rem .35rem!important;border-left:1px solid var(--md-default-fg-color--lightest)!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool{display:block!important;width:100%!important;margin:0!important;padding:.34rem .45rem!important;border:0!important;border-radius:4px!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;text-align:left!important;font-family:inherit!important;font-size:.6rem!important;font-weight:400!important;line-height:1.4!important;letter-spacing:0!important;cursor:pointer!important;transition:color .15s,background .15s}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool:hover,body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool.active{background:transparent!important;color:var(--md-accent-fg-color)!important}
-      body.psv-tools-three-column .psv-tool-sidebar .psv-sidebar-tool.active{box-shadow:inset 2px 0 var(--md-accent-fg-color)!important;font-weight:600!important;padding-left:.6rem!important}
-      /* Match the native MkDocs Material navigation typography on the left. */
-      .md-sidebar--secondary .psv-tool-sidebar,
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary,
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool{
-        font-family:inherit!important;
-        font-size:var(--md-nav-font-size,.7rem)!important;
-        line-height:1.5!important;
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-sidebar-title{
-        font-family:inherit!important;
-        font-size:var(--md-nav-font-size,.7rem)!important;
-        line-height:1.5!important;
-        letter-spacing:0!important;
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{
-        font-family:inherit!important;
-        font-size:var(--md-nav-font-size,.7rem)!important;
-      }
-      /* Match the left rail by reusing MkDocs Material navigation classes. */
-      .md-sidebar--secondary .psv-tool-sidebar{font-size:.7rem!important;line-height:1.3!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-sidebar-title{font-size:.7rem!important;font-weight:600!important;text-transform:none!important;letter-spacing:0!important;color:var(--md-default-fg-color)!important;padding:.2rem .6rem!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{border:0!important;margin:0!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:1.8rem!important;margin:0!important;padding:.2rem .6rem!important;border-radius:.1rem!important;font:inherit!important;color:var(--md-default-fg-color--light)!important;background:transparent!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-category-group[open]>summary.md-nav__link{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{padding:0 0 0 .55rem!important;margin:0!important;border:0!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{display:block!important;width:100%!important;min-height:1.7rem!important;margin:0!important;padding:.2rem .6rem!important;border:0!important;border-radius:.1rem!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;text-align:left!important;font:inherit!important;line-height:1.3!important;cursor:pointer!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{font-weight:700!important;box-shadow:none!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{font-size:.65rem!important;color:var(--md-default-fg-color--lighter)!important}
-      /* Right rail: preserve the full native TOC title height and left-nav rhythm. */
-      .md-sidebar--secondary .psv-tool-sidebar{font:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;line-height:1.5!important}
-      .md-sidebar--secondary .psv-tool-sidebar>.md-nav__title{
-        display:block!important;position:relative!important;inset:auto!important;
-        box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:2.6rem!important;
-        margin:0 0 .35rem!important;padding:.65rem .8rem!important;
-        overflow:visible!important;white-space:normal!important;
-        color:var(--md-default-fg-color)!important;
-        font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
-        font-weight:700!important;line-height:1.4!important;letter-spacing:normal!important;
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-accordion{display:block!important;margin:0!important;padding:0!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{display:block!important;margin:0!important;padding:0!important;border:0!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{
-        display:flex!important;align-items:center!important;justify-content:space-between!important;
-        box-sizing:border-box!important;width:100%!important;min-height:2rem!important;
-        margin:0!important;padding:.35rem .8rem!important;
-        color:var(--md-default-fg-color--light)!important;background:transparent!important;
-        font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
-        font-weight:400!important;line-height:1.4!important;text-align:left!important;
-        cursor:pointer!important;list-style:none!important;
-      }
+      /* Single source of truth for the right navigation rail. */
+      .md-sidebar--secondary .psv-tool-sidebar{display:block!important;position:static!important;width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;line-height:1.5!important}
+      .md-sidebar--secondary .psv-tool-sidebar>.md-nav__title{display:block!important;position:static!important;box-sizing:border-box!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0 0 .45rem!important;padding:.2rem .6rem!important;overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;font-weight:600!important;line-height:1.4!important;letter-spacing:normal!important;text-transform:none!important;white-space:normal!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-accordion,.md-sidebar--secondary .psv-tool-sidebar .psv-category-group{display:block!important;margin:0!important;padding:0!important;border:0!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{display:flex!important;align-items:center!important;justify-content:space-between!important;box-sizing:border-box!important;width:100%!important;min-height:2rem!important;margin:0!important;padding:.35rem .6rem!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;font-weight:400!important;line-height:1.4!important;text-align:left!important;cursor:pointer!important;list-style:none!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link::-webkit-details-marker{display:none!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link:hover,
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group[open]>summary.md-nav__link{
-        color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{
-        display:block!important;margin:0!important;padding:0 0 .2rem 1rem!important;border:0!important
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{
-        display:block!important;box-sizing:border-box!important;width:100%!important;min-height:2rem!important;
-        margin:0!important;padding:.35rem .8rem!important;border:0!important;border-radius:0!important;
-        color:var(--md-default-fg-color--light)!important;background:transparent!important;
-        font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;
-        font-weight:400!important;line-height:1.4!important;text-align:left!important;
-        cursor:pointer!important;
-      }
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{
-        color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important
-      }
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-category-group[open]>summary.md-nav__link{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{display:block!important;margin:0!important;padding:0 0 .2rem .8rem!important;border:0!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{display:block!important;box-sizing:border-box!important;width:100%!important;min-height:2rem!important;margin:0!important;padding:.35rem .6rem!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--md-default-fg-color--light)!important;font-family:inherit!important;font-size:var(--md-nav-font-size,.7rem)!important;font-weight:400!important;line-height:1.4!important;text-align:left!important;cursor:pointer!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{color:var(--md-accent-fg-color)!important;background:var(--md-accent-bg-color,transparent)!important}
       .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{font-weight:700!important}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{font:inherit!important;font-size:.85em!important;color:var(--md-default-fg-color--lighter)!important}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{display:inline-flex!important;align-items:center!important;justify-content:center!important;margin-left:auto!important;padding:0 .25rem!important;background:transparent!important;color:var(--md-default-fg-color--lighter)!important;font:inherit!important;font-size:.85em!important}
+      #psv-app.psv-tools-catalog{width:100%;max-width:none}
+      #psv-app .psv-tools-catalog-head{margin:0 0 1.5rem}
+      #psv-app .psv-tools-catalog-head h1{margin:0 0 .5rem;font-size:1.8rem;line-height:1.3}
+      #psv-app .psv-tools-catalog-head p{max-width:78ch;margin:0;color:var(--md-default-fg-color--light)}
+      #psv-app .psv-tools-catalog-section{margin:1.5rem 0}
+      #psv-app .psv-tools-catalog-section h2{margin:0 0 .75rem;font-size:1.15rem}
+      #psv-app .psv-tools-catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem}
+      #psv-app .psv-tools-catalog-card{display:flex;flex-direction:column;align-items:flex-start;gap:.45rem;min-height:150px;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);font:inherit;text-align:left;cursor:pointer}
+      #psv-app .psv-tools-catalog-card:hover{border-color:var(--md-accent-fg-color);background:var(--md-code-bg-color)}
+      #psv-app .psv-tools-catalog-card strong{font-size:.95rem}
+      #psv-app .psv-tools-catalog-card>span:not(.psv-tools-catalog-badge){font-size:.8rem;line-height:1.5;color:var(--md-default-fg-color--light)}
+      #psv-app .psv-tools-catalog-badge{font-size:.68rem;font-weight:700;color:var(--md-accent-fg-color)}
+      #psv-app .psv-tools-catalog-open{margin-top:auto;font-weight:600;color:var(--md-accent-fg-color)}
+      @media(max-width:620px){#psv-app .psv-tools-catalog-grid{grid-template-columns:1fr}}
       #psv-app .psv-back-bar{display:none!important}
       #psv-app .psv-doc-section{max-width:100%;margin:1.25rem 0}
       /* Native Material breakpoints control both navigation rails. */
@@ -1883,9 +1802,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function renderCatalogView(root) {
-    activeToolId = TOOLS.some(t => t.id === activeToolId) ? activeToolId : "ioc";
-    currentView = "tool";
-    renderSingleToolView(root);
+    currentView = "catalog";
+    const groups = [{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
+    const sections = groups.map(group => {
+      const items = TOOLS.filter(tool => tool.cat === group.id);
+      const cards = items.map(tool => '<button type="button" class="psv-tools-catalog-card" data-psv-action="open-tool" data-tool="' + esc(tool.id) + '"><span class="psv-tools-catalog-badge">' + esc(tool.badge) + '</span><strong>' + esc(tool.title) + '</strong><span>' + esc(tool.desc) + '</span><span class="psv-tools-catalog-open">Open tool →</span></button>').join("");
+      return '<section class="psv-tools-catalog-section"><h2>' + group.label + '</h2><div class="psv-tools-catalog-grid">' + cards + '</div></section>';
+    }).join("");
+    root.innerHTML = '<div id="psv-app" class="psv-tools-catalog"><header class="psv-tools-catalog-head"><h1>Security Tools</h1><p>Choose a tool to begin an investigation or perform a security analysis. Select a category from the right sidebar to browse its tools.</p></header>' + sections + '</div>';
+    attachToolSidebar(root, null);
   }
   function downloadText(filename, content, mime) {
     const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
@@ -2138,7 +2063,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     if(previous)previous.remove();
     const aside=document.createElement("nav");aside.className="md-nav md-nav--secondary psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
     aside.innerHTML=`<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
-      ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="md-nav__item psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary class="md-nav__link"><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="md-nav psv-category-tools">${items.map(t=>`<button type="button" class="md-nav__link psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
+      ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="md-nav__item psv-category-group" ${selectedTool && g.id===selectedTool.cat?"open":""}><summary class="md-nav__link"><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="md-nav psv-category-tools">${items.map(t=>`<button type="button" class="md-nav__link psv-sidebar-tool ${selectedTool && t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
       </div>`;
     app.classList.remove("psv-tool-workspace-layout");
     page.classList.remove("psv-tool-workspace-main");
@@ -2344,8 +2269,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           currentView = "catalog";
         }
       } else {
-        currentView = "tool";
-        activeToolId = TOOLS.some(t => t.id === activeToolId) ? activeToolId : "ioc";
+        // Open the tool directory by default; a tool opens only from an explicit URL or click.
+        currentView = "catalog";
       }
       render();
       root.setAttribute("data-psv-mounted", "true");
