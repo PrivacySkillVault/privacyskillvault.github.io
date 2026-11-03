@@ -297,7 +297,7 @@ async function hybridAnalysis(indicator, env) {
     const detail = {}, detailErrors = {}, requests = [];
     if (id) {
       requests.push(["summary","/report/"+encodeURIComponent(id)+"/summary"]);
-      requests.push(["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]);
+      requests.push(["fullReport","/report/"+encodeURIComponent(id)+"/json"]);
     }
     if (sha256) {
       requests.push(["overview","/overview/"+encodeURIComponent(sha256)]);
