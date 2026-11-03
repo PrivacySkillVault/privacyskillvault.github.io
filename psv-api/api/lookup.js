@@ -284,32 +284,85 @@ async function virusTotal(indicator, env) {
 }
 
 async function hybridAnalysis(indicator, env) {
-  // Read-only enrichment; never uploads or submits a sample.
+  // Read-only enrichment. This integration never uploads or submits a sample.
   if (!env.HYBRID_ANALYSIS_API_KEY || !indicator.isHash) return null;
   const headers = {"api-key":env.HYBRID_ANALYSIS_API_KEY,"user-agent":"Falcon Sandbox"};
-  const url = new URL("https://www.hybrid-analysis.com/api/v2/search/hash");
-  url.searchParams.set("hash",indicator.value);
-  const body = await fetchJson(url,{method:"GET",headers});
-  const rows = Array.isArray(body) ? body : (Array.isArray(body.data) ? body.data : body.data ? [body.data] : []);
-  const matches = rows.filter(row => [row.sha256,row.sha1,row.md5].some(hash => typeof hash === "string" && hash.toLowerCase() === indicator.value.toLowerCase())).slice(0,5);
+  const base = "https://www.hybrid-analysis.com/api/v2";
+  let rows = [], searchError = null;
+  try {
+    const url = new URL(base + "/search/hash");
+    url.searchParams.set("hash",indicator.value);
+    const body = await fetchJson(url,{method:"GET",headers});
+    rows = Array.isArray(body) ? body : (Array.isArray(body.data) ? body.data : body.data ? [body.data] : []);
+  } catch(error) { searchError = publicError(error); }
+
+  const matches = rows.filter(row => [row.sha256,row.sha1,row.md5].some(hash =>
+    typeof hash === "string" && hash.toLowerCase() === indicator.value.toLowerCase()
+  )).slice(0,5);
+
+  // The website's sample page can have an overview even when /search/hash
+  // returns no rows for the same SHA-256. Query the documented overview API
+  // independently rather than equating an empty search response with no report.
+  const sha256 = indicator.value.length === 64 ? indicator.value : null;
+  let overview = null, overviewSummary = null, overviewError = null;
+  if (sha256) {
+    const results = await Promise.allSettled([
+      fetchJson(base + "/overview/" + encodeURIComponent(sha256),{headers}),
+      fetchJson(base + "/overview/" + encodeURIComponent(sha256) + "/summary",{headers})
+    ]);
+    if (results[0].status === "fulfilled") overview = results[0].value;
+    else overviewError = publicError(results[0].reason);
+    if (results[1].status === "fulfilled") overviewSummary = results[1].value;
+    else if (!overviewError) overviewError = publicError(results[1].reason);
+  }
+
   const reports = await Promise.all(matches.map(async row => {
-    const id = row.id || row.job_id, sha256 = row.sha256 || (indicator.value.length === 64 ? indicator.value : null);
-    const detail = {}, detailErrors = {}, requests = [];
+    const id = row.id || row.job_id;
+    const detail = {overview,overviewSummary}, detailErrors = {};
+    const requests = [];
     if (id) {
       requests.push(["summary","/report/"+encodeURIComponent(id)+"/summary"]);
-      requests.push(["fullReport","/report/"+encodeURIComponent(id)+"/json"]);
-    }
-    if (sha256) {
-      requests.push(["overview","/overview/"+encodeURIComponent(sha256)]);
-      requests.push(["overviewSummary","/overview/"+encodeURIComponent(sha256)+"/summary"]);
+      requests.push(["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]);
+    } else if (sha256 && row.environment_id) {
+      const reportKey = sha256 + ":" + row.environment_id;
+      requests.push(["summary","/report/"+encodeURIComponent(reportKey)+"/summary"]);
+      requests.push(["fullReport","/report/"+encodeURIComponent(reportKey)+"/report/json"]);
     }
     await Promise.all(requests.map(async ([key,path]) => {
-      try { detail[key] = await fetchJson("https://www.hybrid-analysis.com/api/v2"+path,{headers}); }
+      try { detail[key] = await fetchJson(base+path,{headers}); }
       catch(error) { detailErrors[key] = publicError(error); }
     }));
-    return {searchResult:row,reportId:id||null,sha256,detail,detailErrors,reportUrl:sha256?"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256):null};
+    return {searchResult:row,reportId:id||null,sha256,detail,detailErrors,reportUrl:"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256)};
   }));
-  return {total:matches.length,reports,detailCoverage:"Some detail endpoints may be restricted by API-key access level or provider availability."};
+
+  if (!reports.length && overview) {
+    const returnedHash = overview.sha256 || (overview.sample && overview.sample.sha256);
+    if (returnedHash && returnedHash.toLowerCase() !== indicator.value.toLowerCase()) {
+      throw new Error("Hybrid Analysis overview hash did not match the requested indicator");
+    }
+    const row = overviewSummary || overview;
+    const id = row.job_id || row.id || overview.job_id || null;
+    const detail = {overview,overviewSummary};
+    const detailErrors = {};
+    if (id) {
+      for (const [key,path] of [["summary","/report/"+encodeURIComponent(id)+"/summary"],["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]]) {
+        try { detail[key] = await fetchJson(base+path,{headers}); }
+        catch(error) { detailErrors[key] = publicError(error); }
+      }
+    }
+    reports.push({
+      searchResult:row,reportId:id,sha256,
+      detail,detailErrors,
+      reportUrl:"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256),
+      source:"overview_fallback"
+    });
+  }
+
+  return {
+    total:reports.length,reports,searchError,overviewError,
+    lookupStatus:reports.length ? "report_found" : (searchError || overviewError ? "lookup_incomplete" : "no_report_found"),
+    detailCoverage:"The SHA-256 overview is queried independently of hash search. Full JSON report downloads require the API key's default access level."
+  };
 }
 
 async function handler(req, res) {

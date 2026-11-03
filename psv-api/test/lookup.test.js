@@ -157,3 +157,27 @@ test("Hybrid Analysis excludes non-matching hash rows", async () => {
     assert.equal(result.reports.length,0);
   } finally { global.fetch = originalFetch; }
 });
+
+test("Hybrid Analysis finds a report through overview when legacy hash search is empty", async () => {
+  const originalFetch = global.fetch;
+  const hash = "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f";
+  const calls = [];
+  global.fetch = async (url) => {
+    const value = String(url); calls.push(value);
+    if (value.includes("/search/hash")) return {ok:true,status:200,text:async()=>"[]"};
+    if (value.endsWith("/overview/"+hash)) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,job_id:"ha-job-68",verdict:"malicious",threat_score:100,av_detect:"22/28"})};
+    if (value.endsWith("/overview/"+hash+"/summary")) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,indicators:35})};
+    if (value.includes("/report/ha-job-68/summary")) return {ok:true,status:200,text:async()=>JSON.stringify({report_id:"ha-job-68",environment:"Win10"})};
+    if (value.includes("/report/ha-job-68/report/json")) return {ok:true,status:200,text:async()=>JSON.stringify({signatures:["EICAR"]})};
+    throw new Error("Unexpected URL "+value);
+  };
+  try {
+    const result = await lookup.hybridAnalysis({value:hash,isHash:true},{HYBRID_ANALYSIS_API_KEY:"test-key"});
+    assert.equal(result.total,1);
+    assert.equal(result.reports[0].source,"overview_fallback");
+    assert.equal(result.reports[0].searchResult.verdict,"malicious");
+    assert.equal(result.reports[0].detail.overviewSummary.indicators,35);
+    assert.equal(result.reports[0].detail.fullReport.signatures[0],"EICAR");
+    assert.ok(calls.every(url=>!url.includes("/submit")));
+  } finally { global.fetch = originalFetch; }
+});
