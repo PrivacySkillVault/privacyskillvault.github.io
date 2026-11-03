@@ -100,11 +100,11 @@ level: critical`
       badge: "INT",
       shortTitle: "Threat Intel Hub",
       title: "Multi-Source Threat Intel Hub",
-      desc: "Enrich public IPs, domains, file hashes and CVEs through server-side AbuseIPDB, AlienVault OTX, NVD and urlscan.io integrations.",
+      desc: "Enrich public IPs, domains, file hashes and CVEs through server-side AbuseIPDB, AlienVault OTX, NVD, urlscan.io, VirusTotal and Hybrid Analysis lookups.",
       options: ["Sample IP (1.1.1.1)", "Sample IP (8.8.8.8)", "Sample Domain (cloudflare.com)"],
       actionLabel: "Enrich Indicator",
       sample: "1.1.1.1",
-      whatItDoes: "Queries configured AbuseIPDB and AlienVault OTX integrations for supported public indicators, NVD for CVE records, and urlscan.io for existing IP/domain scan results. Provider responses are normalized for investigation review.",
+      whatItDoes: "Queries configured AbuseIPDB, AlienVault OTX, NVD and urlscan.io, plus read-only VirusTotal reports and Hybrid Analysis hash reports where supported. Provider responses are normalized for investigation review.",
       whyItMatters: "Combining selected public-provider responses can speed up initial indicator triage. Treat the results as supporting context and corroborate them with authoritative telemetry and additional sources.",
       howItWorks: "After you explicitly select Enrich Indicator, the browser sends one validated indicator to the PSV API. Provider credentials remain on the server; each configured provider is queried independently, and provider failures are isolated. No lookup runs while you type.",
       bestPractices: [
@@ -113,7 +113,7 @@ level: critical`
         "Correlate provider findings with bank-approved telemetry and internal SIEM/EDR evidence; do not treat reputation scores as proof of compromise."
       ],
       faqs: [
-        { q: "Are provider API keys exposed to my browser?", a: "No. AbuseIPDB, OTX, NVD and urlscan credentials are held as server-side Vercel environment variables. The browser sends only the selected indicator to the PSV API." }
+        { q: "Are provider API keys exposed to my browser?", a: "No. All provider credentials are held as server-side Vercel environment variables. The browser sends only the selected indicator to the PSV API." }
       ],
       related: ["ioc", "headers", "cvss", "events"]
     },
@@ -1597,13 +1597,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         ["AbuseIPDB", "abuseipdb"],
         ["AlienVault OTX", "otx"],
         ["NVD", "nvd"],
-        ["urlscan.io", "urlscan"]
+        ["urlscan.io", "urlscan"],
+        ["VirusTotal", "virustotal"],
+        ["Hybrid Analysis", "hybridAnalysis"]
       ];
       const escValue = value => esc(value === undefined || value === null || value === "" ? "Not supplied" : String(value));
       const renderProvider = key => {
         const item = payload.results && payload.results[key];
         if (!item) return "No response";
         if (item.status === "not_applicable_or_not_configured") return "Not applicable for this indicator or provider not configured.";
+        if (item.status === "not_found") return "No existing report found for this indicator.";
         if (item.status === "error") return '<span class="psv-ti-error">' + escValue(item.message) + '</span>';
         const d = item.data || {};
         if (key === "abuseipdb") return [
@@ -1622,6 +1625,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (key === "nvd") {
           if (!d.vulnerabilities || !d.vulnerabilities.length) return "No CVE record returned.";
           return d.vulnerabilities.map(v => "<strong>" + escValue(v.id) + "</strong> — " + escValue(v.baseSeverity) + " / " + escValue(v.baseScore) + "<br>" + escValue(v.description) + "<br><small>Status: " + escValue(v.vulnStatus) + " · Published: " + escValue(v.published) + "</small>").join("<hr>");
+        }
+        if (key === "virustotal") {
+          const s = d.lastAnalysisStats || {};
+          return "Reputation: " + escValue(d.reputation) + "<br>Detections — malicious: " + escValue(s.malicious) + ", suspicious: " + escValue(s.suspicious) + ", harmless: " + escValue(s.harmless) + ", undetected: " + escValue(s.undetected) + "<br>Last analysis: " + escValue(d.lastAnalysisDate) + (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "");
+        }
+        if (key === "hybridAnalysis") {
+          const reports = d.reports || [];
+          if (!reports.length) return "No existing sandbox report found for this hash.";
+          return reports.map(r => "<strong>Verdict: " + escValue(r.verdict) + "</strong><br>Threat score: " + escValue(r.threatScore) + " · AV detections: " + escValue(r.avDetect) + "<br>Environment: " + escValue(r.environmentDescription) + "<br>Analysis started: " + escValue(r.analysisStartTime)).join("<hr>");
         }
         const rows = d.results || [];
         if (!rows.length) return "No matching scan results returned.";
