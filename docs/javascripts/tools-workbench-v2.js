@@ -2574,10 +2574,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const field=document.getElementById("device-evidence"),out=document.getElementById("device-output");
         if(field&&out){out.textContent="Collecting browser-exposed characteristics…";try{const profile=await psvDeviceAddHints(psvDeviceCollect());field.value=JSON.stringify(profile,null,2);psvDeviceRender({analysisType:"live-browser-collection",profile,parsedUserAgent:psvDeviceParseUA(profile.userAgent),notice:"Collected locally. Review consent and data minimisation before using in an investigation."});}catch(err){out.textContent="Collection failed: "+err.message;}}
       } else if (action === "device-sample") {
+        window.__psvLastDeviceReport=null;
         const field=document.getElementById("device-evidence");if(field)field.value=JSON.stringify([{sessionId:"SESSION-A",deviceId:"DEVICE-EXAMPLE-01",userAgent:"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/131.0.0.0 Mobile Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:8},display:{width:412,height:915}},{sessionId:"SESSION-B",deviceId:"DEVICE-EXAMPLE-01",userAgent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:12},display:{width:1920,height:1080}}],null,2);
       } else if (action === "device-analyze") {
         try{const field=document.getElementById("device-evidence");psvDeviceRender(psvDeviceAnalyze(field&&field.value));}catch(err){const out=document.getElementById("device-output");if(out)out.textContent=err.message;}
       } else if (action === "device-clear") {
+        window.__psvLastDeviceReport=null;
         const field=document.getElementById("device-evidence"),out=document.getElementById("device-output");if(field)field.value="";if(out)out.textContent="Workspace cleared.";
       } else if (action === "device-export") {
         if(!window.__psvLastDeviceReport){const out=document.getElementById("device-output");if(out)out.textContent="Analyze or collect evidence before exporting.";return;}
@@ -2634,6 +2636,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           restored.focus();
           restored.setSelectionRange(pos, pos);
         }
+      } else if (e.target && e.target.id === "device-evidence") {
+        window.__psvLastDeviceReport=null;
+        const out=document.getElementById("device-output");if(out)out.textContent="Evidence changed. Analyze it again before exporting a report.";
       } else if (e.target && e.target.id === "evidence-file") {
         const file=e.target.files[0],meta=document.getElementById("evidence-file-meta");
         lastHashRecord=null;
