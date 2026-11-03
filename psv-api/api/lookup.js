@@ -254,12 +254,16 @@ async function virusTotal(indicator, env) {
 async function hybridAnalysis(indicator, env) {
   // Falcon Sandbox hash search is read-only. No file/URL submission is performed.
   if (!env.HYBRID_ANALYSIS_API_KEY || !indicator.isHash) return null;
-  const url = new URL("https://www.hybrid-analysis.com/api/v2/search/hash");
-  url.searchParams.set("hash", indicator.value);
-  const body = await fetchJson(url, { headers: {
-    "api-key": env.HYBRID_ANALYSIS_API_KEY,
-    "user-agent": "PrivacySkillVault"
-  } });
+  const url = "https://www.hybrid-analysis.com/api/v2/search/hash";
+  const body = await fetchJson(url, {
+    method: "POST",
+    headers: {
+      "api-key": env.HYBRID_ANALYSIS_API_KEY,
+      "user-agent": "PrivacySkillVault",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams({ hash: indicator.value }).toString()
+  });
   const rows = Array.isArray(body) ? body : (Array.isArray(body.data) ? body.data : body.data ? [body.data] : []);
   return {
     total: rows.length,
