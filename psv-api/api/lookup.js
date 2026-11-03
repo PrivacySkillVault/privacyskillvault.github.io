@@ -113,6 +113,18 @@ async function fetchJson(url, options = {}) {
   }
 }
 
+function providerResult(item, capability) {
+  if (item.status === "fulfilled") {
+    return item.value === null
+      ? { status: !capability.applicable ? "not_applicable" : "not_configured", data: null }
+      : { status: "ok", data: item.value };
+  }
+  if (item.reason && item.reason.status === 404) {
+    return { status: "not_found", message: "No matching report is currently indexed for this indicator." };
+  }
+  return { status: "error", message: publicError(item.reason) };
+}
+
 function publicError(error) {
   if (error && error.name === "AbortError") return "Provider request timed out";
   const status = error && Number.isInteger(error.status) ? " (HTTP " + error.status + ")" : "";
@@ -325,12 +337,7 @@ async function handler(req, res) {
     hybridAnalysis: { applicable: Boolean(indicator.isHash), configured: Boolean(process.env.HYBRID_ANALYSIS_API_KEY) }
   };
   tasks.forEach(([name], index) => {
-    const item = settled[index], capability = providerApplicability[name];
-    results[name] = item.status === "fulfilled"
-      ? item.value === null
-        ? { status: !capability.applicable ? "not_applicable" : "not_configured", data: null }
-        : { status: "ok", data: item.value }
-      : { status: "error", message: publicError(item.reason) };
+    results[name] = providerResult(settled[index], providerApplicability[name]);
   });
   return json(res, 200, {
     indicator: { value: indicator.value, type: indicator.type },
@@ -342,6 +349,7 @@ async function handler(req, res) {
 module.exports = handler;
 module.exports.normalizeIndicator = normalizeIndicator;
 module.exports.publicError = publicError;
+module.exports.providerResult = providerResult;
 module.exports.isRateLimited = isRateLimited;
 module.exports.virusTotal = virusTotal;
 module.exports.hybridAnalysis = hybridAnalysis;
