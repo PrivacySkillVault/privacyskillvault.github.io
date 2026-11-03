@@ -1716,7 +1716,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (key === "hybridAnalysis") {
           const reports = d.reports || [];
           if (!reports.length) return "Hybrid Analysis API did not return a report from its overview or hash-search endpoints." + (d.searchError ? "<br>Hash search: " + escValue(d.searchError) : "") + (d.overviewError ? "<br>Overview lookup: " + escValue(d.overviewError) : "") + (d.lookupStatus === "lookup_incomplete" ? "<br><strong>Lookup incomplete:</strong> this is not evidence that the report does not exist." : "");
-          const humanLabel = key => String(key).replace(/_/g," ").replace(/([a-z])([A-Z])/g,"$1 $2").replace(/\\b\\w/g,c=>c.toUpperCase());
+          const humanLabel = key => String(key).replace(/_/g," ").replace(/([a-z])([A-Z])/g,"$1 $2").replace(/\b\w/g,c=>c.toUpperCase());
           const humanValue = value => {
             if (value === null || value === undefined || value === "") return "Not supplied";
             if (typeof value === "boolean") return value ? "Yes" : "No";
