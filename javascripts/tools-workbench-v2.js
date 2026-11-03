@@ -1683,21 +1683,32 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             ? "<hr><strong>File details</strong><br>" + (file.meaningfulName ? "Name: " + escValue(file.meaningfulName) + "<br>" : "") +
               (file.size !== undefined ? "Size: " + escValue(Number(file.size).toLocaleString()) + " bytes<br>" : "") +
               hashes.map(pair => "<div class='psv-ti-hash'><span>" + pair[0] + "</span><code>" + escValue(pair[1]) + "</code></div>").join("") : "";
-          const engines = (d.engineResults || []).slice(0, 15).map(engine => "<li><strong>" + escValue(engine.engine) + "</strong>: " + escValue(engine.category) + (engine.result ? " — " + escValue(engine.result) : "") + "</li>").join("");
+          const engines = (d.engineResults || []).map(engine => "<li><strong>" + escValue(engine.engine) + "</strong>: " + escValue(engine.category) + (engine.result ? " — " + escValue(engine.result) : "") + "</li>").join("");
           const sandboxes = (d.sandboxVerdicts || []).map(v => "<li><strong>" + escValue(v.sandbox) + "</strong>: " + escValue(v.category) + (v.malwareClassification ? " — " + escValue(v.malwareClassification) : "") + "</li>").join("");
           const link = d.id ? "<a href='https://www.virustotal.com/gui/file/" + encodeURIComponent(d.id) + "' target='_blank' rel='noopener noreferrer'>Open VirusTotal report</a>" : "";
           return "<strong>" + (total ? flagged + " / " + total + " engines; " + flagged + " marked malicious or suspicious" : "No engine statistics returned") + "</strong><br>Reputation score: " + escValue(d.reputation) +
             (statHtml ? "<ul class='psv-ti-stats'>" + statHtml + "</ul>" : "") +
             "<br>Last analysis: " + escValue(formatLocalDateTime(d.lastAnalysisDate)) +
             (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "") +
-            fileHtml + (engines ? "<details><summary>Engine-level detections (up to 15)</summary><ul>" + engines + "</ul></details>" : "") +
-            (sandboxes ? "<details><summary>Sandbox verdicts</summary><ul>" + sandboxes + "</ul></details>" : "") +
+            fileHtml + (engines ? "<details><summary>All engine-level results</summary><ul>" + engines + "</ul></details>" : "") +
+            (sandboxes ? "<details><summary>Sandbox verdicts (" + escValue((d.sandboxVerdicts || []).length) + ")</summary><ul>" + sandboxes + "</ul></details>" : "") +
+             (d.rawAttributes ? "<details><summary>Complete VirusTotal API attributes (raw JSON)</summary><pre class=psv-ti-raw-json>" + escValue(JSON.stringify(d.rawAttributes, null, 2)) + "</pre></details>" : "") +
             (link ? "<br>" + link : "");
         }
         if (key === "hybridAnalysis") {
           const reports = d.reports || [];
-          if (!reports.length) return "No existing sandbox report found for this hash.";
-          return reports.map(r => "<strong>Verdict: " + escValue(r.verdict) + "</strong><br>Threat score: " + escValue(r.threatScore) + " · AV detections: " + escValue(r.avDetect) + "<br>Environment: " + escValue(r.environmentDescription) + "<br>Analysis started: " + escValue(formatLocalDateTime(r.analysisStartTime))).join("<hr>");
+          if (!reports.length) return "No exact-hash report was returned by the Hybrid Analysis search endpoint. This does not rule out a report being visible in another account view or requiring different API permissions."; 
+          return reports.map(r => {
+            const raw = r.searchResult || {}, detail = r.detail || {};
+            const jsonBlock = value => value === undefined ? "" : "<details><summary>View complete returned JSON</summary><pre class=psv-ti-raw-json>" + escValue(JSON.stringify(value, null, 2)) + "</pre></details>";
+            const errors = Object.entries(r.detailErrors || {}).map(([name,message]) => "<li>" + escValue(name) + ": " + escValue(message) + "</li>").join("");
+            const link = r.reportUrl ? "<a href=" + escValue(r.reportUrl) + " target=_blank rel=noopener noreferrer>Open official Hybrid Analysis sample report</a>" : "";
+            return "<strong>Verdict: " + escValue(raw.verdict) + "</strong><br>Threat score: " + escValue(raw.threat_score) + " · AV detections: " + escValue(raw.av_detect) +
+              "<br>Environment: " + escValue(raw.environment_description) + "<br>Analysis started: " + escValue(formatLocalDateTime(raw.analysis_start_time)) +
+              "<br>Report ID: " + escValue(r.reportId) + (link ? "<br>" + link : "") +
+              jsonBlock(detail.summary) + jsonBlock(detail.overview) + jsonBlock(detail.overviewSummary) + jsonBlock(detail.fullReport) +
+              (errors ? "<details><summary>Detail endpoints unavailable or restricted</summary><ul>" + errors + "</ul></details>" : "");
+          }).join("<hr>");
         }
         const rows = d.results || [];
         if (!rows.length) return "No matching scan results returned.";
