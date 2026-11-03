@@ -2246,15 +2246,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const value=String(ua||"");
     const pick=(re)=>{const m=value.match(re);return m?m[1]:null;};
     let os="Unknown",osVersion=null,device="Unknown";
-    if(/Android/i.test(value)){os="Android";osVersion=pick(/Android[\\s/]([0-9.]+)/i);device=pick(/Android[^;]*;\\s*([^;)]+?)(?:\\s+Build|\\)|;)/i)||"Android device";}
+    if(/Android/i.test(value)){os="Android";osVersion=pick(/Android[\s/]([0-9.]+)/i);device=pick(/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\)|;)/i)||"Android device";}
     else if(/iPhone|iPad|iPod/i.test(value)){os="iOS/iPadOS";device=/iPad/i.test(value)?"iPad":/iPod/i.test(value)?"iPod":"iPhone";osVersion=pick(/OS ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");}
     else if(/Windows NT/i.test(value)){os="Windows";const v=pick(/Windows NT ([0-9.]+)/i);osVersion=({"10.0":"10 / 11 (UA does not distinguish)","6.3":"8.1","6.2":"8","6.1":"7"}[v]||v);}
     else if(/Mac OS X/i.test(value)){os="macOS";osVersion=pick(/Mac OS X ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");}
     else if(/Linux/i.test(value)){os="Linux";}
     let browser="Unknown",browserVersion=null;
-    const candidates=[["Edge",/EdgA?\\/([0-9.]+)/],["Opera",/OPR\\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\\/([0-9.]+)/],["Safari",/Version\\/([0-9.]+).*Safari/]];
+    const candidates=[["Edge",/EdgA?\/([0-9.]+)/],["Opera",/OPR\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\/([0-9.]+)/],["Safari",/Version\/([0-9.]+).*Safari/]];
     for(const [name,re] of candidates){const m=value.match(re);if(m){browser=name;browserVersion=m[1];break;}}
-    const engine=/AppleWebKit\\//.test(value)?"WebKit/Blink (UA token; browser-dependent)":/Gecko\\//.test(value)?"Gecko":null;
+    const engine=/AppleWebKit\//.test(value)?"WebKit/Blink (UA token; browser-dependent)":/Gecko\//.test(value)?"Gecko":null;
     return {raw:value,browser,browserVersion,os,osVersion,device,deviceType:/Mobile|iPhone|Android/i.test(value)?"Mobile":/iPad|Tablet/i.test(value)?"Tablet":/Windows|Macintosh|X11|Linux/i.test(value)?"Desktop":"Unknown",engine};
   }
   function psvDeviceCollect() {
@@ -2294,10 +2294,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const ua=parsed.userAgent||parsed.headers&&parsed.headers["user-agent"]||parsed.headers&&parsed.headers["User-Agent"]||"";
       return {analysisType:"structured-profile",userAgent:ua?psvDeviceParseUA(ua):null,profile:parsed,limitations:["Client-controlled values can be spoofed.","Missing values do not imply malicious activity."]};
     }
-    if(/^Mozilla\\//i.test(input)||/Android|Windows NT|iPhone|Macintosh|Linux/i.test(input)){
+    if(/^Mozilla\//i.test(input)||/Android|Windows NT|iPhone|Macintosh|Linux/i.test(input)){
       return {analysisType:"user-agent",parsed:psvDeviceParseUA(input),limitations:["User-Agent is client-controlled and can be spoofed.","Windows NT 10.0 does not distinguish Windows 10 from Windows 11.","Device model may be absent or generic."]};
     }
-    const headers={};input.split(/\\r?\\n/).forEach(line=>{const i=line.indexOf(":");if(i>0)headers[line.slice(0,i).trim().toLowerCase()]=line.slice(i+1).trim();});
+    const headers={};input.split(/\r?\n/).forEach(line=>{const i=line.indexOf(":");if(i>0)headers[line.slice(0,i).trim().toLowerCase()]=line.slice(i+1).trim();});
     const ua=headers["user-agent"]||"";
     return {analysisType:"http-headers",parsedUserAgent:ua?psvDeviceParseUA(ua):null,selectedHeaders:Object.fromEntries(["accept-language","accept","accept-encoding","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","sec-ch-ua-model","sec-ch-ua-platform-version","sec-ch-ua-full-version-list"].filter(k=>headers[k]).map(k=>[k,headers[k]])),limitations:["Headers pasted by an analyst are not independently authenticated.","IP and TLS metadata should come from trusted edge/server logs."]};
   }
