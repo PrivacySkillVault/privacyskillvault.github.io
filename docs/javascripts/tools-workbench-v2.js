@@ -1494,21 +1494,23 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
 
       /* Threat-intel results: readable wrapping and responsive provider cards. */
-      #psv-app .psv-ti-results-table{width:100%;max-width:100%;overflow-x:hidden}
-      #psv-app .psv-ti-results-table .psv-out-table{width:100%!important;min-width:0!important;table-layout:fixed!important}
-      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(1),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(1){width:18%!important}
-      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(2),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(2){width:20%!important}
-      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(3),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(3){width:62%!important}
-      #psv-app .psv-ti-results-table .psv-out-table th,#psv-app .psv-ti-results-table .psv-out-table td{white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important;vertical-align:top!important}
+      #psv-app .psv-ti-results-table{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+      #psv-app .psv-ti-results-table .psv-out-table{width:100%!important;min-width:900px!important;table-layout:fixed!important}
+      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(1),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(1){width:180px!important}
+      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(2),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(2){width:250px!important}
+      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(3),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(3){width:auto!important}
+      #psv-app .psv-ti-results-table .psv-out-table th,#psv-app .psv-ti-results-table .psv-out-table td{white-space:normal!important;overflow-wrap:break-word!important;word-break:normal!important;vertical-align:top!important}
+      #psv-app .psv-ti-indicator{display:block;max-width:100%;overflow-x:auto;white-space:nowrap;word-break:normal;overflow-wrap:normal;font-family:"Roboto Mono",SFMono-Regular,Consolas,monospace;font-size:.78rem;line-height:1.6}
       #psv-app .psv-ti-provider-cards{display:none}
       #psv-app .psv-ti-error{color:#b91c1c;font-weight:600}
+      #psv-app .psv-ti-not-found{color:var(--md-default-fg-color--light);font-weight:500}
       #psv-app .psv-ti-data-note{margin-top:1rem;font-size:.78rem;line-height:1.6;color:var(--md-default-fg-color--light)}
       @media(max-width:800px){
         #psv-app .psv-ti-results-table{display:none!important}
         #psv-app .psv-ti-provider-cards{display:grid!important;grid-template-columns:minmax(0,1fr);gap:.75rem}
         #psv-app .psv-ti-provider-card{min-width:0;padding:1rem;border:1px solid var(--psv-tool-border);border-radius:9px;background:var(--md-code-bg-color);overflow-wrap:anywhere}
         #psv-app .psv-ti-provider-card__head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap;margin-bottom:.65rem}
-        #psv-app .psv-ti-provider-card__head span{max-width:100%!important;overflow-wrap:anywhere}
+        #psv-app .psv-ti-provider-card__head .psv-ti-indicator{max-width:100%;flex:1 1 100%;overflow-x:auto}
         #psv-app .psv-ti-provider-card__findings{min-width:0;overflow-wrap:anywhere;word-break:break-word}
       }
 
@@ -1639,8 +1641,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (!item) return "No response returned by provider.";
         if (item.status === "not_applicable") return "Not supported for this indicator type.";
         if (item.status === "not_configured" || item.status === "not_applicable_or_not_configured") return "Provider API is not configured on the server.";
-        if (item.status === "not_found") return "No existing report found for this indicator.";
-        if (item.status === "error") return '<span class="psv-ti-error">' + escValue(item.message) + '</span>';
+        if (item.status === "not_found") return '<span class="psv-ti-not-found">No matching report is currently indexed for this indicator.</span>';
+        if (item.status === "error") return '<span class="psv-ti-error"><strong>Provider error:</strong> ' + escValue(item.message) + '</span>';
         const d = item.data || {};
         if (key === "abuseipdb") return [
           "Abuse confidence: " + escValue(d.abuseConfidenceScore) + "%",
@@ -1682,10 +1684,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         findings: renderProvider(key)
       }));
       const desktopTable = '<div class="psv-ti-results-table"><table class="psv-out-table"><thead><tr><th>Provider</th><th>Indicator</th><th>Findings</th></tr></thead><tbody>' +
-        providerRows.map(row => "<tr><td>" + row.name + "</td><td>" + esc(indicator) + "</td><td>" + row.findings + "</td></tr>").join("") +
+        providerRows.map(row => "<tr><td>" + row.name + "</td><td><code class=\"psv-ti-indicator\">" + esc(indicator) + "</code></td><td>" + row.findings + "</td></tr>").join("") +
         '</tbody></table></div>';
       const mobileCards = '<div class="psv-ti-provider-cards">' + providerRows.map(row =>
-        '<section class="psv-ti-provider-card"><div class="psv-ti-provider-card__head"><strong>' + row.name + '</strong><span>' + esc(indicator) + '</span></div><div class="psv-ti-provider-card__findings">' + row.findings + '</div></section>'
+        '<section class="psv-ti-provider-card"><div class="psv-ti-provider-card__head"><strong>' + row.name + '</strong><code class="psv-ti-indicator">' + esc(indicator) + '</code></div><div class="psv-ti-provider-card__findings">' + row.findings + '</div></section>'
       ).join("") + '</div>';
       outputElement.innerHTML = '<div role="status"><strong>Lookup completed.</strong> These results are supporting intelligence, not a definitive malicious/benign verdict. Provider failures and quota limits are shown separately.</div>' +
         desktopTable + mobileCards +
