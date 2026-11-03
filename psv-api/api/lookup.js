@@ -254,104 +254,62 @@ async function urlscan(indicator, env) {
 
 
 async function virusTotal(indicator, env) {
-  if (!env.VIRUSTOTAL_API_KEY) return null;
-  if (indicator.isCve) return null;
+  if (!env.VIRUSTOTAL_API_KEY || indicator.isCve) return null;
   const resource = indicator.isIp ? "ip_addresses" : indicator.isHash ? "files" : "domains";
+  const headers = { "x-apikey": env.VIRUSTOTAL_API_KEY };
   const url = "https://www.virustotal.com/api/v3/" + resource + "/" + encodeURIComponent(indicator.value);
-  const body = await fetchJson(url, { headers: { "x-apikey": env.VIRUSTOTAL_API_KEY } });
-  if (!body.data || body.data.type !== (indicator.isHash ? "file" : indicator.isIp ? "ip_address" : "domain")) {
-    throw new Error("VirusTotal returned an unexpected object type");
-  }
+  const body = await fetchJson(url, { headers });
+  if (!body.data || body.data.type !== (indicator.isHash ? "file" : indicator.isIp ? "ip_address" : "domain")) throw new Error("VirusTotal returned an unexpected object type");
   const d = body.data.attributes || {};
   if (indicator.isHash) {
-    const candidateHashes = [body.data.id, d.sha256, d.sha1, d.md5].filter(value => typeof value === "string");
-    if (!candidateHashes.some(value => value.toLowerCase() === indicator.value.toLowerCase())) {
-      throw new Error("VirusTotal report hash did not match the requested indicator");
-    }
-    const categoryNames = ["malicious", "suspicious", "harmless", "undetected", "timeout", "confirmed-timeout", "failure", "type-unsupported"];
-    const stats = d.last_analysis_stats || {};
-    const engineResults = d.last_analysis_results || {};
-    const derivedStats = Object.fromEntries(categoryNames.map(category => [category, 0]));
-    for (const result of Object.values(engineResults)) {
-      if (result && Object.prototype.hasOwnProperty.call(derivedStats, result.category)) derivedStats[result.category] += 1;
-    }
-    const statsPresent = categoryNames.some(category => Number.isInteger(stats[category]));
-    if (statsPresent && Object.keys(engineResults).length) {
-      const statsTotal = categoryNames.reduce((sum, category) => sum + (Number.isInteger(stats[category]) ? stats[category] : 0), 0);
-      const resultsTotal = Object.values(derivedStats).reduce((sum, count) => sum + count, 0);
-      if (statsTotal !== resultsTotal || categoryNames.some(category => (stats[category] || 0) !== derivedStats[category])) {
-        throw new Error("VirusTotal analysis statistics do not match its engine-level results");
-      }
+    const candidates = [body.data.id, d.sha256, d.sha1, d.md5].filter(v => typeof v === "string");
+    if (!candidates.some(v => v.toLowerCase() === indicator.value.toLowerCase())) throw new Error("VirusTotal report hash did not match the requested indicator");
+    const names = ["malicious","suspicious","harmless","undetected","timeout","confirmed-timeout","failure","type-unsupported"];
+    const stats = d.last_analysis_stats || {}, source = d.last_analysis_results || {};
+    const derived = Object.fromEntries(names.map(n => [n,0]));
+    for (const value of Object.values(source)) if (value && Object.prototype.hasOwnProperty.call(derived,value.category)) derived[value.category]++;
+    if (names.some(n => Number.isInteger(stats[n])) && Object.keys(source).length) {
+      const sum = obj => names.reduce((total,n) => total + (Number.isInteger(obj[n]) ? obj[n] : 0),0);
+      if (sum(stats) !== sum(derived) || names.some(n => (stats[n] || 0) !== derived[n])) throw new Error("VirusTotal analysis statistics do not match its engine-level results");
     }
   }
-  const stats = d.last_analysis_stats || {};
   return {
-    id: body.data && body.data.id,
-    type: body.data && body.data.type,
-    reputation: d.reputation,
-    lastAnalysisDate: d.last_analysis_date,
-    lastAnalysisStats: Object.fromEntries(
-      ["malicious", "suspicious", "harmless", "undetected", "timeout", "confirmed-timeout", "failure", "type-unsupported"]
-        .filter(key => Number.isFinite(stats[key]))
-        .map(key => [key, stats[key]])
-    ),
-    file: indicator.isHash ? {
-      meaningfulName: d.meaningful_name,
-      names: Array.isArray(d.names) ? d.names.slice(0, 5) : [],
-      size: Number.isFinite(d.size) ? d.size : undefined,
-      sha256: d.sha256,
-      sha1: d.sha1,
-      md5: d.md5
-    } : undefined,
-    engineResults: indicator.isHash && d.last_analysis_results ? Object.entries(d.last_analysis_results).slice(0, 15).map(([engine, result]) => ({
-      engine,
-      category: result && result.category,
-      result: result && result.result,
-      method: result && result.method,
-      engineUpdate: result && result.engine_update
-    })) : undefined,
-    sandboxVerdicts: indicator.isHash && d.sandbox_verdicts ? Object.entries(d.sandbox_verdicts).slice(0, 5).map(([sandbox, verdict]) => ({
-      sandbox,
-      category: verdict && verdict.category,
-      confidence: verdict && verdict.confidence,
-      malwareClassification: verdict && verdict.malware_classification
-    })) : undefined,
-    tags: Array.isArray(d.tags) ? d.tags.slice(0, 20) : [],
-    popularThreatClassification: d.popular_threat_classification ? {
-      suggestedThreatLabel: d.popular_threat_classification.suggested_threat_label
-    } : undefined
+    id: body.data.id, type: body.data.type, reputation: d.reputation, lastAnalysisDate: d.last_analysis_date,
+    lastAnalysisStats: d.last_analysis_stats || {},
+    file: indicator.isHash ? { meaningfulName:d.meaningful_name, names:Array.isArray(d.names)?d.names:[], size:d.size, sha256:d.sha256, sha1:d.sha1, md5:d.md5 } : undefined,
+    engineResults: d.last_analysis_results && typeof d.last_analysis_results === "object" ? Object.entries(d.last_analysis_results).map(([engine,result]) => ({engine,...(result||{})})) : [],
+    sandboxVerdicts: d.sandbox_verdicts && typeof d.sandbox_verdicts === "object" ? Object.entries(d.sandbox_verdicts).map(([sandbox,verdict]) => ({sandbox,...(verdict||{})})) : [],
+    tags: Array.isArray(d.tags) ? d.tags : [], popularThreatClassification:d.popular_threat_classification, rawAttributes:d
   };
 }
 
 async function hybridAnalysis(indicator, env) {
-  // Falcon Sandbox hash search is read-only. No file/URL submission is performed.
+  // Read-only enrichment; never uploads or submits a sample.
   if (!env.HYBRID_ANALYSIS_API_KEY || !indicator.isHash) return null;
-  // Hybrid Analysis documents hash search as GET /search/hash?hash=<digest>.
-  // This avoids the provider's HTTP 400 validation error for the POST form payload.
+  const headers = {"api-key":env.HYBRID_ANALYSIS_API_KEY,"user-agent":"Falcon Sandbox"};
   const url = new URL("https://www.hybrid-analysis.com/api/v2/search/hash");
-  url.searchParams.set("hash", indicator.value);
-  const body = await fetchJson(url, {
-    method: "GET",
-    headers: {
-      "api-key": env.HYBRID_ANALYSIS_API_KEY,
-      "user-agent": "Falcon Sandbox"
-    }
-  });
+  url.searchParams.set("hash",indicator.value);
+  const body = await fetchJson(url,{method:"GET",headers});
   const rows = Array.isArray(body) ? body : (Array.isArray(body.data) ? body.data : body.data ? [body.data] : []);
-  return {
-    total: rows.length,
-    reports: rows.slice(0, 5).map(row => ({
-      sha256: row.sha256,
-      sha1: row.sha1,
-      md5: row.md5,
-      verdict: row.verdict,
-      threatScore: row.threat_score,
-      avDetect: row.av_detect,
-      environmentDescription: row.environment_description,
-      analysisStartTime: row.analysis_start_time,
-      reportId: row.id || row.job_id
-    }))
-  };
+  const matches = rows.filter(row => [row.sha256,row.sha1,row.md5].some(hash => typeof hash === "string" && hash.toLowerCase() === indicator.value.toLowerCase())).slice(0,5);
+  const reports = await Promise.all(matches.map(async row => {
+    const id = row.id || row.job_id, sha256 = row.sha256 || (indicator.value.length === 64 ? indicator.value : null);
+    const detail = {}, detailErrors = {};
+    if (id) {
+      for (const [key,path] of [["summary","/report/"+encodeURIComponent(id)+"/summary"],["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]]) {
+        try { detail[key] = await fetchJson("https://www.hybrid-analysis.com/api/v2"+path,{headers}); }
+        catch(error) { detailErrors[key] = publicError(error); }
+      }
+    }
+    if (sha256) {
+      for (const [key,path] of [["overview","/overview/"+encodeURIComponent(sha256)],["overviewSummary","/overview/"+encodeURIComponent(sha256)+"/summary"]]) {
+        try { detail[key] = await fetchJson("https://www.hybrid-analysis.com/api/v2"+path,{headers}); }
+        catch(error) { detailErrors[key] = publicError(error); }
+      }
+    }
+    return {searchResult:row,reportId:id||null,sha256,detail,detailErrors,reportUrl:sha256?"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256):null};
+  }));
+  return {total:matches.length,reports,detailCoverage:"Some detail endpoints may be restricted by API-key access level or provider availability."};
 }
 
 async function handler(req, res) {
