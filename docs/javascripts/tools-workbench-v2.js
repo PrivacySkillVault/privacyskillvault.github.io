@@ -1744,7 +1744,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             const pick = (...values) => values.find(v=>v!==undefined&&v!==null&&v!=="");
             const verdict = pick(report.verdict,summary.verdict,overview.verdict);
             const threat = pick(report.threat_score,summary.threat_score,overview.threat_score);
-            const av = pick(report.av_detect,report.multiscan_result,summary.av_detect,summary.multiscan_result,overview.av_detect,overview.multiscan_result);
+            const av = pick(report.av_detect,summary.av_detect,overview.av_detect);
             const filename = pick(report.file_name,report.filename,report.last_file_name,summary.file_name,summary.last_file_name,overview.file_name,overview.last_file_name);
             const size = pick(report.size,summary.size,overview.size);
             const indicators = pick(report.total_indicators,report.indicators_count,summary.total_indicators,summary.indicators_count,summary.indicators,overview.total_indicators,overview.indicators);
