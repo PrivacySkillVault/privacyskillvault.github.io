@@ -110,3 +110,50 @@ test("OTX pulse count is clearly separated from returned pulse summaries", async
     assert.equal(result.pulses[0].id, "pulse-1");
   } finally { global.fetch = originalFetch; }
 });
+
+test("VirusTotal retains every returned engine, sandbox verdict and raw attribute", async () => {
+  const originalFetch = global.fetch;
+  const hash = "a".repeat(64);
+  const engines = Object.fromEntries(Array.from({length:24},(_,i)=>["Engine"+i,{category:"undetected",result:null,method:"blacklist",engine_update:"20261103"}]));
+  const stats = {malicious:0,suspicious:0,harmless:0,undetected:24,timeout:0,"confirmed-timeout":0,failure:0,"type-unsupported":0};
+  const sandboxes = Object.fromEntries(Array.from({length:7},(_,i)=>["Sandbox"+i,{category:"undetected",confidence:0,malware_classification:[]}]));
+  global.fetch = async () => ({ok:true,status:200,text:async()=>JSON.stringify({data:{id:hash,type:"file",attributes:{sha256:hash,last_analysis_stats:stats,last_analysis_results:engines,sandbox_verdicts:sandboxes,magic:"PE32",signature_info:{description:"test"}}}})});
+  try {
+    const result = await lookup.virusTotal({value:hash,isHash:true},{VIRUSTOTAL_API_KEY:"test"});
+    assert.equal(result.engineResults.length,24);
+    assert.equal(result.sandboxVerdicts.length,7);
+    assert.equal(result.rawAttributes.magic,"PE32");
+    assert.equal(result.rawAttributes.signature_info.description,"test");
+  } finally { global.fetch = originalFetch; }
+});
+
+test("Hybrid Analysis fetches detail endpoints for exact hash matches without submitting samples", async () => {
+  const originalFetch = global.fetch, hash = "d".repeat(64), calls = [];
+  global.fetch = async (url, options) => {
+    calls.push({url:String(url),method:options.method || "GET"});
+    const value = String(url).includes("/search/hash")
+      ? [{sha256:hash,id:"job-123",verdict:"malicious",threat_score:90}]
+      : {report_id:"job-123",summary:"full detail"};
+    return {ok:true,status:200,text:async()=>JSON.stringify(value)};
+  };
+  try {
+    const result = await lookup.hybridAnalysis({value:hash,isHash:true},{HYBRID_ANALYSIS_API_KEY:"test"});
+    assert.equal(result.reports.length,1);
+    assert.equal(result.reports[0].detail.summary.summary,"full detail");
+    assert.ok(calls.some(c=>c.url.includes("/report/job-123/summary")));
+    assert.ok(calls.some(c=>c.url.includes("/report/job-123/report/json")));
+    assert.ok(calls.some(c=>c.url.includes("/overview/"+hash)));
+    assert.ok(calls.every(c=>c.method==="GET"));
+    assert.ok(calls.every(c=>!c.url.includes("/submit")));
+  } finally { global.fetch = originalFetch; }
+});
+
+test("Hybrid Analysis excludes non-matching hash rows", async () => {
+  const originalFetch = global.fetch;
+  global.fetch = async () => ({ok:true,status:200,text:async()=>JSON.stringify([{sha256:"e".repeat(64),id:"wrong"}])});
+  try {
+    const result = await lookup.hybridAnalysis({value:"d".repeat(64),isHash:true},{HYBRID_ANALYSIS_API_KEY:"test"});
+    assert.equal(result.total,0);
+    assert.equal(result.reports.length,0);
+  } finally { global.fetch = originalFetch; }
+});
