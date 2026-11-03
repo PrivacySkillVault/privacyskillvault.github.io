@@ -314,9 +314,10 @@ async function hybridAnalysis(indicator, env) {
     else if (!overviewError) overviewError = publicError(results[1].reason);
   }
 
-  // Overview.reports is the documented list of sandbox report IDs. The
-  // overview summary endpoint intentionally contains only aggregate fields.
-  // Also accept report IDs returned by hash search and related report records.
+  // Both overview responses are retained as separate evidence sources.
+  // In the current response shape, OverviewSummary.reports is an array of
+  // report/job IDs. Do not assume the IDs exist only on /overview/{sha256}.
+  // Related reports may refer to other hashes, so only accept exact-hash rows.
   const reportKeys = [];
   const addReportKey = value => {
     if (typeof value === "string" && value.trim() && !reportKeys.includes(value.trim())) reportKeys.push(value.trim());
@@ -325,17 +326,25 @@ async function hybridAnalysis(indicator, env) {
     addReportKey(row.id || row.job_id || row.report_id);
     if (row.environment_id !== undefined && sha256) addReportKey(sha256 + ":" + row.environment_id);
   }
-  if (overview && String(overview.sha256 || "").toLowerCase() === requestedHash) {
+  const exactHashOverview = overview && String(overview.sha256 || "").toLowerCase() === requestedHash;
+  const exactHashSummary = overviewSummary && String(overviewSummary.sha256 || "").toLowerCase() === requestedHash;
+  if (exactHashOverview) {
     if (Array.isArray(overview.reports)) overview.reports.forEach(addReportKey);
     addReportKey(overview.job_id || overview.id || overview.report_id);
-    if (Array.isArray(overview.related_reports)) {
-      for (const related of overview.related_reports) {
-        addReportKey(related.job_id || related.report_id || related.id);
-        if (related.environment_id !== undefined && sha256) addReportKey(sha256 + ":" + related.environment_id);
-      }
+  }
+  if (exactHashSummary) {
+    if (Array.isArray(overviewSummary.reports)) overviewSummary.reports.forEach(addReportKey);
+    addReportKey(overviewSummary.job_id || overviewSummary.id || overviewSummary.report_id);
+  }
+  for (const source of [exactHashOverview ? overview : null, exactHashSummary ? overviewSummary : null]) {
+    if (!source || !Array.isArray(source.related_reports)) continue;
+    for (const related of source.related_reports) {
+      if (String(related.sha256 || "").toLowerCase() !== requestedHash) continue;
+      addReportKey(related.job_id || related.report_id || related.id);
+      if (related.environment_id !== undefined && sha256) addReportKey(sha256 + ":" + related.environment_id);
     }
   }
-  const limitedReportKeys = reportKeys.slice(0,10);
+  const limitedReportKeys = reportKeys.slice(0,5);
   const reports = await Promise.all(limitedReportKeys.map(async reportId => {
     const detail = {overview,overviewSummary}, detailErrors = {};
     const [summaryResult,fullResult] = await Promise.allSettled([
@@ -353,6 +362,8 @@ async function hybridAnalysis(indicator, env) {
     const searchResult = detail.summary || matches.find(row =>
       (row.id || row.job_id || row.report_id || (row.environment_id !== undefined && sha256 + ":" + row.environment_id)) === reportId
     ) || overview || overviewSummary || {};
+    const summaryHash = detail.summary && String(detail.summary.sha256 || "").toLowerCase();
+    if (summaryHash && summaryHash !== requestedHash) return null;
     return {
       searchResult,reportId,sha256,detail,detailErrors,
       reportUrl:"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256 || indicator.value),
@@ -376,7 +387,7 @@ async function hybridAnalysis(indicator, env) {
     reportIdsFound:reportKeys.length,reportIdsReturned:limitedReportKeys.length,
     reportIdsTruncated:reportKeys.length > limitedReportKeys.length,
     lookupStatus:validReports.length ? "report_found" : (searchError || overviewError ? "lookup_incomplete" : "no_report_found"),
-    detailCoverage:"OverviewSummary contains aggregate metadata only. Overview.reports and related_reports identify sandbox reports; report summaries are restricted-access and full JSON report downloads require a default-level API key."
+    detailCoverage:"Report IDs are collected from exact-hash Overview and OverviewSummary responses. Up to five report summaries and full JSON reports are requested; full JSON access requires a default-level API key."
   };
 }
 
