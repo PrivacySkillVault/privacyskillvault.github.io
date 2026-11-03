@@ -101,8 +101,10 @@ async function fetchJson(url, options = {}) {
     let body = {};
     try { body = text ? JSON.parse(text) : {}; } catch (_) { throw new Error("Provider returned an invalid response"); }
     if (!response.ok) {
+      const providerMessage = body && (body.message || body.error || body.detail || body.reason);
       const error = new Error("Provider returned HTTP " + response.status);
       error.status = response.status;
+      error.providerMessage = typeof providerMessage === "string" ? providerMessage.replace(/[\\r\\n\\t]+/g, " ").slice(0, 180) : "";
       throw error;
     }
     return body;
@@ -113,11 +115,14 @@ async function fetchJson(url, options = {}) {
 
 function publicError(error) {
   if (error && error.name === "AbortError") return "Provider request timed out";
-  if (error && error.status === 429) return "Provider rate limit reached";
-  if (error && error.status === 401) return "Provider rejected the configured API key";
-  if (error && error.status === 403) return "Provider denied this request or the account quota was reached";
-  if (error && error.status === 404) return "No matching record found";
-  return "Provider request failed";
+  const status = error && Number.isInteger(error.status) ? " (HTTP " + error.status + ")" : "";
+  const detail = error && error.providerMessage ? ": " + error.providerMessage : "";
+  if (error && error.status === 429) return "Provider rate limit reached" + status + detail;
+  if (error && error.status === 401) return "Provider rejected the configured API key" + status + detail;
+  if (error && error.status === 403) return "Provider denied this request or the account quota was reached" + status + detail;
+  if (error && error.status === 404) return "No matching record found" + status;
+  if (error && error.status) return "Provider request failed" + status + detail;
+  return "Provider request failed. Check provider connectivity and configuration.";
 }
 
 async function abuseIpdb(indicator, env) {
@@ -310,10 +315,20 @@ async function handler(req, res) {
   ];
   const settled = await Promise.allSettled(tasks.map(([, run]) => run()));
   const results = {};
+  const providerApplicability = {
+    abuseipdb: { applicable: indicator.isIp, configured: Boolean(process.env.ABUSEIPDB_API_KEY) },
+    otx: { applicable: !indicator.isCve, configured: Boolean(process.env.OTX_API_KEY) },
+    nvd: { applicable: Boolean(indicator.isCve), configured: true },
+    urlscan: { applicable: Boolean(indicator.isDomain || indicator.isIp), configured: Boolean(process.env.URLSCAN_API_KEY) },
+    virustotal: { applicable: !indicator.isCve, configured: Boolean(process.env.VIRUSTOTAL_API_KEY) },
+    hybridAnalysis: { applicable: Boolean(indicator.isHash), configured: Boolean(process.env.HYBRID_ANALYSIS_API_KEY) }
+  };
   tasks.forEach(([name], index) => {
-    const item = settled[index];
+    const item = settled[index], capability = providerApplicability[name];
     results[name] = item.status === "fulfilled"
-      ? { status: item.value === null ? "not_applicable_or_not_configured" : "ok", data: item.value }
+      ? item.value === null
+        ? { status: !capability.applicable ? "not_applicable" : "not_configured", data: null }
+        : { status: "ok", data: item.value }
       : { status: "error", message: publicError(item.reason) };
   });
   return json(res, 200, {
