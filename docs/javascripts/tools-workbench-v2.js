@@ -1287,6 +1287,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-advanced-actions button.active{border-color:var(--md-accent-fg-color);box-shadow:inset 0 -2px var(--md-accent-fg-color)}
       #psv-app .psv-advanced-output{overflow:auto;max-height:420px;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-default-bg-color);color:var(--md-default-fg-color);white-space:pre-wrap;overflow-wrap:anywhere;font-size:.78rem;line-height:1.6}
       #psv-app .psv-advanced-muted{color:var(--md-default-fg-color--light);font-size:.75rem}
+      #psv-app .psv-device-panel .psv-advanced-output{max-height:none;overflow:visible;white-space:normal;overflow-wrap:anywhere}
+      #psv-app .psv-device-report-head{padding:.9rem 1rem;margin:0 0 1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-code-bg-color)}
+      #psv-app .psv-device-report-head strong{font-size:.95rem;letter-spacing:.02em}
+      #psv-app .psv-device-report-head p{margin:.45rem 0 0;white-space:normal}
+      #psv-app .psv-device-comparison{display:grid;gap:.55rem}
+      #psv-app .psv-device-diff{display:grid;grid-template-columns:minmax(120px,1fr) auto;gap:.3rem .8rem;padding:.65rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px}
+      #psv-app .psv-device-diff small{grid-column:1/-1;overflow-wrap:anywhere;color:var(--md-default-fg-color--light)}
+      #psv-app .psv-device-raw{margin-top:1rem}
+      #psv-app .psv-device-raw pre{max-height:520px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:.8rem;border-radius:5px;background:var(--md-code-bg-color)}
+      @media(max-width:600px){#psv-app .psv-device-diff{grid-template-columns:1fr}}
       #psv-app .psv-init-error-detail{white-space:pre-wrap;overflow-wrap:anywhere}
       @media(max-width:650px){#psv-app .psv-advanced-grid{grid-template-columns:1fr}}
       #psv-app .psv-advanced-head{max-width:100%}
@@ -2223,7 +2233,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     } else if (tool.id === "device") {
       body = '<section class="psv-advanced-panel psv-device-panel"><h2>Device evidence collection</h2><p>Browser collection is consent-based and local to this page. No hardware serials, IMEI, MAC addresses or covert fingerprint hashes are collected.</p>'+
         '<div class="psv-advanced-actions"><button type="button" data-psv-action="device-collect">Collect this browser profile</button><button type="button" data-psv-action="device-sample">Load sample profiles</button></div>'+
-        '<label for="device-evidence">User-Agent, HTTP headers, JSON profile, or JSON array of two profiles</label><textarea id="device-evidence" rows="10" spellcheck="false" placeholder="Paste User-Agent string, request headers, a JSON profile, or two profiles as a JSON array…"></textarea>'+
+        '<label for="device-evidence">Evidence input — User-Agent, HTTP headers, browser profile, or Android/iOS app telemetry JSON</label><textarea id="device-evidence" rows="12" spellcheck="false" placeholder="Paste a User-Agent / HTTP headers, one structured profile, or a JSON array containing two profiles. Native evidence fields may include verified Play Integrity, App Attest / DeviceCheck, app version, installation ID, device-binding events and server session metadata."></textarea><p class="psv-advanced-muted">Native Android/iOS evidence is imported for analysis; this browser page cannot independently generate or validate Play Integrity, App Attest, DeviceCheck, MDM or server-side attestation verdicts.</p>'+
         '<div class="psv-advanced-actions"><button type="button" data-psv-action="device-analyze">Analyze evidence</button><button type="button" data-psv-action="device-clear">Clear</button><button type="button" data-psv-action="device-export">Download JSON report</button></div>'+
         '<div class="psv-device-disclosure"><strong>Evidence limitations:</strong> User-Agent and browser APIs are spoofable and may be reduced. Device model, CPU, memory and platform details may be unavailable. Network ASN, source IP, TLS fingerprints, registered device IDs and native-app attestation must be supplied by trusted server-side systems.</div>'+
         '<div id="device-output" class="psv-advanced-output" aria-live="polite">Collect a profile or paste evidence, then select Analyze evidence.</div></section>';
@@ -2244,62 +2254,121 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function psvDeviceParseUA(ua) {
     const value=String(ua||"");
-    const pick=(re)=>{const m=value.match(re);return m?m[1]:null;};
-    let os="Unknown",osVersion=null,device="Unknown";
-    if(/Android/i.test(value)){os="Android";osVersion=pick(/Android[\s/]([0-9.]+)/i);device=pick(/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\)|;)/i)||"Android device";}
-    else if(/iPhone|iPad|iPod/i.test(value)){os="iOS/iPadOS";device=/iPad/i.test(value)?"iPad":/iPod/i.test(value)?"iPod":"iPhone";osVersion=pick(/OS ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");}
-    else if(/Windows NT/i.test(value)){os="Windows";const v=pick(/Windows NT ([0-9.]+)/i);osVersion=({"10.0":"10 / 11 (UA does not distinguish)","6.3":"8.1","6.2":"8","6.1":"7"}[v]||v);}
-    else if(/Mac OS X/i.test(value)){os="macOS";osVersion=pick(/Mac OS X ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");}
-    else if(/Linux/i.test(value)){os="Linux";}
+    const pick=re=>{const m=value.match(re);return m?m[1]:null;};
+    let os="Unknown",osVersion=null,deviceModel=null,deviceType="Unknown";
+    if(/Android/i.test(value)){
+      os="Android";osVersion=pick(/Android[\s/]([0-9.]+)/i);
+      deviceModel=pick(/Android[^;]*;\s*([^;)]+?)(?:\s+Build|\)|;)/i);
+      deviceType=/Mobile/i.test(value)?"Mobile":/Tablet/i.test(value)?"Tablet":"Unknown";
+    } else if(/iPhone|iPad|iPod/i.test(value)){
+      os="iOS/iPadOS";deviceModel=/iPad/i.test(value)?"iPad":/iPod/i.test(value)?"iPod":"iPhone";
+      osVersion=pick(/OS ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");
+      deviceType=deviceModel==="iPad"?"Tablet":"Mobile";
+    } else if(/Windows NT/i.test(value)){
+      os="Windows";const v=pick(/Windows NT ([0-9.]+)/i);
+      osVersion=({"10.0":"Windows 10 or 11 (UA does not distinguish)","6.3":"8.1","6.2":"8","6.1":"7"}[v]||v);
+      deviceType="Desktop";
+    } else if(/Mac OS X/i.test(value)){
+      os="macOS";osVersion=pick(/Mac OS X ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");deviceType="Desktop";
+    } else if(/Linux/i.test(value)){os="Linux";deviceType=/Mobile/i.test(value)?"Mobile":"Desktop";}
+    const candidates=[["Microsoft Edge",/EdgA?\/([0-9.]+)/],["Opera",/OPR\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\/([0-9.]+)/],["Safari",/Version\/([0-9.]+).*Safari/]];
     let browser="Unknown",browserVersion=null;
-    const candidates=[["Edge",/EdgA?\/([0-9.]+)/],["Opera",/OPR\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\/([0-9.]+)/],["Safari",/Version\/([0-9.]+).*Safari/]];
     for(const [name,re] of candidates){const m=value.match(re);if(m){browser=name;browserVersion=m[1];break;}}
-    const engine=/AppleWebKit\//.test(value)?"WebKit/Blink (UA token; browser-dependent)":/Gecko\//.test(value)?"Gecko":null;
-    return {raw:value,browser,browserVersion,os,osVersion,device,deviceType:/Mobile|iPhone|Android/i.test(value)?"Mobile":/iPad|Tablet/i.test(value)?"Tablet":/Windows|Macintosh|X11|Linux/i.test(value)?"Desktop":"Unknown",engine};
+    const webviewTokens=["; wv)","Version/4.0","WebView","WKWebView"];
+    const embeddedAppTokens=["FBAN","FBAV","Instagram","Line/","GSA/","TikTok"];
+    const engineToken=/AppleWebKit\//.test(value)?"AppleWebKit token (does not distinguish WebKit from Blink)":/Gecko\//.test(value)?"Gecko token":null;
+    return {raw:value,browser,browserVersion,os,osVersion,deviceModel,deviceType,engineToken,
+      webViewLikely:webviewTokens.some(t=>value.toLowerCase().includes(t.toLowerCase())),
+      embeddedAppTokens:embeddedAppTokens.filter(t=>value.toLowerCase().includes(t.toLowerCase())),
+      architectureHint:/Win64|x86_64|amd64/i.test(value)?"64-bit hint":/i[ союз]86/i.test(value)?"32-bit hint":null,
+      userAgentReductionCaveat:"UA strings may be reduced, generic, overridden or spoofed; model and OS-version inference is not authoritative."};
   }
+
   function psvDeviceCollect() {
-    const n=navigator,sc=screen||{};
-    const p={schema:"psv-device-profile",schemaVersion:1,collectedAt:new Date().toISOString(),collection:"consented-browser-api",userAgent:n.userAgent||null,
+    const n=navigator,sc=window.screen||{};
+    const p={schema:"psv-device-profile",schemaVersion:2,collectedAt:new Date().toISOString(),evidenceOrigin:"browser-api-self-report",
+      userAgent:n.userAgent||null,
       browser:{language:n.language||null,languages:Array.from(n.languages||[]),platform:n.platform||null,vendor:n.vendor||null,cookieEnabled:!!n.cookieEnabled,onLine:!!n.onLine},
       hardware:{logicalCpuCores:Number.isFinite(n.hardwareConcurrency)?n.hardwareConcurrency:null,approxDeviceMemoryGB:Number.isFinite(n.deviceMemory)?n.deviceMemory:null,maxTouchPoints:Number.isFinite(n.maxTouchPoints)?n.maxTouchPoints:null},
       display:{width:sc.width||null,height:sc.height||null,availableWidth:sc.availWidth||null,availableHeight:sc.availHeight||null,colorDepth:sc.colorDepth||null,pixelRatio:window.devicePixelRatio||null,orientation:sc.orientation&&sc.orientation.type||null},
       regional:{timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||null,utcOffsetMinutes:new Date().getTimezoneOffset()},
-      capabilities:{webAssembly:typeof WebAssembly!=="undefined",webGL:(()=>{try{const c=document.createElement("canvas");return !!(c.getContext("webgl")||c.getContext("experimental-webgl"));}catch(_){return false;}})(),indexedDB:!!n.indexedDB,localStorage:(()=>{try{const k="__psv_probe";localStorage.setItem(k,"1");localStorage.removeItem(k);return true;}catch(_){return false;}})(),sessionStorage:(()=>{try{const k="__psv_probe";sessionStorage.setItem(k,"1");sessionStorage.removeItem(k);return true;}catch(_){return false;}})(),webdriver: n.webdriver===true},
+      capabilities:{webAssembly:typeof WebAssembly!=="undefined",webGL:(()=>{try{const c=document.createElement("canvas");return !!(c.getContext("webgl")||c.getContext("experimental-webgl"));}catch(_){return false;}})(),indexedDB:!!n.indexedDB,localStorage:(()=>{try{const k="__psv_probe";localStorage.setItem(k,"1");localStorage.removeItem(k);return true;}catch(_){return false;}})(),sessionStorage:(()=>{try{const k="__psv_probe";sessionStorage.setItem(k,"1");sessionStorage.removeItem(k);return true;}catch(_){return false;}})(),webdriver:n.webdriver===true},
       network:{connectionType:n.connection&&n.connection.effectiveType||null,downlinkMbps:n.connection&&n.connection.downlink||null,rttMs:n.connection&&n.connection.rtt||null,saveData:n.connection&&typeof n.connection.saveData==="boolean"?n.connection.saveData:null}};
     return p;
   }
   async function psvDeviceAddHints(profile) {
     const d=navigator.userAgentData;
-    if(!d){profile.clientHints={available:false};return profile;}
+    if(!d){profile.clientHints={available:false,reason:"User-Agent Client Hints API is not exposed by this browser."};return profile;}
     profile.clientHints={available:true,mobile:!!d.mobile,platform:d.platform||null,brands:Array.from(d.brands||[])};
-    if(typeof d.getHighEntropyValues==="function"){try{profile.clientHints.highEntropy=await d.getHighEntropyValues(["architecture","bitness","model","platformVersion","fullVersionList","wow64"]);}catch(e){profile.clientHints.highEntropyError="Not permitted or unavailable";}}
+    if(typeof d.getHighEntropyValues==="function"){try{profile.clientHints.highEntropy=await d.getHighEntropyValues(["architecture","bitness","model","platformVersion","fullVersionList","wow64"]);}catch(_){profile.clientHints.highEntropyStatus="Not permitted or unavailable";}}
     return profile;
+  }
+  function psvDeviceStable(value) {
+    if(value===undefined)return "__PSV_UNDEFINED__";
+    if(value===null||typeof value!=="object")return JSON.stringify(value);
+    if(Array.isArray(value))return "["+value.map(psvDeviceStable).join(",")+"]";
+    return "{"+Object.keys(value).sort().map(k=>JSON.stringify(k)+":"+psvDeviceStable(value[k])).join(",")+"}";
+  }
+  function psvDeviceFlatten(value,prefix,out) {
+    out=out||{};prefix=prefix||"";
+    if(value&&typeof value==="object"&&!Array.isArray(value)){
+      Object.keys(value).forEach(k=>psvDeviceFlatten(value[k],prefix?prefix+"."+k:k,out));
+    } else if(value!==undefined&&value!==null&&value!=="") out[prefix]=value;
+    return out;
   }
   function psvDeviceRender(data) {
     const out=document.getElementById("device-output");if(!out)return;
+    const status=data.verdict||"EVIDENCE REVIEW";
+    const summary=data.summary||data.important||"Review the source and trust level of each supplied field.";
     const json=JSON.stringify(data,null,2);
-    out.innerHTML='<h3>Analysis results</h3><pre>'+esc(json)+'</pre><p class="psv-advanced-muted">Interpretation: browser-reported values are untrusted evidence. Verify against server-side logs and registered-device records.</p>';
+    out.innerHTML='<section class="psv-device-report-head"><strong>'+esc(status)+'</strong><p>'+esc(summary)+'</p></section>'+
+      (data.comparison?'<h3>Profile comparison</h3><div class="psv-device-comparison">'+data.comparison.map(x=>'<div class="psv-device-diff"><b>'+esc(x.field)+'</b><span>'+esc(x.status)+'</span><small>Profile A: '+esc(JSON.stringify(x.profileA))+'<br>Profile B: '+esc(JSON.stringify(x.profileB))+'</small></div>').join("")+'</div>':'')+
+      '<details class="psv-device-raw"><summary>View complete JSON report</summary><pre>'+esc(json)+'</pre></details>'+
+      '<p class="psv-advanced-muted">This is an evidence-triage aid, not a device-authentication or clone-detection system. Confirm findings using trusted server, MDM, app-attestation and bank telemetry.</p>';
     window.__psvLastDeviceReport=data;
   }
   function psvDeviceAnalyze(raw) {
     const input=String(raw||"").trim();if(!input)throw new Error("Paste evidence or collect a browser profile first.");
-    let parsed;
-    try{parsed=JSON.parse(input);}catch(_){parsed=null;}
-    if(Array.isArray(parsed)&&parsed.length>=2){
-      const [a,b]=parsed;const keys=["userAgent","browser","hardware","display","regional","clientHints","deviceId","sessionId"];
-      const differences=keys.map(k=>({field:k,sessionA:a&&a[k]!==undefined?a[k]:null,sessionB:b&&b[k]!==undefined?b[k]:null,status:JSON.stringify(a&&a[k])===JSON.stringify(b&&b[k])?"match":a&&b&&a[k]!==undefined&&b[k]!==undefined?"different":"not supplied"}));
-      return {analysisType:"profile-comparison",profilesCompared:2,differences,important:"A difference is an investigation pivot, not proof of cloning. Compare timestamps, app version, IP/ASN, TLS and trusted device registration telemetry."};
+    let parsed;try{parsed=JSON.parse(input);}catch(_){parsed=null;}
+    if(Array.isArray(parsed)){
+      if(parsed.length<2)throw new Error("Provide at least two profile objects in a JSON array to compare.");
+      const [a,b]=parsed;
+      if(!a||typeof a!=="object"||!b||typeof b!=="object")throw new Error("Each comparison entry must be a JSON object.");
+      const fa=psvDeviceFlatten(a),fb=psvDeviceFlatten(b);
+      const fields=Array.from(new Set(Object.keys(fa).concat(Object.keys(fb)))).sort();
+      const comparison=fields.map(field=>{
+        const hasA=Object.prototype.hasOwnProperty.call(fa,field),hasB=Object.prototype.hasOwnProperty.call(fb,field);
+        const status=!hasA||!hasB?"not comparable":psvDeviceStable(fa[field])===psvDeviceStable(fb[field])?"match":"different";
+        return {field,profileA:hasA?fa[field]:null,profileB:hasB?fb[field]:null,status};
+      });
+      const compared=comparison.filter(x=>x.status!=="not comparable"),different=compared.filter(x=>x.status==="different").length;
+      const verdict=compared.length===0?"INSUFFICIENT EVIDENCE":different?"INCONSISTENT PROFILES":"CONSISTENT ON SUPPLIED FIELDS";
+      return {reportType:"device-evidence-comparison",generatedAt:new Date().toISOString(),verdict,
+        summary:different?different+" comparable field(s) differ. These differences require contextual review; they do not establish cloning.":compared.length?"No differences were found among the comparable supplied fields. This does not authenticate the device.":"The profiles have no overlapping populated fields to compare.",
+        profilesCompared:2,comparison,limitations:["Only the first two array entries are compared; submit pairs separately for larger sets.","Missing fields are not treated as matches.","Object key order is normalised before comparing values.","Browser/app supplied values can be spoofed or legitimately change after OS, app, browser, display or network updates.","A shared device identifier is not proof that the same physical device generated both sessions."],
+        requiredCorroboration:["Server-side device registration and binding history","Native-app attestation verdict and integrity signals (where supported)","App installation identifier lifecycle and reset/reinstall history","Trusted edge IP, ASN, TLS/client fingerprint and session telemetry","Authentication, MFA, account recovery and transaction timeline","Device-management/MDM inventory where available"]};
     }
     if(parsed&&typeof parsed==="object"){
-      const ua=parsed.userAgent||parsed.headers&&parsed.headers["user-agent"]||parsed.headers&&parsed.headers["User-Agent"]||"";
-      return {analysisType:"structured-profile",userAgent:ua?psvDeviceParseUA(ua):null,profile:parsed,limitations:["Client-controlled values can be spoofed.","Missing values do not imply malicious activity."]};
+      const ua=parsed.userAgent||parsed.headers&& (parsed.headers["user-agent"]||parsed.headers["User-Agent"])||"";
+      const flat=psvDeviceFlatten(parsed);
+      const nativeKeys=Object.keys(flat).filter(k=>/(attest|integrity|playintegrity|devicecheck|appattest|installation|appversion|sdkversion|jailbreak|root|emulator|signing|certificate|deviceid|sessionid)/i.test(k));
+      return {reportType:"structured-evidence-review",generatedAt:new Date().toISOString(),verdict:"INSUFFICIENT EVIDENCE",
+        summary:"Structured evidence parsed. Review provenance: imported app/device fields are claims unless their source and integrity are independently verified.",
+        parsedUserAgent:ua?psvDeviceParseUA(ua):null,profile:parsed,
+        nativeAppEvidenceFieldsDetected:nativeKeys,
+        evidenceTrustGuidance:{browserAndClientFields:"Client-reported; spoofable and not authoritative.",serverLogs:"Trusted only when collected from controlled systems with integrity and time synchronisation.",android:"Import backend-verified Play Integrity/API verdicts and app/device binding events; do not treat a client-posted JSON claim as a verified verdict.",ios:"Import backend-verified App Attest/DeviceCheck validation results and key lifecycle records; a client-posted assertion alone is not verified."},
+        limitations:["JSON structure does not prove provenance or authenticity.","Do not paste secrets, access tokens, private keys, full payment-card data or unnecessary personal data."]};
     }
     if(/^Mozilla\//i.test(input)||/Android|Windows NT|iPhone|Macintosh|Linux/i.test(input)){
-      return {analysisType:"user-agent",parsed:psvDeviceParseUA(input),limitations:["User-Agent is client-controlled and can be spoofed.","Windows NT 10.0 does not distinguish Windows 10 from Windows 11.","Device model may be absent or generic."]};
+      return {reportType:"user-agent-review",generatedAt:new Date().toISOString(),verdict:"INSUFFICIENT EVIDENCE",summary:"A User-Agent string provides compatibility hints only; it cannot identify or authenticate a physical device.",parsedUserAgent:psvDeviceParseUA(input),
+        limitations:["User-Agent is client-controlled and may be spoofed, overridden, reduced or generic.","Android model tokens are inconsistent and may be omitted.","iPhone/iPad UA strings generally do not disclose a precise hardware model.","Windows NT 10.0 does not distinguish Windows 10 from Windows 11.","An AppleWebKit token does not by itself establish whether the browser engine is WebKit or Blink."]};
     }
     const headers={};input.split(/\r?\n/).forEach(line=>{const i=line.indexOf(":");if(i>0)headers[line.slice(0,i).trim().toLowerCase()]=line.slice(i+1).trim();});
     const ua=headers["user-agent"]||"";
-    return {analysisType:"http-headers",parsedUserAgent:ua?psvDeviceParseUA(ua):null,selectedHeaders:Object.fromEntries(["accept-language","accept","accept-encoding","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","sec-ch-ua-model","sec-ch-ua-platform-version","sec-ch-ua-full-version-list"].filter(k=>headers[k]).map(k=>[k,headers[k]])),limitations:["Headers pasted by an analyst are not independently authenticated.","IP and TLS metadata should come from trusted edge/server logs."]};
+    return {reportType:"http-header-review",generatedAt:new Date().toISOString(),verdict:"INSUFFICIENT EVIDENCE",summary:"Parsed supplied request headers. Pasted headers are not independently authenticated.",
+      parsedUserAgent:ua?psvDeviceParseUA(ua):null,
+      selectedHeaders:Object.fromEntries(["accept-language","accept","accept-encoding","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","sec-ch-ua-model","sec-ch-ua-platform-version","sec-ch-ua-full-version-list"].filter(k=>headers[k]).map(k=>[k,headers[k]])),
+      limitations:["Header values may be modified by clients, proxies or intermediaries.","IP/ASN, TLS fingerprints and authoritative session metadata should be taken from trusted edge/server logs."]};
   }
 
   async function runShare() {
