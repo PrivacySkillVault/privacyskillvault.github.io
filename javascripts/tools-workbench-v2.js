@@ -1511,6 +1511,30 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-ha-report details{margin:.7rem 0}
       #psv-app .psv-ha-technical pre{max-height:28rem;overflow:auto}
       @media(max-width:620px){#psv-app .psv-ha-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#psv-app .psv-ha-file,#psv-app .psv-ha-fields{grid-template-columns:1fr}}
+      /* Threat-intelligence report readability and progressive disclosure. */
+      #psv-app .psv-ti-provider-card{min-width:0;width:100%;box-sizing:border-box;margin:1rem 0;padding:1rem!important}
+      #psv-app .psv-ti-provider-card__findings{font-size:.94rem!important;line-height:1.7!important;overflow-wrap:anywhere}
+      #psv-app .psv-ti-provider-card__findings details{margin:.8rem 0;padding:.55rem .7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;background:var(--md-default-bg-color)}
+      #psv-app .psv-ti-provider-card__findings details>summary{cursor:pointer;font-weight:650;line-height:1.5}
+      #psv-app .psv-ti-provider-card__findings details[open]>summary{margin-bottom:.65rem}
+      #psv-app .psv-ti-provider-card__findings li{margin:.35rem 0;line-height:1.6;overflow-wrap:anywhere}
+      #psv-app .psv-ha-report{font-size:.94rem;line-height:1.65}
+      #psv-app .psv-ha-report__top{flex-wrap:wrap}
+      #psv-app .psv-ha-report__top>strong{font-size:1.05rem}
+      #psv-app .psv-ha-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+      #psv-app .psv-ha-metrics>div{min-width:0;background:var(--md-default-bg-color)}
+      #psv-app .psv-ha-metrics small{font-size:.78rem;line-height:1.35}
+      #psv-app .psv-ha-metrics strong{font-size:1.15rem;line-height:1.3}
+      #psv-app .psv-ha-file{grid-template-columns:repeat(2,minmax(0,1fr))}
+      #psv-app .psv-ha-file>div{min-width:0}
+      #psv-app .psv-ha-file strong,#psv-app .psv-ha-file code{font-size:.88rem;line-height:1.5}
+      #psv-app .psv-ha-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+      #psv-app .psv-ha-field{min-width:0}
+      #psv-app .psv-ha-technical pre{font-size:.78rem;line-height:1.5;white-space:pre;overflow:auto}
+      @media(max-width:800px){
+        #psv-app .psv-ti-provider-card{padding:.8rem!important}
+        #psv-app .psv-ha-file,#psv-app .psv-ha-fields{grid-template-columns:1fr}
+      }
       /* Threat-intel results: readable wrapping and responsive provider cards. */
       #psv-app .psv-ti-results-table{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
       #psv-app .psv-ti-results-table .psv-out-table{width:100%!important;min-width:900px!important;table-layout:fixed!important}
