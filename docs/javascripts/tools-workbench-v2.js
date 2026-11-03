@@ -1662,8 +1662,28 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           return d.vulnerabilities.map(v => "<strong>" + escValue(v.id) + "</strong> — " + escValue(v.baseSeverity) + " / " + escValue(v.baseScore) + "<br>" + escValue(v.description) + "<br><small>Status: " + escValue(v.vulnStatus) + " · Published: " + escValue(v.published) + "</small>").join("<hr>");
         }
         if (key === "virustotal") {
-          const s = d.lastAnalysisStats || {};
-          return "Reputation: " + escValue(d.reputation) + "<br>Detections — malicious: " + escValue(s.malicious) + ", suspicious: " + escValue(s.suspicious) + ", harmless: " + escValue(s.harmless) + ", undetected: " + escValue(s.undetected) + "<br>Last analysis: " + escValue(formatLocalDateTime(d.lastAnalysisDate)) + (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "");
+          const stats = d.lastAnalysisStats || {};
+          const statOrder = ["malicious", "suspicious", "harmless", "undetected", "timeout", "confirmed-timeout", "failure", "type-unsupported"];
+          const total = statOrder.reduce((sum, name) => sum + (Number.isFinite(stats[name]) ? stats[name] : 0), 0);
+          const flagged = Number(stats.malicious || 0) + Number(stats.suspicious || 0);
+          const statLabels = { malicious: "Malicious", suspicious: "Suspicious", harmless: "Harmless", undetected: "Undetected", timeout: "Timeout", "confirmed-timeout": "Confirmed timeout", failure: "Failure", "type-unsupported": "Type unsupported" };
+          const statHtml = statOrder.filter(name => stats[name] !== undefined).map(name => "<li>" + escValue(statLabels[name]) + ": <strong>" + escValue(stats[name]) + "</strong></li>").join("");
+          const file = d.file || {};
+          const hashes = [["SHA-256", file.sha256], ["SHA-1", file.sha1], ["MD5", file.md5]].filter(pair => pair[1]);
+          const fileHtml = hashes.length || file.meaningfulName || file.size !== undefined
+            ? "<hr><strong>File details</strong><br>" + (file.meaningfulName ? "Name: " + escValue(file.meaningfulName) + "<br>" : "") +
+              (file.size !== undefined ? "Size: " + escValue(Number(file.size).toLocaleString()) + " bytes<br>" : "") +
+              hashes.map(pair => "<div class='psv-ti-hash'><span>" + pair[0] + "</span><code>" + escValue(pair[1]) + "</code></div>").join("") : "";
+          const engines = (d.engineResults || []).slice(0, 15).map(engine => "<li><strong>" + escValue(engine.engine) + "</strong>: " + escValue(engine.category) + (engine.result ? " — " + escValue(engine.result) : "") + "</li>").join("");
+          const sandboxes = (d.sandboxVerdicts || []).map(v => "<li><strong>" + escValue(v.sandbox) + "</strong>: " + escValue(v.category) + (v.malwareClassification ? " — " + escValue(v.malwareClassification) : "") + "</li>").join("");
+          const link = d.id ? "<a href='https://www.virustotal.com/gui/file/" + encodeURIComponent(d.id) + "' target='_blank' rel='noopener noreferrer'>Open VirusTotal report</a>" : "";
+          return "<strong>" + (total ? flagged + " / " + total + " engines flagged" : "No engine statistics returned") + "</strong><br>Reputation score: " + escValue(d.reputation) +
+            (statHtml ? "<ul class='psv-ti-stats'>" + statHtml + "</ul>" : "") +
+            "<br>Last analysis: " + escValue(formatLocalDateTime(d.lastAnalysisDate)) +
+            (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "") +
+            fileHtml + (engines ? "<details><summary>Engine-level detections (up to 15)</summary><ul>" + engines + "</ul></details>" : "") +
+            (sandboxes ? "<details><summary>Sandbox verdicts</summary><ul>" + sandboxes + "</ul></details>" : "") +
+            (link ? "<br>" + link : "");
         }
         if (key === "hybridAnalysis") {
           const reports = d.reports || [];
@@ -1683,15 +1703,25 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         key,
         findings: renderProvider(key)
       }));
-      const desktopTable = '<div class="psv-ti-results-table"><table class="psv-out-table"><thead><tr><th>Provider</th><th>Indicator</th><th>Findings</th></tr></thead><tbody>' +
-        providerRows.map(row => "<tr><td>" + row.name + "</td><td><code class=\"psv-ti-indicator\">" + esc(indicator) + "</code></td><td>" + row.findings + "</td></tr>").join("") +
-        '</tbody></table></div>';
-      const mobileCards = '<div class="psv-ti-provider-cards">' + providerRows.map(row =>
-        '<section class="psv-ti-provider-card"><div class="psv-ti-provider-card__head"><strong>' + row.name + '</strong><code class="psv-ti-indicator">' + esc(indicator) + '</code></div><div class="psv-ti-provider-card__findings">' + row.findings + '</div></section>'
+      const providerCards = '<div class="psv-ti-provider-cards">' + providerRows.map(row =>
+        '<section class="psv-ti-provider-card" aria-labelledby="psv-ti-' + row.key + '">' +
+          '<div class="psv-ti-provider-card__head"><strong id="psv-ti-' + row.key + '">' + row.name + '</strong><span class="psv-ti-provider-card__type">' + esc(payload.indicator && payload.indicator.type || "Indicator") + '</span></div>' +
+          '<div class="psv-ti-provider-card__indicator"><code class="psv-ti-indicator">' + esc(indicator) + '</code><button type="button" class="psv-ti-copy" data-copy-indicator="' + esc(indicator) + '">Copy</button></div>' +
+          '<div class="psv-ti-provider-card__findings">' + row.findings + '</div></section>'
       ).join("") + '</div>';
-      outputElement.innerHTML = '<div role="status"><strong>Lookup completed.</strong> These results are supporting intelligence, not a definitive malicious/benign verdict. Provider failures and quota limits are shown separately.</div>' +
-        desktopTable + mobileCards +
+      outputElement.innerHTML = '<div role="status"><strong>Lookup completed.</strong> Each provider is independent. Detection totals and timestamps are provider-specific; a missing report is not a clean verdict. Results are supporting intelligence, not proof of compromise.</div>' +
+        providerCards +
         '<p class="psv-ti-data-note">Only the indicator entered above is sent to the configured providers. Do not submit employer-confidential indicators unless your organisation permits external sharing.</p>';
+      outputElement.querySelectorAll("[data-copy-indicator]").forEach(button => {
+        button.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(button.getAttribute("data-copy-indicator") || "");
+            button.textContent = "Copied";
+          } catch (_) {
+            button.textContent = "Copy unavailable";
+          }
+        });
+      });
     } catch (error) {
       if (requestId !== tiLookupSequence) return;
       outputElement.innerHTML = '<div role="alert" class="psv-ti-error">Threat-intelligence lookup failed: ' + esc(error && error.message ? error.message : "Network error") + '</div>';
