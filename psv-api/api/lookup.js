@@ -165,18 +165,30 @@ async function otx(indicator, env) {
   const pathType = indicator.type === "IPv4" || indicator.type === "IPv6" ? indicator.type : indicator.type === "file" ? "file" : "domain";
   const url = "https://otx.alienvault.com/api/v1/indicators/" + pathType + "/" + encodeURIComponent(indicator.value) + "/general";
   const body = await fetchJson(url, { headers: { "X-OTX-API-KEY": env.OTX_API_KEY } });
-  const pulses = body.pulse_info || {};
+  const returnedIndicator = String(body.indicator || "");
+  if (returnedIndicator && returnedIndicator.toLowerCase() !== indicator.value.toLowerCase()) {
+    throw new Error("OTX response indicator did not match the requested indicator");
+  }
+  const pulseInfo = body.pulse_info || {};
+  const pulseCount = Number(pulseInfo.count);
+  if (!Number.isInteger(pulseCount) || pulseCount < 0) {
+    throw new Error("OTX returned an invalid pulse count");
+  }
+  const pulseRows = Array.isArray(pulseInfo.pulses) ? pulseInfo.pulses : [];
   return {
-    indicator: body.indicator || indicator.value,
+    indicator: returnedIndicator || indicator.value,
     type: body.type || pathType,
-    reputation: body.reputation,
-    pulseCount: pulses.count || 0,
-    pulses: (pulses.pulses || []).slice(0, 10).map(p => ({
+    reputation: Number.isFinite(body.reputation) ? body.reputation : undefined,
+    pulseCount,
+    pulseSummariesReturned: pulseRows.length,
+    pulses: pulseRows.slice(0, 10).map(p => ({
+      id: p.id,
       name: p.name,
-      description: p.description,
+      description: typeof p.description === "string" ? p.description.slice(0, 500) : "",
       created: p.created,
       modified: p.modified,
-      tags: Array.isArray(p.tags) ? p.tags.slice(0, 20) : []
+      tags: Array.isArray(p.tags) ? p.tags.slice(0, 10) : [],
+      adversary: p.adversary || ""
     }))
   };
 }
@@ -247,7 +259,31 @@ async function virusTotal(indicator, env) {
   const resource = indicator.isIp ? "ip_addresses" : indicator.isHash ? "files" : "domains";
   const url = "https://www.virustotal.com/api/v3/" + resource + "/" + encodeURIComponent(indicator.value);
   const body = await fetchJson(url, { headers: { "x-apikey": env.VIRUSTOTAL_API_KEY } });
-  const d = body.data && body.data.attributes ? body.data.attributes : {};
+  if (!body.data || body.data.type !== (indicator.isHash ? "file" : indicator.isIp ? "ip_address" : "domain")) {
+    throw new Error("VirusTotal returned an unexpected object type");
+  }
+  const d = body.data.attributes || {};
+  if (indicator.isHash) {
+    const candidateHashes = [body.data.id, d.sha256, d.sha1, d.md5].filter(value => typeof value === "string");
+    if (!candidateHashes.some(value => value.toLowerCase() === indicator.value.toLowerCase())) {
+      throw new Error("VirusTotal report hash did not match the requested indicator");
+    }
+    const categoryNames = ["malicious", "suspicious", "harmless", "undetected", "timeout", "confirmed-timeout", "failure", "type-unsupported"];
+    const stats = d.last_analysis_stats || {};
+    const engineResults = d.last_analysis_results || {};
+    const derivedStats = Object.fromEntries(categoryNames.map(category => [category, 0]));
+    for (const result of Object.values(engineResults)) {
+      if (result && Object.prototype.hasOwnProperty.call(derivedStats, result.category)) derivedStats[result.category] += 1;
+    }
+    const statsPresent = categoryNames.some(category => Number.isInteger(stats[category]));
+    if (statsPresent && Object.keys(engineResults).length) {
+      const statsTotal = categoryNames.reduce((sum, category) => sum + (Number.isInteger(stats[category]) ? stats[category] : 0), 0);
+      const resultsTotal = Object.values(derivedStats).reduce((sum, count) => sum + count, 0);
+      if (statsTotal !== resultsTotal || categoryNames.some(category => (stats[category] || 0) !== derivedStats[category])) {
+        throw new Error("VirusTotal analysis statistics do not match its engine-level results");
+      }
+    }
+  }
   const stats = d.last_analysis_stats || {};
   return {
     id: body.data && body.data.id,
@@ -371,4 +407,5 @@ module.exports.publicError = publicError;
 module.exports.providerResult = providerResult;
 module.exports.isRateLimited = isRateLimited;
 module.exports.virusTotal = virusTotal;
+module.exports.otx = otx;
 module.exports.hybridAnalysis = hybridAnalysis;
