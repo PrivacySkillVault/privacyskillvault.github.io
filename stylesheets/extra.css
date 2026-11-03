@@ -959,3 +959,25 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
   #psv-app .psv-ti-results-table{display:none}
   #psv-app .psv-ti-provider-cards{display:block}
 }
+
+
+/* Threat Intelligence Hub — provider-first responsive report cards. */
+#psv-app .psv-ti-results-table{display:none!important}
+#psv-app .psv-ti-provider-cards{display:grid!important;grid-template-columns:minmax(0,1fr);gap:.9rem;width:100%;min-width:0;margin:1rem 0}
+#psv-app .psv-ti-provider-card{box-sizing:border-box;min-width:0;padding:1rem 1.1rem;border:1px solid var(--psv-tool-border,var(--md-default-fg-color--lightest));border-radius:10px;background:var(--md-code-bg-color);overflow:hidden}
+#psv-app .psv-ti-provider-card__head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;margin-bottom:.65rem}
+#psv-app .psv-ti-provider-card__head strong{font-size:.96rem;font-weight:700}
+#psv-app .psv-ti-provider-card__type{font:600 .68rem/1.4 "Roboto Mono",monospace;color:var(--md-default-fg-color--light);padding:.18rem .45rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:5px}
+#psv-app .psv-ti-provider-card__indicator{display:flex;align-items:flex-start;gap:.6rem;min-width:0;margin:0 0 .8rem;padding:.55rem .65rem;background:var(--md-default-bg-color);border-radius:6px}
+#psv-app .psv-ti-provider-card__indicator .psv-ti-indicator{display:block;flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;word-break:break-word;font:.76rem/1.6 "Roboto Mono",SFMono-Regular,Consolas,monospace}
+#psv-app .psv-ti-copy{flex:0 0 auto;padding:.22rem .5rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:5px;background:transparent;color:var(--md-default-fg-color);font-size:.68rem;cursor:pointer}
+#psv-app .psv-ti-provider-card__findings{min-width:0;font-size:.86rem;line-height:1.7;overflow-wrap:anywhere;word-break:break-word}
+#psv-app .psv-ti-provider-card__findings ul{margin:.35rem 0;padding-left:1.25rem}
+#psv-app .psv-ti-provider-card__findings details{margin:.65rem 0;padding:.55rem .65rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:6px}
+#psv-app .psv-ti-provider-card__findings summary{cursor:pointer;font-weight:650}
+#psv-app .psv-ti-hash{display:grid;grid-template-columns:4.8rem minmax(0,1fr);gap:.5rem;align-items:start;margin:.35rem 0}
+#psv-app .psv-ti-hash span{font-size:.72rem;color:var(--md-default-fg-color--light)}
+#psv-app .psv-ti-hash code{min-width:0;white-space:normal;overflow-wrap:anywhere;word-break:break-all;font-size:.72rem}
+#psv-app .psv-ti-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.15rem .9rem}
+#psv-app .psv-ti-data-note{margin-top:1rem;font-size:.76rem;line-height:1.6;color:var(--md-default-fg-color--light)}
+@media(max-width:520px){#psv-app .psv-ti-provider-card{padding:.85rem}#psv-app .psv-ti-stats{grid-template-columns:minmax(0,1fr)}}
