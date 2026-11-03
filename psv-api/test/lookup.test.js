@@ -27,3 +27,18 @@ test("new integrations remain safely skipped when unsupported or not configured"
   assert.equal(await lookup.virusTotal({ value: "CVE-2024-21412", isCve: true }, {}), null);
   assert.equal(await lookup.hybridAnalysis({ value: "example.com", isDomain: true }, {}), null);
 });
+
+
+test("provider 404 responses are reported as no indexed record, not integration errors", () => {
+  assert.deepEqual(
+    lookup.providerResult({ status: "rejected", reason: Object.assign(new Error("Not found"), { status: 404 }) }, { applicable: true, configured: true }),
+    { status: "not_found", message: "No matching report is currently indexed for this indicator." }
+  );
+});
+
+test("provider failures other than 404 remain visible as errors", () => {
+  assert.deepEqual(
+    lookup.providerResult({ status: "rejected", reason: Object.assign(new Error("Unauthorized"), { status: 401 }) }, { applicable: true, configured: true }),
+    { status: "error", message: "Provider rejected the configured API key" }
+  );
+});
