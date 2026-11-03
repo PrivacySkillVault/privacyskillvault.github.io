@@ -1697,13 +1697,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         }
         if (key === "hybridAnalysis") {
           const reports = d.reports || [];
-          if (!reports.length) return "No exact-hash report was returned by the Hybrid Analysis search endpoint. This does not rule out a report being visible in another account view or requiring different API permissions."; 
+          if (!reports.length) return "Hybrid Analysis API did not return a report from its overview or hash-search endpoints." + (d.searchError ? "<br>Hash search: " + escValue(d.searchError) : "") + (d.overviewError ? "<br>Overview lookup: " + escValue(d.overviewError) : "") + (d.lookupStatus === "lookup_incomplete" ? "<br><strong>Lookup incomplete:</strong> this is not evidence that the report does not exist." : ""); 
           return reports.map(r => {
             const raw = r.searchResult || {}, detail = r.detail || {};
             const jsonBlock = value => value === undefined ? "" : "<details><summary>View complete returned JSON</summary><pre class=psv-ti-raw-json>" + escValue(JSON.stringify(value, null, 2)) + "</pre></details>";
             const errors = Object.entries(r.detailErrors || {}).map(([name,message]) => "<li>" + escValue(name) + ": " + escValue(message) + "</li>").join("");
             const link = r.reportUrl ? "<a href=" + escValue(r.reportUrl) + " target=_blank rel=noopener noreferrer>Open official Hybrid Analysis sample report</a>" : "";
-            return "<strong>Verdict: " + escValue(raw.verdict) + "</strong><br>Threat score: " + escValue(raw.threat_score) + " · AV detections: " + escValue(raw.av_detect) +
+            return (r.source === "overview_fallback" ? "<strong>Report found through Hybrid Analysis overview API</strong><br>" : "") + "<strong>Verdict: " + escValue(raw.verdict) + "</strong><br>Threat score: " + escValue(raw.threat_score) + " · AV detections: " + escValue(raw.av_detect) +
               "<br>Environment: " + escValue(raw.environment_description) + "<br>Analysis started: " + escValue(formatLocalDateTime(raw.analysis_start_time)) +
               "<br>Report ID: " + escValue(r.reportId) + (link ? "<br>" + link : "") +
               jsonBlock(detail.summary) + jsonBlock(detail.overview) + jsonBlock(detail.overviewSummary) + jsonBlock(detail.fullReport) +
