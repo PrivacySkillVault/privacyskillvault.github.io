@@ -42,3 +42,39 @@ test("provider failures other than 404 remain visible as errors", () => {
     { status: "error", message: "Provider rejected the configured API key" }
   );
 });
+
+
+test("VirusTotal file lookup preserves full engine statistics and bounded file evidence", async () => {
+  const originalFetch = global.fetch;
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    text: async () => JSON.stringify({ data: { id: "a".repeat(64), type: "file", attributes: {
+      reputation: 3800,
+      last_analysis_date: 1793711042,
+      last_analysis_stats: { malicious: 65, suspicious: 1, harmless: 0, undetected: 2, timeout: 1, failure: 3, "type-unsupported": 4 },
+      meaningful_name: "notavirus.bat",
+      names: ["notavirus.bat"],
+      size: 68,
+      sha256: "a".repeat(64),
+      sha1: "b".repeat(40),
+      md5: "c".repeat(32),
+      last_analysis_results: { EngineA: { category: "malicious", result: "EICAR-Test-File" } },
+      sandbox_verdicts: { SandboxA: { category: "malicious", confidence: 95, malware_classification: ["eicar"] } },
+      popular_threat_classification: { suggested_threat_label: "virus.eicar/test" }
+    } } })
+  });
+  try {
+    const result = await lookup.virusTotal({ value: "a".repeat(64), isHash: true }, { VIRUSTOTAL_API_KEY: "test-key" });
+    assert.equal(result.file.meaningfulName, "notavirus.bat");
+    assert.equal(result.file.size, 68);
+    assert.equal(result.file.sha1, "b".repeat(40));
+    assert.equal(result.lastAnalysisStats.malicious, 65);
+    assert.equal(result.lastAnalysisStats.failure, 3);
+    assert.equal(result.lastAnalysisStats["type-unsupported"], 4);
+    assert.equal(result.engineResults[0].result, "EICAR-Test-File");
+    assert.equal(result.sandboxVerdicts[0].malwareClassification[0], "eicar");
+  } finally {
+    global.fetch = originalFetch;
+  }
+});
