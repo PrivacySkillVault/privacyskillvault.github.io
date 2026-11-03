@@ -373,7 +373,7 @@ async function hybridAnalysis(indicator, env) {
   const validReports = reports.filter(Boolean);
 
   // Keep a useful overview-only result when the API exposes no report IDs.
-  if (!validReports.length && overview && String(overview.sha256 || "").toLowerCase() === requestedHash) {
+  if (!validReports.length && (exactHashOverview || exactHashSummary)) {
     validReports.push({
       searchResult:overviewSummary || overview,reportId:null,sha256,
       detail:{overview,overviewSummary},
