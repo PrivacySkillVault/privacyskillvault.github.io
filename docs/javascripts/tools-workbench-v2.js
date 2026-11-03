@@ -2280,7 +2280,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     return {raw:value,browser,browserVersion,os,osVersion,deviceModel,deviceType,engineToken,
       webViewLikely:webviewTokens.some(t=>value.toLowerCase().includes(t.toLowerCase())),
       embeddedAppTokens:embeddedAppTokens.filter(t=>value.toLowerCase().includes(t.toLowerCase())),
-      architectureHint:/Win64|x86_64|amd64/i.test(value)?"64-bit hint":/i[ союз]86/i.test(value)?"32-bit hint":null,
+      architectureHint:/Win64|x86_64|amd64/i.test(value)?"64-bit hint":/i[3-6]86/i.test(value)?"32-bit hint":null,
       userAgentReductionCaveat:"UA strings may be reduced, generic, overridden or spoofed; model and OS-version inference is not authoritative."};
   }
 
@@ -2644,7 +2644,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if(field&&out){out.textContent="Collecting browser-exposed characteristics…";try{const profile=await psvDeviceAddHints(psvDeviceCollect());field.value=JSON.stringify(profile,null,2);psvDeviceRender({analysisType:"live-browser-collection",profile,parsedUserAgent:psvDeviceParseUA(profile.userAgent),notice:"Collected locally. Review consent and data minimisation before using in an investigation."});}catch(err){out.textContent="Collection failed: "+err.message;}}
       } else if (action === "device-sample") {
         window.__psvLastDeviceReport=null;
-        const field=document.getElementById("device-evidence");if(field)field.value=JSON.stringify([{sessionId:"SESSION-A",deviceId:"DEVICE-EXAMPLE-01",userAgent:"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/131.0.0.0 Mobile Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:8},display:{width:412,height:915}},{sessionId:"SESSION-B",deviceId:"DEVICE-EXAMPLE-01",userAgent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:12},display:{width:1920,height:1080}}],null,2);
+        const field=document.getElementById("device-evidence");if(field)field.value=JSON.stringify([{evidenceOrigin:"synthetic-demo-only",sessionId:"DEMO-SESSION-A",deviceId:"DEMO-DEVICE-ID",userAgent:"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/131.0.0.0 Mobile Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:8},display:{width:412,height:915}},{evidenceOrigin:"synthetic-demo-only",sessionId:"DEMO-SESSION-B",deviceId:"DEMO-DEVICE-ID",userAgent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:12},display:{width:1920,height:1080}}],null,2);
       } else if (action === "device-analyze") {
         try{const field=document.getElementById("device-evidence");psvDeviceRender(psvDeviceAnalyze(field&&field.value));}catch(err){const out=document.getElementById("device-output");if(out)out.textContent=err.message;}
       } else if (action === "device-clear") {
