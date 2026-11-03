@@ -1493,6 +1493,25 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         #psv-app .psv-btn-group{display:flex;flex-wrap:wrap;gap:.4rem}
       }
 
+      /* Threat-intel results: readable wrapping and responsive provider cards. */
+      #psv-app .psv-ti-results-table{width:100%;max-width:100%;overflow-x:hidden}
+      #psv-app .psv-ti-results-table .psv-out-table{width:100%!important;min-width:0!important;table-layout:fixed!important}
+      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(1),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(1){width:18%!important}
+      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(2),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(2){width:20%!important}
+      #psv-app .psv-ti-results-table .psv-out-table th:nth-child(3),#psv-app .psv-ti-results-table .psv-out-table td:nth-child(3){width:62%!important}
+      #psv-app .psv-ti-results-table .psv-out-table th,#psv-app .psv-ti-results-table .psv-out-table td{white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important;vertical-align:top!important}
+      #psv-app .psv-ti-provider-cards{display:none}
+      #psv-app .psv-ti-error{color:#b91c1c;font-weight:600}
+      #psv-app .psv-ti-data-note{margin-top:1rem;font-size:.78rem;line-height:1.6;color:var(--md-default-fg-color--light)}
+      @media(max-width:800px){
+        #psv-app .psv-ti-results-table{display:none!important}
+        #psv-app .psv-ti-provider-cards{display:grid!important;grid-template-columns:minmax(0,1fr);gap:.75rem}
+        #psv-app .psv-ti-provider-card{min-width:0;padding:1rem;border:1px solid var(--psv-tool-border);border-radius:9px;background:var(--md-code-bg-color);overflow-wrap:anywhere}
+        #psv-app .psv-ti-provider-card__head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap;margin-bottom:.65rem}
+        #psv-app .psv-ti-provider-card__head span{max-width:100%!important;overflow-wrap:anywhere}
+        #psv-app .psv-ti-provider-card__findings{min-width:0;overflow-wrap:anywhere;word-break:break-word}
+      }
+
     `;
     document.head.appendChild(style);
   }
@@ -1602,10 +1621,24 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         ["Hybrid Analysis", "hybridAnalysis"]
       ];
       const escValue = value => esc(value === undefined || value === null || value === "" ? "Not supplied" : String(value));
+      const formatLocalDateTime = value => {
+        if (value === undefined || value === null || value === "") return "Not supplied";
+        const numeric = Number(value);
+        const isNumeric = typeof value === "number" || /^\\d{9,13}$/.test(String(value));
+        const date = isNumeric ? new Date(numeric < 100000000000 ? numeric * 1000 : numeric) : new Date(value);
+        if (Number.isNaN(date.getTime())) return String(value);
+        try {
+          const zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Riyadh";
+          return new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "medium", timeZone: zone, timeZoneName: "short" }).format(date);
+        } catch (_) {
+          return new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "medium", timeZone: "Asia/Riyadh" }).format(date) + " (Saudi Arabia time)";
+        }
+      };
       const renderProvider = key => {
         const item = payload.results && payload.results[key];
-        if (!item) return "No response";
-        if (item.status === "not_applicable_or_not_configured") return "Not applicable for this indicator or provider not configured.";
+        if (!item) return "No response returned by provider.";
+        if (item.status === "not_applicable") return "Not supported for this indicator type.";
+        if (item.status === "not_configured" || item.status === "not_applicable_or_not_configured") return "Provider API is not configured on the server.";
         if (item.status === "not_found") return "No existing report found for this indicator.";
         if (item.status === "error") return '<span class="psv-ti-error">' + escValue(item.message) + '</span>';
         const d = item.data || {};
@@ -1616,7 +1649,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           "ISP: " + escValue(d.isp),
           "Usage: " + escValue(d.usageType),
           "Tor: " + escValue(d.isTor),
-          "Last reported: " + escValue(d.lastReportedAt)
+          "Last reported: " + escValue(formatLocalDateTime(d.lastReportedAt))
         ].join("<br>");
         if (key === "otx") {
           const pulses = (d.pulses || []).map(p => "<li><strong>" + escValue(p.name) + "</strong> — " + escValue(p.description) + "</li>").join("");
@@ -1628,19 +1661,19 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         }
         if (key === "virustotal") {
           const s = d.lastAnalysisStats || {};
-          return "Reputation: " + escValue(d.reputation) + "<br>Detections — malicious: " + escValue(s.malicious) + ", suspicious: " + escValue(s.suspicious) + ", harmless: " + escValue(s.harmless) + ", undetected: " + escValue(s.undetected) + "<br>Last analysis: " + escValue(d.lastAnalysisDate) + (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "");
+          return "Reputation: " + escValue(d.reputation) + "<br>Detections — malicious: " + escValue(s.malicious) + ", suspicious: " + escValue(s.suspicious) + ", harmless: " + escValue(s.harmless) + ", undetected: " + escValue(s.undetected) + "<br>Last analysis: " + escValue(formatLocalDateTime(d.lastAnalysisDate)) + (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "");
         }
         if (key === "hybridAnalysis") {
           const reports = d.reports || [];
           if (!reports.length) return "No existing sandbox report found for this hash.";
-          return reports.map(r => "<strong>Verdict: " + escValue(r.verdict) + "</strong><br>Threat score: " + escValue(r.threatScore) + " · AV detections: " + escValue(r.avDetect) + "<br>Environment: " + escValue(r.environmentDescription) + "<br>Analysis started: " + escValue(r.analysisStartTime)).join("<hr>");
+          return reports.map(r => "<strong>Verdict: " + escValue(r.verdict) + "</strong><br>Threat score: " + escValue(r.threatScore) + " · AV detections: " + escValue(r.avDetect) + "<br>Environment: " + escValue(r.environmentDescription) + "<br>Analysis started: " + escValue(formatLocalDateTime(r.analysisStartTime))).join("<hr>");
         }
         const rows = d.results || [];
         if (!rows.length) return "No matching scan results returned.";
         return rows.map(r => {
           const task = r.task || {}, page = r.page || {};
           const link = task.uuid ? '<a href="https://urlscan.io/result/' + encodeURIComponent(task.uuid) + '/" target="_blank" rel="noopener noreferrer">Open scan result</a>' : "";
-          return "<strong>" + escValue(page.domain || task.url) + "</strong> · " + escValue(task.time) + "<br>IP: " + escValue(page.ip) + " · Country: " + escValue(page.country) + "<br>" + link;
+          return "<strong>" + escValue(page.domain || task.url) + "</strong> · " + escValue(formatLocalDateTime(task.time)) + "<br>IP: " + escValue(page.ip) + " · Country: " + escValue(page.country) + "<br>" + link;
         }).join("<hr>");
       };
       const providerRows = providers.map(([name,key]) => ({
