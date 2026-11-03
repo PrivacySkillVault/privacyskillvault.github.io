@@ -181,3 +181,30 @@ test("Hybrid Analysis finds a report through overview when legacy hash search is
     assert.ok(calls.every(url=>!url.includes("/submit")));
   } finally { global.fetch = originalFetch; }
 });
+
+
+test("Hybrid Analysis discovers report IDs from the exact-hash overview summary", async () => {
+  const originalFetch = global.fetch;
+  const hash = "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f";
+  const calls = [];
+  const reportIds = ["ha-report-1", "ha-report-2"];
+  global.fetch = async url => {
+    const value = String(url); calls.push(value);
+    if (value.includes("/search/hash")) return {ok:true,status:200,text:async()=>"[]"};
+    if (value.endsWith("/overview/"+hash)) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,verdict:"malicious",threat_score:100})};
+    if (value.endsWith("/overview/"+hash+"/summary")) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,reports:reportIds,verdict:"malicious",threat_score:100,indicators:35,threat_score:100})};
+    if (value.includes("/report/ha-report-1/summary")) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,job_id:"ha-report-1",environment_description:"Windows 10",verdict:"malicious"})};
+    if (value.includes("/report/ha-report-2/summary")) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,job_id:"ha-report-2",environment_description:"Windows 11",verdict:"malicious"})};
+    if (value.includes("/report/ha-report-1/report/json")) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,signatures:[{name:"EICAR"}]})};
+    if (value.includes("/report/ha-report-2/report/json")) return {ok:true,status:200,text:async()=>JSON.stringify({sha256:hash,signatures:[{name:"EICAR"}]})};
+    throw new Error("Unexpected URL "+value);
+  };
+  try {
+    const result = await lookup.hybridAnalysis({value:hash,isHash:true},{HYBRID_ANALYSIS_API_KEY:"test-key"});
+    assert.equal(result.reportIdsFound,2);
+    assert.equal(result.total,2);
+    assert.deepEqual(result.reports.map(r=>r.reportId),reportIds);
+    assert.equal(result.reports[0].searchResult.environment_description,"Windows 10");
+    assert.ok(calls.every(url=>!url.includes("/submit")));
+  } finally { global.fetch = originalFetch; }
+});
