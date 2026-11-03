@@ -174,7 +174,7 @@ test("Hybrid Analysis finds a report through overview when legacy hash search is
   try {
     const result = await lookup.hybridAnalysis({value:hash,isHash:true},{HYBRID_ANALYSIS_API_KEY:"test-key"});
     assert.equal(result.total,1);
-    assert.equal(result.reports[0].source,"overview_fallback");
+    assert.equal(result.reports[0].source,"overview_reports");
     assert.equal(result.reports[0].searchResult.verdict,"malicious");
     assert.equal(result.reports[0].detail.overviewSummary.indicators,35);
     assert.equal(result.reports[0].detail.fullReport.signatures[0],"EICAR");
