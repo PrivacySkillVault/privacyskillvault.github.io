@@ -473,6 +473,23 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       bestPractices: ["Preserve the original evidence and work on a copy.", "Check delimiters, quoted values, multiline fields and timezone assumptions.", "This is a convenience parser, not a replacement for production ingestion pipelines or schema validation."],
       faqs: [{q:"Does it support every vendor log format?",a:"No. It supports JSON, basic header-based CSV and simple key=value lines. Use a dedicated parser for CEF, LEEF, W3C, XML or vendor-specific formats."}],
       related: ["regex","json","timestamp","ioc"]
+    }
+    ,{
+      id: "device",
+      cat: "soc",
+      badge: "DEVICE",
+      shortTitle: "Device Intelligence",
+      title: "Device Intelligence & Fingerprinting Workbench",
+      desc: "Collect consent-based browser characteristics, parse User-Agent and Client Hints, inspect supplied session telemetry, and compare device profiles locally.",
+      options: ["Live browser collection", "User-Agent / JSON analysis", "Compare two profiles"],
+      actionLabel: "Analyze Device Evidence",
+      sample: "",
+      whatItDoes: "Collects browser-exposed characteristics and analyses analyst-supplied User-Agent, Client Hints and session records. Supports local profile comparison.",
+      whyItMatters: "Device-ID reuse, session takeover and inconsistent client telemetry can be important fraud-investigation pivots.",
+      howItWorks: "Uses browser APIs and local parsing only. It does not claim hardware identity or upload collected telemetry.",
+      bestPractices: ["Treat browser values as untrusted, client-reported evidence.", "Correlate with server-side device registration, authentication, IP, TLS and native-app attestation records.", "Do not treat a profile mismatch as proof of device cloning."],
+      faqs: [{q:"Can this read IMEI, MAC address or serial number?",a:"No. Ordinary web pages cannot reliably access those hardware identifiers."}],
+      related: ["parser","headers","case"]
     }  ];
 
   const EVENT_DB = [
@@ -2203,6 +2220,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         '<label class="psv-file-label" for="evidence-file">Evidence file</label><input id="evidence-file" type="file"><p id="evidence-file-meta" class="psv-advanced-muted">No file selected.</p>'+
         '<div class="psv-advanced-actions"><button type="button" data-psv-action="hash-file">Calculate SHA-256</button><button type="button" data-psv-action="export-hash">Export integrity record (JSON)</button></div>'+
         '<pre id="evidence-output" class="psv-advanced-output" aria-live="polite">Select a file to begin.</pre><p class="psv-advanced-muted">For large forensic images, use validated forensic tooling and documented acquisition procedures.</p></section>';
+    } else if (tool.id === "device") {
+      body = '<section class="psv-advanced-panel psv-device-panel"><h2>Device evidence collection</h2><p>Browser collection is consent-based and local to this page. No hardware serials, IMEI, MAC addresses or covert fingerprint hashes are collected.</p>'+
+        '<div class="psv-advanced-actions"><button type="button" data-psv-action="device-collect">Collect this browser profile</button><button type="button" data-psv-action="device-sample">Load sample profiles</button></div>'+
+        '<label for="device-evidence">User-Agent, HTTP headers, JSON profile, or JSON array of two profiles</label><textarea id="device-evidence" rows="10" spellcheck="false" placeholder="Paste User-Agent string, request headers, a JSON profile, or two profiles as a JSON array…"></textarea>'+
+        '<div class="psv-advanced-actions"><button type="button" data-psv-action="device-analyze">Analyze evidence</button><button type="button" data-psv-action="device-clear">Clear</button><button type="button" data-psv-action="device-export">Download JSON report</button></div>'+
+        '<div class="psv-device-disclosure"><strong>Evidence limitations:</strong> User-Agent and browser APIs are spoofable and may be reduced. Device model, CPU, memory and platform details may be unavailable. Network ASN, source IP, TLS fingerprints, registered device IDs and native-app attestation must be supplied by trusted server-side systems.</div>'+
+        '<div id="device-output" class="psv-advanced-output" aria-live="polite">Collect a profile or paste evidence, then select Analyze evidence.</div></section>';
     } else if (tool.id === "share") {
       body = '<section class="psv-advanced-panel"><h2>Encrypt or decrypt an evidence package</h2><p>Encryption and decryption run locally using Web Crypto (AES-256-GCM with PBKDF2-SHA-256). The encrypted package is downloaded; PSV does not receive the content.</p>'+
         '<div class="psv-advanced-actions psv-share-modes"><button type="button" class="active" data-psv-action="share-mode" data-mode="encrypt">Encrypt package</button><button type="button" data-psv-action="share-mode" data-mode="decrypt">Decrypt package</button></div>'+
@@ -2216,6 +2240,66 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
     root.innerHTML = '<div id="psv-app" class="psv-workbench-v2"><div class="psv-tool-page">'+back+header+body+'</div></div>';
     attachToolSidebar(root, tool);
+  }
+
+  function psvDeviceParseUA(ua) {
+    const value=String(ua||"");
+    const pick=(re)=>{const m=value.match(re);return m?m[1]:null;};
+    let os="Unknown",osVersion=null,device="Unknown";
+    if(/Android/i.test(value)){os="Android";osVersion=pick(/Android[\\s/]([0-9.]+)/i);device=pick(/Android[^;]*;\\s*([^;)]+?)(?:\\s+Build|\\)|;)/i)||"Android device";}
+    else if(/iPhone|iPad|iPod/i.test(value)){os="iOS/iPadOS";device=/iPad/i.test(value)?"iPad":/iPod/i.test(value)?"iPod":"iPhone";osVersion=pick(/OS ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");}
+    else if(/Windows NT/i.test(value)){os="Windows";const v=pick(/Windows NT ([0-9.]+)/i);osVersion=({"10.0":"10 / 11 (UA does not distinguish)","6.3":"8.1","6.2":"8","6.1":"7"}[v]||v);}
+    else if(/Mac OS X/i.test(value)){os="macOS";osVersion=pick(/Mac OS X ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");}
+    else if(/Linux/i.test(value)){os="Linux";}
+    let browser="Unknown",browserVersion=null;
+    const candidates=[["Edge",/EdgA?\\/([0-9.]+)/],["Opera",/OPR\\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\\/([0-9.]+)/],["Safari",/Version\\/([0-9.]+).*Safari/]];
+    for(const [name,re] of candidates){const m=value.match(re);if(m){browser=name;browserVersion=m[1];break;}}
+    const engine=/AppleWebKit\\//.test(value)?"WebKit/Blink (UA token; browser-dependent)":/Gecko\\//.test(value)?"Gecko":null;
+    return {raw:value,browser,browserVersion,os,osVersion,device,deviceType:/Mobile|iPhone|Android/i.test(value)?"Mobile":/iPad|Tablet/i.test(value)?"Tablet":/Windows|Macintosh|X11|Linux/i.test(value)?"Desktop":"Unknown",engine};
+  }
+  function psvDeviceCollect() {
+    const n=navigator,sc=screen||{};
+    const p={schema:"psv-device-profile",schemaVersion:1,collectedAt:new Date().toISOString(),collection:"consented-browser-api",userAgent:n.userAgent||null,
+      browser:{language:n.language||null,languages:Array.from(n.languages||[]),platform:n.platform||null,vendor:n.vendor||null,cookieEnabled:!!n.cookieEnabled,onLine:!!n.onLine},
+      hardware:{logicalCpuCores:Number.isFinite(n.hardwareConcurrency)?n.hardwareConcurrency:null,approxDeviceMemoryGB:Number.isFinite(n.deviceMemory)?n.deviceMemory:null,maxTouchPoints:Number.isFinite(n.maxTouchPoints)?n.maxTouchPoints:null},
+      display:{width:sc.width||null,height:sc.height||null,availableWidth:sc.availWidth||null,availableHeight:sc.availHeight||null,colorDepth:sc.colorDepth||null,pixelRatio:window.devicePixelRatio||null,orientation:sc.orientation&&sc.orientation.type||null},
+      regional:{timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||null,utcOffsetMinutes:new Date().getTimezoneOffset()},
+      capabilities:{webAssembly:typeof WebAssembly!=="undefined",webGL:(()=>{try{const c=document.createElement("canvas");return !!(c.getContext("webgl")||c.getContext("experimental-webgl"));}catch(_){return false;}})(),indexedDB:!!n.indexedDB,localStorage:(()=>{try{const k="__psv_probe";localStorage.setItem(k,"1");localStorage.removeItem(k);return true;}catch(_){return false;}})(),sessionStorage:(()=>{try{const k="__psv_probe";sessionStorage.setItem(k,"1");sessionStorage.removeItem(k);return true;}catch(_){return false;}})(),webdriver: n.webdriver===true},
+      network:{connectionType:n.connection&&n.connection.effectiveType||null,downlinkMbps:n.connection&&n.connection.downlink||null,rttMs:n.connection&&n.connection.rtt||null,saveData:n.connection&&typeof n.connection.saveData==="boolean"?n.connection.saveData:null}};
+    return p;
+  }
+  async function psvDeviceAddHints(profile) {
+    const d=navigator.userAgentData;
+    if(!d){profile.clientHints={available:false};return profile;}
+    profile.clientHints={available:true,mobile:!!d.mobile,platform:d.platform||null,brands:Array.from(d.brands||[])};
+    if(typeof d.getHighEntropyValues==="function"){try{profile.clientHints.highEntropy=await d.getHighEntropyValues(["architecture","bitness","model","platformVersion","fullVersionList","wow64"]);}catch(e){profile.clientHints.highEntropyError="Not permitted or unavailable";}}
+    return profile;
+  }
+  function psvDeviceRender(data) {
+    const out=document.getElementById("device-output");if(!out)return;
+    const json=JSON.stringify(data,null,2);
+    out.innerHTML='<h3>Analysis results</h3><pre>'+esc(json)+'</pre><p class="psv-advanced-muted">Interpretation: browser-reported values are untrusted evidence. Verify against server-side logs and registered-device records.</p>';
+    window.__psvLastDeviceReport=data;
+  }
+  function psvDeviceAnalyze(raw) {
+    const input=String(raw||"").trim();if(!input)throw new Error("Paste evidence or collect a browser profile first.");
+    let parsed;
+    try{parsed=JSON.parse(input);}catch(_){parsed=null;}
+    if(Array.isArray(parsed)&&parsed.length>=2){
+      const [a,b]=parsed;const keys=["userAgent","browser","hardware","display","regional","clientHints","deviceId","sessionId"];
+      const differences=keys.map(k=>({field:k,sessionA:a&&a[k]!==undefined?a[k]:null,sessionB:b&&b[k]!==undefined?b[k]:null,status:JSON.stringify(a&&a[k])===JSON.stringify(b&&b[k])?"match":a&&b&&a[k]!==undefined&&b[k]!==undefined?"different":"not supplied"}));
+      return {analysisType:"profile-comparison",profilesCompared:2,differences,important:"A difference is an investigation pivot, not proof of cloning. Compare timestamps, app version, IP/ASN, TLS and trusted device registration telemetry."};
+    }
+    if(parsed&&typeof parsed==="object"){
+      const ua=parsed.userAgent||parsed.headers&&parsed.headers["user-agent"]||parsed.headers&&parsed.headers["User-Agent"]||"";
+      return {analysisType:"structured-profile",userAgent:ua?psvDeviceParseUA(ua):null,profile:parsed,limitations:["Client-controlled values can be spoofed.","Missing values do not imply malicious activity."]};
+    }
+    if(/^Mozilla\\//i.test(input)||/Android|Windows NT|iPhone|Macintosh|Linux/i.test(input)){
+      return {analysisType:"user-agent",parsed:psvDeviceParseUA(input),limitations:["User-Agent is client-controlled and can be spoofed.","Windows NT 10.0 does not distinguish Windows 10 from Windows 11.","Device model may be absent or generic."]};
+    }
+    const headers={};input.split(/\\r?\\n/).forEach(line=>{const i=line.indexOf(":");if(i>0)headers[line.slice(0,i).trim().toLowerCase()]=line.slice(i+1).trim();});
+    const ua=headers["user-agent"]||"";
+    return {analysisType:"http-headers",parsedUserAgent:ua?psvDeviceParseUA(ua):null,selectedHeaders:Object.fromEntries(["accept-language","accept","accept-encoding","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","sec-ch-ua-model","sec-ch-ua-platform-version","sec-ch-ua-full-version-list"].filter(k=>headers[k]).map(k=>[k,headers[k]])),limitations:["Headers pasted by an analyst are not independently authenticated.","IP and TLS metadata should come from trusted edge/server logs."]};
   }
 
   async function runShare() {
@@ -2262,7 +2346,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function renderSingleToolView(root) {
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
-    if (["case","share","evidence"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
+    if (["case","share","evidence","device"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
     const currentInput = userInputs[tool.id] !== undefined ? userInputs[tool.id] : tool.sample;
 
     root.innerHTML = `
@@ -2486,6 +2570,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if(out) out.textContent=report;
         if(action==="export-case") downloadText((document.getElementById("case-id").value||"incident-case").replace(/[^a-z0-9_-]/gi,"_")+".md",report,"text/markdown;charset=utf-8");
         else if(navigator.clipboard?.writeText) navigator.clipboard.writeText(report).then(()=>{if(out)out.textContent="Case report copied.\n\n"+report;}).catch(()=>{if(out)out.textContent="Clipboard unavailable. Use Download Markdown case report.";});
+      } else if (action === "device-collect") {
+        const field=document.getElementById("device-evidence"),out=document.getElementById("device-output");
+        if(field&&out){out.textContent="Collecting browser-exposed characteristics…";try{const profile=await psvDeviceAddHints(psvDeviceCollect());field.value=JSON.stringify(profile,null,2);psvDeviceRender({analysisType:"live-browser-collection",profile,parsedUserAgent:psvDeviceParseUA(profile.userAgent),notice:"Collected locally. Review consent and data minimisation before using in an investigation."});}catch(err){out.textContent="Collection failed: "+err.message;}}
+      } else if (action === "device-sample") {
+        const field=document.getElementById("device-evidence");if(field)field.value=JSON.stringify([{sessionId:"SESSION-A",deviceId:"DEVICE-EXAMPLE-01",userAgent:"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/131.0.0.0 Mobile Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:8},display:{width:412,height:915}},{sessionId:"SESSION-B",deviceId:"DEVICE-EXAMPLE-01",userAgent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36",browser:"Chrome",hardware:{logicalCpuCores:12},display:{width:1920,height:1080}}],null,2);
+      } else if (action === "device-analyze") {
+        try{const field=document.getElementById("device-evidence");psvDeviceRender(psvDeviceAnalyze(field&&field.value));}catch(err){const out=document.getElementById("device-output");if(out)out.textContent=err.message;}
+      } else if (action === "device-clear") {
+        const field=document.getElementById("device-evidence"),out=document.getElementById("device-output");if(field)field.value="";if(out)out.textContent="Workspace cleared.";
+      } else if (action === "device-export") {
+        if(!window.__psvLastDeviceReport){const out=document.getElementById("device-output");if(out)out.textContent="Analyze or collect evidence before exporting.";return;}
+        downloadText("psv-device-investigation.json",JSON.stringify(window.__psvLastDeviceReport,null,2),"application/json;charset=utf-8");
       } else if (action === "hash-file") {
         const file=document.getElementById("evidence-file")?.files[0],out=document.getElementById("evidence-output");
         if(!file||!out){if(out)out.textContent="Select a file first.";return;}
