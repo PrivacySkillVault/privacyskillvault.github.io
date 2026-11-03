@@ -254,13 +254,32 @@ async function virusTotal(indicator, env) {
     type: body.data && body.data.type,
     reputation: d.reputation,
     lastAnalysisDate: d.last_analysis_date,
-    lastAnalysisStats: {
-      malicious: stats.malicious || 0,
-      suspicious: stats.suspicious || 0,
-      harmless: stats.harmless || 0,
-      undetected: stats.undetected || 0,
-      timeout: stats.timeout || 0
-    },
+    lastAnalysisStats: Object.fromEntries(
+      ["malicious", "suspicious", "harmless", "undetected", "timeout", "confirmed-timeout", "failure", "type-unsupported"]
+        .filter(key => Number.isFinite(stats[key]))
+        .map(key => [key, stats[key]])
+    ),
+    file: indicator.isHash ? {
+      meaningfulName: d.meaningful_name,
+      names: Array.isArray(d.names) ? d.names.slice(0, 5) : [],
+      size: Number.isFinite(d.size) ? d.size : undefined,
+      sha256: d.sha256,
+      sha1: d.sha1,
+      md5: d.md5
+    } : undefined,
+    engineResults: indicator.isHash && d.last_analysis_results ? Object.entries(d.last_analysis_results).slice(0, 15).map(([engine, result]) => ({
+      engine,
+      category: result && result.category,
+      result: result && result.result,
+      method: result && result.method,
+      engineUpdate: result && result.engine_update
+    })) : undefined,
+    sandboxVerdicts: indicator.isHash && d.sandbox_verdicts ? Object.entries(d.sandbox_verdicts).slice(0, 5).map(([sandbox, verdict]) => ({
+      sandbox,
+      category: verdict && verdict.category,
+      confidence: verdict && verdict.confidence,
+      malwareClassification: verdict && verdict.malware_classification
+    })) : undefined,
     tags: Array.isArray(d.tags) ? d.tags.slice(0, 20) : [],
     popularThreatClassification: d.popular_threat_classification ? {
       suggestedThreatLabel: d.popular_threat_classification.suggested_threat_label
