@@ -223,6 +223,60 @@ async function urlscan(indicator, env) {
   };
 }
 
+
+async function virusTotal(indicator, env) {
+  if (!env.VIRUSTOTAL_API_KEY) return null;
+  if (indicator.isCve) return null;
+  const resource = indicator.isIp ? "ip_addresses" : indicator.isHash ? "files" : "domains";
+  const url = "https://www.virustotal.com/api/v3/" + resource + "/" + encodeURIComponent(indicator.value);
+  const body = await fetchJson(url, { headers: { "x-apikey": env.VIRUSTOTAL_API_KEY } });
+  const d = body.data && body.data.attributes ? body.data.attributes : {};
+  const stats = d.last_analysis_stats || {};
+  return {
+    id: body.data && body.data.id,
+    type: body.data && body.data.type,
+    reputation: d.reputation,
+    lastAnalysisDate: d.last_analysis_date,
+    lastAnalysisStats: {
+      malicious: stats.malicious || 0,
+      suspicious: stats.suspicious || 0,
+      harmless: stats.harmless || 0,
+      undetected: stats.undetected || 0,
+      timeout: stats.timeout || 0
+    },
+    tags: Array.isArray(d.tags) ? d.tags.slice(0, 20) : [],
+    popularThreatClassification: d.popular_threat_classification ? {
+      suggestedThreatLabel: d.popular_threat_classification.suggested_threat_label
+    } : undefined
+  };
+}
+
+async function hybridAnalysis(indicator, env) {
+  // Falcon Sandbox hash search is read-only. No file/URL submission is performed.
+  if (!env.HYBRID_ANALYSIS_API_KEY || !indicator.isHash) return null;
+  const url = new URL("https://www.hybrid-analysis.com/api/v2/search/hash");
+  url.searchParams.set("hash", indicator.value);
+  const body = await fetchJson(url, { headers: {
+    "api-key": env.HYBRID_ANALYSIS_API_KEY,
+    "user-agent": "PrivacySkillVault"
+  } });
+  const rows = Array.isArray(body) ? body : (Array.isArray(body.data) ? body.data : body.data ? [body.data] : []);
+  return {
+    total: rows.length,
+    reports: rows.slice(0, 5).map(row => ({
+      sha256: row.sha256,
+      sha1: row.sha1,
+      md5: row.md5,
+      verdict: row.verdict,
+      threatScore: row.threat_score,
+      avDetect: row.av_detect,
+      environmentDescription: row.environment_description,
+      analysisStartTime: row.analysis_start_time,
+      reportId: row.id || row.job_id
+    }))
+  };
+}
+
 async function handler(req, res) {
   const origin = req.headers && req.headers.origin;
   setHeaders(res, origin);
@@ -246,7 +300,9 @@ async function handler(req, res) {
     ["abuseipdb", () => abuseIpdb(indicator, process.env)],
     ["otx", () => otx(indicator, process.env)],
     ["nvd", () => nvd(indicator, process.env)],
-    ["urlscan", () => urlscan(indicator, process.env)]
+    ["urlscan", () => urlscan(indicator, process.env)],
+    ["virustotal", () => virusTotal(indicator, process.env)],
+    ["hybridAnalysis", () => hybridAnalysis(indicator, process.env)]
   ];
   const settled = await Promise.allSettled(tasks.map(([, run]) => run()));
   const results = {};
@@ -267,3 +323,5 @@ module.exports = handler;
 module.exports.normalizeIndicator = normalizeIndicator;
 module.exports.publicError = publicError;
 module.exports.isRateLimited = isRateLimited;
+module.exports.virusTotal = virusTotal;
+module.exports.hybridAnalysis = hybridAnalysis;

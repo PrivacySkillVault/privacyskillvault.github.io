@@ -22,3 +22,8 @@ test("provider errors are sanitized", () => {
   assert.equal(lookup.publicError({ status: 429 }), "Provider rate limit reached");
   assert.equal(lookup.publicError(new Error("secret key value")), "Provider request failed");
 });
+
+test("new integrations remain safely skipped when unsupported or not configured", async () => {
+  assert.equal(await lookup.virusTotal({ value: "CVE-2024-21412", isCve: true }, {}), null);
+  assert.equal(await lookup.hybridAnalysis({ value: "example.com", isDomain: true }, {}), null);
+});
