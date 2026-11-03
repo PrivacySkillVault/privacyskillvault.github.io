@@ -294,19 +294,19 @@ async function hybridAnalysis(indicator, env) {
   const matches = rows.filter(row => [row.sha256,row.sha1,row.md5].some(hash => typeof hash === "string" && hash.toLowerCase() === indicator.value.toLowerCase())).slice(0,5);
   const reports = await Promise.all(matches.map(async row => {
     const id = row.id || row.job_id, sha256 = row.sha256 || (indicator.value.length === 64 ? indicator.value : null);
-    const detail = {}, detailErrors = {};
+    const detail = {}, detailErrors = {}, requests = [];
     if (id) {
-      for (const [key,path] of [["summary","/report/"+encodeURIComponent(id)+"/summary"],["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]]) {
-        try { detail[key] = await fetchJson("https://www.hybrid-analysis.com/api/v2"+path,{headers}); }
-        catch(error) { detailErrors[key] = publicError(error); }
-      }
+      requests.push(["summary","/report/"+encodeURIComponent(id)+"/summary"]);
+      requests.push(["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]);
     }
     if (sha256) {
-      for (const [key,path] of [["overview","/overview/"+encodeURIComponent(sha256)],["overviewSummary","/overview/"+encodeURIComponent(sha256)+"/summary"]]) {
-        try { detail[key] = await fetchJson("https://www.hybrid-analysis.com/api/v2"+path,{headers}); }
-        catch(error) { detailErrors[key] = publicError(error); }
-      }
+      requests.push(["overview","/overview/"+encodeURIComponent(sha256)]);
+      requests.push(["overviewSummary","/overview/"+encodeURIComponent(sha256)+"/summary"]);
     }
+    await Promise.all(requests.map(async ([key,path]) => {
+      try { detail[key] = await fetchJson("https://www.hybrid-analysis.com/api/v2"+path,{headers}); }
+      catch(error) { detailErrors[key] = publicError(error); }
+    }));
     return {searchResult:row,reportId:id||null,sha256,detail,detailErrors,reportUrl:sha256?"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256):null};
   }));
   return {total:matches.length,reports,detailCoverage:"Some detail endpoints may be restricted by API-key access level or provider availability."};
