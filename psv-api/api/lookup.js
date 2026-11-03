@@ -288,6 +288,7 @@ async function hybridAnalysis(indicator, env) {
   if (!env.HYBRID_ANALYSIS_API_KEY || !indicator.isHash) return null;
   const headers = {"api-key":env.HYBRID_ANALYSIS_API_KEY,"user-agent":"Falcon Sandbox"};
   const base = "https://www.hybrid-analysis.com/api/v2";
+  const requestedHash = indicator.value.toLowerCase();
   let rows = [], searchError = null;
   try {
     const url = new URL(base + "/search/hash");
@@ -297,12 +298,9 @@ async function hybridAnalysis(indicator, env) {
   } catch(error) { searchError = publicError(error); }
 
   const matches = rows.filter(row => [row.sha256,row.sha1,row.md5].some(hash =>
-    typeof hash === "string" && hash.toLowerCase() === indicator.value.toLowerCase()
+    typeof hash === "string" && hash.toLowerCase() === requestedHash
   )).slice(0,5);
 
-  // The website's sample page can have an overview even when /search/hash
-  // returns no rows for the same SHA-256. Query the documented overview API
-  // independently rather than equating an empty search response with no report.
   const sha256 = indicator.value.length === 64 ? indicator.value : null;
   let overview = null, overviewSummary = null, overviewError = null;
   if (sha256) {
@@ -316,52 +314,80 @@ async function hybridAnalysis(indicator, env) {
     else if (!overviewError) overviewError = publicError(results[1].reason);
   }
 
-  const reports = await Promise.all(matches.map(async row => {
-    const id = row.id || row.job_id;
+  // Both overview responses are retained as separate evidence sources.
+  // In the current response shape, OverviewSummary.reports is an array of
+  // report/job IDs. Do not assume the IDs exist only on /overview/{sha256}.
+  // Related reports may refer to other hashes, so only accept exact-hash rows.
+  const reportKeys = [];
+  const addReportKey = value => {
+    if (typeof value === "string" && value.trim() && !reportKeys.includes(value.trim())) reportKeys.push(value.trim());
+  };
+  for (const row of matches) {
+    addReportKey(row.id || row.job_id || row.report_id);
+    if (row.environment_id !== undefined && sha256) addReportKey(sha256 + ":" + row.environment_id);
+  }
+  const exactHashOverview = overview && String(overview.sha256 || "").toLowerCase() === requestedHash;
+  const exactHashSummary = overviewSummary && String(overviewSummary.sha256 || "").toLowerCase() === requestedHash;
+  if (exactHashOverview) {
+    if (Array.isArray(overview.reports)) overview.reports.forEach(addReportKey);
+    addReportKey(overview.job_id || overview.id || overview.report_id);
+  }
+  if (exactHashSummary) {
+    if (Array.isArray(overviewSummary.reports)) overviewSummary.reports.forEach(addReportKey);
+    addReportKey(overviewSummary.job_id || overviewSummary.id || overviewSummary.report_id);
+  }
+  for (const source of [exactHashOverview ? overview : null, exactHashSummary ? overviewSummary : null]) {
+    if (!source || !Array.isArray(source.related_reports)) continue;
+    for (const related of source.related_reports) {
+      if (String(related.sha256 || "").toLowerCase() !== requestedHash) continue;
+      addReportKey(related.job_id || related.report_id || related.id);
+      if (related.environment_id !== undefined && sha256) addReportKey(sha256 + ":" + related.environment_id);
+    }
+  }
+  const limitedReportKeys = reportKeys.slice(0,5);
+  const reports = await Promise.all(limitedReportKeys.map(async reportId => {
     const detail = {overview,overviewSummary}, detailErrors = {};
-    const requests = [];
-    if (id) {
-      requests.push(["summary","/report/"+encodeURIComponent(id)+"/summary"]);
-      requests.push(["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]);
-    } else if (sha256 && row.environment_id) {
-      const reportKey = sha256 + ":" + row.environment_id;
-      requests.push(["summary","/report/"+encodeURIComponent(reportKey)+"/summary"]);
-      requests.push(["fullReport","/report/"+encodeURIComponent(reportKey)+"/report/json"]);
+    const [summaryResult,fullResult] = await Promise.allSettled([
+      fetchJson(base + "/report/" + encodeURIComponent(reportId) + "/summary",{headers}),
+      fetchJson(base + "/report/" + encodeURIComponent(reportId) + "/report/json",{headers})
+    ]);
+    if (summaryResult.status === "fulfilled") detail.summary = summaryResult.value;
+    else detailErrors.summary = publicError(summaryResult.reason);
+    if (fullResult.status === "fulfilled") detail.fullReport = fullResult.value;
+    else detailErrors.fullReport = publicError(fullResult.reason);
+    const returnedHash = detail.summary && detail.summary.sha256;
+    if (returnedHash && returnedHash.toLowerCase() !== requestedHash) {
+      return null;
     }
-    await Promise.all(requests.map(async ([key,path]) => {
-      try { detail[key] = await fetchJson(base+path,{headers}); }
-      catch(error) { detailErrors[key] = publicError(error); }
-    }));
-    return {searchResult:row,reportId:id||null,sha256,detail,detailErrors,reportUrl:"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256)};
+    const searchResult = detail.summary || matches.find(row =>
+      (row.id || row.job_id || row.report_id || (row.environment_id !== undefined && sha256 + ":" + row.environment_id)) === reportId
+    ) || overview || overviewSummary || {};
+    const summaryHash = detail.summary && String(detail.summary.sha256 || "").toLowerCase();
+    if (summaryHash && summaryHash !== requestedHash) return null;
+    return {
+      searchResult,reportId,sha256,detail,detailErrors,
+      reportUrl:"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256 || indicator.value),
+      source:matches.length ? "hash_search" : "overview_reports"
+    };
   }));
+  const validReports = reports.filter(Boolean);
 
-  if (!reports.length && overview) {
-    const returnedHash = overview.sha256 || (overview.sample && overview.sample.sha256);
-    if (returnedHash && returnedHash.toLowerCase() !== indicator.value.toLowerCase()) {
-      throw new Error("Hybrid Analysis overview hash did not match the requested indicator");
-    }
-    const row = overviewSummary || overview;
-    const id = row.job_id || row.id || overview.job_id || null;
-    const detail = {overview,overviewSummary};
-    const detailErrors = {};
-    if (id) {
-      for (const [key,path] of [["summary","/report/"+encodeURIComponent(id)+"/summary"],["fullReport","/report/"+encodeURIComponent(id)+"/report/json"]]) {
-        try { detail[key] = await fetchJson(base+path,{headers}); }
-        catch(error) { detailErrors[key] = publicError(error); }
-      }
-    }
-    reports.push({
-      searchResult:row,reportId:id,sha256,
-      detail,detailErrors,
+  // Keep a useful overview-only result when the API exposes no report IDs.
+  if (!validReports.length && (exactHashOverview || exactHashSummary)) {
+    validReports.push({
+      searchResult:overviewSummary || overview,reportId:null,sha256,
+      detail:{overview,overviewSummary},
+      detailErrors:{reportDetails:"The overview response did not expose any sandbox report IDs or environment IDs."},
       reportUrl:"https://www.hybrid-analysis.com/sample/"+encodeURIComponent(sha256),
-      source:"overview_fallback"
+      source:"overview_only"
     });
   }
-
   return {
-    total:reports.length,reports,searchError,overviewError,
-    lookupStatus:reports.length ? "report_found" : (searchError || overviewError ? "lookup_incomplete" : "no_report_found"),
-    detailCoverage:"The SHA-256 overview is queried independently of hash search. Full JSON report downloads require the API key's default access level."
+    total:validReports.length,reports:validReports,searchError,overviewError,
+    reportIdsFound:reportKeys.length,reportIdsReturned:limitedReportKeys.length,
+    reportIdsTruncated:reportKeys.length > limitedReportKeys.length,
+    lookupStatus:validReports.length ? "report_found" : (searchError || overviewError ? "lookup_incomplete" : "no_report_found"),
+    detailCoverage:"Report IDs are collected from exact-hash Overview and OverviewSummary responses. Up to five report summaries and full JSON reports are requested; full JSON access requires a default-level API key."
   };
 }
 

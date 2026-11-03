@@ -1493,6 +1493,24 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         #psv-app .psv-btn-group{display:flex;flex-wrap:wrap;gap:.4rem}
       }
 
+      /* Hybrid Analysis: readable, report-style evidence layout. */
+      #psv-app .psv-ha-report{margin:1rem 0;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:12px;background:var(--md-code-bg-color)}
+      #psv-app .psv-ha-report__top{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem}
+      #psv-app .psv-ha-report__top span{font-weight:800;text-transform:uppercase;color:#ef4444}
+      #psv-app .psv-ha-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin:1rem 0}
+      #psv-app .psv-ha-metrics>div{padding:.8rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:9px}
+      #psv-app .psv-ha-metrics small,#psv-app .psv-ha-file span{display:block;color:var(--md-default-fg-color--light);font-size:.76rem}
+      #psv-app .psv-ha-metrics strong{display:block;margin-top:.25rem;font-size:1.12rem;overflow-wrap:anywhere}
+      #psv-app .psv-ha-file{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin:1rem 0}
+      #psv-app .psv-ha-file>div{min-width:0;padding:.65rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+      #psv-app .psv-ha-file strong,#psv-app .psv-ha-file code{display:block;margin-top:.25rem;overflow-wrap:anywhere}
+      #psv-app .psv-ha-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem}
+      #psv-app .psv-ha-field{display:flex;flex-direction:column;gap:.15rem;min-width:0;padding:.55rem;border-radius:6px;background:var(--md-default-bg-color)}
+      #psv-app .psv-ha-field span{font-size:.75rem;color:var(--md-default-fg-color--light)}
+      #psv-app .psv-ha-field strong{font-size:.84rem;overflow-wrap:anywhere}
+      #psv-app .psv-ha-report details{margin:.7rem 0}
+      #psv-app .psv-ha-technical pre{max-height:28rem;overflow:auto}
+      @media(max-width:620px){#psv-app .psv-ha-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#psv-app .psv-ha-file,#psv-app .psv-ha-fields{grid-template-columns:1fr}}
       /* Threat-intel results: readable wrapping and responsive provider cards. */
       #psv-app .psv-ti-results-table{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
       #psv-app .psv-ti-results-table .psv-out-table{width:100%!important;min-width:900px!important;table-layout:fixed!important}
@@ -1697,17 +1715,57 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         }
         if (key === "hybridAnalysis") {
           const reports = d.reports || [];
-          if (!reports.length) return "Hybrid Analysis API did not return a report from its overview or hash-search endpoints." + (d.searchError ? "<br>Hash search: " + escValue(d.searchError) : "") + (d.overviewError ? "<br>Overview lookup: " + escValue(d.overviewError) : "") + (d.lookupStatus === "lookup_incomplete" ? "<br><strong>Lookup incomplete:</strong> this is not evidence that the report does not exist." : ""); 
+          if (!reports.length) return "Hybrid Analysis API did not return a report from its overview or hash-search endpoints." + (d.searchError ? "<br>Hash search: " + escValue(d.searchError) : "") + (d.overviewError ? "<br>Overview lookup: " + escValue(d.overviewError) : "") + (d.lookupStatus === "lookup_incomplete" ? "<br><strong>Lookup incomplete:</strong> this is not evidence that the report does not exist." : "");
+          const humanLabel = key => String(key).replace(/_/g," ").replace(/([a-z])([A-Z])/g,"$1 $2").replace(/\b\w/g,c=>c.toUpperCase());
+          const humanValue = value => {
+            if (value === null || value === undefined || value === "") return "Not supplied";
+            if (typeof value === "boolean") return value ? "Yes" : "No";
+            if (typeof value === "object") return "";
+            return String(value);
+          };
+          const fieldRows = (value, depth=0, prefix="") => {
+            if (!value || typeof value !== "object" || depth > 2) return "";
+            const entries = Array.isArray(value) ? value.map((v,i)=>[String(i+1),v]) : Object.entries(value);
+            return entries.map(([key,val]) => {
+              const label = prefix ? prefix + " · " + humanLabel(key) : humanLabel(key);
+              if (val && typeof val === "object") {
+                if (Array.isArray(val) && val.every(x=>typeof x!=="object"||x===null)) return "<div class='psv-ha-field'><span>"+escValue(label)+"</span><strong>"+escValue(val.join(", ")||"None")+"</strong></div>";
+                return fieldRows(val,depth+1,label);
+              }
+              return "<div class='psv-ha-field'><span>"+escValue(label)+"</span><strong>"+escValue(humanValue(val))+"</strong></div>";
+            }).join("");
+          };
           return reports.map(r => {
-            const raw = r.searchResult || {}, detail = r.detail || {};
-            const jsonBlock = value => value === undefined ? "" : "<details><summary>View complete returned JSON</summary><pre class=psv-ti-raw-json>" + escValue(JSON.stringify(value, null, 2)) + "</pre></details>";
-            const errors = Object.entries(r.detailErrors || {}).map(([name,message]) => "<li>" + escValue(name) + ": " + escValue(message) + "</li>").join("");
-            const link = r.reportUrl ? "<a href=" + escValue(r.reportUrl) + " target=_blank rel=noopener noreferrer>Open official Hybrid Analysis sample report</a>" : "";
-            return (r.source === "overview_fallback" ? "<strong>Report found through Hybrid Analysis overview API</strong><br>" : "") + "<strong>Verdict: " + escValue(raw.verdict) + "</strong><br>Threat score: " + escValue(raw.threat_score) + " · AV detections: " + escValue(raw.av_detect) +
-              "<br>Environment: " + escValue(raw.environment_description) + "<br>Analysis started: " + escValue(formatLocalDateTime(raw.analysis_start_time)) +
-              "<br>Report ID: " + escValue(r.reportId) + (link ? "<br>" + link : "") +
-              jsonBlock(detail.summary) + jsonBlock(detail.overview) + jsonBlock(detail.overviewSummary) + jsonBlock(detail.fullReport) +
-              (errors ? "<details><summary>Detail endpoints unavailable or restricted</summary><ul>" + errors + "</ul></details>" : "");
+            const detail = r.detail || {};
+            const overview = detail.overview || {};
+            const summary = detail.overviewSummary || {};
+            const report = detail.summary || r.searchResult || {};
+            const full = detail.fullReport || {};
+            const pick = (...values) => values.find(v=>v!==undefined&&v!==null&&v!=="");
+            const verdict = pick(report.verdict,summary.verdict,overview.verdict);
+            const threat = pick(report.threat_score,summary.threat_score,overview.threat_score);
+            const av = pick(report.av_detect,summary.av_detect,overview.av_detect);
+            const filename = pick(report.file_name,report.filename,report.last_file_name,summary.file_name,summary.last_file_name,overview.file_name,overview.last_file_name);
+            const size = pick(report.size,summary.size,overview.size);
+            const indicators = pick(report.total_indicators,report.indicators_count,summary.total_indicators,summary.indicators_count,summary.indicators,overview.total_indicators,overview.indicators);
+            const firstSeen = pick(report.submitted_at,summary.submitted_at,overview.submitted_at);
+            const analyzed = pick(report.analysis_start_time,summary.analysis_start_time,overview.analysis_start_time);
+            const reportIds = d.reportIdsFound || reports.length;
+            const link = r.reportUrl ? "<a href='"+escValue(r.reportUrl)+"' target='_blank' rel='noopener noreferrer'>Open official Hybrid Analysis sample report</a>" : "";
+            const sandboxList = (d.reports || []).map((item,i)=>"<li>"+escValue(item.searchResult && (item.searchResult.environment_description||item.searchResult.environment)||("Sandbox report "+(i+1)))+" · "+escValue(item.searchResult && item.searchResult.verdict)+"</li>").join("");
+            const summaryFields = fieldRows(report);
+            const fullFields = fieldRows(full);
+            const rawBlock = value => value===undefined ? "" : "<details class='psv-ha-technical'><summary>Technical evidence (raw JSON)</summary><pre class='psv-ti-raw-json'>"+escValue(JSON.stringify(value,null,2))+"</pre></details>";
+            const errors = Object.entries(r.detailErrors||{}).map(([name,message])=>"<li>"+escValue(humanLabel(name))+": "+escValue(message)+"</li>").join("");
+            return "<section class='psv-ha-report'><div class='psv-ha-report__top'><strong>Hybrid Analysis report</strong><span>"+escValue(verdict||"Verdict not supplied")+"</span></div>"+
+              "<div class='psv-ha-metrics'><div><small>Threat score</small><strong>"+escValue(threat!==undefined?threat+"/100":"Not supplied")+"</strong></div><div><small>Antivirus detections</small><strong>"+escValue(av||"Not supplied")+"</strong></div><div><small>Indicators</small><strong>"+escValue(indicators!==undefined?indicators:"Not supplied")+"</strong></div><div><small>Sandbox reports</small><strong>"+escValue(reportIds)+"</strong></div></div>"+
+              "<div class='psv-ha-file'><div><span>File name</span><strong>"+escValue(filename)+"</strong></div><div><span>File size</span><strong>"+escValue(size!==undefined?size+" bytes":"Not supplied")+"</strong></div><div><span>SHA-256</span><code>"+escValue(pick(report.sha256,summary.sha256,overview.sha256))+"</code></div><div><span>First submitted</span><strong>"+escValue(formatLocalDateTime(firstSeen))+"</strong></div><div><span>Analysis started</span><strong>"+escValue(formatLocalDateTime(analyzed))+"</strong></div><div><span>Report ID</span><code>"+escValue(r.reportId||"Not supplied")+"</code></div></div>"+
+              (link?"<p>"+link+"</p>":"")+
+              (sandboxList?"<details open><summary>Sandbox analysis environments</summary><ul>"+sandboxList+"</ul></details>":"")+
+              (summaryFields?"<details open><summary>Readable report details</summary><div class='psv-ha-fields'>"+summaryFields+"</div></details>":"")+
+              (fullFields?"<details><summary>Detailed analysis findings</summary><div class='psv-ha-fields'>"+fullFields+"</div></details>":"")+
+              rawBlock(detail.summary)+rawBlock(detail.overview)+rawBlock(detail.overviewSummary)+rawBlock(detail.fullReport)+
+              (errors?"<details><summary>Some report details unavailable</summary><ul>"+errors+"</ul></details>":"")+"</section>";
           }).join("<hr>");
         }
         const rows = d.results || [];
