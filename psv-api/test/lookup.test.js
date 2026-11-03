@@ -52,7 +52,7 @@ test("VirusTotal file lookup preserves full engine statistics and bounded file e
     text: async () => JSON.stringify({ data: { id: "a".repeat(64), type: "file", attributes: {
       reputation: 3800,
       last_analysis_date: 1793711042,
-      last_analysis_stats: { malicious: 65, suspicious: 1, harmless: 0, undetected: 2, timeout: 1, failure: 3, "type-unsupported": 4 },
+      last_analysis_stats: { malicious: 1, suspicious: 0, harmless: 0, undetected: 0, timeout: 0, failure: 0, "type-unsupported": 0 },
       meaningful_name: "notavirus.bat",
       names: ["notavirus.bat"],
       size: 68,
@@ -69,12 +69,44 @@ test("VirusTotal file lookup preserves full engine statistics and bounded file e
     assert.equal(result.file.meaningfulName, "notavirus.bat");
     assert.equal(result.file.size, 68);
     assert.equal(result.file.sha1, "b".repeat(40));
-    assert.equal(result.lastAnalysisStats.malicious, 65);
-    assert.equal(result.lastAnalysisStats.failure, 3);
-    assert.equal(result.lastAnalysisStats["type-unsupported"], 4);
+    assert.equal(result.lastAnalysisStats.malicious, 1);
+    assert.equal(result.lastAnalysisStats.failure, 0);
+    assert.equal(result.lastAnalysisStats["type-unsupported"], 0);
     assert.equal(result.engineResults[0].result, "EICAR-Test-File");
     assert.equal(result.sandboxVerdicts[0].malwareClassification[0], "eicar");
   } finally {
     global.fetch = originalFetch;
   }
+});
+
+test("VirusTotal rejects a report whose hash does not match the requested indicator", async () => {
+  const originalFetch = global.fetch;
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    text: async () => JSON.stringify({ data: { id: "b".repeat(64), type: "file", attributes: { sha256: "b".repeat(64), last_analysis_stats: {} } } })
+  });
+  try {
+    await assert.rejects(
+      lookup.virusTotal({ value: "a".repeat(64), isHash: true }, { VIRUSTOTAL_API_KEY: "test-key" }),
+      /hash did not match/
+    );
+  } finally { global.fetch = originalFetch; }
+});
+
+test("OTX pulse count is clearly separated from returned pulse summaries", async () => {
+  const originalFetch = global.fetch;
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    text: async () => JSON.stringify({ indicator: "a".repeat(64), type: "file", pulse_info: {
+      count: 50, pulses: [{ id: "pulse-1", name: "EICAR test context", description: "Not supplied", tags: ["test"] }]
+    } })
+  });
+  try {
+    const result = await lookup.otx({ value: "a".repeat(64), type: "file", isHash: true }, { OTX_API_KEY: "test-key" });
+    assert.equal(result.pulseCount, 50);
+    assert.equal(result.pulseSummariesReturned, 1);
+    assert.equal(result.pulses[0].id, "pulse-1");
+  } finally { global.fetch = originalFetch; }
 });

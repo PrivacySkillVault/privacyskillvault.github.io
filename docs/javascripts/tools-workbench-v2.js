@@ -1654,8 +1654,17 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           "Last reported: " + escValue(formatLocalDateTime(d.lastReportedAt))
         ].join("<br>");
         if (key === "otx") {
-          const pulses = (d.pulses || []).map(p => "<li><strong>" + escValue(p.name) + "</strong> — " + escValue(p.description) + "</li>").join("");
-          return "Pulse count: " + escValue(d.pulseCount) + (pulses ? "<ul>" + pulses + "</ul>" : "<br>No pulse summaries returned.");
+          const pulses = (d.pulses || []).map(p => {
+            const tags = Array.isArray(p.tags) && p.tags.length ? "<br><small>Tags: " + escValue(p.tags.join(", ")) + "</small>" : "";
+            const created = p.created ? " · Created: " + escValue(formatLocalDateTime(p.created)) : "";
+            const description = p.description && p.description.trim() && !/^not supplied$/i.test(p.description.trim())
+              ? "<br>" + escValue(p.description.trim().slice(0, 240)) : "";
+            const link = p.id ? '<br><a href="https://otx.alienvault.com/pulse/' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener noreferrer">Open pulse on OTX</a>' : "";
+            return "<li><strong>" + escValue(p.name || "Unnamed pulse") + "</strong>" + created + description + tags + link + "</li>";
+          }).join("");
+          return "<strong>OTX pulse associations</strong><br>" + escValue(d.pulseCount) + " pulses reported by OTX; " +
+            escValue(d.pulseSummariesReturned || 0) + " summaries returned below. This is not a malware-detection count or a verdict." +
+            (pulses ? "<ul>" + pulses + "</ul>" : "<br>No pulse summaries returned.");
         }
         if (key === "nvd") {
           if (!d.vulnerabilities || !d.vulnerabilities.length) return "No CVE record returned.";
@@ -1677,7 +1686,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           const engines = (d.engineResults || []).slice(0, 15).map(engine => "<li><strong>" + escValue(engine.engine) + "</strong>: " + escValue(engine.category) + (engine.result ? " — " + escValue(engine.result) : "") + "</li>").join("");
           const sandboxes = (d.sandboxVerdicts || []).map(v => "<li><strong>" + escValue(v.sandbox) + "</strong>: " + escValue(v.category) + (v.malwareClassification ? " — " + escValue(v.malwareClassification) : "") + "</li>").join("");
           const link = d.id ? "<a href='https://www.virustotal.com/gui/file/" + encodeURIComponent(d.id) + "' target='_blank' rel='noopener noreferrer'>Open VirusTotal report</a>" : "";
-          return "<strong>" + (total ? flagged + " / " + total + " engines flagged" : "No engine statistics returned") + "</strong><br>Reputation score: " + escValue(d.reputation) +
+          return "<strong>" + (total ? flagged + " / " + total + " engines; " + flagged + " marked malicious or suspicious" : "No engine statistics returned") + "</strong><br>Reputation score: " + escValue(d.reputation) +
             (statHtml ? "<ul class='psv-ti-stats'>" + statHtml + "</ul>" : "") +
             "<br>Last analysis: " + escValue(formatLocalDateTime(d.lastAnalysisDate)) +
             (d.popularThreatClassification && d.popularThreatClassification.suggestedThreatLabel ? "<br>Threat label: " + escValue(d.popularThreatClassification.suggestedThreatLabel) : "") +
