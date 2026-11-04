@@ -3,14 +3,14 @@ title: Secure Share
 ---
 
 <style>
-#secure-share-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:1.5rem;align-items:start;width:100%;margin:0;padding:1rem 0 2rem}
-#secure-share-main{min-width:0}
-#secure-share-heading{margin:0 0 1rem;padding:0 0 1rem;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+#secure-share-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 245px!important;grid-template-rows:auto;gap:1.5rem;align-items:start;width:100%;max-width:100%;margin:0;padding:0 0 2rem}
+#secure-share-main{display:block;grid-column:1;grid-row:1;min-width:0;width:100%;max-width:100%}
+#secure-share-heading{display:none}
 #secure-share-heading .eyebrow{display:block;margin:0 0 .35rem;color:var(--md-accent-fg-color);font:700 .68rem/1.4 "Roboto Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
 #secure-share-heading h1{margin:0 0 .45rem;font-size:1.8rem;font-weight:700;letter-spacing:-.02em;color:var(--md-default-fg-color)}
 #secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:.9rem;line-height:1.65}
 #secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-default-bg-color)}
-#secure-share-categories{position:sticky;top:1.25rem;max-height:calc(100vh - 2.5rem);overflow:auto;padding:.9rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
+#secure-share-categories{display:block;grid-column:2;grid-row:1;width:245px;min-width:0;position:sticky;top:1.25rem;max-height:calc(100vh - 2.5rem);overflow:auto;padding:.9rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
 #secure-share-categories .sidebar-title{display:block;margin:0 0 .65rem;padding:0 .25rem;color:var(--md-default-fg-color);font-size:.78rem;font-weight:700}
 #secure-share-categories details{margin:.15rem 0;border:0;border-radius:7px}
 #secure-share-categories summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.62rem .55rem;border-radius:7px;color:var(--md-default-fg-color);font-size:.79rem;font-weight:600;cursor:pointer;list-style:none}
@@ -24,17 +24,12 @@ title: Secure Share
 #secure-share-categories a.active{background:var(--md-default-bg-color);box-shadow:inset 3px 0 var(--md-accent-fg-color);color:var(--md-accent-fg-color);font-weight:650}
 #secure-share-categories .sidebar-foot{margin-top:.7rem;padding:.7rem .35rem 0;border-top:1px solid var(--md-default-fg-color--lightest);font-size:.7rem;line-height:1.55;color:var(--md-default-fg-color--light)}
 #secure-share-categories .sidebar-foot a{padding:.35rem 0;color:var(--md-accent-fg-color)}
-@media(max-width:900px){#secure-share-layout{grid-template-columns:minmax(0,1fr)}#secure-share-categories{position:static;grid-row:2;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem}#secure-share-categories .sidebar-title,#secure-share-categories .sidebar-foot{grid-column:1/-1}}
+@media(max-width:900px){#secure-share-layout{grid-template-columns:minmax(0,1fr)!important}#secure-share-main{grid-column:1;grid-row:1}#secure-share-categories{grid-column:1;grid-row:2;width:100%;position:static;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem}#secure-share-categories .sidebar-title,#secure-share-categories .sidebar-foot{grid-column:1/-1}}
 @media(max-width:560px){#secure-share-categories{grid-template-columns:1fr}#secure-share-frame{height:1180px;min-height:900px}#secure-share-heading h1{font-size:1.55rem}}
 </style>
 
 <div id="secure-share-layout">
   <main id="secure-share-main">
-    <header id="secure-share-heading">
-      <span class="eyebrow">DFIR &amp; Forensics / Live Transfer</span>
-      <h1>Secure Share</h1>
-      <p>One-time, sender-approved browser-to-browser transfer. Encrypted in your browser and sent directly to the approved recipient.</p>
-    </header>
     <iframe
       id="secure-share-frame"
       title="Privacy Skill Vault Secure Share workspace"
