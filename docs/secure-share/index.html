@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>PSV Secure Share | Privacy Skill Vault</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0f14;--panel:#161b22;--line:#30363d;--text:#e6edf3;--muted:#9ba7b4;--blue:#1f6feb;--green:#238636;--red:#da3633}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif}
+main{max-width:900px;margin:0 auto;padding:36px 20px 70px}.brand{font-weight:800;letter-spacing:.08em;color:#fff}.brand span{color:#58a6ff}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:34px}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.1;margin:0 0 12px}h2{font-size:1.2rem;margin:0 0 12px}
+p{color:var(--muted)}.lead{max-width:680px;font-size:1.05rem}.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;margin:22px 0}
+label{display:block;font-weight:650;margin:14px 0 7px}textarea,input[type=file]{width:100%;background:#0d1117;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px;font:inherit}
+textarea{min-height:150px;resize:vertical}button,.button{border:0;border-radius:8px;padding:12px 18px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer;font:inherit}button:disabled{opacity:.45;cursor:not-allowed}
+.secondary{background:#21262d;border:1px solid var(--line)}.danger{background:#7d2424}.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.row button{flex:1}.status{padding:12px;border-radius:8px;background:#0d1117;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}.status.good{border-color:#238636}.status.bad{border-color:var(--red)}
+.small{font-size:.86rem}.muted{color:var(--muted)}.hidden{display:none!important}.linkbox{width:100%;overflow-wrap:anywhere;background:#0d1117;border:1px solid var(--line);padding:12px;border-radius:8px;user-select:all}
+.progress{height:8px;background:#30363d;border-radius:8px;overflow:hidden;margin-top:12px}.progress>i{display:block;height:100%;width:0;background:#3fb950;transition:width .15s}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.82rem;margin-top:36px}
+@media(max-width:600px){main{padding:22px 14px}.panel{padding:18px}.row button{flex-basis:100%}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js" crossorigin="anonymous"></script>
+</head>
+<body><main>
+<header><div class="brand">PRIVACY <span>SKILL VAULT</span></div><a class="muted small" href="/">Back to PSV</a></header>
+<h1>Secure Share</h1>
+<p class="lead">Transfer a confidential note or file directly between two browsers. Content is encrypted before it leaves the sender's device. PSV does not upload or store your file.</p>
+<section id="sender" class="panel">
+<h2>Create a one-time transfer</h2>
+<p class="small">Choose a text note or a file. Keep this page open until the recipient finishes downloading. Maximum file size: 10 MB.</p>
+<label for="message">Secret message (optional)</label><textarea id="message" maxlength="200000" placeholder="Enter a confidential message..."></textarea>
+<label for="file">Or select one file (maximum 10 MB)</label><input id="file" type="file">
+<div class="row"><button id="create">Create secure link</button></div>
+<div id="created" class="hidden">
+<label>Share this link with the intended recipient</label><div id="sharelink" class="linkbox"></div>
+<div class="row"><button id="copy" class="secondary">Copy link</button><button id="cancel" class="danger">Cancel session</button></div>
+<p class="small muted">Waiting for recipient. You must approve the incoming connection before transfer begins.</p>
+</div>
+</section>
+<section id="receiver" class="panel hidden">
+<h2>Receive a secure transfer</h2><p>Connect to the sender and wait for approval. The file is decrypted only in this browser.</p>
+<div class="row"><button id="connect">Request connection</button></div>
+<div id="received" class="hidden"></div>
+</section>
+<section class="panel">
+<h2>Connection status</h2><div id="status" class="status" role="status" aria-live="polite">Ready. No file has been uploaded.</div>
+<div class="progress"><i id="bar"></i></div><p id="progresslabel" class="small muted"></p>
+</section>
+<section class="panel small">
+<h2>Security and limitations</h2>
+<ul>
+<li>Encryption: AES-256-GCM using a random key generated in this browser.</li>
+<li>Files travel over a WebRTC data channel; no file content is sent to PSV or the signalling service.</li>
+<li>The link contains the decryption key in its URL fragment. Anyone who obtains the complete link may attempt to connect.</li>
+<li>The sender must approve the recipient and remain online. This is not an asynchronous file-hosting service.</li>
+<li>PeerJS's public signalling broker is used to establish the connection. It handles connection metadata, not the encrypted file payload; its availability and privacy are subject to that service.</li>
+<li>WebRTC may fail on restrictive networks where direct connectivity is blocked. This version does not use a third-party TURN relay.</li>
+<li>After successful transfer, the session closes. This cannot prevent the recipient from copying or redistributing the downloaded file.</li>
+</ul>
+</section>
+<footer>Privacy Skill Vault · Browser-to-browser transfer · No server-side file storage</footer>
+</main>
+<script>
+(() => {
+"use strict";
+const MAX=10*1024*1024, CHUNK=16*1024, $=id=>document.getElementById(id);
+let peer=null,conn=null,role="sender",key=null,iv=null,sessionTimer=null,buffer=[],expected=0,receivedBytes=0,totalBytes=0,meta=null,approved=false,transferBusy=false,transferCompleted=false,endReceived=false;
+const status=(s,bad=false)=>{$("status").textContent=s;$("status").className="status"+(bad?" bad":" good")};
+const b64=b=>{let s="";new Uint8Array(b).forEach(v=>s+=String.fromCharCode(v));return btoa(s)};
+const un64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const random= n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return a};
+const stop=()=>{clearTimeout(sessionTimer);try{conn&&conn.close()}catch{}try{peer&&peer.destroy()}catch{}conn=null;peer=null};
+const expire=()=>{stop();status("Session ended or expired. Create a new link to share again.",true);$("create").disabled=false;$("connect").disabled=false};
+function startExpiry(){clearTimeout(sessionTimer);sessionTimer=setTimeout(expire,10*60*1000)}
+function parseJoin(){const id=new URLSearchParams(location.search).get("join");const k=new URLSearchParams(location.hash.slice(1)).get("k");return {id,k}}
+async function encrypt(data){key=await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt","decrypt"]);iv=random(12);const raw=await crypto.subtle.exportKey("raw",key);const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,data);return {ct,raw}}
+async function decrypt(ct){return crypto.subtle.decrypt({name:"AES-GCM",iv},key,ct)}
+function setupSender(){role="sender";$("sender").classList.remove("hidden");$("receiver").classList.add("hidden")}
+function setupReceiver(){role="receiver";$("sender").classList.add("hidden");$("receiver").classList.remove("hidden");$("connect").disabled=false}
+async function create(){try{
+ const f=$("file").files[0],msg=$("message").value;
+ if(!f&&!msg.trim()){status("Enter a message or select a file.",true);return}
+ if(f&&f.size>MAX){status("File exceeds the 10 MB limit.",true);return}
+ if(f&&msg.trim()){status("Choose either a message or a file, not both.",true);return}
+ if(!window.Peer){status("Connection library failed to load. Check your network and retry.",true);return}
+ $("create").disabled=true;status("Preparing encrypted transfer…");
+ const payload=f?await f.arrayBuffer():new TextEncoder().encode(msg).buffer;
+ if(payload.byteLength>MAX){status("The selected content exceeds the 10 MB transfer limit.",true);$("create").disabled=false;return;}
+ const enc=await encrypt(payload);const rawKey=enc.raw;
+ meta={name:f?f.name:"secret-message.txt",type:f?(f.type||"application/octet-stream"):"text/plain;charset=utf-8",size:payload.byteLength,iv:b64(iv),chunks:Math.ceil(enc.ct.byteLength/CHUNK),bytes:enc.ct.byteLength};
+ const cipher=enc.ct;
+ peer=new Peer(undefined,{debug:0});
+ peer.on("open",id=>{
+   const url=new URL(location.href);url.search="";url.hash="";
+   url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(rawKey));
+   $("sharelink").textContent=url.toString();$("created").classList.remove("hidden");
+   $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(url.toString());status("Share link copied. Keep this page open.");}catch{status("Clipboard unavailable. Select and copy the link manually.",true)}};
+   status("Secure link created. Waiting for a recipient to request access.");startExpiry();
+ });
+ peer.on("connection",incoming=>{
+   if(conn||approved){incoming.close();return;}
+   conn=incoming;status("A recipient is requesting access. Approve only if you expect this connection.");
+   if(confirm("A recipient is requesting your secure transfer. Approve this connection?")){
+     approved=true;
+     conn.on("open",()=>{
+       if(!conn||!conn.open)return;
+       try{conn.send({type:"approved",meta});status("Recipient connected. Sending encrypted data…");sendChunks(cipher);}
+       catch(e){status("Could not start the transfer: "+e.message,true);stop();}
+     });
+     conn.on("data",d=>{
+       if(d&&d.type==="done"){
+         transferCompleted=true;clearTimeout(sessionTimer);stop();
+         status("Transfer completed. The one-time session is closed.");
+       }
+     });
+     conn.on("close",()=>{
+       if(!transferCompleted){status("Recipient disconnected before completion. This one-time link is no longer reusable.",true);clearTimeout(sessionTimer);stop();}
+     });
+   }else{incoming.close();conn=null;status("Connection rejected. Waiting for another request.");}
+ });
+ peer.on("error",e=>{status("Connection error: "+(e.type||"peer error")+". Check network restrictions and retry.",true);});
+ }catch(e){status("Could not create transfer: "+e.message,true);$("create").disabled=false;stop()}}
+function sendChunks(cipher){
+ transferBusy=true;let offset=0,index=0;
+ const pump=()=>{
+   if(!conn||!conn.open){status("Connection interrupted before the encrypted transfer finished. Cancel this session and create a new link.",true);return}
+   let sent=0;
+   try{
+     while(offset<cipher.byteLength&&sent<4){
+       const chunk=cipher.slice(offset,Math.min(offset+CHUNK,cipher.byteLength));
+       conn.send({type:"chunk",index,data:chunk});offset+=chunk.byteLength;index++;sent++;
+     }
+   }catch(e){status("Could not send encrypted data: "+e.message,true);return}
+   const pct=Math.round(offset/cipher.byteLength*100);
+   $("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data sent: "+pct+"%";
+   if(offset<cipher.byteLength){setTimeout(pump,20)}
+   else{try{conn.send({type:"end"});status("Encrypted transfer sent. Waiting for the recipient to finish downloading.")}catch(e){status("Could not finish sending: "+e.message,true)}}
+ };
+ pump();
+}
+async function connect(){
+ try{
+   const {id,k}=parseJoin();
+   if(!id||!k)throw new Error("The sharing link is incomplete.");
+   if(!window.Peer)throw new Error("The secure connection library did not load. Refresh and retry.");
+   if(!window.isSecureContext||!crypto.subtle)throw new Error("Secure Share requires HTTPS and browser Web Crypto support.");
+   $("connect").disabled=true;status("Preparing the decryption key…");
+   key=await crypto.subtle.importKey("raw",un64(k),"AES-GCM",false,["decrypt"]);
+   peer=new Peer(undefined,{debug:0});
+   peer.on("open",()=>{
+     conn=peer.connect(id,{reliable:true});
+     conn.on("open",()=>status("Connection requested. Waiting for sender approval…"));
+     conn.on("data",onData);
+     conn.on("error",e=>status("Data channel error: "+(e.message||"connection error"),true));
+     conn.on("close",()=>{
+       if(transferCompleted)return;
+       status("Connection closed before the transfer completed. The sender must create a new one-time link.",true);
+       stop();
+     });
+   });
+   peer.on("error",e=>{status("Unable to connect: "+(e.type||"network error"),true);$("connect").disabled=false;});
+   startExpiry();
+ }catch(e){status(e.message,true);$("connect").disabled=false;stop();}
+}
+function onData(d){
+ if(!d||typeof d!=="object"||typeof d.type!=="string")return;
+ if(d.type==="approved"){
+   const m=d.meta;
+   if(meta||!m||typeof m.name!=="string"||typeof m.type!=="string"||
+      !Number.isSafeInteger(m.size)||m.size<0||m.size>MAX||
+      !Number.isSafeInteger(m.bytes)||m.bytes!==m.size+16||m.bytes>MAX+16||
+      !Number.isSafeInteger(m.chunks)||m.chunks!==Math.ceil(m.bytes/CHUNK)||
+      m.chunks<1||m.chunks>Math.ceil((MAX+16)/CHUNK)||typeof m.iv!=="string"){
+     status("Sender supplied invalid transfer metadata. Session stopped.",true);stop();return;
+   }
+   try{const nonce=un64(m.iv);if(nonce.length!==12)throw new Error("Invalid AES-GCM nonce");iv=nonce;}
+   catch(_){status("Invalid encryption metadata. Session stopped.",true);stop();return;}
+   meta=m;totalBytes=m.bytes;expected=m.chunks;buffer=[];receivedBytes=0;
+   status("Approved. Receiving encrypted data…");return;
+ }
+ if(d.type==="chunk"){
+   if(!meta||endReceived||!Number.isInteger(d.index)||d.index!==buffer.length||
+      !(d.data instanceof ArrayBuffer)||d.data.byteLength<1||d.data.byteLength>CHUNK||
+      receivedBytes+d.data.byteLength>totalBytes){
+     status("Invalid transfer chunk. Session stopped.",true);stop();return;
+   }
+   buffer.push(d.data);receivedBytes+=d.data.byteLength;
+   const pct=Math.round(receivedBytes/totalBytes*100);
+   $("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data received: "+pct+"%";return;
+ }
+ if(d.type==="end"){
+   if(endReceived){status("Duplicate transfer completion message rejected.",true);stop();return;}
+   endReceived=true;
+   finish().catch(e=>{status("Decryption or download failed: "+e.message,true);stop()});
+ }
+}
+async function finish(){
+ if(!meta||buffer.length!==expected||receivedBytes!==totalBytes)throw new Error("Incomplete or truncated transfer.");
+ const all=new Uint8Array(totalBytes);let off=0;
+ for(const part of buffer){all.set(new Uint8Array(part),off);off+=part.byteLength;}
+ const clear=await decrypt(all.buffer);
+ if(clear.byteLength!==meta.size)throw new Error("Decrypted size did not match sender metadata.");
+ const blob=new Blob([clear],{type:meta.type}),url=URL.createObjectURL(blob),wrap=$("received");
+ wrap.classList.remove("hidden");wrap.replaceChildren();
+ const title=document.createElement("p");title.textContent="Encrypted transfer received and decrypted successfully.";
+ const link=document.createElement("a");link.href=url;
+ link.download=meta.name.replace(/[\\/\0]/g,"_").slice(0,180)||"download";
+ link.className="button";link.textContent="Download "+link.download;
+ link.addEventListener("click",()=>{
+   if(transferCompleted)return;
+   transferCompleted=true;
+   try{if(conn&&conn.open)conn.send({type:"done"});}catch(_){}
+   status("Download initiated. The one-time session is closing.");
+   setTimeout(()=>{URL.revokeObjectURL(url);stop();status("Transfer complete. Session closed; this link cannot be reused.")},1500);
+ });
+ wrap.append(title,link);
+ status("Decryption successful. Select Download to save the file and complete this one-time transfer.");
+}
+$("create").addEventListener("click",create);$("cancel").addEventListener("click",()=>{expire();$("created").classList.add("hidden")});$("connect").addEventListener("click",connect);
+const join=parseJoin();if(join.id){setupReceiver()}else{setupSender()}
+if(!window.isSecureContext||!window.crypto||!crypto.subtle){$("create").disabled=true;$("connect").disabled=true;status("Secure Share requires HTTPS and browser Web Crypto support.",true);} 
+window.addEventListener("pagehide",stop);
+})();
+</script></body></html>
