@@ -10,7 +10,7 @@ The 18.2 million figure equates to approximately 8,226 network-layer attacks per
 
 ## More frequent attacks, not only bigger attacks
 
-Cloudflare reports that network-layer attacks increased 38% compared with Q2 2026, from 13.2 million to 18.2 million. Its report also highlights a 208% year-over-year rise in short-burst attacks under 10 minutes and below 1 Gbps.
+Cloudflare reports 18.2 million network-layer attacks in Q3, compared with 13.2 million in Q2 (about 38% higher). Its report says short-burst attacks lasting under 10 minutes and below 1 Gbps surged by 208% year over year. Cloudflare also reports that 96% of network-layer attacks ended in under 10 minutes and 98% stayed below 1 Gbps.
 
 That distinction matters for defenders. A DDoS campaign does not need to reach multi-terabit scale to disrupt a smaller application, saturate a limited circuit or exhaust a constrained service. Repeated short attacks can also complicate triage when teams focus only on the largest traffic spikes.
 
@@ -18,7 +18,7 @@ At the other end of the scale, Cloudflare recorded 251 network-layer attacks exc
 
 ## Changes in attack techniques
 
-Cloudflare highlights a sharp shift in reflection and amplification activity. It reports that CLDAP attacks fell by 99.5% quarter over quarter, while DNS amplification increased by 215% and general UDP floods rose by 122%.
+Cloudflare highlights a sharp shift in reflection and amplification activity. It reports that CLDAP attacks fell by 99.5% quarter over quarter, while DNS amplification increased by 215% and general UDP floods rose by 122%. Cloudflare says DNS amplification accounted for 3.43% of network-layer attacks and other UDP floods reached 31.31%.
 
 Reflection and amplification abuse exposed UDP services to spoofed requests that cause larger responses to be sent toward a victim. Defenders should therefore understand which internet-facing services can be abused as reflectors and whether their providers have controls to reduce spoofing and amplification.
 
