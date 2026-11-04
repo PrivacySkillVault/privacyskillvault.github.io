@@ -90,7 +90,7 @@ async function create(){
   meta={name:file?file.name:"secure-note.txt",type:file?(file.type||"application/octet-stream"):"text/plain;charset=utf-8",size:payload.byteLength,bytes:cipher.byteLength,chunks:Math.ceil(cipher.byteLength/CHUNK),iv:b64(iv)};
   peer=new Peer(undefined,{debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"}]}});
   peer.on("open",id=>{
-   const url=new URL(location.href);url.search="";url.hash="";url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(key));
+   const url=new URL("/secure-share/", "https://privacyskillvault.com");url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(key));
    $("sharelink").textContent=url.toString();$("created").classList.remove("hidden");
    $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(url.toString());status("Link copied. Send it only to the verified recipient.");}catch(_){status("Clipboard access unavailable. Select and copy the link manually.",true);}};
    status("Link created. Waiting for a recipient request.");startExpiry();
