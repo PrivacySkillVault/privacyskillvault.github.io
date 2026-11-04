@@ -23,9 +23,9 @@ The Hacker News report also discusses other November vulnerabilities, including 
 
 ## What is not confirmed
 
-The Android bulletin confirms the CVE, severity, vulnerability type and affected versions. It does not, in the public entry, provide the detailed code path or exploit chain described in some secondary reporting. We therefore avoid presenting a specific function-level trigger or exploit technique as independently confirmed by Google's bulletin.
+The Android bulletin confirms the CVE, severity, vulnerability type and affected versions. The detailed function-level description above is reported by The Hacker News from the CVE record; neither the bulletin nor CVE entry explains how an attacker reaches the vulnerable code.
 
-As of the bulletin information reviewed for this article, the cited primary source does not establish active exploitation of CVE-2026-58868. A Critical severity rating should not be reported as proof that attackers are exploiting it in the wild.
+As of November 4, 2026, Google's bulletin does not report active exploitation of CVE-2026-58868, and The Hacker News reports that the CVE was not in CISA's KEV catalog as of its November 3 update. A Critical severity rating should not be reported as proof that attackers are exploiting it in the wild.
 
 ## How to check and respond
 
