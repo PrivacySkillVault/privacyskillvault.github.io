@@ -20,6 +20,26 @@
 
     <div class="psv-journal-section-head psv-journal-section-head--latest"><div><h2>Latest stories</h2></div></div>
     <div class="psv-journal-story-list">
+<a class="psv-story-card" href="threat-analysis/prompt-adware-ai-agent-instructions/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> AI SECURITY</span><h3>Prompt Adware: When an AI Jailbreak Rewrites an Agent’s Trust Boundary</h3><p>How a Codex configuration bundle persistently promoted a third-party AI gateway—and what agent owners should monitor.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
+<a class="psv-story-card" href="vulnerabilities/android-november-2026-critical-rce/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> MOBILE SECURITY</span><h3>Android November Bulletin: Critical RCE Flaw Affects Versions 14–17</h3><p>What Google confirms about CVE-2026-58868, patch levels and enterprise mobile response.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
+<a class="psv-story-card" href="vulnerabilities/wordpress-core-cve-2026-119977-active-exploitation/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> WEB SECURITY</span><h3>CISA Confirms Active Exploitation of WordPress Core Flaw</h3><p>CVE-2026-119977: the upgrade-window race condition, patched releases and compromise checks.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
+<a class="psv-story-card" href="vulnerabilities/debian-ubuntu-apt-cve-2026-109518/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> LINUX SECURITY</span><h3>Debian and Ubuntu APT Flaw: Package Swap Can Lead to Root Code Execution</h3><p>How CVE-2026-109518 abuses HTTP redirects and download retries—and how to patch by distribution.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
+<a class="psv-story-card" href="threat-analysis/cloudflare-q3-2026-ddos-report/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> NETWORK SECURITY</span><h3>Cloudflare Reports 18.2 Million Network-Layer DDoS Attacks in Q3</h3><p>What the Q3 telemetry says about short-burst attacks, amplification shifts and defender readiness.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
 <a class="psv-story-card" href="vulnerabilities/chatgpt-shared-link-cross-frame-vulnerability/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/34803966/pexels-photo-34803966.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Daniil Komov on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> WEB SECURITY</span><h3>When a Shared ChatGPT Link Becomes an Attack Surface</h3><p>A cross-frame messaging flaw turned a trusted Preview feature into a route for code execution in a signed-in session. Here is what happened and what defenders should learn.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
