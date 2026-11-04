@@ -18,6 +18,14 @@
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5935788/pexels-photo-5935788.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Sora Shimazaki on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>Living off the Land: Why Legitimate Tools Can Look Suspicious</h3><p>How attackers abuse built-in utilities, why simple blocklists fail, and how to investigate behaviour and context.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
     </a>
+<a class="psv-story-card" href="prompt-adware-ai-agent-instructions/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> AI SECURITY</span><h3>Prompt Adware: When an AI Jailbreak Rewrites an Agent’s Trust Boundary</h3><p>How a Codex configuration bundle persistently promoted a third-party AI gateway—and what agent owners should monitor.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
+<a class="psv-story-card" href="cloudflare-q3-2026-ddos-report/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> NETWORK SECURITY</span><h3>Cloudflare Reports 18.2 Million Network-Layer DDoS Attacks in Q3</h3><p>What the Q3 telemetry says about short-burst attacks, amplification shifts and defender readiness.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+    </a>
     </div>
     <nav class="psv-journal-pagination" aria-label="threat analysis pages"><span class="psv-page-link is-current" aria-current="page">1</span></nav>
   </section>
