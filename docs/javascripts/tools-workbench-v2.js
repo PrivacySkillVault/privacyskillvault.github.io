@@ -2238,7 +2238,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         '<div class="psv-device-disclosure"><strong>Evidence limitations:</strong> User-Agent and browser APIs are spoofable and may be reduced. Device model, CPU, memory and platform details may be unavailable. Network ASN, source IP, TLS fingerprints, registered device IDs and native-app attestation must be supplied by trusted server-side systems.</div>'+
         '<div id="device-output" class="psv-advanced-output" aria-live="polite">Collect a profile or paste evidence, then select Analyze evidence.</div></section>';
     } else if (tool.id === "share") {
-      body = '<section class="psv-advanced-panel"><h2>Encrypt or decrypt an evidence package</h2><p>Encryption and decryption run locally using Web Crypto (AES-256-GCM with PBKDF2-SHA-256). The encrypted package is downloaded; PSV does not receive the content.</p>'+
+      body = '<section class="psv-advanced-panel"><h2>Direct browser-to-browser transfer</h2><p>Send a one-time encrypted note or file directly to another browser. The sender must stay online and approve the recipient. The live transfer uses WebRTC and does not upload file content to PSV.</p><div class="psv-advanced-actions"><a href="/secure-share/" target="_blank" rel="noopener noreferrer" class="psv-secure-share-link" style="display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border:1px solid var(--md-accent-fg-color);border-radius:6px;color:var(--md-accent-fg-color);font-weight:700;text-decoration:none">Open Secure Share ↗</a></div><h2>Encrypt or decrypt an evidence package</h2><p>Encryption and decryption run locally using Web Crypto (AES-256-GCM with PBKDF2-SHA-256). The encrypted package is downloaded; PSV does not receive the content.</p>'+
         '<div class="psv-advanced-actions psv-share-modes"><button type="button" class="active" data-psv-action="share-mode" data-mode="encrypt">Encrypt package</button><button type="button" data-psv-action="share-mode" data-mode="decrypt">Decrypt package</button></div>'+
         '<label for="share-text">Text to encrypt (optional)</label><textarea id="share-text" rows="5" placeholder="Paste text for local encryption…"></textarea>'+
         '<label for="share-file">Or select a file to encrypt</label><input id="share-file" type="file">'+
@@ -2271,7 +2271,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     } else if(/Mac OS X/i.test(value)){
       os="macOS";osVersion=pick(/Mac OS X ([0-9_]+)/i);if(osVersion)osVersion=osVersion.replace(/_/g,".");deviceType="Desktop";
     } else if(/Linux/i.test(value)){os="Linux";deviceType=/Mobile/i.test(value)?"Mobile":"Desktop";}
-    const candidates=[["Microsoft Edge",/EdgA?\/([0-9.]+)/],["Opera",/OPR\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\/([0-9.]+)/],["Safari",/Version\/([0-9.]+).*Safari/]];
+    const candidates=[["Microsoft Edge",/(?:Edg|EdgA|EdgiOS)\/([0-9.]+)/],["Opera",/OPR\/([0-9.]+)/],["Samsung Internet",/SamsungBrowser\/([0-9.]+)/],["Firefox",/(?:Firefox|FxiOS)\/([0-9.]+)/],["Chrome",/(?:Chrome|CriOS)\/([0-9.]+)/],["Safari",/Version\/([0-9.]+).*Safari/]];
     let browser="Unknown",browserVersion=null;
     for(const [name,re] of candidates){const m=value.match(re);if(m){browser=name;browserVersion=m[1];break;}}
     const webviewTokens=["; wv)","Version/4.0","WebView","WKWebView"];
@@ -2313,7 +2313,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     out=out||{};prefix=prefix||"";
     if(value&&typeof value==="object"&&!Array.isArray(value)){
       Object.keys(value).forEach(k=>psvDeviceFlatten(value[k],prefix?prefix+"."+k:k,out));
-    } else if(value!==undefined&&value!==null&&value!=="") out[prefix]=value;
+    } else if(value!==undefined) out[prefix]=value;
     return out;
   }
   function psvDeviceRender(data) {
