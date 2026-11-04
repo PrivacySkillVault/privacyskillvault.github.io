@@ -112,6 +112,7 @@ nav:
       - Detection Change & Validation Record: operational-templates/detection-change-record.md
       - Fraud Investigation Case Record: operational-templates/fraud-case-record.md
       - Cybersecurity Incident Report: operational-templates/incident-report.md
-  - Tools: tools/index.md
-  - Secure Share: secure-share.md
+  - Tools:
+      - Tools Overview: tools/index.md
+      - Secure Share: secure-share.md
   - Blog: blog/index.md
