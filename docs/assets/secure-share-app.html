@@ -25,6 +25,7 @@ ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);pad
 @media(max-width:600px){main{padding:20px 14px 48px}.panel{padding:18px}.row>*{flex:1 1 100%}.top{gap:10px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" crossorigin="anonymous"></script>
 </head>
 <body><main>
 <header class="top"><div class="brand">PSV <b>Privacy Skill Vault</b></div><a href="/tools/">Back to Tools</a></header>
@@ -33,9 +34,9 @@ ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);pad
 <div class="notice">This is not the passphrase-based Secure Evidence Share utility. That existing encrypt/decrypt tool remains unchanged.</div>
 <section id="sender" class="panel">
 <h2>Create a one-time transfer</h2>
-<p class="small muted">Select either a text note or one file. Keep this page open until the recipient completes the download. Maximum payload: 10 MB.</p>
+<p class="small muted">Select either a text note or up to 20 files. Multiple files are packaged into one ZIP archive. Keep this page open until the recipient completes the download. Maximum total payload: 100 MB.</p>
 <label for="message">Confidential text</label><textarea id="message" maxlength="10485760" placeholder="Enter a confidential note…"></textarea>
-<label for="file">Or select one file (maximum 10 MB)</label><input id="file" type="file">
+<label for="file">Or select files (up to 20 files; 100 MB total)</label><input id="file" type="file" multiple>
 <div class="row"><button id="create">Create secure link</button></div>
 <div id="created" class="hidden">
 <label>One-time recipient link</label><div id="sharelink" class="linkbox"></div>
@@ -67,7 +68,7 @@ ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);pad
 </main>
 <script>
 (()=>{"use strict";
-const MAX=10*1024*1024,CHUNK=16*1024,ACK_TIMEOUT=15000,$=id=>document.getElementById(id);
+const MAX=100*1024*1024,MAX_FILES=20,CHUNK=32*1024,ACK_TIMEOUT=30000,$=id=>document.getElementById(id);
 let peer=null,conn=null,key=null,iv=null,sessionTimer=null,meta=null,cipher=null,sendOffset=0,sendIndex=0,sendWaiting=false,ackTimer=null,buffer=[],receivedBytes=0,transferCompleted=false,approved=false,used=false,receiverEnd=false,objectUrl=null;
 const status=(message,bad=false)=>{$("status").textContent=message;$("status").className="status"+(bad?" bad":" good")};
 const b64=value=>{const bytes=value instanceof Uint8Array?value:new Uint8Array(value);let binary="";for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(binary)};
@@ -79,32 +80,41 @@ const joinParams=()=>({id:new URLSearchParams(location.search).get("join"),secre
 async function encryptPayload(data){const aes=await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt"]);const nonce=crypto.getRandomValues(new Uint8Array(12));const raw=await crypto.subtle.exportKey("raw",aes);const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv:nonce},aes,data);return {encrypted,raw,nonce};}
 async function create(){
  try{
-  const file=$("file").files[0],message=$("message").value;
-  if((!file&&!message.trim())||(file&&message.trim())){status("Provide either a text note or one file, but not both.",true);return;}
-  if(file&&file.size>MAX){status("The selected file exceeds the 10 MB limit.",true);return;}
+  transferCompleted=true;stop();clearTimeout(sessionTimer);clearTimeout(ackTimer);
+  peer=null;conn=null;key=null;iv=null;meta=null;cipher=null;sendOffset=0;sendIndex=0;sendWaiting=false;buffer=[];receivedBytes=0;approved=false;used=false;receiverEnd=false;objectUrl=null;transferCompleted=false;
+  $("created").classList.add("hidden");$("received").classList.add("hidden");$("received").replaceChildren();$("bar").style.width="0";$("progresslabel").textContent="";
+  const files=Array.from($("file").files||[]),message=$("message").value,total=files.reduce((s,f)=>s+f.size,0);
+  if((!files.length&&!message.trim())||(files.length&&message.trim())){status("Provide either a text note or one or more files, but not both.",true);return;}
+  if(files.length>MAX_FILES){status("Select no more than 20 files per transfer.",true);return;}
+  if(files.length&&total>MAX){status("The selected files exceed the 100 MB total limit.",true);return;}
   if(!window.Peer){status("PeerJS failed to load. Check connectivity and retry.",true);return;}
-  $("create").disabled=true;status("Encrypting locally and preparing a temporary connection…");
-  const payload=file?await file.arrayBuffer():new TextEncoder().encode(message).buffer;
-  if(payload.byteLength>MAX)throw new Error("The payload exceeds the 10 MB limit.");
+  $("create").disabled=true;status(files.length>1?"Packaging and encrypting files locally…":"Encrypting locally and preparing a temporary connection…");
+  let payload,name,type;
+  if(files.length>1){
+   if(!window.JSZip)throw new Error("The ZIP library did not load. Refresh and retry.");
+   const zip=new JSZip();files.forEach(file=>zip.file(file.name,file,{date:new Date(file.lastModified||Date.now())}));
+   payload=await zip.generateAsync({type:"arraybuffer",compression:"STORE"});name="secure-share-files.zip";type="application/zip";
+  }else if(files.length===1){payload=await files[0].arrayBuffer();name=files[0].name;type=files[0].type||"application/octet-stream";}
+  else{payload=new TextEncoder().encode(message).buffer;name="secure-note.txt";type="text/plain;charset=utf-8";}
+  if(payload.byteLength>MAX)throw new Error("The prepared payload exceeds the 100 MB limit.");
   const result=await encryptPayload(payload);cipher=result.encrypted;iv=result.nonce;key=result.raw;
-  meta={name:file?file.name:"secure-note.txt",type:file?(file.type||"application/octet-stream"):"text/plain;charset=utf-8",size:payload.byteLength,bytes:cipher.byteLength,chunks:Math.ceil(cipher.byteLength/CHUNK),iv:b64(iv)};
+  meta={name,type,size:payload.byteLength,bytes:cipher.byteLength,chunks:Math.ceil(cipher.byteLength/CHUNK),iv:b64(iv)};
   peer=new Peer(undefined,{debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"}]}});
   peer.on("open",id=>{
-   const url=new URL("/secure-share/", "https://privacyskillvault.com");url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(key));
+   const url=new URL("/secure-share/","https://privacyskillvault.com");url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(key));
    $("sharelink").textContent=url.toString();$("created").classList.remove("hidden");
    $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(url.toString());status("Link copied. Send it only to the verified recipient.");}catch(_){status("Clipboard access unavailable. Select and copy the link manually.",true);}};
    status("Link created. Waiting for a recipient request.");startExpiry();
   });
   peer.on("connection",incoming=>{
-   if(used||conn){incoming.close();return;}
-   conn=incoming;status("Incoming recipient request. Verify the recipient before approving.");
+   if(used||conn){incoming.close();return;}conn=incoming;status("Incoming recipient request. Verify the recipient before approving.");
    if(!confirm("Approve this incoming Secure Share recipient? Only approve someone you have independently verified.")){incoming.close();conn=null;status("Request rejected. The link remains available until expiry.");return;}
    approved=true;used=true;
    conn.on("open",()=>{if(!conn||!conn.open)return;try{conn.send({type:"approved",meta});status("Recipient approved. Sending encrypted payload…");sendNextChunk();}catch(e){endSession("Could not start transfer: "+e.message);}});
    conn.on("data",data=>{if(data&&data.type==="ack"&&sendWaiting&&data.index===sendIndex-1){clearTimeout(ackTimer);sendWaiting=false;sendNextChunk();}else if(data&&data.type==="done"){transferCompleted=true;endSession("Recipient confirmed download. One-time session closed.",false);}});
    conn.on("close",()=>{if(!transferCompleted)endSession("Recipient disconnected before completion. Create a new link; this session cannot be reused.");});
   });
-  peer.on("error",e=>{if(!transferCompleted)endSession("Peer connection error ("+(e.type||"unknown")+"). Check network restrictions and retry with a new link.");});
+  peer.on("error",e=>{if(!transferCompleted)endSession("Peer connection error ("+(e.type||"unknown")+"). Check network restrictions and retry.");});
  }catch(e){endSession("Could not create transfer: "+e.message);$("create").disabled=false;}
 }
 function sendNextChunk(){
