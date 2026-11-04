@@ -1958,27 +1958,35 @@
   <h1>Secure Share</h1>
 
 <style>
+/* Match the Tools page outer Material layout: central workspace with native right navigation. */
+body.secure-share-page .md-grid{width:100%!important;max-width:1480px!important}
+body.secure-share-page .md-main__inner{box-sizing:border-box;width:100%!important;max-width:1480px!important;margin:0 auto!important;align-items:flex-start!important}
+body.secure-share-page .md-content{box-sizing:border-box;flex:1 1 auto!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
+body.secure-share-page .md-content__inner{box-sizing:border-box;width:100%!important;max-width:none!important;margin:0!important;padding:1.4rem 1rem 3rem!important}
 body.secure-share-page .md-content__inner>h1:first-child{display:none}
-#secure-share-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 245px!important;grid-template-rows:auto;gap:1.5rem;align-items:start;width:100%;max-width:100%;margin:0;padding:0 0 2rem}
-#secure-share-main{display:block;grid-column:1;grid-row:1;min-width:0;width:100%;max-width:100%}
-#secure-share-heading{display:none}
+#secure-share-layout{display:block!important;width:100%!important;max-width:none!important;margin:0;padding:0 0 2rem}
+#secure-share-main{display:block;min-width:0;width:100%;max-width:none}
+#secure-share-heading{display:block;margin:0 0 1rem}
 #secure-share-heading .eyebrow{display:block;margin:0 0 .35rem;color:var(--md-accent-fg-color);font:700 .68rem/1.4 "Roboto Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
-#secure-share-heading h1{margin:0 0 .45rem;font-size:1.8rem;font-weight:700;letter-spacing:-.02em;color:var(--md-default-fg-color)}
-#secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:.9rem;line-height:1.65}
-#secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-default-bg-color)}
-#secure-share-categories{display:block;grid-column:2;grid-row:1;width:245px;min-width:0;position:sticky;top:1.25rem;max-height:calc(100vh - 2.5rem);overflow:auto}
+#secure-share-heading h1{margin:0 0 .45rem;font-size:1.5625em;font-weight:700;letter-spacing:normal;color:var(--md-typeset-color)}
+#secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:1em;line-height:1.72}
+#secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:0;border-radius:0;background:transparent}
+#secure-share-categories{display:block;width:245px;min-width:245px;max-width:245px;position:sticky;top:1.25rem;max-height:calc(100vh - 2.5rem);overflow:auto;padding:0!important;border:0!important;background:transparent!important}
+#secure-share-categories .md-sidebar__scrollwrap{height:100%;overflow-y:auto}
+#secure-share-categories .md-sidebar__inner{padding:0}
 #secure-share-categories .psv-tool-sidebar{padding:0!important;border:0!important;background:transparent!important}
-#secure-share-categories .psv-tool-sidebar>.md-nav__title{display:block;margin:0 0 .65rem;padding:.0 .2rem;color:var(--md-default-fg-color);font-size:.78rem;font-weight:700}
-#secure-share-categories .psv-category-group{margin:.15rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
-#secure-share-categories .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;list-style:none}
+#secure-share-categories .psv-tool-sidebar>.md-nav__title{display:block;margin:0 0 .65rem;padding:0 .2rem;color:var(--md-default-fg-color);font-size:.78rem;font-weight:700}
+#secure-share-categories .psv-category-accordion{display:block!important;visibility:visible!important}
+#secure-share-categories .psv-category-group{display:block!important;visibility:visible!important;margin:.15rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+#secure-share-categories .psv-category-group>summary{display:flex!important;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;list-style:none}
 #secure-share-categories .psv-category-group>summary::-webkit-details-marker{display:none}
-#secure-share-categories .psv-category-tools{padding:.1rem 0 .45rem .6rem}
-#secure-share-categories .psv-sidebar-tool{display:block;width:100%;margin:0;border:0;padding:.2rem .6rem;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;font-size:.78rem;line-height:1.4;text-align:left;text-decoration:none;cursor:pointer}
+#secure-share-categories .psv-category-tools{display:block;padding:.1rem 0 .45rem .6rem}
+#secure-share-categories .psv-sidebar-tool{display:block!important;width:100%;margin:0;border:0;padding:.2rem .6rem;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;font-size:.78rem;line-height:1.4;text-align:left;text-decoration:none;cursor:pointer}
 #secure-share-categories .psv-sidebar-tool:hover,#secure-share-categories .psv-sidebar-tool.active{background:var(--md-default-bg-color);color:var(--md-accent-fg-color)}
 #secure-share-categories .psv-sidebar-tool.active{font-weight:650}
 #secure-share-categories .psv-vault-count{margin-left:auto;padding-left:.5rem;color:var(--md-default-fg-color--light);font:inherit;font-size:.85em}
-@media(max-width:900px){#secure-share-layout{grid-template-columns:minmax(0,1fr)!important}#secure-share-main{grid-column:1;grid-row:1}#secure-share-categories{grid-column:1;grid-row:2;width:100%;position:static;max-height:none}}
-@media(max-width:560px){#secure-share-frame{height:1180px;min-height:900px}}
+@media(max-width:900px){body.secure-share-page .md-main__inner{display:block!important}#secure-share-categories{position:static;width:100%;min-width:0;max-width:none;max-height:none;margin:1.5rem 0}}
+@media(max-width:560px){body.secure-share-page .md-content__inner{padding:.7rem .8rem 2rem!important}#secure-share-frame{height:1180px;min-height:900px}}
 </style>
 
 <div id="secure-share-layout">
@@ -2055,6 +2063,13 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
   document.body.classList.add("secure-share-page");
   const frame = document.getElementById("secure-share-frame");
   if (!frame) return;
+  const sidebar = document.getElementById("secure-share-categories");
+  const mainInner = document.querySelector(".md-main__inner");
+  if (sidebar && mainInner && sidebar.parentElement !== mainInner) {
+    sidebar.classList.add("md-sidebar--secondary");
+    sidebar.setAttribute("data-md-component","sidebar");
+    mainInner.appendChild(sidebar);
+  }
   const syncTheme = () => {
     try {
       const dark = document.documentElement.getAttribute("data-md-color-scheme") === "slate";
