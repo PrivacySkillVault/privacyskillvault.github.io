@@ -3,6 +3,7 @@ title: Secure Share
 ---
 
 <style>
+body.secure-share-page .md-content__inner>h1:first-child{display:none}
 #secure-share-layout{display:grid!important;grid-template-columns:minmax(0,1fr) 245px!important;grid-template-rows:auto;gap:1.5rem;align-items:start;width:100%;max-width:100%;margin:0;padding:0 0 2rem}
 #secure-share-main{display:block;grid-column:1;grid-row:1;min-width:0;width:100%;max-width:100%}
 #secure-share-heading{display:none}
@@ -83,6 +84,7 @@ title: Secure Share
 
 <script>
 (() => {
+  document.body.classList.add("secure-share-page");
   const frame = document.getElementById("secure-share-frame");
   if (!frame) return;
   const syncTheme = () => {
