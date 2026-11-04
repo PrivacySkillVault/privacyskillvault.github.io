@@ -10,11 +10,11 @@
 <style>
 :root{color-scheme:light;--ink:#20252d;--muted:#64748b;--line:#dce2e9;--panel:#fff;--page:#f6f8fb;--blue:#3478f6;--blue-dark:#1d5fd0;--red:#b42318;--green:#16794b}
 *{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:900px;margin:0 auto;padding:32px 22px 64px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:30px}.brand{font-weight:800;letter-spacing:.02em}.brand b{color:#078cba}.top a{color:var(--blue-dark);text-decoration:none}
+main{max-width:none;width:100%;margin:0 auto;padding:22px 20px 36px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:30px}.brand{font-weight:800;letter-spacing:.02em}.brand b{color:#078cba}.top a{color:var(--blue-dark);text-decoration:none}
 h1{font-size:clamp(2rem,4vw,2.65rem);line-height:1.15;margin:0 0 10px}h2{font-size:1.22rem;margin:0 0 10px}.lead{color:var(--muted);font-size:1.04rem;max-width:720px;margin:0 0 24px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;margin:18px 0;box-shadow:0 2px 8px #0b172508}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin:14px 0;box-shadow:none}
 label{display:block;font-weight:650;margin:14px 0 7px}textarea,input[type=file]{width:100%;background:#fff;color:var(--ink);border:1px solid #cbd5e1;border-radius:7px;padding:11px;font:inherit}textarea{min-height:130px;resize:vertical}
-button,.button{border:0;border-radius:7px;padding:11px 16px;background:var(--blue);color:#fff;font-weight:650;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+button,.button{border:0;border-radius:7px;padding:10px 15px;background:var(--blue);color:#fff;font-weight:650;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 button:hover,.button:hover{background:var(--blue-dark)}button:disabled{opacity:.48;cursor:not-allowed}.secondary{background:#fff;color:var(--ink);border:1px solid #cbd5e1}.danger{background:#fff;color:var(--red);border:1px solid #e5b7b3}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.row>*{flex:0 0 auto}.small{font-size:.88rem}.muted{color:var(--muted)}.hidden{display:none!important}
 .status{padding:13px;border-radius:8px;background:#f8fafc;border:1px solid var(--line);overflow-wrap:anywhere}.status.good{border-color:#86c9a8;background:#f3fbf6}.status.bad{border-color:#e6aaa5;background:#fff7f6}
@@ -28,8 +28,6 @@ ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);pad
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" crossorigin="anonymous"></script>
 </head>
 <body><main>
-<header class="top"><div class="brand">PSV <b>Privacy Skill Vault</b></div><a href="/tools/">Back to Tools</a></header>
-<h1>Secure Share</h1>
 <p class="lead">A separate, temporary browser-to-browser transfer tool for confidential notes and small evidence files. Content is encrypted in the sender's browser before transfer.</p>
 <div class="notice">This is not the passphrase-based Secure Evidence Share utility. That existing encrypt/decrypt tool remains unchanged.</div>
 <section id="sender" class="panel">
