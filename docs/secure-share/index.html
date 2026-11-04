@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Secure Share | Privacy Skill Vault</title>
+<style>
+:root{color-scheme:light;--ink:#20252d;--muted:#64748b;--line:#dce2e9;--panel:#fff;--page:#f6f8fb;--blue:#3478f6;--blue-dark:#1d5fd0;--red:#b42318;--green:#16794b}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:900px;margin:0 auto;padding:32px 22px 64px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:30px}.brand{font-weight:800;letter-spacing:.02em}.brand b{color:#078cba}.top a{color:var(--blue-dark);text-decoration:none}
+h1{font-size:clamp(2rem,4vw,2.65rem);line-height:1.15;margin:0 0 10px}h2{font-size:1.22rem;margin:0 0 10px}.lead{color:var(--muted);font-size:1.04rem;max-width:720px;margin:0 0 24px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;margin:18px 0;box-shadow:0 2px 8px #0b172508}
+label{display:block;font-weight:650;margin:14px 0 7px}textarea,input[type=file]{width:100%;background:#fff;color:var(--ink);border:1px solid #cbd5e1;border-radius:7px;padding:11px;font:inherit}textarea{min-height:130px;resize:vertical}
+button,.button{border:0;border-radius:7px;padding:11px 16px;background:var(--blue);color:#fff;font-weight:650;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+button:hover,.button:hover{background:var(--blue-dark)}button:disabled{opacity:.48;cursor:not-allowed}.secondary{background:#fff;color:var(--ink);border:1px solid #cbd5e1}.danger{background:#fff;color:var(--red);border:1px solid #e5b7b3}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.row>*{flex:0 0 auto}.small{font-size:.88rem}.muted{color:var(--muted)}.hidden{display:none!important}
+.status{padding:13px;border-radius:8px;background:#f8fafc;border:1px solid var(--line);overflow-wrap:anywhere}.status.good{border-color:#86c9a8;background:#f3fbf6}.status.bad{border-color:#e6aaa5;background:#fff7f6}
+.linkbox{width:100%;overflow-wrap:anywhere;background:#f8fafc;border:1px solid var(--line);padding:12px;border-radius:8px;user-select:all}
+.progress{height:8px;background:#e5eaf0;border-radius:8px;overflow:hidden;margin-top:12px}.progress>i{display:block;height:100%;width:0;background:#238b58;transition:width .12s}
+.notice{border-left:3px solid var(--blue);padding:9px 13px;background:#f3f7ff;color:#43536b;font-size:.9rem}
+ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.82rem;margin-top:30px}
+@media(max-width:600px){main{padding:20px 14px 48px}.panel{padding:18px}.row>*{flex:1 1 100%}.top{gap:10px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js" crossorigin="anonymous"></script>
+</head>
+<body><main>
+<header class="top"><div class="brand">PSV <b>Privacy Skill Vault</b></div><a href="/tools/">Back to Tools</a></header>
+<h1>Secure Share</h1>
+<p class="lead">A separate, temporary browser-to-browser transfer tool for confidential notes and small evidence files. Content is encrypted in the sender's browser before transfer.</p>
+<div class="notice">This is not the passphrase-based Secure Evidence Share utility. That existing encrypt/decrypt tool remains unchanged.</div>
+<section id="sender" class="panel">
+<h2>Create a one-time transfer</h2>
+<p class="small muted">Select either a text note or one file. Keep this page open until the recipient completes the download. Maximum payload: 10 MB.</p>
+<label for="message">Confidential text</label><textarea id="message" maxlength="10485760" placeholder="Enter a confidential note…"></textarea>
+<label for="file">Or select one file (maximum 10 MB)</label><input id="file" type="file">
+<div class="row"><button id="create">Create secure link</button></div>
+<div id="created" class="hidden">
+<label>One-time recipient link</label><div id="sharelink" class="linkbox"></div>
+<div class="row"><button id="copy" class="secondary">Copy link</button><button id="cancel" class="danger">Cancel transfer</button></div>
+<p class="small muted">Approve only a recipient you have independently verified. Anyone who obtains the full link may attempt to connect.</p>
+</div>
+</section>
+<section id="receiver" class="panel hidden">
+<h2>Receive a secure transfer</h2><p class="small muted">Request access from the sender. The sender must approve before encrypted data is sent.</p>
+<div class="row"><button id="connect">Request connection</button></div><div id="received" class="hidden"></div>
+</section>
+<section class="panel">
+<h2>Transfer status</h2><div id="status" class="status" role="status" aria-live="polite">Ready. No file has been uploaded.</div>
+<div class="progress"><i id="bar"></i></div><p id="progresslabel" class="small muted"></p>
+</section>
+<section class="panel small">
+<h2>Security model and limitations</h2>
+<ul>
+<li>Payload encryption: AES-256-GCM with a fresh random key and nonce for each transfer.</li>
+<li>Payload travels through a WebRTC data channel; the PSV website does not receive or store the plaintext or ciphertext payload.</li>
+<li>The decryption key is carried in the URL fragment. The complete link is a bearer secret; share it only through a trusted channel.</li>
+<li>PeerJS 1.5.5 is pinned to a fixed CDN version and provides signalling only. The signalling provider can observe connection metadata.</li>
+<li>Direct peer connectivity can fail behind restrictive NATs or firewalls. This release does not provide a TURN relay or offline delivery.</li>
+<li>The sender must remain online. The session expires after 10 minutes and accepts only one approved recipient.</li>
+<li>Once decrypted, the recipient can copy or redistribute the file. This tool cannot enforce downstream handling.</li>
+</ul>
+</section>
+<footer>Privacy Skill Vault · Temporary browser-to-browser transfer · No PSV file storage</footer>
+</main>
+<script>
+(()=>{"use strict";
+const MAX=10*1024*1024,CHUNK=16*1024,ACK_TIMEOUT=15000,$=id=>document.getElementById(id);
+let peer=null,conn=null,key=null,iv=null,sessionTimer=null,meta=null,cipher=null,sendOffset=0,sendIndex=0,sendWaiting=false,ackTimer=null,buffer=[],receivedBytes=0,transferCompleted=false,approved=false,used=false,receiverEnd=false,objectUrl=null;
+const status=(message,bad=false)=>{$("status").textContent=message;$("status").className="status"+(bad?" bad":" good")};
+const b64=value=>{const bytes=value instanceof Uint8Array?value:new Uint8Array(value);let binary="";for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(binary)};
+const un64=value=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
+const stop=()=>{clearTimeout(sessionTimer);clearTimeout(ackTimer);try{if(conn)conn.close()}catch(_){}try{if(peer)peer.destroy()}catch(_){}conn=null;peer=null;sendWaiting=false};
+const endSession=(message,bad=true)=>{stop();status(message,bad);$("create").disabled=false;$("connect").disabled=true};
+const startExpiry=()=>{clearTimeout(sessionTimer);sessionTimer=setTimeout(()=>endSession("Session expired after 10 minutes. Create a new link for another transfer."),10*60*1000)};
+const joinParams=()=>({id:new URLSearchParams(location.search).get("join"),secret:new URLSearchParams(location.hash.slice(1)).get("k")});
+async function encryptPayload(data){const aes=await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt"]);const nonce=crypto.getRandomValues(new Uint8Array(12));const raw=await crypto.subtle.exportKey("raw",aes);const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv:nonce},aes,data);return {encrypted,raw,nonce};}
+async function create(){
+ try{
+  const file=$("file").files[0],message=$("message").value;
+  if((!file&&!message.trim())||(file&&message.trim())){status("Provide either a text note or one file, but not both.",true);return;}
+  if(file&&file.size>MAX){status("The selected file exceeds the 10 MB limit.",true);return;}
+  if(!window.Peer){status("PeerJS failed to load. Check connectivity and retry.",true);return;}
+  $("create").disabled=true;status("Encrypting locally and preparing a temporary connection…");
+  const payload=file?await file.arrayBuffer():new TextEncoder().encode(message).buffer;
+  if(payload.byteLength>MAX)throw new Error("The payload exceeds the 10 MB limit.");
+  const result=await encryptPayload(payload);cipher=result.encrypted;iv=result.nonce;key=result.raw;
+  meta={name:file?file.name:"secure-note.txt",type:file?(file.type||"application/octet-stream"):"text/plain;charset=utf-8",size:payload.byteLength,bytes:cipher.byteLength,chunks:Math.ceil(cipher.byteLength/CHUNK),iv:b64(iv)};
+  peer=new Peer(undefined,{debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"}]}});
+  peer.on("open",id=>{
+   const url=new URL("/secure-share/", "https://privacyskillvault.com");url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(key));
+   $("sharelink").textContent=url.toString();$("created").classList.remove("hidden");
+   $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(url.toString());status("Link copied. Send it only to the verified recipient.");}catch(_){status("Clipboard access unavailable. Select and copy the link manually.",true);}};
+   status("Link created. Waiting for a recipient request.");startExpiry();
+  });
+  peer.on("connection",incoming=>{
+   if(used||conn){incoming.close();return;}
+   conn=incoming;status("Incoming recipient request. Verify the recipient before approving.");
+   if(!confirm("Approve this incoming Secure Share recipient? Only approve someone you have independently verified.")){incoming.close();conn=null;status("Request rejected. The link remains available until expiry.");return;}
+   approved=true;used=true;
+   conn.on("open",()=>{if(!conn||!conn.open)return;try{conn.send({type:"approved",meta});status("Recipient approved. Sending encrypted payload…");sendNextChunk();}catch(e){endSession("Could not start transfer: "+e.message);}});
+   conn.on("data",data=>{if(data&&data.type==="ack"&&sendWaiting&&data.index===sendIndex-1){clearTimeout(ackTimer);sendWaiting=false;sendNextChunk();}else if(data&&data.type==="done"){transferCompleted=true;endSession("Recipient confirmed download. One-time session closed.",false);}});
+   conn.on("close",()=>{if(!transferCompleted)endSession("Recipient disconnected before completion. Create a new link; this session cannot be reused.");});
+  });
+  peer.on("error",e=>{if(!transferCompleted)endSession("Peer connection error ("+(e.type||"unknown")+"). Check network restrictions and retry with a new link.");});
+ }catch(e){endSession("Could not create transfer: "+e.message);$("create").disabled=false;}
+}
+function sendNextChunk(){
+ if(!conn||!conn.open){endSession("Connection lost. Transfer was not completed; create a new link.");return;}
+ if(sendWaiting)return;
+ if(sendOffset>=cipher.byteLength){try{conn.send({type:"end",chunks:sendIndex,bytes:sendOffset});status("All encrypted chunks sent. Waiting for recipient verification and download.");}catch(e){endSession("Could not finish sending: "+e.message);}return;}
+ const chunk=cipher.slice(sendOffset,Math.min(sendOffset+CHUNK,cipher.byteLength));
+ const index=sendIndex;
+ try{conn.send({type:"chunk",index,data:chunk});sendOffset+=chunk.byteLength;sendIndex++;sendWaiting=true;
+  const pct=Math.round(sendOffset/cipher.byteLength*100);$("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data acknowledged: awaiting chunk "+index+" of "+meta.chunks;
+  ackTimer=setTimeout(()=>endSession("Transfer stalled: recipient acknowledgement timed out. Create a new link."),ACK_TIMEOUT);
+ }catch(e){endSession("Transfer send failed: "+e.message);}
+}
+async function connect(){
+ try{
+  const {id,secret}=joinParams();if(!id||!secret)throw new Error("The recipient link is incomplete.");
+  if(!window.Peer)throw new Error("PeerJS did not load. Refresh and retry.");
+  if(!window.isSecureContext||!crypto.subtle)throw new Error("HTTPS and Web Crypto support are required.");
+  $("connect").disabled=true;status("Importing the one-time decryption key…");
+  key=await crypto.subtle.importKey("raw",un64(secret),"AES-GCM",false,["decrypt"]);
+  peer=new Peer(undefined,{debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"}]}});
+  peer.on("open",()=>{conn=peer.connect(id,{reliable:true});conn.on("open",()=>status("Connection requested. Waiting for sender approval…"));conn.on("data",onData);conn.on("error",e=>endSession("Data channel error: "+(e.message||"connection failed")));conn.on("close",()=>{if(!transferCompleted)endSession("Connection closed before transfer completed. Ask the sender to create a new link.");});});
+  peer.on("error",e=>endSession("Unable to connect ("+(e.type||"network error")+"). Check connectivity and ask for a new link."));
+  startExpiry();
+ }catch(e){endSession(e.message);$("connect").disabled=false;}
+}
+function onData(data){
+ if(!data||typeof data!=="object"||typeof data.type!=="string")return;
+ if(data.type==="approved"){
+  const m=data.meta;
+  if(meta||!m||typeof m.name!=="string"||typeof m.type!=="string"||!Number.isSafeInteger(m.size)||m.size<0||m.size>MAX||!Number.isSafeInteger(m.bytes)||m.bytes!==m.size+16||!Number.isSafeInteger(m.chunks)||m.chunks!==Math.ceil(m.bytes/CHUNK)||m.chunks<1||m.chunks>Math.ceil((MAX+16)/CHUNK)||typeof m.iv!=="string"){endSession("Invalid transfer metadata. Session stopped.");return;}
+  try{iv=un64(m.iv);if(iv.length!==12)throw new Error();}catch(_){endSession("Invalid encryption nonce. Session stopped.");return;}
+  meta=m;receivedBytes=0;buffer=[];status("Sender approved the connection. Receiving encrypted data…");return;
+ }
+ if(data.type==="chunk"){
+  if(!meta||receiverEnd||!Number.isInteger(data.index)||data.index!==buffer.length||!(data.data instanceof ArrayBuffer)||data.data.byteLength<1||data.data.byteLength>CHUNK||receivedBytes+data.data.byteLength>meta.bytes){endSession("Invalid or out-of-order chunk. Session stopped.");return;}
+  buffer.push(data.data);receivedBytes+=data.data.byteLength;
+  const pct=Math.round(receivedBytes/meta.bytes*100);$("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data received: "+pct+"%";
+  try{conn.send({type:"ack",index:data.index});}catch(_){endSession("Could not acknowledge received chunk.");}return;
+ }
+ if(data.type==="end"){
+  if(receiverEnd||!meta||data.chunks!==meta.chunks||data.bytes!==meta.bytes||buffer.length!==meta.chunks||receivedBytes!==meta.bytes){endSession("Transfer is incomplete or its final size does not match. No file was released.");return;}
+  receiverEnd=true;finish().catch(e=>endSession("Decryption failed: "+e.message));
+ }
+}
+async function finish(){
+ const all=new Uint8Array(meta.bytes);let offset=0;for(const part of buffer){all.set(new Uint8Array(part),offset);offset+=part.byteLength;}
+ const clear=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,all.buffer);
+ if(clear.byteLength!==meta.size)throw new Error("Decrypted file size does not match metadata.");
+ const blob=new Blob([clear],{type:meta.type});objectUrl=URL.createObjectURL(blob);
+ const wrap=$("received");wrap.classList.remove("hidden");wrap.replaceChildren();
+ const note=document.createElement("p");note.textContent="Encrypted transfer received and authenticated successfully.";
+ const link=document.createElement("a");link.href=objectUrl;link.download=meta.name.replace(/[\\/\0]/g,"_").slice(0,180)||"evidence-download";link.className="button";link.textContent="Download "+link.download;
+ link.addEventListener("click",()=>{if(transferCompleted)return;transferCompleted=true;try{conn.send({type:"done"});}catch(_){}status("Download initiated. Closing the one-time session.");setTimeout(()=>{if(objectUrl)URL.revokeObjectURL(objectUrl);stop();status("Transfer completed. The session is closed and the link cannot be reused.",false);},1200);});
+ wrap.append(note,link);status("Payload authenticated and decrypted. Download the file to complete the transfer.",false);
+}
+$("create").addEventListener("click",create);$("connect").addEventListener("click",connect);
+$("cancel").addEventListener("click",()=>{endSession("Transfer cancelled by sender.");$("created").classList.add("hidden");});
+const params=joinParams();if(params.id){$("sender").classList.add("hidden");$("receiver").classList.remove("hidden");}else{$("sender").classList.remove("hidden");$("receiver").classList.add("hidden");}
+if(!window.isSecureContext||!window.crypto||!crypto.subtle){$("create").disabled=true;$("connect").disabled=true;status("Secure Share requires HTTPS and browser Web Crypto support.",true);}
+window.addEventListener("pagehide",()=>{stop();if(objectUrl)URL.revokeObjectURL(objectUrl);});
+})();
+</script></body></html>
