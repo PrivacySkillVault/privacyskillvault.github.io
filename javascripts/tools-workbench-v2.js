@@ -424,6 +424,23 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       related: ["case","report"]
     },
     {
+      id: "secure-transfer",
+      cat: "dfir",
+      badge: "P2P",
+      shortTitle: "Secure Share (Live Transfer)",
+      title: "Secure Share — Direct Browser Transfer",
+      desc: "Transfer an encrypted note or evidence file directly between two browsers using a one-time, sender-approved WebRTC session.",
+      options: [],
+      actionLabel: "Open Secure Share",
+      sample: "",
+      whatItDoes: "Opens a separate browser-to-browser transfer tool. The sender creates a one-time link, approves the recipient, and sends an AES-256-GCM encrypted payload over a WebRTC data channel.",
+      whyItMatters: "Provides a controlled way to transfer small evidence files without uploading the plaintext file to PSV storage. It is distinct from the existing passphrase-based Secure Evidence Share utility.",
+      howItWorks: "A random AES-256-GCM key is generated in the sender's browser. The encrypted payload travels over a WebRTC data channel; PeerJS is used only for connection signalling. The sender must remain online and approve the recipient. Network restrictions may prevent a direct peer connection.",
+      bestPractices: ["Share the one-time link only with the intended recipient; it contains the decryption key in its URL fragment.", "Verify the recipient out of band before approving the connection.", "Do not use this prototype for regulated or high-sensitivity evidence until your organisation approves the transfer path and browser-to-browser tests pass.", "Keep an independent original and record SHA-256 hashes before and after transfer."],
+      faqs: [{q:"Is this the same as Secure Evidence Share?",a:"No. Secure Evidence Share encrypts/decrypts a package using a passphrase. This is a separate live browser-to-browser transfer feature."},{q:"Does it work when the sender is offline?",a:"No. The sender must keep the page open until the recipient completes the transfer."}],
+      related: ["share","evidence","case"]
+    },
+    {
       id: "evidence",
       cat: "dfir",
       badge: "SHA",
@@ -2572,6 +2589,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
+        if (tid === "secure-transfer") {
+          window.location.assign("/secure-share/");
+          return;
+        }
         if (tid && TOOLS.some(t => t.id === tid)) {
           tiLookupSequence++;
           activeToolId = tid;
