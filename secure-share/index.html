@@ -1,170 +1,2045 @@
+
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="referrer" content="no-referrer">
-<meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Cache-Control" content="no-store">
-<title>Secure Share | Privacy Skill Vault</title>
-<style>
-:root{color-scheme:light;--ink:#20252d;--muted:#64748b;--line:#dce2e9;--panel:#fff;--page:#f6f8fb;--blue:#3478f6;--blue-dark:#1d5fd0;--red:#b42318;--green:#16794b}
-*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:900px;margin:0 auto;padding:32px 22px 64px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:30px}.brand{font-weight:800;letter-spacing:.02em}.brand b{color:#078cba}.top a{color:var(--blue-dark);text-decoration:none}
-h1{font-size:clamp(2rem,4vw,2.65rem);line-height:1.15;margin:0 0 10px}h2{font-size:1.22rem;margin:0 0 10px}.lead{color:var(--muted);font-size:1.04rem;max-width:720px;margin:0 0 24px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;margin:18px 0;box-shadow:0 2px 8px #0b172508}
-label{display:block;font-weight:650;margin:14px 0 7px}textarea,input[type=file]{width:100%;background:#fff;color:var(--ink);border:1px solid #cbd5e1;border-radius:7px;padding:11px;font:inherit}textarea{min-height:130px;resize:vertical}
-button,.button{border:0;border-radius:7px;padding:11px 16px;background:var(--blue);color:#fff;font-weight:650;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-button:hover,.button:hover{background:var(--blue-dark)}button:disabled{opacity:.48;cursor:not-allowed}.secondary{background:#fff;color:var(--ink);border:1px solid #cbd5e1}.danger{background:#fff;color:var(--red);border:1px solid #e5b7b3}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.row>*{flex:0 0 auto}.small{font-size:.88rem}.muted{color:var(--muted)}.hidden{display:none!important}
-.status{padding:13px;border-radius:8px;background:#f8fafc;border:1px solid var(--line);overflow-wrap:anywhere}.status.good{border-color:#86c9a8;background:#f3fbf6}.status.bad{border-color:#e6aaa5;background:#fff7f6}
-.linkbox{width:100%;overflow-wrap:anywhere;background:#f8fafc;border:1px solid var(--line);padding:12px;border-radius:8px;user-select:all}
-.progress{height:8px;background:#e5eaf0;border-radius:8px;overflow:hidden;margin-top:12px}.progress>i{display:block;height:100%;width:0;background:#238b58;transition:width .12s}
-.notice{border-left:3px solid var(--blue);padding:9px 13px;background:#f3f7ff;color:#43536b;font-size:.9rem}
-ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.82rem;margin-top:30px}
-@media(max-width:600px){main{padding:20px 14px 48px}.panel{padding:18px}.row>*{flex:1 1 100%}.top{gap:10px}}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js" crossorigin="anonymous"></script>
-</head>
-<body><main>
-<header class="top"><div class="brand">PSV <b>Privacy Skill Vault</b></div><a href="/tools/">Back to Tools</a></header>
-<h1>Secure Share</h1>
-<p class="lead">A separate, temporary browser-to-browser transfer tool for confidential notes and small evidence files. Content is encrypted in the sender's browser before transfer.</p>
-<div class="notice">This is not the passphrase-based Secure Evidence Share utility. That existing encrypt/decrypt tool remains unchanged.</div>
-<section id="sender" class="panel">
-<h2>Create a one-time transfer</h2>
-<p class="small muted">Select either a text note or one file. Keep this page open until the recipient completes the download. Maximum payload: 10 MB.</p>
-<label for="message">Confidential text</label><textarea id="message" maxlength="10485760" placeholder="Enter a confidential note…"></textarea>
-<label for="file">Or select one file (maximum 10 MB)</label><input id="file" type="file">
-<div class="row"><button id="create">Create secure link</button></div>
-<div id="created" class="hidden">
-<label>One-time recipient link</label><div id="sharelink" class="linkbox"></div>
-<div class="row"><button id="copy" class="secondary">Copy link</button><button id="cancel" class="danger">Cancel transfer</button></div>
-<p class="small muted">Approve only a recipient you have independently verified. Anyone who obtains the full link may attempt to connect.</p>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Practical cybersecurity operations, fraud investigation, detection engineering, security labs, and standards-based technical references.">
+      
+      
+        <meta name="author" content="Saju Varghese">
+      
+      
+        <link rel="canonical" href="https://privacyskillvault.com/secure-share/">
+      
+      
+        <link rel="prev" href="../tools/">
+      
+      
+        <link rel="next" href="../blog/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/branding/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Secure Share - Privacy Skill Vault</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://privacyskillvault.com/" title="Privacy Skill Vault" class="md-header__button md-logo" aria-label="Privacy Skill Vault">
+      <img src="../assets/branding/PSV-colored.png" alt="Privacy Skill Vault logo">
+    </a>
+    <div class="md-header__title" data-md-component="header-title"><div class="md-header__ellipsis"><span class="psv-brand-title">Privacy Skill Vault</span></div></div>
+    <nav id="psv-global-nav" class="psv-global-nav" aria-label="Global navigation">
+      <ul class="psv-global-nav__list">
+        <li><a href=".." class="psv-global-nav__link">Home</a></li>
+        <li><a href="../about/" class="psv-global-nav__link">About</a></li>
+        <li><a href="../standards/" class="psv-global-nav__link">Standards</a></li>
+        <li><a href="../learn/" class="psv-global-nav__link">Learn</a></li>
+        <li><a href="../labs/" class="psv-global-nav__link">Labs</a></li>
+        <li><a href="../investigations/" class="psv-global-nav__link">Investigations</a></li>
+        <li><a href="../tools/" class="psv-global-nav__link">Tools</a></li>
+        <li><a href="../blog/" class="psv-global-nav__link">Blog</a></li>
+      </ul>
+    </nav>
+    <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+    <button type="button" class="psv-mobile-menu-toggle" aria-expanded="false" aria-controls="psv-global-nav" aria-label="Toggle navigation menu"
+      onclick="const nav=document.getElementById('psv-global-nav');const open=nav.classList.toggle('psv-global-nav--open');this.setAttribute('aria-expanded',open?'true':'false');">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Privacy Skill Vault" class="md-nav__button md-logo" aria-label="Privacy Skill Vault" data-md-component="logo">
+      
+  <img src="../assets/branding/PSV-colored.png" alt="logo">
+
+    </a>
+    Privacy Skill Vault
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards & Frameworks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01 - Infrastructure & Platform Foundation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02 - Security Monitoring & Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D03 - Offensive Security & Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D04 - Security Operations & Investigations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../learn/d05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D05 - Operations, Maintenance & Capstone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/enterprise-dual-siem-vm-lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise Dual-SIEM VM Lab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/platform-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/platform-macos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/platform-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VirtualBox Host Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/network-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/hypervisor-network-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hypervisor Network Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/firewall-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows OPNsense Firewall & IDS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/opnsense-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OPNsense Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/mac-arm-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router & Firewall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/mac-arm-router-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mac ARM Router Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/firewall-policy-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Policy Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/operating-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems & Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/windows-endpoint-telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/endpoint-telemetry-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-platform Endpoint Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/network-monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/network-sensor-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zeek & Suricata Sensor Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/syslog-relay-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Syslog Relay Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/telemetry-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry Collection & Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/siem-collector-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIEM Collector Implementation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/build-sequence/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-to-end Build Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/operations-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations & Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/elastic-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elastic SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/splunk-siem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Splunk SIEM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/wazuh-soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wazuh SOC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/security-onion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security Onion (Optional x86-64)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/penetration-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Penetration Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../labs/soc-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SOC Validation Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Investigations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Investigations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../investigations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../investigations/scheduled-task-powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduled Task & PowerShell Investigation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../investigations/account-takeover-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Account Takeover Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../investigations/payment-fraud-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payment Fraud Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Detection Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detection-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detection-engineering/fixtures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synthetic Test Fixtures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detection-engineering/windows-powershell-encoded-command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PowerShell Encoded Command
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detection-engineering/windows-local-admin-membership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Administrators Group Change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Templates
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operational Templates
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operational-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operational-templates/detection-change-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Detection Change & Validation Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operational-templates/fraud-case-record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fraud Investigation Case Record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operational-templates/incident-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cybersecurity Incident Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Secure Share
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Secure Share</h1>
+
+<div style="width:100%;min-height:820px;">
+  <iframe
+    id="secure-share-app"
+    title="Privacy Skill Vault Secure Share"
+    style="display:block;width:100%;min-height:820px;border:0;border-radius:12px;background:#f6f8fb;"
+    loading="eager"
+    referrerpolicy="no-referrer"
+    allow="clipboard-read; clipboard-write"
+  ></iframe>
 </div>
-</section>
-<section id="receiver" class="panel hidden">
-<h2>Receive a secure transfer</h2><p class="small muted">Request access from the sender. The sender must approve before encrypted data is sent.</p>
-<div class="row"><button id="connect">Request connection</button></div><div id="received" class="hidden"></div>
-</section>
-<section class="panel">
-<h2>Transfer status</h2><div id="status" class="status" role="status" aria-live="polite">Ready. No file has been uploaded.</div>
-<div class="progress"><i id="bar"></i></div><p id="progresslabel" class="small muted"></p>
-</section>
-<section class="panel small">
-<h2>Security model and limitations</h2>
-<ul>
-<li>Payload encryption: AES-256-GCM with a fresh random key and nonce for each transfer.</li>
-<li>Payload travels through a WebRTC data channel; the PSV website does not receive or store the plaintext or ciphertext payload.</li>
-<li>The decryption key is carried in the URL fragment. The complete link is a bearer secret; share it only through a trusted channel.</li>
-<li>PeerJS 1.5.5 is pinned to a fixed CDN version and provides signalling only. The signalling provider can observe connection metadata.</li>
-<li>Direct peer connectivity can fail behind restrictive NATs or firewalls. This release does not provide a TURN relay or offline delivery.</li>
-<li>The sender must remain online. The session expires after 10 minutes and accepts only one approved recipient.</li>
-<li>Once decrypted, the recipient can copy or redistribute the file. This tool cannot enforce downstream handling.</li>
-</ul>
-</section>
-<footer>Privacy Skill Vault · Temporary browser-to-browser transfer · No PSV file storage</footer>
-</main>
+
 <script>
-(()=>{"use strict";
-const MAX=10*1024*1024,CHUNK=16*1024,ACK_TIMEOUT=15000,$=id=>document.getElementById(id);
-let peer=null,conn=null,key=null,iv=null,sessionTimer=null,meta=null,cipher=null,sendOffset=0,sendIndex=0,sendWaiting=false,ackTimer=null,buffer=[],receivedBytes=0,transferCompleted=false,approved=false,used=false,receiverEnd=false,objectUrl=null;
-const status=(message,bad=false)=>{$("status").textContent=message;$("status").className="status"+(bad?" bad":" good")};
-const b64=value=>{const bytes=value instanceof Uint8Array?value:new Uint8Array(value);let binary="";for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(binary)};
-const un64=value=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
-const stop=()=>{clearTimeout(sessionTimer);clearTimeout(ackTimer);try{if(conn)conn.close()}catch(_){}try{if(peer)peer.destroy()}catch(_){}conn=null;peer=null;sendWaiting=false};
-const endSession=(message,bad=true)=>{stop();status(message,bad);$("create").disabled=false;$("connect").disabled=true};
-const startExpiry=()=>{clearTimeout(sessionTimer);sessionTimer=setTimeout(()=>endSession("Session expired after 10 minutes. Create a new link for another transfer."),10*60*1000)};
-const joinParams=()=>({id:new URLSearchParams(location.search).get("join"),secret:new URLSearchParams(location.hash.slice(1)).get("k")});
-async function encryptPayload(data){const aes=await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt"]);const nonce=crypto.getRandomValues(new Uint8Array(12));const raw=await crypto.subtle.exportKey("raw",aes);const encrypted=await crypto.subtle.encrypt({name:"AES-GCM",iv:nonce},aes,data);return {encrypted,raw,nonce};}
-async function create(){
- try{
-  const file=$("file").files[0],message=$("message").value;
-  if((!file&&!message.trim())||(file&&message.trim())){status("Provide either a text note or one file, but not both.",true);return;}
-  if(file&&file.size>MAX){status("The selected file exceeds the 10 MB limit.",true);return;}
-  if(!window.Peer){status("PeerJS failed to load. Check connectivity and retry.",true);return;}
-  $("create").disabled=true;status("Encrypting locally and preparing a temporary connection…");
-  const payload=file?await file.arrayBuffer():new TextEncoder().encode(message).buffer;
-  if(payload.byteLength>MAX)throw new Error("The payload exceeds the 10 MB limit.");
-  const result=await encryptPayload(payload);cipher=result.encrypted;iv=result.nonce;key=result.raw;
-  meta={name:file?file.name:"secure-note.txt",type:file?(file.type||"application/octet-stream"):"text/plain;charset=utf-8",size:payload.byteLength,bytes:cipher.byteLength,chunks:Math.ceil(cipher.byteLength/CHUNK),iv:b64(iv)};
-  peer=new Peer(undefined,{debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"}]}});
-  peer.on("open",id=>{
-   const url=new URL("/secure-share/", "https://privacyskillvault.com");url.searchParams.set("join",id);url.hash="k="+encodeURIComponent(b64(key));
-   $("sharelink").textContent=url.toString();$("created").classList.remove("hidden");
-   $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(url.toString());status("Link copied. Send it only to the verified recipient.");}catch(_){status("Clipboard access unavailable. Select and copy the link manually.",true);}};
-   status("Link created. Waiting for a recipient request.");startExpiry();
+(() => {
+  const frame = document.getElementById("secure-share-app");
+  if (!frame) return;
+  frame.src = "/assets/secure-share-app.html" + window.location.search + window.location.hash;
+  window.addEventListener("message", (event) => {
+    if (event.origin !== window.location.origin || !event.data || event.data.type !== "psv-secure-share-height") return;
+    const height = Number(event.data.height);
+    if (Number.isFinite(height) && height >= 500 && height <= 12000) frame.style.height = height + "px";
   });
-  peer.on("connection",incoming=>{
-   if(used||conn){incoming.close();return;}
-   conn=incoming;status("Incoming recipient request. Verify the recipient before approving.");
-   if(!confirm("Approve this incoming Secure Share recipient? Only approve someone you have independently verified.")){incoming.close();conn=null;status("Request rejected. The link remains available until expiry.");return;}
-   approved=true;used=true;
-   conn.on("open",()=>{if(!conn||!conn.open)return;try{conn.send({type:"approved",meta});status("Recipient approved. Sending encrypted payload…");sendNextChunk();}catch(e){endSession("Could not start transfer: "+e.message);}});
-   conn.on("data",data=>{if(data&&data.type==="ack"&&sendWaiting&&data.index===sendIndex-1){clearTimeout(ackTimer);sendWaiting=false;sendNextChunk();}else if(data&&data.type==="done"){transferCompleted=true;endSession("Recipient confirmed download. One-time session closed.",false);}});
-   conn.on("close",()=>{if(!transferCompleted)endSession("Recipient disconnected before completion. Create a new link; this session cannot be reused.");});
-  });
-  peer.on("error",e=>{if(!transferCompleted)endSession("Peer connection error ("+(e.type||"unknown")+"). Check network restrictions and retry with a new link.");});
- }catch(e){endSession("Could not create transfer: "+e.message);$("create").disabled=false;}
-}
-function sendNextChunk(){
- if(!conn||!conn.open){endSession("Connection lost. Transfer was not completed; create a new link.");return;}
- if(sendWaiting)return;
- if(sendOffset>=cipher.byteLength){try{conn.send({type:"end",chunks:sendIndex,bytes:sendOffset});status("All encrypted chunks sent. Waiting for recipient verification and download.");}catch(e){endSession("Could not finish sending: "+e.message);}return;}
- const chunk=cipher.slice(sendOffset,Math.min(sendOffset+CHUNK,cipher.byteLength));
- const index=sendIndex;
- try{conn.send({type:"chunk",index,data:chunk});sendOffset+=chunk.byteLength;sendIndex++;sendWaiting=true;
-  const pct=Math.round(sendOffset/cipher.byteLength*100);$("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data acknowledged: awaiting chunk "+index+" of "+meta.chunks;
-  ackTimer=setTimeout(()=>endSession("Transfer stalled: recipient acknowledgement timed out. Create a new link."),ACK_TIMEOUT);
- }catch(e){endSession("Transfer send failed: "+e.message);}
-}
-async function connect(){
- try{
-  const {id,secret}=joinParams();if(!id||!secret)throw new Error("The recipient link is incomplete.");
-  if(!window.Peer)throw new Error("PeerJS did not load. Refresh and retry.");
-  if(!window.isSecureContext||!crypto.subtle)throw new Error("HTTPS and Web Crypto support are required.");
-  $("connect").disabled=true;status("Importing the one-time decryption key…");
-  key=await crypto.subtle.importKey("raw",un64(secret),"AES-GCM",false,["decrypt"]);
-  peer=new Peer(undefined,{debug:0,config:{iceServers:[{urls:"stun:stun.l.google.com:19302"}]}});
-  peer.on("open",()=>{conn=peer.connect(id,{reliable:true});conn.on("open",()=>status("Connection requested. Waiting for sender approval…"));conn.on("data",onData);conn.on("error",e=>endSession("Data channel error: "+(e.message||"connection failed")));conn.on("close",()=>{if(!transferCompleted)endSession("Connection closed before transfer completed. Ask the sender to create a new link.");});});
-  peer.on("error",e=>endSession("Unable to connect ("+(e.type||"network error")+"). Check connectivity and ask for a new link."));
-  startExpiry();
- }catch(e){endSession(e.message);$("connect").disabled=false;}
-}
-function onData(data){
- if(!data||typeof data!=="object"||typeof data.type!=="string")return;
- if(data.type==="approved"){
-  const m=data.meta;
-  if(meta||!m||typeof m.name!=="string"||typeof m.type!=="string"||!Number.isSafeInteger(m.size)||m.size<0||m.size>MAX||!Number.isSafeInteger(m.bytes)||m.bytes!==m.size+16||!Number.isSafeInteger(m.chunks)||m.chunks!==Math.ceil(m.bytes/CHUNK)||m.chunks<1||m.chunks>Math.ceil((MAX+16)/CHUNK)||typeof m.iv!=="string"){endSession("Invalid transfer metadata. Session stopped.");return;}
-  try{iv=un64(m.iv);if(iv.length!==12)throw new Error();}catch(_){endSession("Invalid encryption nonce. Session stopped.");return;}
-  meta=m;receivedBytes=0;buffer=[];status("Sender approved the connection. Receiving encrypted data…");return;
- }
- if(data.type==="chunk"){
-  if(!meta||receiverEnd||!Number.isInteger(data.index)||data.index!==buffer.length||!(data.data instanceof ArrayBuffer)||data.data.byteLength<1||data.data.byteLength>CHUNK||receivedBytes+data.data.byteLength>meta.bytes){endSession("Invalid or out-of-order chunk. Session stopped.");return;}
-  buffer.push(data.data);receivedBytes+=data.data.byteLength;
-  const pct=Math.round(receivedBytes/meta.bytes*100);$("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data received: "+pct+"%";
-  try{conn.send({type:"ack",index:data.index});}catch(_){endSession("Could not acknowledge received chunk.");}return;
- }
- if(data.type==="end"){
-  if(receiverEnd||!meta||data.chunks!==meta.chunks||data.bytes!==meta.bytes||buffer.length!==meta.chunks||receivedBytes!==meta.bytes){endSession("Transfer is incomplete or its final size does not match. No file was released.");return;}
-  receiverEnd=true;finish().catch(e=>endSession("Decryption failed: "+e.message));
- }
-}
-async function finish(){
- const all=new Uint8Array(meta.bytes);let offset=0;for(const part of buffer){all.set(new Uint8Array(part),offset);offset+=part.byteLength;}
- const clear=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,all.buffer);
- if(clear.byteLength!==meta.size)throw new Error("Decrypted file size does not match metadata.");
- const blob=new Blob([clear],{type:meta.type});objectUrl=URL.createObjectURL(blob);
- const wrap=$("received");wrap.classList.remove("hidden");wrap.replaceChildren();
- const note=document.createElement("p");note.textContent="Encrypted transfer received and authenticated successfully.";
- const link=document.createElement("a");link.href=objectUrl;link.download=meta.name.replace(/[\\/\0]/g,"_").slice(0,180)||"evidence-download";link.className="button";link.textContent="Download "+link.download;
- link.addEventListener("click",()=>{if(transferCompleted)return;transferCompleted=true;try{conn.send({type:"done"});}catch(_){}status("Download initiated. Closing the one-time session.");setTimeout(()=>{if(objectUrl)URL.revokeObjectURL(objectUrl);stop();status("Transfer completed. The session is closed and the link cannot be reused.",false);},1200);});
- wrap.append(note,link);status("Payload authenticated and decrypted. Download the file to complete the transfer.",false);
-}
-$("create").addEventListener("click",create);$("connect").addEventListener("click",connect);
-$("cancel").addEventListener("click",()=>{endSession("Transfer cancelled by sender.");$("created").classList.add("hidden");});
-const params=joinParams();if(params.id){$("sender").classList.add("hidden");$("receiver").classList.remove("hidden");}else{$("sender").classList.remove("hidden");$("receiver").classList.add("hidden");}
-if(!window.isSecureContext||!window.crypto||!crypto.subtle){$("create").disabled=true;$("connect").disabled=true;status("Secure Share requires HTTPS and browser Web Crypto support.",true);}
-window.addEventListener("pagehide",()=>{stop();if(objectUrl)URL.revokeObjectURL(objectUrl);});
 })();
-</script></body></html>
+</script>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+        © 2024 - 2026 by
+        <a href="https://privacyskillvault.com/" rel="home">privacyskillvault.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.view"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="../javascripts/psv-navigation.js"></script>
+      
+        <script src="../javascripts/tools-workbench-v2.js?v=20261104-2"></script>
+      
+    
+  </body>
+</html>
