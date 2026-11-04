@@ -113,7 +113,7 @@ function sendNextChunk(){
  if(sendOffset>=cipher.byteLength){try{conn.send({type:"end",chunks:sendIndex,bytes:sendOffset});status("All encrypted chunks sent. Waiting for recipient verification and download.");}catch(e){endSession("Could not finish sending: "+e.message);}return;}
  const chunk=cipher.slice(sendOffset,Math.min(sendOffset+CHUNK,cipher.byteLength));
  const index=sendIndex;
- try{conn.send({type:"chunk",index,data:chunk});sendOffset+=chunk.byteLength;sendIndex++;sendWaiting=true;
+ try{conn.send({type:"chunk",index,data:b64(new Uint8Array(chunk))});sendOffset+=chunk.byteLength;sendIndex++;sendWaiting=true;
   const pct=Math.round(sendOffset/cipher.byteLength*100);$("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data acknowledged: awaiting chunk "+index+" of "+meta.chunks;
   ackTimer=setTimeout(()=>endSession("Transfer stalled: recipient acknowledgement timed out. Create a new link."),ACK_TIMEOUT);
  }catch(e){endSession("Transfer send failed: "+e.message);}
@@ -140,8 +140,9 @@ function onData(data){
   meta=m;receivedBytes=0;buffer=[];status("Sender approved the connection. Receiving encrypted data…");return;
  }
  if(data.type==="chunk"){
-  if(!meta||receiverEnd||!Number.isInteger(data.index)||data.index!==buffer.length||!(data.data instanceof ArrayBuffer)||data.data.byteLength<1||data.data.byteLength>CHUNK||receivedBytes+data.data.byteLength>meta.bytes){endSession("Invalid or out-of-order chunk. Session stopped.");return;}
-  buffer.push(data.data);receivedBytes+=data.data.byteLength;
+  let chunkBytes;try{if(typeof data.data!=="string")throw new Error();chunkBytes=un64(data.data);}catch(_){endSession("Invalid chunk encoding. Session stopped.");return;}
+  if(!meta||receiverEnd||!Number.isInteger(data.index)||data.index!==buffer.length||chunkBytes.byteLength<1||chunkBytes.byteLength>CHUNK||receivedBytes+chunkBytes.byteLength>meta.bytes||chunkBytes.byteLength!==Math.min(CHUNK,meta.bytes-receivedBytes)){endSession("Invalid or out-of-order chunk. Session stopped.");return;}
+  buffer.push(chunkBytes.buffer);receivedBytes+=chunkBytes.byteLength;
   const pct=Math.round(receivedBytes/meta.bytes*100);$("bar").style.width=pct+"%";$("progresslabel").textContent="Encrypted data received: "+pct+"%";
   try{conn.send({type:"ack",index:data.index});}catch(_){endSession("Could not acknowledge received chunk.");}return;
  }
