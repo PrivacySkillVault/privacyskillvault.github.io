@@ -8,20 +8,21 @@
 <meta http-equiv="Cache-Control" content="no-store">
 <title>Secure Share | Privacy Skill Vault</title>
 <style>
-:root{color-scheme:light;--ink:#20252d;--muted:#64748b;--line:#dce2e9;--panel:#fff;--page:#f6f8fb;--blue:#3478f6;--blue-dark:#1d5fd0;--red:#b42318;--green:#16794b}
-*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:none;width:100%;margin:0 auto;padding:22px 20px 36px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:30px}.brand{font-weight:800;letter-spacing:.02em}.brand b{color:#078cba}.top a{color:var(--blue-dark);text-decoration:none}
-h1{font-size:clamp(2rem,4vw,2.65rem);line-height:1.15;margin:0 0 10px}h2{font-size:1.22rem;margin:0 0 10px}.lead{color:var(--muted);font-size:1.04rem;max-width:720px;margin:0 0 24px}
+:root{color-scheme:light;--ink:#172033;--muted:#586579;--line:#d9e1ec;--panel:#fff;--page:#f7f9fc;--field:#fff;--field-border:#cbd5e1;--soft:#f8fafc;--soft-border:#e2e8f0;--blue:#1f6feb;--blue-dark:#1558c0;--red:#b42318;--green:#16794b;--notice-bg:#eff6ff;--notice-ink:#43536b;--good-bg:#f0fdf4;--good-border:#86c9a8;--bad-bg:#fff7f6;--bad-border:#e6aaa5;--progress-track:#e5eaf0;--progress-fill:#238b58}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#e6edf3;--muted:#9ba7b4;--line:#30363d;--panel:#161b22;--page:#0b0f14;--field:#0d1117;--field-border:#30363d;--soft:#161b22;--soft-border:#30363d;--blue:#58a6ff;--blue-dark:#79b8ff;--red:#f85149;--green:#3fb950;--notice-bg:#111d2b;--notice-ink:#c9d1d9;--good-bg:#10251b;--good-border:#238636;--bad-bg:#2b1717;--bad-border:#8e3430;--progress-track:#30363d;--progress-fill:#3fb950}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background-color .15s ease,color .15s ease}
+main{max-width:none;width:100%;margin:0 auto;padding:22px 20px 36px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:0 0 18px;margin-bottom:30px}.brand{font-weight:800;letter-spacing:.02em}.brand b{color:var(--blue)}.top a{color:var(--blue-dark);text-decoration:none}
+h1{font-size:clamp(2rem,4vw,2.65rem);line-height:1.15;margin:0 0 10px;color:var(--ink)}h2{font-size:1.22rem;margin:0 0 10px;color:var(--ink)}.lead{color:var(--muted);font-size:1.04rem;max-width:720px;margin:0 0 24px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin:14px 0;box-shadow:none}
-label{display:block;font-weight:650;margin:14px 0 7px}textarea,input[type=file]{width:100%;background:#fff;color:var(--ink);border:1px solid #cbd5e1;border-radius:7px;padding:11px;font:inherit}textarea{min-height:130px;resize:vertical}
-button,.button{border:0;border-radius:7px;padding:10px 15px;background:var(--blue);color:#fff;font-weight:650;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-button:hover,.button:hover{background:var(--blue-dark)}button:disabled{opacity:.48;cursor:not-allowed}.secondary{background:#fff;color:var(--ink);border:1px solid #cbd5e1}.danger{background:#fff;color:var(--red);border:1px solid #e5b7b3}
+label{display:block;font-weight:650;margin:14px 0 7px;color:var(--ink)}textarea,input[type=file]{width:100%;background:var(--field);color:var(--ink);border:1px solid var(--field-border);border-radius:7px;padding:11px;font:inherit}textarea{min-height:130px;resize:vertical}input[type=file]::file-selector-button{margin-right:.7rem;border:1px solid var(--field-border);border-radius:5px;padding:.4rem .6rem;background:var(--soft);color:var(--ink)}
+button,.button{border:0;border-radius:7px;padding:10px 15px;background:var(--blue);color:#08111d;font-weight:650;cursor:pointer;font:inherit;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+button:hover,.button:hover{background:var(--blue-dark)}button:disabled{opacity:.48;cursor:not-allowed}.secondary{background:var(--soft);color:var(--ink);border:1px solid var(--field-border)}.danger{background:var(--soft);color:var(--red);border:1px solid var(--bad-border)}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.row>*{flex:0 0 auto}.small{font-size:.88rem}.muted{color:var(--muted)}.hidden{display:none!important}
-.status{padding:13px;border-radius:8px;background:#f8fafc;border:1px solid var(--line);overflow-wrap:anywhere}.status.good{border-color:#86c9a8;background:#f3fbf6}.status.bad{border-color:#e6aaa5;background:#fff7f6}
-.linkbox{width:100%;overflow-wrap:anywhere;background:#f8fafc;border:1px solid var(--line);padding:12px;border-radius:8px;user-select:all}
-.progress{height:8px;background:#e5eaf0;border-radius:8px;overflow:hidden;margin-top:12px}.progress>i{display:block;height:100%;width:0;background:#238b58;transition:width .12s}
-.notice{border-left:3px solid var(--blue);padding:9px 13px;background:#f3f7ff;color:#43536b;font-size:.9rem}
-ul{padding-left:21px}li{margin:6px 0}footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.82rem;margin-top:30px}
+.status{padding:13px;border-radius:8px;background:var(--soft);border:1px solid var(--line);color:var(--ink);overflow-wrap:anywhere}.status.good{border-color:var(--good-border);background:var(--good-bg)}.status.bad{border-color:var(--bad-border);background:var(--bad-bg)}
+.linkbox{width:100%;overflow-wrap:anywhere;background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:12px;border-radius:8px;user-select:all}
+.progress{height:8px;background:var(--progress-track);border-radius:8px;overflow:hidden;margin-top:12px}.progress>i{display:block;height:100%;width:0;background:var(--progress-fill);transition:width .12s}
+.notice{border-left:3px solid var(--blue);padding:9px 13px;background:var(--notice-bg);color:var(--notice-ink);font-size:.9rem}
+ul{padding-left:21px}li{margin:6px 0;color:var(--ink)}footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.82rem;margin-top:30px}
 @media(max-width:600px){main{padding:20px 14px 48px}.panel{padding:18px}.row>*{flex:1 1 100%}.top{gap:10px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js" crossorigin="anonymous"></script>
