@@ -2016,33 +2016,17 @@
   <h1>Secure Share</h1>
 
 <style>
-/* Match the Tools page outer Material layout: central workspace with native right navigation. */
-body.secure-share-page .md-grid{width:100%!important;max-width:1480px!important}
-body.secure-share-page .md-main__inner{box-sizing:border-box;width:100%!important;max-width:1480px!important;margin:0 auto!important;align-items:flex-start!important}
-body.secure-share-page .md-content{box-sizing:border-box;flex:1 1 auto!important;width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}
-body.secure-share-page .md-content__inner{box-sizing:border-box;width:100%!important;max-width:none!important;margin:0!important;padding:1.4rem 1rem 3rem!important}
+/* Keep the standard MkDocs Material page width and native secondary sidebar.
+   Only the Secure Share content itself is customised; page columns are not. */
 body.secure-share-page .md-content__inner>h1:first-child{display:none}
-#secure-share-layout{display:block!important;width:100%!important;max-width:none!important;margin:0;padding:0 0 2rem}
-#secure-share-main{display:block;min-width:0;width:100%;max-width:none}
+#secure-share-layout{display:block;width:100%;max-width:100%;margin:0;padding:0 0 2rem}
+#secure-share-main{display:block;min-width:0;width:100%;max-width:100%}
 #secure-share-heading{display:block;margin:0 0 1rem}
 #secure-share-heading .eyebrow{display:block;margin:0 0 .35rem;color:var(--md-accent-fg-color);font:700 .68rem/1.4 "Roboto Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
 #secure-share-heading h1{margin:0 0 .45rem;font-size:1.5625em;font-weight:700;letter-spacing:normal;color:var(--md-typeset-color)}
 #secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:1em;line-height:1.72}
 #secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:0;border-radius:0;background:transparent}
-
-/* Use the same Material secondary-sidebar geometry as the Tools workspace. */
-body.secure-share-page .md-main__inner{display:flex!important;align-items:stretch!important;gap:1.5rem!important}
-body.secure-share-page .md-content{flex:1 1 0!important;min-width:0!important}
-body.secure-share-page .md-sidebar--secondary{display:block!important;visibility:visible!important;position:relative!important;flex:0 0 12.1rem!important;width:12.1rem!important;max-width:12.1rem!important;min-width:12.1rem!important;margin:0!important;padding:0!important;align-self:stretch!important;order:2!important}
-body.secure-share-page .md-sidebar--secondary .md-sidebar__scrollwrap{position:sticky!important;top:4.8rem!important;height:auto!important;max-height:calc(100vh - 5.8rem)!important;overflow:auto!important}
-body.secure-share-page .md-sidebar--secondary .md-sidebar__inner{margin:0!important;padding:0!important}
-@media(max-width:900px){
- body.secure-share-page .md-main__inner{display:block!important}
- body.secure-share-page .md-sidebar--secondary{width:100%!important;max-width:none!important;min-width:0!important;margin:1.5rem 0 0!important}
- body.secure-share-page .md-sidebar--secondary .md-sidebar__scrollwrap{position:static!important;max-height:none!important;overflow:visible!important}
-}
-
-@media(max-width:560px){body.secure-share-page .md-content__inner{padding:.7rem .8rem 2rem!important}#secure-share-frame{height:1180px;min-height:900px}}
+@media(max-width:560px){#secure-share-frame{height:1180px;min-height:900px}}
 </style>
 
 <div id="secure-share-layout">
