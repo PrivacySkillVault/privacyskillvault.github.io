@@ -140,6 +140,7 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
       const dark = document.documentElement.getAttribute("data-md-color-scheme") === "slate";
       const doc = frame.contentDocument;
       if (!doc) return;
+      doc.documentElement.dataset.theme = dark ? "dark" : "light";
       const vars = dark
         ? { "--ink":"#e6edf3","--muted":"#9ba7b4","--line":"#30363d","--panel":"#161b22","--page":"#0b0f14","--blue":"#58a6ff","--blue-dark":"#79b8ff","--red":"#f85149","--green":"#3fb950" }
         : { "--ink":"#172033","--muted":"#586579","--line":"#d9e1ec","--panel":"#ffffff","--page":"#f7f9fc","--blue":"#1f6feb","--blue-dark":"#1d5fd0","--red":"#b42318","--green":"#16794b" };
