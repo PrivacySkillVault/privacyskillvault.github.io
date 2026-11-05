@@ -22,6 +22,10 @@
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/7567606/pexels-photo-7567606.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Tima Miroshnichenko on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> EXPLAINER</span><h3>How to Prioritise Vulnerabilities Beyond the CVSS Score</h3><p>Combine severity, active exploitation, exposure, asset criticality, and remediation feasibility into a defensible decision.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
+<a class="psv-story-card" href="apple-cve-2024-27834-apt29-exploitation/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> MOBILE SECURITY</span><h3>CISA Adds Patched Apple Flaw to KEV After APT29 Exploitation</h3><p>How CVE-2024-27834 fits into a wider iOS exploit chain—and what Apple users and SOC teams should do.</p><div class="psv-story-card__footer"><small>05 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
+    </a>
 <a class="psv-story-card" href="android-november-2026-critical-rce/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> MOBILE SECURITY</span><h3>Android November Bulletin: Critical RCE Flaw Affects Versions 14–17</h3><p>What Google confirms about CVE-2026-58868, patch levels and enterprise mobile response.</p><div class="psv-story-card__footer"><small>04 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
