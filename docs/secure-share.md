@@ -16,18 +16,18 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
 #secure-share-heading h1{margin:0 0 .45rem;font-size:1.5625em;font-weight:700;letter-spacing:normal;color:var(--md-typeset-color)}
 #secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:1em;line-height:1.72}
 #secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:0;border-radius:0;background:transparent}
-.md-sidebar--secondary .psv-tool-sidebar{display:block!important;padding:0!important;border:0!important;background:transparent!important}
+.md-sidebar--secondary .psv-tool-sidebar{display:block!important;position:static!important;max-height:none!important;overflow:visible!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important}
 .md-sidebar--secondary .psv-tool-sidebar>.md-nav__title{display:block;margin:0 0 .65rem;padding:0 .2rem;color:var(--md-default-fg-color);font-size:.78rem;font-weight:700}
 .md-sidebar--secondary .psv-tool-sidebar>.psv-category-accordion{display:block!important;visibility:visible!important;margin-top:.85rem}
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-group{display:block!important;visibility:visible!important;margin:.15rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary{display:flex!important;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;list-style:none}
+.md-sidebar--secondary .psv-tool-sidebar .psv-category-group{display:block!important;visibility:visible!important;margin:0;border:0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+.md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary{display:flex!important;align-items:center;justify-content:space-between;gap:.5rem;margin:0;padding:.65rem .55rem;border:0;border-radius:7px;background:transparent;color:var(--md-default-fg-color);cursor:pointer;font:inherit;font-size:.8rem;font-weight:650;line-height:1.4;text-align:left;list-style:none}
 .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary::-webkit-details-marker{display:none}
 .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{display:block;padding:.1rem 0 .45rem .6rem}
-.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool{display:block!important;width:100%;margin:0;border:0;padding:.2rem .6rem;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;font-size:.78rem;line-height:1.4;text-align:left;text-decoration:none;cursor:pointer}
-.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.active{background:var(--md-default-bg-color);color:var(--md-accent-fg-color)}
+.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool{display:block!important;width:100%;margin:0;border:0;padding:.35rem .6rem;border-radius:6px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;font-size:.76rem;line-height:1.45;text-align:left;text-decoration:none;cursor:pointer}
+.md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary:hover,.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool:hover{background:var(--md-default-bg-color);color:var(--md-accent-fg-color)}\n.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.active{background:var(--md-default-bg-color);box-shadow:inset 3px 0 var(--md-accent-fg-color);color:var(--md-accent-fg-color)}
 .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.active{font-weight:650}
 .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{margin-left:auto;padding-left:.5rem;color:var(--md-default-fg-color--light);font:inherit;font-size:.85em}
-@media(max-width:900px){body.secure-share-page .md-main__inner{display:block!important}#secure-share-categories{position:static;width:100%;min-width:0;max-width:none;max-height:none;margin:1.5rem 0}}
+@media(max-width:900px){body.secure-share-page .md-main__inner{display:block!important}.md-sidebar--secondary .psv-tool-sidebar{position:static!important;max-height:none!important;overflow:visible!important}}
 @media(max-width:560px){body.secure-share-page .md-content__inner{padding:.7rem .8rem 2rem!important}#secure-share-frame{height:1180px;min-height:900px}}
 </style>
 
@@ -107,12 +107,33 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
   if (!frame) return;
   const sidebar = document.getElementById("secure-share-categories");
   const categoryNav = sidebar && sidebar.querySelector(".psv-tool-sidebar");
-  const nativeSecondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]');
+  let nativeSecondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]');
+  if (!nativeSecondary) {
+    const mainInner = document.querySelector(".md-main__inner");
+    if (mainInner) {
+      nativeSecondary = document.createElement("div");
+      nativeSecondary.className = "md-sidebar md-sidebar--secondary";
+      nativeSecondary.setAttribute("data-md-component", "sidebar");
+      nativeSecondary.setAttribute("data-md-type", "toc");
+      const scroll = document.createElement("div");
+      scroll.className = "md-sidebar__scrollwrap";
+      const inner = document.createElement("div");
+      inner.className = "md-sidebar__inner";
+      scroll.appendChild(inner);
+      nativeSecondary.appendChild(scroll);
+      mainInner.appendChild(nativeSecondary);
+    }
+  }
   const nativeSecondaryInner = nativeSecondary && nativeSecondary.querySelector(".md-sidebar__inner");
   if (categoryNav && nativeSecondaryInner) {
     nativeSecondaryInner.replaceChildren(categoryNav);
     sidebar.remove();
-    nativeSecondary.setAttribute("aria-label","Tools categories");
+    nativeSecondary.setAttribute("aria-label", "Tools categories");
+  } else if (categoryNav) {
+    /* Keep the category navigation visible in the content column if Material's sidebar is unavailable. */
+    sidebar.classList.add("secure-share-categories-fallback");
+    sidebar.style.display = "block";
+    sidebar.style.width = "100%";
   }
   const syncTheme = () => {
     try {
