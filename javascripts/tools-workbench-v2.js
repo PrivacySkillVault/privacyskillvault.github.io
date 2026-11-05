@@ -1600,6 +1600,51 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         #psv-app .psv-ti-provider-card__findings{min-width:0;overflow-wrap:anywhere;word-break:break-word}
       }
 
+      /* Canonical Tools typography: one hierarchy for overview and individual tools. */
+      #psv-app .psv-tool-page .psv-tool-hero h1,
+      #psv-app .psv-tool-page .psv-tool-page-head h1{
+        margin:0 0 .65rem!important;font-family:inherit!important;
+        font-size:clamp(1.65rem,2.2vw,2rem)!important;font-weight:700!important;
+        line-height:1.25!important;letter-spacing:-.025em!important;
+        color:var(--md-typeset-color)!important;text-align:left!important
+      }
+      #psv-app .psv-tool-page .psv-tool-hero>p,
+      #psv-app .psv-tool-page .psv-tool-page-head>p{
+        max-width:820px!important;margin:0 0 1rem!important;
+        font-family:inherit!important;font-size:.95rem!important;
+        font-weight:400!important;line-height:1.7!important;
+        color:var(--md-default-fg-color--light)!important;text-align:left!important
+      }
+      #psv-app .psv-tool-page .psv-doc-section h3,
+      #psv-app .psv-tool-page .psv-advanced-panel h2{
+        margin:1.6rem 0 .65rem!important;padding:0 0 .4rem!important;
+        border:0!important;border-bottom:1px solid var(--md-default-fg-color--lightest)!important;
+        font-family:inherit!important;font-size:1.2rem!important;font-weight:700!important;
+        line-height:1.4!important;letter-spacing:-.015em!important;color:var(--md-typeset-color)!important
+      }
+      #psv-app .psv-tool-page .psv-doc-section>p,
+      #psv-app .psv-tool-page .psv-doc-section li,
+      #psv-app .psv-tool-page .psv-advanced-panel>p,
+      #psv-app .psv-tool-page .psv-faq-item>p{
+        font-family:inherit!important;font-size:.92rem!important;font-weight:400!important;
+        line-height:1.75!important;color:var(--md-typeset-color)!important
+      }
+      #psv-app .psv-tool-page .psv-secure-transfer-open{
+        display:inline-flex;align-items:center;gap:.55rem;padding:.7rem 1rem;
+        border:1px solid var(--md-accent-fg-color);border-radius:6px;
+        background:var(--md-accent-fg-color);color:var(--md-primary-bg-color)!important;
+        font-family:inherit;font-size:.85rem;font-weight:600;line-height:1.3;
+        text-decoration:none!important
+      }
+      #psv-app .psv-tool-page .psv-secure-transfer-open:hover{filter:brightness(1.08)}
+      @media(max-width:700px){
+        #psv-app .psv-tool-page .psv-tool-hero h1,
+        #psv-app .psv-tool-page .psv-tool-page-head h1{font-size:1.55rem!important}
+        #psv-app .psv-tool-page .psv-tool-hero>p,
+        #psv-app .psv-tool-page .psv-tool-page-head>p{font-size:.9rem!important}
+      }
+
+
     `;
     document.head.appendChild(style);
   }
@@ -2227,7 +2272,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>';
     const header = '<header class="psv-tool-page-head"><h1>'+esc(tool.title)+'</h1><p>'+esc(tool.desc)+'</p></header>';
     let body = "";
-    if (tool.id === "case") {
+    if (tool.id === "secure-transfer") {
+      body = '<section class="psv-advanced-panel psv-secure-transfer-launch"><h2>Live browser-to-browser transfer</h2><p>Open the separate Secure Share workspace to create a one-time, sender-approved transfer. The payload is encrypted in the sender browser and sent over a WebRTC data channel.</p><p class="psv-advanced-muted">This is separate from Secure Evidence Share, which encrypts a package using a passphrase. Keep the complete recipient link private: it contains the decryption key.</p><div class="psv-advanced-actions"><a class="psv-secure-transfer-open" href="/secure-share/">Open Secure Share workspace <span aria-hidden="true">→</span></a></div></section>';
+    } else if (tool.id === "case") {
       body = '<section class="psv-advanced-panel"><h2>Incident details</h2><p>Build a local incident record. Export the report and store it only in your approved case repository.</p><div class="psv-advanced-grid">'+
         '<label>Case ID<input id="case-id" type="text" placeholder="INC-2026-001"></label>'+
         '<label>Incident title<input id="case-title" type="text" placeholder="Suspicious account activity"></label>'+
