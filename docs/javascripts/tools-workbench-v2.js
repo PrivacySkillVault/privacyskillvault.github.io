@@ -1355,8 +1355,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-group{margin:0}
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none}
       .md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link::-webkit-details-marker{display:none}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{padding-left:.6rem}
-      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{display:block;width:100%;margin:0;border:0;padding:.2rem .6rem;background:transparent;font:inherit;text-align:left;cursor:pointer}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools{display:block;margin:0 0 0 .55rem;padding:0 0 0 .55rem;border-left:1px solid var(--md-default-fg-color--lightest)}
+      .md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{display:block;width:100%;min-width:0;margin:0;border:0;padding:.2rem .35rem;background:transparent;font:inherit;text-align:left;text-indent:0;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
       .md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{margin-left:auto;padding-left:.5rem;font:inherit;font-size:.85em}
       /* Match Tools page typography to standard MkDocs content pages. */
        #psv-app .psv-tools-intro h1,
