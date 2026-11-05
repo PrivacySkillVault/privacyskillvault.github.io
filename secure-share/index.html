@@ -2026,6 +2026,52 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
 #secure-share-heading h1{margin:0 0 .45rem;font-size:1.5625em;font-weight:700;letter-spacing:normal;color:var(--md-typeset-color)}
 #secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:1em;line-height:1.72}
 #secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:0;border-radius:0;background:transparent}
+
+/* Match the Tools workbench's native category sidebar rules.
+   This page has its own navigation markup, so mirror the same component
+   styling here without changing the shared/global Material sidebar. */
+body.secure-share-page .md-sidebar--secondary .psv-tool-sidebar{
+  display:block;width:100%;max-width:100%;min-width:0;margin:0;padding:0;
+  border:0;background:transparent;box-sizing:border-box;
+}
+body.secure-share-page .md-sidebar--secondary .psv-tool-sidebar>.md-nav__title{
+  display:block;margin:0 0 .45rem;padding:0 .2rem;
+  color:var(--md-default-fg-color);font-size:.8rem;font-weight:600;line-height:1.4;
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-accordion{
+  display:block;margin:0;padding:0;
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-group{
+  display:block;margin:.15rem 0;padding:0;
+  border:0;border-bottom:1px solid var(--md-default-fg-color--lightest);
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-group>summary.md-nav__link{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  width:100%;margin:0;padding:.55rem .2rem;
+  color:var(--md-default-fg-color);font:inherit;font-size:.8rem;font-weight:600;
+  line-height:1.4;text-align:left;list-style:none;cursor:pointer;
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-group>summary::-webkit-details-marker{display:none}
+body.secure-share-page .md-sidebar--secondary .psv-category-tools{
+  display:block;margin:0 0 0 .55rem;padding:.1rem 0 .45rem .55rem;
+  border-left:1px solid var(--md-default-fg-color--lightest);
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-tools .psv-sidebar-tool.md-nav__link{
+  display:block;width:100%;min-width:0;margin:0;padding:.2rem .35rem;
+  border:0;border-radius:0;background:transparent;
+  color:var(--md-default-fg-color--light);font:inherit;font-size:.78rem;
+  line-height:1.4;text-align:left;text-indent:0;text-decoration:none;
+  white-space:normal;overflow-wrap:anywhere;cursor:pointer;
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-tools .psv-sidebar-tool:hover,
+body.secure-share-page .md-sidebar--secondary .psv-category-tools .psv-sidebar-tool.active{
+  background:var(--md-default-bg-color);color:var(--md-accent-fg-color);
+}
+body.secure-share-page .md-sidebar--secondary .psv-category-tools .psv-sidebar-tool.active{font-weight:650}
+body.secure-share-page .md-sidebar--secondary .psv-vault-count{
+  flex:0 0 auto;margin-left:auto;padding-left:.5rem;
+  color:var(--md-default-fg-color--light);font:inherit;font-size:.85em;
+}
 @media(max-width:560px){#secure-share-frame{height:1180px;min-height:900px}}
 </style>
 
