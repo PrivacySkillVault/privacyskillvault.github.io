@@ -107,6 +107,7 @@ body.secure-share-page .md-sidebar--secondary .md-sidebar__inner{margin:0!import
   const frame = document.getElementById("secure-share-frame");
   if (!frame) return;
   const sidebar = document.getElementById("secure-share-categories");
+  const categoryNav = sidebar && sidebar.querySelector(".psv-tool-sidebar");
   let nativeSecondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]');
   if (!nativeSecondary) {
     const mainInner = document.querySelector(".md-main__inner");
