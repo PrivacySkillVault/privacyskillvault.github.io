@@ -981,3 +981,27 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
 #psv-app .psv-ti-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.15rem .9rem}
 #psv-app .psv-ti-data-note{margin-top:1rem;font-size:.76rem;line-height:1.6;color:var(--md-default-fg-color--light)}
 @media(max-width:520px){#psv-app .psv-ti-provider-card{padding:.85rem}#psv-app .psv-ti-stats{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Shared typography for the Tools and Secure Share category sidebars.
+   Keep this narrowly scoped to the native Material secondary sidebar component. */
+.md-sidebar--secondary .psv-tool-sidebar .psv-category-group>summary.md-nav__link{
+  font-family:inherit!important;
+  font-size:.8rem!important;
+  font-weight:600!important;
+  line-height:1.4!important;
+}
+.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link{
+  font-family:inherit!important;
+  font-size:.78rem!important;
+  font-weight:400!important;
+  line-height:1.4!important;
+}
+.md-sidebar--secondary .psv-tool-sidebar .psv-sidebar-tool.md-nav__link.active{
+  font-weight:650!important;
+}
+.md-sidebar--secondary .psv-tool-sidebar .psv-vault-count{
+  font-family:inherit!important;
+  font-size:.85em!important;
+  font-weight:inherit!important;
+}
