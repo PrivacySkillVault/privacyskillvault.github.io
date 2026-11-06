@@ -1343,10 +1343,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-tool-page-head h1,#psv-app .psv-tool-hero h1{font-family:inherit;font-weight:700}
        /* Keep MkDocs Material in control of the page columns. */
       #psv-app .psv-category-group{margin:.15rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
-      #psv-app .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;font-size:.8rem;font-weight:600;list-style:none}
+      #psv-app .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;list-style:none}
       #psv-app .psv-category-group>summary::-webkit-details-marker{display:none}
       #psv-app .psv-category-tools{padding:.1rem 0 .45rem .45rem}
-      #psv-app .psv-category-group .psv-sidebar-tool{display:block;width:100%;padding:.38rem .35rem;border:0;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;font-size:.78rem;line-height:1.4;text-align:left;cursor:pointer}
+      #psv-app .psv-category-group .psv-sidebar-tool{display:block;width:100%;padding:.38rem .35rem;border:0;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;text-align:left;cursor:pointer}
       #psv-app .psv-category-group .psv-sidebar-tool:hover,#psv-app .psv-category-group .psv-sidebar-tool.active{background:var(--md-default-bg-color);color:var(--md-accent-fg-color)}
       #psv-app .psv-category-group .psv-sidebar-tool.active{font-weight:650}
       /* Native Material sidebar: preserve its standard width and scroll behaviour. */
@@ -2583,30 +2583,29 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   function attachToolSidebar(root, selectedTool) {
     const app=root.querySelector("#psv-app"),page=app&&app.querySelector(".psv-tool-page");
     if(!app||!page)return;
-    let secondary=document.querySelector(".md-sidebar--secondary");
+    let secondary=document.querySelector('.md-sidebar--secondary[data-md-type="toc"]')||document.querySelector(".md-sidebar--secondary");
     if(!secondary){
       const main=document.querySelector(".md-main__inner");
-      if(main){
-        secondary=document.createElement("div");
-        secondary.className="md-sidebar md-sidebar--secondary";
-        secondary.setAttribute("data-md-component","sidebar");
-        const scroll=document.createElement("div");scroll.className="md-sidebar__scrollwrap";
-        const inner=document.createElement("div");inner.className="md-sidebar__inner";
-        scroll.appendChild(inner);secondary.appendChild(scroll);main.appendChild(secondary);
-      }
+      if(!main)return;
+      secondary=document.createElement("div");
+      secondary.className="md-sidebar md-sidebar--secondary";
+      secondary.setAttribute("data-md-component","sidebar");
+      secondary.setAttribute("data-md-type","toc");
+      const scroll=document.createElement("div");scroll.className="md-sidebar__scrollwrap";
+      const inner=document.createElement("div");inner.className="md-sidebar__inner";
+      scroll.appendChild(inner);secondary.appendChild(scroll);main.appendChild(secondary);
     }
+    const secondaryInner=secondary.querySelector(".md-sidebar__inner");
+    if(!secondaryInner)return;
+    document.querySelectorAll(".md-sidebar--secondary .psv-tool-sidebar").forEach(node=>node.remove());
     const groups=[{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
-    const previous=document.querySelector(".md-sidebar--secondary .psv-tool-sidebar");
-    if(previous)previous.remove();
-    const aside=document.createElement("nav");aside.className="md-nav md-nav--secondary psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
+    const aside=document.createElement("nav");aside.className="md-nav md-nav--primary psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
     aside.innerHTML=`<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
       ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="md-nav__item psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary class="md-nav__link"><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="md-nav psv-category-tools">${items.map(t=>`<button type="button" class="md-nav__link psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
       </div>`;
     app.classList.remove("psv-tool-workspace-layout");
     page.classList.remove("psv-tool-workspace-main");
-    const secondaryInner=secondary&&secondary.querySelector(".md-sidebar__inner");
-    if(secondaryInner)secondaryInner.appendChild(aside);
-    else app.appendChild(aside);
+    secondaryInner.replaceChildren(aside);
   }
 
   function render() {
