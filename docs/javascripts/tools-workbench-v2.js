@@ -2580,32 +2580,84 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     attachToolSidebar(root, tool);
   }
 
-  function attachToolSidebar(root, selectedTool) {
-    const app=root.querySelector("#psv-app"),page=app&&app.querySelector(".psv-tool-page");
-    if(!app||!page)return;
-    let secondary=document.querySelector('.md-sidebar--secondary[data-md-type="toc"]')||document.querySelector(".md-sidebar--secondary");
-    if(!secondary){
-      const main=document.querySelector(".md-main__inner");
-      if(!main)return;
-      secondary=document.createElement("div");
-      secondary.className="md-sidebar md-sidebar--secondary";
-      secondary.setAttribute("data-md-component","sidebar");
-      secondary.setAttribute("data-md-type","toc");
-      const scroll=document.createElement("div");scroll.className="md-sidebar__scrollwrap";
-      const inner=document.createElement("div");inner.className="md-sidebar__inner";
-      scroll.appendChild(inner);secondary.appendChild(scroll);main.appendChild(secondary);
+  function getOrCreateSecondarySidebar() {
+    let secondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]') ||
+      document.querySelector(".md-sidebar--secondary");
+    if (secondary) return secondary;
+
+    const main = document.querySelector(".md-main__inner");
+    if (!main) return null;
+    secondary = document.createElement("div");
+    secondary.className = "md-sidebar md-sidebar--secondary";
+    secondary.setAttribute("data-md-component", "sidebar");
+    secondary.setAttribute("data-md-type", "toc");
+    const scroll = document.createElement("div");
+    scroll.className = "md-sidebar__scrollwrap";
+    const inner = document.createElement("div");
+    inner.className = "md-sidebar__inner";
+    scroll.appendChild(inner);
+    secondary.appendChild(scroll);
+    main.appendChild(secondary);
+    return secondary;
+  }
+
+  // One renderer owns category markup, ordering, counts, and active-state styling
+  // for both Tools and Secure Share. The page mode only changes the navigation
+  // control (in-app buttons versus real route links).
+  function renderCategorySidebar({ selectedTool = null, secureSharePage = false } = {}) {
+    const secondary = getOrCreateSecondarySidebar();
+    if (!secondary) return;
+
+    let inner = secondary.querySelector(".md-sidebar__inner");
+    if (!inner) {
+      const scroll = document.createElement("div");
+      scroll.className = "md-sidebar__scrollwrap";
+      inner = document.createElement("div");
+      inner.className = "md-sidebar__inner";
+      scroll.appendChild(inner);
+      secondary.appendChild(scroll);
     }
-    const secondaryInner=secondary.querySelector(".md-sidebar__inner");
-    if(!secondaryInner)return;
-    document.querySelectorAll(".md-sidebar--secondary .psv-tool-sidebar").forEach(node=>node.remove());
-    const groups=[{id:"soc",label:"SOC & Detection"},{id:"ti",label:"Threat Intelligence"},{id:"dfir",label:"DFIR & Forensics"},{id:"network",label:"Network & Email"},{id:"util",label:"Incident Utilities"}];
-    const aside=document.createElement("nav");aside.className="md-nav md-nav--primary psv-tool-sidebar";aside.setAttribute("aria-label","Tool categories");
-    aside.innerHTML=`<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
-      ${groups.map(g=>{const items=TOOLS.filter(t=>t.cat===g.id);return `<details class="md-nav__item psv-category-group" ${g.id===selectedTool.cat?"open":""}><summary class="md-nav__link"><span>${g.label}</span><span class="psv-vault-count">${items.length}</span></summary><div class="md-nav psv-category-tools">${items.map(t=>`<button type="button" class="md-nav__link psv-sidebar-tool ${t.id===selectedTool.id?"active":""}" data-psv-action="open-tool" data-tool="${esc(t.id)}" ${t.id===selectedTool.id?'aria-current="page"':""}>${esc(t.shortTitle||t.title)}</button>`).join("")}</div></details>`;}).join("")}
+
+    const groups = [
+      { id: "soc", label: "SOC & Detection" },
+      { id: "ti", label: "Threat Intelligence" },
+      { id: "dfir", label: "DFIR & Forensics" },
+      { id: "network", label: "Network & Email" },
+      { id: "util", label: "Incident Utilities" }
+    ];
+    const activeId = secureSharePage ? "secure-transfer" : selectedTool && selectedTool.id;
+    const activeCategory = secureSharePage ? "dfir" : selectedTool && selectedTool.cat;
+    const nav = document.createElement("nav");
+    nav.className = "md-nav md-nav--primary psv-tool-sidebar";
+    nav.setAttribute("aria-label", "Tool categories");
+    nav.innerHTML = `<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
+      ${groups.map(group => {
+        const items = TOOLS.filter(tool => tool.cat === group.id);
+        return `<details class="md-nav__item psv-category-group" ${group.id === activeCategory ? "open" : ""}>
+          <summary class="md-nav__link"><span>${group.label}</span><span class="psv-vault-count">${items.length}</span></summary>
+          <div class="md-nav psv-category-tools">${items.map(tool => {
+            const isActive = tool.id === activeId;
+            const label = esc(tool.shortTitle || tool.title);
+            if (secureSharePage) {
+              const href = isActive ? "/secure-share/" : `/tools/#tool/${encodeURIComponent(tool.id)}`;
+              return `<a class="md-nav__link psv-sidebar-tool${isActive ? " active" : ""}" href="${href}" ${isActive ? 'aria-current="page"' : ""}>${label}</a>`;
+            }
+            return `<button type="button" class="md-nav__link psv-sidebar-tool ${isActive ? "active" : ""}" data-psv-action="open-tool" data-tool="${esc(tool.id)}" ${isActive ? 'aria-current="page"' : ""}>${label}</button>`;
+          }).join("")}</div>
+        </details>`;
+      }).join("")}
       </div>`;
+    inner.replaceChildren(nav);
+    secondary.setAttribute("aria-label", "Tools categories");
+  }
+
+  function attachToolSidebar(root, selectedTool) {
+    const app = root.querySelector("#psv-app");
+    const page = app && app.querySelector(".psv-tool-page");
+    if (!app || !page) return;
+    renderCategorySidebar({ selectedTool });
     app.classList.remove("psv-tool-workspace-layout");
     page.classList.remove("psv-tool-workspace-main");
-    secondaryInner.replaceChildren(aside);
   }
 
   function render() {
@@ -2810,46 +2862,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function attachSecureShareSidebar() {
     if (!document.body.classList.contains("secure-share-page")) return;
-    const secondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]') || document.querySelector(".md-sidebar--secondary");
-    if (!secondary) return;
-    let inner = secondary.querySelector(".md-sidebar__inner");
-    if (!inner) {
-      const scroll = document.createElement("div");
-      scroll.className = "md-sidebar__scrollwrap";
-      inner = document.createElement("div");
-      inner.className = "md-sidebar__inner";
-      scroll.appendChild(inner);
-      secondary.appendChild(scroll);
-    }
-    const groups = [
-      { id: "soc", label: "SOC & Detection" },
-      { id: "ti", label: "Threat Intelligence" },
-      { id: "dfir", label: "DFIR & Forensics" },
-      { id: "network", label: "Network & Email" },
-      { id: "util", label: "Incident Utilities" }
-    ];
-    const nav = document.createElement("nav");
-    nav.className = "md-nav md-nav--primary psv-tool-sidebar";
-    nav.setAttribute("aria-label", "Tool categories");
-    nav.innerHTML = `<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
-      ${groups.map(group => {
-        const items = TOOLS.filter(tool => tool.cat === group.id);
-        return `<details class="md-nav__item psv-category-group" ${group.id === "dfir" ? "open" : ""}>
-          <summary class="md-nav__link"><span>${group.label}</span><span class="psv-vault-count">${items.length}</span></summary>
-          <div class="md-nav psv-category-tools">${items.map(tool => {
-            const isActive = tool.id === "share";
-            const href = isActive ? "/secure-share/" : `/tools/#tool/${encodeURIComponent(tool.id)}`;
-            return `<a class="md-nav__link psv-sidebar-tool${isActive ? " active" : ""}" href="${href}" ${isActive ? 'aria-current="page"' : ""}>${esc(tool.shortTitle || tool.title)}</a>`;
-          }).join("")}</div>
-        </details>`;
-      }).join("")}
-      </div>`;
-    inner.replaceChildren(nav);
-    secondary.setAttribute("aria-label", "Tools categories");
+    renderCategorySidebar({ secureSharePage: true });
   }
 
   function init() {
-    // Secure Share reuses the same category data and navigation renderer as Tools.
+    // Mount the shared category renderer on Secure Share; Tools mounts it after its view renders.
     attachSecureShareSidebar();
     // The mount point is the reliable page identity. Do not depend on a
     // particular domain, trailing slash, or MkDocs URL canonicalisation.
