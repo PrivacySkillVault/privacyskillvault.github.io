@@ -19,6 +19,21 @@
     return path;
   }
 
+
+  function mountJournalSidebar() {
+    const journal = document.querySelector(".psv-journal-shell");
+    const sidebar = journal && journal.querySelector(".psv-journal-sidebar");
+    if (!sidebar) return;
+
+    const secondary = document.querySelector(".md-sidebar--secondary");
+    const inner = secondary && secondary.querySelector(".md-sidebar__inner");
+    if (!inner) return;
+
+    if (sidebar.parentElement !== inner) inner.replaceChildren(sidebar);
+    secondary.setAttribute("aria-label", "Blog categories");
+    sidebar.setAttribute("aria-label", "Blog categories");
+  }
+
   function updateActiveNavigation() {
     const nav = document.getElementById("psv-global-nav");
 
@@ -33,6 +48,10 @@
       "psv-blog-page",
       currentPath === "/blog/" || currentPath.startsWith("/blog/")
     );
+
+    // Blog category navigation belongs in Material's right-hand secondary
+    // sidebar, matching the Tools and Secure Share page layout.
+    mountJournalSidebar();
 
     const links = nav.querySelectorAll(
       ".psv-global-nav__link"
