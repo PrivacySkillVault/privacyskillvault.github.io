@@ -2043,62 +2043,7 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
     ></iframe>
   </main>
 
-  <aside id="secure-share-categories" class="md-sidebar md-sidebar--secondary" aria-label="Tools categories">
-    <div class="md-sidebar__scrollwrap">
-      <div class="md-sidebar__inner">
-        <nav class="md-nav md-nav--primary psv-tool-sidebar" aria-label="Tool categories">
-          <label class="md-nav__title">Tool categories</label>
-          <div class="md-nav__list psv-category-accordion">
-            <details class="md-nav__item psv-category-group">
-              <summary class="md-nav__link"><span>SOC &amp; Detection</span><span class="psv-vault-count">6</span></summary>
-              <div class="md-nav psv-category-tools">
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/sigma">Sigma Rule Preview</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/events">Event ID Encyclopedia</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/regex">Log Regex Sandbox</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/spl">Splunk SPL Builder</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/parser">Log Parser &amp; Normaliser</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/device">Device Intelligence</a>
-              </div>
-            </details>
-            <details class="md-nav__item psv-category-group">
-              <summary class="md-nav__link"><span>Threat Intelligence</span><span class="psv-vault-count">2</span></summary>
-              <div class="md-nav psv-category-tools">
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/ioc">Bulk IoC Extractor</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/ti">Threat Intel Hub</a>
-              </div>
-            </details>
-            <details class="md-nav__item psv-category-group" open>
-              <summary class="md-nav__link"><span>DFIR &amp; Forensics</span><span class="psv-vault-count">7</span></summary>
-              <div class="md-nav psv-category-tools">
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/yara">YARA Rule Builder</a>
-                <a class="md-nav__link psv-nav__link psv-sidebar-tool" href="/tools/#tool/deobfuscator">Script De-obfuscator</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/json">JSON Log Beautifier</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/case">Incident Case Workspace</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/share">Secure Evidence Share</a>
-                <a class="md-nav__link psv-sidebar-tool active" href="/secure-share/" aria-current="page">Secure Share (Live Transfer)</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/evidence">Evidence Integrity</a>
-              </div>
-            </details>
-            <details class="md-nav__item psv-category-group">
-              <summary class="md-nav__link"><span>Network &amp; Email</span><span class="psv-vault-count">2</span></summary>
-              <div class="md-nav psv-category-tools">
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/headers">Email Header Analyzer</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/cvss">CVSS v3.1 Calculator</a>
-              </div>
-            </details>
-            <details class="md-nav__item psv-category-group">
-              <summary class="md-nav__link"><span>Incident Utilities</span><span class="psv-vault-count">3</span></summary>
-              <div class="md-nav psv-category-tools">
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/timestamp">Timestamp Converter</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/severity">Triage Heuristic</a>
-                <a class="md-nav__link psv-sidebar-tool" href="/tools/#tool/report">Incident Report Builder</a>
-              </div>
-            </details>
-          </div>
-        </nav>
-      </div>
-    </div>
-  </aside>
+
 </div>
 
 <script>
@@ -2106,37 +2051,8 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
   document.body.classList.add("secure-share-page");
   const frame = document.getElementById("secure-share-frame");
   if (!frame) return;
-  const sidebar = document.getElementById("secure-share-categories");
-  const categoryNav = sidebar && sidebar.querySelector(".psv-tool-sidebar");
-  let nativeSecondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]') || document.querySelector(".md-sidebar--secondary");
-  if (!nativeSecondary) {
-    const mainInner = document.querySelector(".md-main__inner");
-    if (mainInner) {
-      nativeSecondary = document.createElement("div");
-      nativeSecondary.className = "md-sidebar md-sidebar--secondary";
-      nativeSecondary.setAttribute("data-md-component", "sidebar");
-      nativeSecondary.setAttribute("data-md-type", "toc");
-      const scroll = document.createElement("div");
-      scroll.className = "md-sidebar__scrollwrap";
-      const inner = document.createElement("div");
-      inner.className = "md-sidebar__inner";
-      scroll.appendChild(inner);
-      nativeSecondary.appendChild(scroll);
-      mainInner.appendChild(nativeSecondary);
-    }
-  }
-  const nativeSecondaryInner = nativeSecondary && nativeSecondary.querySelector(".md-sidebar__inner");
-  if (categoryNav && nativeSecondaryInner) {
-    document.querySelectorAll(".md-sidebar--secondary .psv-tool-sidebar").forEach(node => {
-      if (node !== categoryNav) node.remove();
-    });
-    nativeSecondaryInner.replaceChildren(categoryNav);
-    sidebar.remove();
-    nativeSecondary.setAttribute("aria-label", "Tools categories");
-  } else if (categoryNav) {
-    /* Do not render a second in-content navigation when the native right rail is unavailable. */
-    sidebar.remove();
-  }
+  /* The right category navigation is mounted centrally by tools-workbench-v2.js,
+     using the same TOOLS data and sidebar renderer as the Tools page. */
   const syncTheme = () => {
     try {
       const dark = document.documentElement.getAttribute("data-md-color-scheme") === "slate";
