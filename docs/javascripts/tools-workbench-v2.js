@@ -2808,7 +2808,49 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     window.addEventListener("hashchange", syncToolRouteFromLocation);
   }
 
+  function attachSecureShareSidebar() {
+    if (!document.body.classList.contains("secure-share-page")) return;
+    const secondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]') || document.querySelector(".md-sidebar--secondary");
+    if (!secondary) return;
+    let inner = secondary.querySelector(".md-sidebar__inner");
+    if (!inner) {
+      const scroll = document.createElement("div");
+      scroll.className = "md-sidebar__scrollwrap";
+      inner = document.createElement("div");
+      inner.className = "md-sidebar__inner";
+      scroll.appendChild(inner);
+      secondary.appendChild(scroll);
+    }
+    const groups = [
+      { id: "soc", label: "SOC & Detection" },
+      { id: "ti", label: "Threat Intelligence" },
+      { id: "dfir", label: "DFIR & Forensics" },
+      { id: "network", label: "Network & Email" },
+      { id: "util", label: "Incident Utilities" }
+    ];
+    const nav = document.createElement("nav");
+    nav.className = "md-nav md-nav--primary psv-tool-sidebar";
+    nav.setAttribute("aria-label", "Tool categories");
+    nav.innerHTML = `<label class="md-nav__title">Tool categories</label><div class="md-nav__list psv-category-accordion">
+      ${groups.map(group => {
+        const items = TOOLS.filter(tool => tool.cat === group.id);
+        return `<details class="md-nav__item psv-category-group" ${group.id === "dfir" ? "open" : ""}>
+          <summary class="md-nav__link"><span>${group.label}</span><span class="psv-vault-count">${items.length}</span></summary>
+          <div class="md-nav psv-category-tools">${items.map(tool => {
+            const isActive = tool.id === "share";
+            const href = isActive ? "/secure-share/" : `/tools/#tool/${encodeURIComponent(tool.id)}`;
+            return `<a class="md-nav__link psv-sidebar-tool${isActive ? " active" : ""}" href="${href}" ${isActive ? 'aria-current="page"' : ""}>${esc(tool.shortTitle || tool.title)}</a>`;
+          }).join("")}</div>
+        </details>`;
+      }).join("")}
+      </div>`;
+    inner.replaceChildren(nav);
+    secondary.setAttribute("aria-label", "Tools categories");
+  }
+
   function init() {
+    // Secure Share reuses the same category data and navigation renderer as Tools.
+    attachSecureShareSidebar();
     // The mount point is the reliable page identity. Do not depend on a
     // particular domain, trailing slash, or MkDocs URL canonicalisation.
     const root = getRoot();
