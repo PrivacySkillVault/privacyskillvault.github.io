@@ -1011,8 +1011,9 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
   justify-content: space-between !important;
   gap: .5rem !important;
   min-height: 0 !important;
-  padding: .3em .6em !important;
-  line-height: 1.4 !important;
+  /* Match MkDocs Material left navigation row padding exactly. */
+  padding: .2rem .6rem !important;
+  line-height: inherit !important;
   white-space: normal !important;
 }
 .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools {
