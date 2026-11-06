@@ -1001,7 +1001,7 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
    typography remain untouched. */
 .md-sidebar--secondary .psv-tool-sidebar .psv-category-group {
   display: block !important;
-  margin: .15rem 0 !important;
+  margin: 0 !important;
   padding: 0 !important;
   border-bottom: 1px solid var(--md-default-fg-color--lightest) !important;
 }
@@ -1011,7 +1011,8 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
   justify-content: space-between !important;
   gap: .5rem !important;
   min-height: 0 !important;
-  padding: .55rem .2rem !important;
+  padding: .3em .6em !important;
+  line-height: 1.4 !important;
   white-space: normal !important;
 }
 .md-sidebar--secondary .psv-tool-sidebar .psv-category-tools {
