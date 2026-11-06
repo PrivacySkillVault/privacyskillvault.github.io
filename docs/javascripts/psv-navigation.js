@@ -25,10 +25,32 @@
     const sidebar = journal && journal.querySelector(".psv-journal-sidebar");
     if (!sidebar) return;
 
-    const secondary = document.querySelector(".md-sidebar--secondary");
-    const inner = secondary && secondary.querySelector(".md-sidebar__inner");
-    if (!inner) return;
-
+    let secondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]') ||
+      document.querySelector(".md-sidebar--secondary");
+    if (!secondary) {
+      const main = document.querySelector(".md-main__inner");
+      if (!main) return;
+      secondary = document.createElement("div");
+      secondary.className = "md-sidebar md-sidebar--secondary";
+      secondary.setAttribute("data-md-component", "sidebar");
+      secondary.setAttribute("data-md-type", "toc");
+      const scroll = document.createElement("div");
+      scroll.className = "md-sidebar__scrollwrap";
+      const inner = document.createElement("div");
+      inner.className = "md-sidebar__inner";
+      scroll.appendChild(inner);
+      secondary.appendChild(scroll);
+      main.appendChild(secondary);
+    }
+    let inner = secondary.querySelector(".md-sidebar__inner");
+    if (!inner) {
+      const scroll = document.createElement("div");
+      scroll.className = "md-sidebar__scrollwrap";
+      inner = document.createElement("div");
+      inner.className = "md-sidebar__inner";
+      scroll.appendChild(inner);
+      secondary.appendChild(scroll);
+    }
     if (sidebar.parentElement !== inner) inner.replaceChildren(sidebar);
     secondary.setAttribute("aria-label", "Blog categories");
     sidebar.setAttribute("aria-label", "Blog categories");
