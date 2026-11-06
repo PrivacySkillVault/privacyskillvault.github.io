@@ -68,7 +68,7 @@ body.secure-share-page .md-sidebar--secondary .psv-vault-count{
   <aside id="secure-share-categories" class="md-sidebar md-sidebar--secondary" aria-label="Tools categories">
     <div class="md-sidebar__scrollwrap">
       <div class="md-sidebar__inner">
-        <nav class="md-nav md-nav--secondary psv-tool-sidebar" aria-label="Tool categories">
+        <nav class="md-nav md-nav--primary psv-tool-sidebar" aria-label="Tool categories">
           <label class="md-nav__title">Tool categories</label>
           <div class="md-nav__list psv-category-accordion">
             <details class="md-nav__item psv-category-group">
@@ -130,7 +130,7 @@ body.secure-share-page .md-sidebar--secondary .psv-vault-count{
   if (!frame) return;
   const sidebar = document.getElementById("secure-share-categories");
   const categoryNav = sidebar && sidebar.querySelector(".psv-tool-sidebar");
-  let nativeSecondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]');
+  let nativeSecondary = document.querySelector('.md-sidebar--secondary[data-md-type="toc"]') || document.querySelector(".md-sidebar--secondary");
   if (!nativeSecondary) {
     const mainInner = document.querySelector(".md-main__inner");
     if (mainInner) {
@@ -149,14 +149,15 @@ body.secure-share-page .md-sidebar--secondary .psv-vault-count{
   }
   const nativeSecondaryInner = nativeSecondary && nativeSecondary.querySelector(".md-sidebar__inner");
   if (categoryNav && nativeSecondaryInner) {
+    document.querySelectorAll(".md-sidebar--secondary .psv-tool-sidebar").forEach(node => {
+      if (node !== categoryNav) node.remove();
+    });
     nativeSecondaryInner.replaceChildren(categoryNav);
     sidebar.remove();
     nativeSecondary.setAttribute("aria-label", "Tools categories");
   } else if (categoryNav) {
-    /* Keep the category navigation visible in the content column if Material's sidebar is unavailable. */
-    sidebar.classList.add("secure-share-categories-fallback");
-    sidebar.style.display = "block";
-    sidebar.style.width = "100%";
+    /* Do not render a second in-content navigation when the native right rail is unavailable. */
+    sidebar.remove();
   }
   const syncTheme = () => {
     try {
