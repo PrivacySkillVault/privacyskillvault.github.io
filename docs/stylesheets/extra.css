@@ -95,8 +95,9 @@ body{background:var(--psv-bg);color:var(--psv-text);font-family:Roboto,"Helvetic
 /* =========================================================
    PSV CYBER JOURNAL — editorial/newsroom layout
    ========================================================= */
-body:has(.psv-journal-shell) .md-sidebar--primary{display:block!important}
-body:has(.psv-journal-shell) .md-sidebar--secondary{display:block!important}
+/* Let MkDocs Material manage its native sidebar breakpoints.
+   Forcing both sidebars to display:block at every width squeezes
+   the journal content column on tablet and mobile screens. */
 body:has(.psv-journal-shell) .md-sidebar--secondary .md-sidebar__inner{padding-top:.25rem}
 body:has(.psv-journal-shell) .md-sidebar--secondary .psv-journal-sidebar{position:static;padding:.3rem 0}
 body:has(.psv-journal-shell) .md-content{max-width:none!important;margin:0!important}
@@ -1228,6 +1229,56 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-
   }
   body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature > .psv-story-feature__body {
     padding: 14px 16px !important;
+  }
+}
+
+
+/* Journal responsive shell: never let theme sidebars steal the story width. */
+@media (max-width: 76.1875em) {
+  body:has(.psv-journal-shell) .md-sidebar--secondary {
+    display: none !important;
+  }
+}
+@media (max-width: 700px) {
+  body:has(.psv-journal-shell) .md-content,
+  body:has(.psv-journal-shell) .md-content__inner,
+  body:has(.psv-journal-shell) .md-content__inner > .md-typeset__scrollwrap,
+  body:has(.psv-journal-shell) .md-content__inner > .md-typeset__scrollwrap > .md-typeset,
+  body:has(.psv-journal-shell) .psv-journal-shell,
+  body:has(.psv-journal-shell) .psv-journal-main,
+  body:has(.psv-journal-shell) .psv-journal-story-list {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-shell {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: .8rem !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-sidebar {
+    position: static !important;
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__art {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 172px !important;
+    min-height: 172px !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__body {
+    width: 100% !important;
+    min-width: 0 !important;
   }
 }
 
