@@ -991,25 +991,32 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
 */
 
 /* =========================================================
-   FINAL JOURNAL + SECURE SHARE ALIGNMENT
-   Single authoritative override for the category rail and
-   article listing cards. Keep the existing page structure.
+   BLOG CARD ALIGNMENT — single authoritative card system
+   Shared by the Blog home, pagination and category listings.
    ========================================================= */
-
-/* Blog: consistent compact editorial rows on desktop/tablet. */
 body:has(.psv-journal-shell) .psv-journal-main {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
   min-width: 0 !important;
   width: 100% !important;
+  max-width: 980px !important;
+}
+body:has(.psv-journal-shell) .psv-journal-section-head,
+body:has(.psv-journal-shell) .psv-journal-story-list,
+body:has(.psv-journal-shell) .psv-journal-pagination,
+body:has(.psv-journal-shell) .psv-journal-photo-note {
+  width: 100% !important;
+  max-width: 980px !important;
+  box-sizing: border-box !important;
 }
 body:has(.psv-journal-shell) .psv-journal-story-list {
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
-  gap: .9rem !important;
-  width: 100% !important;
-  max-width: 980px !important;
+  gap: 14px !important;
   min-width: 0 !important;
-  margin: 1rem 0 0 !important;
+  margin: 14px 0 0 !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
   display: grid !important;
@@ -1019,7 +1026,7 @@ body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-s
   width: 100% !important;
   max-width: 980px !important;
   min-width: 0 !important;
-  min-height: 148px !important;
+  min-height: 164px !important;
   height: auto !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -1035,8 +1042,8 @@ body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-s
   display: block !important;
   width: 168px !important;
   min-width: 168px !important;
-  height: 148px !important;
-  min-height: 148px !important;
+  height: auto !important;
+  min-height: 164px !important;
   margin: 0 !important;
   overflow: hidden !important;
   align-self: stretch !important;
@@ -1052,17 +1059,17 @@ body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-s
   object-position: center !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__body {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-  gap: .28rem !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(2.7em, auto) minmax(2.25em, auto) auto !important;
+  align-content: center !important;
+  align-items: start !important;
+  gap: 4px !important;
   width: 100% !important;
   min-width: 0 !important;
-  min-height: 148px !important;
+  min-height: 164px !important;
   height: auto !important;
   margin: 0 !important;
-  padding: .8rem 1rem !important;
+  padding: 12px 16px !important;
   box-sizing: border-box !important;
   overflow: hidden !important;
 }
@@ -1071,13 +1078,16 @@ body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-s
   max-width: 100% !important;
   margin: 0 !important;
   font-size: .58rem !important;
-  line-height: 1.4 !important;
+  line-height: 1.35 !important;
   overflow-wrap: anywhere !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card h3 {
-  display: block !important;
+  display: -webkit-box !important;
   max-width: 100% !important;
-  margin: .12rem 0 .18rem !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
   font-size: 1rem !important;
   font-weight: 700 !important;
   line-height: 1.35 !important;
@@ -1100,17 +1110,15 @@ body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-s
   align-items: center !important;
   justify-content: flex-start !important;
   flex-wrap: wrap !important;
-  gap: .4rem .8rem !important;
+  gap: 4px 12px !important;
   width: 100% !important;
-  margin: auto 0 0 !important;
-  padding-top: .35rem !important;
+  margin: 0 !important;
+  padding-top: 2px !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card .psv-story-card__footer small {
   font-size: .56rem !important;
-  line-height: 1.4 !important;
+  line-height: 1.35 !important;
 }
-
-/* Featured story remains visually distinct but no longer oversized. */
 body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature {
   display: grid !important;
   grid-template-columns: 200px minmax(0, 1fr) !important;
@@ -1121,15 +1129,20 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature {
   min-height: 176px !important;
   height: auto !important;
   margin: 0 !important;
+  box-sizing: border-box !important;
   overflow: hidden !important;
+  border: 1px solid var(--psv-border) !important;
   border-radius: 10px !important;
+  background: var(--psv-surface) !important;
+  text-decoration: none !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature > .psv-story-art {
   position: relative !important;
   width: 200px !important;
   min-width: 200px !important;
   min-height: 176px !important;
-  height: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
   overflow: hidden !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature > .psv-story-art img {
@@ -1144,40 +1157,50 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature > .psv-stor
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
+  align-items: flex-start !important;
   min-width: 0 !important;
-  padding: .9rem 1rem !important;
+  padding: 14px 16px !important;
   box-sizing: border-box !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature h3 {
-  margin: .25rem 0 .35rem !important;
-  font-size: 1.2rem !important;
+  display: -webkit-box !important;
+  margin: 4px 0 6px !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  font-size: 1.15rem !important;
   line-height: 1.32 !important;
   overflow-wrap: anywhere !important;
 }
 body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-feature__body > p {
+  display: -webkit-box !important;
   margin: 0 !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
   font-size: .78rem !important;
-  line-height: 1.55 !important;
+  line-height: 1.5 !important;
 }
-
-/* Narrow screens: keep cards legible and prevent squeezed columns. */
 @media (min-width: 701px) and (max-width: 1000px) {
   body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
-    grid-template-columns: 136px minmax(0, 1fr) !important;
+    grid-template-columns: 140px minmax(0, 1fr) !important;
   }
   body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__art {
-    width: 136px !important;
-    min-width: 136px !important;
+    width: 140px !important;
+    min-width: 140px !important;
   }
   body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature {
-    grid-template-columns: 160px minmax(0, 1fr) !important;
+    grid-template-columns: 168px minmax(0, 1fr) !important;
   }
   body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature > .psv-story-art {
-    width: 160px !important;
-    min-width: 160px !important;
+    width: 168px !important;
+    min-width: 168px !important;
   }
 }
 @media (max-width: 700px) {
+  body:has(.psv-journal-shell) .psv-journal-main {
+    max-width: 100% !important;
+  }
   body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
     grid-template-columns: minmax(0, 1fr) !important;
     min-height: 0 !important;
@@ -1189,8 +1212,9 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-
     min-height: 172px !important;
   }
   body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__body {
+    grid-template-rows: auto auto auto auto !important;
     min-height: 0 !important;
-    padding: .85rem .95rem .9rem !important;
+    padding: 12px 14px !important;
   }
   body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature {
     grid-template-columns: minmax(0, 1fr) !important;
@@ -1203,9 +1227,10 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-
     min-height: 190px !important;
   }
   body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature > .psv-story-feature__body {
-    padding: .9rem 1rem 1rem !important;
+    padding: 14px 16px !important;
   }
 }
+
 /* Hide the repeated native right-sidebar TOC heading while keeping section links. */
 .md-sidebar--secondary .md-nav--secondary .md-nav__title,
 .md-sidebar--secondary .md-nav--secondary > label.md-nav__title,
