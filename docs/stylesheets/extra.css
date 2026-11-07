@@ -1207,4 +1207,6 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-
   }
 }
 /* Hide the repeated native right-sidebar TOC heading while keeping section links. */
-.md-sidebar--secondary .md-nav--secondary > .md-nav__title{display:none!important}
+.md-sidebar--secondary .md-nav--secondary .md-nav__title,
+.md-sidebar--secondary .md-nav--secondary > label.md-nav__title,
+.md-sidebar--secondary nav[aria-label="Table of contents"] > .md-nav__title{display:none!important}
