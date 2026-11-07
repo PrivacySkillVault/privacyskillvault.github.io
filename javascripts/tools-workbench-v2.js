@@ -1636,6 +1636,33 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         text-decoration:none!important
       }
       #psv-app .psv-tool-page .psv-secure-transfer-open:hover{filter:brightness(1.08)}
+      /* Final page-wide descriptive text scale: mirror native .md-typeset paragraphs.
+         Scoped to the Tools app so Investigations and other site pages remain untouched. */
+      #psv-app .psv-tools-intro>p,
+      #psv-app .psv-section-head>p,
+      #psv-app .psv-tool-card-v2 .psv-card-desc,
+      #psv-app .psv-workflow-card small,
+      #psv-app .psv-reference-grid article p,
+      #psv-app .psv-tool-page .psv-tool-hero>p,
+      #psv-app .psv-tool-page .psv-tool-page-head>p,
+      #psv-app .psv-tool-page .psv-doc-section p,
+      #psv-app .psv-tool-page .psv-doc-section li,
+      #psv-app .psv-tool-page .psv-faq-item>p,
+      #psv-app .psv-tool-page .psv-advanced-panel>p{
+        font-family:inherit!important;
+        font-size:.8rem!important;
+        font-weight:400!important;
+        line-height:1.72!important;
+        color:var(--md-typeset-color)!important;
+      }
+      #psv-app .psv-tools-intro>p,
+      #psv-app .psv-section-head>p,
+      #psv-app .psv-tool-page .psv-tool-hero>p,
+      #psv-app .psv-tool-page .psv-tool-page-head>p{
+        max-width:none!important;
+        text-align:left!important;
+      }
+
       @media(max-width:700px){
         #psv-app .psv-tool-page .psv-tool-hero h1,
         #psv-app .psv-tool-page .psv-tool-page-head h1{font-size:1.55rem!important}
