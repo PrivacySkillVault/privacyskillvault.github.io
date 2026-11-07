@@ -57,12 +57,32 @@ body{background:var(--psv-bg);color:var(--psv-text);font-family:Roboto,"Helvetic
 }
 
 /* Blog is an editorial destination, not part of the documentation tree */
-.psv-blog-page .md-sidebar--primary{display:block!important}
-.psv-blog-page .md-sidebar--secondary{display:block!important}
+/* Keep Material's native responsive sidebar behaviour on Blog pages. */
 .psv-blog-page .md-content{max-width:none;margin-left:0;margin-right:0}
 .psv-blog-page .md-content__inner{padding-left:1.5rem;padding-right:1.5rem}
 @media(max-width:767px){
   .psv-blog-page .md-content__inner{padding-left:.9rem;padding-right:.9rem}
+}
+
+
+/* Blog: hide the secondary category rail below desktop so it never
+   competes with the article column; Material controls the primary drawer. */
+@media (max-width: 76.1875em) {
+  .psv-blog-page .md-sidebar--secondary {
+    display: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .psv-blog-page .md-content,
+  .psv-blog-page .md-content__inner,
+  .psv-blog-page .psv-journal-shell,
+  .psv-blog-page .psv-journal-main,
+  .psv-blog-page .psv-journal-story-list {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
 }
 
 /* Center the custom site-wide copyright footer */
