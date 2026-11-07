@@ -2055,21 +2055,29 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
      using the same TOOLS data and sidebar renderer as the Tools page. */
   const syncTheme = () => {
     try {
-      const dark = document.documentElement.getAttribute("data-md-color-scheme") === "slate";
+      const root = document.documentElement;
+      const scheme = root.getAttribute("data-md-color-scheme") ||
+        (document.body && document.body.getAttribute("data-md-color-scheme")) || "";
+      const dark = scheme === "slate" || scheme === "dark" ||
+        root.style.colorScheme === "dark";
       const doc = frame.contentDocument;
-      if (!doc) return;
-      doc.documentElement.dataset.theme = dark ? "dark" : "light";
+      if (!doc || !doc.documentElement) return;
+      const appRoot = doc.documentElement;
+      appRoot.setAttribute("data-theme", dark ? "dark" : "light");
       const vars = dark
-        ? { "--ink":"#e6edf3","--muted":"#9ba7b4","--line":"#30363d","--panel":"#161b22","--page":"#0b0f14","--blue":"#58a6ff","--blue-dark":"#79b8ff","--red":"#f85149","--green":"#3fb950" }
-        : { "--ink":"#172033","--muted":"#586579","--line":"#d9e1ec","--panel":"#ffffff","--page":"#f7f9fc","--blue":"#1f6feb","--blue-dark":"#1d5fd0","--red":"#b42318","--green":"#16794b" };
-      Object.entries(vars).forEach(([key,value]) => doc.documentElement.style.setProperty(key,value));
-      doc.documentElement.style.colorScheme = dark ? "dark" : "light";
+        ? { "--ink":"#e6edf3","--muted":"#9ba7b4","--line":"#30363d","--panel":"#161b22","--page":"#0b0f14","--field":"#0d1117","--field-border":"#30363d","--soft":"#161b22","--soft-border":"#30363d","--blue":"#58a6ff","--blue-dark":"#79b8ff","--red":"#f85149","--green":"#3fb950","--notice-bg":"#111d2b","--notice-ink":"#c9d1d9","--good-bg":"#10251b","--good-border":"#238636","--bad-bg":"#2b1717","--bad-border":"#8e3430","--progress-track":"#30363d","--progress-fill":"#3fb950" }
+        : { "--ink":"#172033","--muted":"#586579","--line":"#d9e1ec","--panel":"#ffffff","--page":"#f7f9fc","--field":"#ffffff","--field-border":"#cbd5e1","--soft":"#f8fafc","--soft-border":"#e2e8f0","--blue":"#1f6feb","--blue-dark":"#1d5fd0","--red":"#b42318","--green":"#16794b","--notice-bg":"#eff6ff","--notice-ink":"#43536b","--good-bg":"#f0fdf4","--good-border":"#86c9a8","--bad-bg":"#fff7f6","--bad-border":"#e6aaa5","--progress-track":"#e5eaf0","--progress-fill":"#238b58" };
+      Object.entries(vars).forEach(([key,value]) => appRoot.style.setProperty(key,value));
+      appRoot.style.colorScheme = dark ? "dark" : "light";
+      doc.body.style.backgroundColor = "var(--page)";
+      doc.body.style.color = "var(--ink)";
     } catch (_) {}
   };
   frame.addEventListener("load", syncTheme);
   frame.src = "/assets/secure-share-app.html" + window.location.search + window.location.hash;
   const observer = new MutationObserver(syncTheme);
-  observer.observe(document.documentElement,{attributes:true,attributeFilter:["data-md-color-scheme"]});
+  observer.observe(document.documentElement,{attributes:true,attributeFilter:["data-md-color-scheme","style"]});
+  if (document.body) observer.observe(document.body,{attributes:true,attributeFilter:["data-md-color-scheme"]});
   window.addEventListener("message",(event)=>{
     if(event.origin!==window.location.origin||!event.data||event.data.type!=="psv-secure-share-height")return;
     const height=Number(event.data.height);
