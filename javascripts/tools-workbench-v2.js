@@ -609,7 +609,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-tool-card-v2:hover{border-color:var(--md-accent-fg-color);transform:translateY(-2px)}
       #psv-app .psv-tool-card-v2:focus-visible{outline:3px solid var(--md-accent-fg-color);outline-offset:3px}
       #psv-app .psv-tool-card-v2 .psv-card-title{font-size:.95rem;line-height:1.4}
-      #psv-app .psv-tool-card-v2 .psv-card-desc{font-family:inherit;font-size:.8rem;font-weight:400;line-height:1.6}
+      #psv-app .psv-tool-card-v2 .psv-card-desc{font:inherit}
       #psv-app .psv-tool-card-v2 .psv-card-cat-lbl{font-size:.62rem}
       #psv-app .psv-tool-card-v2 .psv-card-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:auto}
       #psv-app .psv-tool-card-v2 .psv-client-tag{font-size:.65rem}
@@ -936,12 +936,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         margin: 0 0 0.4rem 0;
       }
       [data-md-color-scheme="default"] .psv-card-title { color: #0f172a; }
-      .psv-card-desc {
-        font-family: inherit;
-        font-size: 0.8rem;
-        font-weight: 400;
+       .psv-card-desc {
+        font: inherit;
         color: #94a3b8;
-        line-height: 1.6;
         margin: 0 0 1rem 0;
       }
       [data-md-color-scheme="default"] .psv-card-desc { color: #475569; }
@@ -1230,7 +1227,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-workflow-secure{border-color:rgba(16,185,129,.4)}
       #psv-app .psv-tool-card-v2{width:100%;min-height:190px;color:var(--md-default-fg-color);font:inherit}
       #psv-app .psv-tool-card-v2 .psv-card-title{color:var(--md-default-fg-color);font-size:1rem}
-      #psv-app .psv-tool-card-v2 .psv-card-desc{font-family:inherit;color:var(--md-default-fg-color--light);font-size:.8rem;font-weight:400;line-height:1.6}
+      #psv-app .psv-tool-card-v2 .psv-card-desc{font:inherit;color:var(--md-default-fg-color--light)}
       #psv-app .psv-tool-card-v2 .psv-card-head{width:100%}
       #psv-app .psv-tool-card-v2 .psv-card-foot{width:100%;margin-top:auto}
       #psv-app .psv-reference-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
