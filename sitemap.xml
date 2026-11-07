@@ -89,6 +89,10 @@
          <lastmod>2026-11-07</lastmod>
     </url>
     <url>
+         <loc>https://privacyskillvault.com/blog/threat-analysis/claude-code-dont-ask-again-settings-local-json-secrets/</loc>
+         <lastmod>2026-11-07</lastmod>
+    </url>
+    <url>
          <loc>https://privacyskillvault.com/blog/threat-analysis/cloudflare-q3-2026-ddos-report/</loc>
          <lastmod>2026-11-07</lastmod>
     </url>
@@ -126,6 +130,10 @@
     </url>
     <url>
          <loc>https://privacyskillvault.com/blog/vulnerabilities/debian-ubuntu-apt-cve-2026-109518/</loc>
+         <lastmod>2026-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://privacyskillvault.com/blog/vulnerabilities/openssh-sshole-cve-2026-123158-exploitation/</loc>
          <lastmod>2026-11-07</lastmod>
     </url>
     <url>
