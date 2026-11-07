@@ -176,5 +176,39 @@ $("cancel").addEventListener("click",()=>{endSession("Transfer cancelled by send
 const params=joinParams();if(params.id){$("sender").classList.add("hidden");$("receiver").classList.remove("hidden");}else{$("sender").classList.remove("hidden");$("receiver").classList.add("hidden");}
 if(!window.isSecureContext||!window.crypto||!crypto.subtle){$("create").disabled=true;$("connect").disabled=true;status("Secure Share requires HTTPS and browser Web Crypto support.",true);}
 window.addEventListener("pagehide",()=>{stop();if(objectUrl)URL.revokeObjectURL(objectUrl);});
+
+// Keep the iframe sized to its full document so the browser page owns scrolling.
+let heightFrame = 0;
+let lastReportedHeight = 0;
+const reportDocumentHeight = () => {
+ cancelAnimationFrame(heightFrame);
+ heightFrame = requestAnimationFrame(() => {
+  const root = document.documentElement;
+  const body = document.body;
+  const height = Math.ceil(Math.max(
+   root ? root.scrollHeight : 0,
+   root ? root.offsetHeight : 0,
+   body ? body.scrollHeight : 0,
+   body ? body.offsetHeight : 0
+  ));
+  if (height >= 500 && height <= 12000 && Math.abs(height - lastReportedHeight) > 1) {
+   lastReportedHeight = height;
+   if (window.parent !== window) window.parent.postMessage({type:"psv-secure-share-height",height},window.location.origin);
+  }
+ });
+};
+if ("ResizeObserver" in window) {
+ const heightObserver = new ResizeObserver(reportDocumentHeight);
+ heightObserver.observe(document.documentElement);
+ heightObserver.observe(document.body);
+}
+if ("MutationObserver" in window) {
+ const contentObserver = new MutationObserver(reportDocumentHeight);
+ contentObserver.observe(document.body,{subtree:true,childList:true,attributes:true,characterData:true});
+}
+window.addEventListener("load",reportDocumentHeight);
+window.addEventListener("resize",reportDocumentHeight);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(reportDocumentHeight);
+reportDocumentHeight();
 })();
 </script></body></html>
