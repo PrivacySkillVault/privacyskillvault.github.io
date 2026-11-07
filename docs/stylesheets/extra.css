@@ -1306,3 +1306,69 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-
 .md-sidebar--secondary .md-nav--secondary .md-nav__title,
 .md-sidebar--secondary .md-nav--secondary > label.md-nav__title,
 .md-sidebar--secondary nav[aria-label="Table of contents"] > .md-nav__title{display:none!important}
+
+
+/* BLOG MOBILE OUTER LAYOUT RESET
+   The narrow viewport must not retain MkDocs' desktop sidebar columns.
+   Collapse the theme grid before sizing the journal and its cards. */
+@media (max-width: 700px) {
+  body:has(.psv-journal-shell) .md-grid,
+  body:has(.psv-journal-shell) .md-main__inner {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body:has(.psv-journal-shell) .md-sidebar--primary,
+  body:has(.psv-journal-shell) .md-sidebar--secondary {
+    display: none !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    flex: 0 0 0 !important;
+  }
+  body:has(.psv-journal-shell) .md-content {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body:has(.psv-journal-shell) .md-content__inner {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: .75rem .65rem 2rem !important;
+  }
+  body:has(.psv-journal-shell) .md-content__inner > .md-typeset__scrollwrap,
+  body:has(.psv-journal-shell) .md-content__inner > .md-typeset__scrollwrap > .md-typeset {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-shell,
+  body:has(.psv-journal-shell) .psv-journal-main,
+  body:has(.psv-journal-shell) .psv-journal-story-list,
+  body:has(.psv-journal-shell) .psv-journal-story-list > a.psv-story-card {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-shell {
+    display: block !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-sidebar {
+    display: none !important;
+  }
+}
