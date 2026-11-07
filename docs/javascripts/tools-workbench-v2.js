@@ -2873,13 +2873,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
     const headings = Array.from(content.querySelectorAll("h2[id],h3[id],h4[id],h5[id],h6[id]"))
       .filter((heading) => !heading.closest("[hidden]") && heading.getClientRects().length);
-    const title = document.createElement("label");
-    title.className = "md-nav__title";
-    title.textContent = "Table of contents";
-
     const nav = document.createElement("nav");
     nav.className = "md-nav md-nav--secondary";
-    nav.setAttribute("aria-label", "Table of contents");
+    nav.setAttribute("aria-label", "Page sections");
     const list = document.createElement("ul");
     list.className = "md-nav__list";
 
@@ -2895,8 +2891,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     });
 
     nav.appendChild(list);
-    inner.replaceChildren(title, nav);
-    secondary.setAttribute("aria-label", "Table of contents");
+    inner.replaceChildren(nav);
+    secondary.setAttribute("aria-label", "Page sections");
   }
 
   function attachSecureShareSidebar() {
