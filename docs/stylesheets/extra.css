@@ -1372,3 +1372,32 @@ body:has(.psv-journal-shell) .psv-journal-main > a.psv-story-feature .psv-story-
     display: none !important;
   }
 }
+
+
+/* BLOG LISTING WIDTH FIX
+   psv-navigation.js moves .psv-journal-sidebar into Material's secondary
+   sidebar. The journal shell therefore no longer has its first grid child.
+   Remove the stale 200px sidebar track so the story column spans the shell. */
+body.psv-blog-page .psv-journal-shell {
+  display: block !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+body.psv-blog-page .psv-journal-main {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 980px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+body.psv-blog-page .psv-journal-story-list,
+body.psv-blog-page .psv-journal-section-head,
+body.psv-blog-page .psv-journal-pagination,
+body.psv-blog-page .psv-journal-photo-note {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
