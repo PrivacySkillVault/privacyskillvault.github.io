@@ -1609,10 +1609,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
       #psv-app .psv-tool-page .psv-tool-hero>p,
       #psv-app .psv-tool-page .psv-tool-page-head>p{
-        max-width:820px!important;margin:0 0 1rem!important;
-        font-family:inherit!important;font-size:.95rem!important;
-        font-weight:400!important;line-height:1.7!important;
-        color:var(--md-default-fg-color--light)!important;text-align:left!important
+        max-width:820px!important;margin:1.2em 0!important;
+        font:inherit!important;font-weight:400!important;
+        line-height:inherit!important;
+        color:var(--md-typeset-color)!important;text-align:left!important
       }
       #psv-app .psv-tool-page .psv-doc-section h3,
       #psv-app .psv-tool-page .psv-advanced-panel h2{
