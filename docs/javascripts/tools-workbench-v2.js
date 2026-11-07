@@ -2862,6 +2862,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function attachSecureShareSidebar() {
     if (!document.body.classList.contains("secure-share-page")) return;
+    // Secure Share uses the same secondary-sidebar markup as Tools.
+    // Load the shared stylesheet before rendering so category and child
+    // navigation receive identical indentation, guide lines, and spacing.
+    injectStyles();
     renderCategorySidebar({ secureSharePage: true });
   }
 
