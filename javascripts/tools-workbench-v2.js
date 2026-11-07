@@ -2861,7 +2861,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function isSecureShareRoute() {
-    const path = window.location.pathname.replace(/\\/+$/, "");
+    const path = window.location.pathname.replace(/\/+$/, "");
     return path.endsWith("/secure-share");
   }
 
