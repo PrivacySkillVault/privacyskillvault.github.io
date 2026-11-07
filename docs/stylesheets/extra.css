@@ -996,44 +996,6 @@ body:has(.psv-article-breadcrumb) article.md-content__inner.md-typeset > table t
    article listing cards. Keep the existing page structure.
    ========================================================= */
 
-/* Secure Share: use the same vertical rhythm as the Tools left nav.
-   Only spacing and separators are changed; accordion behaviour and
-   typography remain untouched. */
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-group {
-  display: block !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-bottom: 1px solid var(--md-default-fg-color--lightest) !important;
-}
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-group > summary.md-nav__link {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: .5rem !important;
-  min-height: 0 !important;
-  /* Match MkDocs Material left navigation row padding exactly. */
-  padding: .2rem .6rem !important;
-  line-height: inherit !important;
-  white-space: normal !important;
-}
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-tools {
-  display: block !important;
-  margin: 0 0 0 .55rem !important;
-  padding: .1rem 0 .45rem .45rem !important;
-  border-left: 1px solid var(--md-default-fg-color--lightest) !important;
-}
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-tools > .psv-sidebar-tool,
-.md-sidebar--secondary .psv-tool-sidebar .psv-category-tools > a.psv-sidebar-tool.md-nav__link {
-  display: block !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-  padding: .38rem .35rem !important;
-  box-sizing: border-box !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere;
-}
-
 /* Blog: consistent compact editorial rows on desktop/tablet. */
 body:has(.psv-journal-shell) .psv-journal-main {
   min-width: 0 !important;
