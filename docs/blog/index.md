@@ -26,7 +26,7 @@
     </a>
 <a class="psv-story-card" href="vulnerabilities/openssh-sshole-cve-2026-123158-exploitation/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
-      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> LINUX SECURITY</span><h3>SSHole: OpenSSH Authentication Bypass Exploited Against Vulnerable Linux Hosts</h3><p>What CVE-2026-123158 affects, why musl and PAM configuration matter, and how to patch and investigate.</p><div class="psv-story-card__footer"><small>06 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">VULNERABILITIES <i>·</i> LINUX SECURITY</span><h3>SSHole: OpenSSH Authentication Bypass Exploited Against Vulnerable Linux Hosts</h3><p>What CVE-2026-123158 affects, why musl and PAM configuration matter, and how to patch and investigate.</p><div class="psv-story-card__footer"><small>07 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
 
 <a class="psv-story-card" href="vulnerabilities/apple-cve-2024-27834-apt29-exploitation/">
