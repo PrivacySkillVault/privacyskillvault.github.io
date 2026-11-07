@@ -10,6 +10,11 @@
   </aside>
   <section class="psv-journal-main psv-category-main">
     <div class="psv-journal-story-list">
+<a class="psv-story-card" href="claude-code-dont-ask-again-settings-local-json-secrets/">
+      <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="PSV editorial illustration" loading="lazy" decoding="async"></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> AI / DEVELOPER SECURITY</span><h3>Claude Code's “Don't Ask Again” Setting Can Expose Secrets in Public Git Repositories</h3><p>How local permission rules can retain command-line secrets, what Apiiro found, and how to reduce exposure.</p><div class="psv-story-card__footer"><small>07 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
+    </a>
+
 <a class="psv-story-card" href="ransomware-attack-chain/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380597/pexels-photo-5380597.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" title="Photo by Tima Miroshnichenko on Pexels" loading="lazy" decoding="async"></div>
       <div class="psv-story-card__body"><span class="psv-story-category">THREAT ANALYSIS <i>·</i> EXPLAINER</span><h3>A Ransomware Attack, Step by Step: What Happens Before Files Are Encrypted?</h3><p>Understand common intrusion stages, where defenders can detect them, and why recovery starts before encryption.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 10 MIN READ</small></div></div>
