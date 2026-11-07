@@ -22,13 +22,13 @@ button:hover,.button:hover{background:var(--blue-dark)}button:disabled{opacity:.
 .linkbox{width:100%;overflow-wrap:anywhere;background:var(--soft);color:var(--ink);border:1px solid var(--line);padding:12px;border-radius:8px;user-select:all}
 .progress{height:8px;background:var(--progress-track);border-radius:8px;overflow:hidden;margin-top:12px}.progress>i{display:block;height:100%;width:0;background:var(--progress-fill);transition:width .12s}
 .notice{border-left:3px solid var(--blue);padding:9px 13px;background:var(--notice-bg);color:var(--notice-ink);font-size:.9rem}
-ul{padding-left:21px}li{margin:6px 0;color:var(--ink)}footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:.82rem;margin-top:30px}
-@media(max-width:600px){main{padding:20px 14px 48px}.panel{padding:18px}.row>*{flex:1 1 100%}.top{gap:10px}}
+ul{padding-left:21px}li{margin:6px 0;color:var(--ink)}@media(max-width:600px){main{padding:20px 14px 48px}.panel{padding:18px}.row>*{flex:1 1 100%}.top{gap:10px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" crossorigin="anonymous"></script>
 </head>
 <body><main>
+<h1>Secure Share</h1>
 <p class="lead">A separate, temporary browser-to-browser transfer tool for confidential notes and small evidence files. Content is encrypted in the sender's browser before transfer.</p>
 <div class="notice">This is not the passphrase-based Secure Evidence Share utility. That existing encrypt/decrypt tool remains unchanged.</div>
 <section id="sender" class="panel">
@@ -63,7 +63,7 @@ ul{padding-left:21px}li{margin:6px 0;color:var(--ink)}footer{border-top:1px soli
 <li>Once decrypted, the recipient can copy or redistribute the file. This tool cannot enforce downstream handling.</li>
 </ul>
 </section>
-<footer>Privacy Skill Vault · Temporary browser-to-browser transfer · No PSV file storage</footer>
+
 </main>
 <script>
 (()=>{"use strict";
