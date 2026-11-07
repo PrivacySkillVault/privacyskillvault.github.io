@@ -12,7 +12,7 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
 #secure-share-heading .eyebrow{display:block;margin:0 0 .35rem;color:var(--md-accent-fg-color);font:700 .68rem/1.4 "Roboto Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
 #secure-share-heading h1{margin:0 0 .45rem;font-size:1.5625em;font-weight:700;letter-spacing:normal;color:var(--md-typeset-color)}
 #secure-share-heading p{margin:0;color:var(--md-default-fg-color--light);font-size:1em;line-height:1.72}
-#secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:0;border-radius:0;background:transparent}
+#secure-share-frame{display:block;width:100%;height:1080px;min-height:820px;border:0;border-radius:0;background:transparent;overflow:hidden}
 
 /* Category navigation inherits Material's shared navigation appearance.
    Page-specific styles are intentionally not applied to this component. */
@@ -23,6 +23,7 @@ body.secure-share-page .md-content__inner>h1:first-child{display:none}
   <main id="secure-share-main">
     <iframe
       id="secure-share-frame"
+      scrolling="no"
       title="Privacy Skill Vault Secure Share workspace"
       loading="eager"
       referrerpolicy="no-referrer"
