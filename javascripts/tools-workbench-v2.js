@@ -2860,8 +2860,52 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     window.addEventListener("hashchange", syncToolRouteFromLocation);
   }
 
+  function isSecureShareRoute() {
+    const path = window.location.pathname.replace(/\\/+$/, "");
+    return path.endsWith("/secure-share");
+  }
+
+  function restoreNativeSecondaryToc() {
+    const secondary = document.querySelector(".md-sidebar--secondary");
+    const inner = secondary && secondary.querySelector(".md-sidebar__inner");
+    const content = document.querySelector(".md-content__inner");
+    if (!inner || !content || !inner.querySelector(".psv-tool-sidebar")) return;
+
+    const headings = Array.from(content.querySelectorAll("h2[id],h3[id],h4[id],h5[id],h6[id]"))
+      .filter((heading) => !heading.closest("[hidden]") && heading.getClientRects().length);
+    const title = document.createElement("label");
+    title.className = "md-nav__title";
+    title.textContent = "Table of contents";
+
+    const nav = document.createElement("nav");
+    nav.className = "md-nav md-nav--secondary";
+    nav.setAttribute("aria-label", "Table of contents");
+    const list = document.createElement("ul");
+    list.className = "md-nav__list";
+
+    headings.forEach((heading) => {
+      const item = document.createElement("li");
+      item.className = "md-nav__item";
+      const link = document.createElement("a");
+      link.className = "md-nav__link";
+      link.href = "#" + encodeURIComponent(heading.id);
+      link.textContent = heading.textContent.trim();
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+
+    nav.appendChild(list);
+    inner.replaceChildren(title, nav);
+    secondary.setAttribute("aria-label", "Table of contents");
+  }
+
   function attachSecureShareSidebar() {
-    if (!document.body.classList.contains("secure-share-page")) return;
+    if (!isSecureShareRoute()) {
+      document.body.classList.remove("secure-share-page");
+      restoreNativeSecondaryToc();
+      return;
+    }
+    document.body.classList.add("secure-share-page");
     // Secure Share uses the same secondary-sidebar markup as Tools.
     // Load the shared stylesheet before rendering so category and child
     // navigation receive identical indentation, guide lines, and spacing.
