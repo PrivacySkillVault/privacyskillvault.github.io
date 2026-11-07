@@ -1342,8 +1342,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-directory-open{font-family:inherit;font-size:.78rem;font-weight:600}
       #psv-app .psv-tool-page-head h1,#psv-app .psv-tool-hero h1{font-family:inherit;font-weight:700}
        /* Keep MkDocs Material in control of the page columns. */
-      #psv-app .psv-category-group{margin:.15rem 0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
-      #psv-app .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem .2rem;cursor:pointer;font:inherit;list-style:none}
+      #psv-app .psv-category-group{margin:0;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+      #psv-app .psv-category-group>summary{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.2rem .6rem;cursor:pointer;font:inherit;line-height:inherit;list-style:none}
       #psv-app .psv-category-group>summary::-webkit-details-marker{display:none}
       #psv-app .psv-category-tools{padding:.1rem 0 .45rem .45rem}
       #psv-app .psv-category-group .psv-sidebar-tool{display:block;width:100%;padding:.38rem .35rem;border:0;border-radius:4px;background:transparent;color:var(--md-default-fg-color--light);font:inherit;text-align:left;cursor:pointer}
