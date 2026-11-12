@@ -1554,6 +1554,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-ha-report details{margin:.7rem 0}
       #psv-app .psv-ha-technical pre{max-height:28rem;overflow:auto}
       @media(max-width:620px){#psv-app .psv-ha-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#psv-app .psv-ha-file,#psv-app .psv-ha-fields{grid-template-columns:1fr}}
+      /* Secure sharing for completed Threat Intelligence lookups. */
+      #psv-app .psv-ti-secure-share{margin:1rem 0;padding:1rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:10px;background:var(--md-code-bg-color)}
+      #psv-app .psv-ti-secure-share h3{margin-top:0}
+      #psv-app .psv-ti-secure-share p{font-size:.88rem;line-height:1.6}
+      #psv-app .psv-ti-secure-share__fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin:.75rem 0}
+      #psv-app .psv-ti-secure-share__fields label{display:flex;flex-direction:column;gap:.35rem;font-size:.85rem;font-weight:600}
+      #psv-app .psv-ti-secure-share__fields input{width:100%;min-width:0;box-sizing:border-box;padding:.65rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-default-bg-color);color:var(--md-default-fg-color)}
+      #psv-app #psv-ti-secure-share-create{padding:.65rem 1rem;border:0;border-radius:7px;background:var(--md-primary-fg-color);color:white;font-weight:700;cursor:pointer}
+      #psv-app #psv-ti-share-status{margin-bottom:0;padding:.65rem;border-radius:7px;background:var(--md-default-bg-color)}
+      @media(max-width:620px){#psv-app .psv-ti-secure-share__fields{grid-template-columns:1fr}}
       /* Threat-intelligence report readability and progressive disclosure. */
       #psv-app .psv-ti-provider-card{min-width:0;width:100%;box-sizing:border-box;margin:1rem 0;padding:1rem!important}
       #psv-app .psv-ti-provider-card__findings{font-size:.94rem!important;line-height:1.7!important;overflow-wrap:anywhere}
@@ -1702,6 +1712,42 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   let tiLookupSequence = 0;
+  let lastThreatIntelReport = null;
+
+  async function encryptThreatIntelReport() {
+    const status = document.getElementById("psv-ti-share-status");
+    const pass = document.getElementById("psv-ti-share-pass");
+    const confirm = document.getElementById("psv-ti-share-confirm");
+    if (!status || !pass || !confirm) return;
+    const passphrase = String(pass.value || "");
+    if (!lastThreatIntelReport) { status.textContent = "Run a provider lookup before creating a secure report package."; return; }
+    if (!window.isSecureContext || !window.crypto || !crypto.subtle) { status.textContent = "Secure encryption requires HTTPS and a browser with Web Crypto support."; return; }
+    if (passphrase.length < 16) { status.textContent = "Use a passphrase of at least 16 characters."; return; }
+    if (passphrase !== String(confirm.value || "")) { status.textContent = "The passphrases do not match."; return; }
+    try {
+      const encoder = new TextEncoder();
+      const plaintext = encoder.encode(JSON.stringify(lastThreatIntelReport, null, 2));
+      if (plaintext.byteLength > 10 * 1024 * 1024) { status.textContent = "This report exceeds the 10 MB browser encryption limit. Use your organisation's approved secure evidence-transfer process."; return; }
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const material = await crypto.subtle.importKey("raw", encoder.encode(passphrase), "PBKDF2", false, ["deriveKey"]);
+      const key = await crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt"]);
+      const ciphertext = new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},key,plaintext));
+      const toB64 = bytes => { let binary=""; for(let i=0;i<bytes.length;i+=0x8000) binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000)); return btoa(binary); };
+      const pkg = {
+        format:"PSV-ENCRYPTED-PACKAGE",version:1,algorithm:"AES-256-GCM",
+        kdf:"PBKDF2-SHA-256",iterations:310000,salt:toB64(salt),iv:toB64(iv),
+        filename:"psv-threat-intelligence-report.json",
+        content_type:"application/json;charset=utf-8",payload:toB64(ciphertext)
+      };
+      downloadText("psv-threat-intel-encrypted-report.json",JSON.stringify(pkg,null,2),"application/json;charset=utf-8");
+      status.textContent = "Encrypted report package downloaded. Share this file and its passphrase through separate approved channels. No report content or passphrase was sent to PSV servers.";
+      pass.value = ""; confirm.value = "";
+    } catch (error) {
+      console.error("[PSV Threat Intel] Secure report encryption failed:",error);
+      status.textContent = "Encryption failed. No package was created. Try again or use an approved secure transfer method.";
+    }
+  }
 
   function normalizeThreatIndicator(raw) {
     let value = String(raw || "").trim();
@@ -1771,6 +1817,14 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       if (!response.ok) throw new Error(payload.error || ("PSV API returned HTTP " + response.status));
       if (requestId !== tiLookupSequence || document.getElementById("psv-tool-result-box") !== outputElement || activeToolId !== "ti" || currentView !== "tool") return;
 
+      lastThreatIntelReport = {
+        schema:"PSV-THREAT-INTELLIGENCE-REPORT",
+        schemaVersion:1,
+        generatedAt:new Date().toISOString(),
+        indicator:{value:indicator,type:payload.indicator && payload.indicator.type || "unknown"},
+        completenessNote:"Provider responses are independent. Missing fields or reports are not clean verdicts. Validate provider timestamps, coverage and evidence before making incident decisions.",
+        results:payload.results || {}
+      };
       const providers = [
         ["AbuseIPDB", "abuseipdb"],
         ["AlienVault OTX", "otx"],
@@ -1928,7 +1982,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       ).join("") + '</div>';
       outputElement.innerHTML = '<div role="status"><strong>Lookup completed.</strong> Each provider is independent. Detection totals and timestamps are provider-specific; a missing report is not a clean verdict. Results are supporting intelligence, not proof of compromise.</div>' +
         providerCards +
+        '<section class="psv-ti-secure-share" aria-labelledby="psv-ti-secure-share-title"><h3 id="psv-ti-secure-share-title">Securely share this investigation</h3><p>Create a locally encrypted copy of the provider responses, including available technical evidence. Encryption uses AES-256-GCM and PBKDF2-SHA-256. PSV does not upload or store the report or passphrase.</p><div class="psv-ti-secure-share__fields"><label for="psv-ti-share-pass">Passphrase (minimum 16 characters)<input id="psv-ti-share-pass" type="password" autocomplete="new-password" minlength="16" placeholder="Create a strong, unique passphrase"></label><label for="psv-ti-share-confirm">Confirm passphrase<input id="psv-ti-share-confirm" type="password" autocomplete="new-password" minlength="16" placeholder="Re-enter the passphrase"></label></div><button type="button" id="psv-ti-secure-share-create">Encrypt &amp; download report</button><p id="psv-ti-share-status" role="status" aria-live="polite">The encrypted package can be opened using the Secure Share tool. Send the passphrase separately using an approved channel.</p></section>' +
         '<p class="psv-ti-data-note">Only the indicator entered above is sent to the configured providers. Do not submit employer-confidential indicators unless your organisation permits external sharing.</p>';
+      const secureShareButton = outputElement.querySelector("#psv-ti-secure-share-create");
+      if (secureShareButton) secureShareButton.addEventListener("click", encryptThreatIntelReport);
       outputElement.querySelectorAll("[data-copy-indicator]").forEach(button => {
         button.addEventListener("click", async () => {
           try {
