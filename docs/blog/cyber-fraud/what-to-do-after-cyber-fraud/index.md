@@ -4,7 +4,7 @@
 
 <p class="psv-article-breadcrumb"><a href="../">← Cyber Fraud</a><span> / </span><a href="../../">Cyber Journal</a></p>
 
-If you suspect cyber fraud, act quickly but use trusted channels. The first priority is to limit further loss and secure affected accounts. Preserve evidence where possible; do not delay urgent contact with your bank or service provider to collect screenshots.
+If you suspect cyber fraud, act quickly but use trusted channels. The first priority is to limit further loss and secure affected accounts. Preserve evidence where possible; do not delay urgent contact with your bank or service provider to collect screenshots. This guide focuses on containment and recovery, not crime-reporting procedures.
 
 ## Immediate actions
 
@@ -28,11 +28,7 @@ Keep original emails, messages, call logs, transaction references, wallet addres
 
 If malware or remote access is suspected, stop using the affected device for sensitive activity and seek trusted technical support. Avoid installing random cleanup tools or paying an unsolicited recovery service.
 
-### 6. Report the incident
-
-Report to the relevant police, national cybercrime reporting service, financial regulator or consumer-protection authority in your jurisdiction. Procedures differ by country.
-
-## What not to do
+## Damage-control priorities
 
 - Do not send more money to someone promising guaranteed recovery.
 - Do not share OTPs, passwords or recovery codes with callers.
