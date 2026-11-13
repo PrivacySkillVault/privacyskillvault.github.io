@@ -38,6 +38,10 @@ Attribution may require exchange or virtual-asset service provider records, cust
 
 After a crypto loss, victims may be contacted by people claiming they can recover funds for an upfront fee. Verify any service independently. FATF has warned about fraudsters impersonating official bodies and offering fake asset-recovery services.
 
+## Regional context
+
+Cryptoasset rules, licensing and permitted services differ between India and Saudi Arabia and can change. Do not infer that a wallet or exchange is lawful, unlawful or regulated solely from its brand or availability in an app. For an investigation, identify the actual service entity, jurisdiction, chain and transaction before drawing conclusions.
+
 ## Key takeaways
 
 Blockchain analysis can reveal transaction flows, not automatically real-world identities. Good attribution combines on-chain evidence with reliable off-chain information and documented methodology.
