@@ -39,6 +39,10 @@ A useful timeline may include customer contact, authentication, session events, 
 
 "Not found in the queried log source for the specified time range" is more accurate than "the event did not occur." State which source was searched, its retention and known coverage.
 
+## Privacy and regional handling
+
+Investigations involving India or Saudi Arabia may contain identity, banking and telecommunications data subject to local privacy, retention and access requirements. Collect only what is relevant, use approved systems and restrict access. Do not place customer identifiers, credentials, OTPs or raw session tokens in general-purpose notes.
+
 ## Suggested case-note template
 
 | Field | Example |
