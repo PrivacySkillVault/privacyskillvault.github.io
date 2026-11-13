@@ -73,7 +73,7 @@
     </a>
 <a class="psv-story-card" href="refund-fraud-ftid/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
-      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> FINANCIAL CRIME EXPLAINER</span><h3>Refund Fraud and Fake Tracking ID (FTID) Schemes: Understanding the Risk</h3><p>An evidence-led explanation of return abuse and tracking anomalies.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> FINANCIAL CRIME EXPLAINER</span><h3>Refund Fraud and Fraudulent Tracking ID (FTID) Schemes: Understanding the Risk</h3><p>An evidence-led explanation of return abuse and tracking anomalies.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 8 MIN READ</small></div></div>
     </a>
 <a class="psv-story-card" href="cyber-hygiene-basics/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380597/pexels-photo-5380597.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
@@ -89,7 +89,7 @@
     </a>
 <a class="psv-story-card" href="what-to-do-after-cyber-fraud/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380603/pexels-photo-5380603.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
-      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> INCIDENT RESPONSE GUIDE</span><h3>What to Do After a Cyber Fraud Incident: A Practical Damage-Control Guide</h3><p>Prioritise bank contact, account security, evidence preservation and reporting.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> INCIDENT RESPONSE GUIDE</span><h3>What to Do After a Cyber Fraud Incident: A Practical Damage-Control Guide</h3><p>Prioritise payment containment, account security, device checks and evidence preservation.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
 <a class="psv-story-card" href="deconstructing-a-phishing-message/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/6969933/pexels-photo-6969933.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
@@ -105,7 +105,7 @@
     </a>
 <a class="psv-story-card" href="history-of-major-cyber-incidents/">
       <div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div>
-      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> CASE FILES</span><h3>Major Cyber Incidents: What Their History Teaches About Fraud and Security</h3><p>Study confirmed incidents and translate lessons into practical controls.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
+      <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> CASE FILES</span><h3>Documented Cyber Fraud Campaigns in India: Lessons from 2026 Advisories</h3><p>Study official advisories and translate confirmed attack patterns into practical controls.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
 <a class="psv-story-card" href="account-takeover-explained/"><div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5483240/pexels-photo-5483240.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div><div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>How Does a Banking Account Takeover Actually Work?</h3><p>From exposed credentials to stolen sessions, understand common routes into digital banking accounts and the evidence investigators should connect.</p><div class="psv-story-card__footer"><small>31 OCT 2026 <i>·</i> 9 MIN READ</small></div></div></a>
 <a class="psv-story-card" href="device-fingerprinting-in-banking/"><div class="psv-story-card__art" aria-hidden="true"><img src="https://images.pexels.com/photos/5475763/pexels-photo-5475763.jpeg?auto=compress&cs=tinysrgb&w=800" alt="" loading="lazy" decoding="async"></div><div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> EXPLAINER</span><h3>Device Fingerprinting in Banking: What It Can—and Cannot—Prove</h3><p>A practical guide to device signals, device binding, spoofing limits, and how fraud teams should interpret a device match.</p><div class="psv-story-card__footer"><small>01 NOV 2026 <i>·</i> 8 MIN READ</small></div></div></a>
