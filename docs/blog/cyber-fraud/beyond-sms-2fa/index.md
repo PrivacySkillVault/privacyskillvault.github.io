@@ -20,6 +20,10 @@ For critical accounts, use passkeys or security keys where supported. If unavail
 
 No method protects against every threat. A compromised device, weak recovery process, stolen session or coerced approval can still create risk.
 
+## Recovery is part of authentication
+
+A strong passkey does not compensate for a weak recovery path. Protect the email account, phone number and helpdesk processes that can reset or replace authenticators. Review device enrolment and recovery changes, especially for banking and work accounts. Availability and implementation of passkeys vary by provider and jurisdiction.
+
 ## Practical steps
 
 1. Enable MFA on email, banking, cloud storage and password-manager accounts.

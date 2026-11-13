@@ -37,6 +37,10 @@ MFA reduces risk but does not eliminate phishing, session theft or weaknesses in
 
 Group authentication events by account, source, time window and outcome. Compare failure-to-success sequences, user agents and network reputation. Consider distributed sources and residential proxy infrastructure, but do not equate an IP address with an individual attacker. Confirm whether successful logins were followed by profile changes, session creation or sensitive actions.
 
+## Regional relevance
+
+Credential stuffing can target any online service where users reuse passwords, including email, shopping and financial accounts in India and Saudi Arabia. Do not infer a campaign's origin from a login IP alone: VPNs, mobile networks, proxies and shared egress can obscure the operator. Correlate authentication behaviour with account and session changes.
+
 ## Key takeaways
 
 Credential stuffing abuses password reuse rather than guessing every password from scratch. Unique passwords, MFA, secure recovery and layered monitoring reduce exposure.

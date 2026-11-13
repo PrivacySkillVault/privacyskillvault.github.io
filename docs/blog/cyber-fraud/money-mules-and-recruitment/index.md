@@ -34,11 +34,15 @@ The FBI describes unwitting, witting and complicit money mules. These labels des
 - You are asked to open accounts for another person.
 - A romantic contact asks you to receive or transfer funds.
 
-Do not continue moving suspicious funds. Contact your bank and relevant authorities for guidance. Do not attempt to return money to a sender using details provided in a suspicious message.
+Do not continue moving suspicious funds or attempt to return money to a sender using details provided in a suspicious message. Contact your bank through its official channel to understand how to secure the account and handle the funds.
 
 ## Investigator's perspective
 
 Map incoming and outgoing transactions, timestamps, counterparties, account ownership, device and session evidence, cash withdrawals and related communications. Distinguish the account holder, recruiter, beneficiary and suspected organiser. A transaction pattern can support a hypothesis but does not by itself establish that the account holder knowingly participated.
+
+## Current threat context
+
+FATF's November 2026 report on scam compounds describes criminal networks using mule accounts, cash, payment services and virtual assets to move proceeds. It also emphasises that some people forced to work in scam operations are trafficking victims. Investigators should distinguish account activity, knowledge, coercion and intent rather than treating every intermediary as a willing participant.
 
 ## Key takeaways
 

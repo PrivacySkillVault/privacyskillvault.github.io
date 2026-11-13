@@ -30,6 +30,10 @@ Both can involve a credible identity, plausible story, gradual trust-building, u
 
 For BEC, preserve original email headers, mailbox audit logs, payment instructions, beneficiary changes, approval records and supplier verification history. For romance scams, preserve platform messages, account identifiers, payment receipts, wallet addresses and the relationship timeline. Avoid asking victims to delete conversations or confront the suspected criminal.
 
+## India-first example: executive and WhatsApp impersonation
+
+Indian government advisories in 2026 described campaigns in which malicious files disguised as account statements or regulatory communications were used to compromise Windows devices and active WhatsApp sessions. Attackers then impersonated senior executives and attempted to direct finance staff to transfer funds. This illustrates how malware, trusted messaging sessions and business-process manipulation can combine. It is a documented advisory pattern, not a claim that all BEC incidents use this method.
+
 ## Key takeaways
 
 - Impersonation does not always mean the real account was hacked.

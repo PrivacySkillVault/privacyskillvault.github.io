@@ -39,6 +39,10 @@ Do not reply, click or forward the message outside your organisation's reporting
 
 Preserve message headers where available, sender and recipient details, timestamps, URLs, attachment hashes and mail-security verdicts. Analyse suspicious files and URLs only in approved, isolated environments. Do not upload confidential material to public scanning services without authorisation.
 
+## Regional examples to recognise
+
+India-focused lures may imitate KYC updates, UPI payment requests, account statements or regulatory notices. A 2026 Indian government advisory described malicious Windows files distributed through WhatsApp, SMS and email under the guise of account statements and regulator communications. Saudi users should also be alert to messages impersonating banks, delivery providers and digital services. These examples are threat patterns, not evidence that a particular message is genuine.
+
 ## Key takeaways
 
 - Phishing uses deceptive communications; smishing is the text-message form.

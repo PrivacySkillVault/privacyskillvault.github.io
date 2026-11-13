@@ -38,6 +38,10 @@ Contact the bank or payment provider immediately using an official channel. Ask 
 
 Record the claimed organisation, displayed number, call time, duration, requested action and any codes or approvals the victim says they shared. A displayed number alone is weak attribution evidence. Correlate it with provider records and other evidence where legally available.
 
+## Regional context
+
+Callers may impersonate banks, government services, delivery providers or employers in both India and Saudi Arabia. A caller may know personal details and still be fraudulent; such details can be obtained from many sources. Verify through an independently obtained official channel, not a callback number dictated by the caller.
+
 ## Key takeaways
 
 Vishing relies on conversation and pressure. Caller ID and voice familiarity are not proof. Pause, end the incoming call and independently verify before taking action.

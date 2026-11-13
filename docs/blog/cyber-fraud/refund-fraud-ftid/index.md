@@ -1,10 +1,10 @@
-# Refund Fraud and Fake Tracking ID (FTID) Schemes: Understanding the Risk
+# Refund Fraud and Fraudulent Tracking ID (FTID) Schemes: Understanding the Risk
 
 <small>CYBER FRAUD · FINANCIAL CRIME EXPLAINER · 13 NOV 2026 · 8 MIN READ</small>
 
 <p class="psv-article-breadcrumb"><a href="../">← Cyber Fraud</a><span> / </span><a href="../../">Cyber Journal</a></p>
 
-Refund fraud covers dishonest attempts to obtain money or goods through a retailer's refund, return or dispute process. One term used in online discussions is **FTID**, commonly expanded as **Fake Tracking ID**. It is associated with schemes in which a return label or tracking information is manipulated so that tracking appears to show a return shipment reaching a retailer, even though the expected merchandise is not returned. The U.S. Department of Justice has described FTID fraud in a criminal case involving altered return labels. This is a specialist retail-fraud typology, not a general name for every tracking discrepancy.
+Refund fraud covers dishonest attempts to obtain money or goods through a retailer's refund, return or dispute process. One term used in online discussions is **FTID**, commonly expanded as **Fraudulent Tracking ID**. It is associated with schemes in which a return label or tracking information is manipulated so that tracking appears to show a return shipment reaching a retailer, even though the expected merchandise is not returned. The U.S. Department of Justice described an alleged Fraudulent Tracking ID scheme in a criminal case involving altered return labels. The case announcement concerned charges; allegations should not be presented as a conviction or generalised to every return dispute. This is a specialist retail-fraud typology, not a general name for every tracking discrepancy.
 
 Terminology and practices vary. FTID is not a universal legal category, and a tracking discrepancy alone does not prove fraud.
 
@@ -45,7 +45,7 @@ Keep proof of postage, tracking receipts, photos of the parcel and retailer corr
 
 ## References
 
-- [U.S. Department of Justice — Example of FTID Fraud in a Criminal Case](https://www.justice.gov/usao-ndok/media/1324431/dl?inline=)
+- [U.S. Department of Justice — Example of FTID Fraud in a Criminal Case](https://www.justice.gov/usao-mdfl/pr/university-miami-student-charged-hacking-multi-national-shipping-receiving-and-supply)
 - [Netacea — 2025 Cyberfraud in Retail Report](https://netacea.com/app/uploads/2025/04/Netacea_Cyberfraud_in_Retail_2025_FINAL.pdf)
 - [FTC — Online Shopping](https://consumer.ftc.gov/online-shopping)
 

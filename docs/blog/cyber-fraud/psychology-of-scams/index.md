@@ -39,6 +39,10 @@ These are persuasion patterns, not proof that every urgent or emotional message 
 
 Record the exact claim, requested action, channel, pressure tactic and verification attempt. Ask open questions rather than leading the customer toward a theory. Avoid victim-blaming; a clear account of the interaction is more useful than judgement.
 
+## Regional examples without stereotypes
+
+In India, a scam may use a fake KYC deadline, UPI payment request or a message impersonating a bank or government service. In Saudi Arabia, a caller may imitate a bank, delivery provider or digital-government service. The persuasion mechanism is the same: create urgency and make independent verification feel difficult. These examples describe possible pretexts, not the behaviour of any particular community.
+
 ## Key takeaways
 
 - Scams exploit normal human behaviour, not a lack of intelligence.

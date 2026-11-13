@@ -40,6 +40,10 @@ Use independent verification for sensitive requests. Establish dual approval for
 
 Preserve original message or call details where lawful. Record the claimed identity, communication channel, exact requested action, time, payment or account references, and any verification performed. Separate customer recollection from system-generated evidence.
 
+## India and Saudi Arabia examples
+
+Pretexts may imitate a bank, regulator, delivery company or employer. In India, official warnings have described executive impersonation and malicious files circulated as account statements or regulatory communications. In Saudi Arabia, treat unexpected requests purporting to come from banks or digital services with the same caution. Verify independently; do not assume every message using a familiar logo is genuine.
+
 ## Key takeaways
 
 Social engineering targets trust and process. Verification should happen through a separate, trusted channel—not by replying to the contact that initiated the request.

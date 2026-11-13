@@ -23,12 +23,16 @@ Caller ID helps a recipient decide whether to answer. Authentication establishes
 1. Treat unexpected requests for money or security codes as suspicious.
 2. End the call rather than using a number supplied by the caller.
 3. Contact the organisation using a number from its official website, app or physical card.
-4. Report repeated spoofing to your telecommunications provider and relevant regulator.
+4. If the call is connected to a financial loss, preserve its details and use the appropriate official channels for assistance.
 5. Preserve call details if the call is connected to a financial loss or threat.
 
 ## What investigators can and cannot infer
 
 A screenshot of caller ID may establish what appeared on the recipient's device. It does not by itself establish the true originating caller, physical location or person responsible. Investigators may need carrier records, call-routing information, platform records and corroborating evidence, obtained through appropriate legal processes.
+
+## Regional context
+
+A displayed number that appears to belong to a bank, government service or local business should not be treated as proof of identity. The underlying telephony and caller-verification controls vary by country and carrier; this article does not assume that one country's rules or network behaviour apply everywhere.
 
 ## Key takeaways
 

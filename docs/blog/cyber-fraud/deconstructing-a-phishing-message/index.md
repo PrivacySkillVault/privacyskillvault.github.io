@@ -42,6 +42,10 @@ Review mail gateway verdicts, click-protection logs, DNS and proxy records, endp
 
 Separate observed facts from assessment. For example, "The message contained a link to an unrelated domain" is an observation. "The sender was a named criminal group" requires separate attribution evidence.
 
+## India-first examples
+
+A fictional phishing message might claim that a bank KYC record needs urgent verification, that a UPI payment is pending, or that a courier fee must be paid. These are illustrative pretexts only. A legitimate UPI collect request is not automatically fraudulent; inspect the payee and purpose and do not approve a request you did not initiate or understand. In Saudi Arabia, similar analysis applies to messages imitating banks, delivery services or digital-government services.
+
 ## Key takeaways
 
 - Analyse full headers and actual destinations, not only display names and link text.

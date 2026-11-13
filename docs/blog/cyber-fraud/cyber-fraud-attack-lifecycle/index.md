@@ -31,6 +31,10 @@ For each stage, ask what event is alleged, which system can provide evidence, wh
 
 A useful timeline may join customer contact, authentication, session creation, device enrolment, account changes, beneficiary activity, transaction decisions and downstream payment records.
 
+## Regional payment and service context
+
+For an India-based case, the timeline may include a UPI intent or collect request, beneficiary creation, bank authentication and payment-rail records. For a Saudi-based case, it may include a local bank app session, beneficiary activation, authentication events and transfer records. The exact systems and evidence available depend on the institution; do not assume a payment method or control is identical across countries.
+
 ## Key takeaways
 
 - A lifecycle organises evidence; it does not claim all fraud is identical.

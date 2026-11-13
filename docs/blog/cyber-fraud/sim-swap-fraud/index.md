@@ -38,6 +38,10 @@ A network outage alone does not prove SIM swapping. Contact the carrier using an
 
 Mobile providers should apply robust identity verification and account-change notifications. Financial institutions should avoid treating control of a phone number as conclusive proof of identity. High-risk account recovery and payment actions should use independent controls.
 
+## Regulatory reference note
+
+The U.S. FCC adopted its SIM-swap and port-out fraud rules in a final rule published in December 2023; the FCC proposal page is not the final rule itself. Carrier procedures and consumer protections differ across jurisdictions, so do not treat the U.S. rule as a description of Indian or Saudi carrier processes. Check the subscriber's carrier guidance for local account protections.
+
 ## Key takeaways
 
 - SIM swapping targets control of a phone number.
@@ -48,7 +52,7 @@ Mobile providers should apply robust identity verification and account-change no
 ## References
 
 - [FBI IC3 — Social Engineering Techniques](https://www.ic3.gov/PSA/2024/PSA240411)
-- [FCC — SIM Swap Scams and Port-Out Fraud](https://www.fcc.gov/consumer-governmental-affairs/fcc-proposes-new-rules-protect-consumers-against-sim-swap-scams-and-port-out-fraud)
+- [FCC — 2023 SIM-Swap and Port-Out Fraud Final Rule (Federal Register)](https://www.govinfo.gov/content/pkg/FR-2023-12-08/pdf/2023-26338.pdf)
 - [CISA — Phishing-Resistant MFA](https://www.cisa.gov/resources-tools/resources/implementing-phishing-resistant-mfa)
 
 ---

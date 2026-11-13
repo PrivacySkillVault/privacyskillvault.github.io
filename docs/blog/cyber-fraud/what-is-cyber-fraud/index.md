@@ -30,6 +30,10 @@ Separate the **method**, **compromise**, **transaction** and **impact**. For exa
 
 Use layered controls across identity verification, authentication, session management, transaction monitoring, customer notifications, staff training and incident response. Connect evidence across systems while protecting customer data.
 
+## India and Saudi Arabia: familiar examples
+
+In India, fraud themes may include UPI collect-request deception, fake KYC messages, impersonation of bank or government services, and account takeover. In Saudi Arabia, users may encounter impersonation of banks, delivery services or digital-government services. These are examples of tactics, not claims about prevalence. Verify the specific request inside the official service rather than through an unsolicited link or caller.
+
 ## Key takeaways
 
 - Cyber fraud is a broad category, not a single attack technique.
