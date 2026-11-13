@@ -4,7 +4,7 @@
 
 <p class="psv-article-breadcrumb"><a href="../">← Cyber Fraud</a><span> / </span><a href="../../">Cyber Journal</a></p>
 
-If you suspect cyber fraud, act quickly but use trusted channels. The first priority is to limit further loss and secure affected accounts. Preserve evidence where possible; do not delay urgent contact with your bank or service provider to collect screenshots. This guide focuses on containment and recovery, not crime-reporting procedures.
+If you suspect cyber fraud, act quickly but use trusted channels. The first priority is to limit further loss and secure affected accounts. Preserve evidence where possible; do not delay urgent contact with your bank or service provider to collect screenshots. This guide focuses on containment and recovery.
 
 ## Immediate actions
 
