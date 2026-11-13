@@ -52,7 +52,7 @@
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> TECHNICAL EXPLAINER</span><h3>How Malware Steals Data: From Initial Infection to Information Theft</h3><p>Understand credential theft, collection and exfiltration evidence.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
     </div>
-    <nav class="psv-journal-pagination" aria-label="Cyber Fraud articles"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link " href="page/2/">2</a><a class="psv-page-link " href="page/3/">3</a><span class="psv-page-status">Page 1 of 3 · 10 articles</span><a class="psv-page-next" href="../2/">Older articles →</a></nav>
+    <nav class="psv-journal-pagination" aria-label="Cyber Fraud articles"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link " href="page/2/">2</a><a class="psv-page-link " href="page/3/">3</a><span class="psv-page-status">Page 1 of 3 · 10 articles</span><a class="psv-page-next" href="page/2/">Older articles →</a></nav>
     <p class="psv-journal-photo-note">Article thumbnails are illustrative stock photographs, not evidence from actual incidents. <a href="../image-credits/">Image sources &amp; credits</a>.</p>
   </section>
 </div>
