@@ -4,7 +4,7 @@
 
 <p class="psv-article-breadcrumb"><a href="../">← Cyber Fraud</a><span> / </span><a href="../../">Cyber Journal</a></p>
 
-A personal privacy audit is a structured review of the information you share, the accounts that hold it and the services that can access it. The goal is not to disappear from the internet; it is to understand exposure and reduce unnecessary access.
+A personal privacy audit is a structured review of the information you share, the accounts that hold it and the services that can access it. The NIST Privacy Framework is primarily an organisational risk-management framework; it should not be treated as a ready-made consumer checklist. The goal is not to disappear from the internet; it is to understand exposure and reduce unnecessary access.
 
 ## 1. Review your accounts
 
@@ -28,7 +28,11 @@ Your primary email account can reset many other accounts. Secure it with a uniqu
 
 ## 6. Understand data exposure
 
-A privacy audit cannot guarantee that personal information has never been copied or breached. If you find evidence of identity misuse, contact the affected service and follow the relevant local reporting process.
+A privacy audit cannot guarantee that personal information has never been copied or breached. If you find evidence of identity misuse, secure the affected accounts and contact the relevant service through a verified channel.
+
+## Regional identity-data caution
+
+In India, avoid sharing full Aadhaar, PAN or identity-document images unless the service and purpose are verified and the disclosure is necessary. In Saudi Arabia, apply the same minimisation to national identity and Iqama-related information. A document image or identifier can be reused in social engineering, account recovery attempts or impersonation. Never post identity documents, boarding passes or QR codes publicly.
 
 ## A repeatable checklist
 
