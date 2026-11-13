@@ -34,7 +34,7 @@ The FBI describes unwitting, witting and complicit money mules. These labels des
 - You are asked to open accounts for another person.
 - A romantic contact asks you to receive or transfer funds.
 
-Do not continue moving suspicious funds. Contact your bank and relevant authorities for guidance. Do not attempt to return money to a sender using details provided in a suspicious message.
+Do not continue moving suspicious funds or attempt to return money to a sender using details provided in a suspicious message. Contact your bank through its official channel to understand how to secure the account and handle the funds.
 
 ## Investigator's perspective
 
