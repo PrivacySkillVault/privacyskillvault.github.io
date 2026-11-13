@@ -34,6 +34,10 @@ Maintain backups protected from accidental deletion and ransomware. Test restora
 
 Turn on security alerts where appropriate. Review active sessions, recovery methods, payment beneficiaries and recent transactions. Report unexpected changes quickly.
 
+## India and Saudi Arabia: practical reminders
+
+Use official banking applications and verified service websites rather than links in unsolicited messages. Be cautious with UPI collect requests and payment approvals in India; understand what the screen is asking you to authorise before approving. In Saudi Arabia, verify bank and delivery-service requests inside the official application or through independently obtained contact details. Never disclose an OTP or approve a transaction simply because a caller claims to be support staff.
+
 ## A simple monthly check
 
 - Review critical account recovery settings.
