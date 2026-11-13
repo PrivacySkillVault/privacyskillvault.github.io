@@ -32,6 +32,10 @@ Capture transaction references, amounts, currencies, timestamps, sending and rec
 
 For cross-border activity, coordinate through authorised institutional and law-enforcement channels. Legal powers, reporting obligations and privacy rules differ by jurisdiction.
 
+## Current evidence: scam-compound financial flows
+
+FATF's November 2026 report documents scam-compound networks using money-mule accounts, cash, payment services and virtual assets. It highlights the importance of connecting financial transactions with recruitment, telecommunications, technology infrastructure and victim evidence. The placement-layering-integration model remains a useful teaching framework, but real networks can be distributed and non-linear.
+
 ## Key takeaways
 
 - Placement, layering and integration are broad explanatory stages.
@@ -41,7 +45,8 @@ For cross-border activity, coordinate through authorised institutional and law-e
 
 ## References
 
-- [FATF — Money Laundering](https://www.fatf-gafi.org/en/topics/money-laundering.html)
+- [FATF — Cyber-Enabled Fraud: Digitalisation and ML/TF/PF Risks (February 2026)](https://www.fatf-gafi.org/en/publications/Methodsandtrends/cyber-enabled-fraud-digitalisation-ml-tf-pf-risks.html)
+- [FATF — Scam Compounds and Illicit Financial Flows (November 2026)](https://www.fatf-gafi.org/en/news/combating-illicit-financial-flows-linked-to-scam-compounds.html)
 - [UNODC — Money Laundering](https://www.unodc.org/unodc/en/money-laundering/overview.html)
 
 ---
