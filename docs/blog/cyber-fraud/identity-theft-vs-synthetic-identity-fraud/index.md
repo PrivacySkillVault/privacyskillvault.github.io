@@ -35,6 +35,10 @@ Do not assume an identity is synthetic simply because a record is incomplete or 
 
 Use identity verification appropriate to the service and risk. Protect personal information, monitor account-opening notifications, secure email and phone accounts, and report suspected misuse promptly to the relevant institution and local authorities.
 
+## Regional identity-data context
+
+In India, identity-related investigations may involve information associated with PAN, Aadhaar or other official and financial records. In Saudi Arabia, they may involve national identity or Iqama-related information. Exposure of an identifier does not by itself prove identity theft or synthetic identity fraud. Establish how the information was obtained, whether it was used without authorisation and which attributes are genuine, fabricated or misused.
+
 ## Key takeaways
 
 - Identity theft usually misuses information belonging to a real person.
@@ -45,7 +49,8 @@ Use identity verification appropriate to the service and risk. Protect personal 
 ## References
 
 - [FTC — Identity Theft](https://www.identitytheft.gov/)
-- [Federal Reserve — Synthetic Identity Fraud](https://www.federalreserve.gov/)
+- [Federal Reserve — Synthetic Identity Fraud](https://www.federalreserve.gov/newsevents/pressreleases/other20190709a.htm)
+- [NIST — Synthetic Identity Fraud glossary](https://csrc.nist.gov/glossary/term/synthetic_identity_fraud)
 - [FBI — Scams and Safety](https://www.fbi.gov/how-we-can-help-you/scams-and-safety)
 
 ---
