@@ -40,6 +40,10 @@ Do not continue moving suspicious funds. Contact your bank and relevant authorit
 
 Map incoming and outgoing transactions, timestamps, counterparties, account ownership, device and session evidence, cash withdrawals and related communications. Distinguish the account holder, recruiter, beneficiary and suspected organiser. A transaction pattern can support a hypothesis but does not by itself establish that the account holder knowingly participated.
 
+## Current threat context
+
+FATF's November 2026 report on scam compounds describes criminal networks using mule accounts, cash, payment services and virtual assets to move proceeds. It also emphasises that some people forced to work in scam operations are trafficking victims. Investigators should distinguish account activity, knowledge, coercion and intent rather than treating every intermediary as a willing participant.
+
 ## Key takeaways
 
 Money mules are used to move illicit proceeds and obscure financial trails. Recruitment may be deceptive or deliberate. Preserve evidence, avoid unsupported assumptions about intent and report suspected mule activity through appropriate channels.
