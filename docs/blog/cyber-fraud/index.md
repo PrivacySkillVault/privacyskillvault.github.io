@@ -1,12 +1,12 @@
 <div class="psv-journal-shell psv-journal-shell--category">
   <aside class="psv-journal-sidebar" aria-label="Journal categories">
-    <a class="psv-journal-side-link" href="../../"><span class="psv-side-mark">◈</span> All stories</a>
-    <a class="psv-journal-side-link is-active" href="../"><span class="psv-side-mark">⌁</span> Cyber Fraud</a>
-    <a class="psv-journal-side-link" href="../../threat-analysis/"><span class="psv-side-mark">⌖</span> Threat Analysis</a>
-    <a class="psv-journal-side-link" href="../../soc-investigations/"><span class="psv-side-mark">⌘</span> SOC Investigations</a>
-    <a class="psv-journal-side-link" href="../../vulnerabilities/"><span class="psv-side-mark">⛨</span> Vulnerabilities</a>
-    <a class="psv-journal-side-link" href="../../lab-notes/"><span class="psv-side-mark">⌬</span> Lab Notes</a>
-    <a class="psv-journal-side-link" href="../../security-explainers/"><span class="psv-side-mark">◇</span> Security Explainers</a>
+    <a class="psv-journal-side-link" href="../"><span class="psv-side-mark">◈</span> All stories</a>
+    <a class="psv-journal-side-link is-active" href="./"><span class="psv-side-mark">⌁</span> Cyber Fraud</a>
+    <a class="psv-journal-side-link" href="../threat-analysis/"><span class="psv-side-mark">⌖</span> Threat Analysis</a>
+    <a class="psv-journal-side-link" href="../soc-investigations/"><span class="psv-side-mark">⌘</span> SOC Investigations</a>
+    <a class="psv-journal-side-link" href="../vulnerabilities/"><span class="psv-side-mark">⛨</span> Vulnerabilities</a>
+    <a class="psv-journal-side-link" href="../lab-notes/"><span class="psv-side-mark">⌬</span> Lab Notes</a>
+    <a class="psv-journal-side-link" href="../security-explainers/"><span class="psv-side-mark">◇</span> Security Explainers</a>
   </aside>
   <section class="psv-journal-main psv-category-main">
     <div class="psv-journal-section-head"><div><h2>Cyber Fraud Knowledge Hub</h2><p>27 articles, including 24 new guides and 3 existing explainers across the fraud landscape, attack methods, scam mechanics, money movement, digital defence and investigation practice.</p></div>
@@ -52,7 +52,7 @@
       <div class="psv-story-card__body"><span class="psv-story-category">CYBER FRAUD <i>·</i> TECHNICAL EXPLAINER</span><h3>How Malware Steals Data: From Initial Infection to Information Theft</h3><p>Understand credential theft, collection and exfiltration evidence.</p><div class="psv-story-card__footer"><small>13 NOV 2026 <i>·</i> 9 MIN READ</small></div></div>
     </a>
     </div>
-    <nav class="psv-journal-pagination" aria-label="Cyber Fraud articles"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link " href="../2/">2</a><a class="psv-page-link " href="../3/">3</a><span class="psv-page-status">Page 1 of 3 · 10 articles</span><a class="psv-page-next" href="../2/">Older articles →</a></nav>
-    <p class="psv-journal-photo-note">Article thumbnails are illustrative stock photographs, not evidence from actual incidents. <a href="../../image-credits/">Image sources &amp; credits</a>.</p>
+    <nav class="psv-journal-pagination" aria-label="Cyber Fraud articles"><span class="psv-page-link is-current" aria-current="page">1</span><a class="psv-page-link " href="page/2/">2</a><a class="psv-page-link " href="page/3/">3</a><span class="psv-page-status">Page 1 of 3 · 10 articles</span><a class="psv-page-next" href="../2/">Older articles →</a></nav>
+    <p class="psv-journal-photo-note">Article thumbnails are illustrative stock photographs, not evidence from actual incidents. <a href="../image-credits/">Image sources &amp; credits</a>.</p>
   </section>
 </div>
