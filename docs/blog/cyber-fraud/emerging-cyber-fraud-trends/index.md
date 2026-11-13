@@ -6,6 +6,16 @@
 
 Cyber fraud changes as communication platforms, payment methods and identity technologies evolve. A useful trend review should distinguish confirmed incidents and official warnings from speculation, marketing claims and isolated anecdotes.
 
+## Evidence available by November 2026
+
+**India — API abuse in financial services:** CERT-In Advisory CIAD-2026-0046 (9 October 2026) described attacks against NBFCs, fintechs and payment providers in which attackers compromised exposed applications or APIs and invoked payment or disbursement APIs using stolen credentials, bypassing application-level business checks. The advisory was updated by CIAD-2026-0058 (4 November 2026), describing further AI-assisted activity and repeat targeting after incomplete remediation. These are official advisories about observed campaigns, not evidence that every financial institution is affected. [CERT-In CIAD-2026-0046](https://cert-in.org.in/s2cMainServlet?VLCODE=CIAD-2026-0046&pageid=PUBVLNOTES02) · [CERT-In CIAD-2026-0058](https://cert-in.org.in/s2cMainServlet?VLCODE=CIAD-2026-0058&pageid=PUBVLNOTES02)
+
+**India — executive and WhatsApp impersonation:** A Ministry of Home Affairs release in August 2026 described malicious archives disguised as account statements or regulatory communications, used to compromise Windows devices and active WhatsApp sessions before impersonating executives to request transfers. [PIB / MHA, 7 August 2026](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2295889&lang=1&reg=3)
+
+**Global — scam-compound financial networks:** FATF's 5 November 2026 report describes scam-compound networks using mule accounts, cash, payment services, virtual assets and AI-enabled content. It draws on case studies across more than 60 jurisdictions; its figures should be attributed to FATF and not treated as a local prevalence estimate for India or Saudi Arabia. [FATF, 5 November 2026](https://www.fatf-gafi.org/en/news/combating-illicit-financial-flows-linked-to-scam-compounds.html)
+
+**Saudi Arabia:** This review did not identify a sufficiently specific, dated public primary-source statistic to quantify a Saudi-specific 2026 trend. Do not fill that gap with global estimates or unsourced claims. Use current official Saudi advisories when adding country-specific examples.
+
 ## Areas worth monitoring
 
 ### AI-assisted impersonation
@@ -52,7 +62,8 @@ Emerging trends should be evidence-led. AI, instant payments and new communicati
 
 - [FBI IC3 — Public Service Announcements](https://www.ic3.gov/PSA)
 - [Europol — Internet Organised Crime Threat Assessment](https://www.europol.europa.eu/publications-events/main-reports/internet-organised-crime-threat-assessment-iocta)
-- [FATF — Reports and Publications](https://www.fatf-gafi.org/en/publications.html)
+- [FATF — Cyber-Enabled Fraud report (24 February 2026)](https://www.fatf-gafi.org/en/publications/Methodsandtrends/cyber-enabled-fraud-digitalisation-ml-tf-pf-risks.html)
+- [FATF — Scam Compounds report (5 November 2026)](https://www.fatf-gafi.org/en/news/combating-illicit-financial-flows-linked-to-scam-compounds.html)
 
 ---
 
