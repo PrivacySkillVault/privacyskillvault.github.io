@@ -1527,3 +1527,129 @@ body.psv-blog-page .psv-journal-story-list > a.psv-story-card .psv-story-card__f
     padding: 14px 16px !important;
   }
 }
+
+
+/* BLOG CARD ALIGNMENT — use the actual journal wrapper.
+   The body element does not carry .psv-blog-page, so all prior
+   rules scoped to that class were not matching the published pages.
+   Anchor the layout to .psv-journal-shell instead. */
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
+  display: grid !important;
+  grid-template-columns: 168px minmax(0, 1fr) !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  column-gap: 0 !important;
+  row-gap: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 164px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__art {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: block !important;
+  position: relative !important;
+  width: 168px !important;
+  min-width: 168px !important;
+  max-width: 168px !important;
+  min-height: 164px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-self: stretch !important;
+  overflow: hidden !important;
+}
+
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__art img {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__body {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  justify-items: start !important;
+  gap: 7px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 164px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 14px 20px !important;
+  text-align: left !important;
+  overflow: hidden !important;
+}
+
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__body > * {
+  align-self: flex-start !important;
+  justify-self: start !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+}
+
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card .psv-story-category,
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card h3,
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card .psv-story-card__body > p,
+body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card .psv-story-card__footer {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  text-align: left !important;
+}
+
+@media (min-width: 701px) and (max-width: 1000px) {
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
+    grid-template-columns: 140px minmax(0, 1fr) !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__art {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: 172px auto !important;
+    min-height: 0 !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__art {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 172px !important;
+    min-height: 172px !important;
+  }
+  body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-story-card > .psv-story-card__body {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    min-height: 0 !important;
+    padding: 14px 16px !important;
+  }
+}
