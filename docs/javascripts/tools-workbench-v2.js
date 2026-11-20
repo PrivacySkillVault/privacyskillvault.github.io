@@ -2524,7 +2524,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             </div>
           </div>
 
-          <div class="psv-terminal-box">
+          <div class="psv-terminal-box${tool.id === "sigma" ? " psv-sigma-workbench" : ""}">
             <div class="psv-window-bar">
               <div class="psv-window-dots">
                 <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
