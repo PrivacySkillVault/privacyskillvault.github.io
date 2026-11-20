@@ -1653,3 +1653,76 @@ body:has(.psv-journal-shell) .psv-journal-main .psv-journal-story-list > a.psv-s
     padding: 14px 16px !important;
   }
 }
+
+
+/* =========================================================
+   TOOLS WORKBENCH TYPOGRAPHY
+   Match the site's Roboto body typography. Reserve monospace
+   for editable source and displayed Sigma/YAML code only.
+   Higher-specificity selectors override legacy inline workbench CSS.
+   ========================================================= */
+body #psv-app .psv-tool-page .psv-terminal-box,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-term-body,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-window-bar,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-window-dots,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-window-bar > span,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-field-label,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-action-bar,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-opt-pill,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-btn-run,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-btn-util,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container [role="note"],
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container [role="note"] strong,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container p {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-window-bar {
+  font-size: .82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .01em !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-field-label {
+  font-size: .78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .035em !important;
+  line-height: 1.5 !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container [role="note"],
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container p {
+  font-size: .92rem !important;
+  font-weight: 400 !important;
+  line-height: 1.72 !important;
+  letter-spacing: normal !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container [role="note"] strong {
+  font-weight: 700 !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-editor,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container pre,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container code {
+  font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container pre {
+  font-size: .84rem !important;
+  line-height: 1.65 !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-opt-pill,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-btn-run,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-btn-util {
+  font-size: .84rem !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+}
