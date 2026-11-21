@@ -482,11 +482,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     style.id = "psv-hiderox-royal-css";
     style.textContent = `
       /* Tools page sidebar visibility controls */
-      body.psv-tools-hide-left .md-sidebar--primary{display:none!important}
-      body.psv-tools-hide-right .md-sidebar--secondary{display:none!important}
-      body.psv-tools-hide-left .md-main__inner{grid-template-columns:minmax(0,1fr)!important}
-      body.psv-tools-hide-right .md-main__inner{grid-template-columns:minmax(0,1fr) minmax(0,61rem)!important}
-      body.psv-tools-hide-left.psv-tools-hide-right .md-main__inner{grid-template-columns:minmax(0,1fr)!important}
+      body.psv-tools-page.psv-tools-hide-left .md-sidebar--primary{display:none!important}
+      body.psv-tools-page.psv-tools-hide-right .md-sidebar--secondary{display:none!important}
+      body.psv-tools-page.psv-tools-hide-left .md-content,
+      body.psv-tools-page.psv-tools-hide-right .md-content{flex:1 1 auto!important;min-width:0!important;max-width:none!important}
+      body.psv-tools-page.psv-tools-hide-left.psv-tools-hide-right .md-content{width:100%!important}
       #psv-app .psv-sidebar-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.45rem;margin:.15rem 0 1rem}
       #psv-app .psv-sidebar-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem .7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-code-bg-color);color:var(--md-default-fg-color);font:600 .74rem/1.3 Roboto,"Helvetica Neue",Arial,sans-serif;cursor:pointer;transition:background .15s ease,border-color .15s ease}
       #psv-app .psv-sidebar-toggle:hover{border-color:var(--md-accent-fg-color);background:var(--md-default-bg-color)}
