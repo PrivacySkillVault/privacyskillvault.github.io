@@ -1439,6 +1439,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 #psv-app .psv-tool-page .psv-event-table col.col-event-attack{width:235px}
 #psv-app .psv-tool-page .psv-event-table col.col-event-query{width:205px}
 #psv-app .psv-tool-page .psv-event-table col.col-event-guidance{width:390px}
+#psv-app .psv-tool-page .psv-event-table th:nth-child(1),
+#psv-app .psv-tool-page .psv-event-table td:nth-child(1){width:88px!important}
+#psv-app .psv-tool-page .psv-event-table th:nth-child(2),
+#psv-app .psv-tool-page .psv-event-table td:nth-child(2){width:145px!important}
 #psv-app .psv-tool-page .psv-event-table th,
 #psv-app .psv-tool-page .psv-event-table td{
   padding:.85rem .9rem!important;
