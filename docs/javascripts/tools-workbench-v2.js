@@ -11,62 +11,6 @@
     { id: "util", label: "Incident & Utilities" },
   ];
 
-  const SIGMA_TEMPLATES = [
-    {
-      name: "LSASS Memory Dump via Comsvcs.dll",
-      yaml: `title: Suspicious LSASS Memory Dump via Comsvcs.dll
-id: a1b2c3d4-9912-4e11-8821-ff0011223344
-status: experimental
-logsource:
-  category: process_creation
-  product: windows
-detection:
-  selection:
-    Image|endswith: '\\rundll32.exe'
-    CommandLine|contains|all:
-      - 'comsvcs.dll'
-      - 'MiniDump'
-  filter:
-    User|contains: 'AUTHORITY\\SYSTEM'
-  condition: selection and not filter
-level: critical`
-    },
-    {
-      name: "Kerberoasting RC4 Ticket Request (Event 4769)",
-      yaml: `title: Kerberoasting RC4-HMAC Encryption Ticket Request
-id: b2c3d4e5-1122-4a33-9944-001122334455
-status: experimental
-logsource:
-  product: windows
-  service: security
-detection:
-  selection:
-    EventID: '4769'
-    TicketEncryptionType: '0x17'
-  filter:
-    ServiceName|endswith: '$'
-  condition: selection and not filter
-level: high`
-    },
-    {
-      name: "Volume Shadow Copy Deletion via Vssadmin/WMIC",
-      yaml: `title: Shadow Copy Deletion for Ransomware Preparation
-id: c3d4e5f6-2233-4b44-8855-112233445566
-status: experimental
-logsource:
-  category: process_creation
-  product: windows
-detection:
-  selection:
-    CommandLine|contains:
-      - 'vssadmin delete shadows'
-      - 'wmic shadowcopy delete'
-      - 'bcdedit /set {default} recoveryenabled no'
-  condition: selection
-level: critical`
-    }
-  ];
-
   const TOOLS = [
     {
       id: "ioc",
@@ -148,28 +92,6 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       related: ["ioc", "ti", "deobfuscator", "report"]
     },
     {
-      id: "sigma",
-      cat: "soc",
-      badge: "SGM",
-      shortTitle: "Sigma Rule Preview",
-      title: "Sigma Rule Preview (Translation Disabled)",
-      desc: "Review supplied Sigma YAML examples. This preview does not parse, validate, or translate Sigma rules into SIEM queries.",
-      options: ["Template: LSASS Dump", "Template: Kerberoasting 4769", "Template: ShadowCopy Delete"],
-      actionLabel: "Review Sigma Rule",
-      sample: SIGMA_TEMPLATES[0].yaml,
-      whatItDoes: "Displays the selected Sigma YAML source for analyst review. It does not parse YAML, validate Sigma semantics, or generate SIEM queries.",
-      whyItMatters: "Detection engineers maintain vendor-agnostic detections in Sigma YAML. Manually rewriting complex boolean conditions for three different SIEM query languages introduces syntax bugs.",
-      howItWorks: "The current workbench intentionally does not compile this input. Correct Sigma conversion requires YAML parsing, condition-expression evaluation, modifier handling, and target-specific field mappings. Use maintained Sigma tooling for actual conversion.",
-      bestPractices: [
-        "Test translated queries against 7–30 days of historical telemetry before enabling production alerting.",
-        "Add environment-specific service account or path exclusions inside a dedicated filter block."
-      ],
-      faqs: [
-        { q: "Does this preview validate or translate my custom Sigma YAML?", a: "No. It only displays the source text. It does not validate YAML or Sigma semantics and does not generate Elastic, Splunk, or Sentinel queries." }
-      ],
-      related: ["events", "regex", "yara", "json"]
-    },
-    {
       id: "events",
       cat: "soc",
       badge: "EVT",
@@ -189,7 +111,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       faqs: [
         { q: "How do I browse all events vs searching a specific ID?", a: "Type 'ALL' (or clear the search box) to view the full encyclopedia, or type '4624', '10', 'lsass', or 'kerberos' to filter immediately." }
       ],
-      related: ["sigma", "json", "regex", "report"]
+      related: ["json", "regex", "report"]
     },
     {
       id: "regex",
@@ -1678,8 +1600,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   function applyPresetOption(tool, idx) {
     if (tool.id === "ti") {
       userInputs.ti = ["1.1.1.1", "8.8.8.8", "example.com"][idx] || "1.1.1.1";
-    } else if (tool.id === "sigma" && SIGMA_TEMPLATES[idx]) {
-      userInputs.sigma = SIGMA_TEMPLATES[idx].yaml;
     } else if (tool.id === "regex") {
       userInputs.regex = idx === 1
         ? `PATTERN::CEF:0\\|(?<vendor>[^|]+)\\|(?<product>[^|]+)\\|[^|]+\\|(?< signature_id>\\d+)\\|(?<event_name>[^|]+)\\|(?<severity>\\d+)\\|src=(?<src_ip>\\S+)\\s+dst=(?<dst_ip>\\S+)\nLOG::CEF:0|PaloAlto|PAN-OS|10.2|40012|Brute-Force-Login|9|src=185.220.101.42 dst=10.40.1.15\nCEF:0|PaloAlto|PAN-OS|10.2|40019|SQL-Injection-Attempt|10|src=91.240.118.22 dst=10.40.2.80`
@@ -2036,13 +1956,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       '</tbody></table>';
     }
 
-    if (tool.id === "sigma") {
-      return `
-        <div role="note"><strong>Preview only — no SIEM query was generated.</strong><br>This workbench does not include a standards-compliant Sigma YAML parser or conversion backend. The text below is displayed as supplied; it has not been syntax-checked or semantically validated.</div>
-        <pre style="white-space:pre-wrap;overflow-wrap:anywhere;">${esc(input)}</pre>
-        <p>For production conversion, use maintained Sigma tooling and validate the resulting query against your target SIEM schema and telemetry.</p>
-      `;
-    }
 
     if (tool.id === "events") {
       const q = input.toLowerCase().trim();
@@ -2524,7 +2437,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             </div>
           </div>
 
-          <div class="psv-terminal-box${tool.id === "sigma" ? " psv-sigma-workbench" : ""}">
+          <div class="psv-terminal-box">
             <div class="psv-window-bar">
               <div class="psv-window-dots">
                 <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
@@ -2535,7 +2448,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
             <div class="psv-term-body">
               <div class="psv-privacy-strip">
-                <strong>Data handling:</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : tool.id === "sigma" ? "The input is processed in this browser for display only; no Sigma validation or conversion is performed." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
+                <strong>Data handling:</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
               </div>
 
               <div class="psv-field-label">
