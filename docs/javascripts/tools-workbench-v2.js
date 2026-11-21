@@ -2314,8 +2314,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function renderAdvancedTool(root, tool) {
-    const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>'+backControls;
     const backControls = sidebarControlsMarkup();
+    const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>'+backControls;
     const header = '<header class="psv-tool-page-head"><h1>'+esc(tool.title)+'</h1><p>'+esc(tool.desc)+'</p></header>';
     let body = "";
     if (tool.id === "secure-transfer") {
@@ -2992,7 +2992,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     // The mount point is the reliable page identity. Do not depend on a
     // particular domain, trailing slash, or MkDocs URL canonicalisation.
     const root = getRoot();
-    if (!root) return;
+    if (!root) { document.body.classList.remove("psv-tools-page","psv-tools-hide-left","psv-tools-hide-right"); return; }
     try {
       const h = window.location.hash || "";
       if (h.startsWith("#tool/")) {
