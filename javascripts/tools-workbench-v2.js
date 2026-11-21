@@ -1414,6 +1414,97 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 #psv-app .psv-tool-page .psv-out-table .mono{
   font-family:"Roboto Mono",SFMono-Regular,Consolas,monospace!important;
 }
+/* Windows & Sysmon reference table: readable column widths with intentional horizontal scrolling */
+#psv-app .psv-tool-page .psv-event-table-wrap{
+  display:block;
+  width:100%;
+  max-width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-inline:contain;
+  border:1px solid var(--md-default-fg-color--lightest);
+  border-radius:10px;
+}
+#psv-app .psv-tool-page .psv-event-table{
+  width:100%!important;
+  min-width:1500px!important;
+  table-layout:fixed!important;
+  border-collapse:separate!important;
+  border-spacing:0!important;
+}
+#psv-app .psv-tool-page .psv-event-table col.col-event-id{width:88px}
+#psv-app .psv-tool-page .psv-event-table col.col-event-source{width:145px}
+#psv-app .psv-tool-page .psv-event-table col.col-event-meaning{width:230px}
+#psv-app .psv-tool-page .psv-event-table col.col-event-attack{width:235px}
+#psv-app .psv-tool-page .psv-event-table col.col-event-query{width:205px}
+#psv-app .psv-tool-page .psv-event-table col.col-event-guidance{width:390px}
+#psv-app .psv-tool-page .psv-event-table th:nth-child(1),
+#psv-app .psv-tool-page .psv-event-table td:nth-child(1){width:88px!important}
+#psv-app .psv-tool-page .psv-event-table th:nth-child(2),
+#psv-app .psv-tool-page .psv-event-table td:nth-child(2){width:145px!important}
+#psv-app .psv-tool-page .psv-event-table th,
+#psv-app .psv-tool-page .psv-event-table td{
+  padding:.85rem .9rem!important;
+  vertical-align:top!important;
+  text-align:left!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  line-height:1.6!important;
+}
+#psv-app .psv-tool-page .psv-event-table th{
+  position:sticky;
+  top:0;
+  z-index:1;
+  background:var(--md-code-bg-color);
+  font-size:.8rem!important;
+}
+#psv-app .psv-tool-page .psv-event-table td{
+  font-size:.82rem!important;
+}
+#psv-app .psv-tool-page .psv-event-table .event-id{
+  color:#38bdf8!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#psv-app .psv-tool-page .psv-event-table .event-fields{
+  display:block;
+  margin-top:.55rem;
+  color:var(--md-default-fg-color--light);
+  font-size:.76rem;
+  line-height:1.55;
+  overflow-wrap:break-word;
+}
+#psv-app .psv-tool-page .psv-event-table .event-attack{
+  color:#d97706;
+  font-weight:600;
+}
+#psv-app .psv-tool-page .psv-event-table .event-query code{
+  display:block;
+  max-width:100%;
+  padding:.55rem;
+  border-radius:6px;
+  white-space:pre-wrap!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+  font-size:.72rem!important;
+  line-height:1.55!important;
+}
+#psv-app .psv-tool-page .psv-event-table .event-guidance p{
+  margin:0 0 .65rem;
+  line-height:1.6;
+}
+#psv-app .psv-tool-page .psv-event-table .event-guidance p:last-child{margin-bottom:0}
+#psv-app .psv-tool-page .psv-event-disclaimer{
+  line-height:1.65;
+  overflow-wrap:break-word;
+}
+@media(max-width:700px){
+  #psv-app .psv-tool-page .psv-event-table{min-width:1350px!important}
+  #psv-app .psv-tool-page .psv-event-table th,
+  #psv-app .psv-tool-page .psv-event-table td{padding:.7rem!important}
+}
 #psv-app .psv-ti-provider-card__head strong{
   font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
   font-size:.9rem!important;
@@ -1967,12 +2058,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       });
       return `
         <p class="psv-event-disclaimer"><strong>Reference only:</strong> These are 16 selected event references, not an exhaustive catalogue. KQL/SPL are templates: adapt index, sourcetype, event mappings and field names to your collection pipeline. An event alone does not prove malicious activity.</p>
-        <table class="psv-out-table">
-          <thead><tr><th>Event ID</th><th>Source</th><th>Event meaning & key fields</th><th>Potential ATT&CK context</th><th>Elastic KQL</th><th>Splunk SPL</th><th>Prerequisites, investigation & correlation</th></tr></thead>
-          <tbody>
-            ${filtered.length ? filtered.map(e => `<tr><td style="color:#38bdf8;font-weight:800;">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><br><span style="color:#94a3b8;font-size:0.74rem;">Fields: ${esc(e.fields)}</span></td><td style="color:#fbbf24;font-weight:700;">${esc(e.mitre)}</td><td><code>${esc(e.kql)}</code></td><td><code>${esc(e.spl)}</code></td><td><strong>Prerequisite:</strong> ${esc(e.prereq)}<br><strong>Investigation:</strong> ${esc(e.fp)}<br><strong>Correlate:</strong> ${esc(e.corr)}</td></tr>`).join("") : '<tr><td colspan="7">No matching event records. Try an event ID, keyword, field, or ATT&CK technique ID.</td></tr>'}
-          </tbody>
-        </table>
+        <div class="psv-event-table-wrap" role="region" aria-label="Windows and Sysmon event reference table" tabindex="0">
+          <table class="psv-out-table psv-event-table">
+            <colgroup><col class="col-event-id"><col class="col-event-source"><col class="col-event-meaning"><col class="col-event-attack"><col class="col-event-query"><col class="col-event-query"><col class="col-event-guidance"></colgroup>
+            <thead><tr><th>Event ID</th><th>Source</th><th>Event meaning & key fields</th><th>Potential ATT&CK context</th><th>Elastic KQL</th><th>Splunk SPL</th><th>Prerequisites, investigation & correlation</th></tr></thead>
+            <tbody>
+              ${filtered.length ? filtered.map(e => `<tr><td class="event-id">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><span class="event-fields"><strong>Key fields:</strong> ${esc(e.fields)}</span></td><td class="event-attack">${esc(e.mitre)}</td><td class="event-query"><code>${esc(e.kql)}</code></td><td class="event-query"><code>${esc(e.spl)}</code></td><td class="event-guidance"><p><strong>Prerequisite</strong> ${esc(e.prereq)}</p><p><strong>Investigation</strong> ${esc(e.fp)}</p><p><strong>Correlate</strong> ${esc(e.corr)}</p></td></tr>`).join("") : '<tr><td colspan="7">No matching event records. Try an event ID, keyword, field, or ATT&CK technique ID.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
       `;
     }
     if (tool.id === "regex") {
