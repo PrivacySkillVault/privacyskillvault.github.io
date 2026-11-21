@@ -481,6 +481,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const style = document.createElement("style");
     style.id = "psv-hiderox-royal-css";
     style.textContent = `
+      /* Tools page sidebar visibility controls */
+      body.psv-tools-hide-left .md-sidebar--primary{display:none!important}
+      body.psv-tools-hide-right .md-sidebar--secondary{display:none!important}
+      body.psv-tools-hide-left .md-main__inner{grid-template-columns:minmax(0,1fr)!important}
+      body.psv-tools-hide-right .md-main__inner{grid-template-columns:minmax(0,1fr) minmax(0,61rem)!important}
+      body.psv-tools-hide-left.psv-tools-hide-right .md-main__inner{grid-template-columns:minmax(0,1fr)!important}
+      #psv-app .psv-sidebar-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.45rem;margin:.15rem 0 1rem}
+      #psv-app .psv-sidebar-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem .7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-code-bg-color);color:var(--md-default-fg-color);font:600 .74rem/1.3 Roboto,"Helvetica Neue",Arial,sans-serif;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+      #psv-app .psv-sidebar-toggle:hover{border-color:var(--md-accent-fg-color);background:var(--md-default-bg-color)}
+      #psv-app .psv-sidebar-toggle:focus-visible{outline:2px solid var(--md-accent-fg-color);outline-offset:2px}
+      #psv-app .psv-sidebar-toggle[aria-pressed="true"]{color:var(--md-accent-fg-color);border-color:var(--md-accent-fg-color)}
+      @media(max-width:700px){#psv-app .psv-sidebar-controls{justify-content:flex-start;margin-bottom:.8rem}#psv-app .psv-sidebar-toggle{font-size:.7rem;padding:.45rem .58rem}}
       /* Centered analyst workspace with a persistent right-side navigator. */
       #psv-app .psv-vault-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:1.5rem;align-items:start}
       #psv-app .psv-vault-main{grid-column:1;grid-row:1;min-width:0}
@@ -2302,7 +2314,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function renderAdvancedTool(root, tool) {
-    const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>';
+    const back = '<div class="psv-back-bar"><button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools ('+TOOLS.length+')</button></div>'+backControls;
+    const backControls = sidebarControlsMarkup();
     const header = '<header class="psv-tool-page-head"><h1>'+esc(tool.title)+'</h1><p>'+esc(tool.desc)+'</p></header>';
     let body = "";
     if (tool.id === "secure-transfer") {
@@ -2510,6 +2523,24 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
   }
 
+  function sidebarControlsMarkup() {
+    return '<div class="psv-sidebar-controls" aria-label="Page navigation controls">'+
+      '<button type="button" class="psv-sidebar-toggle" data-psv-action="toggle-sidebar" data-sidebar="left" aria-pressed="false">Hide left sidebar</button>'+
+      '<button type="button" class="psv-sidebar-toggle" data-psv-action="toggle-sidebar" data-sidebar="right" aria-pressed="false">Hide right sidebar</button>'+
+      '</div>';
+  }
+
+  function syncSidebarControls() {
+    const leftHidden=document.body.classList.contains("psv-tools-hide-left");
+    const rightHidden=document.body.classList.contains("psv-tools-hide-right");
+    document.querySelectorAll("#psv-app [data-psv-action='toggle-sidebar']").forEach(button=>{
+      const side=button.getAttribute("data-sidebar");
+      const hidden=side==="left"?leftHidden:rightHidden;
+      button.setAttribute("aria-pressed",hidden?"true":"false");
+      button.textContent=(hidden?"Show ":"Hide ")+(side==="left"?"left sidebar":"right sidebar");
+    });
+  }
+
   function renderSingleToolView(root) {
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
     if (["case","share","evidence","device"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
@@ -2521,6 +2552,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           <div class="psv-back-bar">
             <button type="button" class="psv-back-btn" data-psv-action="back-catalog">← Back to All Tools (${TOOLS.length})</button>
           </div>
+          ${sidebarControlsMarkup()}
 
           <div class="psv-tool-hero">
             <h1>${esc(tool.title)}</h1>
@@ -2688,9 +2720,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const app = root.querySelector("#psv-app");
     const page = app && app.querySelector(".psv-tool-page");
     if (!app || !page) return;
+    document.body.classList.add("psv-tools-page");
     renderCategorySidebar({ selectedTool });
     app.classList.remove("psv-tool-workspace-layout");
     page.classList.remove("psv-tool-workspace-main");
+    syncSidebarControls();
   }
 
   function render() {
@@ -2717,6 +2751,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
       e.preventDefault();
       e.stopPropagation();
+
+      if (action === "toggle-sidebar") {
+        const side=target.getAttribute("data-sidebar");
+        if(side==="left") document.body.classList.toggle("psv-tools-hide-left");
+        else if(side==="right") document.body.classList.toggle("psv-tools-hide-right");
+        else return;
+        syncSidebarControls();
+        return;
+      }
 
       if (action === "open-tool") {
         const tid = target.getAttribute("data-tool");
@@ -2929,6 +2972,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function attachSecureShareSidebar() {
+    document.body.classList.remove("psv-tools-page","psv-tools-hide-left","psv-tools-hide-right");
     if (!isSecureShareRoute()) {
       document.body.classList.remove("secure-share-page");
       restoreNativeSecondaryToc();
