@@ -97,16 +97,16 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       badge: "EVT",
       shortTitle: "Event ID Encyclopedia",
       title: "Windows & Sysmon Event Encyclopedia",
-      desc: "Search 16 curated Windows Security and Sysmon Event ID references with selected fields, MITRE ATT&CK mappings, and example Elastic KQL hunts.",
+      desc: "Search 16 selected Windows Security and Sysmon event references with investigation context, conditional ATT&CK mappings, and Elastic KQL/Splunk SPL examples.",
       options: ["All Event Sources (16)", "Windows Security Only", "Sysmon Only"],
       actionLabel: "Search Event IDs",
       sample: "ALL",
-      whatItDoes: "Provides 16 curated Windows Security and Sysmon event records with selected event fields, LogonTypes where relevant, MITRE ATT&CK references, and example Elastic KQL hunting queries. It is not a complete event catalogue.",
+      whatItDoes: "Provides 16 selected Windows Security and Sysmon event references with key fields, context-dependent ATT&CK candidates, logging prerequisites, investigation/correlation guidance, and example Elastic KQL and Splunk SPL. It is not a complete event catalogue or live SIEM query tool.",
       whyItMatters: "Memorizing Windows event schemas, hexadecimal failure codes (0xC000006A), and Sysmon GrantedAccess masks (0x1010) is difficult during high-pressure investigations.",
-      howItWorks: "Filters an embedded forensic dataset by Event ID, keyword (e.g., 'lsass', 'kerberos', 'rdp', 'service'), or MITRE technique ID.",
+      howItWorks: "Filters an embedded reference dataset by Event ID, keyword, field, or ATT&CK technique. Query examples are templates: adapt index, sourcetype, event mappings and field names to your collection pipeline.",
       bestPractices: [
-        "Correlate Event ID 4624 (LogonType 3 or 10) with Event ID 4672 to track privileged lateral movement.",
-        "Enable command-line auditing via GPO so Event ID 4688 captures full process arguments."
+        "Correlate 4624 and 4672 on the same host using the logon ID; Type 3 means network logon and Type 10 means RemoteInteractive, not proof of lateral movement.",
+        "Enable Audit Process Creation and the separate command-line inclusion policy so Event ID 4688 records process command lines."
       ],
       faqs: [
         { q: "How do I browse all events vs searching a specific ID?", a: "Type 'ALL' (or clear the search box) to view the full encyclopedia, or type '4624', '10', 'lsass', or 'kerberos' to filter immediately." }
@@ -1963,18 +1963,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (selectedOptionIdx === 1 && e.source !== "Windows Security") return false;
         if (selectedOptionIdx === 2 && e.source !== "Sysmon") return false;
         if (q === "all" || !q) return true;
-        return e.id.toLowerCase().includes(q) || e.title.toLowerCase().includes(q) || e.mitre.toLowerCase().includes(q) || e.fields.toLowerCase().includes(q);
+        return [e.id,e.title,e.mitre,e.fields,e.fp,e.prereq,e.corr].some(v => String(v || "").toLowerCase().includes(q));
       });
       return `
+        <p class="psv-event-disclaimer"><strong>Reference only:</strong> These are 16 selected event references, not an exhaustive catalogue. KQL/SPL are templates: adapt index, sourcetype, event mappings and field names to your collection pipeline. An event alone does not prove malicious activity.</p>
         <table class="psv-out-table">
-          <thead><tr><th>Event ID</th><th>Source</th><th>Description & XML Fields</th><th>MITRE ATT&CK</th><th>Elastic KQL Hunt & Tuning</th></tr></thead>
+          <thead><tr><th>Event ID</th><th>Source</th><th>Event meaning & key fields</th><th>Potential ATT&CK context</th><th>Elastic KQL</th><th>Splunk SPL</th><th>Prerequisites, investigation & correlation</th></tr></thead>
           <tbody>
-            ${filtered.length ? filtered.map(e => `<tr><td style="color:#38bdf8;font-weight:800;">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><br><span style="color:#94a3b8;font-size:0.74rem;">Fields: ${esc(e.fields)}</span></td><td style="color:#fbbf24;font-weight:700;">${esc(e.mitre)}</td><td><code>${esc(e.kql)}</code><br><span style="color:#94a3b8;font-size:0.73rem;">Tuning: ${esc(e.fp)}</span></td></tr>`).join("") : '<tr><td colspan="5">No matching event records. Try an event ID, keyword, or MITRE technique ID.</td></tr>'}
+            ${filtered.length ? filtered.map(e => `<tr><td style="color:#38bdf8;font-weight:800;">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><br><span style="color:#94a3b8;font-size:0.74rem;">Fields: ${esc(e.fields)}</span></td><td style="color:#fbbf24;font-weight:700;">${esc(e.mitre)}</td><td><code>${esc(e.kql)}</code></td><td><code>${esc(e.spl)}</code></td><td><strong>Prerequisite:</strong> ${esc(e.prereq)}<br><strong>Investigation:</strong> ${esc(e.fp)}<br><strong>Correlate:</strong> ${esc(e.corr)}</td></tr>`).join("") : '<tr><td colspan="7">No matching event records. Try an event ID, keyword, field, or ATT&CK technique ID.</td></tr>'}
           </tbody>
         </table>
       `;
     }
-
     if (tool.id === "regex") {
       const parts = input.split(/LOG::/i);
       const patternStr = parts.length > 1 ? parts[0].replace(/^PATTERN::/i, "").trim() : "(?<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)";
