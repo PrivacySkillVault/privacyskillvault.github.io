@@ -137,7 +137,7 @@ LOG::2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user r
       faqs: [
         { q: "How do I test my own regex pattern?", a: "Put your regex after PATTERN:: on the first line, and paste your raw logs after LOG:: on the following lines." }
       ],
-      related: ["ioc", "sigma", "json", "events"]
+      related: ["ioc", "json", "events"]
     },
     {
       id: "yara",
@@ -167,7 +167,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       faqs: [
         { q: "Does this tool validate YARA syntax or compile the rule?", a: "No. It only checks for textual references to declared string identifiers. Use the YARA compiler or an approved engine to validate and compile the completed rule." }
       ],
-      related: ["deobfuscator", "sigma", "ioc", "report"]
+      related: ["deobfuscator", "ioc", "report"]
     },
     {
       id: "deobfuscator",
@@ -189,7 +189,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       faqs: [
         { q: "Why does standard Base64 decoding produce null bytes on PowerShell commands?", a: "PowerShell's -EncodedCommand uses UTF-16LE (2 bytes per ASCII character). Our decoder automatically strips interleaved null bytes." }
       ],
-      related: ["ioc", "yara", "sigma", "events"]
+      related: ["ioc", "yara", "events"]
     },
     {
       id: "json",
@@ -210,7 +210,7 @@ CONDITION::uint16(0) == 0x5A4D and filesize < 5MB and ($hex1 or 2 of ($s*))`,
       faqs: [
         { q: "What happens if my JSON log has a syntax error?", a: "The parser highlights the exact reason for the JSON syntax failure so you can fix malformed webhook payloads." }
       ],
-      related: ["regex", "sigma", "timestamp", "events"]
+      related: ["regex", "timestamp", "events"]
     },
     {
       id: "timestamp",
