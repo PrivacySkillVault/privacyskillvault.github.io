@@ -1727,10 +1727,3 @@ body #psv-app .psv-tool-page .psv-terminal-box .psv-btn-util {
   letter-spacing: normal !important;
 }
 
-
-/* Sigma workbench: use the site Roboto family throughout, including editable YAML and preview. */
-body #psv-app .psv-tool-page .psv-terminal-box.psv-sigma-workbench .psv-editor,
-body #psv-app .psv-tool-page .psv-terminal-box.psv-sigma-workbench .psv-output-container pre,
-body #psv-app .psv-tool-page .psv-terminal-box.psv-sigma-workbench .psv-output-container code {
-  font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
-}
