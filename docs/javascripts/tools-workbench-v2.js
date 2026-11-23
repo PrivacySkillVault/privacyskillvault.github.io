@@ -2794,9 +2794,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             </div>
 
             <div class="psv-term-body">
-              <div class="psv-privacy-strip">
-                <strong>Data handling:</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
-              </div>
+              ${tool.id === "events" ? "" : `
+                <div class="psv-privacy-strip">
+                  <strong>Data handling:</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
+                </div>
+              `}
 
               <div class="psv-field-label">
                 <span>INPUT TELEMETRY / PAYLOAD (EDIT BELOW OR CLICK A PRESET PILL)</span>
