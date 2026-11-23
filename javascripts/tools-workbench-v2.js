@@ -1306,8 +1306,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       .psv-out-table {
         width: 100%;
         border-collapse: collapse;
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 0.8rem;
+      }
+      .psv-out-table code,
+      .psv-out-table .mono {
         font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace;
-        font-size: 0.79rem;
       }
       .psv-out-table th {
         text-align: left;
