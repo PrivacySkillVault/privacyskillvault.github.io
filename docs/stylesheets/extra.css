@@ -1867,3 +1867,43 @@ body:not(.psv-blog-page) .md-content__inner:has(.psv-home-actions) .md-typeset >
   font-weight: 400 !important;
   line-height: var(--psv-description-line-height) !important;
 }
+
+/* =========================================================
+   PSV UNIFIED BODY AND TABLE TYPOGRAPHY
+   Keep ordinary reading text and data tables on the same
+   compact Roboto scale. Code remains monospace for clarity.
+   ========================================================= */
+.md-typeset p,
+.md-typeset li,
+.md-typeset td,
+.md-typeset th,
+#psv-app .psv-tool-page p,
+#psv-app .psv-tool-page li,
+#psv-app .psv-tool-page .psv-out-table th,
+#psv-app .psv-tool-page .psv-out-table td {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .8rem !important;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+/* Preserve emphasis in table headers and inline code/query readability. */
+.md-typeset th,
+#psv-app .psv-tool-page .psv-out-table th {
+  font-weight: 650 !important;
+}
+#psv-app .psv-tool-page .psv-out-table code,
+#psv-app .psv-tool-page .psv-out-table .mono,
+#psv-app .psv-tool-page .psv-event-table .event-query code,
+#psv-app .psv-tool-page pre,
+#psv-app .psv-tool-page pre code {
+  font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
+}
+
+/* Event catalogue guidance cells previously had an oversized local rule. */
+body #psv-app .psv-tool-page .psv-event-table .event-guidance p {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .8rem !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+}
