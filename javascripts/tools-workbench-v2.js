@@ -1735,7 +1735,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 }
 #psv-app .psv-tool-page .psv-event-table .event-guidance p{
   margin:0 0 .65rem;
-  line-height:1.6;
+  font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+  font-size:.92rem!important;
+  line-height:1.72!important;
 }
 #psv-app .psv-tool-page .psv-event-table .event-guidance p:last-child{margin-bottom:0}
 #psv-app .psv-tool-page .psv-event-disclaimer{
