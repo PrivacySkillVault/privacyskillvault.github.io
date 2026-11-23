@@ -707,8 +707,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function injectStyles() {
-    if (document.getElementById("psv-hiderox-royal-css")) return;
-    const style = document.createElement("style");
+    // Reuse and refresh the stylesheet on every render. MkDocs Material
+    // instant navigation can preserve the DOM and an older style element.
+    const existingStyle = document.getElementById("psv-hiderox-royal-css");
+    const style = existingStyle || document.createElement("style");
     style.id = "psv-hiderox-royal-css";
     style.textContent = `
       /* Tools page sidebar visibility controls */
@@ -2005,14 +2007,37 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app.psv-workbench-v2 .psv-out-table code {
         font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
       }
-      #psv-app.psv-workbench-v2 .psv-out-table th,
-      #psv-app.psv-workbench-v2 .psv-event-table th {
+      /* Explicit high-specificity rules for the actual text-bearing
+         elements in the event tool and all other Tools detail views.
+         This also overrides component-level font-size declarations. */
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-tool-page-head > p,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-tool-hero > p,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-doc-section p,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-doc-section li,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-advanced-panel > p,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-faq-item > p,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-tool-note,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-workbench-disclaimer,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-disclaimer,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-empty p,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-fields,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-table td,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-table th,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-out-table td,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-out-table th {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        font-size: .8rem !important;
+        font-weight: 400;
+        line-height: 1.65 !important;
+      }
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-table th,
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-out-table th {
         font-weight: 650 !important;
       }
 
 `;
 
-      document.head.appendChild(style);
+      if (!existingStyle) document.head.appendChild(style);
   }
 
   function applyPresetOption(tool, idx) {
