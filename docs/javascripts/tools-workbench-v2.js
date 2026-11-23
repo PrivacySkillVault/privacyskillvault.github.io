@@ -1900,7 +1900,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-tool-page .psv-tool-hero>p,
       #psv-app .psv-tool-page .psv-tool-page-head>p{
         font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
-        font-size:.875rem!important;
+        font-size:.8rem!important;
         font-weight:400!important;
         line-height:1.65!important;
         color:var(--md-typeset-color)!important;
