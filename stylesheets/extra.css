@@ -1817,3 +1817,31 @@ body #psv-app .psv-advanced-actions {
     font-size: .75rem !important;
   }
 }
+
+/* =========================================================
+   PSV SHARED PAGE-DESCRIPTION TYPOGRAPHY
+   One readable type scale for page introductions and hero
+   descriptions across Home, Learn, Labs, Investigations,
+   Tools, and editorial feature pages. Compact card summaries,
+   metadata, headings, and code retain their separate roles.
+   ========================================================= */
+:root {
+  --psv-description-font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  --psv-description-font-size: .875rem;
+  --psv-description-line-height: 1.65;
+}
+
+.md-content__inner .md-typeset > p:nth-of-type(-n+3),
+.psv-home__hero-desc,
+.psv-home__section-subtitle,
+.psv-home__why-intro,
+.psv-home__why-content,
+.psv-hero-desc,
+.psv-blog-intro > p,
+.psv-journal-hero__copy > p:not(.psv-journal-kicker),
+.psv-story-feature__body > p {
+  font-family: var(--psv-description-font-family) !important;
+  font-size: var(--psv-description-font-size) !important;
+  font-weight: 400 !important;
+  line-height: var(--psv-description-line-height) !important;
+}
