@@ -1970,41 +1970,39 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       }
 
 
-    `;
-
-      /* FINAL TOOLS PAGE TYPOGRAPHY OVERRIDE
-         Apply Roboto consistently across the complete Tools workbench,
-         including the directory, tool detail views, guidance, labels,
-         result panels and every data table. Keep heading hierarchy,
-         controls and code sizing/formatting distinct. */
-      #psv-app.psv-workbench-v2,
-      #psv-app.psv-workbench-v2 * {
+          /* Complete Tools workbench typography: match the compact
+         Roboto scale of the supplied event-description reference.
+         Headings, controls and monospace query/code keep their roles. */
+      #psv-app.psv-workbench-v2 {
         font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
-      }
-      #psv-app.psv-workbench-v2 :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6)
-        :not(button):not(input):not(select):not(textarea):not(pre):not(code)
-        :not(svg):not(path):not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *) {
         font-size: .8rem !important;
       }
-      #psv-app.psv-workbench-v2 .psv-editor,
-      #psv-app.psv-workbench-v2 pre,
-      #psv-app.psv-workbench-v2 pre *,
-      #psv-app.psv-workbench-v2 code,
-      #psv-app.psv-workbench-v2 .mono {
-        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
+      #psv-app.psv-workbench-v2 *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6)
+        :not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *)
+        :not(button):not(input):not(select):not(textarea)
+        :not(pre):not(code):not(svg):not(path) {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        font-size: .8rem !important;
+        line-height: 1.65 !important;
       }
       #psv-app.psv-workbench-v2 .psv-out-table,
       #psv-app.psv-workbench-v2 .psv-out-table th,
       #psv-app.psv-workbench-v2 .psv-out-table td,
       #psv-app.psv-workbench-v2 .psv-event-table th,
       #psv-app.psv-workbench-v2 .psv-event-table td,
-      #psv-app.psv-workbench-v2 .psv-event-table .event-guidance p {
+      #psv-app.psv-workbench-v2 .psv-event-table .event-guidance p,
+      #psv-app.psv-workbench-v2 .psv-event-table .event-fields {
         font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
         font-size: .8rem !important;
         line-height: 1.65 !important;
       }
-      #psv-app.psv-workbench-v2 .psv-out-table code,
-      #psv-app.psv-workbench-v2 .psv-event-table code {
+      #psv-app.psv-workbench-v2 pre,
+      #psv-app.psv-workbench-v2 pre *,
+      #psv-app.psv-workbench-v2 code,
+      #psv-app.psv-workbench-v2 .mono,
+      #psv-app.psv-workbench-v2 .psv-editor,
+      #psv-app.psv-workbench-v2 .psv-event-table .event-query code,
+      #psv-app.psv-workbench-v2 .psv-out-table code {
         font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
       }
       #psv-app.psv-workbench-v2 .psv-out-table th,
@@ -2012,7 +2010,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         font-weight: 650 !important;
       }
 
-    document.head.appendChild(style);
+`;
+
+      document.head.appendChild(style);
   }
 
   function applyPresetOption(tool, idx) {
