@@ -1826,7 +1826,7 @@ body #psv-app .psv-advanced-actions {
    ========================================================= */
 :root {
   --psv-description-font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
-  --psv-description-font-size: .875rem;
+  --psv-description-font-size: .8rem;
   --psv-description-line-height: 1.65;
 }
 
