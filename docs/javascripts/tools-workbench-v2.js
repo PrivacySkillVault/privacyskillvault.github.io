@@ -99,17 +99,17 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       title: "Windows & Sysmon Event Encyclopedia",
       desc: "Search the documented Windows Security audit event catalogue and Sysmon event types with investigation context, conditional ATT&CK mappings, and Elastic KQL/Splunk SPL examples.",
       options: ["All Event Sources", "Windows Security Only", "Sysmon Only"],
-      actionLabel: "Search Event IDs",
-      sample: "ALL",
+      actionLabel: "Look Up Event ID",
+      sample: "",
       whatItDoes: "Provides documented Windows Security audit events and Sysmon event types with key fields, context-dependent ATT&CK candidates, logging prerequisites, investigation/correlation guidance, and example Elastic KQL and Splunk SPL. Windows Security coverage follows the event IDs documented in Microsoft's Advanced Audit Policy reference; Sysmon coverage includes event types 1–29 and 255 documented by Microsoft Sysinternals. This is not every event from every Windows provider, System/Application channel, third-party product, or future OS release, and it is not a live SIEM query tool.",
       whyItMatters: "Memorizing Windows event schemas, hexadecimal failure codes (0xC000006A), and Sysmon GrantedAccess masks (0x1010) is difficult during high-pressure investigations.",
-      howItWorks: "Filters an embedded reference dataset by Event ID, keyword, field, or ATT&CK technique. Windows audit events may require specific policy settings, SACLs, OS versions or domain-controller roles; Sysmon events may require explicit configuration and some are disabled or high-volume by default. Query examples are templates: adapt index, sourcetype, event mappings and field names to your collection pipeline.",
+      howItWorks: "Requires an exact numeric Event ID and displays at most one matching record. Partial IDs, keywords, and ALL are not accepted. Windows audit events may require specific policy settings, SACLs, OS versions or domain-controller roles; Sysmon events may require explicit configuration and some are disabled or high-volume by default. Query examples are templates: adapt index, sourcetype, event mappings and field names to your collection pipeline.",
       bestPractices: [
         "Correlate 4624 and 4672 on the same host using the logon ID; Type 3 means network logon and Type 10 means RemoteInteractive, not proof of lateral movement.",
         "Enable Audit Process Creation and the separate command-line inclusion policy so Event ID 4688 records process command lines."
       ],
       faqs: [
-        { q: "How do I browse all events vs searching a specific ID?", a: "Type 'ALL' (or clear the search box) to view the full encyclopedia, or type '4624', '10', 'lsass', or 'kerberos' to filter immediately." }
+        { q: "How do I browse all events vs searching a specific ID?", a: "Enter an exact numeric Event ID, such as 4624 for Windows Security or 10 for Sysmon. Only one exact match is displayed." }
       ],
       related: ["json", "regex", "report"]
     },
@@ -2291,25 +2291,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
 
     if (tool.id === "events") {
-      const q = input.toLowerCase().trim();
-      const filtered = EVENT_DB.filter(e => {
-        if (selectedOptionIdx === 1 && e.source !== "Windows Security") return false;
-        if (selectedOptionIdx === 2 && e.source !== "Sysmon") return false;
-        if (q === "all" || !q) return true;
-        return [e.id,e.title,e.mitre,e.fields,e.fp,e.prereq,e.corr].some(v => String(v || "").toLowerCase().includes(q));
-      });
-      return `
-        <p class="psv-event-disclaimer"><strong>Reference only:</strong> These are 16 selected event references, not an exhaustive catalogue. KQL/SPL are templates: adapt index, sourcetype, event mappings and field names to your collection pipeline. An event alone does not prove malicious activity.</p>
-        <div class="psv-event-table-wrap" role="region" aria-label="Windows and Sysmon event reference table" tabindex="0">
-          <table class="psv-out-table psv-event-table">
-            <colgroup><col class="col-event-id"><col class="col-event-source"><col class="col-event-meaning"><col class="col-event-attack"><col class="col-event-query"><col class="col-event-query"><col class="col-event-guidance"></colgroup>
-            <thead><tr><th>Event ID</th><th>Source</th><th>Event meaning & key fields</th><th>Potential ATT&CK context</th><th>Elastic KQL</th><th>Splunk SPL</th><th>Prerequisites, investigation & correlation</th></tr></thead>
-            <tbody>
-              ${filtered.length ? filtered.map(e => `<tr><td class="event-id">ID ${esc(e.id)}</td><td>${esc(e.source)}</td><td><strong>${esc(e.title)}</strong><span class="event-fields"><strong>Key fields:</strong> ${esc(e.fields)}</span></td><td class="event-attack">${esc(e.mitre)}</td><td class="event-query"><code>${esc(e.kql)}</code></td><td class="event-query"><code>${esc(e.spl)}</code></td><td class="event-guidance"><p><strong>Prerequisite</strong> ${esc(e.prereq)}</p><p><strong>Investigation</strong> ${esc(e.fp)}</p><p><strong>Correlate</strong> ${esc(e.corr)}</p></td></tr>`).join("") : '<tr><td colspan="7">No matching event records. Try an event ID, keyword, field, or ATT&CK technique ID.</td></tr>'}
-            </tbody>
-          </table>
-        </div>
-      `;
+      const q = String(input || "").trim();
+      if (!q) return '<div class="psv-event-empty"><strong>Search by exact Event ID</strong><p>Enter a numeric Windows Security or Sysmon Event ID. No records are displayed until you search.</p></div>';
+      if (!/^\d+$/.test(q)) return '<div class="psv-event-empty"><strong>Enter a numeric Event ID</strong><p>Use an exact ID such as 4624 (Windows Security) or 10 (Sysmon). Partial IDs and keywords are not supported.</p></div>';
+      const e = EVENT_DB.find(item => item.id === q && (selectedOptionIdx === 0 || (selectedOptionIdx === 1 && item.source === "Windows Security") || (selectedOptionIdx === 2 && item.source === "Sysmon")));
+      if (!e) return '<div class="psv-event-empty"><strong>No exact match found</strong><p>That ID is not in this reference for the selected source. Check the ID or choose All Event Sources.</p></div>';
+      return '<p class="psv-event-disclaimer"><strong>Reference only:</strong> One exact match from the embedded dataset (216 Windows Security and 30 Sysmon records). This is not every event from every Windows provider or channel. KQL/SPL are templates; adapt index, sourcetype and field mappings. An event alone does not prove malicious activity.</p>' +
+        '<div class="psv-event-table-wrap" role="region" aria-label="Windows and Sysmon event reference" tabindex="0"><table class="psv-out-table psv-event-table">' +
+        '<colgroup><col class="col-event-id"><col class="col-event-source"><col class="col-event-meaning"><col class="col-event-attack"><col class="col-event-query"><col class="col-event-query"><col class="col-event-guidance"></colgroup>' +
+        '<thead><tr><th>Event ID</th><th>Source</th><th>Event meaning & key fields</th><th>Potential ATT&CK context</th><th>Elastic KQL</th><th>Splunk SPL</th><th>Prerequisites, investigation & correlation</th></tr></thead><tbody>' +
+        '<tr><td class="event-id">ID ' + esc(e.id) + '</td><td>' + esc(e.source) + '</td><td><strong>' + esc(e.title) + '</strong><span class="event-fields"><strong>Key fields:</strong> ' + esc(e.fields) + '</span></td><td class="event-attack">' + esc(e.mitre) + '</td><td class="event-query"><code>' + esc(e.kql) + '</code></td><td class="event-query"><code>' + esc(e.spl) + '</code></td><td class="event-guidance"><p><strong>Prerequisite</strong> ' + esc(e.prereq) + '</p><p><strong>Investigation</strong> ' + esc(e.fp) + '</p><p><strong>Correlate</strong> ' + esc(e.corr) + '</p></td></tr></tbody></table></div>';
     }
     if (tool.id === "regex") {
       const parts = input.split(/LOG::/i);
@@ -2811,7 +2802,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 <span>INPUT TELEMETRY / PAYLOAD (EDIT BELOW OR CLICK A PRESET PILL)</span>
                 <span>REAL-TIME ENGINE</span>
               </div>
-              <textarea id="psv-tool-editor" class="psv-editor" aria-label="Security tool input" spellcheck="false">${esc(currentInput)}</textarea>
+              <textarea id="psv-tool-editor" class="psv-editor" aria-label="Security tool input" placeholder="${tool.id === "events" ? "Enter exact Event ID (e.g. 4624 or 10)" : ""}" inputmode="${tool.id === "events" ? "numeric" : "text"}" spellcheck="false">${esc(currentInput)}</textarea>
 
               <div class="psv-action-bar">
                 <div class="psv-opt-group">
