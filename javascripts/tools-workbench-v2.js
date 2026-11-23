@@ -1922,8 +1922,96 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         #psv-app .psv-tool-page .psv-tool-page-head h1{font-size:1.55rem!important}
       }
 
+      /* Final Tools-wide body typography override.
+         Apply consistently to descriptions, documentation text,
+         list content, result text and all data-table cells.
+         Preserve headings, controls, and monospace code/query blocks. */
+      #psv-app,
+      #psv-app .psv-tool-page {
+        font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+      }
+      #psv-app .psv-tools-intro>p,
+      #psv-app .psv-section-head>p,
+      #psv-app .psv-workflow-card small,
+      #psv-app .psv-reference-grid article p,
+      #psv-app .psv-tool-note,
+      #psv-app .psv-workbench-disclaimer,
+      #psv-app .psv-directory-copy small,
+      #psv-app .psv-vault-main-head p,
+      #psv-app .psv-vault-sidebar-note p,
+      #psv-app .psv-ti-provider-card__findings,
+      #psv-app .psv-ti-provider-card__findings li,
+      #psv-app .psv-ti-data-note,
+      #psv-app .psv-ha-report,
+      #psv-app .psv-tool-page p,
+      #psv-app .psv-tool-page li,
+      #psv-app .psv-tool-page .psv-out-table th,
+      #psv-app .psv-tool-page .psv-out-table td,
+      #psv-app .psv-tool-page .psv-event-table th,
+      #psv-app .psv-tool-page .psv-event-table td,
+      #psv-app .psv-tool-page .psv-event-table .event-guidance p {
+        font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
+        font-size:.8rem!important;
+        font-weight:400!important;
+        line-height:1.65!important;
+      }
+      #psv-app .psv-tool-page .psv-out-table th,
+      #psv-app .psv-tool-page .psv-event-table th {
+        font-weight:650!important;
+      }
+      #psv-app .psv-tool-page pre,
+      #psv-app .psv-tool-page pre *,
+      #psv-app .psv-tool-page code,
+      #psv-app .psv-tool-page .mono,
+      #psv-app .psv-tool-page .psv-editor,
+      #psv-app .psv-tool-page .psv-event-table .event-query code,
+      #psv-app .psv-tool-page .psv-out-table code {
+        font-family:"Roboto Mono",SFMono-Regular,Consolas,monospace!important;
+      }
+
 
     `;
+
+      /* FINAL TOOLS PAGE TYPOGRAPHY OVERRIDE
+         Apply Roboto consistently across the complete Tools workbench,
+         including the directory, tool detail views, guidance, labels,
+         result panels and every data table. Keep heading hierarchy,
+         controls and code sizing/formatting distinct. */
+      #psv-app.psv-workbench-v2,
+      #psv-app.psv-workbench-v2 * {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+      }
+      #psv-app.psv-workbench-v2 :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6)
+        :not(button):not(input):not(select):not(textarea):not(pre):not(code)
+        :not(svg):not(path):not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *) {
+        font-size: .8rem !important;
+      }
+      #psv-app.psv-workbench-v2 .psv-editor,
+      #psv-app.psv-workbench-v2 pre,
+      #psv-app.psv-workbench-v2 pre *,
+      #psv-app.psv-workbench-v2 code,
+      #psv-app.psv-workbench-v2 .mono {
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
+      }
+      #psv-app.psv-workbench-v2 .psv-out-table,
+      #psv-app.psv-workbench-v2 .psv-out-table th,
+      #psv-app.psv-workbench-v2 .psv-out-table td,
+      #psv-app.psv-workbench-v2 .psv-event-table th,
+      #psv-app.psv-workbench-v2 .psv-event-table td,
+      #psv-app.psv-workbench-v2 .psv-event-table .event-guidance p {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        font-size: .8rem !important;
+        line-height: 1.65 !important;
+      }
+      #psv-app.psv-workbench-v2 .psv-out-table code,
+      #psv-app.psv-workbench-v2 .psv-event-table code {
+        font-family: "Roboto Mono", SFMono-Regular, Consolas, monospace !important;
+      }
+      #psv-app.psv-workbench-v2 .psv-out-table th,
+      #psv-app.psv-workbench-v2 .psv-event-table th {
+        font-weight: 650 !important;
+      }
+
     document.head.appendChild(style);
   }
 
