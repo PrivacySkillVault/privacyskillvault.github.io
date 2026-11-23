@@ -2800,10 +2800,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 </div>
               `}
 
-              <div class="psv-field-label">
-                <span>INPUT TELEMETRY / PAYLOAD (EDIT BELOW OR CLICK A PRESET PILL)</span>
-                <span>REAL-TIME ENGINE</span>
-              </div>
               <textarea id="psv-tool-editor" class="psv-editor" aria-label="Security tool input" placeholder="${tool.id === "events" ? "Enter exact Event ID (e.g. 4624 or 10)" : ""}" inputmode="${tool.id === "events" ? "numeric" : "text"}" spellcheck="false">${esc(currentInput)}</textarea>
 
               <div class="psv-action-bar">
