@@ -1820,10 +1820,9 @@ body #psv-app .psv-advanced-actions {
 
 /* =========================================================
    PSV SHARED PAGE-DESCRIPTION TYPOGRAPHY
-   One readable type scale for page introductions and hero
-   descriptions across Home, Learn, Labs, Investigations,
-   Tools, and editorial feature pages. Compact card summaries,
-   metadata, headings, and code retain their separate roles.
+   One readable scale for page introductions, hero summaries,
+   feature descriptions and card descriptions. Headings,
+   metadata, controls and code keep their own scale.
    ========================================================= */
 :root {
   --psv-description-font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -1831,15 +1830,38 @@ body #psv-app .psv-advanced-actions {
   --psv-description-line-height: 1.65;
 }
 
-.md-content__inner .md-typeset > p:nth-of-type(-n+3),
-.psv-home__hero-desc,
-.psv-home__section-subtitle,
-.psv-home__why-intro,
-.psv-home__why-content,
-.psv-hero-desc,
+/* Introductory paragraphs on standard content pages. */
+body:not(.psv-blog-page) .md-content__inner .md-typeset > p:first-of-type {
+  font-family: var(--psv-description-font-family) !important;
+  font-size: var(--psv-description-font-size) !important;
+  font-weight: 400 !important;
+  line-height: var(--psv-description-line-height) !important;
+}
+
+/* Homepage has a short tagline followed by its main introduction. */
+body:not(.psv-blog-page) .md-content__inner:has(.psv-home-actions) .md-typeset > p:nth-of-type(-n+2) {
+  font-family: var(--psv-description-font-family) !important;
+  font-size: var(--psv-description-font-size) !important;
+  font-weight: 400 !important;
+  line-height: var(--psv-description-line-height) !important;
+}
+
+/* Explicit descriptions used by PSV page components. */
+.psv-card > p,
+.psv-domain > span small,
 .psv-blog-intro > p,
+.psv-hero-desc,
 .psv-journal-hero__copy > p:not(.psv-journal-kicker),
-.psv-story-feature__body > p {
+.psv-story-feature__body > p,
+.psv-story-card__body > p,
+#psv-app .psv-tools-intro > p,
+#psv-app .psv-section-head > p,
+#psv-app .psv-tool-card-v2 .psv-card-desc,
+#psv-app .psv-tool-page .psv-tool-hero > p,
+#psv-app .psv-tool-page .psv-tool-page-head > p,
+#psv-app .psv-tool-page .psv-doc-section > p,
+#psv-app .psv-tool-page .psv-advanced-panel > p,
+#psv-app .psv-tool-page .psv-faq-item > p {
   font-family: var(--psv-description-font-family) !important;
   font-size: var(--psv-description-font-size) !important;
   font-weight: 400 !important;
