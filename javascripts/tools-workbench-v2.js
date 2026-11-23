@@ -2788,13 +2788,15 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           </div>
 
           <div class="psv-terminal-box">
-            <div class="psv-window-bar">
-              <div class="psv-window-dots">
-                <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
-                <span style="margin-left:0.5rem;">PSV // ${esc(tool.id.toUpperCase())}-WORKBENCH</span>
+            ${tool.id === "events" ? "" : `
+              <div class="psv-window-bar">
+                <div class="psv-window-dots">
+                  <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
+                  <span style="margin-left:0.5rem;">PSV // ${esc(tool.id.toUpperCase())}-WORKBENCH</span>
+                </div>
+                <span>ACTIVE WORKSPACE</span>
               </div>
-              <span>ACTIVE WORKSPACE</span>
-            </div>
+            `}
 
             <div class="psv-term-body">
               ${tool.id === "events" ? "" : `
