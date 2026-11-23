@@ -30,10 +30,10 @@ theme:
     - content.code.copy
     - content.action.view
 extra_css:
-  - stylesheets/extra.css?v=20261123-2
+  - stylesheets/extra.css?v=20261123-3
 extra_javascript:
   - javascripts/psv-navigation.js
-  - javascripts/tools-workbench-v2.js?v=20261123-5
+  - javascripts/tools-workbench-v2.js?v=20261123-6
 markdown_extensions:
   - admonition
   - pymdownx.details
