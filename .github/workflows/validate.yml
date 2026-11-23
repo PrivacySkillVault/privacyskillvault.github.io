@@ -42,6 +42,8 @@ jobs:
           sigma convert -t splunk -p sysmon docs/detection-engineering/rules/windows-powershell-encoded-command.yml
           sigma convert -t splunk -p splunk_windows docs/detection-engineering/rules/windows-local-admin-membership.yml
       - name: Check JavaScript syntax
-        run: node --check docs/javascripts/tools.js
+        run: |
+          node --check docs/javascripts/tools.js
+          node --check docs/javascripts/tools-workbench-v2.js
       - name: Build site strictly
         run: mkdocs build --strict
