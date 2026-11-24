@@ -2065,6 +2065,24 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         display: block !important;
       }
 
+      /* Shared typography and compact output treatment across standard tools. */
+      #psv-app .psv-tool-page .psv-description-typography,
+      #psv-app .psv-tool-page .psv-tool-hero > p,
+      #psv-app .psv-tool-page .psv-doc-section p,
+      #psv-app .psv-tool-page .psv-doc-section li,
+      #psv-app .psv-tool-page .psv-faq-item summary,
+      #psv-app .psv-tool-page .psv-faq-item p {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        font-size: .8rem !important;
+        font-weight: 400 !important;
+        line-height: 1.65 !important;
+        text-align: left !important;
+      }
+      #psv-app .psv-tool-page .psv-output-container {
+        min-height: 100px;
+        box-sizing: border-box;
+      }
+
       /* Empty telemetry guidance uses the same description typography tokens. */
       #psv-app .psv-tool-page .psv-description-typography {
         font-family: var(--psv-description-font-family, Roboto, "Helvetica Neue", Arial, sans-serif) !important;
@@ -2908,7 +2926,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     if (["case","share","evidence","device"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
     const currentInput = userInputs[tool.id] !== undefined ? userInputs[tool.id] : tool.sample;
     const currentOutput = computeDynamicOutput(tool, currentInput);
-    const eventHasResult = tool.id === "events" && currentOutput.includes('class="psv-event-table-wrap"');
+    const hasOutput = Boolean(String(currentInput || "").trim()) && Boolean(String(currentOutput || "").trim());
 
     root.innerHTML = `
       <div id="psv-app">
@@ -2928,16 +2946,6 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           </div>
 
           <div class="psv-terminal-box">
-            ${tool.id === "events" ? "" : `
-              <div class="psv-window-bar">
-                <div class="psv-window-dots">
-                  <span class="psv-dot"></span><span class="psv-dot"></span><span class="psv-dot"></span>
-                  <span style="margin-left:0.5rem;">PSV // ${esc(tool.id.toUpperCase())}-WORKBENCH</span>
-                </div>
-                <span>ACTIVE WORKSPACE</span>
-              </div>
-            `}
-
             <div class="psv-term-body">
               ${tool.id === "events" ? "" : `
                 <div class="psv-privacy-strip">
@@ -2951,7 +2959,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               <div class="psv-action-bar">
                 ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.options || []).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
                 <div class="psv-btn-group">
-                  ${tool.id === "events" ? `<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!eventHasResult ? "hidden" : ""}>Copy Output</button>` : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.actionLabel)}</button><button type="button" class="psv-btn-util" data-psv-action="load-sample">Reset Sample</button><button type="button" class="psv-btn-util" data-psv-action="copy-output">Copy Output</button><button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button>`}
+                  ${tool.id === "events" ? "" : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.actionLabel)}</button>`}<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!hasOutput ? "hidden" : ""}>Copy Output</button>
                 </div>
               </div>
 
@@ -2966,23 +2974,23 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
           <div class="psv-doc-section">
             <h3>What this tool does</h3>
-            <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(tool.whatItDoes)}</p>
+            <p class="psv-description-typography">${esc(tool.whatItDoes)}</p>
           </div>
 
           <div class="psv-doc-section">
             <h3>Why it matters</h3>
-            <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(tool.whyItMatters)}</p>
+            <p class="psv-description-typography">${esc(tool.whyItMatters)}</p>
           </div>
 
           <div class="psv-doc-section">
             <h3>How it works</h3>
-            <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(tool.howItWorks)}</p>
+            <p class="psv-description-typography">${esc(tool.howItWorks)}</p>
           </div>
 
           <div class="psv-doc-section">
             <h3>Best practices</h3>
             <ul>
-              ${(tool.bestPractices || []).map(bp => `<li class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(bp)}</li>`).join("")}
+              ${(tool.bestPractices || []).map(bp => `<li class="psv-description-typography">${esc(bp)}</li>`).join("")}
             </ul>
           </div>
 
@@ -2990,8 +2998,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <h3>Frequently Asked Questions</h3>
             ${(tool.faqs || []).map(f => `
               <details class="psv-faq-item">
-                <summary class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(f.q)}</summary>
-                <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(f.a)}</p>
+                <summary class="psv-description-typography">${esc(f.q)}</summary>
+                <p class="psv-description-typography">${esc(f.a)}</p>
               </details>
             `).join("")}
           </div>
