@@ -2331,7 +2331,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
   function computeDynamicOutput(tool, rawInput) {
     const input = (rawInput || "").trim();
-    if (!input) {
+    if (!input && tool.id !== "events") {
       return `<div class="psv-description-typography" style="padding:0.5rem;">Input is empty. Click <strong>Load Sample</strong> above or paste your own telemetry.</div>`;
     }
 
@@ -3166,7 +3166,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const out = document.getElementById("psv-tool-result-box");
         if (tool.id === "ti") tiLookupSequence++;
         if (ed) ed.value = "";
-        if (out) out.innerHTML = `<div style="color:#94a3b8;padding:0.5rem;">Workspace cleared. Click <strong>Reset Sample</strong> or paste your own telemetry above.</div>`;
+        if (out) out.innerHTML = computeDynamicOutput(tool, "");
       } else if (action === "copy-output") {
         const out = document.getElementById("psv-tool-result-box");
         if (!out) return;
