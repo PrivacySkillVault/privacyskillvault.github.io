@@ -119,7 +119,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       badge: "RGX",
       shortTitle: "Log Regex Sandbox",
       title: "Log Analyzer & Regex Sandbox",
-      desc: "Test JavaScript regular expressions against multi-line security logs and extract named or numbered capture groups.",
+      desc: "Automatically parse supported security logs or test custom JavaScript regular expressions against multi-line log data.",
       options: ["Sample: SSH Auth Logs", "Sample: Palo Alto CEF Firewall"],
       actionLabel: "Run Regex Extraction",
       sample: `PATTERN::(?<time>\\d{4}-\\d{2}-\\d{2}\\s+[\\d:]+)\\s+(?<host>\\S+)\\s+sshd\\[\\d+\\]:\\s+Failed password for (?:invalid user )?(?<user>\\S+) from (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)
@@ -686,6 +686,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   let searchQuery = "";
   let activeToolId = "events";
   let selectedOptionIdx = 0;
+  let regexMode = "analyzer";
   const userInputs = {};
   let lastHashRecord = null;
 
@@ -2376,6 +2377,38 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
   }
 
+  const LOG_ANALYZER_SAMPLES = {
+    windows: "2026-11-24 10:15:32 EventID=4625\nComputer=DC01\nTargetUserName=administrator\nIpAddress=192.168.1.105\nLogonType=3\nStatus=0xC000006D\nFailureReason=Unknown user name or bad password",
+    ssh: "Nov 24 10:15:32 server01 sshd[2456]: Failed password for admin from 203.0.113.25 port 51234 ssh2\nNov 24 10:16:45 server01 sshd[2480]: Failed password for root from 198.51.100.20 port 51235 ssh2\nNov 24 10:17:10 server01 sshd[2510]: Accepted password for sajuser from 192.0.2.10 port 51236 ssh2",
+    sysmon: '<Event><System><EventID>1</EventID><TimeCreated SystemTime="2026-11-24T10:15:32.000Z"/><Computer>WORKSTATION01</Computer></System><EventData><Data Name="Image">C:\\Windows\\System32\\cmd.exe</Data><Data Name="CommandLine">cmd.exe /c whoami</Data><Data Name="User">CORP\\analyst</Data></EventData></Event>',
+    cef: "CEF:0|PaloAlto|PAN-OS|10.2|40012|Brute-Force-Login|9|src=185.220.101.42 dst=10.40.1.15\nCEF:0|PaloAlto|PAN-OS|10.2|40019|SQL-Injection-Attempt|10|src=91.240.118.22 dst=10.40.2.80"
+  };
+  function parseLogAnalyzer(raw) {
+    const logs=String(raw||""); if(!logs.trim()) return '<div role="status">Paste security logs to begin analysis.</div>';
+    if(logs.length>500000) return '<div role="alert">Log input exceeds 500 KB. Split it into smaller batches.</div>';
+    const lines=logs.split(/\r?\n/), events=[]; let format="Unknown";
+    const add=(fields,kind)=>events.push({fields,kind});
+    if(/EventID\s*=|TargetUserName\s*=|IpAddress\s*=/i.test(logs)){
+      format="Windows Security key-value"; const f={}; let ts="";
+      lines.forEach(line=>{const t=line.match(/^\s*(\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2})\s+(.+)$/);if(t){ts=t[1];for(const m of t[2].matchAll(/([A-Za-z][A-Za-z0-9_]*)=([^\r\n]*?)(?=\s+[A-Za-z][A-Za-z0-9_]*=|$)/g))f[m[1]]=m[2].trim();}else{const m=line.match(/^\s*([A-Za-z][A-Za-z0-9_]*)=(.*)$/);if(m)f[m[1]]=m[2].trim();}});
+      if(ts)f.Timestamp=ts;const id=f.EventID||f.EventId||"";if(id)f.EventID=id;if(Object.keys(f).length)add(f,id==="4625"?"Failed logon":id==="4624"?"Successful logon":"Windows event");
+    }else if(/<Event[ >]/i.test(logs)&&/<EventID>/i.test(logs)){
+      format="Windows Event XML / Sysmon";const blocks=logs.match(/<Event\b[\s\S]*?<\/Event>/gi)||[];
+      blocks.forEach(block=>{const f={},id=block.match(/<EventID[^>]*>([^<]+)<\/EventID>/i),host=block.match(/<Computer>([^<]+)<\/Computer>/i),time=block.match(/SystemTime="([^"]+)"/i);if(id)f.EventID=id[1];if(host)f.Computer=host[1];if(time)f.Timestamp=time[1];for(const m of block.matchAll(/<Data\s+Name="([^"]+)"[^>]*>([\s\S]*?)<\/Data>/gi))f[m[1]]=m[2];add(f,"Windows event");});
+    }else if(/sshd\[\d+\]:\s+(?:Failed|Accepted) password/i.test(logs)){
+      format="Linux SSH authentication";lines.forEach(line=>{const m=line.match(/^(.+?)\s+(\S+)\s+sshd\[(\d+)\]:\s+(Failed|Accepted) password for (?:invalid user )?(\S+) from (\d{1,3}(?:\.\d{1,3}){3}) port (\d+)\s+ssh2/i);if(m)add({Timestamp:m[1],Host:m[2],ProcessId:m[3],Action:m[4],Username:m[5],SourceIP:m[6],SourcePort:m[7]},m[4]==="Failed"?"Failed SSH authentication":"Successful SSH authentication");});
+    }else if(/^CEF:/m.test(logs)){
+      format="CEF firewall";lines.forEach(line=>{if(!line.startsWith("CEF:"))return;const p=line.split("|"),f={CEFVersion:p[0],Vendor:p[1],Product:p[2],SignatureId:p[4],EventName:p[5],Severity:p[6]};for(const m of p.slice(7).join("|").matchAll(/([A-Za-z][A-Za-z0-9_]*)=([^\s]+)/g))f[m[1]]=m[2];add(f,"Firewall event");});
+    }else return '<div role="status">Format not recognized. Supported formats: Windows Security key-value, Windows Event XML / Sysmon, Linux SSH authentication and CEF firewall logs. Use Regex Sandbox for a custom pattern.</div>';
+    const summary='<div class="psv-regex-summary"><strong>'+events.length+' event(s) parsed</strong><span>'+esc(format)+'</span><span>'+lines.filter(x=>x.trim()).length+' non-empty line(s) scanned</span></div>';
+    if(!events.length)return summary+'<div role="status">Format recognized, but no complete event could be parsed.</div>';
+    const keys=Array.from(new Set(events.flatMap(e=>Object.keys(e.fields))));
+    const head='<thead><tr><th>#</th><th>Classification</th>'+keys.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead>';
+    const rows=events.map((e,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(e.kind)+'</td>'+keys.map(k=>'<td style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(e.fields[k]||"")+'</td>').join('')+'</tr>').join('');
+    const note=format==="Windows Security key-value"&&events[0].fields.EventID==="4625"?'<p class="psv-tool-note">Event ID 4625 indicates a failed logon. Logon Type 3 denotes a network logon. This event alone does not establish malicious activity or account compromise.</p>':"";
+    return summary+note+'<div class="psv-regex-table-wrap"><table class="psv-out-table">'+head+'<tbody>'+rows+'</tbody></table></div>';
+  }
+
   function computeRegexOutput(patternRaw, logsRaw) {
     const pattern=String(patternRaw||"").trim(), logs=String(logsRaw||"");
     if(!pattern&&!logs.trim())return '<p class="psv-description-typography">Enter a regular expression and paste log data to begin.</p>';
@@ -2932,8 +2965,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const sampleParts = String(tool.sample).split("LOG::");
     const regexPattern = userInputs.regexPattern !== undefined ? userInputs.regexPattern : sampleParts[0].replace(/^PATTERN::/, "").trim();
     const regexLogs = userInputs.regexLogs !== undefined ? userInputs.regexLogs : (sampleParts[1] || "").trim();
-    const currentOutput = tool.id === "regex" ? computeRegexOutput(regexPattern, regexLogs) : computeDynamicOutput(tool, currentInput);
-    const hasOutput = tool.id === "regex" ? Boolean(regexPattern.trim() && regexLogs.trim() && currentOutput.indexOf('role="alert"') === -1) : Boolean(String(currentInput || "").trim()) && Boolean(String(currentOutput || "").trim());
+    const analyzerLogs = userInputs.analyzerLogs !== undefined ? userInputs.analyzerLogs : LOG_ANALYZER_SAMPLES.windows;
+    const currentOutput = tool.id === "regex" ? (regexMode === "analyzer" ? parseLogAnalyzer(analyzerLogs) : computeRegexOutput(regexPattern, regexLogs)) : computeDynamicOutput(tool, currentInput);
+    const hasOutput = tool.id === "regex" ? (regexMode === "analyzer" ? Boolean(analyzerLogs.trim()) : Boolean(regexPattern.trim() && regexLogs.trim())) : Boolean(String(currentInput || "").trim()) && Boolean(String(currentOutput || "").trim());
 
     root.innerHTML = `
       <div id="psv-app">
@@ -2961,13 +2995,22 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               `}
 
               ${tool.id === "regex" ? `
-                <label class="psv-field-label" for="psv-regex-pattern"><span>REGULAR EXPRESSION</span></label>
-                <textarea id="psv-regex-pattern" class="psv-editor psv-regex-pattern" aria-label="Regular expression pattern" placeholder="Example: (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)" spellcheck="false">${esc(regexPattern)}</textarea>
-                <label class="psv-field-label" for="psv-regex-logs"><span>LOG INPUT</span></label>
-                <textarea id="psv-regex-logs" class="psv-editor psv-regex-logs" aria-label="Multi-line log input" placeholder="Paste multi-line security logs here..." spellcheck="false">${esc(regexLogs)}</textarea>
-                <p class="psv-description-typography">JavaScript RegExp · global + multiline matching · 500 KB log limit · processed locally in this browser. Complex patterns may still consume significant CPU.</p>
+                <div class="psv-opt-group" style="margin-bottom:1rem;">
+                  <button type="button" class="psv-opt-pill ${regexMode === "analyzer" ? "active" : ""}" data-psv-action="set-regex-mode" data-mode="analyzer">Log Analyzer</button>
+                  <button type="button" class="psv-opt-pill ${regexMode === "regex" ? "active" : ""}" data-psv-action="set-regex-mode" data-mode="regex">Regex Sandbox</button>
+                </div>
+                ${regexMode === "analyzer" ? `
+                  <label class="psv-field-label" for="psv-analyzer-logs"><span>LOG INPUT</span></label>
+                  <textarea id="psv-analyzer-logs" class="psv-editor psv-regex-logs" aria-label="Raw security log input" placeholder="Paste Windows, Sysmon, Linux SSH or CEF logs here..." spellcheck="false">${esc(analyzerLogs)}</textarea>
+                  <p class="psv-description-typography">Automatic format detection · Windows Security key-value · Windows Event XML / Sysmon · Linux SSH · CEF · 500 KB limit · processed locally in this browser.</p>
+                ` : `
+                  <label class="psv-field-label" for="psv-regex-pattern"><span>REGULAR EXPRESSION</span></label>
+                  <textarea id="psv-regex-pattern" class="psv-editor psv-regex-pattern" aria-label="Regular expression pattern" placeholder="Example: (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)" spellcheck="false">${esc(regexPattern)}</textarea>
+                  <label class="psv-field-label" for="psv-regex-logs"><span>LOG INPUT</span></label>
+                  <textarea id="psv-regex-logs" class="psv-editor psv-regex-logs" aria-label="Multi-line log input" placeholder="Paste multi-line security logs here..." spellcheck="false">${esc(regexLogs)}</textarea>
+                  <p class="psv-description-typography">JavaScript RegExp · global + multiline matching · 500 KB log limit · processed locally in this browser. Complex patterns may still consume significant CPU.</p>
+                `}
               ` : `
-                ${tool.id === "events" ? '<label class="psv-field-label" for="psv-tool-editor"><span>EVENT ID</span></label>' : ""}
                 <textarea id="psv-tool-editor" class="psv-editor" aria-label="${tool.id === "events" ? "Event ID" : "Security tool input"}" placeholder="${tool.id === "events" ? "Enter Event ID (e.g. 4624 or 10)" : ""}" inputmode="${tool.id === "events" ? "numeric" : "text"}" spellcheck="false">${esc(currentInput)}</textarea>
               `}
 
@@ -3166,11 +3209,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       } else if (action === "set-cat") {
         const first = TOOLS.find(t => t.cat === target.getAttribute("data-cat"));
         if (first) { activeToolId = first.id; currentView = "tool"; render(); }
+      } else if (action === "set-regex-mode") {
+        regexMode = target.getAttribute("data-mode") === "regex" ? "regex" : "analyzer";
+        selectedOptionIdx = 0;
+        render();
       } else if (action === "set-opt") {
         const idx = parseInt(target.getAttribute("data-opt") || "0", 10);
         selectedOptionIdx = idx;
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
-        applyPresetOption(tool, idx);
+        if (tool.id === "regex" && regexMode === "analyzer") userInputs.analyzerLogs = [LOG_ANALYZER_SAMPLES.windows,LOG_ANALYZER_SAMPLES.ssh][idx] || LOG_ANALYZER_SAMPLES.windows;
+        else applyPresetOption(tool, idx);
         render();
       } else if (action === "run-tool") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
@@ -3178,11 +3226,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const out = document.getElementById("psv-tool-result-box");
         if ((ed || tool.id === "regex") && out) {
           if (tool.id === "regex") {
-            userInputs.regexPattern = document.getElementById("psv-regex-pattern")?.value || "";
-            userInputs.regexLogs = document.getElementById("psv-regex-logs")?.value || "";
-            out.innerHTML = computeRegexOutput(userInputs.regexPattern, userInputs.regexLogs);
-            const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
-            if (copyButton) copyButton.hidden = !userInputs.regexPattern.trim() || !userInputs.regexLogs.trim() || !!out.querySelector('[role="alert"]');
+            if (regexMode === "analyzer") {
+              userInputs.analyzerLogs = document.getElementById("psv-analyzer-logs")?.value || "";
+              out.innerHTML = parseLogAnalyzer(userInputs.analyzerLogs);
+              const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
+              if (copyButton) copyButton.hidden = !userInputs.analyzerLogs.trim() || !!out.querySelector('[role="alert"]');
+            } else {
+              userInputs.regexPattern = document.getElementById("psv-regex-pattern")?.value || "";
+              userInputs.regexLogs = document.getElementById("psv-regex-logs")?.value || "";
+              out.innerHTML = computeRegexOutput(userInputs.regexPattern, userInputs.regexLogs);
+              const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
+              if (copyButton) copyButton.hidden = !userInputs.regexPattern.trim() || !userInputs.regexLogs.trim() || !!out.querySelector('[role="alert"]');
+            }
           } else {
             if (!ed.value.trim()) ed.value = tool.sample;
             userInputs[tool.id] = ed.value;
