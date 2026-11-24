@@ -119,7 +119,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       badge: "RGX",
       shortTitle: "Log Regex Sandbox",
       title: "Log Analyzer & Regex Sandbox",
-      desc: "Test JavaScript regular expressions against multi-line security logs and extract named or numbered capture groups."
+      desc: "Test JavaScript regular expressions against multi-line security logs and extract named or numbered capture groups.",
       options: ["Sample: SSH Auth Logs", "Sample: Palo Alto CEF Firewall"],
       actionLabel: "Run Regex Extraction",
       sample: `PATTERN::(?<time>\\d{4}-\\d{2}-\\d{2}\\s+[\\d:]+)\\s+(?<host>\\S+)\\s+sshd\\[\\d+\\]:\\s+Failed password for (?:invalid user )?(?<user>\\S+) from (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)
