@@ -2897,6 +2897,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
     if (["case","share","evidence","device"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
     const currentInput = userInputs[tool.id] !== undefined ? userInputs[tool.id] : tool.sample;
+    const currentOutput = computeDynamicOutput(tool, currentInput);
+    const eventHasResult = tool.id === "events" && currentOutput.includes('class="psv-event-table-wrap"');
 
     root.innerHTML = `
       <div id="psv-app">
@@ -2943,18 +2945,20 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 </div>
 
                 <div class="psv-btn-group">
-                  <button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.actionLabel)}</button>
-                  <button type="button" class="psv-btn-util" data-psv-action="load-sample">Reset Sample</button>
-                  <button type="button" class="psv-btn-util" data-psv-action="copy-output">Copy Output</button>
+                  ${tool.id === "events" ? "" : `
+                    <button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.actionLabel)}</button>
+                    <button type="button" class="psv-btn-util" data-psv-action="load-sample">Reset Sample</button>
+                  `}
+                  <button type="button" class="psv-btn-util" data-psv-action="copy-output" ${tool.id === "events" && !eventHasResult ? "hidden" : ""}>Copy Output</button>
                   <button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button>
-                </div>
+                </div>v>
               </div>
 
               <div class="psv-field-label">
                 <span>COMPUTED ANALYSIS OUTPUT</span>
               </div>
               <div id="psv-tool-result-box" class="psv-output-container">
-                ${computeDynamicOutput(tool, currentInput)}
+                ${currentOutput}
               </div>
             </div>
           </div>
@@ -3167,6 +3171,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         if (tool.id === "ti") tiLookupSequence++;
         if (ed) ed.value = "";
         if (out) out.innerHTML = computeDynamicOutput(tool, "");
+        if (tool.id === "events") {
+          const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
+          if (copyButton) copyButton.hidden = true;
+        }
       } else if (action === "copy-output") {
         const out = document.getElementById("psv-tool-result-box");
         if (!out) return;
@@ -3265,7 +3273,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         userInputs[tool.id] = e.target.value;
         if (tool.id === "ti") tiLookupSequence++;
         const out = document.getElementById("psv-tool-result-box");
-        if (out) out.innerHTML = computeDynamicOutput(tool, e.target.value);
+        if (out) {
+          out.innerHTML = computeDynamicOutput(tool, e.target.value);
+          if (tool.id === "events") {
+            const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
+            if (copyButton) copyButton.hidden = !out.querySelector(".psv-event-table");
+          }
+        }
       }
     }, true);
 
