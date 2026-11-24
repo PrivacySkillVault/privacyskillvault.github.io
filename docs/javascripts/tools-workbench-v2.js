@@ -127,9 +127,9 @@ LOG::2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user r
 2026-10-16 10:15:07 server01 sshd[2194]: Failed password for admin from 198.51.100.23 port 49112 ssh2
 2026-10-16 10:16:11 server02 sshd[8812]: Failed password for invalid user oracle from 192.0.2.10 port 38291 ssh2
 2026-10-16 10:18:45 server01 sshd[2209]: Failed password for analyst1 from 203.0.113.77 port 55100 ssh2`,
-      whatItDoes: "Tests JavaScript regular expressions against pasted multi-line logs and displays each match with its named or numbered capture-group values."
+      whatItDoes: "Tests JavaScript regular expressions against pasted multi-line logs and displays each match with its named or numbered capture-group values.",
       whyItMatters: "Writing custom SIEM parsers, Logstash Grok patterns, or regex field extractors without live capture-group feedback often leads to missed log variants.",
-      howItWorks: "Uses the browser JavaScript RegExp engine with global and multiline matching, then displays matches, extracted fields, and basic scan counts. It does not execute PCRE, Grok, or SIEM queries."
+      howItWorks: "Uses the browser JavaScript RegExp engine with global and multiline matching, then displays matches, extracted fields, and basic scan counts. It does not execute PCRE, Grok, or SIEM queries.",
       bestPractices: [
         "Use named capture groups like (?<src_ip>...) so extracted fields map cleanly to SIEM column headers.",
         "Avoid greedy .* wildcards when matching delimited logs; use negated character classes like [^|]+ instead."
