@@ -2046,6 +2046,14 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         text-align: left !important;
       }
 
+      /* Events output starts compact on initial page load and after Clear.
+         Content-heavy event results can still expand naturally. */
+      #psv-app .psv-tool-page .psv-events-output {
+        min-height: 200px !important;
+        height: auto !important;
+        box-sizing: border-box !important;
+      }
+
       /* Empty telemetry guidance uses the same description typography tokens. */
       #psv-app .psv-tool-page .psv-description-typography {
         font-family: var(--psv-description-font-family, Roboto, "Helvetica Neue", Arial, sans-serif) !important;
@@ -2948,7 +2956,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               <div class="psv-field-label">
                 <span>COMPUTED ANALYSIS OUTPUT</span>
               </div>
-              <div id="psv-tool-result-box" class="psv-output-container">
+              <div id="psv-tool-result-box" class="psv-output-container ${tool.id === "events" ? "psv-events-output" : ""}">
                 ${currentOutput}
               </div>
             </div>
