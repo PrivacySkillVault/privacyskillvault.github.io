@@ -2037,7 +2037,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       /* Events Encyclopedia: use the same shared description tokens as
          the hero introduction. The higher-specificity selector intentionally
          wins over legacy .psv-doc-section paragraph declarations. */
-      #psv-app .psv-tool-page .psv-doc-section > p.psv-event-description {
+      #psv-app .psv-tool-page .psv-doc-section .psv-event-description {
         font-family: var(--psv-description-font-family, Roboto, "Helvetica Neue", Arial, sans-serif) !important;
         font-size: var(--psv-description-font-size, .8rem) !important;
         font-weight: 400 !important;
@@ -2956,18 +2956,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
           <div class="psv-doc-section">
             <h3>Why it matters</h3>
-            <p>${esc(tool.whyItMatters)}</p>
+            <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(tool.whyItMatters)}</p>
           </div>
 
           <div class="psv-doc-section">
             <h3>How it works</h3>
-            <p>${esc(tool.howItWorks)}</p>
+            <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(tool.howItWorks)}</p>
           </div>
 
           <div class="psv-doc-section">
             <h3>Best practices</h3>
             <ul>
-              ${(tool.bestPractices || []).map(bp => `<li>${esc(bp)}</li>`).join("")}
+              ${(tool.bestPractices || []).map(bp => `<li class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(bp)}</li>`).join("")}
             </ul>
           </div>
 
@@ -2975,8 +2975,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <h3>Frequently Asked Questions</h3>
             ${(tool.faqs || []).map(f => `
               <details class="psv-faq-item">
-                <summary>${esc(f.q)}</summary>
-                <p>${esc(f.a)}</p>
+                <summary class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(f.q)}</summary>
+                <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(f.a)}</p>
               </details>
             `).join("")}
           </div>
