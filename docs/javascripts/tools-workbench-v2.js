@@ -2951,6 +2951,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                   `}
                   <button type="button" class="psv-btn-util" data-psv-action="copy-output" ${tool.id === "events" && !eventHasResult ? "hidden" : ""}>Copy Output</button>
                   <button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button>
+                </div>
               </div>
 
               <div class="psv-field-label">
