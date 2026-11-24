@@ -2054,9 +2054,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         box-sizing: border-box !important;
       }
       #psv-app .psv-tool-page .psv-events-output:has(.psv-event-empty) {
-        height: 140px !important;
-        min-height: 140px !important;
-        padding: .65rem .9rem !important;
+        height: 100px !important;
+        min-height: 100px !important;
+        padding: .5rem .75rem !important;
         display: flex !important;
         align-items: center !important;
       }
