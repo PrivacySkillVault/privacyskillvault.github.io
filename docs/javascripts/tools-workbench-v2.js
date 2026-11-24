@@ -3176,7 +3176,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
         const ed = document.getElementById("psv-tool-editor");
         const out = document.getElementById("psv-tool-result-box");
-        if (ed && out) {
+        if ((ed || tool.id === "regex") && out) {
           if (tool.id === "regex") {
             userInputs.regexPattern = document.getElementById("psv-regex-pattern")?.value || "";
             userInputs.regexLogs = document.getElementById("psv-regex-logs")?.value || "";
