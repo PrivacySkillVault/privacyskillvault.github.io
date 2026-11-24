@@ -2960,16 +2960,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 </div>
               `}
 
-              ${tool.id === "regex" ? \`
+              ${tool.id === "regex" ? `
                 <label class="psv-field-label" for="psv-regex-pattern"><span>REGULAR EXPRESSION</span></label>
                 <textarea id="psv-regex-pattern" class="psv-editor psv-regex-pattern" aria-label="Regular expression pattern" placeholder="Example: (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)" spellcheck="false">${esc(regexPattern)}</textarea>
                 <label class="psv-field-label" for="psv-regex-logs"><span>LOG INPUT</span></label>
                 <textarea id="psv-regex-logs" class="psv-editor psv-regex-logs" aria-label="Multi-line log input" placeholder="Paste multi-line security logs here..." spellcheck="false">${esc(regexLogs)}</textarea>
                 <p class="psv-description-typography">JavaScript RegExp · global + multiline matching · 500 KB log limit · processed locally in this browser. Complex patterns may still consume significant CPU.</p>
-              \` : \`
+              ` : `
                 ${tool.id === "events" ? '<label class="psv-field-label" for="psv-tool-editor"><span>EVENT ID</span></label>' : ""}
                 <textarea id="psv-tool-editor" class="psv-editor" aria-label="${tool.id === "events" ? "Event ID" : "Security tool input"}" placeholder="${tool.id === "events" ? "Enter Event ID (e.g. 4624 or 10)" : ""}" inputmode="${tool.id === "events" ? "numeric" : "text"}" spellcheck="false">${esc(currentInput)}</textarea>
-              \`}
+              `}
 
               <div class="psv-action-bar">
                 ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.options || []).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
