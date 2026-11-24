@@ -725,10 +725,14 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-regex-logs{min-height:13rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:4}
       #psv-app .psv-regex-summary{display:flex;flex-wrap:wrap;gap:.65rem 1.1rem;align-items:center;margin:.15rem 0 .85rem;padding:.7rem .85rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;font-size:.78rem}
       #psv-app .psv-regex-summary strong{color:var(--md-accent-fg-color)}
-      #psv-app .psv-regex-table-wrap{width:100%;max-width:100%;overflow-x:auto}
-      #psv-app .psv-regex-table-wrap .psv-out-table{width:100%;table-layout:fixed}
-      #psv-app .psv-regex-table-wrap .psv-out-table th,
-      #psv-app .psv-regex-table-wrap .psv-out-table td{white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;vertical-align:top}
+      #psv-app .psv-regex-table-wrap{width:100%;max-width:100%;overflow:visible}
+      #psv-app .psv-log-event{width:100%;margin:.85rem 0 1.1rem;padding:.85rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;min-width:0}
+      #psv-app .psv-log-event h4{margin:0 0 .55rem;font-size:.82rem;font-weight:700;color:var(--md-default-fg-color)}
+      #psv-app .psv-regex-table-wrap .psv-log-fields{width:100%;table-layout:auto;border-collapse:collapse}
+      #psv-app .psv-regex-table-wrap .psv-log-fields th{width:min(34%,13rem);text-align:left;white-space:normal;overflow-wrap:break-word;word-break:normal}
+      #psv-app .psv-regex-table-wrap .psv-log-fields td{white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;vertical-align:top;min-width:0}
+      #psv-app .psv-regex-table-wrap .psv-log-fields th,
+      #psv-app .psv-regex-table-wrap .psv-log-fields td{padding:.5rem .65rem;border-bottom:1px solid var(--md-default-fg-color--lightest)}
       #psv-app .psv-sidebar-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.45rem;margin:.15rem 0 1rem}
       #psv-app .psv-sidebar-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem .7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-code-bg-color);color:var(--md-default-fg-color);font:600 .74rem/1.3 Roboto,"Helvetica Neue",Arial,sans-serif;cursor:pointer;transition:background .15s ease,border-color .15s ease}
       #psv-app .psv-sidebar-toggle:hover{border-color:var(--md-accent-fg-color);background:var(--md-default-bg-color)}
@@ -2405,11 +2409,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }else return '<div role="status">Format not recognized. Supported formats: Windows Security key-value, Windows Event XML / Sysmon, Linux SSH authentication and CEF firewall logs. Use Regex Sandbox for a custom pattern.</div>';
     const summary='<div class="psv-regex-summary"><strong>'+events.length+' event(s) parsed</strong><span>'+esc(format)+'</span><span>'+lines.filter(x=>x.trim()).length+' non-empty line(s) scanned</span></div>';
     if(!events.length)return summary+'<div role="status">Format recognized, but no complete event could be parsed.</div>';
-    const keys=Array.from(new Set(events.flatMap(e=>Object.keys(e.fields))));
-    const head='<thead><tr><th>#</th><th>Classification</th>'+keys.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead>';
-    const rows=events.map((e,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(e.kind)+'</td>'+keys.map(k=>'<td style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(e.fields[k]||"")+'</td>').join('')+'</tr>').join('');
+    const eventCards=events.map((e,i)=>{
+      const rows=Object.entries(e.fields).map(([key,value])=>'<tr><th scope="row">'+esc(key)+'</th><td>'+esc(value==null?"":String(value))+'</td></tr>').join('');
+      return '<section class="psv-log-event"><h4>Event '+(i+1)+' · '+esc(e.kind)+'</h4><table class="psv-out-table psv-log-fields"><tbody>'+rows+'</tbody></table></section>';
+    }).join('');
     const note=format==="Windows Security key-value"&&events[0].fields.EventID==="4625"?'<p class="psv-tool-note">Event ID 4625 indicates a failed logon. Logon Type 3 denotes a network logon. This event alone does not establish malicious activity or account compromise.</p>':"";
-    return summary+note+'<div class="psv-regex-table-wrap"><table class="psv-out-table">'+head+'<tbody>'+rows+'</tbody></table></div>';
+    return summary+note+'<div class="psv-regex-table-wrap">'+eventCards+'</div>';
   }
 
   function computeRegexOutput(patternRaw, logsRaw) {
