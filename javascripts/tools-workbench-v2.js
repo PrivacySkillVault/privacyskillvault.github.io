@@ -725,7 +725,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-regex-logs{min-height:13rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:4}
       #psv-app .psv-regex-summary{display:flex;flex-wrap:wrap;gap:.65rem 1.1rem;align-items:center;margin:.15rem 0 .85rem;padding:.7rem .85rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;font-size:.78rem}
       #psv-app .psv-regex-summary strong{color:var(--md-accent-fg-color)}
-      #psv-app .psv-regex-table-wrap{max-width:100%;overflow-x:auto}
+      #psv-app .psv-regex-table-wrap{width:100%;max-width:100%;overflow-x:auto}
+      #psv-app .psv-regex-table-wrap .psv-out-table{width:100%;table-layout:fixed}
+      #psv-app .psv-regex-table-wrap .psv-out-table th,
+      #psv-app .psv-regex-table-wrap .psv-out-table td{white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;vertical-align:top}
       #psv-app .psv-sidebar-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.45rem;margin:.15rem 0 1rem}
       #psv-app .psv-sidebar-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem .7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-code-bg-color);color:var(--md-default-fg-color);font:600 .74rem/1.3 Roboto,"Helvetica Neue",Arial,sans-serif;cursor:pointer;transition:background .15s ease,border-color .15s ease}
       #psv-app .psv-sidebar-toggle:hover{border-color:var(--md-accent-fg-color);background:var(--md-default-bg-color)}
