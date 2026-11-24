@@ -2424,7 +2424,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     if (tool.id === "events") {
       const q = String(input || "").trim();
       if (!q) return '<div class="psv-event-empty"><p class="psv-description-typography">Enter an exact Windows Security or Sysmon Event ID to view its details.</p></div>';
-      if (!/^\\d+$/.test(q)) return '<div class="psv-event-empty"><strong>Enter a numeric Event ID</strong><p>Use an exact numeric ID such as 4624 or 10. Partial IDs and keywords are not supported.</p></div>';
+      if (!/^\d+$/.test(q)) return '<div class="psv-event-empty"><strong>Enter a numeric Event ID</strong><p>Use an exact numeric ID such as 4624 or 10. Partial IDs and keywords are not supported.</p></div>';
       const matches = EVENT_DB.filter(item => item.id === q);
       if (!matches.length) return '<div class="psv-event-empty"><strong>No exact match found</strong><p>That ID is not present in the Windows Security or Sysmon reference. Check the numeric Event ID.</p></div>';
       const rows = matches.map(e => '<tr><td class="event-id">ID ' + esc(e.id) + '</td><td><strong>' + esc(e.source) + '</strong></td><td><strong>' + esc(e.title) + '</strong><span class="event-fields"><strong>Key fields:</strong> ' + esc(e.fields) + '</span></td><td class="event-attack">' + esc(e.mitre) + '</td><td class="event-query"><code>' + esc(e.kql) + '</code></td><td class="event-query"><code>' + esc(e.spl) + '</code></td><td class="event-guidance"><p><strong>Prerequisite</strong> ' + esc(e.prereq) + '</p><p><strong>Investigation</strong> ' + esc(e.fp) + '</p><p><strong>Correlate</strong> ' + esc(e.corr) + '</p></td></tr>').join("");
