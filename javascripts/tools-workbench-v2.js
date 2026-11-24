@@ -2046,6 +2046,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         text-align: left !important;
       }
 
+      /* Empty telemetry guidance uses the same description typography tokens. */
+      #psv-app .psv-tool-page .psv-description-typography {
+        font-family: var(--psv-description-font-family, Roboto, "Helvetica Neue", Arial, sans-serif) !important;
+        font-size: var(--psv-description-font-size, .8rem) !important;
+        font-weight: 400 !important;
+        line-height: var(--psv-description-line-height, 1.65) !important;
+        color: var(--md-typeset-color) !important;
+        text-align: left !important;
+      }
+
 `;
 
       if (!existingStyle) document.head.appendChild(style);
@@ -2322,7 +2332,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   function computeDynamicOutput(tool, rawInput) {
     const input = (rawInput || "").trim();
     if (!input) {
-      return `<div style="color:#94a3b8;padding:0.5rem;">Input is empty. Click <strong>Load Sample</strong> above or paste your own telemetry.</div>`;
+      return `<div class="psv-description-typography" style="padding:0.5rem;">Input is empty. Click <strong>Load Sample</strong> above or paste your own telemetry.</div>`;
     }
 
     if (tool.id === "spl") {
