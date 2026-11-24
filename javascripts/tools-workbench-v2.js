@@ -2894,22 +2894,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
   }
 
+  // Sidebar visibility controls are intentionally removed from tool pages.
   function sidebarControlsMarkup() {
-    return '<div class="psv-sidebar-controls" aria-label="Page navigation controls">'+
-      '<button type="button" class="psv-sidebar-toggle" data-psv-action="toggle-sidebar" data-sidebar="left" aria-pressed="false">Hide left sidebar</button>'+
-      '<button type="button" class="psv-sidebar-toggle" data-psv-action="toggle-sidebar" data-sidebar="right" aria-pressed="false">Hide right sidebar</button>'+
-      '</div>';
+    return "";
   }
 
   function syncSidebarControls() {
-    const leftHidden=document.body.classList.contains("psv-tools-hide-left");
-    const rightHidden=document.body.classList.contains("psv-tools-hide-right");
-    document.querySelectorAll("#psv-app [data-psv-action='toggle-sidebar']").forEach(button=>{
-      const side=button.getAttribute("data-sidebar");
-      const hidden=side==="left"?leftHidden:rightHidden;
-      button.setAttribute("aria-pressed",hidden?"true":"false");
-      button.textContent=(hidden?"Show ":"Hide ")+(side==="left"?"left sidebar":"right sidebar");
-    });
+    // No sidebar toggle controls are rendered.
   }
 
   function renderSingleToolView(root) {
