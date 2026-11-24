@@ -3015,7 +3015,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               `}
 
               <div class="psv-action-bar">
-                ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.options || []).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
+                ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.id === "regex" && regexMode === "analyzer" ? ["Sample: Windows Event 4625","Sample: Linux SSH","Sample: Sysmon XML","Sample: Palo Alto CEF"] : (tool.options || [])).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
                 <div class="psv-btn-group">
                   ${tool.id === "events" ? "" : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.actionLabel)}</button>`}<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!hasOutput ? "hidden" : ""}>Copy Output</button>
                 </div>
@@ -3217,7 +3217,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const idx = parseInt(target.getAttribute("data-opt") || "0", 10);
         selectedOptionIdx = idx;
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
-        if (tool.id === "regex" && regexMode === "analyzer") userInputs.analyzerLogs = [LOG_ANALYZER_SAMPLES.windows,LOG_ANALYZER_SAMPLES.ssh][idx] || LOG_ANALYZER_SAMPLES.windows;
+        if (tool.id === "regex" && regexMode === "analyzer") userInputs.analyzerLogs = [LOG_ANALYZER_SAMPLES.windows,LOG_ANALYZER_SAMPLES.ssh,LOG_ANALYZER_SAMPLES.sysmon,LOG_ANALYZER_SAMPLES.cef][idx] || LOG_ANALYZER_SAMPLES.windows;
         else applyPresetOption(tool, idx);
         render();
       } else if (action === "run-tool") {
