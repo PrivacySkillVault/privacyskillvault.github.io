@@ -2046,12 +2046,22 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         text-align: left !important;
       }
 
-      /* Events output starts compact on initial page load and after Clear.
-         Content-heavy event results can still expand naturally. */
+      /* Keep the Events empty state the same compact height on first load,
+         after Clear, and after refresh. Full event results expand naturally. */
       #psv-app .psv-tool-page .psv-events-output {
         min-height: 200px !important;
         height: auto !important;
         box-sizing: border-box !important;
+      }
+      #psv-app .psv-tool-page .psv-events-output:has(.psv-event-empty) {
+        height: 200px !important;
+        min-height: 200px !important;
+        display: flex !important;
+        align-items: center !important;
+      }
+      #psv-app .psv-tool-page .psv-events-output:has(.psv-event-table-wrap) {
+        height: auto !important;
+        display: block !important;
       }
 
       /* Empty telemetry guidance uses the same description typography tokens. */
