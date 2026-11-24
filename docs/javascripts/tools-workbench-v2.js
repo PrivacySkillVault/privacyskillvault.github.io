@@ -2034,6 +2034,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app.psv-workbench-v2 .psv-tool-page .psv-out-table th {
         font-weight: 650 !important;
       }
+      /* Keep the Events encyclopedia documentation paragraph visually identical
+         to its introductory description without changing other tools. */
+      #psv-app.psv-workbench-v2 .psv-tool-page .psv-event-description {
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+        font-size: .8rem !important;
+        font-weight: 400 !important;
+        line-height: 1.65 !important;
+        color: var(--md-typeset-color) !important;
+        text-align: left !important;
+      }
 
 `;
 
@@ -2940,7 +2950,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
           <div class="psv-doc-section">
             <h3>What this tool does</h3>
-            <p>${esc(tool.whatItDoes)}</p>
+            <p class="${tool.id === "events" ? "psv-event-description" : ""}">${esc(tool.whatItDoes)}</p>
           </div>
 
           <div class="psv-doc-section">
