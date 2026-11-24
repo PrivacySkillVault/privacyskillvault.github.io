@@ -2423,7 +2423,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 
     if (tool.id === "events") {
       const q = String(input || "").trim();
-      if (!q) return '<div class="psv-event-empty"><strong>Search by exact Event ID</strong><p>Enter a numeric Windows Security or Sysmon Event ID. No records are displayed until you search.</p></div>';
+      if (!q) return '<div class="psv-event-empty"><p class="psv-description-typography">Input is empty. Enter an exact Windows Security or Sysmon Event ID to view its details.</p></div>';
       if (!/^\d+$/.test(q)) return '<div class="psv-event-empty"><strong>Enter a numeric Event ID</strong><p>Use an exact ID such as 4624 (Windows Security) or 10 (Sysmon). Partial IDs and keywords are not supported.</p></div>';
       const e = EVENT_DB.find(item => item.id === q && (selectedOptionIdx === 0 || (selectedOptionIdx === 1 && item.source === "Windows Security") || (selectedOptionIdx === 2 && item.source === "Sysmon")));
       if (!e) return '<div class="psv-event-empty"><strong>No exact match found</strong><p>That ID is not in this reference for the selected source. Check the ID or choose All Event Sources.</p></div>';
