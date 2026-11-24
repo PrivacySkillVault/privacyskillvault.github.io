@@ -119,7 +119,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       badge: "RGX",
       shortTitle: "Log Regex Sandbox",
       title: "Log Analyzer & Regex Sandbox",
-      desc: "Test custom regular expressions and named capture groups (?<name>...) against multi-line security logs in real time.",
+      desc: "Test JavaScript regular expressions against multi-line security logs and extract named or numbered capture groups."
       options: ["Sample: SSH Auth Logs", "Sample: Palo Alto CEF Firewall"],
       actionLabel: "Run Regex Extraction",
       sample: `PATTERN::(?<time>\\d{4}-\\d{2}-\\d{2}\\s+[\\d:]+)\\s+(?<host>\\S+)\\s+sshd\\[\\d+\\]:\\s+Failed password for (?:invalid user )?(?<user>\\S+) from (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)
@@ -127,15 +127,16 @@ LOG::2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user r
 2026-10-16 10:15:07 server01 sshd[2194]: Failed password for admin from 198.51.100.23 port 49112 ssh2
 2026-10-16 10:16:11 server02 sshd[8812]: Failed password for invalid user oracle from 192.0.2.10 port 38291 ssh2
 2026-10-16 10:18:45 server01 sshd[2209]: Failed password for analyst1 from 203.0.113.77 port 55100 ssh2`,
-      whatItDoes: "Compiles your custom JavaScript/PCRE regular expression against raw log lines and dynamically builds a structured table from your named capture groups (?<field>...) or numbered groups.",
+      whatItDoes: "Tests JavaScript regular expressions against pasted multi-line logs and displays each match with its named or numbered capture-group values."
       whyItMatters: "Writing custom SIEM parsers, Logstash Grok patterns, or regex field extractors without live capture-group feedback often leads to missed log variants.",
-      howItWorks: "Splits the input into PATTERN:: and LOG:: sections, executes RegExp.matchAll() across all lines, and dynamically generates table columns matching whatever named groups you defined.",
+      howItWorks: "Uses the browser JavaScript RegExp engine with global and multiline matching, then displays matches, extracted fields, and basic scan counts. It does not execute PCRE, Grok, or SIEM queries."
       bestPractices: [
         "Use named capture groups like (?<src_ip>...) so extracted fields map cleanly to SIEM column headers.",
         "Avoid greedy .* wildcards when matching delimited logs; use negated character classes like [^|]+ instead."
       ],
       faqs: [
-        { q: "How do I test my own regex pattern?", a: "Put your regex after PATTERN:: on the first line, and paste your raw logs after LOG:: on the following lines." }
+        { q: "Which regex syntax is supported?", a: "This sandbox uses the browser JavaScript RegExp engine. It supports named groups such as (?<src_ip>...) but is not a full PCRE, Grok, or Splunk parser." },
+        { q: "Are my logs uploaded?", a: "Pattern matching runs locally in your browser; this tool does not send pasted logs to an external lookup service." }
       ],
       related: ["ioc", "json", "events"]
     },
@@ -719,6 +720,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       body.psv-tools-page.psv-tools-hide-left .md-content,
       body.psv-tools-page.psv-tools-hide-right .md-content{flex:1 1 auto!important;min-width:0!important;max-width:none!important}
       body.psv-tools-page.psv-tools-hide-left.psv-tools-hide-right .md-content{width:100%!important}
+      #psv-app .psv-regex-pattern{min-height:5.5rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+      #psv-app .psv-regex-logs{min-height:13rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:4}
+      #psv-app .psv-regex-summary{display:flex;flex-wrap:wrap;gap:.65rem 1.1rem;align-items:center;margin:.15rem 0 .85rem;padding:.7rem .85rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;font-size:.78rem}
+      #psv-app .psv-regex-summary strong{color:var(--md-accent-fg-color)}
+      #psv-app .psv-regex-table-wrap{max-width:100%;overflow-x:auto}
       #psv-app .psv-sidebar-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.45rem;margin:.15rem 0 1rem}
       #psv-app .psv-sidebar-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem .7rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;background:var(--md-code-bg-color);color:var(--md-default-fg-color);font:600 .74rem/1.3 Roboto,"Helvetica Neue",Arial,sans-serif;cursor:pointer;transition:background .15s ease,border-color .15s ease}
       #psv-app .psv-sidebar-toggle:hover{border-color:var(--md-accent-fg-color);background:var(--md-default-bg-color)}
@@ -2102,9 +2108,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     if (tool.id === "ti") {
       userInputs.ti = ["1.1.1.1", "8.8.8.8", "example.com"][idx] || "1.1.1.1";
     } else if (tool.id === "regex") {
-      userInputs.regex = idx === 1
-        ? `PATTERN::CEF:0\\|(?<vendor>[^|]+)\\|(?<product>[^|]+)\\|[^|]+\\|(?< signature_id>\\d+)\\|(?<event_name>[^|]+)\\|(?<severity>\\d+)\\|src=(?<src_ip>\\S+)\\s+dst=(?<dst_ip>\\S+)\nLOG::CEF:0|PaloAlto|PAN-OS|10.2|40012|Brute-Force-Login|9|src=185.220.101.42 dst=10.40.1.15\nCEF:0|PaloAlto|PAN-OS|10.2|40019|SQL-Injection-Attempt|10|src=91.240.118.22 dst=10.40.2.80`
-        : tool.sample;
+      if(idx===1){
+        userInputs.regexPattern=String.raw`CEF:0\|(?<vendor>[^|]+)\|(?<product>[^|]+)\|[^|]+\|(?<signature_id>\d+)\|(?<event_name>[^|]+)\|(?<severity>\d+)\|src=(?<src_ip>\S+)\s+dst=(?<dst_ip>\S+)`;
+        userInputs.regexLogs=`CEF:0|PaloAlto|PAN-OS|10.2|40012|Brute-Force-Login|9|src=185.220.101.42 dst=10.40.1.15\nCEF:0|PaloAlto|PAN-OS|10.2|40019|SQL-Injection-Attempt|10|src=91.240.118.22 dst=10.40.2.80`;
+      }else{
+        userInputs.regexPattern=String.raw`(?<time>\d{4}-\d{2}-\d{2}\s+[\d:]+)\s+(?<host>\S+)\s+sshd\[\d+\]:\s+Failed password for (?:invalid user )?(?<user>\S+) from (?<src_ip>\d+\.\d+\.\d+\.\d+)`;
+        userInputs.regexLogs=`2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user root from 203.0.113.45 port 51234 ssh2\n2026-10-16 10:15:07 server01 sshd[2194]: Failed password for admin from 198.51.100.23 port 49112 ssh2\n2026-10-16 10:16:11 server02 sshd[8812]: Failed password for invalid user oracle from 192.0.2.10 port 38291 ssh2\n2026-10-16 10:18:45 server01 sshd[2209]: Failed password for analyst1 from 203.0.113.77 port 55100 ssh2`;
+      }
     } else if (tool.id === "timestamp") {
       if (idx === 0) userInputs.timestamp = "1760713462";
       if (idx === 1) userInputs.timestamp = "134051966620000000";
@@ -2366,6 +2376,28 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     }
   }
 
+  function computeRegexOutput(patternRaw, logsRaw) {
+    const pattern=String(patternRaw||"").trim(), logs=String(logsRaw||"");
+    if(!pattern&&!logs.trim())return '<p class="psv-description-typography">Enter a regular expression and paste log data to begin.</p>';
+    if(!pattern)return '<div role="alert" style="color:#fbbf24;">Enter a regular expression before running the analysis.</div>';
+    if(!logs.trim())return '<div role="alert" style="color:#fbbf24;">Paste one or more log lines before running the analysis.</div>';
+    if(pattern.length>1000)return '<div role="alert" style="color:#f87171;">Pattern exceeds the 1,000-character limit.</div>';
+    if(logs.length>500000)return '<div role="alert" style="color:#f87171;">Log input exceeds 500 KB. Split it into smaller batches.</div>';
+    try {
+      const rx=new RegExp(pattern,"gm"), matches=[];let m;
+      while((m=rx.exec(logs))!==null){matches.push(m);if(matches.length>=5000)return '<div role="alert" style="color:#fbbf24;">Stopped at the 5,000-match safety limit. Narrow the pattern or split the logs.</div>';if(m[0]==="")rx.lastIndex++;}
+      const lines=logs.split(/\r?\n/), matched=new Set();
+      for(const item of matches){const first=(logs.slice(0,item.index).match(/\n/g)||[]).length+1,last=first+(item[0].match(/\n/g)||[]).length;for(let n=first;n<=last;n++)matched.add(n);}
+      const unmatched=lines.filter((line,i)=>line.length&&!matched.has(i+1)).length;
+      const summary='<div class="psv-regex-summary"><strong>'+matches.length+' match(es)</strong><span>'+lines.length+' lines scanned</span><span>'+unmatched+' non-empty line(s) without a match</span></div>';
+      if(!matches.length)return summary+'<div role="status" style="color:#fbbf24;">No matches found. Check the expression and log format.</div>';
+      const named=Array.from(new Set(matches.flatMap(x=>x.groups?Object.keys(x.groups):[]))),max=Math.max(0,...matches.map(x=>x.length-1)),cols=named.length?named:Array.from({length:max},(_,i)=>"Group "+(i+1));
+      const head='<thead><tr><th>#</th><th>Full match</th>'+cols.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead>';
+      const rows=matches.map((x,i)=>'<tr><td>'+(i+1)+'</td><td style="white-space:pre-wrap;overflow-wrap:anywhere;color:#38bdf8;">'+esc(x[0])+'</td>'+cols.map((k,j)=>{const v=named.length?(x.groups&&x.groups[k]):x[j+1];return '<td style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(v==null?"":v)+'</td>';}).join('')+'</tr>').join('');
+      return summary+'<div class="psv-regex-table-wrap"><table class="psv-out-table">'+head+'<tbody>'+rows+'</tbody></table></div>';
+    }catch(err){return '<div role="alert" style="color:#f87171;"><strong>Regular expression error:</strong> '+esc(err.message)+'</div>';}
+  }
+
   function computeDynamicOutput(tool, rawInput) {
     const input = (rawInput || "").trim();
     if (!input && tool.id !== "events") {
@@ -2470,35 +2502,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         '<colgroup><col class="col-event-id"><col class="col-event-source"><col class="col-event-meaning"><col class="col-event-attack"><col class="col-event-query"><col class="col-event-query"><col class="col-event-guidance"></colgroup>' +
         '<thead><tr><th>Event ID</th><th>Source</th><th>Event meaning & key fields</th><th>Potential ATT&CK context</th><th>Elastic KQL</th><th>Splunk SPL</th><th>Prerequisites, investigation & correlation</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
     }
-    if (tool.id === "regex") {
-      const parts = input.split(/LOG::/i);
-      const patternStr = parts.length > 1 ? parts[0].replace(/^PATTERN::/i, "").trim() : "(?<ip>\\d+\\.\\d+\\.\\d+\\.\\d+)";
-      const logBody = parts.length > 1 ? parts[1].trim() : input;
-      try {
-        const rx = new RegExp(patternStr, "gm");
-        const matches = Array.from(logBody.matchAll(rx));
-        if (!matches.length) return `<div style="color:#fbbf24;">0 matches found for pattern: <code>${esc(patternStr)}</code></div>`;
-        const groupKeys = matches[0].groups ? Object.keys(matches[0].groups) : [];
-        if (groupKeys.length) {
-          return `
-            <table class="psv-out-table">
-              <thead><tr><th>#</th>${groupKeys.map(k => `<th>${esc(k)}</th>`).join("")}</tr></thead>
-              <tbody>
-                ${matches.map((m, idx) => `<tr><td>${idx + 1}</td>${groupKeys.map(k => `<td style="color:#38bdf8;">${esc(m.groups[k] || "")}</td>`).join("")}</tr>`).join("")}
-              </tbody>
-            </table>
-          `;
-        }
-        return `
-          <table class="psv-out-table">
-            <thead><tr><th>Match #</th><th>Full Match</th><th>Capture Groups</th></tr></thead>
-            <tbody>${matches.map((m, idx) => `<tr><td>${idx + 1}</td><td style="color:#38bdf8;">${esc(m[0])}</td><td>${esc(m.slice(1).join(" | "))}</td></tr>`).join("")}</tbody>
-          </table>
-        `;
-      } catch (err) {
-        return `<div style="color:#f87171;">Regex Syntax Error: ${esc(err.message)}</div>`;
-      }
-    }
+    if (tool.id === "regex") return computeRegexOutput(userInputs.regexPattern || "", userInputs.regexLogs || "");
 
     if (tool.id === "yara") {
       const name = ((input.match(/RULE_NAME::(\S+)/i) || [])[1] || "SOC_Custom_Rule").replace(/[^a-zA-Z0-9_]/g, "_");
@@ -2925,8 +2929,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
     const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
     if (["case","share","evidence","device"].includes(tool.id)) { renderAdvancedTool(root,tool); return; }
     const currentInput = userInputs[tool.id] !== undefined ? userInputs[tool.id] : tool.sample;
-    const currentOutput = computeDynamicOutput(tool, currentInput);
-    const hasOutput = Boolean(String(currentInput || "").trim()) && Boolean(String(currentOutput || "").trim());
+    const sampleParts = String(tool.sample).split("LOG::");
+    const regexPattern = userInputs.regexPattern !== undefined ? userInputs.regexPattern : sampleParts[0].replace(/^PATTERN::/, "").trim();
+    const regexLogs = userInputs.regexLogs !== undefined ? userInputs.regexLogs : (sampleParts[1] || "").trim();
+    const currentOutput = tool.id === "regex" ? computeRegexOutput(regexPattern, regexLogs) : computeDynamicOutput(tool, currentInput);
+    const hasOutput = tool.id === "regex" ? Boolean(regexPattern.trim() && regexLogs.trim() && currentOutput.indexOf('role="alert"') === -1) : Boolean(String(currentInput || "").trim()) && Boolean(String(currentOutput || "").trim());
 
     root.innerHTML = `
       <div id="psv-app">
@@ -2953,8 +2960,16 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 </div>
               `}
 
-              ${tool.id === "events" ? '<label class="psv-field-label" for="psv-tool-editor"><span>EVENT ID</span></label>' : ""}
-              <textarea id="psv-tool-editor" class="psv-editor" aria-label="${tool.id === "events" ? "Event ID" : "Security tool input"}" placeholder="${tool.id === "events" ? "Enter Event ID (e.g. 4624 or 10)" : ""}" inputmode="${tool.id === "events" ? "numeric" : "text"}" spellcheck="false">${esc(currentInput)}</textarea>
+              ${tool.id === "regex" ? \`
+                <label class="psv-field-label" for="psv-regex-pattern"><span>REGULAR EXPRESSION</span></label>
+                <textarea id="psv-regex-pattern" class="psv-editor psv-regex-pattern" aria-label="Regular expression pattern" placeholder="Example: (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)" spellcheck="false">${esc(regexPattern)}</textarea>
+                <label class="psv-field-label" for="psv-regex-logs"><span>LOG INPUT</span></label>
+                <textarea id="psv-regex-logs" class="psv-editor psv-regex-logs" aria-label="Multi-line log input" placeholder="Paste multi-line security logs here..." spellcheck="false">${esc(regexLogs)}</textarea>
+                <p class="psv-description-typography">JavaScript RegExp · global + multiline matching · 500 KB log limit · processed locally in this browser. Complex patterns may still consume significant CPU.</p>
+              \` : \`
+                ${tool.id === "events" ? '<label class="psv-field-label" for="psv-tool-editor"><span>EVENT ID</span></label>' : ""}
+                <textarea id="psv-tool-editor" class="psv-editor" aria-label="${tool.id === "events" ? "Event ID" : "Security tool input"}" placeholder="${tool.id === "events" ? "Enter Event ID (e.g. 4624 or 10)" : ""}" inputmode="${tool.id === "events" ? "numeric" : "text"}" spellcheck="false">${esc(currentInput)}</textarea>
+              \`}
 
               <div class="psv-action-bar">
                 ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.options || []).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
@@ -3162,10 +3177,18 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const ed = document.getElementById("psv-tool-editor");
         const out = document.getElementById("psv-tool-result-box");
         if (ed && out) {
-          if (!ed.value.trim()) ed.value = tool.sample;
-          userInputs[tool.id] = ed.value;
-          if (tool.id === "ti") runThreatIntelLookup(ed.value, out);
-          else out.innerHTML = computeDynamicOutput(tool, ed.value);
+          if (tool.id === "regex") {
+            userInputs.regexPattern = document.getElementById("psv-regex-pattern")?.value || "";
+            userInputs.regexLogs = document.getElementById("psv-regex-logs")?.value || "";
+            out.innerHTML = computeRegexOutput(userInputs.regexPattern, userInputs.regexLogs);
+            const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
+            if (copyButton) copyButton.hidden = !userInputs.regexPattern.trim() || !userInputs.regexLogs.trim() || !!out.querySelector('[role="alert"]');
+          } else {
+            if (!ed.value.trim()) ed.value = tool.sample;
+            userInputs[tool.id] = ed.value;
+            if (tool.id === "ti") runThreatIntelLookup(ed.value, out);
+            else out.innerHTML = computeDynamicOutput(tool, ed.value);
+          }
         }
       } else if (action === "load-sample") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
@@ -3178,9 +3201,13 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         const ed = document.getElementById("psv-tool-editor");
         const out = document.getElementById("psv-tool-result-box");
         if (tool.id === "ti") tiLookupSequence++;
-        if (ed) ed.value = "";
-        if (out) out.innerHTML = computeDynamicOutput(tool, "");
-        if (tool.id === "events") {
+        if (tool.id === "regex") {
+          userInputs.regexPattern = ""; userInputs.regexLogs = "";
+          const patternField = document.getElementById("psv-regex-pattern"), logField = document.getElementById("psv-regex-logs");
+          if (patternField) patternField.value = ""; if (logField) logField.value = "";
+          if (out) out.innerHTML = computeRegexOutput("", "");
+        } else { if (ed) ed.value = ""; if (out) out.innerHTML = computeDynamicOutput(tool, ""); }
+        if (tool.id === "events" || tool.id === "regex") {
           const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']");
           if (copyButton) copyButton.hidden = true;
         }
@@ -3277,6 +3304,11 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         lastHashRecord=null;
         if(meta)meta.textContent=file?file.name+" · "+file.size+" bytes · last modified "+new Date(file.lastModified).toISOString():"No file selected.";
         const out=document.getElementById("evidence-output");if(out)out.textContent="File selected. Select Calculate SHA-256.";
+      } else if (e.target && (e.target.id === "psv-regex-pattern" || e.target.id === "psv-regex-logs")) {
+        userInputs[e.target.id === "psv-regex-pattern" ? "regexPattern" : "regexLogs"] = e.target.value;
+        const result = document.getElementById("psv-tool-result-box");
+        if (result) result.innerHTML = '<p class="psv-description-typography">Inputs changed. Select Run Regex Extraction to refresh the results.</p>';
+        const copyButton = document.querySelector("#psv-app [data-psv-action='copy-output']"); if (copyButton) copyButton.hidden = true;
       } else if (e.target && e.target.id === "psv-tool-editor") {
         const tool = TOOLS.find(t => t.id === activeToolId) || TOOLS[0];
         userInputs[tool.id] = e.target.value;
