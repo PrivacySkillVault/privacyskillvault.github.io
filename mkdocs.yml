@@ -30,7 +30,7 @@ theme:
     - content.code.copy
     - content.action.view
 extra_css:
-  - stylesheets/extra.css?v=20261123-3
+  - stylesheets/extra.css?v=20261124-4
 extra_javascript:
   - javascripts/psv-navigation.js
   - javascripts/tools-workbench-v2.js?v=20261124-18
