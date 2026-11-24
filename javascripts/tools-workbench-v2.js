@@ -683,7 +683,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   let currentView = "catalog";
   let activeCat = "all";
   let searchQuery = "";
-  let activeToolId = "ioc";
+  let activeToolId = "events";
   let selectedOptionIdx = 0;
   const userInputs = {};
   let lastHashRecord = null;
@@ -2670,7 +2670,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   }
 
   function renderCatalogView(root) {
-    activeToolId = TOOLS.some(t => t.id === activeToolId) ? activeToolId : "ioc";
+    activeToolId = TOOLS.some(t => t.id === activeToolId) ? activeToolId : "events";
     currentView = "tool";
     renderSingleToolView(root);
   }
@@ -3145,7 +3145,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       } else if (action === "back-catalog") {
-        currentView = "tool"; activeToolId = "ioc";
+        currentView = "tool"; activeToolId = "events";
         try { history.pushState({}, "", window.location.pathname); } catch (err) {}
         render(); window.scrollTo({ top: 0, behavior: "smooth" });
       } else if (action === "set-cat") {
@@ -3303,7 +3303,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           return;
         }
       }
-      currentView = "catalog";
+      activeToolId = "events";
+      currentView = "tool";
       render();
     }
     // Support browser Back/Forward and direct/shared #tool/<id> links.
@@ -3378,7 +3379,8 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
           activeToolId = id;
           currentView = "tool";
         } else {
-          currentView = "catalog";
+          activeToolId = "events";
+          currentView = "tool";
         }
       } else {
         currentView = "tool";
