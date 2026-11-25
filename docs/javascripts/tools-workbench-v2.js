@@ -725,6 +725,14 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       #psv-app .psv-regex-logs{min-height:13rem;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;tab-size:4}
       #psv-app .psv-regex-summary{display:flex;flex-wrap:wrap;gap:.65rem 1.1rem;align-items:center;margin:.15rem 0 .85rem;padding:.7rem .85rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:7px;font-size:.78rem}
       #psv-app .psv-regex-summary strong{color:var(--md-accent-fg-color)}
+      #psv-app .psv-regex-match-list{display:flex;flex-direction:column;gap:.75rem;width:100%;min-width:0}
+      #psv-app .psv-regex-match-card{display:block;width:100%;min-width:0;padding:.8rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;box-sizing:border-box}
+      #psv-app .psv-regex-match-card h4{margin:0 0 .55rem;font-size:.82rem;font-weight:700}
+      #psv-app .psv-regex-match-fields{display:table;width:100%;table-layout:auto;border-collapse:collapse}
+      #psv-app .psv-regex-match-fields th{width:30%;max-width:13rem;text-align:left;white-space:normal;overflow-wrap:break-word;word-break:normal}
+      #psv-app .psv-regex-match-fields td{white-space:pre-wrap!important;overflow-wrap:anywhere;word-break:break-word;min-width:0}
+      #psv-app .psv-regex-match-fields th,#psv-app .psv-regex-match-fields td{padding:.5rem .6rem;vertical-align:top;border-bottom:1px solid var(--md-default-fg-color--lightest)}
+      #psv-app .psv-regex-match-fields tr:last-child th,#psv-app .psv-regex-match-fields tr:last-child td{border-bottom:0}
       #psv-app .psv-regex-table-wrap{width:100%;max-width:100%;overflow:visible}
       #psv-app .psv-log-event{width:100%;margin:.85rem 0 1.1rem;padding:.85rem;border:1px solid var(--md-default-fg-color--lightest);border-radius:8px;min-width:0}
       #psv-app .psv-log-event h4{margin:0 0 .55rem;font-size:.82rem;font-weight:700;color:var(--md-default-fg-color)}
@@ -2433,9 +2441,12 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       const summary='<div class="psv-regex-summary"><strong>'+matches.length+' match(es)</strong><span>'+lines.length+' lines scanned</span><span>'+unmatched+' non-empty line(s) without a match</span></div>';
       if(!matches.length)return summary+'<div role="status" style="color:#fbbf24;">No matches found. Check the expression and log format.</div>';
       const named=Array.from(new Set(matches.flatMap(x=>x.groups?Object.keys(x.groups):[]))),max=Math.max(0,...matches.map(x=>x.length-1)),cols=named.length?named:Array.from({length:max},(_,i)=>"Group "+(i+1));
-      const head='<thead><tr><th>#</th><th>Full match</th>'+cols.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead>';
-      const rows=matches.map((x,i)=>'<tr><td>'+(i+1)+'</td><td style="white-space:pre-wrap;overflow-wrap:anywhere;color:#38bdf8;">'+esc(x[0])+'</td>'+cols.map((k,j)=>{const v=named.length?(x.groups&&x.groups[k]):x[j+1];return '<td style="white-space:pre-wrap;overflow-wrap:anywhere;">'+esc(v==null?"":v)+'</td>';}).join('')+'</tr>').join('');
-      return summary+'<div class="psv-regex-table-wrap"><table class="psv-out-table">'+head+'<tbody>'+rows+'</tbody></table></div>';
+      const resultCards=matches.map((x,i)=>{
+        const values=[["Full match",x[0]],...cols.map((k,j)=>[k,named.length?(x.groups&&x.groups[k]):x[j+1]])];
+        const rows=values.map(([label,value])=>'<tr><th scope="row">'+esc(label)+'</th><td>'+esc(value==null?"":String(value))+'</td></tr>').join('');
+        return '<section class="psv-regex-match-card"><h4>Match '+(i+1)+'</h4><table class="psv-out-table psv-regex-match-fields"><tbody>'+rows+'</tbody></table></section>';
+      }).join('');
+      return summary+'<div class="psv-regex-table-wrap psv-regex-match-list">'+resultCards+'</div>';
     }catch(err){return '<div role="alert" style="color:#f87171;"><strong>Regular expression error:</strong> '+esc(err.message)+'</div>';}
   }
 
