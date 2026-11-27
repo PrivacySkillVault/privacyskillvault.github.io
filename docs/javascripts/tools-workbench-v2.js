@@ -1221,23 +1221,28 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
         box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
       }
       .psv-term-body { padding: 1.4rem; }
-      .psv-privacy-strip {
-        padding: 0.6rem 0.9rem;
-        border-radius: 8px;
-        border: 1px solid rgba(59, 130, 246, 0.28);
-        background: #101c30;
-        color: #c5d1e2;
-        font-size: 0.79rem;
-        line-height: 1.6;
-        margin-bottom: 1.15rem;
+      #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip {
+        padding: 0.6rem 0.9rem !important;
+        border-radius: 8px !important;
+        border: 1px solid #34465f !important;
+        background: #101c30 !important;
+        color: #d2dbea !important;
+        font-size: 0.8rem !important;
+        line-height: 1.65 !important;
+        margin-bottom: 1.15rem !important;
       }
-      .psv-privacy-strip strong { color: #e2eaf5; font-weight: 700; }
-      [data-md-color-scheme="default"] .psv-privacy-strip {
-        border-color: rgba(16, 185, 129, 0.3);
-        background: #ecfdf5;
-        color: #047857;
+      #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip strong {
+        color: #f1f5fb !important;
+        font-weight: 700 !important;
       }
-      [data-md-color-scheme="default"] .psv-privacy-strip strong { color: #065f46; }
+      [data-md-color-scheme="default"] #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip {
+        border-color: #a7d8c3 !important;
+        background: #ecfdf5 !important;
+        color: #065f46 !important;
+      }
+      [data-md-color-scheme="default"] #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip strong {
+        color: #064e3b !important;
+      }
 
       .psv-field-label {
         display: flex;
