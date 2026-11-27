@@ -1224,13 +1224,20 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
       .psv-privacy-strip {
         padding: 0.6rem 0.9rem;
         border-radius: 8px;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        background: rgba(16, 185, 129, 0.08);
-        color: #34d399;
+        border: 1px solid rgba(59, 130, 246, 0.28);
+        background: #101c30;
+        color: #c5d1e2;
         font-size: 0.79rem;
+        line-height: 1.6;
         margin-bottom: 1.15rem;
       }
-      [data-md-color-scheme="default"] .psv-privacy-strip { color: #047857; background: #ecfdf5; }
+      .psv-privacy-strip strong { color: #e2eaf5; font-weight: 700; }
+      [data-md-color-scheme="default"] .psv-privacy-strip {
+        border-color: rgba(16, 185, 129, 0.3);
+        background: #ecfdf5;
+        color: #047857;
+      }
+      [data-md-color-scheme="default"] .psv-privacy-strip strong { color: #065f46; }
 
       .psv-field-label {
         display: flex;
