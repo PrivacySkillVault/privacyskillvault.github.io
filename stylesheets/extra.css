@@ -2001,3 +2001,33 @@ body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fi
   word-break: break-word !important;
   box-sizing: border-box !important;
 }
+
+/* Log Analyzer: restrained SOC-style results table in dark mode.
+   Scoped to computed output only; light mode keeps its existing palette. */
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-out-table,
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-out-table thead th,
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields thead th {
+  background: #172b46 !important;
+  color: #93c5fd !important;
+  border-color: #34465f !important;
+}
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-out-table tbody td,
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody td {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-out-table tbody tr:nth-child(even) td,
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody tr:nth-child(even) td {
+  background: #101c2e !important;
+}
+[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody th {
+  background: #111f32 !important;
+  color: #afc0d5 !important;
+  border-color: #263449 !important;
+}
