@@ -2120,3 +2120,63 @@ html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody th
 [data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-event h4 {
   color: #e2eaf5 !important;
 }
+
+
+/* Regex Sandbox result tables — match the Log Analyzer's two-tone SOC table.
+   Dark scheme only; preserve the existing light-scheme appearance. */
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-match-list {
+  gap: .85rem !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-match-card {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border: 1px solid #263449 !important;
+  border-radius: 8px !important;
+  padding: .85rem !important;
+  box-shadow: none !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-match-card h4 {
+  color: #e2eaf5 !important;
+  margin: 0 0 .65rem !important;
+  font-size: .84rem !important;
+  font-weight: 700 !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  font-size: .82rem !important;
+  line-height: 1.55 !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody th {
+  width: 30% !important;
+  max-width: 13rem !important;
+  padding: .62rem .7rem !important;
+  text-align: left !important;
+  vertical-align: top !important;
+  background: #111f32 !important;
+  color: #93c5fd !important;
+  border-bottom: 1px solid #263449 !important;
+  font-weight: 650 !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody td {
+  width: 70% !important;
+  padding: .62rem .75rem !important;
+  vertical-align: top !important;
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-bottom: 1px solid #263449 !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody tr:nth-child(even) td {
+  background: #101c2e !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody tr:last-child th,
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody tr:last-child td {
+  border-bottom: 0 !important;
+}
