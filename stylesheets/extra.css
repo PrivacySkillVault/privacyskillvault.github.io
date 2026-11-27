@@ -2031,3 +2031,37 @@ body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fi
   color: #afc0d5 !important;
   border-color: #263449 !important;
 }
+
+
+/* FINAL OVERRIDE — computed analysis tables (dark scheme only).
+   Target every table rendered inside the live tool output, rather than relying
+   on individual table class names. Light mode remains untouched. */
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container .psv-log-event,
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container .psv-regex-match-card {
+  background: #0b1422 !important;
+  border-color: #263449 !important;
+}
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table,
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table thead th,
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table th {
+  background: #172b46 !important;
+  color: #93c5fd !important;
+  border-color: #34465f !important;
+}
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody td {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody tr:nth-child(even) td {
+  background: #101c2e !important;
+}
+html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody th[scope="row"] {
+  background: #111f32 !important;
+  color: #afc0d5 !important;
+}
