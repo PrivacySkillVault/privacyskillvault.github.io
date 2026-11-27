@@ -2103,3 +2103,20 @@ html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody th
 [data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody tr:nth-child(even) td {
   background: #101c2e !important;
 }
+
+
+/* Final visual refinement from the deployed screenshot: event interpretation
+   notice must not retain the default grey Material surface in dark mode. */
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-tool-note {
+  background: #111f32 !important;
+  color: #c5d1e2 !important;
+  border: 1px solid #263d59 !important;
+  border-left: 3px solid #60a5fa !important;
+  border-radius: 8px !important;
+  padding: .85rem 1rem !important;
+  margin: 1rem 0 !important;
+  box-shadow: none !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-event h4 {
+  color: #e2eaf5 !important;
+}
