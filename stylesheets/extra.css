@@ -1702,6 +1702,21 @@ body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container p {
   letter-spacing: normal !important;
 }
 
+/* Keep short privacy and event-guidance notices aligned with the site description typography. */
+body #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip,
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-tool-note {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .8rem !important;
+  font-weight: 400 !important;
+  line-height: 1.65 !important;
+  letter-spacing: normal !important;
+  text-align: left !important;
+}
+
+body #psv-app .psv-tool-page .psv-terminal-box .psv-privacy-strip strong {
+  font-weight: 600 !important;
+}
+
 /* Events Encyclopedia empty-state copy: match the shared description typography.
    This deliberately outranks the legacy output-container paragraph rule above. */
 body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-event-empty p.psv-description-typography {
