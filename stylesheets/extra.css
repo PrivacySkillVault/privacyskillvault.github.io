@@ -2065,3 +2065,41 @@ html[data-md-color-scheme="slate"] #psv-app .psv-output-container table tbody th
   background: #111f32 !important;
   color: #afc0d5 !important;
 }
+
+
+/* VERIFIED SCREENSHOT FIX — Log Analyzer output surface and event table.
+   The previous patch styled table cells but left the output panel itself on
+   Material's elevated grey surface. This sets the full output hierarchy. */
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container {
+  background: #040811 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-summary {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-event,
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-match-card {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody th[scope="row"] {
+  background: #111f32 !important;
+  color: #93c5fd !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody td {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+[data-md-color-scheme="slate"] #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-log-fields tbody tr:nth-child(even) td {
+  background: #101c2e !important;
+}
