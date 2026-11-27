@@ -127,16 +127,19 @@ LOG::2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user r
 2026-10-16 10:15:07 server01 sshd[2194]: Failed password for admin from 198.51.100.23 port 49112 ssh2
 2026-10-16 10:16:11 server02 sshd[8812]: Failed password for invalid user oracle from 192.0.2.10 port 38291 ssh2
 2026-10-16 10:18:45 server01 sshd[2209]: Failed password for analyst1 from 203.0.113.77 port 55100 ssh2`,
-      whatItDoes: "Tests JavaScript regular expressions against pasted multi-line logs and displays each match with its named or numbered capture-group values.",
-      whyItMatters: "Writing custom SIEM parsers, Logstash Grok patterns, or regex field extractors without live capture-group feedback often leads to missed log variants.",
-      howItWorks: "Uses the browser JavaScript RegExp engine with global and multiline matching, then displays matches, extracted fields, and basic scan counts. It does not execute PCRE, Grok, or SIEM queries.",
+      whatItDoes: "Two tools in one workbench: Log Analyzer parses supported security log formats into structured event fields; Regex Sandbox tests custom JavaScript regular expressions and displays full matches with named or numbered capture groups.",
+      whyItMatters: "",
+      howItWorks: "Log Analyzer recognizes supported Windows Security key-value, Windows Event XML / Sysmon, Linux SSH authentication, and CEF patterns, then extracts fields from recognized records. Regex Sandbox uses the browser JavaScript RegExp engine with global and multiline matching. It does not execute PCRE, Grok, or SIEM queries.",
       bestPractices: [
         "Use named capture groups like (?<src_ip>...) so extracted fields map cleanly to SIEM column headers.",
         "Avoid greedy .* wildcards when matching delimited logs; use negated character classes like [^|]+ instead."
       ],
       faqs: [
-        { q: "Which regex syntax is supported?", a: "This sandbox uses the browser JavaScript RegExp engine. It supports named groups such as (?<src_ip>...) but is not a full PCRE, Grok, or Splunk parser." },
-        { q: "Are my logs uploaded?", a: "Pattern matching runs locally in your browser; this tool does not send pasted logs to an external lookup service." }
+        { q: "Which log formats does Log Analyzer support?", a: "It currently recognizes the implemented Windows Security key-value, Windows Event XML / Sysmon, Linux SSH authentication, and CEF patterns. It is not a universal or standards-complete parser." },
+        { q: "Does Log Analyzer require a regular expression?", a: "No. Paste a supported log format and use Analyze Logs. Custom patterns are only needed in Regex Sandbox." },
+        { q: "Which regex syntax is supported?", a: "Regex Sandbox uses the browser JavaScript RegExp engine, including named capture groups such as (?<src_ip>...). It is not a full PCRE, Grok, or Splunk parser." },
+        { q: "Are my logs uploaded?", a: "Both modes process pasted log input locally in your browser. This workbench does not send pasted logs to an external lookup service." },
+        { q: "Does this tool execute SIEM queries?", a: "No. It parses the supported formats listed above or tests JavaScript regular expressions. It does not run Splunk, Elastic, or other SIEM queries." }
       ],
       related: ["ioc", "json", "events"]
     },
@@ -3001,7 +3004,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <p>${esc(tool.desc)}</p>
             <div class="psv-hero-badges">
               <span class="psv-pill-badge">${tool.id === "ti" ? "Server-side API lookup" : "Browser-based processing"}</span>
-              <span class="psv-pill-badge">${tool.id === "ti" ? "External requests on explicit action" : "No external lookup performed by this tool"}</span>
+              ${tool.id === "regex" ? "" : `<span class="psv-pill-badge">${tool.id === "ti" ? "External requests on explicit action" : "No external lookup performed by this tool"}</span>`}
             </div>
           </div>
 
@@ -3009,7 +3012,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <div class="psv-term-body">
               ${tool.id === "events" ? "" : `
                 <div class="psv-privacy-strip">
-                  <strong>Data handling:</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
+                  <strong>${tool.id === "regex" ? "Privacy:" : "Data handling:"}</strong> ${tool.id === "ti" ? "The indicator is sent to the public services listed in the disclosure only when you select Enrich Indicator. No lookup is made while typing." : tool.id === "regex" ? "Log processing happens locally in your browser. Input is not sent to an external lookup service. Avoid entering confidential or employer-sensitive information into public websites." : "This tool processes input in your browser. Do not submit confidential or employer-sensitive data to a public website."}
                 </div>
               `}
 
@@ -3021,7 +3024,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
                 ${regexMode === "analyzer" ? `
                   <label class="psv-field-label" for="psv-analyzer-logs"><span>LOG INPUT</span></label>
                   <textarea id="psv-analyzer-logs" class="psv-editor psv-regex-logs" aria-label="Raw security log input" placeholder="Paste Windows, Sysmon, Linux SSH or CEF logs here..." spellcheck="false">${esc(analyzerLogs)}</textarea>
-                  <p class="psv-description-typography">Automatic format detection · Windows Security key-value · Windows Event XML / Sysmon · Linux SSH · CEF · 500 KB limit · processed locally in this browser.</p>
+                  <p class="psv-description-typography">Supported formats: Windows Security key-value, Windows Event XML / Sysmon, Linux SSH and CEF · 500 KB limit.</p>
                 ` : `
                   <label class="psv-field-label" for="psv-regex-pattern"><span>REGULAR EXPRESSION</span></label>
                   <textarea id="psv-regex-pattern" class="psv-editor psv-regex-pattern" aria-label="Regular expression pattern" placeholder="Example: (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)" spellcheck="false">${esc(regexPattern)}</textarea>
@@ -3036,7 +3039,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               <div class="psv-action-bar">
                 ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.id === "regex" && regexMode === "analyzer" ? ["Sample: Windows Event 4625","Sample: Linux SSH","Sample: Sysmon XML","Sample: Palo Alto CEF"] : (tool.options || [])).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
                 <div class="psv-btn-group">
-                  ${tool.id === "events" ? "" : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.actionLabel)}</button>`}<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!hasOutput ? "hidden" : ""}>Copy Output</button>
+                  ${tool.id === "events" ? "" : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.id === "regex" ? (regexMode === "analyzer" ? "Analyze Logs" : "Run Regex Extraction") : tool.actionLabel)}</button>`}<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!hasOutput ? "hidden" : ""}>Copy Output</button>
                 </div>
               </div>
 
@@ -3054,22 +3057,27 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
             <p class="psv-description-typography">${esc(tool.whatItDoes)}</p>
           </div>
 
-          <div class="psv-doc-section">
+          ${tool.id === "regex" ? "" : `<div class="psv-doc-section">
             <h3>Why it matters</h3>
             <p class="psv-description-typography">${esc(tool.whyItMatters)}</p>
-          </div>
+          </div>`}
 
           <div class="psv-doc-section">
             <h3>How it works</h3>
             <p class="psv-description-typography">${esc(tool.howItWorks)}</p>
           </div>
 
-          <div class="psv-doc-section">
+          ${tool.id === "regex" ? (regexMode === "regex" ? `<div class="psv-doc-section">
+            <h3>Regex Sandbox best practices</h3>
+            <ul>
+              ${(tool.bestPractices || []).map(bp => `<li class="psv-description-typography">${esc(bp)}</li>`).join("")}
+            </ul>
+          </div>` : "") : `<div class="psv-doc-section">
             <h3>Best practices</h3>
             <ul>
               ${(tool.bestPractices || []).map(bp => `<li class="psv-description-typography">${esc(bp)}</li>`).join("")}
             </ul>
-          </div>
+          </div>`}
 
           <div class="psv-doc-section">
             <h3>Frequently Asked Questions</h3>
