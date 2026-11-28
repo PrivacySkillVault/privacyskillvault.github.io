@@ -1666,8 +1666,9 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
 }
 #psv-app .psv-tool-page .psv-out-table{
   width:100%!important;
-  min-width:760px!important;
-  table-layout:fixed!important;
+  min-width:0!important;
+  max-width:100%!important;
+  table-layout:auto!important;
   border-collapse:collapse!important;
   font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
   font-size:.86rem!important;
@@ -1679,12 +1680,10 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
   padding:.8rem .9rem!important;
   vertical-align:top!important;
   overflow-wrap:anywhere!important;
+  word-break:normal!important;
   white-space:normal!important;
+  min-width:0!important;
 }
-#psv-app .psv-tool-page .psv-out-table th:nth-child(1),
-#psv-app .psv-tool-page .psv-out-table td:nth-child(1){width:180px!important}
-#psv-app .psv-tool-page .psv-out-table th:nth-child(2),
-#psv-app .psv-tool-page .psv-out-table td:nth-child(2){width:165px!important}
 #psv-app .psv-tool-page .psv-out-table th{
   font-family:Roboto,"Helvetica Neue",Arial,sans-serif!important;
   font-size:.82rem!important;
