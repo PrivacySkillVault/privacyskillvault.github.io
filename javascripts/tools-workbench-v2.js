@@ -119,7 +119,7 @@ Authentication-Results: mx.enterprise.org; spf=fail smtp.mailfrom=paypa1-support
       badge: "RGX",
       shortTitle: "Log Regex Sandbox",
       title: "Log Analyzer & Regex Sandbox",
-      desc: "Automatically parse supported security logs or test custom JavaScript regular expressions against multi-line log data.",
+      desc: "Inspect selected security-log formats with lightweight field extraction, or test custom JavaScript regular expressions against multi-line log data.",
       options: ["Sample: SSH Auth Logs", "Sample: Palo Alto CEF Firewall"],
       actionLabel: "Run Regex Extraction",
       sample: `PATTERN::(?<time>\\d{4}-\\d{2}-\\d{2}\\s+[\\d:]+)\\s+(?<host>\\S+)\\s+sshd\\[\\d+\\]:\\s+Failed password for (?:invalid user )?(?<user>\\S+) from (?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)
@@ -127,19 +127,19 @@ LOG::2026-10-16 10:14:23 server01 sshd[2190]: Failed password for invalid user r
 2026-10-16 10:15:07 server01 sshd[2194]: Failed password for admin from 198.51.100.23 port 49112 ssh2
 2026-10-16 10:16:11 server02 sshd[8812]: Failed password for invalid user oracle from 192.0.2.10 port 38291 ssh2
 2026-10-16 10:18:45 server01 sshd[2209]: Failed password for analyst1 from 203.0.113.77 port 55100 ssh2`,
-      whatItDoes: "Two tools in one workbench: Log Analyzer parses supported security log formats into structured event fields; Regex Sandbox tests custom JavaScript regular expressions and displays full matches with named or numbered capture groups.",
+      whatItDoes: "This workbench combines two browser-side utilities. Log Analyzer extracts selected fields from a limited set of Windows, Linux SSH and CEF log patterns. Regex Sandbox applies a custom JavaScript regular expression and displays each match with its capture groups.",
       whyItMatters: "",
-      howItWorks: "Log Analyzer recognizes supported Windows Security key-value, Windows Event XML / Sysmon, Linux SSH authentication, and CEF patterns, then extracts fields from recognized records. Regex Sandbox uses the browser JavaScript RegExp engine with global and multiline matching. It does not execute PCRE, Grok, or SIEM queries.",
+      howItWorks: "Log Analyzer uses format-specific pattern matching; it is not a complete Windows Event, Sysmon or CEF parser. Windows Security key-value mode currently builds one field set from the supplied block. XML extraction is limited to EventID, Computer, SystemTime and named Data elements. Linux SSH and CEF modes extract selected fields from matching lines. Regex Sandbox uses the browser JavaScript RegExp engine with global (g) and multiline (m) flags. It accepts patterns up to 1,000 characters, log input up to 500 KB and stops at 5,000 matches. It does not execute PCRE, Grok, Splunk SPL or SIEM queries.",
       bestPractices: [
-        "Use named capture groups like (?<src_ip>...) so extracted fields map cleanly to SIEM column headers.",
-        "Avoid greedy .* wildcards when matching delimited logs; use negated character classes like [^|]+ instead."
+        "Prefer named capture groups such as (?<src_ip>...) so extracted values have meaningful field names.",
+        "Anchor patterns where practical (for example, ^ and $) to reduce accidental partial matches.",
+        "Avoid broad nested quantifiers and ambiguous .* patterns; use specific character classes such as [^|]+ for delimited fields.",
+        "Test against representative positive and negative samples, and keep patterns simple because complex expressions can consume significant browser CPU."
       ],
       faqs: [
-        { q: "Which log formats does Log Analyzer support?", a: "It currently recognizes the implemented Windows Security key-value, Windows Event XML / Sysmon, Linux SSH authentication, and CEF patterns. It is not a universal or standards-complete parser." },
-        { q: "Does Log Analyzer require a regular expression?", a: "No. Paste a supported log format and use Analyze Logs. Custom patterns are only needed in Regex Sandbox." },
-        { q: "Which regex syntax is supported?", a: "Regex Sandbox uses the browser JavaScript RegExp engine, including named capture groups such as (?<src_ip>...). It is not a full PCRE, Grok, or Splunk parser." },
-        { q: "Are my logs uploaded?", a: "Both modes process pasted log input locally in your browser. This workbench does not send pasted logs to an external lookup service." },
-        { q: "Does this tool execute SIEM queries?", a: "No. It parses the supported formats listed above or tests JavaScript regular expressions. It does not run Splunk, Elastic, or other SIEM queries." }
+        { q: "Which log formats can Log Analyzer inspect?", a: "It has limited pattern-based support for Windows Security key-value records, Windows Event XML with EventID, Computer, SystemTime and named Data fields, Linux SSH password-authentication lines, and CEF lines. Extraction is best-effort and format-specific; it is not a universal parser or a substitute for validating events with the source platform." },
+        { q: "Which regular-expression syntax is supported?", a: "The sandbox uses the browser's JavaScript RegExp syntax with global and multiline flags. Named capture groups (for example, (?<src_ip>...)) and numbered capture groups are displayed. PCRE-only features, Grok patterns and SIEM query languages are not supported." },
+        { q: "Are my pasted logs sent to a lookup service?", a: "The Log Analyzer and Regex Sandbox process pasted input in the browser and do not submit it to an external lookup service. The page itself is still a public website, so do not paste confidential, personal or employer-restricted data." }
       ],
       related: ["ioc", "json", "events"]
     },
