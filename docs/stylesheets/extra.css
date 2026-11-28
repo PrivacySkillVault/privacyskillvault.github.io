@@ -2510,3 +2510,59 @@ html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-util:fo
     font-size: .74rem !important;
   }
 }
+
+
+/* LIGHT THEME FIX — shared output surfaces across all PSV tools.
+   The universal dark table rules above must not leak into the default scheme.
+   Keep the light palette consistent for event cards, regex matches, tables,
+   query/code blocks and output wrappers. */
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: #d8e1eb !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-log-event,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-regex-match-card,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-regex-summary {
+  background: #f8fafc !important;
+  color: #1e293b !important;
+  border-color: #d8e1eb !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table tbody {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: #d8e1eb !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table thead th {
+  background: #eaf1f8 !important;
+  color: #1e40af !important;
+  border-color: #cbd5e1 !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table tbody td,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table tbody th {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-color: #e2e8f0 !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table tbody tr:nth-child(even) > td,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table tbody tr:nth-child(even) > th {
+  background: #f1f5f9 !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:has(tbody tr > td:nth-child(2):last-child) tbody tr > td:first-child,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:has(tbody tr > th:nth-child(2):last-child) tbody tr > th:first-child {
+  background: #eaf1f8 !important;
+  color: #1e40af !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container pre,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container pre code,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table code,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .event-query code {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border-color: #d8e1eb !important;
+}
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-event-table .event-guidance,
+html[data-md-color-scheme="default"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-event-table .event-guidance p {
+  color: #334155 !important;
+}
