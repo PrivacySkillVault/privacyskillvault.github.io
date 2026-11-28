@@ -3050,7 +3050,7 @@ CONTAINMENT::Isolated both endpoints in EDR; revoked Kerberos TGTs; blocked C2 I
               <div class="psv-action-bar">
                 ${tool.id === "events" ? "" : `<div class="psv-opt-group">${(tool.id === "regex" && regexMode === "analyzer" ? ["Sample: Windows Event 4625","Sample: Linux SSH","Sample: Sysmon XML","Sample: Palo Alto CEF"] : (tool.options || [])).map((opt, idx) => `<button type="button" class="psv-opt-pill ${selectedOptionIdx === idx ? "active" : ""}" data-psv-action="set-opt" data-opt="${idx}">${esc(opt)}</button>`).join("")}</div>`}
                 <div class="psv-btn-group">
-                  ${tool.id === "events" ? "" : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">⚡ ${esc(tool.id === "regex" ? (regexMode === "analyzer" ? "Analyze Logs" : "Run Regex Extraction") : tool.actionLabel)}</button>`}<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!hasOutput ? "hidden" : ""}>Copy Output</button>
+                  ${tool.id === "events" ? "" : `<button type="button" class="psv-btn-run" data-psv-action="run-tool">${esc(tool.id === "regex" ? (regexMode === "analyzer" ? "Analyze Logs" : "Run Regex Extraction") : tool.actionLabel)}</button>`}<button type="button" class="psv-btn-util" data-psv-action="clear-tool">Clear</button><button type="button" class="psv-btn-util" data-psv-action="copy-output" ${!hasOutput ? "hidden" : ""}>Copy Output</button>
                 </div>
               </div>
 
