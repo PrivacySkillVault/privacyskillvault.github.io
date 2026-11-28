@@ -2230,3 +2230,116 @@ html[data-md-color-scheme="slate"] body #psv-app.psv-workbench-v2 .psv-tool-page
   overflow-wrap: anywhere !important;
   word-break: break-word !important;
 }
+
+
+/* Shared output table system — consistent across every tool.
+   Use responsive intrinsic sizing; the Windows/Sysmon event catalogue keeps
+   its own dedicated horizontal-scroll treatment via .psv-event-table. */
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) {
+  display: table !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  table-layout: auto !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: .75rem 0 1rem !important;
+  border: 1px solid var(--md-default-fg-color--lightest) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) th,
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) td {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  padding: .7rem .85rem !important;
+  text-align: left !important;
+  vertical-align: top !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest) !important;
+  box-sizing: border-box !important;
+}
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) thead th {
+  background: var(--md-code-bg-color) !important;
+  color: var(--md-default-fg-color) !important;
+  font-weight: 700 !important;
+}
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) tbody tr:last-child > td,
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) tbody tr:last-child > th {
+  border-bottom: 0 !important;
+}
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) code {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+}
+/* Two-column key/value outputs get a clear label/value hierarchy. */
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table):has(tbody tr > td:nth-child(2):last-child) tbody tr > td:first-child,
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table):has(tbody tr > th:nth-child(2):last-child) tbody tr > th:first-child {
+  width: 32% !important;
+  color: var(--md-typeset-a-color) !important;
+  font-weight: 650 !important;
+}
+/* Dark palette: restrained navy rows and blue label column. */
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) {
+  background: #0b1422 !important;
+  border-color: #263449 !important;
+  color: #dce5f0 !important;
+}
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) thead th {
+  background: #172b46 !important;
+  color: #93c5fd !important;
+  border-color: #34465f !important;
+}
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) tbody td,
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) tbody th {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+  border-color: #263449 !important;
+}
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) tbody tr:nth-child(even) > td,
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) tbody tr:nth-child(even) > th {
+  background: #101c2e !important;
+}
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table):has(tbody tr > td:nth-child(2):last-child) tbody tr > td:first-child,
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table):has(tbody tr > th:nth-child(2):last-child) tbody tr > th:first-child {
+  background: #111f32 !important;
+  color: #93c5fd !important;
+}
+/* Regex matches are separate cards, never adjacent/merged table panels. */
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-regex-table-wrap.psv-regex-match-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+#psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-regex-match-list > .psv-regex-match-card {
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 1rem !important;
+  border: 1px solid var(--md-default-fg-color--lightest) !important;
+  border-radius: 9px !important;
+  box-sizing: border-box !important;
+}
+html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container .psv-regex-match-list > .psv-regex-match-card {
+  background: #0b1422 !important;
+  border-color: #263449 !important;
+}
+@media (max-width: 700px) {
+  #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) th,
+  #psv-app.psv-workbench-v2 .psv-tool-page .psv-output-container table.psv-out-table:not(.psv-event-table) td {
+    padding: .55rem .6rem !important;
+    font-size: .78rem !important;
+  }
+}
