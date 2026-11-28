@@ -2180,3 +2180,53 @@ html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-bo
 html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody tr:last-child td {
   border-bottom: 0 !important;
 }
+
+
+/* Regex Sandbox: restore vertical card layout and prevent shared table sizing
+   rules from forcing a wide, clipped table. The generic regex wrapper rule
+   above intentionally uses display:block for Log Analyzer; this narrower
+   selector restores flex layout only for the Regex Sandbox match list. */
+html[data-md-color-scheme="slate"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-table-wrap.psv-regex-match-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-table-wrap.psv-regex-match-list > .psv-regex-match-card {
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 0 .25rem !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields {
+  display: table !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+  box-sizing: border-box !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody th:first-child {
+  width: 32% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-output-container table.psv-regex-match-fields tbody td:nth-child(2) {
+  width: 68% !important;
+  min-width: 0 !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
