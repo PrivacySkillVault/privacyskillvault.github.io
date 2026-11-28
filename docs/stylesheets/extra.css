@@ -2343,3 +2343,33 @@ html[data-md-color-scheme="slate"] #psv-app.psv-workbench-v2 .psv-tool-page .psv
     font-size: .78rem !important;
   }
 }
+
+
+/* FIX: Regex Sandbox match panels were touching because the earlier shared
+   overflow rule set .psv-regex-table-wrap to display:block !important.
+   Restore the match-list wrapper as a vertical flex container using a selector
+   at least as specific as that earlier rule; keep a margin fallback as well. */
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-table-wrap.psv-regex-match-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 1.1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-table-wrap.psv-regex-match-list > .psv-regex-match-card {
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  margin: 0 0 .35rem !important;
+  padding: 1rem !important;
+  border: 1px solid #263449 !important;
+  border-radius: 9px !important;
+  box-sizing: border-box !important;
+}
+html[data-md-color-scheme="slate"] body #psv-app .psv-tool-page .psv-terminal-box .psv-output-container .psv-regex-match-card {
+  background: #0b1422 !important;
+  color: #dce5f0 !important;
+}
