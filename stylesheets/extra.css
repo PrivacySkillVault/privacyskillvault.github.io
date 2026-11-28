@@ -2430,3 +2430,83 @@ html[data-md-color-scheme="default"] #psv-app.psv-workbench-v2 .psv-tool-page .p
     padding: .55rem .6rem !important; font-size: .78rem !important;
   }
 }
+
+
+/* PSV tool controls: consistent compact hierarchy across every tool.
+   Keep sample presets and utility actions available, but visually subordinate
+   them to the primary run/analyze action. */
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-action-bar {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: .65rem !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-opt-group,
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: .4rem !important;
+  width: 100% !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-opt-pill,
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-run,
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-util {
+  box-sizing: border-box !important;
+  min-height: 30px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .76rem !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  white-space: normal !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-opt-pill {
+  min-height: 28px !important;
+  padding: 5px 9px !important;
+  background: transparent !important;
+  border: 1px solid var(--psv-tool-border, #29405d) !important;
+  color: var(--md-default-fg-color) !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-opt-pill.active {
+  background: #1f6feb !important;
+  border-color: #388bfd !important;
+  color: #fff !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-run {
+  min-height: 32px !important;
+  padding: 7px 12px !important;
+  background: #2459c5 !important;
+  border: 1px solid #3677e8 !important;
+  color: #fff !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-util {
+  background: var(--md-code-bg-color) !important;
+  border: 1px solid var(--psv-tool-border, #334155) !important;
+  color: var(--md-default-fg-color) !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-util[hidden] {
+  display: none !important;
+}
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-opt-pill:focus-visible,
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-run:focus-visible,
+html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-util:focus-visible {
+  outline: 2px solid #58a6ff !important;
+  outline-offset: 2px !important;
+}
+@media (max-width: 600px) {
+  html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-opt-pill,
+  html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-run,
+  html #psv-app.psv-workbench-v2 .psv-tool-page .psv-terminal-box .psv-btn-util {
+    min-height: 30px !important;
+    padding: 6px 9px !important;
+    font-size: .74rem !important;
+  }
+}
